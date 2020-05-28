@@ -1,0 +1,42 @@
+* Learning Exercise: Shipping Boxes
+
+You and your life partner recently retired from a long and successful career in software engineering. As a retirement job, you decide to open a small grocery convenience store franchise together. You have pair programmed with your partner every day for the last 30 years, and you think that a change of pace will be pleasant for the two of you. The grocery franchise headquarters sends you these rules:
+
+#+BEGIN_QUOTE
+Delivery is offered for standard or non-standard box when more than half full. Delivery is free when a standard box is more than half full and contains at least $100.00 of groceries. Delivery of all non-standard boxes is charged.
+#+END_QUOTE
+
+You print those three sentences on a piece of A3 poster paper and tell your two junior staffers to post it on the wall next to the eggs and milk. You and your partner go out to run an errand.
+
+When you get back, the place is a mess! All the eggs are smashed and the milk is spilled. "What happened?" you ask. One of your junior staff has a black eye; the other has a bruised chin. They answer: "customers kept coming to us with different combinations of boxes, fullness, and grocery value. And we couldn't agree on what the rules meant. We used our discretion, but we would decide similar cases differently for different customers. The customers started to fight with us. They called us racist. Then we started to fight with each other; we called each other stupid. Now we need more eggs."
+
+You say to the staff, "come on, how hard can this be? You, clean up. You, take down the poster and then go round back for eggs. We'll do a new version."
+
+Reaching for a fresh sheet of paper, grinning at your partner because it feels like you've done this a thousand times before, you say: "Shall we begin?"
+
+Before you read more about this exercise online, try to rewrite those rules yourself. As this is a learning exercise, feel free to produce multiple representations as you sketch your way toward a goal. Use any formats or languages you like: you can write functions in C, Javascript, or Python. You can write a logic program in Prolog, if you know Prolog. You can set up a system of SQL queries, if you know SQL. You can draw a flowchart, or a decision tree, or a decision table. Or you can draft it in English.
+
+This exercise was first posed on Twitter: https://twitter.com/jrpotvin/status/1264895071549349889?s=20. A few experts in computational law responded by offering implementations in a range of different notations and languages. This is called "programming chrestomathy". In practice, it means, "I need to do some basic thing in a new language I'm learning. I'll go look it up on Rosetta Code".
+
+After you have produced your version of the rules, run these test cases, and compare your outputs to your classmates'.
+
+What happens when:
+1. a     standard box, more      than half full, contains $200 of groceries?
+3. a non-standard box, more      than half full, contains $200 of groceries?
+2. a non-standard box,      less than half full, contains $200 of groceries?
+4. a     standard box,      less than half full, contains $200 of groceries?
+
+Your classmates may produce implementations that disagree with yours: they may return different outputs for the same inputs. You might believe they are wrong; they might believe you are wrong. What is going on? Is there a bug in their code? A bug in your code? A bug in the spec? As experienced programmers, how do you approach this situation?
+
+Discuss.
+
+This exercise introduces a number of concepts:
+- qualifiers as operators: X when Y. ~Y => X~ versus ~Y <=> X~.
+- operator binding and precedence; anaphora resolution
+- conjunctive and disjunctive expansion
+- quantifier binding: what is the difference between "delivery of all non-standard boxes is charged", or "all delivery of non-standard boxes is charged"?
+- rule fragments and granularity; clauses and sub-clauses.
+- binary versus ternary logic -- the law of the excluded middle -- the closed-world assumption.
+- natural language versus propositional logic
+- Logical implication versus Gricean implicatures. https://plato.stanford.edu/entries/implicature/#GricTheo
+- ontological representation of concepts
