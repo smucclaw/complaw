@@ -54,8 +54,6 @@ See [[https://govinsider.asia/inclusive-gov/four-things-you-should-know-about-ru
 
 ** Designing a DSL
 
-See also [[https://catala-lang.org/][Catala]] and [[https://fr.openfisca.org/legislation/][OpenFisca]] as other points of reference.
-
 Our domain-specific language will draw on inspirations from
 - specification languages like [[https://learntla.com/pluscal/][TLA+]] and [[https://alloy.readthedocs.io/][Alloy]],
 - ontology software like [[https://protege.stanford.edu/][Protégé]] for [[https://www.w3.org/OWL/][OWL]],
@@ -111,14 +109,16 @@ See the [[https://legalese.com/prior-art][Legalese survey of prior art]].
    3. [[https://camunda.com/dmn/][DMN 1.1 Tutorial]]
    4. htttp://blog.athico.com/2017/01/dmn-runtime-example-with-drools.html
    5. [[https://www.researchgate.net/publication/277498922_LegalRuleML_Design_Principles_and_Foundations][LegalRuleML]]; [[http://cs.unb.ca/~boley/papers/RuleML-Overarching.pdf][RuleML]]; [[https://en.wikipedia.org/wiki/Rule_Interchange_Format][RIF]]
-   6. [[https://openfisca.org/en/][OpenFisca]]
-   7. [[http://lps.doc.ic.ac.uk/][LPS]]
-   8. Legal Ontologies
-      - introducing [[https://drive.google.com/open?id=1qtnDwcpdOdu3xvtjQ7j5GizC827Ht2_t][SUMO]]
-      - introducing [[https://drive.google.com/open?id=0BxOaYa8pqqSwTUVNYWltWWJOYkk][LKIF-Core]]
-      - introducing [[https://en.wikipedia.org/wiki/Web_Ontology_Language][OWL]]
-   9. [[https://drive.google.com/open?id=0BxOaYa8pqqSwQUlBYVdVU1JHSnM][Rule Extraction from Regulations]], Adam Wyner
-   10. Browse recent conference proceedings of [[https://mirelproject.eu][mirelproject.eu]]; [[http://www.iaail.org/?q=article/icail-2019][ICAIL]]; [[https://rulemlrr19.inf.unibz.it/][RuleML+RR]];[[https://jurix2019.oeg-upm.net/][ Jurix]].
+   6. [[https://xalgorithms.org/images/Xalgorithms_Lightpaper_2020-02-03_v1.03.pdf][XAlgorithms]] has been championing "Rules as Data" and an "Internet of Rules".
+   7. [[https://openfisca.org/en/][OpenFisca]]
+   8. [[http://lps.doc.ic.ac.uk/][LPS]]
+   9. [[https://catala-lang.org/][Catala]] and [[https://fr.openfisca.org/legislation/][OpenFisca]] are other points of reference
+   10. Legal Ontologies
+       - introducing [[https://drive.google.com/open?id=1qtnDwcpdOdu3xvtjQ7j5GizC827Ht2_t][SUMO]]
+       - introducing [[https://drive.google.com/open?id=0BxOaYa8pqqSwTUVNYWltWWJOYkk][LKIF-Core]]
+       - introducing [[https://en.wikipedia.org/wiki/Web_Ontology_Language][OWL]]
+   11. [[https://drive.google.com/open?id=0BxOaYa8pqqSwQUlBYVdVU1JHSnM][Rule Extraction from Regulations]], Adam Wyner
+   12. Browse recent conference proceedings of [[https://mirelproject.eu][mirelproject.eu]]; [[http://www.iaail.org/?q=article/icail-2019][ICAIL]]; [[https://rulemlrr19.inf.unibz.it/][RuleML+RR]];[[https://jurix2019.oeg-upm.net/][ Jurix]].
 
 4. Re DMN and FEEL:
 
