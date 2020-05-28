@@ -1,4 +1,4 @@
-#+TITLE: The Singapore Curriculum in Computational Law
+#+TITLE: Introduction tog Computational Law
 #+AUTHOR: Wong Meng Weng
 
 This introduction to computational law is presented by the Singapore Management University's Centre for Computational Law.

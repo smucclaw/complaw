@@ -1,6 +1,6 @@
 # Computational Law
 
-This is the official Git repository of the Research Programme in Computational Law, hosted at the Centre for Computational Law at Singapore Management University.
+This is the Git repository of the Research Programme in Computational Law, hosted at the Centre for Computational Law at Singapore Management University.
 
 We aim to build open-source tools and technologies that do for legal and qualitative reasoning, what the spreadsheet has done for quantitative reasoning.
 
@@ -35,7 +35,7 @@ The CCLAW community gathers at:
 - IRC
 - reddit
 
-Or rather, it will, once we get that set up.
+Or rather, it will, once we're more set up.
 
 ## Code of Conduct
 
