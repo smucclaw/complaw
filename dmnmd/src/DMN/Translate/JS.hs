@@ -10,15 +10,21 @@ import Data.Maybe
 import Data.Char
 import DMN.Types
 
-toJS :: DecisionTable -> String
+data JSOpts = JSOpts { propstyle :: Bool
+                     , typescript :: Bool }
+
+toJS :: JSOpts -> DecisionTable -> String
 -- https://github.com/faylang/fay/wiki
-toJS dt = unlines $ ([
-  unwords $ concat [ mkFunction (tableName dt)
-                     , mkArguments (header dt)
-                     , ["{"]
-                     ] ]
-  ++ (zipWith (\if_ dtrow -> mkIf (hitpolicy dt) if_ (header dt) dtrow) elsif (datarows dt))
-  ++ [ "}" ])
+toJS jsopts dt =
+  unlines $ ((if (propstyle jsopts && typescript jsopts) then mkArgSpec jsopts (tableName dt) (header dt) else mempty) ++
+             [ unwords $ concat [ mkFunction (tableName dt)
+                                , if (propstyle jsopts)
+                                  then mkProps jsopts (tableName dt) (header dt)
+                                  else mkArguments jsopts (header dt)
+                                , ["{"]
+                                ] ]
+             ++ (zipWith (\if_ dtrow -> mkIf jsopts (hitpolicy dt) if_ (header dt) dtrow) elsif (datarows dt))
+             ++ [ "}" ])
   where
     elsif = "if" : (repeat $ case (hitpolicy dt) of
                                HP_Unique    -> "else if"
@@ -26,25 +32,36 @@ toJS dt = unlines $ ([
                                HP_Priority  -> "else if"
                                HP_Collect _ -> "if"
                                _            -> "if")
+  
+mkArgSpec :: JSOpts -> String -> [ColHeader] -> [String]
+mkArgSpec jsopts tablename chs =
+  ["type " ++ propsName tablename ++ " = {"] ++
+  ["    \"" ++ varname ch ++ "\" : " ++ (maybe "any" type2js (vartype ch)) ++ ";" | ch <- chs ] ++
+  ["}"]
 
-          
 mkFunction :: String -> [String]
 mkFunction tablename = [ "export", "function", tablename ]
 
-mkArguments :: [ColHeader] -> [String]
-mkArguments chs = ["(", (intercalate ", " (mkArgument <$> input_headers chs)), ")"]
+mkProps :: JSOpts -> String -> [ColHeader] -> [String]
+mkProps jsopts tablename chs = ["(", "props" ++ if typescript jsopts then " : " ++ propsName tablename else "", ")"]
 
-mkArgument :: ColHeader -> String
-mkArgument ch = varname ch ++ maybe "" ((" : " ++) . type2js) (vartype ch)
+propsName :: String -> String
+propsName tablename = "Props_" ++ underscore tablename
+
+mkArguments :: JSOpts -> [ColHeader] -> [String]
+mkArguments jsopts chs = ["(", (intercalate ", " (mkArgument jsopts <$> input_headers chs)), ")"]
+
+mkArgument :: JSOpts -> ColHeader -> String
+mkArgument jsopts ch = var_name ch ++ maybe "" (if (typescript jsopts) then (" : " ++) . type2js else const "") (vartype ch)
 
 type2js DMN_String    = "string"
 type2js DMN_Number    = "number"
 type2js DMN_Boolean   = "boolean"
 type2js (DMN_List x)  = type2js x ++ "[]"
 
-mkIf :: HitPolicy -> String -> [ColHeader] -> DTrow -> String
-mkIf hp ifword chs dtrow =
-  let conditions = ((uncurry fexp2js) <$> (catMaybes $ (zipWith nonBlankCols (input_headers chs) (row_inputs dtrow))))
+mkIf :: JSOpts -> HitPolicy -> String -> [ColHeader] -> DTrow -> String
+mkIf jsopts hp ifword chs dtrow =
+  let conditions = ((uncurry (fexp2js jsopts)) <$> (catMaybes $ (zipWith nonBlankCols (input_headers chs) (row_inputs dtrow))))
   in
     "  " ++ ifword ++ " (" ++
     (if length conditions > 0
@@ -78,9 +95,14 @@ annotationsAsComments chs dtrow =
   in
   (unlines $ ("    // "++) <$> (if (length unprefixed > 1) then prefixedComments else unprefixed))
 
-fexp2js :: ColHeader -> [FEELexp] -> String
-fexp2js ch fexps = wrapParen " || " ((feel2jsIn $ varname ch) <$> fexps)
+fexp2js :: JSOpts -> ColHeader -> [FEELexp] -> String
+fexp2js jsopts ch fexps = wrapParen " || " ((feel2jsIn $ (showVarname jsopts ch)) <$> fexps)
 
+showVarname :: JSOpts -> ColHeader -> String
+showVarname jsopts ch
+  | propstyle jsopts = "props[\"" ++ varname ch ++ "\"]"
+  | otherwise        = var_name ch
+               
 wrapParen myop xs = if (length xs > 1) then "(" ++ (intercalate myop xs) ++ ")" else if length xs == 1 then xs!!0 else "null"
 wrapArray myop xs =                         "[" ++ (intercalate myop xs) ++ "]"
 

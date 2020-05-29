@@ -6,6 +6,7 @@ module DMN.Types where
 
 import Prelude hiding (takeWhile)
 import qualified Data.Map as Map
+import Data.List.Utils (replace)
 
 data HitPolicy = HP_Unique
                | HP_Any
@@ -67,6 +68,12 @@ data ColHeader = DTCH { label   :: DTCH_Label
                       , enums   :: Maybe [FEELexp] -- ordered list of domain elements seen in the column below; used by HP_OutputOrder
                       }
                  deriving (Show, Eq)
+
+var_name :: ColHeader -> String
+var_name = underscore . varname
+
+underscore :: String -> String
+underscore = (replace " " "_")
 
 data DecisionTable = DTable { tableName :: String
                              , hitpolicy :: HitPolicy

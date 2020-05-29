@@ -1,4 +1,4 @@
-{-# LANGUAGE Arrows, NoMonomorphismRestriction, QuasiQuotes, MultiWayIf, OverloadedStrings #-}
+{-# LANGUAGE Arrows, NoMonomorphismRestriction, QuasiQuotes, MultiWayIf, OverloadedStrings, DuplicateRecordFields #-}
 
 module Main
 where
@@ -33,6 +33,7 @@ data ArgOptions = ArgOptions
   , halp     :: Bool
   , quiet    :: Bool
   , untyped  :: Bool
+  , propstyle :: Bool
   , informat  :: String
   , outformat :: String
   , out      :: String
@@ -43,14 +44,15 @@ data ArgOptions = ArgOptions
 
 argOptions :: OA.Parser ArgOptions
 argOptions = ArgOptions
-  <$> switch    (long "verbose" <> short 'v'                                    <> help "more verbosity" )
-  <*> switch    (long "help"    <> short 'h'                                    <> help "dmn2js < file.{org,md} > file.ts" )
-  <*> switch    (long "quiet"   <> short 'q'                                    <> help "less verbosity" )
-  <*> switch    (long "untyped" <> short 'u'                                    <> help "no Typescript annotations" )
+  <$> switch    (long "verbose"    <> short 'v'                                          <> help "more verbosity" )
+  <*> switch    (long "help"       <> short 'h'                                          <> help "dmn2js < file.{org,md} > file.ts" )
+  <*> switch    (long "quiet"      <> short 'q'                                          <> help "less verbosity" )
+  <*> switch    (long "untyped"    <> short 'u'                                          <> help "no Typescript annotations" )
+  <*> switch    (long "props"      <> short 'r'                                          <> help "JS functions use props style" )
   <*> strOption (long "informat"   <> short 'f' <> metavar "InputFormat"  <> value "md"  <> help "input format" )
   <*> strOption (long "outformat"  <> short 't' <> metavar "OutputFormat" <> value "ts"  <> help "output format" )
-  <*> strOption (long "out"     <> short 'o' <> metavar "FILE"   <> value "-"   <> help "output file" )
-  <*> strOption (long "pick"    <> short 'p' <> metavar "TABLE"  <> value ""    <> help "name of desired decision table" )
+  <*> strOption (long "out"        <> short 'o' <> metavar "FILE"   <> value "-"         <> help "output file" )
+  <*> strOption (long "pick"       <> short 'p' <> metavar "TABLE"  <> value ""          <> help "name of desired decision table" )
   <*> many ( argument str (metavar "FILES..."))
 
 main :: IO ()
@@ -76,7 +78,7 @@ main = do
               either
                 (\myPTfail -> myerr $ "** failed to parse table " ++ myChunkName ++ "   :ERROR:\n" ++ show myPTfail)
                 (\dtable -> if ((pick opts == "") || (pick opts == tableName dtable))
-                            then putStrLn $ toJS dtable -- tweak this to respect --out
+                            then putStrLn $ toJS (JSOpts (Main.propstyle opts) (not $ untyped opts)) dtable -- tweak this to respect --out
                             else return ()
                 )
                 (parseOnly (parseTable myChunkName <?> "parseTable") $ T.pack $ unlines $ chunkLines mychunk)

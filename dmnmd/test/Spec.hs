@@ -7,6 +7,7 @@ import Text.RawString.QQ
 import DMN.DecisionTable
 import DMN.Types
 import DMN.ParseTable
+import DMN.ParseFEEL
 import Test.Hspec
 import Test.Hspec.Attoparsec
 import Data.Either (fromRight)
@@ -46,6 +47,7 @@ spec3 :: Spec
 spec3 = do
   describe "parseVarname" $ do
     it "should parse a typical variable name"             $ ("varname" :: Text) ~> parseVarname `shouldParse` ("varname" :: Text)
+    it "should parse a variable name with spaces"         $ ("var name" :: Text) ~> parseVarname `shouldParse` ("var name" :: Text)
     it "should fail on a non-variable name (digit first)" $ parseVarname `shouldFailOn` ("123varname" :: Text)
     it "should fail on a non-variable name (dash first)"  $ parseVarname `shouldFailOn` ("- Foovar_" :: Text)
     it "should fail on a blank string"                    $ parseVarname `shouldFailOn` ("" :: Text)

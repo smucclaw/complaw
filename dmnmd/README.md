@@ -58,23 +58,25 @@ A plain text version formatted for Markdown looks literally like this:
 
 ### Example 2: Who's coming?
 
-| U | Season : String      | guestCount : Number | Dish : String (out)          | # Annotation  |
-|---+----------------------+---------------------+------------------------------+---------------|
-| 1 | Fall                 | <= 8                | Spareribs                    |               |
-| 2 | Winter               | <= 8                | Roastbeef                    |               |
-| 3 | Spring               | <= 4                | Dry Aged Gourmet Steak       |               |
-| 4 | Spring               | [5..8]              | Steak                        |               |
-| 5 | Fall, Winter, Spring | > 8                 | Stew                         |               |
-| 6 | Summer               | -                   | Light Salad and a nice Steak | Hey, why not? |
+| U | Season               | Guest Count | Dish (out)                   | # Annotation  |
+|---|----------------------|-------------|------------------------------|---------------|
+| 1 | Fall                 | <= 8        | Spareribs                    |               |
+| 2 | Winter               | <= 8        | Roastbeef                    |               |
+| 3 | Spring               | <= 4        | Dry Aged Gourmet Steak       |               |
+| 4 | Spring               | [5..8]      | Steak                        |               |
+| 5 | Fall, Winter, Spring | > 8         | Stew                         |               |
+| 6 | Summer               | -           | Light Salad and a nice Steak | Hey, why not? |
 
-    | U | Season : String      | guestCount : Number | Dish : String (out)          | # Annotation  |
-    |---+----------------------+---------------------+------------------------------+---------------|
-    | 1 | Fall                 | <= 8                | Spareribs                    |               |
-    | 2 | Winter               | <= 8                | Roastbeef                    |               |
-    | 3 | Spring               | <= 4                | Dry Aged Gourmet Steak       |               |
-    | 4 | Spring               | [5..8]              | Steak                        |               |
-    | 5 | Fall, Winter, Spring | > 8                 | Stew                         |               |
-    | 6 | Summer               | -                   | Light Salad and a nice Steak | Hey, why not? |
+    | U | Season               | Guest Count | Dish (out)                   | # Annotation  |
+    |---|----------------------|-------------|------------------------------|---------------|
+    | 1 | Fall                 | <= 8        | Spareribs                    |               |
+    | 2 | Winter               | <= 8        | Roastbeef                    |               |
+    | 3 | Spring               | <= 4        | Dry Aged Gourmet Steak       |               |
+    | 4 | Spring               | [5..8]      | Steak                        |               |
+    | 5 | Fall, Winter, Spring | > 8         | Stew                         |               |
+    | 6 | Summer               | -           | Light Salad and a nice Steak | Hey, why not? |
+
+Yeah, DMN allows spaces in variable names. What could possibly go wrong?
 
 ## Evaluation
 

@@ -15,11 +15,12 @@ import DMN.Types
 
 -- parser for low-level expressions, e.g. FEEL, common to all DMN syntaxes.
 
+-- let's allow spaces in variable names. what could possibly go wrong?
 parseVarname :: Parser Text
 parseVarname = do
   firstLetter <- letter
 --  remainder <- takeWhile (\c -> c /= ':' && c /= '|' && c /= '(' ) -- inClass "a-zA-Z0-9_"
-  remainder <- takeWhile (inClass "a-zA-Z0-9_")
+  remainder <- takeWhile (inClass "a-zA-Z0-9_ ")
   return $ T.strip $ T.append (T.singleton firstLetter) $ remainder
 
 
