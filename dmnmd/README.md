@@ -98,7 +98,7 @@ What are decision tables? An ancient magic from an earlier age of computing, pow
 
 The [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) emphasizes the value of flat text files. While XML technically qualifies as text, many consider it "unwieldy": hence the popularity of [JSON](https://en.wikipedia.org/wiki/JSON) and [YAML](https://en.wikipedia.org/wiki/YAML).
 
-Command-line utilities such as [json (on NPM)](https://www.npmjs.com/package/json) help manipulate JSON.
+Command-line utilities such as [json (on NPM)](https://www.npmjs.com/package/json) help manipulate JSON. `dmnmd` is intended to be the moral equivalent for manipulating DMN in Markdown.
 
 
 ## Imports
@@ -119,15 +119,15 @@ The above is perhaps best explained by an example; see figure 8.19 of the DMN 1.
 
 #### Example 3: Routing Rules
 
-| O | Age | Risk_Category     | Debt_Review :Boolean | Routing (out)          | Review_level (out)     | Reason (out)                |
+| O | Age | Risk Category     | Debt Review :Boolean | Routing (out)          | Review level (out)     | Reason (out)                |
 |   |     | LOW, MEDIUM, HIGH |                      | DECLINE, REFER, ACCEPT | LEVEL 2, LEVEL 1, NONE |                             |
-|---+-----+-------------------+----------------------+------------------------+------------------------+-----------------------------|
+|---|-----|-------------------|----------------------|------------------------|------------------------|-----------------------------|
 | 1 | -   | -                 | -                    | ACCEPT                 | NONE                   | Acceptable                  |
 | 2 | <18 |                   |                      | DECLINE                | NONE                   | Applicant too young         |
 | 3 |     | HIGH              |                      | REFER                  | LEVEL 1                | High risk application       |
 | 4 |     |                   | True                 | REFER                  | LEVEL 2                | Applicant under debt review |
 
-    | O | Age | Risk_Category     | Debt_Review :Boolean | Routing (out)          | Review_level (out)     | Reason (out)                |
+    | O | Age | Risk Category     | Debt Review :Boolean | Routing (out)          | Review level (out)     | Reason (out)                |
     |   |     | LOW, MEDIUM, HIGH |                      | DECLINE, REFER, ACCEPT | LEVEL 2, LEVEL 1, NONE |                             |
     |---+-----+-------------------+----------------------+------------------------+------------------------+-----------------------------|
     | 1 | -   | -                 | -                    | ACCEPT                 | NONE                   | Acceptable                  |
