@@ -14,22 +14,28 @@ The output is JS. (And, in future, XML, Python, English, LegalRuleML...)
 
 The interface is CLI. No mouse needed!
 
-## Download and Install
-
-(Once this gets pushed to Hackage, you'll be able to run:)
+## Installing from Source
 
 OS X:
 
     brew install haskell-stack
     
-    stack install dmnmd
-
 Linux:
 
     { yum, apt-get, ... } install haskell-stack
 
-    stack install dmnmd
+Both:
+
+    git clone git@github.com:smucclaw/complaw.git
+
+    git checkout unofficial
     
+    cd dmnmd
+    
+    stack build
+
+In future packaged binaries will be made available.
+
 ## Examples
 
 This README contains decision tables formatted in plain text, in Markdown table syntax.
@@ -78,32 +84,22 @@ A plain text version formatted for Markdown looks literally like this:
 
 Yeah, DMN allows spaces in variable names. What could possibly go wrong?
 
-## Evaluation
-
-A decision table is basically a function. Let's run it.
-
-Interactively, on the command line:
-
-    $ dmnmd README.md --dt="Example 1"
-    Season? Winter
-    Dish: Roastbeef
-    
-    Season? Spring
-    Dish: Steak
-
-Batch-mode:
-
-    $ echo "Winter" | dmnmd README.md --dt="Example 1"
-    Roastbeef
-
-JSON in, JSON out.
-
-    $ echo '{ "Season": "Winter" }' | dmnmd README.md --dt="Example 1"
-    { "Season": "Winter", "Dish": "Roastbeef" }
-
 ### XML source
 
 The canonical DMN XML representation of this example is available at https://github.com/camunda/camunda-bpm-examples/blob/master/dmn-engine/dmn-engine-java-main-method/src/main/resources/org/camunda/bpm/example/dish-decision.dmn11.xml
+
+## Background
+
+Decision Model & Notation is [an XML-based standard from OMG](https://www.omg.org/spec/DMN/). One accessible tutorial is available [here](https://camunda.com/dmn/).
+
+To help author DMN, a number of vendors provide graphical user interfaces as part of their [conforming implementations](https://dmn-tck.github.io/tck/). It is also possible to [import decision tables authored in a spreadsheet](https://github.com/camunda/camunda-dmn-xlsx).
+
+What are decision tables? An ancient magic from an earlier age of computing, powerful but little known among developers today. See [Hillel Wayne's introduction](https://www.hillelwayne.com/post/decision-tables/). It may be making a comeback, though: a handful of [packages have appeared on npm](https://www.npmjs.com/search?q=dmn) in the last few years.
+
+The [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) emphasizes the value of flat text files. While XML technically qualifies as text, many consider it "unwieldy": hence the popularity of [JSON](https://en.wikipedia.org/wiki/JSON) and [YAML](https://en.wikipedia.org/wiki/YAML).
+
+Command-line utilities such as [json (on NPM)](https://www.npmjs.com/package/json) help manipulate JSON.
+
 
 ## Imports
 
@@ -342,24 +338,32 @@ Your IDE may need a plugin to work with Markdown tables.
 - Vim: [vim extension markdown tables](https://www.google.com/search?q=vim+extension+markdown+tables)
 - Emacs: You're all set. `M-x markdown-mode` and hit TAB after starting your table.
 
+## Evaluation
+
+On the roadmap, not ready yet:
+
+A decision table is basically a function. Let's run it.
+
+Interactively, on the command line:
+
+    $ dmnmd README.md --dt="Example 1"
+    Season? Winter
+    Dish: Roastbeef
+    
+    Season? Spring
+    Dish: Steak
+
+Batch-mode:
+
+    $ echo "Winter" | dmnmd README.md --dt="Example 1"
+    Roastbeef
+
+JSON in, JSON out.
+
+    $ echo '{ "Season": "Winter" }' | dmnmd README.md --dt="Example 1"
+    { "Season": "Winter", "Dish": "Roastbeef" }
+
 ## Extensions
 
 This implementation aims to extend DMN with higher-order functional programming capabilities. Input cells already can be what a functional programmer would call a "function section" -- a partially applied binary function curried to expect a single argument. Strictly speaking, DMN 1.3 output columns need to be "plain" values: strings, Booleans, and numbers. This implementation proposes to allow the same expressive range for output columns as input columns, so you could return a range, such as `[20..40]`, if you wanted.
-
-## Translations
-
-### Conversion to XLSX
-
-## Background
-
-Decision Model & Notation is [an XML-based standard from OMG](https://www.omg.org/spec/DMN/). One accessible tutorial is available [here](https://camunda.com/dmn/).
-
-To help author DMN, a number of vendors provide graphical user interfaces as part of their [conforming implementations](https://dmn-tck.github.io/tck/). It is also possible to [import decision tables authored in a spreadsheet](https://github.com/camunda/camunda-dmn-xlsx).
-
-What are decision tables? An ancient magic from an earlier age of computing, powerful but little known among developers today. See [Hillel Wayne's introduction](https://www.hillelwayne.com/post/decision-tables/). It may be making a comeback, though: a handful of [packages have appeared on npm](https://www.npmjs.com/search?q=dmn) in the last few years.
-
-The [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) emphasizes the value of flat text files. While XML technically qualifies as text, many consider it "unwieldy": hence the popularity of [JSON](https://en.wikipedia.org/wiki/JSON) and [YAML](https://en.wikipedia.org/wiki/YAML).
-
-Command-line utilities such as [json (on NPM)](https://www.npmjs.com/package/json) help manipulate JSON.
-
 
