@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1c737d14955975a2dff7878ad7b7fbe089f7688ee0e96588919726ee9496b800
+-- hash: 2c76c2cc0bba9483dc17256cf43fd69fa94bddc8fb28d2900ac71f599ccf19ec
 
 name:           dmnmd
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       DMN.DecisionTable
+      DMN.ParseFEEL
       DMN.ParseTable
       DMN.Translate.JS
       DMN.Types
