@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2c76c2cc0bba9483dc17256cf43fd69fa94bddc8fb28d2900ac71f599ccf19ec
+-- hash: 8b9abc0d46bbadc2c003dff55eb1a23f72c8b34da3a1453950175bec2faa928c
 
 name:           dmnmd
 version:        0.1.0.0
@@ -32,7 +32,6 @@ library
       DMN.ParseTable
       DMN.Translate.JS
       DMN.Types
-      Lib
   other-modules:
       Paths_dmnmd
   hs-source-dirs:
@@ -51,7 +50,7 @@ library
     , text
   default-language: Haskell2010
 
-executable dmnmd-exe
+executable dmnmd
   main-is: Main.hs
   other-modules:
       Paths_dmnmd

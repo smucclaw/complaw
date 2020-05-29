@@ -16,6 +16,8 @@ The interface is CLI. No mouse needed!
 
 ## Download and Install
 
+(Once this gets pushed to Hackage, you'll be able to run:)
+
 OS X:
 
     brew install haskell-stack
@@ -53,6 +55,26 @@ A plain text version formatted for Markdown looks literally like this:
     | 2 | Winter | Roastbeef                    |               |
     | 3 | Spring | Steak                        |               |
     | 4 | Summer | Light Salad and a nice Steak | Hey, why not? |
+
+### Example 2: Who's coming?
+
+| U | Season : String      | guestCount : Number | Dish : String (out)          | # Annotation  |
+|---+----------------------+---------------------+------------------------------+---------------|
+| 1 | Fall                 | <= 8                | Spareribs                    |               |
+| 2 | Winter               | <= 8                | Roastbeef                    |               |
+| 3 | Spring               | <= 4                | Dry Aged Gourmet Steak       |               |
+| 4 | Spring               | [5..8]              | Steak                        |               |
+| 5 | Fall, Winter, Spring | > 8                 | Stew                         |               |
+| 6 | Summer               | -                   | Light Salad and a nice Steak | Hey, why not? |
+
+    | U | Season : String      | guestCount : Number | Dish : String (out)          | # Annotation  |
+    |---+----------------------+---------------------+------------------------------+---------------|
+    | 1 | Fall                 | <= 8                | Spareribs                    |               |
+    | 2 | Winter               | <= 8                | Roastbeef                    |               |
+    | 3 | Spring               | <= 4                | Dry Aged Gourmet Steak       |               |
+    | 4 | Spring               | [5..8]              | Steak                        |               |
+    | 5 | Fall, Winter, Spring | > 8                 | Stew                         |               |
+    | 6 | Summer               | -                   | Light Salad and a nice Steak | Hey, why not? |
 
 ## Evaluation
 

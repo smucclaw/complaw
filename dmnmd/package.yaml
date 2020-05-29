@@ -36,7 +36,7 @@ library:
   source-dirs: src
 
 executables:
-  dmnmd-exe:
+  dmnmd:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
