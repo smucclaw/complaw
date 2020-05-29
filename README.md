@@ -12,7 +12,7 @@ Computational law has a long history. An introductory curriculum is available un
 - [NLG](nlg/): natural language generation allows us to "compile" from the DSL to English and other natural languages.
 - [FV](fv/): formal verification of the specifications written in the DSL helps detect conflicts and loopholes at "compile time".
 - [IDE](ide/): support for DSL developers in their favourite editor offers realtime feedback, document preview, and app preview.
-- [DMN](dmn/): integration with the Decision Model & Notation standard for expressing constitutive rules efficiently.
+- [DMN](dmnmd/): integration with the Decision Model & Notation standard for expressing constitutive rules efficiently in Markdown.
 
 ## We're Hiring!
 
