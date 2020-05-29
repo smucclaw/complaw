@@ -4,11 +4,13 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8b9abc0d46bbadc2c003dff55eb1a23f72c8b34da3a1453950175bec2faa928c
+-- hash: a2f386d4517aa5b52db033c1e01d3d845694735527784bc1948b2c9f651c63e5
 
 name:           dmnmd
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/smucclaw/complaw/dmnmd>
+synopsis:       CLI to inter-convert DMN tables from Markdown format to JS, and more
+description:    Decision Model & Notation format conversion and code generation. Please see the README on GitHub at <https://github.com/smucclaw/complaw/dmnmd>
+category:       Code Generation
 homepage:       https://github.com/smucclaw/complaw#readme
 bug-reports:    https://github.com/smucclaw/complaw/issues
 author:         Meng Weng Wong
