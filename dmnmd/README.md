@@ -223,6 +223,8 @@ Options:
 
 ### to XML
 
+On the roadmap.
+
     $ dmnmd README.md --to=xml
 
 Exports to XML conforming to the DMN 1.3 specification.
@@ -285,19 +287,15 @@ More brevity requires more tacit knowledge. This is safer when we have an accomp
 
     $ dmnmd README.md --to=english --dialect=Horn --brevity=3
 
-    The dish is Spareribs when the Season is Fall, Roastbeef in Winter, Steak in Spring, and (Hey, why not?) Light Salad and a nice Steak in Summer.
+    Spareribs in the Fall; Roastbeef in Winter; Steak in Spring; and (Hey, why not?) Light Salad and a nice Steak otherwise.
 
 It is characteristic of natural language that utterances omit "common sense" world knowledge, and employ other linguistic shorthand which is obvious to native speakers and often challenging to others.
 
-    $ dmnmd README.md --to=english --dialect=Horn --brevity=4
-
-    Spareribs in the Fall; Roastbeef in Winter; Steak in Spring; and (Hey, why not?) Light Salad and a nice Steak otherwise.
-
 The above dialect is `Horn`, which uses an "output if input" ordering . Omitting that option, we get an "input then output" ordering:
 
-    $ dmnmd README.md --to=english --brevity=4
+    $ dmnmd README.md --to=english --brevity=3
 
-    In the Fall, Spareribs; in Winter, Roastbeef; in Spring, Steak; and in Summer, Light Salad and a nice Steak (Hey, why not?) .
+    In the Fall, Spareribs; in Winter, Roastbeef; in Spring, Steak; and in Summer, Light Salad and a nice Steak (Hey, why not?).
 
 By default, brevity is 1.
 
