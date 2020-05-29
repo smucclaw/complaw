@@ -1,0 +1,58 @@
+name:                dmnmd
+version:             0.1.0.0
+github:              "smucclaw/complaw"
+license:             BSD3
+author:              "Meng Weng Wong"
+maintainer:          "mwwong@smu.edu.sg"
+copyright:           "2020 Singapore Management University"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/smucclaw/complaw/dmnmd>
+
+dependencies:
+- base >= 4.7 && < 5
+- containers
+- split
+- text
+- regex-pcre
+- hspec
+- attoparsec
+- hspec-attoparsec
+- raw-strings-qq
+- optparse-applicative
+- MissingH
+
+library:
+  source-dirs: src
+
+executables:
+  dmnmd-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - dmnmd
+
+tests:
+  dmnmd-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - dmnmd

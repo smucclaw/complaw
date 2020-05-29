@@ -1,0 +1,96 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 1c737d14955975a2dff7878ad7b7fbe089f7688ee0e96588919726ee9496b800
+
+name:           dmnmd
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/smucclaw/complaw/dmnmd>
+homepage:       https://github.com/smucclaw/complaw#readme
+bug-reports:    https://github.com/smucclaw/complaw/issues
+author:         Meng Weng Wong
+maintainer:     mwwong@smu.edu.sg
+copyright:      2020 Singapore Management University
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/smucclaw/complaw
+
+library
+  exposed-modules:
+      DMN.DecisionTable
+      DMN.ParseTable
+      DMN.Translate.JS
+      DMN.Types
+      Lib
+  other-modules:
+      Paths_dmnmd
+  hs-source-dirs:
+      src
+  build-depends:
+      MissingH
+    , attoparsec
+    , base >=4.7 && <5
+    , containers
+    , hspec
+    , hspec-attoparsec
+    , optparse-applicative
+    , raw-strings-qq
+    , regex-pcre
+    , split
+    , text
+  default-language: Haskell2010
+
+executable dmnmd-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_dmnmd
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      MissingH
+    , attoparsec
+    , base >=4.7 && <5
+    , containers
+    , dmnmd
+    , hspec
+    , hspec-attoparsec
+    , optparse-applicative
+    , raw-strings-qq
+    , regex-pcre
+    , split
+    , text
+  default-language: Haskell2010
+
+test-suite dmnmd-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_dmnmd
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      MissingH
+    , attoparsec
+    , base >=4.7 && <5
+    , containers
+    , dmnmd
+    , hspec
+    , hspec-attoparsec
+    , optparse-applicative
+    , raw-strings-qq
+    , regex-pcre
+    , split
+    , text
+  default-language: Haskell2010
