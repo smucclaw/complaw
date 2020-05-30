@@ -32,6 +32,8 @@ Your classmates may produce implementations that disagree with yours: they may r
 
 Discuss.
 
+** Learning Objectives
+
 This exercise introduces a number of concepts:
 - qualifiers as operators: X when Y. ~Y => X~ versus ~Y <=> X~.
 - operator binding and precedence; anaphora resolution

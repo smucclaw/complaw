@@ -27,11 +27,9 @@ Linux:
 Both:
 
     git clone git@github.com:smucclaw/complaw.git
-
+    cd complaw
     git checkout unofficial
-    
     cd dmnmd
-    
     stack build
 
 In future packaged binaries will be made available.
@@ -229,6 +227,17 @@ On the roadmap.
 
 Exports to XML conforming to the DMN 1.3 specification.
 
+### to Flora-2
+
+On the roadmap.
+
+    $ dmnmd README.md --to=flora2
+
+#### Example 4: Grocery Delivery Boxes
+
+This learning exercise is detailed at [ex-20200527-grocery](../doc/ex-20200527-grocery/).
+
+### to other Prologs
 ### to XLSX
 
 On the roadmap.
