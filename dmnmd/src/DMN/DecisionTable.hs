@@ -102,15 +102,15 @@ fe2dval fexp = error ("fe2dval can't extract a DMNVal from " ++ show fexp)
 -- feel like we should convert this to a ReaderT so the symtab gets hidden?
 fNEval :: SymbolTable -> FNumFunction -> DMNVal
 fNEval symtab (FNF0 dmnval) = dmnval
-fNEval symtab (FNF1 varname) = fe2dval $ fromMaybe (error $ "function unable to resolve variable " ++ varname) $ Map.lookup varname symtab
+fNEval symtab (FNF1 varname) = maybe (error $ "function unable to resolve variable " ++ varname) fe2dval $ Map.lookup varname symtab
 fNEval symtab (FNF3 fnf1 fnop2 fnf3) = let lhs = (fromVN (fNEval symtab fnf1))
                                            rhs = (fromVN (fNEval symtab fnf3))
                                            result = case fnop2 of
-                                             FNMul -> lhs * rhs
-                                             FNDiv -> lhs / rhs
-                                             FNPlus -> lhs + rhs
-                                             FNMinus -> lhs + rhs
-                                             FNExp -> lhs ** rhs
+                                             FNMul   -> lhs * rhs
+                                             FNDiv   -> lhs / rhs
+                                             FNPlus  -> lhs + rhs
+                                             FNMinus -> lhs - rhs
+                                             FNExp   -> lhs ** rhs
                                        in VN result
 
 mkFs :: (Maybe DMNType) -> String -> [FEELexp]
@@ -137,9 +137,9 @@ mkF (Just DMN_String)  arg1 = FNullary (VS (trim arg1))
 mkF (Just DMN_Boolean) arg1 = FNullary (mkVB arg1)
   where
     mkVB arg
-      | (toLower <$> arg) `elem` ["true","yes","positive"] = VB True
-      | (toLower <$> arg) `elem` ["false","no","negative"] = VB False
-      | otherwise                                          = error $  "unable to parse an alleged boolean: " ++ arg
+      | (toLower <$> arg) `elem` ["true","yes","t","y","positive"] = VB True
+      | (toLower <$> arg) `elem` ["false","no","t","y","negative"] = VB False
+      | otherwise = error $  "unable to parse an alleged boolean: " ++ arg
 mkF (Just DMN_Number)  arg1
   | length ("+-*/" `intersect` arg2) > 0 = either (error $ "error: parsing suspected function expression " ++ arg2) FFunction (parseOnly parseFNumFunction (T.pack arg2))
   | "<=" `isPrefixOf` arg2 = FSection Flte (mkVN $ trim $ drop 2 arg2)

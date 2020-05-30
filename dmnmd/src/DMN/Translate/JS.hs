@@ -68,7 +68,7 @@ mkIf jsopts hp ifword chs dtrow =
      then (intercalate " && " conditions)
      else "\"default\"") -- TODO: tweak ifword to allow just an "else" here, rather than exploiting the truthiness of JS
     ++ ") { // " ++
-    (fromMaybe "cont'd" (show <$> row_number dtrow)) ++ "\n" ++
+    (maybe "cont'd" show $ row_number dtrow) ++ "\n" ++
     (let feelout = feel2jsOut hp chs dtrow
          standard = (maybe "" (\infra -> "    " ++ infra ++ "\n") (fst feelout)) ++ "    return {" ++ (intercalate ", " (snd feelout)) ++ "};"
      in
