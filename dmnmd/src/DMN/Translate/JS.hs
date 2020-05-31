@@ -22,7 +22,8 @@ toJS jsopts dt =
               else mempty) ++
              [ unwords $ concat [ mkFunction (tableName dt)
                                 , if (propstyle jsopts)
-                                  then (mkProps jsopts (tableName dt) (getInputHeaders $ header dt)) ++ [": " ++ returnName (tableName dt)]
+                                  then (mkProps jsopts (tableName dt) (getInputHeaders $ header dt))
+                                       ++ if typescript jsopts then [": " ++ returnName (tableName dt)] else []
                                   else mkArguments jsopts (header dt)
                                 , [ "{"]
                                 ] ]

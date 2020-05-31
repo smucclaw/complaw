@@ -213,7 +213,7 @@ This works today.
 
 On the roadmap: a fully native version which allows direct evaluation of decison tables as functions. Should be about a week's worth of work, accelerated by the availability of the [js-feel](https://github.com/EdgeVerve/feel) package.
 
-The vision: you should be able to define a function `dinner` by saying:
+The vision: after you `npm i --save dmnmd`, you can define a function `dinner` by saying:
 
     const dinner = dmnmd(`
     | U | Season | Dish                         | # Annotation  |
@@ -224,7 +224,7 @@ The vision: you should be able to define a function `dinner` by saying:
     | 4 | Summer | Light Salad and a nice Steak | Hey, why not? |
     `)
 
-and you should then be able to call `dinner("Fall")` just as you would
+You should then be able to call `dinner({Season:"Fall"})` and get back `{Dish:"Spareribs"}`.
 
 ### to XML
 

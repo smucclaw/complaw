@@ -38,7 +38,6 @@ import System.Posix.IO (stdOutput)
 
 data ArgOptions = ArgOptions
   { verbose  :: Bool
-  , halp     :: Bool
   , query    :: Bool
   , propstyle :: Bool
   , informat  :: String
@@ -52,18 +51,20 @@ data ArgOptions = ArgOptions
 argOptions :: OA.Parser ArgOptions
 argOptions = ArgOptions
   <$> switch    (long "verbose"    <> short 'v'                                          <> help "more verbosity" )
-  <*> switch    (long "help"       <> short 'h'                                          <> help "dmnmd file.{org,md} -o file.ts" )
   <*> switch    (long "query"      <> short 'q'                                          <> help "evaluate interactively" )
   <*> switch    (long "props"      <> short 'r'                                          <> help "JS functions use props style" )
   <*> strOption (long "from"       <> short 'f' <> metavar "InputFormat"  <> value "md"  <> help "input format" )
-  <*> strOption (long "to"         <> short 't' <> metavar "OutputFormat" <> value "ts"  <> help "output format" )
-  <*> strOption (long "out"        <> short 'o' <> metavar "FILE"   <> value "-"         <> help "output file" )
-  <*> strOption (long "pick"       <> short 'p' <> metavar "TABLE"  <> value ""          <> help "name of desired decision table" )
+  <*> strOption (long "to"         <> short 't' <> metavar "OutputFormat" <> value ""    <> help "output format" )
+  <*> strOption (long "out"        <> short 'o' <> metavar "FILE"         <> value "-"   <> help "output file" )
+  <*> strOption (long "pick"       <> short 'p' <> metavar "TABLE,..."    <> value ""    <> help "name of desired decision table" )
   <*> many ( argument str (metavar "FILES..."))
 
 main :: IO ()
 main = do
-  opts <- OA.execParser $ info (argOptions OA.<**> helper) (fullDesc <> progDesc "DMN CLI interpreter and converter" <> OA.header "dmnmd")
+  opts1 <- OA.execParser $ info (argOptions OA.<**> helper) (fullDesc <> progDesc "DMN CLI interpreter and converter" <> OA.header "dmnmd")
+  let opts = if | length (outformat opts1) == 0 && "ts" `isSuffixOf` out opts1 -> opts1 { outformat = "ts" }
+                | length (outformat opts1) == 0 && "js" `isSuffixOf` out opts1 -> opts1 { outformat = "js" }
+                | otherwise -> opts1
   myouthandle <- myOutHandle $ out opts
   let infiles = if input opts == [] then ["-"] else input opts
   mydtchunks <- mapM (fileChunks opts) (zipWith (,) [1..] infiles) 
@@ -84,13 +85,12 @@ main = do
     -- are we talking to console or receiving input from STDIN?
     -- is the input coming in JSON format?
     -- which tables shall we run eval against? maybe the user gave a --pick. Maybe they didn't. if they didn't, run against all tables.
-    -- if the tables have different input types, die. because our plan is to run the same input against all the different types.
+    -- if the tables have different input types, die. because our plan is to run the same input against all the different tables.
   
   istty <- queryTerminal stdOutput
   if | not $ query opts              -> mapM_ (outputTo myouthandle (outformat opts) opts) pickedTables
      | differentlyTyped pickedTables -> fail $ "tables " ++ show (tableName <$> pickedTables) ++ " have different types; can't query. use --pick to choose one"
-     | query opts && istty           -> do
-         runInputT defaultSettings (loop opts pickedTables)
+     | query opts && istty           -> do runInputT defaultSettings (loop opts pickedTables)
      | query opts && not istty       -> mylog opts $ "expecting eval term input on STDIN."
   hClose myouthandle
 
