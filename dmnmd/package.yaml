@@ -1,5 +1,5 @@
 name:                dmnmd
-version:             0.1.0.0
+version:             0.1.0.1
 github:              "smucclaw/complaw"
 license:             BSD3
 author:              "Meng Weng Wong"
@@ -21,6 +21,8 @@ description:         Decision Model & Notation format conversion and code genera
 
 dependencies:
 - base >= 4.7 && < 5
+- unix
+- haskeline
 - containers
 - split
 - text

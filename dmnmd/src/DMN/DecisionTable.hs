@@ -39,8 +39,8 @@ evalTable table given_input =
                    _ -> if (length (nub (row_outputs <$> outputs)) > 1)
                         then Left ("multiple distinct rows returned -- an Any lookup may return multiple matches but they should all be the same!\n" ++ (show outputs))
                         else Right (row_outputs <$> outputs)
-    HP_Priority    -> Right [(row_outputs $ head $ (outputOrder (header table) outputs))]
-    HP_First       -> Right [(row_outputs $ head outputs)]
+    HP_Priority    -> Right [(row_outputs $ head0 table $ (outputOrder (header table) outputs))]
+    HP_First       -> Right [(row_outputs $ head0 table outputs)]
     HP_OutputOrder -> Right (row_outputs <$> (outputOrder (header table) outputs)) -- order according to enums in subheaders.
     HP_RuleOrder   -> Right (row_outputs <$> sortOn row_number outputs)
     HP_Collect Collect_All -> trace ("outputs has length " ++ (show $ length outputs)) $ Right (row_outputs <$> outputs)
@@ -56,6 +56,9 @@ evalTable table given_input =
       case fexp of
         FFunction f -> return $ FNullary (fNEval symtab f)
         x           -> return x
+
+head0 dt mylist = if length mylist > 0 then head mylist else
+  error $ "dmn error: table " ++ (tableName dt) ++ " expected at least one row to match, but none did; hit policy " ++ show (hitpolicy dt) ++ " unable to operate."
 
 outputOrder :: [ColHeader] -> [DTrow] -> [DTrow]
 outputOrder chs dtrows =
@@ -171,8 +174,6 @@ trimLeft = dropWhile (==' ')
 trimRight :: String -> String
 trimRight = dropWhileEnd (==' ')
  
-
-
 fEvals :: FEELexp -> [FEELexp] -> Bool
 fEvals arg exps = any (==True) $ (\x -> fEval x arg) <$> exps
 

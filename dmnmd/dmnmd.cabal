@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a2f386d4517aa5b52db033c1e01d3d845694735527784bc1948b2c9f651c63e5
+-- hash: 097879221bdbdad5c094ee6cf71ca5d13ed1e45ba4a23d93a441e191529e64b6
 
 name:           dmnmd
-version:        0.1.0.0
+version:        0.1.0.1
 synopsis:       CLI to inter-convert DMN tables from Markdown format to JS, and more
 description:    Decision Model & Notation format conversion and code generation. Please see the README on GitHub at <https://github.com/smucclaw/complaw/dmnmd>
 category:       Code Generation
@@ -43,6 +43,7 @@ library
     , attoparsec
     , base >=4.7 && <5
     , containers
+    , haskeline
     , hspec
     , hspec-attoparsec
     , optparse-applicative
@@ -50,6 +51,7 @@ library
     , regex-pcre
     , split
     , text
+    , unix
   default-language: Haskell2010
 
 executable dmnmd
@@ -65,6 +67,7 @@ executable dmnmd
     , base >=4.7 && <5
     , containers
     , dmnmd
+    , haskeline
     , hspec
     , hspec-attoparsec
     , optparse-applicative
@@ -72,6 +75,7 @@ executable dmnmd
     , regex-pcre
     , split
     , text
+    , unix
   default-language: Haskell2010
 
 test-suite dmnmd-test
@@ -88,6 +92,7 @@ test-suite dmnmd-test
     , base >=4.7 && <5
     , containers
     , dmnmd
+    , haskeline
     , hspec
     , hspec-attoparsec
     , optparse-applicative
@@ -95,4 +100,5 @@ test-suite dmnmd-test
     , regex-pcre
     , split
     , text
+    , unix
   default-language: Haskell2010

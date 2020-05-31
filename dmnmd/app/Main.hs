@@ -8,15 +8,21 @@ import Control.Monad
 import System.Environment
 import Data.List
 import Data.Char (toLower, isAlphaNum)
+import Data.List.Split (splitOn)
 import Data.List (takeWhile)
 import Data.List.Utils (replace)
 import Data.Maybe
 import Text.RawString.QQ
+
+import System.Console.Haskeline
+import Debug.Trace
+
 import DMN.Types
 import DMN.ParseTable
 import DMN.DecisionTable
 import DMN.Translate.JS
 import DMN.ParseFEEL
+
 import Test.Hspec
 import Data.Attoparsec.Text
 import qualified Data.Text as T
@@ -25,13 +31,15 @@ import qualified Options.Applicative as OA
 import Options.Applicative (long, short, help, helper, fullDesc, progDesc, strOption, switch, value, info, metavar, str, many, argument)
 import Data.Semigroup ((<>))
 import Control.Applicative
+import System.Posix.Terminal (queryTerminal)
+import System.Posix.IO (stdOutput)
 
 -- let's do getopt properly
 
 data ArgOptions = ArgOptions
   { verbose  :: Bool
   , halp     :: Bool
-  , quiet    :: Bool
+  , query    :: Bool
   , propstyle :: Bool
   , informat  :: String
   , outformat :: String
@@ -44,8 +52,8 @@ data ArgOptions = ArgOptions
 argOptions :: OA.Parser ArgOptions
 argOptions = ArgOptions
   <$> switch    (long "verbose"    <> short 'v'                                          <> help "more verbosity" )
-  <*> switch    (long "help"       <> short 'h'                                          <> help "dmn2js < file.{org,md} > file.ts" )
-  <*> switch    (long "quiet"      <> short 'q'                                          <> help "less verbosity" )
+  <*> switch    (long "help"       <> short 'h'                                          <> help "dmnmd file.{org,md} -o file.ts" )
+  <*> switch    (long "query"      <> short 'q'                                          <> help "evaluate interactively" )
   <*> switch    (long "props"      <> short 'r'                                          <> help "JS functions use props style" )
   <*> strOption (long "from"       <> short 'f' <> metavar "InputFormat"  <> value "md"  <> help "input format" )
   <*> strOption (long "to"         <> short 't' <> metavar "OutputFormat" <> value "ts"  <> help "output format" )
@@ -56,53 +64,120 @@ argOptions = ArgOptions
 main :: IO ()
 main = do
   opts <- OA.execParser $ info (argOptions OA.<**> helper) (fullDesc <> progDesc "DMN CLI interpreter and converter" <> OA.header "dmnmd")
+  myouthandle <- myOutHandle $ out opts
   let infiles = if input opts == [] then ["-"] else input opts
-      myerr msg = hPutStrLn stderr msg
-      mylog msg = when (verbose opts) $ myerr msg
-  forM_ (zipWith (,) [1..] infiles) (
-    \(inum,infile) -> do
-      mylog $ "* opening file: " ++ infile
+  mydtchunks <- mapM (fileChunks opts) (zipWith (,) [1..] infiles) 
+  mydtables1 <- mapM (\mychunk ->
+                           either
+                           (\myPTfail -> do myerr opts $ "** failed to parse table " ++ chunkName mychunk ++ "   :ERROR:\n" ++ show myPTfail
+                                            return Nothing)
+                           (\dtable -> return $ Just dtable)
+                           (parseOnly (parseTable (chunkName mychunk) <?> "parseTable") $ T.pack $ unlines $ chunkLines mychunk)
+                       ) (concat mydtchunks)
+  let mydtables = catMaybes mydtables1 -- all this really wants to be an ArrowList
+  mylog opts $ "* imported " ++ show (length mydtables) ++ " tables."
+  mylog opts $ "pick = " ++ pick opts
+  let pickedTables = if length (pick opts) > 0 then filter (\dt -> (tableName dt) `elem` (trim <$> (splitOn "," $ pick opts))) mydtables else mydtables
+  mylog opts $ "* picked " ++ show (length pickedTables) ++ "tables."
+  mylog opts $ "shall we output them or go interactive?"
+
+    -- are we talking to console or receiving input from STDIN?
+    -- is the input coming in JSON format?
+    -- which tables shall we run eval against? maybe the user gave a --pick. Maybe they didn't. if they didn't, run against all tables.
+    -- if the tables have different input types, die. because our plan is to run the same input against all the different types.
+  
+  istty <- queryTerminal stdOutput
+  if | not $ query opts              -> mapM_ (outputTo myouthandle (outformat opts) opts) pickedTables
+     | differentlyTyped pickedTables -> fail $ "tables " ++ show (tableName <$> pickedTables) ++ " have different types; can't query. use --pick to choose one"
+     | query opts && istty           -> do
+         runInputT defaultSettings (loop opts pickedTables)
+     | query opts && not istty       -> mylog opts $ "expecting eval term input on STDIN."
+  hClose myouthandle
+
+  where
+    loop :: ArgOptions -> [DecisionTable] -> InputT IO ()
+    loop opts dtables = do
+      minput <- getInputLine (intercalate ", " (tableName <$> dtables) ++ "> ")
+      let expecting = head (getVarTypes dtables)
+      case minput of
+        Nothing -> return ()
+        Just "quit" -> return ()
+        Just input -> do
+          let splitInput = trim <$> splitOn "," input
+          if length splitInput /= length expecting
+            then outputStrLn ("error: expected " ++ (show $ length expecting) ++ " arguments, got " ++ show (length splitInput) ++
+                              "; arguments should be " ++ show expecting)
+            else
+            mapM_ (
+                \dtable -> do
+                  when (verbose opts) $ outputStrLn $ "** evaluating " ++ input ++ " against table " ++ tableName dtable
+                  either
+                    (\errstr -> outputStrLn $ "problem running " ++ input ++ " against table " ++ tableName dtable ++ ": " ++ errstr)
+                    (\results -> do
+                        outputStr $ unlines ( map (\resultrow ->
+                                                      (tableName dtable) ++ ": " ++ (intercalate ", " (showToJSON dtable resultrow)))
+                                              results )
+                    )
+                    (evalTable dtable (zipWith mkF expecting (splitInput)))
+                ) dtables
+          outputStrLn ""
+          loop opts dtables
+
+    -- in future, allow decision tables to curry: partial application returns a partial decision table.
+    -- completed evaluation returns the matching result columns, passed through an aggregation hit policy if necessary.
+
+    -- TODO: output in the form of a decision table, showing all the matching rows (verbose) or only the result columns and annotations (normal)
+
+    -- TODO: validation via incompleteness and conflict detection, under different hit policies
+
+    fileChunks :: ArgOptions -> (Int, FilePath) -> IO InputChunks
+    fileChunks opts (inum,infile) = do
+      mylog opts $ "* opening file: " ++ infile
       inlines <- if infile == "-" then getContents else readFile infile
-      let myresult = parseOnly (grepMarkdown <?> "grepMarkdown") (T.pack inlines)
+      let rawchunksEither = parseOnly (grepMarkdown ("f"++show inum) <?> "grepMarkdown") (T.pack inlines)
       either
-        (\gulp -> myerr $ "** failed to parse: " ++ gulp)
-        (\inputchunks ->
-           forM_ (inputchunks) (
-            \mychunk -> do
-              let myChunkName = (maybe ("f"++show inum)
-                                 (\cname -> filter (\x->isAlphaNum x || x=='_') $ replace " " "_" $ unwords $ words cname)
-                                 (chunkName mychunk))
-              mylog $ "** found table: " ++ myChunkName ++ "\n" ++ unlines (chunkLines mychunk)
-              either
-                (\myPTfail -> myerr $ "** failed to parse table " ++ myChunkName ++ "   :ERROR:\n" ++ show myPTfail)
-                (\dtable -> if ((pick opts == "") || (pick opts == tableName dtable))
-                            then putStrLn $ toJS (JSOpts (Main.propstyle opts) (outformat opts == "ts")) dtable -- tweak this to respect --out
-                            else return ()
-                )
-                (parseOnly (parseTable myChunkName <?> "parseTable") $ T.pack $ unlines $ chunkLines mychunk)
-            )
-        ) myresult
-    )
+        (\errstr -> myerr opts ("** parser failure in grepMarkdown" ++ errstr) >> return [])
+        (\rawchunks -> return rawchunks)
+        rawchunksEither
+    myerr opts msg = hPutStrLn stderr msg
+    mylog opts msg = when (verbose opts) $ myerr opts msg
+
+    differentlyTyped :: [DecisionTable] -> Bool
+    differentlyTyped dts = length (getVarTypes dts) /= 1
+
+    getVarTypes :: [DecisionTable] -> [[Maybe DMNType]]
+    getVarTypes dts = nub ((((vartype <$>) . getInputHeaders) . header) <$> dts)
+
+-- not quite finished; in future refactor this over to JS.hs
+showToJSON :: DecisionTable -> [[FEELexp]] -> [String]
+showToJSON dtable cols = if length cols > 0 then zipWith showFeels ((getOutputHeaders . header) dtable) cols else []
+
+outputTo :: Handle -> String -> ArgOptions -> DecisionTable -> IO ()
+outputTo h "js" opts dtable = hPutStrLn h $ toJS (JSOpts (Main.propstyle opts) (outformat opts == "ts")) dtable
+outputTo h "ts" opts dtable = hPutStrLn h $ toJS (JSOpts (Main.propstyle opts) (outformat opts == "ts")) dtable
+
+myOutHandle :: FilePath -> IO Handle
+myOutHandle h = if h == "-" then return stdout else Debug.Trace.trace ("ging to try to write to file " ++ h) $ openFile h WriteMode
 
 --  putStrLn $ toJS (fromRight (error "parse error") (parseOnly (parseTable "mydmn1") dmn2))
 
 type InputChunks = [InputChunk]
 
 data InputChunk = InputChunk
-  { chunkName  :: Maybe String
+  { chunkName  :: String
   , chunkLines :: [String]
   }
   deriving (Show, Eq)
 -- in future, consider grabbing the tables out of Pandoc -- maybe this would be better off as a JSON filter?
 
-grepMarkdown :: Parser InputChunks
-grepMarkdown = many (grepTable <?> "grepTable")
+grepMarkdown :: String -> Parser InputChunks
+grepMarkdown defaultName = many (grepTable defaultName <?> "grepTable")
 
-grepTable :: Parser InputChunk
-grepTable = do
+grepTable :: String -> Parser InputChunk
+grepTable defaultName = do
   mHeader <- (maybeHeaderLines <?> "maybeHeaderLines")
   tablelines <- many1 (getTableLine <?> "getTableLine")
-  return (InputChunk mHeader tablelines)
+  return (InputChunk (fromMaybe defaultName mHeader) tablelines)
   
 getTableLine :: Parser String
 getTableLine = do
