@@ -16,12 +16,15 @@ data JSOpts = JSOpts { propstyle :: Bool
 toJS :: JSOpts -> DecisionTable -> String
 -- https://github.com/faylang/fay/wiki
 toJS jsopts dt =
-  unlines $ ((if (propstyle jsopts && typescript jsopts) then mkArgSpec jsopts (tableName dt) (header dt) else mempty) ++
+  unlines $ ((if (propstyle jsopts && typescript jsopts)
+              then mkArgSpec jsopts (tableName dt) (header dt)
+               <> mkReturnSpec jsopts (tableName dt) (header dt)
+              else mempty) ++
              [ unwords $ concat [ mkFunction (tableName dt)
                                 , if (propstyle jsopts)
-                                  then mkProps jsopts (tableName dt) (header dt)
+                                  then (mkProps jsopts (tableName dt) (getInputHeaders $ header dt)) ++ [": " ++ returnName (tableName dt)]
                                   else mkArguments jsopts (header dt)
-                                , ["{"]
+                                , [ "{"]
                                 ] ]
              ++ (zipWith (\if_ dtrow -> mkIf jsopts (hitpolicy dt) if_ (header dt) dtrow) elsif (datarows dt))
              ++ [ "}" ])
@@ -34,19 +37,28 @@ toJS jsopts dt =
                                _            -> "if")
   
 mkArgSpec :: JSOpts -> String -> [ColHeader] -> [String]
-mkArgSpec jsopts tablename chs =
-  ["type " ++ propsName tablename ++ " = {"] ++
+mkArgSpec jsopts tablename chs = mkTypeSpec jsopts (propsName tablename) (getInputHeaders chs)
+
+mkReturnSpec :: JSOpts -> String -> [ColHeader] -> [String]
+mkReturnSpec jsopts tablename chs = mkTypeSpec jsopts (returnName tablename) (getOutputHeaders chs)
+
+mkTypeSpec :: JSOpts -> String -> [ColHeader] -> [String]
+mkTypeSpec jsopts specname chs =
+  ["type " ++ specname ++ " = {"] ++
   ["    \"" ++ varname ch ++ "\" : " ++ (maybe "any" type2js (vartype ch)) ++ ";" | ch <- chs ] ++
   ["}"]
 
 mkFunction :: String -> [String]
-mkFunction tablename = [ "export", "function", tablename ]
+mkFunction tablename = [ "export", "function", underscore tablename ]
 
 mkProps :: JSOpts -> String -> [ColHeader] -> [String]
 mkProps jsopts tablename chs = ["(", "props" ++ if typescript jsopts then " : " ++ propsName tablename else "", ")"]
 
 propsName :: String -> String
 propsName tablename = "Props_" ++ underscore tablename
+
+returnName :: String -> String
+returnName tablename = "Return_" ++ underscore tablename
 
 mkArguments :: JSOpts -> [ColHeader] -> [String]
 mkArguments jsopts chs = ["(", (intercalate ", " (mkArgument jsopts <$> input_headers chs)), ")"]
@@ -154,7 +166,7 @@ showFeels ch fexps = "\"" ++ (varname ch) ++ "\":" ++ (if squash
 showFeel :: FEELexp -> String
 showFeel (FNullary (VS str))  = show str
 showFeel (FNullary (VN num))  = show num
-showFeel (FNullary (VB bool)) = show bool
+showFeel (FNullary (VB bool)) = toLower <$> show bool
 showFeel (FSection Feq  (VB rhs)) = "(x)=>x === "++ (toLower <$> show rhs)
 showFeel (FSection Feq  (VS rhs)) = "(x)=>x === "++ show rhs
 showFeel (FSection Feq  (VN rhs)) = "(x)=>x === "++ show rhs

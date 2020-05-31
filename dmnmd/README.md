@@ -117,16 +117,6 @@ The above is perhaps best explained by an example; see figure 8.19 of the DMN 1.
 
 #### Example 3: Routing Rules
 
-Markdown tables don't seem to like multiple rows above the header dashes. Org-mode handles this fine.
-
-| O | Age | Risk Category     | Debt Review :Boolean | Routing (out)          | Review level (out)     | Reason (out)                |
-|   |     | LOW, MEDIUM, HIGH |                      | DECLINE, REFER, ACCEPT | LEVEL 2, LEVEL 1, NONE |                             |
-|---|-----|-------------------|----------------------|------------------------|------------------------|-----------------------------|
-| 1 | -   | -                 | -                    | ACCEPT                 | NONE                   | Acceptable                  |
-| 2 | <18 |                   |                      | DECLINE                | NONE                   | Applicant too young         |
-| 3 |     | HIGH              |                      | REFER                  | LEVEL 1                | High risk application       |
-| 4 |     |                   | True                 | REFER                  | LEVEL 2                | Applicant under debt review |
-
     | O | Age | Risk Category     | Debt Review :Boolean | Routing (out)          | Review level (out)     | Reason (out)                |
     |   |     | LOW, MEDIUM, HIGH |                      | DECLINE, REFER, ACCEPT | LEVEL 2, LEVEL 1, NONE |                             |
     |---+-----+-------------------+----------------------+------------------------+------------------------+-----------------------------|
@@ -169,8 +159,6 @@ Options:
     type Props_Example_2 = {
         "Season" : string;
         "Guest Count" : number;
-        "Dish" : string;
-        "Annotation" : any;
     }
     export function Example_2 ( props : Props_Example_2 ) {
       if (props["Season"]==="Fall" && props["Guest Count"] <=8.0) { // 1
@@ -194,7 +182,11 @@ Options:
       }
     }
 
+We use "props" here as a synonym for the more proper term "context".
+
 ### to Javascript
+
+This works today.
 
     % stack exec -- dmnmd README.md --pick=Example_2 --to=js
     export function Example_2 ( Season, Guest_Count ) {
@@ -218,6 +210,21 @@ Options:
         // Hey, why not?
       }
     }
+
+On the roadmap: a fully native version which allows direct evaluation of decison tables as functions. Should be about a week's worth of work, accelerated by the availability of the [js-feel](https://github.com/EdgeVerve/feel) package.
+
+The vision: you should be able to define a function `dinner` by saying:
+
+    const dinner = dmnmd(`
+    | U | Season | Dish                         | # Annotation  |
+    |---|--------|------------------------------|---------------|
+    | 1 | Fall   | Spareribs                    |               |
+    | 2 | Winter | Roastbeef                    |               |
+    | 3 | Spring | Steak                        |               |
+    | 4 | Summer | Light Salad and a nice Steak | Hey, why not? |
+    `)
+
+and you should then be able to call `dinner("Fall")` just as you would
 
 ### to XML
 

@@ -157,7 +157,7 @@ outputTo h "js" opts dtable = hPutStrLn h $ toJS (JSOpts (Main.propstyle opts) (
 outputTo h "ts" opts dtable = hPutStrLn h $ toJS (JSOpts (Main.propstyle opts) (outformat opts == "ts")) dtable
 
 myOutHandle :: FilePath -> IO Handle
-myOutHandle h = if h == "-" then return stdout else Debug.Trace.trace ("ging to try to write to file " ++ h) $ openFile h WriteMode
+myOutHandle h = if h == "-" then return stdout else openFile h WriteMode
 
 --  putStrLn $ toJS (fromRight (error "parse error") (parseOnly (parseTable "mydmn1") dmn2))
 
