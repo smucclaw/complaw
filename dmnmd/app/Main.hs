@@ -79,7 +79,8 @@ main = do
   mylog opts $ "* imported " ++ show (length mydtables) ++ " tables."
   mylog opts $ "pick = " ++ pick opts
   let pickedTables = if length (pick opts) > 0 then filter (\dt -> (tableName dt) `elem` (trim <$> (splitOn "," $ pick opts))) mydtables else mydtables
-  mylog opts $ "* picked " ++ show (length pickedTables) ++ "tables."
+  mylog opts $ "* picked " ++ show (length pickedTables) ++ " tables from " ++ show (trim <$> (splitOn "," $ pick opts))
+  when (length pickedTables == 0) $ mylog opts $ "available tablenames were " ++ (show $ tableName <$> mydtables)
   mylog opts $ "shall we output them or go interactive?"
 
     -- are we talking to console or receiving input from STDIN?

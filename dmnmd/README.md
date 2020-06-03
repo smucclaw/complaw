@@ -155,12 +155,15 @@ Options:
 
 **--props** Normally, functions expect as many parameters as there are input columns. with `--props`, functions expect input in a single `props` object; a "Props" type is generated.
 
-    % stack exec -- dmnmd README.md --pick=Example_2 --to=ts --props
+    % stack exec -- dmnmd README.md --to=ts --pick="Example 2" -r
     type Props_Example_2 = {
         "Season" : string;
         "Guest Count" : number;
     }
-    export function Example_2 ( props : Props_Example_2 ) {
+    type Return_Example_2 = {
+        "Dish" : string;
+    }
+    export function Example_2 ( props : Props_Example_2 ) : Return_Example_2 {
       if (props["Season"]==="Fall" && props["Guest Count"] <=8.0) { // 1
         return {"Dish":"Spareribs"};
       }
@@ -188,7 +191,7 @@ We use "props" here as a synonym for the more proper term "context".
 
 This works today.
 
-    % stack exec -- dmnmd README.md --pick=Example_2 --to=js
+    % stack exec -- dmnmd README.md --pick="Example 2" --to=js
     export function Example_2 ( Season, Guest_Count ) {
       if (Season==="Fall" && Guest_Count <=8.0) { // 1
         return {"Dish":"Spareribs"};
