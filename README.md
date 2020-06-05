@@ -1,12 +1,14 @@
 # Computational Law
 
-This is the Git repository of the Research Programme in Computational Law, hosted at the Centre for Computational Law at Singapore Management University.
+This is a Git repository of the Research Programme in Computational Law, hosted at the Centre for Computational Law at Singapore Management University.
 
 We aim to build open-source tools and technologies that do for legal and qualitative reasoning, what the spreadsheet has done for quantitative reasoning.
 
 Computational law has a long history. An introductory curriculum is available under [doc/](doc/).
 
 ## Areas of work
+
+We maintain separate repositories for each work area below. Developers should clone them under `smucclaw/`
 
 - [DSL](dsl/): a family of domain-specific languages suitable for expressing the semantics of contracts, laws, and rules.
 - [NLG](nlg/): natural language generation allows us to "compile" from the DSL to English and other natural languages.
@@ -32,7 +34,6 @@ The CCLAW community gathers at:
 
 - Slack
 - mailing list
-- IRC
 - reddit
 
 Or rather, it will, once we're more set up.
@@ -43,7 +44,11 @@ All contributors are expected to abide by the code of conduct available [here](C
 
 ## See Also
 
+The Wikipedia article on [Computational law](https://en.wikipedia.org/wiki/Computational_law).
+
 The website for the [Centre for Computational Law at Singapore Management University](https://cclaw.smu.edu.sg/).
+
+
 
 The Research Programme in Computational Law is supported by the National Research Foundation (NRF), Singapore, under its Industry Alignment Fund -- Pre-Positioning Programme, in concert with the Infocomm Media Development Agency. The grant is funded from 2020 through 2024.
 
