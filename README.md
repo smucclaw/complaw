@@ -10,11 +10,11 @@ Computational law has a long history. An introductory curriculum is available un
 
 We maintain separate repositories for each work area below. Developers should clone them under `smucclaw/`
 
-- [DSL](../dsl/): a family of domain-specific languages suitable for expressing the semantics of contracts, laws, and rules.
-- [NLG](../nlg/): natural language generation allows us to "compile" from the DSL to English and other natural languages.
-- [FV](../fv/): formal verification of the specifications written in the DSL helps detect conflicts and loopholes at "compile time".
-- [IDE](../ide/): support for DSL developers in their favourite editor offers realtime feedback, document preview, and app preview.
-- [DMN](../dmnmd/): integration with the Decision Model & Notation standard for expressing constitutive rules efficiently in Markdown.
+- [DSL](https://github.com/smucclaw/dsl/): a family of domain-specific languages suitable for expressing the semantics of contracts, laws, and rules.
+- [NLG](https://github.com/smucclaw/nlg/): natural language generation allows us to "compile" from the DSL to English and other natural languages.
+- [FV](https://github.com/smucclaw/fv/): formal verification of the specifications written in the DSL helps detect conflicts and loopholes at "compile time".
+- [IDE](https://github.com/smucclaw/ide/): support for DSL developers in their favourite editor offers realtime feedback, document preview, and app preview.
+- [DMN](https://github.com/smucclaw/dmnmd/): integration with the Decision Model & Notation standard for expressing constitutive rules efficiently in Markdown.
 
 ## We're Hiring!
 
