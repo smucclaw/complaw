@@ -54,9 +54,9 @@ parseFNF0 =
           strings <- many inner
           char '"'
           return $ FNF0 $ VS $ concat strings )
-     <|> FNF0 $ VN $ realToFrac <$> double
-     <|> ("yes" <|> "true"  <|> "True"  <|> "t" <|> "y") >> return $ FNF0 $ VB True
-     <|> ("no"  <|> "false" <|> "False" <|> "f" <|> "n") >> return $ FNF0 $VB False
+     <|> (FNF0 . VN . realToFrac <$> double)
+     <|> (("yes" <|> "true"  <|> "True"  <|> "t" <|> "y") >> return ( FNF0 $ VB True))
+     <|> (("no"  <|> "false" <|> "False" <|> "f" <|> "n") >> return ( FNF0 $ VB False))
       
       
 parseFNOp2 =

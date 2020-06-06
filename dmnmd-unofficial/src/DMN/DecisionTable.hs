@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE LambdaCase, RecordWildCards #-}
 
 module DMN.DecisionTable where
 
@@ -219,7 +219,7 @@ mkDTable origname orighp origchs origdtrows =
     DTable origname orighp typedchs
     ((\case
          DThr -> DThr
-         DTrow{..} -> (DTrow rn
+         (DTrow rn ri ro rc) -> (DTrow rn
                         (reprocessRows (getInputHeaders typedchs)  ri)
                         (reprocessRows (getOutputHeaders typedchs) ro)
                         rc)) <$> origdtrows)
@@ -253,7 +253,7 @@ inferTypes :: ColHeader   -- in or out header column
 inferTypes origch origrows = -- Debug.Trace.trace ("  infertypes: called with colheader = " ++ show origch ++ "\n           and rows = " ++ show origrows) $
   let coltypes = nub $ catMaybes $ do
         cells <- origrows
-        infertype <$> cells
+        inferType <$> cells
 
   in if length coltypes == 1
      then let coltype = head coltypes
