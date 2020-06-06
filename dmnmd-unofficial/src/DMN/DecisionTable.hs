@@ -28,26 +28,26 @@ evalTable table given_input =
   let symtab = Map.fromList $ zip (varname <$> filter ((DTCH_In==).label) (header table)) given_input
       matched = filter ((given_input `matches`) . row_inputs) (datarows table)
       -- evaluate any FFunctions
-      outputs = (\row -> row { row_outputs = evalFunctions symtab <$> (row_outputs row) }) <$> matched
+      outputs = (\row -> row { row_outputs = evalFunctions symtab <$> row_outputs row }) <$> matched
   in case hitpolicy table of
     HP_Unique -> case length outputs of
                    0 -> Left "no rows returned -- a unique table should have one result!"
                    1 -> Right (row_outputs <$> outputs)
-                   _ -> Left $ "multiple rows returned -- this was supposed to be a unique table!\n" ++ (show outputs)
+                   _ -> Left $ "multiple rows returned -- this was supposed to be a unique table!\n" ++ show outputs
     HP_Any    -> case length outputs of
                    0 -> Left "no rows returned"
-                   _ -> if (length (nub (row_outputs <$> outputs)) > 1)
-                        then Left ("multiple distinct rows returned -- an Any lookup may return multiple matches but they should all be the same!\n" ++ (show outputs))
+                   _ -> if not (null (nub (row_outputs <$> outputs)))
+                        then Left ("multiple distinct rows returned -- an Any lookup may return multiple matches but they should all be the same!\n" ++ show outputs)
                         else Right (row_outputs <$> outputs)
-    HP_Priority    -> Right [(row_outputs $ head0 table $ (outputOrder (header table) outputs))]
-    HP_First       -> Right [(row_outputs $ head0 table outputs)]
-    HP_OutputOrder -> Right (row_outputs <$> (outputOrder (header table) outputs)) -- order according to enums in subheaders.
+    HP_Priority    -> Right [row_outputs $ head0 table (outputOrder (header table) outputs)]
+    HP_First       -> Right [row_outputs $ head0 table outputs]
+    HP_OutputOrder -> Right (row_outputs <$> outputOrder (header table) outputs) -- order according to enums in subheaders.
     HP_RuleOrder   -> Right (row_outputs <$> sortOn row_number outputs)
-    HP_Collect Collect_All -> trace ("outputs has length " ++ (show $ length outputs)) $ Right (row_outputs <$> outputs)
-    HP_Collect Collect_Cnt -> trace ("outputs has length " ++ (show $ length outputs)) $ Right [[[FNullary (VN (fromIntegral (length outputs) :: Float))]]]
-    HP_Collect Collect_Min -> Right [[[FNullary (VN ((minimum $ [ x | (FNullary (VN x)) <- (concat $ concat (row_outputs <$> outputs)) ])))]]]
-    HP_Collect Collect_Max -> Right [[[FNullary (VN ((maximum $ [ x | (FNullary (VN x)) <- (concat $ concat (row_outputs <$> outputs)) ])))]]]
-    HP_Collect Collect_Sum -> Right [[[FNullary (VN ((    sum $ [ x | (FNullary (VN x)) <- (concat $ concat (row_outputs <$> outputs)) ])))]]]
+    HP_Collect Collect_All -> trace ("outputs has length " ++ show (length outputs)) $ Right (row_outputs <$> outputs)
+    HP_Collect Collect_Cnt -> trace ("outputs has length " ++ show (length outputs)) $ Right [[[FNullary (VN (fromIntegral (length outputs) :: Float))]]]
+    HP_Collect Collect_Min -> Right [[[FNullary (VN (minimum $ [ x | (FNullary (VN x)) <- concat $ concat (row_outputs <$> outputs) ]))]]]
+    HP_Collect Collect_Max -> Right [[[FNullary (VN (maximum $ [ x | (FNullary (VN x)) <- concat $ concat (row_outputs <$> outputs) ]))]]]
+    HP_Collect Collect_Sum -> Right [[[FNullary (VN (    sum $ [ x | (FNullary (VN x)) <- concat $ concat (row_outputs <$> outputs) ]))]]]
     _ -> Left ("don't know how to evaluate hit policy " ++ show (hitpolicy table))
   where
     evalFunctions :: SymbolTable -> [FEELexp] -> [FEELexp]
@@ -57,12 +57,12 @@ evalTable table given_input =
         FFunction f -> return $ FNullary (fNEval symtab f)
         x           -> return x
 
-head0 dt mylist = if length mylist > 0 then head mylist else
-  error $ "dmn error: table " ++ (tableName dt) ++ " expected at least one row to match, but none did; hit policy " ++ show (hitpolicy dt) ++ " unable to operate."
+head0 dt mylist = if not (null mylist) then head mylist else
+  error $ "dmn error: table " ++ tableName dt ++ " expected at least one row to match, but none did; hit policy " ++ show (hitpolicy dt) ++ " unable to operate."
 
 outputOrder :: [ColHeader] -> [DTrow] -> [DTrow]
-outputOrder chs dtrows =
-  sortBy (mySort chs) dtrows
+outputOrder chs =
+  sortBy (mySort chs)
   -- we want to sort the dtrows by the enums left to right
   -- for instance, each DTrow in [DTrow] contain row_outputs; each [FEELexp] in row_outputs belongs to a column ColHeader which has an enums :: Maybe [FEELexp]; that [FEELexp] list is sorted.
   -- we know that the [FEELexp] in row_outputs contains 0 or 1 FEELexps.
@@ -78,18 +78,18 @@ mySort colhs rowa rowb =
 
 myS :: (Eq a, Show a) => [Maybe [a]] -> [[a]] -> [[a]] -> Ordering
 myS orders as bs = -- trace ("myS: will compare " ++ (show as) ++ " with " ++ (show bs))
-                   (firstNonEQ "  ") $ zipWith3 sortCol orders as bs
+                   firstNonEQ "  " $ zipWith3 sortCol orders as bs
 
 sortCol :: (Eq a, Show a) => Maybe [a] -> [a] -> [a] -> Ordering
 sortCol colenum cola colb = -- trace ("sortCol: comparing the elements within " ++ (show cola) ++ " and " ++ (show colb))
-                            maybe EQ (\enumlist -> (firstNonEQ "    ") $ zipWith (sortCell enumlist) cola colb) colenum
+                            maybe EQ (\enumlist -> firstNonEQ "    " $ zipWith (sortCell enumlist) cola colb) colenum
 sortCell :: (Eq a, Show a) => [a] -> a -> a -> Ordering
 sortCell cellenums a b = -- trace ("  sortCell: comparing the locations of elements " ++ (show a) ++ " and " ++ (show b) ++ " in " ++ (show cellenums))
                          compare (elemIndex a cellenums) (elemIndex b cellenums)
 firstNonEQ :: String -> [Ordering] -> Ordering
 firstNonEQ spaces args = let remaining = dropWhile (EQ==) args
                          in -- trace (spaces ++ "firstNonEQ: returning first non-EQ element of " ++ (show args))
-                            (if (length remaining == 0) then EQ else head remaining)
+                            (if null remaining then EQ else head remaining)
 
 
 matches :: [FEELexp] -> [[FEELexp]] -> Bool
@@ -106,8 +106,8 @@ fe2dval fexp = error ("fe2dval can't extract a DMNVal from " ++ show fexp)
 fNEval :: SymbolTable -> FNumFunction -> DMNVal
 fNEval symtab (FNF0 dmnval) = dmnval
 fNEval symtab (FNF1 varname) = maybe (error $ "function unable to resolve variable " ++ varname) fe2dval $ Map.lookup varname symtab
-fNEval symtab (FNF3 fnf1 fnop2 fnf3) = let lhs = (fromVN (fNEval symtab fnf1))
-                                           rhs = (fromVN (fNEval symtab fnf3))
+fNEval symtab (FNF3 fnf1 fnop2 fnf3) = let lhs = fromVN (fNEval symtab fnf1)
+                                           rhs = fromVN (fNEval symtab fnf3)
                                            result = case fnop2 of
                                              FNMul   -> lhs * rhs
                                              FNDiv   -> lhs / rhs
@@ -116,7 +116,7 @@ fNEval symtab (FNF3 fnf1 fnop2 fnf3) = let lhs = (fromVN (fNEval symtab fnf1))
                                              FNExp   -> lhs ** rhs
                                        in VN result
 
-mkFs :: (Maybe DMNType) -> String -> [FEELexp]
+mkFs :: Maybe DMNType -> String -> [FEELexp]
 mkFs dmntype args = do
   arg <- trim <$> splitOn "," args
   return (mkF dmntype arg)
@@ -128,14 +128,14 @@ mkFs dmntype args = do
 -- but we can only make that decision after viewing the entire table.
 -- maybe we use a multi-pass strategy ... where we allow the cells to remain untyped ... and then we review the entire table
 -- after it's been fully parsed once.
-mkF :: (Maybe DMNType) -> String -> FEELexp
+mkF :: Maybe DMNType -> String -> FEELexp
 mkF _ ""  = FAnything
 mkF _ "_" = FAnything
 mkF _ "-" = FAnything
 -- in a numeric column, an FFunction is detected by the presence of an numeric operator
 mkF t@(Just (DMN_List _)) x  = mkF (baseType t) x
-mkF (Nothing)  arg1 = -- trace ("mkF Nothing shouldn't happen -- type inference should have found some type for this column. coercing to string: " ++ arg1)
-  (FNullary (VS (trim arg1)))
+mkF Nothing  arg1 = -- trace ("mkF Nothing shouldn't happen -- type inference should have found some type for this column. coercing to string: " ++ arg1)
+  FNullary (VS (trim arg1))
 mkF (Just DMN_String)  arg1 = FNullary (VS (trim arg1))
 mkF (Just DMN_Boolean) arg1 = FNullary (mkVB arg1)
   where
@@ -144,20 +144,20 @@ mkF (Just DMN_Boolean) arg1 = FNullary (mkVB arg1)
       | (toLower <$> arg) `elem` ["false","no","t","y","negative"] = VB False
       | otherwise = error $  "unable to parse an alleged boolean: " ++ arg
 mkF (Just DMN_Number)  arg1
-  | length ("+-*/" `intersect` arg2) > 0 = either (error $ "error: parsing suspected function expression " ++ arg2) FFunction (parseOnly parseFNumFunction (T.pack arg2))
+  | not (null ("+-*/" `intersect` arg2)) = either (error $ "error: parsing suspected function expression " ++ arg2) FFunction (parseOnly parseFNumFunction (T.pack arg2))
   | "<=" `isPrefixOf` arg2 = FSection Flte (mkVN $ trim $ drop 2 arg2)
   | "<"  `isPrefixOf` arg2 = FSection Flt  (mkVN $ trim $ drop 1 arg2)
   | ">=" `isPrefixOf` arg2 = FSection Fgte (mkVN $ trim $ drop 2 arg2)
   | ">"  `isPrefixOf` arg2 = FSection Fgt  (mkVN $ trim $ drop 1 arg2)
-  | "<=" `isSuffixOf` arg2 = FSection Fgt  (mkVN $ trim $ (Prelude.take (length arg2 - 2) arg2))
-  | "<"  `isSuffixOf` arg2 = FSection Fgte (mkVN $ trim $ (Prelude.take (length arg2 - 1) arg2))
-  | ">=" `isSuffixOf` arg2 = FSection Flt  (mkVN $ trim $ (Prelude.take (length arg2 - 2) arg2))
+  | "<=" `isSuffixOf` arg2 = FSection Fgt  (mkVN $ trim $ Prelude.take (length arg2 - 2) arg2)
+  | "<"  `isSuffixOf` arg2 = FSection Fgte (mkVN $ trim $ Prelude.take (length arg2 - 1) arg2)
+  | ">=" `isSuffixOf` arg2 = FSection Flt  (mkVN $ trim $ Prelude.take (length arg2 - 2) arg2)
   | arg2 =~ "\\[\\s*(\\d+)\\s*\\.\\.\\s*(\\d+)\\s*\\]" :: Bool =
     let (_,_,_,bounds) = arg2 =~ "\\[\\s*(\\d+)\\s*\\.\\.\\s*(\\d+)\\s*\\]" :: (String,String,String,[String])
-    in FInRange ((read $ bounds!!0) :: Float) ((read $ bounds!!1) :: Float)
-  | "="  `isPrefixOf` arg2 = FSection Feq  (mkVN $ (trim $ dropWhile    (=='=') arg2))
-  | "="  `isSuffixOf` arg2 = FSection Feq  (mkVN $ (trim $ dropWhileEnd (=='=') arg2))
-  | otherwise   = FNullary      (mkVN $ (trim                        arg2))
+    in FInRange ((read $ head bounds) :: Float) ((read $ bounds!!1) :: Float)
+  | "="  `isPrefixOf` arg2 = FSection Feq  (mkVN $ trim $ dropWhile    (=='=') arg2)
+  | "="  `isSuffixOf` arg2 = FSection Feq  (mkVN $ trim $ dropWhileEnd (=='=') arg2)
+  | otherwise              = FNullary      (mkVN $ trim                        arg2)
   where arg2 = trim arg1 -- probably extraneous
         mkVN x = VN (read x :: Float)
 
@@ -165,7 +165,7 @@ fromVN :: DMNVal -> Float
 fromVN (VN n) = n
 fromVN (VB True) = 1.0
 fromVN (VB False) = 0.0
-fromVN _ = error ("type error: tried to read a float out of a string")
+fromVN _ = error "type error: tried to read a float out of a string"
 
 trim :: String -> String
 trim = dropWhile (==' ') . dropWhileEnd (==' ')
@@ -175,16 +175,16 @@ trimRight :: String -> String
 trimRight = dropWhileEnd (==' ')
  
 fEvals :: FEELexp -> [FEELexp] -> Bool
-fEvals arg exps = any (==True) $ (\x -> fEval x arg) <$> exps
+fEvals arg exps = or $ (`fEval` arg) <$> exps
 
--- TODO: recognize ? as a placeholder for the current input value, in case the FEEL expression is more complex.
+-- recognize ? as a placeholder for the current input value, in case the FEEL expression is more complex.
 -- reinventing Ord and Eq typeclasses here. we also deal with "< x" vs "x <" -- we canonicalize order to "op val"
 -- column in table -> input parameter -> is there a match?
 fEval :: FEELexp -> FEELexp -> Bool
-fEval (FAnything)    _                  = True
+fEval FAnything    _                  = True
   -- alternative phrasing without arrows: (snd . fromJust . (find ((== f) . fst))
-fEval (FSection f    (VN rhs)) (FNullary (VN lhs)) = (((find ((== f) <<< fst)) >>> fromJust >>> snd)
-                                                      [(Flt,(<)), (Flte,(<=)), (Fgt,(>)), (Fgte,(>=)), (Feq,(==))])
+fEval (FSection f    (VN rhs)) (FNullary (VN lhs)) = (find ((== f) <<< fst) >>> fromJust >>> snd)
+                                                      [(Flt,(<)), (Flte,(<=)), (Fgt,(>)), (Fgte,(>=)), (Feq,(==))]
                                                      lhs rhs
 fEval (FInRange lower upper)   (FNullary (VN lhs)) = lower <= lhs && lhs <= upper
 fEval (FSection Feq  (VB rhs)) (FNullary (VB lhs)) = lhs == rhs
@@ -192,7 +192,7 @@ fEval (FSection Feq  (VS rhs)) (FNullary (VS lhs)) = lhs == rhs
 fEval (FNullary (VS rhs)) (FNullary (VS lhs)) = lhs == rhs
 fEval (FNullary (VB rhs)) (FNullary (VB lhs)) = lhs == rhs
 fEval (FNullary (VN rhs)) (FNullary (VN lhs)) = lhs == rhs
-fEval rhs lhs                                 = error $ unwords $ [ "type error in ", show lhs, " ~ ", show rhs]
+fEval rhs lhs                                 = error $ unwords [ "type error in ", show lhs, " ~ ", show rhs]
 
 
 -- From the S-FEEL specification:
@@ -211,25 +211,25 @@ mkDTable :: String -> HitPolicy -> [ColHeader] -> [DTrow] -> DecisionTable
 mkDTable origname orighp origchs origdtrows =
 --  Debug.Trace.trace ("mkDTable: starting; origchs = " ++ show origchs) $
   let newchs   = zipWith inferTypes (getInputHeaders origchs ++ getOutputHeaders origchs)
-                                     (transpose $ [ row_inputs r ++  row_outputs r | r@(DTrow _ _ _ _) <- origdtrows])
-      typedchs = (if length newchs > 0 then (newchs ++ getCommentHeaders origchs) else origchs)
+                                     (transpose $ [ row_inputs r ++  row_outputs r | r@DTrow{} <- origdtrows])
+      typedchs = if not (null newchs) then newchs ++ getCommentHeaders origchs else origchs
   in -- Debug.Trace.trace ("mkDTable: finishing...\n" ++
         --                 "origchs = " ++ show(origchs) ++ "\n" ++
            --             "newchs = " ++ show(newchs) ++ "\n" )
-    (DTable origname orighp typedchs
-      ((\case
-           (DThr) -> DThr
-           (DTrow rn ri ro rc) -> (DTrow rn
-                                    (reprocessRows (getInputHeaders typedchs)  ri)
-                                    (reprocessRows (getOutputHeaders typedchs) ro)
-                                    rc)) <$> origdtrows))
+    DTable origname orighp typedchs
+    ((\case
+         DThr -> DThr
+         DTrow{..} -> (DTrow rn
+                        (reprocessRows (getInputHeaders typedchs)  ri)
+                        (reprocessRows (getOutputHeaders typedchs) ro)
+                        rc)) <$> origdtrows)
                          
 reprocessRows :: [ColHeader] -> [[FEELexp]] -> [[FEELexp]]
 reprocessRows = 
   -- bang through all columns where the header vartype is Just something, and if the body is FNullary VS, then re- mkF it using the new type info
   zipWith (\ch cells ->
              -- Debug.Trace.trace ("** reprocessRows: have the option to reprocess cells to " ++ show (vartype ch) ++ ": " ++ show cells) $
-               if not( vartype ch `elem` [Nothing, Just DMN_String]) && (length [ x | FNullary (VS x) <- cells] == length cells)
+               if notElem (vartype ch) [Nothing, Just DMN_String] && (length [ x | FNullary (VS x) <- cells] == length cells)
                then -- Debug.Trace.trace ("reprocessing to " ++ show (vartype ch) ++ ": " ++ show cells) $
                     [ mkF (vartype ch) x | FNullary (VS x) <- cells ]
                else cells)
@@ -253,14 +253,13 @@ inferTypes :: ColHeader   -- in or out header column
 inferTypes origch origrows = -- Debug.Trace.trace ("  infertypes: called with colheader = " ++ show origch ++ "\n           and rows = " ++ show origrows) $
   let coltypes = nub $ catMaybes $ do
         cells <- origrows
-        cell <- cells
-        return $ (inferType $ cell)
+        infertype <$> cells
 
   in if length coltypes == 1
      then let coltype = head coltypes
-          in if (vartype origch == Nothing)
+          in if null (vartype origch)
              then origch { vartype = Just coltype }
-             else if (vartype origch /= Just coltype)
+             else if vartype origch /= Just coltype
                   then -- Debug.Trace.trace ("    vartype for " ++ (varname origch) ++ " is " ++ (show $ vartype origch) ++ "; but inferred type is " ++ (show coltype))
                        origch
                   else origch { vartype = Just coltype }
@@ -274,8 +273,8 @@ inferType (FFunction _) = Just DMN_Number
 inferType (FSection _ (VN _)) = Just DMN_Number
 inferType (FSection _ (VB _)) = Just DMN_Boolean
 inferType (FSection _ (VS _)) = Just DMN_String
-inferType (FInRange _ _) = Just DMN_Number
-inferType (FAnything) = Nothing
+inferType (FInRange _ _)      = Just DMN_Number
+inferType  FAnything         = Nothing
 inferType (FNullary (VN _)) = Just DMN_Number
 inferType (FNullary (VB _)) = Just DMN_Boolean
 inferType (FNullary (VS arg))
@@ -285,4 +284,4 @@ inferType (FNullary (VS arg))
   | head arg == '\"' && last arg == '\"' = Just DMN_String
   | any (arg =~) [" \\* ", " \\+ ", " - ", " / ", " \\*\\* "] = Just DMN_Number
   | otherwise = -- Debug.Trace.trace ("inferType " ++ show arg ++ " returning String!") $
-      (Just DMN_String)
+      Just DMN_String
