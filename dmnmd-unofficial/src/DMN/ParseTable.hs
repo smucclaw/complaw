@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields #-}
 
 module DMN.ParseTable where
 
@@ -35,29 +35,28 @@ parseTypeDecl = do
   parseType
 
 parseType :: Parser (Maybe DMNType)
-parseType = do
-  ((DMN_List <$>) <$> ("[" *> parseType <* "]" <?> "inside list")
+parseType =
+  (DMN_List <$>) <$> ("[" *> parseType <* "]" <?> "inside list")
    <|>
    ((("String"  >> return (Just DMN_String)) <?> "string type") <|>
     (("Number"  >> return (Just DMN_Number)) <?> "number type") <|>
     (("Boolean" >> return (Just DMN_Boolean)) <?> "boolean type") ) -- need to check what the official DMN names are for these
-    )
 
 mkHeaderLabel (Just "//") _        = DTCH_Comment
 mkHeaderLabel (Just "#" ) _        = DTCH_Comment
 mkHeaderLabel _ (Just "(comment)") = DTCH_Comment
 mkHeaderLabel _ (Just "(out)")     = DTCH_Out
 mkHeaderLabel _ (Just "(in)")      = DTCH_In
-mkHeaderLabel _ (Nothing)          = DTCH_In
+mkHeaderLabel _  Nothing           = DTCH_In
 
-parseLabelPre  = do option Nothing (Just <$> ("//"   <|> "#"))
-parseLabelPost = do option Nothing (Just <$> ("(in)" <|> "(out)" <|> "(comment)"))
+parseLabelPre  = option Nothing (Just <$> ("//"   <|> "#"))
+parseLabelPost = option Nothing (Just <$> ("(in)" <|> "(out)" <|> "(comment)"))
 
 parseHitPolicy :: Parser HitPolicy
-parseHitPolicy = do
-  (mkHitPolicy_  <$> satisfy (inClass "UAPFOR")
-   <|>
-   (char 'C' >> skipHorizontalSpace >> (mkHitPolicy_C <$> option 'A' (satisfy (inClass "#<>+A")))))
+parseHitPolicy = 
+  mkHitPolicy_  <$> satisfy (inClass "UAPFOR")
+  <|>
+  (char 'C' >> skipHorizontalSpace >> (mkHitPolicy_C <$> option 'A' (satisfy (inClass "#<>+A"))))
 
 parseHeaderRow :: Parser HeaderRow
 parseHeaderRow = do
@@ -66,7 +65,7 @@ parseHeaderRow = do
   mychs <- many ( pipeSeparator *> parseColHeader <?> "parseColHeader" ) <?> "mychs"
   pipeSeparator <?> "pipeSeparator"
   endOfLine <|> endOfInput
-  return $ (DTHR myhitpolicy mychs)
+  return $ DTHR myhitpolicy mychs
 
 mkHitPolicy_ :: Char -> HitPolicy
 mkHitPolicy_ 'U' = HP_Unique
@@ -107,16 +106,16 @@ parseTable tableName = do
   let columnSignatures = columnSigs headerRow_1
   subHeadRow <- parseContinuationRows <?> "parseSubHeadRows"
   -- merge headerRow with subHeadRows
-  let headerRow = if length subHeadRow > 0
+  let headerRow = if not (null subHeadRow)
                   then  headerRow_1 { cols = zipWith (\orig subhead -> orig { enums = if subhead == [FAnything] then Nothing else Just subhead } ) -- in the data section a blank cell means anything, but in the subhead it means nothing.
                                              (cols headerRow_1)
                                              (zipWith (\cs cell -> mkFs (snd cs) cell) columnSignatures subHeadRow) }
                   else headerRow_1
   dataRows <- parseDataRows columnSignatures <?> "parseDataRows"
   -- when our type inference is stronger, let's make the cells all just strings, and let the inference engine validate all the cells first, then infer, then construct.
-  return $ (mkDTable tableName (hrhp headerRow)
+  return ( mkDTable tableName (hrhp headerRow)
            (cols headerRow)
-            dataRows)
+           dataRows )
 
 parseDThr :: Parser DTrow
 parseDThr = do
@@ -164,10 +163,10 @@ parseDataRow csigs =
       firstrowtail <- parseTail
       morerows <- many parseContinuationRow
       let datacols = zipWith mkFEELCol csigs (map (trim . unwords) $ transpose (firstrowtail : morerows))
-      return $ (DTrow (if length myrownumber > 0 then (Just $ (\n -> (read n) :: Int) myrownumber) else Nothing) -- 
-                (catMaybes (zipWith getInputs  csigs datacols))
-                (catMaybes (zipWith getOutputs csigs datacols))
-                (catMaybes (zipWith getComments csigs datacols)))
+      return ( DTrow (if not (null myrownumber) then Just $ (\n -> read n :: Int) myrownumber else Nothing)
+               (catMaybes (zipWith getInputs  csigs datacols))
+               (catMaybes (zipWith getOutputs csigs datacols))
+               (catMaybes (zipWith getComments csigs datacols)) )
   
   -- TODO: if myrownumber is blank, append the current row to the previous row as though connected by a ,
   where
@@ -192,7 +191,7 @@ columnSigs = fmap (\ch -> (label ch, vartype ch)) . cols
 -- Control.Arrow would probably let us phrase this more cleverly, a la hxt, with "guard" and "when" but this is probably more readable for a beginner
 reviseInOut :: HeaderRow -> HeaderRow
 reviseInOut hr = let noncomments = filter ((DTCH_Comment /= ) . label) $ cols hr
-                 in if (length noncomments > 1 && all ((DTCH_In ==) . label) noncomments)
+                 in if length noncomments > 1 && all ((DTCH_In ==) . label) noncomments
                     then let rightmost = last noncomments
                          in hr { cols = map (\ch -> if ch == rightmost then ch { label = DTCH_Out } else ch) (cols hr) }
                     else hr

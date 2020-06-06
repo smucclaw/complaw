@@ -73,7 +73,7 @@ var_name :: ColHeader -> String
 var_name = underscore . varname
 
 underscore :: String -> String
-underscore = (replace " " "_")
+underscore = replace " " "_"
 
 data DecisionTable = DTable { tableName :: String
                              , hitpolicy :: HitPolicy

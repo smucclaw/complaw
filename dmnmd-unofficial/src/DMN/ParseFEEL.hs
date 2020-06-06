@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields #-}
 
 module DMN.ParseFEEL where
 
@@ -21,20 +21,18 @@ parseVarname = do
   firstLetter <- letter
 --  remainder <- takeWhile (\c -> c /= ':' && c /= '|' && c /= '(' ) -- inClass "a-zA-Z0-9_"
   remainder <- takeWhile (inClass "a-zA-Z0-9_ ")
-  return $ T.strip $ T.append (T.singleton firstLetter) $ remainder
+  return $ T.strip $ T.append (T.singleton firstLetter) remainder
 
 
 parseFNumFunction :: Parser FNumFunction
-parseFNumFunction = do
+parseFNumFunction = 
   choice [ parseFNF3, parseFNF0, parseFNF1 ]
 -- age * 2  -- FNF3 (FNF1 "age") FNMul (FNF0 $ VN 2.0)
 -- age      -- FNF1 "age"
 -- "age"    -- FNF0 (VS "age")
 
 parseFNF1 :: Parser FNumFunction -- variable which should appear in the symbol table
-parseFNF1 = do
-  varname <- parseVarname
-  return $ FNF1 (T.unpack varname)
+parseFNF1 = FNF1 . T.unpack <$> parseVarname
 
 parseFNF3 :: Parser FNumFunction -- complex function of multiple sub functions
 parseFNF3 = do
@@ -56,23 +54,12 @@ parseFNF0 =
           strings <- many inner
           char '"'
           return $ FNF0 $ VS $ concat strings )
-     <|>
-     ( do
-         mydouble <- double
-         return $ FNF0 $ VN $ realToFrac mydouble )
-     <|>
-     ( do
-         ("yes" <|> "true" <|> "True")
-         return $ FNF0 $ VB True
-     )
-     <|>
-     ( do
-         ("no" <|> "false" <|> "False")
-         return $ FNF0 $VB False
-     )
+     <|> FNF0 $ VN $ realToFrac <$> double
+     <|> ("yes" <|> "true"  <|> "True"  <|> "t" <|> "y") >> return $ FNF0 $ VB True
+     <|> ("no"  <|> "false" <|> "False" <|> "f" <|> "n") >> return $ FNF0 $VB False
       
       
-parseFNOp2 = do
+parseFNOp2 =
   choice [ "**" >> return FNExp
          , "*"  >> return FNMul
          , "/"  >> return FNDiv
