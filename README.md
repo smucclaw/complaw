@@ -42,6 +42,10 @@ Or rather, it will, once we're more set up.
 
 All contributors are expected to abide by the code of conduct available [here](COC.md).
 
+## Onboarding for Trainees and Junior Engineers
+
+See [Juniors README](doc/juniors/).
+
 ## See Also
 
 The Wikipedia article on [Computational law](https://en.wikipedia.org/wiki/Computational_law).

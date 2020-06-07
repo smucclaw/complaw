@@ -1,0 +1,213 @@
+#+TITLE: Onboarding for SMU CCLAW Assistant Research Engineers and Trainees
+
+Junior engineers are welcome at SMU CCLAW's Research Programme in Computational Law.
+
+We offer an experience that is equal parts
+- reading/video-based :: a reading list and links to recommended third-party courses
+- project-based :: structured contributions to the Research Programme at various levels of difficulty
+- apprenticeship :: opportunities to pair program with senior engineers and work together on the same team
+
+This document focuses on the readings and video component.
+
+* Qualifications and Temperament
+
+The following curriculum assumes minimal computer science experience.
+
+But it does assume a temperament suited to problem-solving, acquisition of technical skills, critical thinking, and high tolerance for frustration.
+
+How do you know if you have these skills?
+
+Maybe you enjoy games like the [[https://store.steampowered.com/bundle/234/Portal_Bundle/][Portal series]] and [[https://www.lazada.sg/catalog/?q=zelda+breath+wild&_keyori=ss&from=input&spm=a2o42.pdp.search.go.59702848XsoLUx][Zelda: Breath of the Wild]]. You try hard to solve the puzzles yourself before giving up and looking for the answer online.
+
+Maybe your friends and family go to you for help with technology problems, from "my phone isn't working" to "can you help me build a website".
+
+Maybe your hobbies are all technology-related. As a maker, you enjoy building things. You were always drawn to systems and computers. You tend to ask: "I wonder how this thing works, and what happens if I try to make it work under circumstances slightly beyond its original design."
+
+* Why go through this curriculum?
+
+The world is full of people in situations which do not give them the opportunity to fulfill their potential: they are fish who have been asked to fly, birds who have been asked to swim.
+
+Check out Epicurious's [[https://www.epicurious.com/video/watch/500-vs-16-steak-dinner-pro-chef-home-cook-swap-ingredients][Ingredient Swap]]. Two chefs: one home cook, one professional expert. Most self-taught working programmers are like Lorenzo: well-meaning, doing the best they can, really nice people. But if you're Frank, you know the history, the context, the pros and cons.
+
+This curriculum puts you on track to be a Frank.
+
+If you have the right temperament for technology, this course will give you the theory and practice needed to understand and create computing technology across the span from individual bit in a CPU register, to Internet-scale applications. With this background, you will be able to define and achieve your goals in tech and make your unique contribution to the world of technology.
+
+After a few months of this, you may find that enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. That's a sign to keep going.
+
+But if you find that you do not enjoy the work in this way, that's a good discovery too: better to know now, than spend years doing something you hate.
+
+* Other Curricula
+
+An important principle, especially in computing, is: "don't reinvent the wheel".
+
+We "include by reference" the following curricula:
+
+** [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]]
+
+At CCLAW, we focus on the "traditional AI" aspects of computer science: knowledge representation and reasoning ("KRR"), logic programming, scheduling and planning problems, rule systems.
+
+Building on what he says:
+
+*** About Editors
+
+A good first editor nowadays might be VS Code, Atom, or Sublime.
+
+Whatever you choose, though, you might benefit from learning just enough Emacs to use its keybindings, and take those keybindings everywhere you go.
+
+** Haskell online resources
+
+Matt Might says: "Haskell is the crown jewel of the Hindley-Milner family of languages. Fully exploiting laziness, Haskell comes closest to programming in pure mathematics of any major programming language."
+
+This statement is worth unpacking. Back in the 1990s, an influential book was published with the title /[[https://en.wikipedia.org/wiki/Software_design_pattern][Design Patterns]]/: essentially, problems that repeatedly arise in software development, and how to solve them.
+
+For example, in cooking, every culture implements the Dumpling pattern: a meat or vegetable filling is wholly encapsulated by a carbohydrate layer, and cooked. The insides stay edible longer, because the carbohydrate layer acts as a barrier to microbes and insects. The product is also easier to handle as the outside layer stays dry while the insides are moist. To quote the [[https://www.dumplingemoji.com/][Dumpling Emoji Project]]: "Dumplings are a seemingly universal food, popular throughout the world’s cultures. Poland has pierogi. Nepal has momos. Russia has pelmeni. Japan has gyoza. Italy has ravioli. Georgia has khinkali. Korea has mandoo. Argentina has empanadas. Jews have kreplach. China has potstickers."
+
+As the Wikipedia page notes, /a primary criticism of Design Patterns is that its patterns are simply workarounds for missing features in C++, replacing elegant abstract features with lengthy concrete patterns, essentially becoming a "human compiler" or "generating by hand the expansions of some macro". Peter Norvig demonstrates that 16 out of the 23 patterns in Design Patterns are simplified or eliminated (via direct language support) in Lisp or Dylan./
+
+Haskell programmers, being masters of abstraction, would agree: if a certain programming problem keeps recurring, then obviously the correct approach is to solve the general case in the form of a reusable library; that library abstracts out the essence of the pattern, taking care of the hard bits, and allows you to customize it to suit your particular problem.
+
+Follow that line of thinking to its logical conclusion, and you might observe that writing Haskell bears certain similarities to the composition of certain challenge poems in Imperial China, where the challenge forbade repetition: you couldn't use the same word twice through the entire poem.
+
+In Haskell, the idea of factoring out repeated code can be taken to the extreme.
+
+Because such advanced patterns are embodied in the language itself and its frequently-used libraries, Haskell could fairly be considered of the hardest languages to learn: writing a new program in Haskell is like writing a poem in Classical Chinese, in which every other phrase is required to reference a different classic poem written by a centuries-dead master.
+
+The upside: when you look at code written by less sophisticated programmers in less sophisticated languages, your first reaction will be: "90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. But in Haskell you wouldn't have to do that 90% because it's already taken care of by the language or some standard library."
+
+Of course, to be fair, Joel's Law of Leaky Abstractions suggests that one day, sooner or later, you will have to grapple with the abstracted-away complexity: just because it's hidden in somebody else's library doesn't mean you won't have to figure it out for yourself.
+
+All that being said: these two resources are recommended:
+
+- http://haskellbook.com/
+- https://www.udemy.com/course/learning-path-haskell-functional-programming-and-haskell/
+
+"Learn You A Haskell" has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH.
+
+
+* Other Things An Educated Technologist Should Know
+
+In conversations among experienced technologists, many of the following references are expected to be common knowledge "within the tribe".
+
+** History of the Web
+*** [[https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/][As We May Think, by Vannevar Bush]]
+
+** Science Fiction
+*** Neuromancer, William Gibson
+*** Snow Crash, Neal Stephenson
+*** Diamond Age, Neal Stephenson
+
+** Critical Thinking
+*** [[https://en.wikipedia.org/wiki/Wason_selection_task][The Wason Selection Task]]
+*** [[https://www.theatlantic.com/magazine/archive/2018/09/cognitive-bias/565775/][Cognitive Biases]]
+*** [[https://thebestschools.org/magazine/15-logical-fallacies-know/][Logical Fallacies]]
+
+** [[http://threevirtues.com/][The Three Virtues of a Programmer]]
+
+** Software Engineering as a Professional Career
+
+*** [[https://www.amazon.sg/Clean-Coder-Conduct-Professional-Programmers/dp/0137081073][The Clean Coder, by Robert C. Martin]]
+
+makes a case for test-driven development and argues for professionalization of software engineering.
+
+** Hacker Culture
+
+*** [[http://www.catb.org/~esr/jargon/html/appendixb.html][A Portrait of J. Random Hacker]] offers a snapshot from the early days of the American Internet, reflecting the gender and cultural biases prevalent at that time.
+*** [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
+*** [[https://www.ietf.org/about/participate/tao/][The Tao of IETF]]
+*** [[https://www.amazon.sg/Soul-New-Machine-Tracy-Kidder/dp/0316491977][The Soul of a New Machine]]
+
+** Open Source
+
+If you're new to open source, there are plenty of guides out there:
+- https://opensource.guide/how-to-contribute/
+
+** Communities of Coders
+
+[[https://github.com/][Github]] was once described as a social network where every post has to make the world better in some way.
+
+[[https://stackoverflow.com/][Stack Overflow]] is where we go to ask for help. Don't just be a taker, be a giver too: answer other people's questions, and soon you'll be learning much faster than if you were only trying to answer your own.
+
+Go on IRC and lurk on your favourite channels; when I'm learning a new technology, watching other people struggle with problems, and watching the experienced members of the channel help out, is like a sneak preview of the issues I can expect to face in a few weeks or months myself, and a cheat code to learn the answers ahead of time.
+
+** Data Visualization, Graphic Design, and Architecture
+
+*** [[https://www.edwardtufte.com/tufte/books_vdqi][Edward Tufte's books]] are a classic in visual communications.
+
+*** [[https://www.amazon.sg/Elements-Typographic-Style-Version-4-0/dp/0881792128][Robert Bringhurst does for typography]] what Tufte does for graphics.
+
+*** [[https://www.amazon.com/Pattern-Language-Buildings-Construction-Environmental/dp/0195019199][A Pattern Language]], and Christopher Alexander's other books.
+
+inspired the software design patterns movement.
+
+** Professional and Collegial Communication
+
+*** It's okay to say "I don't know".
+
+All things considered, humans are pretty good at making guesses under conditions of uncertainty: it's what we're evolved to do.
+
+But science and engineering are domains where admitting that you don't know the answer, is a virtue -- or at least, an important fact so that others do not proceed on faulty or incomplete information.
+
+In fact, the scientific method itself could be seen as turning "I don't know" into an engine responsible for most of the human advancement of the last four hundred years.
+
+If we were less embarrassed about our own ignorance, we would cure it much faster. Just think of anybody who admits "I don't know" as one of [[https://xkcd.com/1053/][today's lucky 10,000]].
+
+https://www.pinkelephantcomms.com/dont-know-answer/
+
+*** Egoless programming requires psychological safety.
+
+https://en.wikipedia.org/wiki/Egoless_programming
+
+https://en.wikipedia.org/wiki/The_Five_Dysfunctions_of_a_Team
+
+https://en.wikipedia.org/wiki/Psychological_safety
+
+*** Crucial Conversations: https://www.amazon.com/Crucial-Conversations-Talking-Stakes-Second/dp/1469266822
+
+** The School vs Work Value System
+
+20th-century style schooling imparts the following unspoken rules:
+- The problem is a standard question which has been solved before; there is a known, correct answer.
+- The problem is a slight variation on something posed to millions of other schoolchildren.
+- You have to solve it on your own; working with others is considered cheating.
+- Looking up the answer is considered cheating.
+
+At about age 20--25, if you move into tech, the rules change:
+- The problem has never been solved before; if a known answer existed, you would be able to download it.
+- While the problem may be a variation on a theme, you may never have been properly taught that theme.
+- You are encouraged to work with colleagues to solve the problem as well and as fast as you can.
+- Looking up the answer is called "research". How do you do research? You can start by searching Google. At least twice. Or it wouldn't be re-search. Ha, ha.
+
+Sometimes you will encounter somebody who seems to be applying the school value system at work, applying long hours to developing their own solution to a problem which they could have just downloaded, and refusing to accept outside help because that would be cheating. Be careful not to be that person.
+
+** Domain Specific Languages
+
+Bjarne Stroustrup once gave a talk about Domain-Specific Languages in which he argued that one could take the following
+
+** Lost Arts from the Early Days of Computing
+
+Hillel Wayne's [[https://www.hillelwayne.com/post/decision-tables/][introduction to Decision Tables]] describes them as having "fallen out of common knowledge". It is interesting to think of computing, being one of the youngest disciplines in the world relative to, say, medicine or law, as being old enough to have a history that people forget; but so it goes.
+
+** Innovation and Business
+
+*** [[https://www.amazon.com/Innovators-Solution-Creating-Sustaining-Successful/dp/1422196577][Clayton Christensen's Disruption Framework]]
+
+*** [[https://www.cio.com/article/3526687/an-introduction-to-wardley-value-chain-mapping.html][Wardley Maps]]
+
+*** [[https://www.amazon.com/Doing-Capitalism-Innovation-Economy-Speculation/dp/1107031257][Doing Capitalism in the Innovation Economy, by Janeway]]
+
+*** [[https://www.amazon.com/Nature-Technology-What-How-Evolves/dp/1416544062][The Nature of Technology]] by W. Brian Arthur
+
+* Project-based Learning
+
+** Available Projects
+
+*** Implement DMNMD in native Python
+
+*** Implement DMNMD in native Typescript
+
+* Apprenticeship
+
+The Centre works with a number of senior engineers. Juniors will have the opportunity to join them in pair programming sessions.
+
+
