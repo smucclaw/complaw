@@ -109,7 +109,7 @@ annotationsAsComments chs dtrow =
   unlines $ ("    // "++) <$> (if length unprefixed > 1 then prefixedComments else unprefixed)
 
 fexp2js :: JSOpts -> ColHeader -> [FEELexp] -> String
-fexp2js jsopts ch fexps = wrapParen " || " ((feel2jsIn $ showVarname jsopts ch) <$> fexps)
+fexp2js jsopts ch fexps = wrapParen " || " (feel2jsIn ( showVarname jsopts ch) <$> fexps)
 
 showVarname :: JSOpts -> ColHeader -> String
 showVarname jsopts ch
