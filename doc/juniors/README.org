@@ -13,49 +13,168 @@ This document focuses on the readings and video component.
 
 The following curriculum assumes minimal computer science experience.
 
-But it does assume a temperament suited to problem-solving, acquisition of technical skills, critical thinking, and high tolerance for frustration.
+But it does assume a temperament suited to problem-solving, acquisition of technical skills, and high tolerance for frustration.
 
-How do you know if you have these skills?
+And it assumes the sort of intelligence associated with logical reasoning and critical thinking.
+
+How do you know if you have these skills? (See what others have said about skills: [[https://www.wayup.com/guide/types-skills-best-computer-science-major/][1]], [[https://www.computersciencezone.org/10-skills-necessary-coding/][2]])
+
+Maybe you think of yourself more as a Ravenclaw than a Gryffindor. ([[http://www.hpmor.com/][Harry Potter and the Methods of Rationality]] the Sorting Hat [[https://www.hpmor.com/chapter/10][might even agree]].)
 
 Maybe you enjoy games like the [[https://store.steampowered.com/bundle/234/Portal_Bundle/][Portal series]] and [[https://www.lazada.sg/catalog/?q=zelda+breath+wild&_keyori=ss&from=input&spm=a2o42.pdp.search.go.59702848XsoLUx][Zelda: Breath of the Wild]]. You try hard to solve the puzzles yourself before giving up and looking for the answer online.
 
 Maybe your friends and family go to you for help with technology problems, from "my phone isn't working" to "can you help me build a website".
 
-Maybe your hobbies are all technology-related. As a maker, you enjoy building things. You were always drawn to systems and computers. You tend to ask: "I wonder how this thing works, and what happens if I try to make it work under circumstances slightly beyond its original design."
+Maybe your hobbies are all creative in some way, and technology-related as well. You enjoy making things. In particular you enjoy building machines.
+
+You are naturally drawn to systems and computers. You tend to ask: "I wonder how this thing works, and what happens if I try to make it work under circumstances slightly beyond its original design."
+
+You are fluent enough in English that the idea of reading and writing a lot of it does not bother you.
 
 * Why go through this curriculum?
 
 The world is full of people in situations which do not give them the opportunity to fulfill their potential: they are fish who have been asked to fly, birds who have been asked to swim.
 
-Check out Epicurious's [[https://www.epicurious.com/video/watch/500-vs-16-steak-dinner-pro-chef-home-cook-swap-ingredients][Ingredient Swap]]. Two chefs: one home cook, one professional expert. Most self-taught working programmers are like Lorenzo: well-meaning, doing the best they can, really nice people. But if you're Frank, you know the history, the context, the pros and cons.
+Check out Epicurious's [[https://www.epicurious.com/video/watch/500-vs-16-steak-dinner-pro-chef-home-cook-swap-ingredients][Ingredient Swap]]. Two chefs: one home cook, one professional expert. Most self-taught working programmers are like Lorenzo: well-meaning, doing the best they can, really likeable people. But if you're Frank, you know the history, the context, the pros and cons. Your mastery of technique is so complete that you can guess pretty accurately how something will turn out even if you've never done it before.
 
 This curriculum puts you on track to be a Frank.
 
-If you have the right temperament for technology, this course will give you the theory and practice needed to understand and create computing technology across the span from individual bit in a CPU register, to Internet-scale applications. With this background, you will be able to define and achieve your goals in tech and make your unique contribution to the world of technology.
+In today's web-dev world, most programmers are Lorenzos, dwarves toiling away in mines deep underground with sledgehammers and chisels. Wouldn't you prefer to be an elf, working with powerful, ancient magics that you can conjure out of thin air?
 
-After a few months of this, you may find that enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. That's a sign to keep going.
+If you have the right temperament for technology, you will gain the theory and practice needed to understand and create computing technology across the span from individual bit in a CPU register, to Internet-scale applications. With this background, you will be able to define and achieve your goals in tech and make a unique contribution to the world of technology. [[https://www.quora.com/What-technical-skills-should-a-computer-science-graduate-have/answer/David-Lovering][Knowing the history of the field is helpful, too]], because as the saying goes, "Those who do not read history are doomed to repeat it."
 
-But if you find that you do not enjoy the work in this way, that's a good discovery too: better to know now, than spend years doing something you hate.
+After a few months, you may find that enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. Having fun and feeling good is a sign you should keep going! The world will be your oyster.
 
-* Other Curricula
+But if you find that you aren't having fun, that you do not enjoy the work, that it's not just hard but simply incompatible with the way your brain works, that's a good discovery too: better to know now, than spend years doing something you hate.
 
-An important principle, especially in computing, is: "don't reinvent the wheel".
+* Curriculum
 
-We "include by reference" the following curricula:
+In video games like /Zelda: Breath of the Wild/, players acquire armour, skills, and weapons in a rough sequence from easy to hard (the technical term for this is a "[[https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux][partial order]]"). The early training levels acquaint you with basic game mechanics: how to walk, run, jump, crouch. How to engage in combat with ranged weapons and hand-to-hand. How to add things to your inventory and purchase upgrades. How to talk to NPCs and other characters.
 
-** [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]]
+Once you've leveled up enough, you start fighting mini-bosses, bosses, and, eventually, the final boss. Many games follow that structure for a reason: it's deeply human. It's how people learn, and stay motivated. Learning is play!
+
+The partially ordered sequence in which you acquire these skills is called a "skill tree".
+
+Developing software is similar enough to playing videogames that people have sketched skill trees for coding: [[http://dungeonsanddevelopers.com]] for web development, https://github.com/miloyip/game-programmer for game development. If you don't like the thought of reading dozens and dozens of thick books, a professional career may not be right for you ... whether that career is in law, medicine, or engineering. But if you approach those books as fun -- as opportunities to gain skill, mastery, and power, which help to level you up, then that attitude will keep you [[https://www.researchgate.net/profile/Sarah_Beecham/publication/287589352_Motivating_Software_Engineers_Working_in_Virtual_Teams_Across_the_Globe/links/587cb9fe08aed3826aefcb94/Motivating-Software-Engineers-Working-in-Virtual-Teams-Across-the-Globe.pdf][motivated]] through the slog.
+
+Zelda has four divine beasts (Vahs Ruta, Rudania, Medoh, and Naboris) and one final boss: Calamity Ganon.
+
+Likewise, the Research Programme has four major quests (NLG, FV, IDE/LSP, DMN/BPMN) and one final boss: the DSL.
+
+Zelda also has dozens of side quests, 120 shrine dungeons, and 900 Korok puzzles scattered across the landscape. While you don't have to solve all of them to win the game, they will make you a better player and offer many opportunities to enjoy the game more.
+
+The Research Programme likewise offers numerous side quests: Internet protocols, cryptography, standards processes, the philosophy of open source, editor integration, SVG, APIs. And there are plenty of slightly tedious Korok puzzles. All this might smack of [[https://seths.blog/2005/03/dont_shave_that/][yak-shaving]], but it's part of skilling up. Imagine a conversation with an expert chef:
+
+"I like lasagna. Can you make that?"
+
+"Yes, I can make lasagna."
+
+"But I like my Béchamel sauce gussied up with a little onion and garlic. Can you do that?"
+
+"You mean you want to go from Béchamel to Bordelaise."
+
+"Can you make that?"
+
+"Yes, I can make Bordelaise. I'll need to start chopping some garlic and onions."
+
+"Here you go."
+
+"So, uh, this knife you have, it needs to be sharpened."
+
+"Do you how to sharpen a knife? I have here a 2000/4000 stone that I've never used."
+
+"Yes, I can sharpen your knife. Give me the stone."
+
+This is the sort of skill tree that comes up all the time in cooking. A master of the kitchen doesn't just know how to cook a dish; they know how to season a wok, build a fire for smoking, upgrade the firmware on the sous vide circulator, and sharpen the knives.
+
+In computing, the training levels begin with Unix, file editing, and connecting to our shared server over a cryptographically secured link. In the immortal words of Trinity in the Matrix: "[[https://www.youtube.com/watch?v=1eRxp_r9Qx4][I'm in.]]"
+
+** Resources
+
+CCLAW has a shared AWS Linux instance which you will be given a user account on. If you do not have access to a Unix system of your own, you can use your shell account there to do your work. All you need on your computer is a terminal program and SSH.
+
+If you do not have a computer of your own, please mention this to management; it may be possible to issue you a work laptop.
+
+** [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
 At CCLAW, we focus on the "traditional AI" aspects of computer science: knowledge representation and reasoning ("KRR"), logic programming, scheduling and planning problems, rule systems.
 
-Building on what he says:
+The books recommended here should be available at the SMU library, though you could also consider buying your own copy.
+
+I recommend taking up his curriculum in the following order:
+
+*** The Unix philosophy
+
+The original Unix paper is at http://www.scs.stanford.edu/18wi-cs140/sched/readings/unix.pdf -- I think his link to it may have bit-rotted.
+
+- https://www.amazon.com/UNIX-Linux-System-Administration-Handbook/dp/0134277554/ref=dp_ob_title_bk
+- https://en.wikipedia.org/wiki/Unix_philosophy#:~:text=The%20Unix%20philosophy%20emphasizes%20building,as%20opposed%20to%20monolithic%20design.
+
+If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux, or you may be better off with an account on our shared AWS instance.
+
+**** Shell multiplexing
+
+You have your choice of tmux or screen.
+
+**** Shells themselves
+
+You have your choice of bash or [[https://ohmyz.sh/][zsh]].
+
+**** Open Source Community Culture
+
+A great deal of Unix history is bound up with the FOSS movement.
+- The [[https://www.gnu.org/gnu/manifesto.en.html][GNU Manifesto]] and [[https://www.gnu.org/licenses/gpl-3.0.html][Public License]]
+- [[http://www.catb.org/~esr/writings/cathedral-bazaar/][The Cathedral and The Bazaar]]
+- https://opensource.com/resources/what-open-source
+- http://creativecommons.org/
+
+*** SICP
+
+[[https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book.html][Structure and Interpretation of Computer Programs]] helps you realize how ubiquitous parsers and domain-specific languages are in computing. Every time you run a Python program in your terminal, at least two interpreters swing into action, doing an enormous amount of work within just a few short milliseconds. Can you say what the interpreters are and what they do?
+
+SICP sets you up to think about programming problems the way computer scientists do. As Bjare Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
+
+You may already know a number of DSLs: regular expressions, TeX and LaTeX, Makefile syntax, shell scripts. These are useful things to learn. You can think of them as side quests.
 
 *** About Editors
 
 A good first editor nowadays might be VS Code, Atom, or Sublime.
 
-Whatever you choose, though, you might benefit from learning just enough Emacs to use its keybindings, and take those keybindings everywhere you go.
+If you are a Mac user, learn just enough Emacs to use its keybindings,
+and then see where else those keybindings work. The tutorial should
+take you about an hour. See https://gist.github.com/cheapRoc/9670905
 
-** Haskell online resources
+Speaking of keybindings, you may enjoy instaling [[https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en][Vimium]] for your web browser, so you don't have to reach for the mouse so often.
+
+*** Languages
+
+From Matt Might's list, I would suggest starting with
+- Javascript (update: Typescript and Deno); if you know Python this should not be difficult
+- Racket
+- Haskell
+- Prolog
+
+which will give you good exposure to multiple programming paradigms.
+
+http://www.rosettacode.org/wiki/Rosetta_Code is kind of like cheat codes: "programming chrestomathy".
+
+**** Standard Skills
+
+In every language you should master a basic set of useful skills:
+- read, manipulate, and write text files, line-by-line
+- work with regular expressions; implement grep
+- retrieve a URL
+- read, manipulate, and write JSON
+- read, manipulate, and write XML
+- read, manipulate, and write HTML
+
+You should be able to implement a web scraper in at least one language. Don't worry, there are plenty of good libraries out there, like Puppeteer for Javascript.
+
+**** Implementing an interpreter
+
+Work through the New Zealand Benefits RaC exercise (link to be provided).
+
+**** Haskell online resources
 
 Matt Might says: "Haskell is the crown jewel of the Hindley-Milner family of languages. Fully exploiting laziness, Haskell comes closest to programming in pure mathematics of any major programming language."
 
@@ -77,20 +196,44 @@ The upside: when you look at code written by less sophisticated programmers in l
 
 Of course, to be fair, Joel's Law of Leaky Abstractions suggests that one day, sooner or later, you will have to grapple with the abstracted-away complexity: just because it's hidden in somebody else's library doesn't mean you won't have to figure it out for yourself.
 
-All that being said: these two resources are recommended:
+All that being said: these resources are recommended:
 
 - http://haskellbook.com/
 - https://www.udemy.com/course/learning-path-haskell-functional-programming-and-haskell/
+- http://dev.stephendiehl.com/hask/
+- https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html
+- https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
+- https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
 
 "Learn You A Haskell" has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH.
 
+*** Formal Methods
+
+- https://www.hillelwayne.com/post/decision-tables/
+- https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/
+
+*** Artificial Intelligence
+
+- Gödel, Escher, Bach.
+- Russell & Norvig.
+
+*** The rest of Matt Might's curriculum
+
+Can probably wait until you find yourself embarking on specific side quests that need those skills, though if you want to get ahead of yourself, you should learn:
+
+- SQL (Postgres, SQLite, or MySQL)
+- Apache and Nginx
+- basic public-key cryptography (GPG to understand the concepts, openssl)
 
 * Other Things An Educated Technologist Should Know
 
 In conversations among experienced technologists, many of the following references are expected to be common knowledge "within the tribe".
 
-** History of the Web
-*** [[https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/][As We May Think, by Vannevar Bush]]
+** History of the Internet and the Web
+*** [[https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/][As We May Think, by Vannevar Bush]] introduces the Memex
+**** Probably the closest thing today is [[https://roamresearch.com/][Roam Research]]. Give it a try, see if you like it.
+**** If you are an Emacs user, try out [[http://orgmode.org/][org-mode]]. Watch some online tutorials.
+*** [[https://www.amazon.sg/Soul-New-Machine-Tracy-Kidder/dp/0316491977][The Soul of a New Machine]]
 
 ** Science Fiction
 *** Neuromancer, William Gibson
@@ -115,8 +258,6 @@ makes a case for test-driven development and argues for professionalization of s
 *** [[http://www.catb.org/~esr/jargon/html/appendixb.html][A Portrait of J. Random Hacker]] offers a snapshot from the early days of the American Internet, reflecting the gender and cultural biases prevalent at that time.
 *** [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
 *** [[https://www.ietf.org/about/participate/tao/][The Tao of IETF]]
-*** [[https://www.amazon.sg/Soul-New-Machine-Tracy-Kidder/dp/0316491977][The Soul of a New Machine]]
-
 ** Open Source
 
 If you're new to open source, there are plenty of guides out there:
@@ -199,6 +340,20 @@ Hillel Wayne's [[https://www.hillelwayne.com/post/decision-tables/][introduction
 *** [[https://www.amazon.com/Nature-Technology-What-How-Evolves/dp/1416544062][The Nature of Technology]] by W. Brian Arthur
 
 * Project-based Learning
+
+** General Conduct
+
+*** Sit on IRC.
+
+If you already know Python, then sit on the Freenode #python channel.
+
+If you already know Javascript, then sit on the Freenode #javascript channel. Or #typescript.
+
+Watch newbies pop up with questions.
+
+Watch how the experienced members of the channel deal with them.
+
+When a new question comes up, can you get to the answer before someone else does?
 
 ** Available Projects
 
