@@ -63,7 +63,7 @@ Likewise, the Research Programme has four major quests (NLG, FV, IDE/LSP, DMN/BP
 
 Zelda also has dozens of side quests, 120 shrine dungeons, and 900 Korok puzzles scattered across the landscape. While you don't have to solve all of them to win the game, they will make you a better player and offer many opportunities to enjoy the game more.
 
-The Research Programme likewise offers numerous side quests: Internet protocols, cryptography, standards processes, the philosophy of open source, editor integration, SVG, APIs. And there are plenty of slightly tedious Korok puzzles. All this might smack of [[https://seths.blog/2005/03/dont_shave_that/][yak-shaving]], but it's part of skilling up. Imagine a conversation with an expert chef:
+The Research Programme likewise offers numerous side quests: Internet protocols, cryptography, standards processes, the philosophy of open source, editor integrations, data visualization, SVG, APIs. And there are plenty of slightly tedious Korok puzzles. All this might smack of [[https://seths.blog/2005/03/dont_shave_that/][yak-shaving]], but it's part of skilling up. Imagine a conversation with an expert chef:
 
 "I like lasagna. Can you make that?"
 
@@ -73,9 +73,9 @@ The Research Programme likewise offers numerous side quests: Internet protocols,
 
 "You mean you want to go from Béchamel to Bordelaise."
 
-"Can you make that?"
+"I guess so ... can you make that?"
 
-"Yes, I can make Bordelaise. I'll need to start chopping some garlic and onions."
+"Yes, I can make Bordelaise. I'll need to start with chopping garlic and onions."
 
 "Here you go."
 
@@ -95,11 +95,13 @@ CCLAW has a shared AWS Linux instance which you will be given a user account on.
 
 If you do not have a computer of your own, please mention this to management; it may be possible to issue you a work laptop.
 
+A magician never forgets [[https://www.youtube.com/watch?v=AzGX4APCBjA][their first wand]]; a hacker never forgets their first Unix machine. For less than $200, you can order your own [[https://sg.cytron.io/c-raspberry-pi/p-RPi-4B-8G-Basic-Kit-5-UK-Plug-w-RPI4B8G?src=category.discovery][Raspberry Pi with 8 gigs of ram]].
+
 ** [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
 At CCLAW, we focus on the "traditional AI" aspects of computer science: knowledge representation and reasoning ("KRR"), logic programming, scheduling and planning problems, rule systems.
 
-The books recommended here should be available at the SMU library, though you could also consider buying your own copy.
+The books recommended here should be available at the SMU library, though you might consider buying your own copy.
 
 I recommend taking up his curriculum in the following order:
 
@@ -119,14 +121,6 @@ You have your choice of tmux or screen.
 **** Shells themselves
 
 You have your choice of bash or [[https://ohmyz.sh/][zsh]].
-
-**** Open Source Community Culture
-
-A great deal of Unix history is bound up with the FOSS movement.
-- The [[https://www.gnu.org/gnu/manifesto.en.html][GNU Manifesto]] and [[https://www.gnu.org/licenses/gpl-3.0.html][Public License]]
-- [[http://www.catb.org/~esr/writings/cathedral-bazaar/][The Cathedral and The Bazaar]]
-- https://opensource.com/resources/what-open-source
-- http://creativecommons.org/
 
 *** SICP
 
@@ -232,8 +226,25 @@ In conversations among experienced technologists, many of the following referenc
 ** History of the Internet and the Web
 *** [[https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/][As We May Think, by Vannevar Bush]] introduces the Memex
 **** Probably the closest thing today is [[https://roamresearch.com/][Roam Research]]. Give it a try, see if you like it.
-**** If you are an Emacs user, try out [[http://orgmode.org/][org-mode]]. Watch some online tutorials.
-*** [[https://www.amazon.sg/Soul-New-Machine-Tracy-Kidder/dp/0316491977][The Soul of a New Machine]]
+**** If you are an Emacs user, try out [[http://orgmode.org/][org-mode]]. There are online tutorials.
+**** Open Source Community Culture
+
+A great deal of Unix history is bound up with the FOSS movement.
+- The [[https://www.gnu.org/gnu/manifesto.en.html][GNU Manifesto]] and [[https://www.gnu.org/licenses/gpl-3.0.html][Public License]]
+- [[http://www.catb.org/~esr/writings/cathedral-bazaar/][The Cathedral and The Bazaar]]
+- https://opensource.com/resources/what-open-source
+- http://creativecommons.org/
+
+*** [[https://www.amazon.sg/Soul-New-Machine-Tracy-Kidder/dp/0316491977][The Soul of a New Machine]] and [[https://en.wikipedia.org/wiki/Halt_and_Catch_Fire_(TV_series)][Halt & Catch Fire]] go well together
+
+*** [[https://www.amazon.com/Inside-Publishing-Revolution-Adobe-Story/dp/0321115643][Inside the Publishing Revolution]]
+is a history of Adobe
+
+*** The Social Network
+on Facebook
+
+*** Jobs biography movies
+there are quite a few
 
 ** Science Fiction
 *** Neuromancer, William Gibson
@@ -266,6 +277,8 @@ If you're new to open source, there are plenty of guides out there:
 ** Communities of Coders
 
 [[https://github.com/][Github]] was once described as a social network where every post has to make the world better in some way.
+
+- https://www.atlassian.com/git/tutorials/merging-vs-rebasing
 
 [[https://stackoverflow.com/][Stack Overflow]] is where we go to ask for help. Don't just be a taker, be a giver too: answer other people's questions, and soon you'll be learning much faster than if you were only trying to answer your own.
 
