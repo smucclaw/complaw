@@ -65,17 +65,13 @@ Zelda also has dozens of side quests, 120 shrine dungeons, and 900 Korok puzzles
 
 The Research Programme likewise offers numerous side quests: Internet protocols, cryptography, standards processes, the philosophy of open source, editor integrations, data visualization, SVG, APIs. And there are plenty of slightly tedious Korok puzzles. All this might smack of [[https://seths.blog/2005/03/dont_shave_that/][yak-shaving]], but it's part of skilling up. Imagine a conversation with an expert chef:
 
-"I like lasagna. Can you make that?"
+"I like lasagna."
 
-"Yes, I can make lasagna."
+"I can make lasagna."
 
-"But I like my Béchamel sauce gussied up with a little onion and garlic. Can you do that?"
+"But I like it with extra onions and garlic. Can you do that?"
 
-"You mean you want to go from Béchamel to Bordelaise."
-
-"I guess so ... can you make that?"
-
-"Yes, I can make Bordelaise. I'll need to start with chopping garlic and onions."
+"Sure, no problem. I'll start the prep by chopping onions and garlic."
 
 "Here you go."
 
@@ -96,6 +92,20 @@ CCLAW has a shared AWS Linux instance which you will be given a user account on.
 If you do not have a computer of your own, please mention this to management; it may be possible to issue you a work laptop.
 
 A magician never forgets [[https://www.youtube.com/watch?v=AzGX4APCBjA][their first wand]]; a hacker never forgets their first Unix machine. For less than $200, you can order your own [[https://sg.cytron.io/c-raspberry-pi/p-RPi-4B-8G-Basic-Kit-5-UK-Plug-w-RPI4B8G?src=category.discovery][Raspberry Pi with 8 gigs of ram]].
+
+** This Guide is Open Source
+
+If you find any errors or want to make any changes, fork the repository, commit changes to your fork, and send a pull request.
+
+The content of this guide is licensed under CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+** README FIRST: Foundational reading and Courses
+
+*** [[http://cristal.inria.fr/~weis/info/commandline.html][In the Beginning was the Command Line]], Neal Stephenson
+
+*** [[https://www.edx.org/course/cs50s-introduction-to-computer-science][CS50]] from edX
+
+This is a roughly 12 week course.
 
 ** [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
@@ -126,9 +136,7 @@ You have your choice of bash or [[https://ohmyz.sh/][zsh]].
 
 [[https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book.html][Structure and Interpretation of Computer Programs]] helps you realize how ubiquitous parsers and domain-specific languages are in computing. Every time you run a Python program in your terminal, at least two interpreters swing into action, doing an enormous amount of work within just a few short milliseconds. Can you say what the interpreters are and what they do?
 
-SICP sets you up to think about programming problems the way computer scientists do. As Bjare Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
-
-You may already know a number of DSLs: regular expressions, TeX and LaTeX, Makefile syntax, shell scripts. These are useful things to learn. You can think of them as side quests.
+SICP expands your mental vocabulary and grammar; you will start to think about computing problems the way computer scientists do.
 
 *** About Editors
 
@@ -143,12 +151,22 @@ Speaking of keybindings, you may enjoy instaling [[https://chrome.google.com/web
 *** Languages
 
 From Matt Might's list, I would suggest starting with
-- Javascript (update: Typescript and Deno); if you know Python this should not be difficult
-- Racket
-- Haskell
+
+- Javascript :: (update: Typescript and Deno); if you know Python this should not be difficult
+- Python :: after Javascript will give you a good appreciation for "comparative linguistics" -- you can analyze differences in vocabulary and grammar, and begin to abstract the idea of a language feature. Python and Javascript are like two dialects of Chinese.
+- Racket :: enough Lisp to hack your .emacs, understand homoiconicity, and appreciate the [[http://winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]] essay
+- Haskell :: 
 - Prolog
 
 which will give you good exposure to multiple programming paradigms.
+
+Programming languages take at least a month to learn properly and at
+least a year to get good at. You might choose to dedicate at least
+three months to each language; and you should use all the resources
+you can find, including books (yes, actual physical hardcopy books
+from the library -- sometimes softcopy books have formatting and
+layout issues which create unnecessary mysteries), video courses,
+online documentation and third-party tutorials, and community forums.
 
 http://www.rosettacode.org/wiki/Rosetta_Code is kind of like cheat codes: "programming chrestomathy".
 
@@ -211,13 +229,31 @@ All that being said: these resources are recommended:
 - Gödel, Escher, Bach.
 - Russell & Norvig.
 
+*** Networking
+
+Understand the workings of TCP/IP, UDP, DNS, SMTP, and HTTP.
+
+Using the ~telnet~ or ~netcat~ commands, send an email by hand by talking to SMTP port 25.
+
+Load a web page by hand by asking for it from port 80.
+
+Visit the history of cloud computing (once called "grid computing"). Visit a machine room after reading [[http://www.winestockwebdesign.com/Essays/Eternal_Mainframe.html][The Eternal Mainframe]].
+
+*** Ethics
+
+Discuss:
+
+- What is an imprimatur? How did state and religious powers respond to the invention of the printing press? The life of Christophe Plantin may prove instructive. How were his professional duties at odds with his personal beliefs? Why did he leave Paris? Why did he return to France? The dates June 1, 1501, and June 15, 1520, may turn up as significant in your research. How would you compare those events with [[https://www.forbes.com/sites/carlieporterfield/2020/06/03/twitter-suspends-account-copying-trumps-tweets-for-glorifying-violence/][news from June 3, 2020]]?
+- What does "[[https://quoteinvestigator.com/2018/04/24/ink/][I never argue with a man who buys ink by the barrel]]" mean today? What argument do [[https://www.theatlantic.com/technology/archive/2014/08/advertising-is-the-internets-original-sin/376041/][The Internet's Original Sin]] and [[http://www.winestockwebdesign.com/Essays/Eternal_Mainframe.html][The Eternal Mainframe]] have in common? Where would you locate projects like [[https://www.nytimes.com/2019/05/13/us/politics/georgia-official-code-copyright.html][Carl Malamud's Public.Resource]], [[https://freedombox.org/][FreedomBox]], and [[https://www.wired.com/story/join-mastodon-twitter-alternative/][Mastodon]] on a spectrum relative to Facebook, LexisNexis, and Westlaw? What predictions did [[https://www.amazon.com/Master-Switch-Rise-Information-Empires/dp/0307390993][Tim Wu's Master Switch]] make, and how have those predictions fared in the ten years since publication?
+- How do you see these considerations applying to the future of legal tech, and to the specific aims of the Research Programme in Computational Law?
+
 *** The rest of Matt Might's curriculum
 
-Can probably wait until you find yourself embarking on specific side quests that need those skills, though if you want to get ahead of yourself, you should learn:
+... can probably wait until you find yourself embarking on specific side quests that need those skills, though if you want to get ahead of yourself, you should learn:
 
 - SQL (Postgres, SQLite, or MySQL)
-- Apache and Nginx
-- basic public-key cryptography (GPG to understand the concepts, openssl)
+- Apache and Nginx; wget and curl
+- basic public-key cryptography (GPG to understand the concepts, openssl to create an SSL certificate of your own)
 
 * Other Things An Educated Technologist Should Know
 
@@ -226,6 +262,7 @@ In conversations among experienced technologists, many of the following referenc
 ** History of the Internet and the Web
 *** [[https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/][As We May Think, by Vannevar Bush]] introduces the Memex
 **** Probably the closest thing today is [[https://roamresearch.com/][Roam Research]]. Give it a try, see if you like it.
+**** What is the history of Wikipedia? Where did wikis come from? What was the first wiki?
 **** If you are an Emacs user, try out [[http://orgmode.org/][org-mode]]. There are online tutorials.
 **** Open Source Community Culture
 
@@ -237,14 +274,33 @@ A great deal of Unix history is bound up with the FOSS movement.
 
 *** [[https://www.amazon.sg/Soul-New-Machine-Tracy-Kidder/dp/0316491977][The Soul of a New Machine]] and [[https://en.wikipedia.org/wiki/Halt_and_Catch_Fire_(TV_series)][Halt & Catch Fire]] go well together
 
+*** When and what was the AI Winter and the AI Spring?
+
 *** [[https://www.amazon.com/Inside-Publishing-Revolution-Adobe-Story/dp/0321115643][Inside the Publishing Revolution]]
 is a history of Adobe
 
-*** The Social Network
-on Facebook
+*** [[https://www.imdb.com/title/tt1285016/][The Social Network]]
+about Facebook
 
 *** Jobs biography movies
 there are quite a few
+
+*** Infrastructure
+
+- What is an IP address?
+- What are the reserved IP addresses?
+- What is your IP address?
+- How is an IP address different from an ethernet address?
+- What is your ethernet adress?
+- What is a domain name?
+- What is a URL?
+- What is the URL, domain name, and IP address for the last website you opened?
+- What is HTML?
+- What is HTTP?
+- What is an RFC?
+- What RFC defines HTTP?
+- What is the IETF?
+- What is RFC 2119? What piece of legislation in your country is most similar to RFC 2119?
 
 ** Science Fiction
 *** Neuromancer, William Gibson
@@ -273,6 +329,8 @@ makes a case for test-driven development and argues for professionalization of s
 
 If you're new to open source, there are plenty of guides out there:
 - https://opensource.guide/how-to-contribute/
+
+After you've gained some familiarity with open source and open standards in computing, 
 
 ** Communities of Coders
 
@@ -336,7 +394,9 @@ Sometimes you will encounter somebody who seems to be applying the school value 
 
 ** Domain Specific Languages
 
-Bjarne Stroustrup once gave a talk about Domain-Specific Languages in which he argued that one could take the following
+As Bjare Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
+
+You may already know a number of DSLs: HTML; Markdown; Wiki; regular expressions; TeX and LaTeX; Makefile syntax; shell scripts. You can think of them as side quests.
 
 ** Lost Arts from the Early Days of Computing
 
