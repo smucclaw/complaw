@@ -23,9 +23,9 @@ This document focuses on the readings and video component. If you have joined th
 
 ** Qualifications and Temperament
 
-The following curriculum assumes minimal computer science experience.
+The following curriculum assumes minimal computer science experience. You might have a degree, but that degree might not be in computer science.
 
-But it does assume a temperament suited to problem-solving, acquisition of technical skills, and high tolerance for frustration.
+The curriculum does assume a temperament suited to problem-solving, acquisition of technical skills, and high tolerance for frustration.
 
 And it assumes the sort of intelligence associated with logical reasoning and critical thinking, but also with creative imagination.
 
