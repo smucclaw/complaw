@@ -23,7 +23,7 @@ This document focuses on the readings and video component. If you have joined th
 
 ** Qualifications and Temperament
 
-The following curriculum assumes minimal computer science experience. You might have a degree, but that degree might not be in computer science.
+The following curriculum assumes minimal computer science experience. You might have a degree, but that degree might not be in computer science. If you're a self-taught programmer with significant technical abilities already, I beg your indulgence; just keep in mind that this document caters to people who may not have done any programming at all.
 
 The curriculum does assume a temperament suited to problem-solving, acquisition of technical skills, and high tolerance for frustration.
 
@@ -41,7 +41,7 @@ A career in software can rarely be conducted in isolation. The saying goes: "tec
 
 At SMUCCLAW, even if you are working from home, or working remotely, you will be expected to participate as a member of a team. Because opensource communities often attract people with widely varying personal backgrounds, social norms, and communication styles, not to mention all the concrete characteristics that usually come up in discussions about "isms", they adopt [[https://opensource.guide/code-of-conduct/][Codes of Conduct]] to clarify standards of behaviour.
 
-Specific books that are frequently recommended in the business world include:
+Where teamwork is concerned, the business world frequently recommends:
 - [[https://www.amazon.com/Crucial-Conversations-Talking-Stakes-Second/dp/1469266822][Crucial Conversations]]
 - [[https://www.nonviolentcommunication.com/][Nonviolent Communication]]
 - [[https://www.amazon.com/Getting-Yes-Negotiating-Agreement-Without-ebook/dp/B0051SDM5Q/][Getting To Yes]]
@@ -54,7 +54,7 @@ Check out Epicurious's [[https://www.epicurious.com/video/watch/500-vs-16-steak-
 
 Would you rather be a Lorenzo or a Frank?
 
-If you ask your colleagues, they will tell you that, on the whole, programming is fun. After a few months, you may find that you enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. Having fun and feeling good is a sign you should keep going! The world will be your oyster.
+If you ask your colleagues, they will tell you that, on the whole, programming is fun! After a few months, you may find that you enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. Having fun and feeling good is a sign you should keep going! The world will be your oyster.
 
 But if you find that you aren't having fun, that you do not enjoy the work, that it's not just hard but simply incompatible with the way your brain works, that's a good discovery too: better to know now, than spend years doing something you hate.
 
