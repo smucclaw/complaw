@@ -328,6 +328,12 @@ At CCLAW, we focus on the "traditional AI" aspects of computer science: knowledg
 
 But the more you learn, the better. Knowledge is power. If you ever find yourself struggling because you've bitten off more than you can chew, remember there are giants whose shoulders you can stand on.
 
+For a sense of the "last fifty years of our field", take a look at:
+
+[[http://worrydream.com/dbx/][The Future of Programming, by Bret Victor]]
+
+[[https://www.iftf.org/our-work/people-technology/technology-horizons/forecasting-the-internet/][Forecasting the Internet, work by Paul Baran]]
+
 I recommend taking up his curriculum in the following order:
 
 ** The Unix philosophy
@@ -512,8 +518,6 @@ A great deal of Unix history is bound up with the FOSS movement.
 *** [[https://www.amazon.sg/Soul-New-Machine-Tracy-Kidder/dp/0316491977][The Soul of a New Machine]] and [[https://en.wikipedia.org/wiki/Halt_and_Catch_Fire_(TV_series)][Halt & Catch Fire]] go well together
 
 *** [[https://en.wikipedia.org/wiki/The_Mother_of_All_Demos][The Mother of All Demos]]
-
-*** [[http://worrydream.com/dbx/][The Future of Programming, by Bret Victor]]
 
 *** When and what was the AI Winter and the AI Spring?
 
