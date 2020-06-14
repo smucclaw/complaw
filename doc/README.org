@@ -1,0 +1,217 @@
+#+TITLE: Introduction tog Computational Law
+#+AUTHOR: Wong Meng Weng
+
+This introduction to computational law is presented by the Singapore Management University's Centre for Computational Law.
+
+It was started in late May 2020 and is a work in progress.
+
+* Original Content
+
+We maintain a small but growing set of learning exercises:
+
+| exercise         | learning objective                        |
+|------------------+-------------------------------------------|
+| [[ex-20200527-grocery/][shipping boxes]]   | introduces DMN and interpretive ambiguity |
+| [[ex-20200609-rebates/][NZ rates rebates]] | what does "X reduced by Y" mean?          |
+
+
+* A Short Introduction
+
+** Demand
+
+In 2020, the European Union [[https://etendering.ted.europa.eu/cft/cft-display.html?cftId=6051][announced a tender]] for machine-readable and -executable regulations for regulatory reporting.
+
+The US Government shared their thinking about how [[https://18f.gsa.gov/2020/05/12/rapid-implementation-of-policy-as-code/][computational law could accelerate]] implementation of policy as code.
+
+Juro, a LegalTech startup, offered [[https://info.juro.com/machine-readable-contracts][a vision for machine-readable contracts]].
+
+Canada is going ahead with a [[https://twitter.com/mattwadd/status/1271922712307535873][Rules as Code exercise]], focusing not just on product but on process.
+
+** Insight and Vision
+
+[[https://a16z.com/2011/08/20/why-software-is-eating-the-world/][Software is eating the world]]. What if we could write and run contracts (and statutes) the way we do programs?
+
+Michael Genesereth, at [[https://codex.stanford.edu/][Stanford's CodeX]], laid out a vision for computational law [[https://dl.acm.org/doi/10.1145/1165485.1165517][in ICAIL 2005]] and [[http://logic.stanford.edu/publications/genesereth/complaw.pdf][The Cop in the Back Seat]].
+
+Harry Surden (2014) explains computable contracts on his blog ([[http://www.harrysurden.com/wordpress/archives/203][part 1]], [[http://www.harrysurden.com/wordpress/archives/230][part 2]]) and in a [[https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2216866][longer article]] published in the UC Davis Law Review (2014).
+
+[[http://www.susskind.com/][Richard Susskind]] believes that these kinds of innovations will change the future of the legal profession.
+
+** Improving Legal Drafting
+
+In 1978, [[https://drive.google.com/open?id=0BxOaYa8pqqSwdUt5VWdDOWdlREE][Layman Allen complained]] that legal drafting sucks and can learn from logic.
+
+32 years later, in 2010, [[https://drive.google.com/open?id=0B8axPLLxhjQFWGc0ellBYTF3RnM][Howard Darmstadter complained]] that legal drafting sucks and can learn from software.
+
+Another 32 years later, in 2042, will thinkers still be complaining about the state of legal drafting? Not if we can help it.
+
+Hypothesis: natural language generation, using tools like [[http://grammaticalframework.org/][GF]], can automate the production of legal English. (Much legal English already has the look and feel of a compiled object. We just need to work out what it compiles /from/.)
+
+** Automated Consistency Checking and Loophole Detection
+
+Hypothesis: the CS field of [[https://en.wikipedia.org/wiki/Formal_verification][Formal Verification]] can improve legal construction using the same tools that improve software development.
+
+In Sep 2017 the Atlantic Magazine discussed how FV could save the world from [[https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/][The Coming Software Apocalypse]].
+
+Ron Dolin, Harvard Law School professor, [[https://www.youtube.com/watch?v=YHri1NdYKS0][looks at the legal system through an engineer's eyes]].
+
+** Rules As Code
+
+See [[https://govinsider.asia/inclusive-gov/four-things-you-should-know-about-rules-as-code/][GovInsider on Rules As Code]], [[https://docs.google.com/document/d/1DBCGXjLBl31eEKJREDElQY3eqK4BM9IKwnzC37LpKbs/edit#][Seven Levels of Digitisation]], New Zealand's [[https://www.digital.govt.nz/dmsdocument/95-better-rules-for-government-discovery-report/html][Better Rules]] report, and the longer [[https://docs.google.com/document/d/1tcB8WEIZAFN-0Q6qoePDBplPewPX_cU0A1fcryYO8Qc/edit#][OECD/OPSI Primer]].
+
+** Designing a DSL
+
+Our domain-specific language will draw on inspirations from
+- specification languages like [[https://learntla.com/pluscal/][TLA+]] and [[https://alloy.readthedocs.io/][Alloy]],
+- ontology software like [[https://protege.stanford.edu/][Protégé]] for [[https://www.w3.org/OWL/][OWL]],
+- functional languages like [[https://www.reddit.com/r/haskell/comments/6didpj/to_haskell_or_to_ocaml/][Haskell and Ocaml]], and also, [[http://winestockwebdesign.com/Essays/Lisp_Curse.html][uh, Lisp]]
+- logic programming languages like [[https://www.metalevel.at/prolog][Prolog]], [[http://flora.sourceforge.net/][Flora-2]], and [[http://lps.doc.ic.ac.uk/][LPS]], and
+- model-driven architecture standards like [[https://camunda.com/bpmn/][BPMN]] and [[https://camunda.com/dmn/][DMN]] (for which [[http://camunda.com/][Camunda]] is building [[http://bpmn.io/][tools in Javascript]]).
+- interactive development environments like [[https://martinfowler.com/bliki/IllustrativeProgramming.html][Excel, the most common programming language in the world]] that nobody thinks of as a programming language.
+
+** Some context
+
+- [[https://drive.google.com/open?id=0BxOaYa8pqqSwM2o1ZDNaTno2MXM][Why Contracts Are Written In Legalese, by Claire Hill]]
+- [[https://blog.stephenwolfram.com/2016/10/computational-law-symbolic-discourse-and-the-ai-constitution/][Computational Law, Symbolic Discourse and the AI Constitution]] by Stephen Wolfram, Oct 12 2016
+- [[https://www.amazon.com/Manual-Style-Contract-Drafting/dp/1634259645/][A Manual of Style for Contract Drafting]] by Ken Adams, now in its fourth edition, offers uncanny parallels to [[https://www.amazon.com/Elements-Programming-Style-2nd/dp/0070342075/][style guides in programming]].
+- In legislation space, as opposed to contract space, see https://www.calc.ngo/sites/default/files/loophole/jan-2014.pdf for an account of how drafting happens.
+- AI isn't just machine learning: https://www.nytimes.com/2018/06/20/technology/deep-learning-artificial-intelligence.html
+- https://www.youtube.com/watch?v=YGG3e_1JX7Q Reasoning With Regulations - Vijay Saraswat
+- https://www.youtube.com/watch?v=0XL-LM0fpN4 ReMeP keynote by Kowalski
+- http://www.calc.ngo/sites/default/files/loophole/Loophole%20-%202020-01%20%282020-02-09%29.pdf could be read at the start and end of a course in computational law, as a springboard for assessing where its concepts find resonances in prior art and current work.
+
+
+
+* A Medium Survey of the Literature and Technologies
+
+See the [[https://legalese.com/prior-art][Legalese survey of prior art]].
+
+Specific technologies we aim to build on:
+
+** Natural Language Generation
+
+with Grammatical Framework
+
+** Model-Driven Architectures
+
+while the first wave of MDA came and went leaving little but UML behind, a new generation of DMN and BPMN modeling tools bear promise. In particular, DMN is amenable to static analysis, such as exhaustiveness checking, conflict detection.
+
+** Constraint and Logic Programming
+
+At the intersection of:
+- functional programming
+- logic programming
+- constraint programming
+- SMT integration
+
+See [[https://www.cs.yale.edu/homes/piskac/papers/2019HallahanETALquasiquoter.pdf][G2Q]] and Curry ([[https://www.informatik.uni-kiel.de/~curry/tutorial/tutorial.pdf][tutorial]], [[https://en.wikipedia.org/wiki/Curry_(programming_language)][Wikipedia]], website, [[https://www-ps.informatik.uni-kiel.de/kics2/][KiCS2]]).
+
+As a learning exercise: represent the rules regarding an AGM as a system of constraints, and treat as a planning problem the question of "what paperwork in what order needs to be issued by what actors?"
+
+** IDE integration for the DSL
+
+While interactive theorem provers are the extreme example of "AI Augmentation" in "CASE" tooling, editors like VS Code offer code completion, linting and other mechanisms. It would be really interesting to see how those mechanisms could translate to interactive legal drafting in a DSL.
+
+** Formal Methods
+
+Broadly defined, including symbolic execution, model checking, type systems (basic, dependent, and more advanced), and syntactic (e.g. decision tables). Consider ontology inference as a problem domain related to type inference. See the Rates Rebates case study for an example.
+
+* A Longer Syllabus
+
+** Rules as Code:
+
+1. Current projects
+
+   1. New Zealand's [[https://www.digital.govt.nz/dmsdocument/95-better-rules-for-government-discovery-report/html][Better Rules]] was a major recent RaC project that made quite a splash.
+   2. Canada: review Scott McNaughton's reports ([[https://medium.com/@mcnaughton.sa/week-49-lessons-learned-from-the-regulatory-ai-projects-part-3-a7f65991fc93][49]],[[https://medium.com/@mcnaughton.sa/week-50-reflections-on-rules-as-code-5878ff42d43c][50]],[[https://medium.com/@mcnaughton.sa/week-51-what-a-year-of-innovation-has-taught-me-part-1-132a66b6c669][51]],[[https://medium.com/@mcnaughton.sa/week-52-what-a-year-of-innovation-has-taught-me-part-2-f7f677924296][52]],[[https://medium.com/@mcnaughton.sa/week-54-a-new-reality-at-least-for-the-next-month-ba54c8672017][54]]) and Jason Morris's contributions: ([[https://medium.com/@jason_90344/playing-along-with-rules-as-code-6c837b42a33e][1]],[[https://medium.com/@jason_90344/playing-along-with-rules-as-code-part-2-4acc82c53f95][2]],[[https://medium.com/@jason_90344/playing-along-with-rules-as-code-part-3-52d6286f8245?source=---------7------------------][3]],[[https://medium.com/@jason_90344/playing-along-with-rules-as-code-part-4-b715c1a924a9?source=---------6------------------][4]],[[https://medium.com/@jason_90344/playing-along-with-rules-as-code-part-5-8195334dcb35][5]],[[https://medium.com/@jason_90344/playing-along-with-rules-as-code-part-6-5a30121a2a84][6]])
+
+2. Background
+
+   1. Demonstration of [[https://youtu.be/b6kkvvHfEOo?t=384][ErgoAI and Reg W]]
+   2. [[https://govinsider.asia/inclusive-gov/four-things-you-should-know-about-rules-as-code/][GovInsider on Rules As Code]]
+   3. [[https://docs.google.com/presentation/d/1wdchIf6MHslAk-sq7FetMJUufiIGmcjDb4RtgeT78xI/edit#slide=id.g5cd7f96258_0_6][Pia Andrews's RaC deck]]
+   4. [[https://docs.google.com/document/d/1DBCGXjLBl31eEKJREDElQY3eqK4BM9IKwnzC37LpKbs/edit#][RaC: Seven Levels of Digitisation]] offers a hierarchy for context
+   5. [[https://drive.google.com/open?id=0BxOaYa8pqqSwVmg2bm9Sc3J2Tmc][British Nationality Act as a Logic Program]] was the OG RaC project
+   6. [[https://twitter.com/jacintodavila/status/1241056686384787456][Covid Contact Tracing in a Rule Engine]] demos LPS and the Event
+      Calculus. For motivation, see tjharrop's [[https://twitter.com/tjharrop/status/1242014978581786624][tweet]] and [[https://medium.com/@tjharrop/why-you-should-code-your-covid-19-policies-and-laws-ea2d7c423d29][post]]. Subsequently, [[http://wombatwombat.github.io][wombatwombat.github.io]]
+      and [[https://18f.gsa.gov/2020/05/12/rapid-implementation-of-policy-as-code/]]
+   7. Oracle Policy Automation. [[https://www.youtube.com/watch?v=6K9Pg72vmyk][introduction by Jason Morris]]
+
+3. Relevant academic work and open standards
+
+   1. [[https://en.wikipedia.org/wiki/Knowledge_representation_and_reasoning][Intro to KRR generally]].
+   2. The notion of [[https://en.wikipedia.org/wiki/Model-driven_engineering][model-driven engineering]] underlies DMN. Remember UML? Many legal texts
+      specify rules of the form "A is a B if C is a D". DMN represents
+      these rules well.
+   3. [[https://camunda.com/dmn/][DMN 1.1 Tutorial]]
+   4. htttp://blog.athico.com/2017/01/dmn-runtime-example-with-drools.html
+   5. [[https://www.researchgate.net/publication/277498922_LegalRuleML_Design_Principles_and_Foundations][LegalRuleML]]; [[http://cs.unb.ca/~boley/papers/RuleML-Overarching.pdf][RuleML]]; [[https://en.wikipedia.org/wiki/Rule_Interchange_Format][RIF]]
+   6. [[https://xalgorithms.org/images/Xalgorithms_Lightpaper_2020-02-03_v1.03.pdf][XAlgorithms]] has been championing "Rules as Data" and an "Internet of Rules".
+   7. [[https://openfisca.org/en/][OpenFisca]]
+   8. [[http://lps.doc.ic.ac.uk/][LPS]]
+   9. [[https://catala-lang.org/][Catala]] and [[https://fr.openfisca.org/legislation/][OpenFisca]] are other points of reference
+   10. Legal Ontologies
+       - introducing [[https://drive.google.com/open?id=1qtnDwcpdOdu3xvtjQ7j5GizC827Ht2_t][SUMO]]
+       - introducing [[https://drive.google.com/open?id=0BxOaYa8pqqSwTUVNYWltWWJOYkk][LKIF-Core]]
+       - introducing [[https://en.wikipedia.org/wiki/Web_Ontology_Language][OWL]]
+   11. [[https://drive.google.com/open?id=0BxOaYa8pqqSwQUlBYVdVU1JHSnM][Rule Extraction from Regulations]], Adam Wyner
+   12. Browse recent conference proceedings of [[https://mirelproject.eu][mirelproject.eu]]; [[http://www.iaail.org/?q=article/icail-2019][ICAIL]]; [[https://rulemlrr19.inf.unibz.it/][RuleML+RR]];[[https://jurix2019.oeg-upm.net/][ Jurix]].
+
+4. Re DMN and FEEL:
+
+   1. [[https://www.rand.org/pubs/research_memoranda/RM3306.html]]
+   2. [[https://twitter.com/hillelogram/status/1166429051797549059]]
+   3. [[https://t.co/CEP3jX5WLa?amp=1]]
+   4. [[https://pdfs.semanticscholar.org/750f/ecf4349faeeab9a827a929de37be30f3df26.pdf]]
+   5. [[https://twitter.com/MartinClausen8/status/1253348407105724418]]
+
+** Contracts as Code:
+
+A contract is a serialization of a specification for a distributed system.
+
+A company can be modelled as the sum of its contracts.
+
+1. Current projects
+
+   1. [[http://juro.com][Juro.com]] ([[https://drive.google.com/open?id=1n9uAan9yXKHjmauk2HCNvVSzWxdQYeRw][whitepaper]])
+   2. Consider the possibility of embedding machine readable contract
+      parameters (data) and terms (logic) in a contract PDF, in [[https://en.wikipedia.org/wiki/Extensible_Metadata_Platform][XMP]].
+   3. [[https://www.accordproject.org/][Clause's Accord Project]]
+
+2. Background
+
+   1. Early work in 1998: [[https://drive.google.com/open?id=0BxOaYa8pqqSwNTk4MVNMSG55Uk0][Ronald Lee, Petri Nets]]
+   2. Flood & Goodenough 2015, [[https://drive.google.com/open?id=0BxOaYa8pqqSwSVdsaHdvYUNjdHM][Contracts as Automaton]]
+   3. [[https://www.fpml.org/the_standard/current/][FpML]] just so you know it's out there;
+      [[http://web.archive.org/web/20180603085441/https://www.lexifi.com/product/technology/contract-description-language][MLFi by lexifi.com]] ([[https://dl.acm.org/doi/10.1145/351240.351267][functional pearl]]), is perhaps the best-known example of a [[http://www.dslfin.org/resources.html][financial DSL]]
+
+3. Relevant academic work and open standards
+
+   1. Lay introduction to formal methods: [[https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/][the Coming Software Apocalypse]]
+   2. Contract Formalization: [[https://drive.google.com/open?id=0BxOaYa8pqqSwbl9GMWtwVU5HSFU][Hvitved's PhD thesis]]; John Camilleri's [[https://drive.google.com/open?id=1vHHbR-7yXIdG_xNPCOyEZujjNl6EjMsn][PhD thesis]]
+   3. BPMN tutorial[[https://www.visual-paradigm.com/tutorials/bpmn1.jsp][1]],[[https://www.visual-paradigm.com/tutorials/bpmn2.jsp][2]],[[https://www.visual-paradigm.com/tutorials/bpmn3.jsp][3]],[[https://www.visual-paradigm.com/tutorials/bpmn4.jsp][4]]
+   4. [[http://www.cse.chalmers.se/~gersch/slides-talks/slides-ATVA-07.pdf][Model Checking Contracts]].
+   5. Introduction to [[https://pat.comp.nus.edu.sg/?page_id=2581][PAT]] by Sun Jun?
+   6. @hillelogram's [[https://hillelwayne.com/post/business-case-formal-methods/][The Business Case for Formal Methods]]: [[https://medium.com/@jason_90344/utterly-unpersuasive-formal-methods-and-law-bb8ecf048374][discussion with Jason Morris]]
+   7. [[https://en.wikipedia.org/wiki/CTL*][CTL*]], [[https://gist.github.com/simkimsia/cdbbc6279c45a054030ac13730385bd9][verification systems for BPMN]]
+   8. discussion of [[https://en.wikipedia.org/wiki/Modal_logic][modal logics]]: deontic, epistemic, temporal logics.
+   9. [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]] makes life easier for developers
+
+** Expert System / Document Assembly Prototypes
+
+1. Current projects and startups
+
+   1. [[https://docassemble.org/][docassemble]]
+   2. [[https://www.neotalogic.com/][Neota Logic]]
+   3. [[http://worksheets.stanford.edu][Worksheets.stanford.edu]] (try the public demos) which begat [[http://www.symbium.com/][Symbium]]
+   4. [[https://www.ocbc.com/personal-banking/lifegoals/willgenerator/][OCBC's Will Generator]]
+
+2. Background
+
+   1. Exari acquired by [[https://www.coupa.com/products/contract-lifecycle-management/][Coupa: Contract Lifecycle Management]]
+   2. [[https://legal.thomsonreuters.com/en/products/contract-express][Contract Express]] acquired by Thomson Reuters
+   3. [[https://www.hotdocs.com/][HotDocs]]
+   4. [[https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=legaldocml][LegalDocumentML]] and
+   5. [[https://en.wikipedia.org/wiki/Akoma_Ntoso][Akoma Ntoso]] are things you might come across
+   6. Natural Language Generation could harness [[https://www.grammaticalframework.org/][Grammatical Framework]]
+

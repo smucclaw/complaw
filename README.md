@@ -32,15 +32,20 @@ strokes what you would like to achieve with our help.
 
 The CCLAW community gathers at:
 
-- Slack
-- mailing list
-- reddit
+Slack
+: (TODO: set up an invite mechanism)
+
+mailing list
+: (TODO: set up on Google Groups or other provider)
+
+reddit
+: (TODO: set up a subreddit)
 
 Or rather, it will, once we're more set up.
 
 ## Code of Conduct
 
-All contributors are expected to abide by the code of conduct available [here](COC.md).
+All participants are expected to abide by the code of conduct available [here](COC.md).
 
 ## Onboarding for Trainees and Junior Engineers
 
@@ -52,7 +57,7 @@ The Wikipedia article on [Computational law](https://en.wikipedia.org/wiki/Compu
 
 The website for the [Centre for Computational Law at Singapore Management University](https://cclaw.smu.edu.sg/).
 
+## Statement
 
-
-The Research Programme in Computational Law is supported by the National Research Foundation (NRF), Singapore, under its Industry Alignment Fund -- Pre-Positioning Programme, in concert with the Infocomm Media Development Agency. The grant is funded from 2020 through 2024.
+The Research Programme in Computational Law is supported by the National Research Foundation (NRF), Singapore, under its Industry Alignment Fund -- Pre-Positioning Programme, in concert with the Infocomm Media Development Agency. Any opinions, findings and conclusions or recommendations expressed in this material are those of the author(s) and do not reflect the views of National Research Foundation, Singapore.
 
