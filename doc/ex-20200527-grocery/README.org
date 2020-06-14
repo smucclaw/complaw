@@ -1,4 +1,6 @@
-* Learning Exercise: Shipping Grocery Boxes
+#+TITLE: Learning Exercise: Shipping Grocery Boxes
+
+* Case
 
 You and your life partner recently retired from a long and successful career in software engineering. As a retirement job, you decide to open a small grocery convenience store franchise together. You have pair programmed with your partner every day for the last 30 years, and you think that a change of pace will be pleasant for the two of you. The grocery franchise headquarters sends you these rules:
 

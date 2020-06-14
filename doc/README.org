@@ -7,8 +7,13 @@ It was started in late May 2020 and is a work in progress.
 
 * Original Content
 
-We maintain a small but growing set of
-- learning exercises: [[ex-20200527.org][shipping boxes]]
+We maintain a small but growing set of learning exercises:
+
+| exercise         | learning objective                        |
+|------------------+-------------------------------------------|
+| [[ex-20200527-grocery/][shipping boxes]]   | introduces DMN and interpretive ambiguity |
+| [[ex-20200609-rebates/][NZ rates rebates]] | what does "X reduced by Y" mean?          |
+
 
 * A Short Introduction
 
@@ -75,9 +80,39 @@ Our domain-specific language will draw on inspirations from
 
 
 
-* A Medium Survey of the Literature
+* A Medium Survey of the Literature and Technologies
 
 See the [[https://legalese.com/prior-art][Legalese survey of prior art]].
+
+Specific technologies we aim to build on:
+
+** Natural Language Generation
+
+with Grammatical Framework
+
+** Model-Driven Architectures
+
+while the first wave of MDA came and went leaving little but UML behind, a new generation of DMN and BPMN modeling tools bear promise. In particular, DMN is amenable to static analysis, such as exhaustiveness checking, conflict detection.
+
+** Constraint and Logic Programming
+
+At the intersection of:
+- functional programming
+- logic programming
+- constraint programming
+- SMT integration
+
+See [[https://www.cs.yale.edu/homes/piskac/papers/2019HallahanETALquasiquoter.pdf][G2Q]] and Curry ([[https://www.informatik.uni-kiel.de/~curry/tutorial/tutorial.pdf][tutorial]], [[https://en.wikipedia.org/wiki/Curry_(programming_language)][Wikipedia]], website, [[https://www-ps.informatik.uni-kiel.de/kics2/][KiCS2]]).
+
+As a learning exercise: represent the rules regarding an AGM as a system of constraints, and treat as a planning problem the question of "what paperwork in what order needs to be issued by what actors?"
+
+** IDE integration for the DSL
+
+While interactive theorem provers are the extreme example of "AI Augmentation" in "CASE" tooling, editors like VS Code offer code completion, linting and other mechanisms. It would be really interesting to see how those mechanisms could translate to interactive legal drafting in a DSL.
+
+** Formal Methods
+
+Broadly defined, including symbolic execution, model checking, type systems (basic, dependent, and more advanced), and syntactic (e.g. decision tables). Consider ontology inference as a problem domain related to type inference. See the Rates Rebates case study for an example.
 
 * A Longer Syllabus
 
