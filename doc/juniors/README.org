@@ -12,7 +12,7 @@ Whether that contribution takes the form of programming, documentation, evangeli
 Do you know what a Nassi-Shneiderman chart is? If not, why not? Do you know the difference between a Mealy and a Moore state machine? You should. Could you write a quicksort without looking it up? Do you know what the term “Transform Analysis” means? Could you perform a functional decomposition with Data Flow Diagrams? What does the term “Tramp Data” mean? Have you heard the term “Conascence”? What is a Parnas Table?
 #+END_QUOTE
 
-Obviously, people aren't born knowing these things. Some people studied them in (what must have been a /very/ thorough course in) undergraduate computer science. Others acquire them mostly during their career -- "on-the-job training". If you're reading this, you're probably in the latter category. I certainly am. I'm still learning what all the above things are.
+Obviously, people aren't born knowing these things. Some people studied them in (what must have been a /very/ thorough course in) undergraduate computer science. Others acquire them mostly during their career -- "on-the-job training". If you're reading this, you're probably in the latter category. I certainly am. I didn't know what all the above things were until "Uncle Bob" made me go look them up.
 
 To help you acquire useful skills, we have outlined an experience that is equal parts
 - self-instruction :: a reading list and links to recommended third-party courses
