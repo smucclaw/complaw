@@ -310,6 +310,8 @@ There are actually three different courses that I want you to take.
 - [[https://cs50.harvard.edu/ai/2020/][CS50 AI]] :: seven lectures on different techniques in AI
 - [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers
 
+So, all told, this will probably take most of a year.
+
 ** Tracking Your Progress
 
 If you'd like to use Asana to track your progress through these readings and exercises, you can create tasks for yourself, log your progress in the tasks, and click "done" when you've accomplished the task!
@@ -675,8 +677,56 @@ Hillel Wayne's [[https://www.hillelwayne.com/post/decision-tables/][introduction
 *** [[https://www.amazon.com/Inside-Publishing-Revolution-Adobe-Story/dp/0321115643][Inside the Publishing Revolution]]
 is a history of Adobe
 
+*** Technical people can make the transition to business
+
+What technical accomplishments did the following people achieve before doing well in the startup world?
+
+- Reed Hastings
+- Eric Schmidt
+- Paul Graham
+
+What does it take to be next on this list? Obviously, if your first name has 4 characters and your last name has 5, please go ahead and make your billions so I (Meng Wong) can follow after you. You're the only thing standing in my way.
+
 * Apprenticeship
 
 The Centre works with a number of senior engineers. Juniors will have the opportunity to join them in pair programming sessions.
 
+
+* Introduction to Computational Law
+
+** Cultural differences between engineering and law
+
+Ron Dolin: https://youtu.be/YHri1NdYKS0
+
+** the basics of (symbolic) AI
+
+- what are planning problems?
+- what are constraint satisfaction problems?
+- what are expert systems?
+- can the British Nationality Act be encoded as a Logic Program?
+- what is the difference between deductive, inductive, and abductive reasoning? Give examples of each.
+
+** computational linguistics and computational semantics
+
+- Alice has three children. Bob has four children. Does Alice have a child? Does Alice have one child? Does Bob have two children?
+
+** software engineering practice
+
+- What software engineering have been proven to work? What does Hillel Wayne have to say about this?
+
+** constraint programming
+
+- what problems have you solved in the past which turn out to have been constraint satisfaction problems?
+
+** logic programming
+
+- what are the basic elements of logic programming that distinguish it from the kind(s) of programming you already know?
+- CLP(FD)
+- Julian
+- CHR
+
+** Ontologies
+
+- what is the difference between an ontology and a type system?
+- where are ontologies used in the real world?
 

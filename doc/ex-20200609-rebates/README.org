@@ -53,6 +53,10 @@ Did you get $640? Or did you get $560? What do you get when you work it through 
 *** what does "X reduced by Y" mean?
 *** what does "the amount by which X exceeds Y" mean?
 ** Approaches in static analysis:
+*** Requirements
+
+https://www.hillelwayne.com/post/requirements/
+
 *** Symbolic execution
 *** Types
 Integers versus Natural Numbers
