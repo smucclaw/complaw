@@ -77,9 +77,9 @@ mkIf jsopts hp ifword chs dtrow =
   let conditions = uncurry (fexp2js jsopts) <$> catMaybes ( zipWith nonBlankCols (input_headers chs) (row_inputs dtrow) )
   in
     "  " ++ ifword ++ " (" ++
-    if not (null conditions)
-    then intercalate " && " conditions
-    else "\"default\"" -- TODO: tweak ifword to allow just an "else" here, rather than exploiting the truthiness of JS
+    (if not (null conditions)
+     then intercalate " && " conditions
+     else "\"default\"") -- TODO: tweak ifword to allow just an "else" here, rather than exploiting the truthiness of JS
     ++ ") { // " ++
     maybe "cont'd" show (row_number dtrow) ++ "\n" ++
     (let feelout = feel2jsOut hp chs dtrow
