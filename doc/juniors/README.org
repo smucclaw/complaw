@@ -377,8 +377,8 @@ From Matt Might's list, I would suggest starting with
 
 - Javascript :: (update: Typescript and Deno); this is the /lingua franca/ of the web today.
 - Python :: after Javascript will give you a good appreciation for "comparative linguistics" -- you can analyze differences in vocabulary and grammar, and begin to abstract the idea of a language feature. Python and Javascript are like two dialects of Chinese.
-- Haskell :: Read [[https://pchiusano.github.io/2017-01-20/why-not-haskell.html][Why Not Haskell]]; [[https://web.archive.org/web/20200608072453/https://dixonary.co.uk/blog/haskell/pain][The Pain Points of Haskell]]; [[https://www.stephendiehl.com/posts/marketing.html][On Marketing Haskell]] to prepare yourself for a very different, almost alien, mode of thought. You may, after some time, say "nice place to visit, don't want to live there." But you will never use [[https://lodash.com/][lodash]] the same way again; and when you work with a dynamically typed language, you will better understand what people mean when they say "[[http://earlbarr.com/publications/typestudy.pdf][BIGNUM% of bugs are type errors]]".
-- Prolog :: for an introduction to unification and backtracking as first-class language features; know enough to appreciate [[https://www.metalevel.at/prolog][the Power of Prolog]].
+- Haskell :: Extreme FP is a very different, almost alien, mode of thought. You may, after some time, say "nice place to visit, don't want to live there." But you will never use [[https://lodash.com/][lodash]] the same way again; and when you work with a dynamically typed language, you will better understand what people mean when they say "[[http://earlbarr.com/publications/typestudy.pdf][BIGNUM% of bugs are type errors]]". More below.
+- Prolog :: for an introduction to unification and backtracking as first-class language features; know enough to appreciate [[https://www.metalevel.at/prolog][the Power of Prolog]]. You want German for philosophy, Italian for romance, and Prolog for constraints.
 - Racket :: enough Lisp to hack your .emacs, understand homoiconicity, and appreciate the [[http://winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]] essay.
 
 together, these will give you good exposure to enough programming paradigms that you will know which language to use for a given situation.
@@ -422,25 +422,47 @@ Work through the New Zealand Benefits RaC exercise (link to be provided).
 
 Matt Might says: "Haskell is the crown jewel of the Hindley-Milner family of languages. Fully exploiting laziness, Haskell comes closest to programming in pure mathematics of any major programming language."
 
-This statement is worth unpacking. Back in the 1990s, an influential book was published with the title /[[https://en.wikipedia.org/wiki/Software_design_pattern][Design Patterns]]/: essentially, problems that repeatedly arise in software development, and how to solve them.
+Sounds nice in theory! But you deserve to know what you're getting into: it would be unfair to downplay the cons. Read [[https://pchiusano.github.io/2017-01-20/why-not-haskell.html][Why Not Haskell]]; [[https://web.archive.org/web/20200608072453/https://dixonary.co.uk/blog/haskell/pain][The Pain Points of Haskell]]; [[https://www.stephendiehl.com/posts/marketing.html][On Marketing Haskell]] for some straight talk.
 
-For example, in cooking, every culture implements the Dumpling pattern: a meat or vegetable filling is wholly encapsulated by a carbohydrate layer, and cooked. The insides stay edible longer, because the carbohydrate layer acts as a barrier to microbes and insects. The product is also easier to handle as the outside layer stays dry while the insides are moist. To quote the [[https://www.dumplingemoji.com/][Dumpling Emoji Project]]: "Dumplings are a seemingly universal food, popular throughout the world’s cultures. Poland has pierogi. Nepal has momos. Russia has pelmeni. Japan has gyoza. Italy has ravioli. Georgia has khinkali. Korea has mandoo. Argentina has empanadas. Jews have kreplach. China has potstickers."
+Matt Might's remark is worth unpacking. Back in the 1990s, an influential book was published with the title /[[https://en.wikipedia.org/wiki/Software_design_pattern][Design Patterns]]/: essentially, problems that repeatedly arise in software development, and how to solve them.
 
-As the Wikipedia page notes, /a primary criticism of Design Patterns is that its patterns are simply workarounds for missing features in C++, replacing elegant abstract features with lengthy concrete patterns, essentially becoming a "human compiler" or "generating by hand the expansions of some macro". Peter Norvig demonstrates that 16 out of the 23 patterns in Design Patterns are simplified or eliminated (via direct language support) in Lisp or Dylan./
+In cooking, every culture implements the Dumpling pattern: a meat or vegetable filling is wholly encapsulated by a carbohydrate layer, and cooked. The insides stay edible longer, because the carbohydrate layer acts as a barrier to microbes and insects. The product is also easier to handle as the outside layer stays dry while the insides are moist.
 
-Haskell programmers, being masters of abstraction, would agree: if a certain programming problem keeps recurring, then obviously the correct approach is to solve the general case in the form of a reusable library; that library abstracts out the essence of the pattern, taking care of the hard bits, and allows you to customize it to suit your particular problem.
+To quote the [[https://www.dumplingemoji.com/][Dumpling Emoji Project]]: "Dumplings are a seemingly universal food, popular throughout the world’s cultures. Poland has pierogi. Nepal has momos. Russia has pelmeni. Japan has gyoza. Italy has ravioli. Georgia has khinkali. Korea has mandoo. Argentina has empanadas. Jews have kreplach. China has potstickers."
 
-Follow that line of thinking to its logical conclusion, and you might observe that writing Haskell bears certain similarities to the composition of certain challenge poems in Imperial China, where the challenge forbade repetition: you couldn't use the same word twice through the entire poem.
+But we don't force beginner cooks to learn germ theory and material science before letting them make the dumplings. We just give them a spoon, because dinner has to be on the table /tonight/.
 
-In Haskell, the idea of factoring out repeated code can be taken to the extreme.
+The Wikipedia page says: /a primary criticism of Design Patterns is that its patterns are simply workarounds for missing features in C++, replacing elegant abstract features with lengthy concrete patterns, essentially becoming a "human compiler" or "generating by hand the expansions of some macro". Peter Norvig demonstrates that 16 out of the 23 patterns in Design Patterns are simplified or eliminated (via direct language support) in Lisp or Dylan./
 
-Because such advanced patterns are embodied in the language itself and its frequently-used libraries, Haskell could fairly be considered of the hardest languages to learn: writing a new program in Haskell is like writing a poem in Classical Chinese, in which every other phrase is required to reference a different classic poem written by a centuries-dead master.
+Haskell programmers, being masters of abstraction, would agree: if a certain programming problem keeps recurring, then obviously the correct approach is to solve the general case in the form of a reusable library; wearing the hat of library author, you abstract out the essence of the pattern, taking care of the hard bits; then wearing the hat of the developer, you to customize it to suit your particular problem. If you can't solve it at the library level you put on the hat of language developer and crack open the compiler itself.
 
-The upside: when you look at code written by less sophisticated programmers in less sophisticated languages, your first reaction will be: "90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. But in Haskell you wouldn't have to do that 90% because it's already taken care of by the language or some standard library."
+Follow that line of thinking to its logical conclusion. In Imperial China, certain challenge poems forbade repetition: you couldn't use the same word twice through the entire poem. In Haskell, the idea of factoring out repeated code can be taken to similar extremes.
 
-Of course, to be fair, Joel's Law of Leaky Abstractions suggests that one day, sooner or later, you will have to grapple with the abstracted-away complexity: just because it's hidden in somebody else's library doesn't mean you won't have to figure it out for yourself.
+Let's add to the challenge: every line of your poem is also required to reference a different classic poem written by some centuries-dead poet.
 
-All that being said: these resources are recommended:
+Why? Because (to satisfy the criticism above) the advanced programming patterns are no longer in a popular book everybody has to read: instead they are embodied in the language itself and in popular libraries that everybody has to learn. Such great power! But also such great responsibility! ("If Spider-Man wrote Haskell.")
+
+Now, before you can write your program you now have to understand twenty other libraries and arcane language features. Before you can do anything useful, you first have to study all the history and learn all the masterpieces and read all the papers. Before you can build any bridge you have to be able to build every bridge.
+
+In most languages, it's at most five lines to write "Hello world". It's at most five minutes to make a peanut butter sandwich.
+
+In /Jiro Dreams of Sushi/, it's ten years before you're allowed to cook eggs. Haskell can be closer to that.
+
+This is Joel's Law of Leaky Abstractions at work: there is a certain amount of complexity in any field, and abstractions can only hide it from you for so long; sooner or later you will have to open up the black box and learn how it works. Haskell wants you to learn CS early, singing in the choir; other languages let you to learn CS late, as a sinner born again. (A New Jersey worse-is-better sinner, to be precise. [[https://www.dreamsongs.com/RiseOfWorseIsBetter.html][Essay]], [[https://www.dreamsongs.com/WorseIsBetter.html][Context]])
+
+All that being said, we'll try to make Haskell accessible, so you can climb the learning curve less painfully than most. We'll showf you the easier routes up the mountain and how to get unstuck.
+
+When Lisp programmers look at code written by less sophisticated programmers in less sophisticated languages, their reaction is often: "90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. Why don't you all have a library for that? Or language features that make the solution easy?"
+
+Hence, [[https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule][Greenspun's Tenth Rule]]: "Any sufficiently complicated C or Fortran program contains an ad hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp."
+
+Also hence, the [[http://www.winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]].
+
+That evolution can be seen in many languages: the libraries increase in number and complexity; the language gains functional idioms and type annotations. And you end up with a sort of [[https://www.google.com/search?q=convergent+evolution+in+programming+languages][convergent evolution in language design]]. Landin [[https://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf][foresaw this in 1966]]; [[https://link.springer.com/chapter/10.1007/978-3-319-91908-9_15][retrospective]].
+
+As https://twitter.com/mcclure111/status/1272727666802786304?s=20 put it: "The only three programming languages are ASM, Python and Haskell. Anything else is actually just one of those three languages in disguise."
+
+Coming back down to earth, these resources are recommended for learning Haskell:
 
 - http://haskellbook.com/
 - https://www.udemy.com/course/learning-path-haskell-functional-programming-and-haskell/ offers 73 lectures.
