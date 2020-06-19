@@ -386,3 +386,8 @@ JSON in, JSON out.
 
 This implementation aims to extend DMN with higher-order functional programming capabilities. Input cells already can be what a functional programmer would call a "function section" -- a partially applied binary function curried to expect a single argument. Strictly speaking, DMN 1.3 output columns need to be "plain" values: strings, Booleans, and numbers. This implementation proposes to allow the same expressive range for output columns as input columns, so you could return a range, such as `[20..40]`, if you wanted.
 
+Paper: https://t.co/Oap8NMywyJ?amp=1 "Adding Constraint Tables to the DMN Standard: Preliminary Results"
+
+## Automated Reasoning
+
+https://www.researchgate.net/publication/301836662_Semantics_and_Analysis_of_DMN_Decision_Tables
