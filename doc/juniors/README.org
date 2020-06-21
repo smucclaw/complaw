@@ -336,16 +336,16 @@ For a sense of the "last fifty years of our field", take a look at:
 
 [[https://www.iftf.org/our-work/people-technology/technology-horizons/forecasting-the-internet/][Forecasting the Internet, work by Paul Baran]]
 
-I recommend taking up his curriculum in the following order:
+I recommend taking up Matt Might's curriculum in the following order:
 
 ** The Unix philosophy
 
 The original Unix paper is at http://www.scs.stanford.edu/18wi-cs140/sched/readings/unix.pdf -- I think his link to it may have bit-rotted.
 
 - https://www.amazon.com/UNIX-Linux-System-Administration-Handbook/dp/0134277554/ref=dp_ob_title_bk
-- https://en.wikipedia.org/wiki/Unix_philosophy#:~:text=The%20Unix%20philosophy%20emphasizes%20building,as%20opposed%20to%20monolithic%20design.
+- https://en.wikipedia.org/wiki/Unix_philosophy
 
-If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux, or you may be better off with an account on our shared AWS instance.
+If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux, or you may be better off with an account on our shared Linux server.
 
 *** Shell multiplexing
 
@@ -392,7 +392,7 @@ Once you're there, you can proceed to more advanced, specialized languages. For 
 Most programming languages take at least two weeks to even begin to
 grapple with. Getting the compiler installed, and your editor working
 with the language, may take an hour if you're lucky or a day if you're
-not. Any introductory tutorial will come with exercises that you
+not. Ask your teammates for help. Any introductory tutorial will come with exercises that you
 really should work through. After that, it will take you many months
 to get good -- to know the idioms, the warts, and the libraries.
 
@@ -416,7 +416,7 @@ In every language you should master a basic set of useful skills:
 - read, manipulate, and write XML
 - read, manipulate, and write HTML
 
-You should be able to implement a web scraper in at least one language. Don't worry, there are plenty of good libraries out there, like Puppeteer for Javascript.
+You should be able to implement a web scraper in at least one language. Don't worry, there are plenty of good libraries out there, like Puppeteer for Javascript and hxt for Haskell.
 
 *** Implementing an interpreter
 
@@ -432,7 +432,7 @@ Matt Might's remark is worth unpacking. Back in the 1990s, an influential book w
 
 In cooking, every culture implements the Dumpling pattern: a meat or vegetable filling is wholly encapsulated by a carbohydrate layer, and cooked. The insides stay edible longer, because the carbohydrate layer acts as a barrier to microbes and insects. The product is also easier to handle as the outside layer stays dry while the insides are moist.
 
-To quote the [[https://www.dumplingemoji.com/][Dumpling Emoji Project]]: "Dumplings are a seemingly universal food, popular throughout the world’s cultures. Poland has pierogi. Nepal has momos. Russia has pelmeni. Japan has gyoza. Italy has ravioli. Georgia has khinkali. Korea has mandoo. Argentina has empanadas. Jews have kreplach. China has potstickers."
+The [[https://www.dumplingemoji.com/][Dumpling Emoji Project]] says: "Dumplings are a seemingly universal food, popular throughout the world’s cultures. Poland has pierogi. Nepal has momos. Russia has pelmeni. Japan has gyoza. Italy has ravioli. Georgia has khinkali. Korea has mandoo. Argentina has empanadas. Jews have kreplach. China has potstickers."
 
 But we don't force beginner cooks to learn germ theory and material science before letting them make the dumplings. We just give them a spoon, because dinner has to be on the table /tonight/.
 
@@ -454,13 +454,13 @@ In /Jiro Dreams of Sushi/, it's ten years before you're allowed to cook eggs. Ha
 
 This is Joel's Law of Leaky Abstractions at work: there is a certain amount of complexity in any field, and abstractions can only hide it from you for so long; sooner or later you will have to open up the black box and learn how it works. Haskell wants you to learn CS early, singing in the choir; other languages let you to learn CS late, as a sinner born again. (A New Jersey worse-is-better sinner, to be precise. [[https://www.dreamsongs.com/RiseOfWorseIsBetter.html][Essay]], [[https://www.dreamsongs.com/WorseIsBetter.html][Context]])
 
-All that being said, we'll try to make Haskell accessible, so you can climb the learning curve less painfully than most. We'll showf you the easier routes up the mountain and how to get unstuck.
+All that being said, we'll try to make Haskell accessible, so you can climb the learning curve less painfully than most. We'll show you the easier routes up the mountain and how to get unstuck.
 
 When Lisp programmers look at code written by less sophisticated programmers in less sophisticated languages, their reaction is often: "90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. Why don't you all have a library for that? Or language features that make the solution easy?"
 
-Hence, [[https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule][Greenspun's Tenth Rule]]: "Any sufficiently complicated C or Fortran program contains an ad hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp."
+Hence [[https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule][Greenspun's Tenth Rule]]: "Any sufficiently complicated C or Fortran program contains an ad hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp."
 
-Also hence, the [[http://www.winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]].
+Also hence the [[http://www.winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]].
 
 That evolution can be seen in many languages: the libraries increase in number and complexity; the language gains functional idioms and type annotations. And you end up with a sort of [[https://www.google.com/search?q=convergent+evolution+in+programming+languages][convergent evolution in language design]]. Landin [[https://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf][foresaw this in 1966]]; [[https://link.springer.com/chapter/10.1007/978-3-319-91908-9_15][retrospective]].
 
@@ -496,7 +496,7 @@ Understand the workings of TCP/IP, UDP, DNS, SMTP, and HTTP.
 
 Using the ~telnet~ or ~netcat~ commands, send an email by hand by talking to SMTP port 25.
 
-Load a web page by hand by asking for it from port 80.
+Load a web page by hand by asking for it from port 80. Maybe from [[http://neverssl.com/][neverssl.com]].
 
 Visit the history of cloud computing (once called "grid computing"). Visit a machine room after reading [[http://www.winestockwebdesign.com/Essays/Eternal_Mainframe.html][The Eternal Mainframe]].
 
@@ -678,11 +678,11 @@ At about age 20--25, if you move into tech, the rules change:
 - You are encouraged to work with colleagues to solve the problem as well and as fast as you can.
 - Looking up the answer is called "research". How do you do research? You can start by searching Google. At least twice. Or it wouldn't be re-search. Ha, ha.
 
-Sometimes you will encounter somebody who seems to be applying the school value system at work, applying long hours to developing their own solution to a problem which they could have just downloaded, and refusing to accept outside help because that would be cheating. Be careful not to be that person.
+Sometimes you will encounter somebody who seems to be applying the school value system at work, applying long hours to developing their own solution to a problem which they could have just downloaded, and refusing to accept outside help because that would be cheating. Don't be that person.
 
 ** Domain Specific Languages
 
-As Bjare Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
+As Bjarne Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
 
 You may already know a number of DSLs: HTML; Markdown; Wiki; regular expressions; TeX and LaTeX; Makefile syntax; shell scripts. You can think of them as side quests.
 
@@ -707,9 +707,9 @@ is a history of Adobe
 
 What technical accomplishments did the following people achieve before doing well in the startup world?
 
-- Reed Hastings
-- Eric Schmidt
-- Paul Graham
+- ~Reed Hastings~
+- ~Eric Schmidt~
+- ~Paul Graham~
 
 What does it take to be next on this list? Obviously, if your first name has 4 characters and your last name has 5, please go ahead and make your billions so I (Meng Wong) can follow after you. You're the only thing standing in my way.
 
