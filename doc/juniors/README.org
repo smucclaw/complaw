@@ -70,14 +70,14 @@ But you're in the other 2%. Maybe not quite so special as this [[https://www.red
 I thought using loops was cheating, so I programmed my own using samples. I then thought using samples was cheating, so I recorded real drums. I then thought that programming it was cheating, so I learned to play drums for real. I then thought using bought drums was cheating, so I learned to make my own. I then thought using premade skins was cheating, so I killed a goat and skinned it. I then thought that was cheating too, so I grew my own goat from a baby goat. I also think that is cheating, but I'm not sure where to go from here. I haven't made any music lately, what with all the goat farming and all.
 #+END_QUOTE
 
-The point I'm trying to make is this: when you write a program, you are very conscious that your program is a made thing: it was created in response to specific goals, by a specific person who was born on a specific date and has a specific set of skills. It has a certain amount of documentation and a user interface that makes it easy or hard to use. And it has shortcomings and flaws that you can see quite clearly, because you have a Platonic ideal intent for what you want it to be, and you can see all the ways in which your work falls short.
+The point I'm trying to make is this: when you write a program, you are very conscious that your program is a made thing: it was created in response to specific goals, by a specific person who was born on a specific date and has a specific set of skills. It has a certain amount of documentation and a user interface that makes it easy or hard to use. And it has shortcomings and flaws that you can see quite clearly, because you have a Platonic intention for what you want it to be, and you can see all the ways in which your work falls short.
 
 Programming languages are also made things, with histories and biographies of their own. Just as you might be curious about the life story of a particular celebrity chef or a music band that you like, you might want to know where languages come from, how they are born, and how they grow up.
 
 If you have the right temperament for technology, this curriculum will help you gain the theory and practice needed to understand and create computing technology across the span from individual bit in a CPU register, to Internet-scale applications. In the past, you may have used languages like Python and frameworks like React. But have you ever wondered where Python came from, what kind of thinking it would take to create a framework like React? This curriculum will, with luck and perseverance, move you closer to being able to make your unique contribution to the world of technology. [[https://www.quora.com/What-technical-skills-should-a-computer-science-graduate-have/answer/David-Lovering][Knowing the history of the field is helpful, too]], because as the saying goes, "Those who do not read history are doomed to repeat it." (See also: https://www.quora.com/Why-was-the-prediction-of-future-of-programming-Bret-Victor-not-realized)
 
 *** Sidebar: On Work
-Speaking of "work": many people use "work" as a verb: "I worked really hard today." Professional creatives have the luxury of using "work" as a noun: "this is my greatest work to date." As a professional programmer, "work" is both verb and noun. And, if all goes well, "work" is also "play".
+Speaking of "work": most people use "work" as a verb: "I worked really hard today." Professional creatives have the luxury of using "work" as a noun: "this is my greatest work to date." As a professional programmer, "work" is both verb and noun. And, if all goes well, "work" is also "play".
 
 *** Sidebar: On Jargon
 One of the risks of being self-taught is that you don't know the official names for things, and that leads to really unproductive Googling.
@@ -142,13 +142,13 @@ In computing, the training levels begin with Unix, file editing, and connecting 
 
 *** Resources
 
-CCLAW has a shared AWS Linux instance which you will be given a user account on. If you do not have access to a Unix system of your own, you can use your shell account there to do your work. All you need on your computer is a terminal program and SSH.
+CCLAW has a shared Linux instance which you will be given a user account on. If you do not have access to a Unix system of your own, you can use your shell account there to do your work. All you need on your computer is a terminal program and SSH.
 
 **** Workstation
 
 If you do not have a computer of your own, please mention this to management; it may be possible to issue you a work laptop.
 
-A magician never forgets [[https://www.youtube.com/watch?v=AzGX4APCBjA][their first wand]]; a hacker never forgets their first Unix machine. For less than $200, you can order your own [[https://sg.cytron.io/c-raspberry-pi/p-RPi-4B-8G-Basic-Kit-5-UK-Plug-w-RPI4B8G?src=category.discovery][Raspberry Pi with 8 gigs of ram]].
+A magician never forgets [[https://www.youtube.com/watch?v=AzGX4APCBjA][their first wand]]; a hacker never forgets their first Unix machine. For less than $200, you can order your own [[https://sg.cytron.io/c-raspberry-pi/p-RPi-4B-8G-Basic-Kit-5-UK-Plug-w-RPI4B8G?src=category.discovery][Raspberry Pi with 8 gigs of ram]]. Or you could boot up an AWS instance in their free tier; do this using your own Amazon account.
 
 **** Access to readings and courses
 
@@ -273,7 +273,7 @@ If you come from some other language, like Rust or Go or Ruby, go nuts -- same i
 
 ** Document your implementation of DMNMD.
 
-There are four kinds of documentation.
+There are four kinds of documentation. https://documentation.divio.com/
 
 ** Make it possible to convert a DMNMD table to natural language.
 
@@ -287,7 +287,7 @@ While DMN is "purer" in a functional sense, BPMN deals with multiple actors, pas
 
 ** Build out planners, expert systems, and interactive scenario explorers.
 
-See the Drools suite of systems, like OptaPlanner, for an example.
+See the Drools suite of systems, like OptaPlanner, for an example. See also ILOG CPLEX. How would you integrate against these things? How would you write one?
 
 ** Can legal text be drafted as a satisfaction of a system of constraints?
 
