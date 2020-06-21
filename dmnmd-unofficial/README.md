@@ -62,14 +62,14 @@ A plain text version formatted for Markdown looks literally like this:
 
 ### Example 2: Who's coming?
 
-| U | Season               | Guest Count | Dish (out)                   | # Annotation  |
-|---|----------------------|-------------|------------------------------|---------------|
-| 1 | Fall                 | <= 8        | Spareribs                    |               |
-| 2 | Winter               | <= 8        | Roastbeef                    |               |
-| 3 | Spring               | <= 4        | Dry Aged Gourmet Steak       |               |
-| 4 | Spring               | [5..8]      | Steak                        |               |
-| 5 | Fall, Winter, Spring | > 8         | Stew                         |               |
-| 6 | Summer               | -           | Light Salad and a nice Steak | Hey, why not? |
+| U | Season               | Guest Count | Dish (out)                   | Blah            | # Annotation  |
+|---|----------------------|-------------|------------------------------|-----------------|---------------|
+| 1 | Fall                 | <= 8        | Spareribs                    | guest_count + 3 |               |
+| 2 | Winter               | <= 8        | Roastbeef                    |                 |               |
+| 3 | Spring               | <= 4        | Dry Aged Gourmet Steak       |                 |               |
+| 4 | Spring               | [5..8]      | Steak                        |                 |               |
+| 5 | Fall, Winter, Spring | > 8         | Stew                         |                 |               |
+| 6 | Summer               | -           | Light Salad and a nice Steak |                 | Hey, why not? |
 
     | U | Season               | Guest Count | Dish (out)                   | # Annotation  |
     |---|----------------------|-------------|------------------------------|---------------|
@@ -117,13 +117,13 @@ The above is perhaps best explained by an example; see figure 8.19 of the DMN 1.
 
 #### Example 3: Routing Rules
 
-    | O | Age | Risk Category     | Debt Review :Boolean | Routing (out)          | Review level (out)     | Reason (out)                |
-    |   |     | LOW, MEDIUM, HIGH |                      | DECLINE, REFER, ACCEPT | LEVEL 2, LEVEL 1, NONE |                             |
-    |---+-----+-------------------+----------------------+------------------------+------------------------+-----------------------------|
-    | 1 | -   | -                 | -                    | ACCEPT                 | NONE                   | Acceptable                  |
-    | 2 | <18 |                   |                      | DECLINE                | NONE                   | Applicant too young         |
-    | 3 |     | HIGH              |                      | REFER                  | LEVEL 1                | High risk application       |
-    | 4 |     |                   | True                 | REFER                  | LEVEL 2                | Applicant under debt review |
+| O | Age | Risk Category     | Debt Review :Boolean | Routing (out)          | Review level (out)     | Reason (out)                |
+|   |     | LOW, MEDIUM, HIGH |                      | DECLINE, REFER, ACCEPT | LEVEL 2, LEVEL 1, NONE |                             |
+|---+-----+-------------------+----------------------+------------------------+------------------------+-----------------------------|
+| 1 | -   | -                 | -                    | ACCEPT                 | NONE                   | Acceptable                  |
+| 2 | <18 |                   |                      | DECLINE                | NONE                   | Applicant too young         |
+| 3 |     | HIGH              |                      | REFER                  | LEVEL 1                | High risk application       |
+| 4 |     |                   | True                 | REFER                  | LEVEL 2                | Applicant under debt review |
 
 For hit policy "O", the order of results in the output is determined by the order of the column enums.
 
