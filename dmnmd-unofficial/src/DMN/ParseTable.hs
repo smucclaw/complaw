@@ -9,7 +9,7 @@ import Data.Char
 import Data.Either
 import Data.Maybe (fromMaybe, catMaybes)
 import Data.List (filter, dropWhileEnd, transpose)
-import Control.Applicative 
+import Control.Applicative
 import Data.Attoparsec.Text
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -53,7 +53,7 @@ parseLabelPre  = option Nothing (Just <$> ("//"   <|> "#"))
 parseLabelPost = option Nothing (Just <$> ("(in)" <|> "(out)" <|> "(comment)"))
 
 parseHitPolicy :: Parser HitPolicy
-parseHitPolicy = 
+parseHitPolicy =
   mkHitPolicy_  <$> satisfy (inClass "UAPFOR")
   <|>
   (char 'C' >> skipHorizontalSpace >> (mkHitPolicy_C <$> option 'A' (satisfy (inClass "#<>+A"))))
@@ -122,7 +122,7 @@ parseDThr = do
     ("|---" <|> "| -") >> skipWhile (/='\n') >> endOfLine
     return DThr
 
--- continuation rows are used to batch both subheads and datarow continuations    
+-- continuation rows are used to batch both subheads and datarow continuations
 parseContinuationRows :: Parser [String]
 parseContinuationRows = do
   plainrows <- many (parseContinuationRow <?> "parseContinuationRow")
@@ -139,11 +139,11 @@ parseTail :: Parser [String]
 parseTail = do
   rowtail <- manyTill (manyTill (satisfy (/='|')) pipeSeparator) (skipHorizontalSpace >> endOfLine)
   return $ trim <$> rowtail
-  
+
 -- the pattern is this:
 -- |---|------ DThr --- horizontal rule
 -- | N | data row start   A1  | B1 | -- a single logical data row spans multiple physical rows
--- |   | continuation row A2  | B2 | 
+-- |   | continuation row A2  | B2 |
 -- |   | continuation row A3  | B3 |
 -- subsequently, the lines are jammed together and converted to FEEL columns. "A1 A2 A3", "B1 B2 B3" happens thanks to "map unwords $ transpose"
 
@@ -167,7 +167,7 @@ parseDataRow csigs =
                (catMaybes (zipWith getInputs  csigs datacols))
                (catMaybes (zipWith getOutputs csigs datacols))
                (catMaybes (zipWith getComments csigs datacols)) )
-  
+
   -- TODO: if myrownumber is blank, append the current row to the previous row as though connected by a ,
   where
     getInputs (DTCH_In, _) (DTCBFeels fexps) = Just fexps
@@ -197,6 +197,6 @@ reviseInOut hr = let noncomments = filter ((DTCH_Comment /= ) . label) $ cols hr
                     else hr
 
 mkDataCol :: Maybe DMNType -> String -> ColBody
-mkDataCol dmntype = DTCBFeels . mkFs dmntype 
+mkDataCol dmntype = DTCBFeels . mkFs dmntype
 mkDataColComment :: String -> ColBody
 mkDataColComment mcs = DTComment (if mcs == "" then Nothing else Just mcs)

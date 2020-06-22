@@ -7,7 +7,7 @@ import Data.Char
 import Data.Either
 import Data.Maybe (fromMaybe, catMaybes)
 import Data.List (filter, dropWhileEnd, transpose)
-import Control.Applicative 
+import Control.Applicative
 import Data.Attoparsec.Text
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -25,7 +25,7 @@ parseVarname = do
 
 
 parseFNumFunction :: Parser FNumFunction
-parseFNumFunction = 
+parseFNumFunction =
   choice [ parseFNF3, parseFNF0, parseFNF1 ]
 -- age * 2  -- FNF3 (FNF1 "age") FNMul (FNF0 $ VN 2.0)
 -- age      -- FNF1 "age"
@@ -57,8 +57,8 @@ parseFNF0 =
      <|> (FNF0 . VN . realToFrac <$> double)
      <|> (("yes" <|> "true"  <|> "True"  <|> "t" <|> "y") >> return ( FNF0 $ VB True))
      <|> (("no"  <|> "false" <|> "False" <|> "f" <|> "n") >> return ( FNF0 $ VB False))
-      
-      
+
+
 parseFNOp2 =
   choice [ "**" >> return FNExp
          , "*"  >> return FNMul
@@ -66,7 +66,7 @@ parseFNOp2 =
          , "-"  >> return FNMinus
          , "+"  >> return FNPlus
          ]
-    
+
 escape :: Parser String
 escape = do
     d <- char '\\'
@@ -75,6 +75,6 @@ escape = do
 
 nonEscape :: Parser Char
 nonEscape = satisfy (notInClass ['\\', '\"', '\0', '\n', '\r', '\v', '\t', '\b', '\f'])
-  
+
 skipHorizontalSpace = skipWhile isHorizontalSpace
 

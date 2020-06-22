@@ -608,7 +608,7 @@ makes a case for test-driven development and argues for professionalization of s
 If you're new to open source, there are plenty of guides out there:
 - https://opensource.guide/how-to-contribute/
 
-After you've gained some familiarity with open source and open standards in computing, 
+After you've gained some familiarity with open source and open standards in computing,
 
 ** Communities of Coders
 

@@ -36,7 +36,7 @@ toJS jsopts dt =
                                HP_Priority  -> "else if"
                                HP_Collect _ -> "if"
                                _            -> "if")
-  
+
 mkArgSpec :: JSOpts -> String -> [ColHeader] -> [String]
 mkArgSpec jsopts tablename chs = mkTypeSpec jsopts (propsName tablename) (getInputHeaders chs)
 
@@ -115,7 +115,7 @@ showVarname :: JSOpts -> ColHeader -> String
 showVarname jsopts ch
   | propstyle jsopts = "props[\"" ++ varname ch ++ "\"]"
   | otherwise        = var_name ch
-               
+
 wrapParen myop xs
   | length xs  > 1 = "(" ++ intercalate myop xs ++ ")"
   | length xs == 1 = head xs
@@ -156,7 +156,7 @@ feel2jsOut hp chs dtrow
      uncurry showFeels <$> zip
                              (filter ((DTCH_Out==).label) chs)
                              (row_outputs dtrow))
-  
+
 type ColPair = (ColHeader, [FEELexp])
 
 showFeels :: ColHeader -> [FEELexp] -> String
@@ -166,7 +166,7 @@ showFeels ch fexps = "\"" ++ varname ch ++ "\":" ++ if squash
   where squash = maybe True (\case
                                 DMN_List _ -> False
                                 _          -> True) (vartype ch)
-          
+
 showFeel :: FEELexp -> String
 showFeel (FNullary (VS str))  = show str
 showFeel (FNullary (VN num))  = show num

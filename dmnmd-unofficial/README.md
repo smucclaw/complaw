@@ -19,7 +19,7 @@ The interface is CLI. No mouse needed!
 OS X:
 
     brew install haskell-stack
-    
+
 Linux:
 
     { yum, apt-get, ... } install haskell-stack
@@ -321,11 +321,11 @@ By default, brevity is 1.
     $ dmnmd README.md --to=english
 
     When the Season is Fall, the Dish is Spareribs.
-    
+
     When the Season is Winter, the Dish is Roastbeef.
-    
+
     When the Season is Spring, the Dish is Steak.
-    
+
     When the Season is Summer, the Dish is Light Salad and a nice Steak (Hey, why not?).
 
 Some linguistic magic happens behind the scenes. Different parameters take different determiners.
@@ -368,7 +368,7 @@ Interactively, on the command line:
     $ dmnmd README.md --dt="Example 1"
     Season? Winter
     Dish: Roastbeef
-    
+
     Season? Spring
     Dish: Steak
 

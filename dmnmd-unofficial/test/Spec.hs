@@ -11,7 +11,7 @@ import DMN.ParseFEEL
 import Test.Hspec
 import Test.Hspec.Attoparsec
 import Data.Either (fromRight)
-import Control.Applicative 
+import Control.Applicative
 import Data.Attoparsec.Text
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -39,7 +39,7 @@ parseHelloWorld2 = do
 
 spec2 :: Spec
 spec2 = do
-  describe "parseHelloWorld2" $ do 
+  describe "parseHelloWorld2" $ do
     it "should parse the phrase 'Hello World!' and return 'Hello World!'" $
       ("Hello World!" :: Text) ~> parseHelloWorld2 `shouldParse` ("Hello World!" :: Text)
 
@@ -120,7 +120,7 @@ spec3 = do
                       , [ "", "LOW, MEDIUM, HIGH", "true" ]
                       , DThr
                       , [ DTrow (Just 1) [ mkFs (Just DMN_Number) "<18"  ] [ [ FNullary $ VS "HIGH" ] , [ FNullary $ VB False ] ] []
-                        , DTrow (Just 2) [ mkFs (Just DMN_Number) ">=21" ] [ [ FNullary $ VS "LOW" ]  , [ FNullary $ VB True  ] ] [] 
+                        , DTrow (Just 2) [ mkFs (Just DMN_Number) ">=21" ] [ [ FNullary $ VS "LOW" ]  , [ FNullary $ VB True  ] ] []
                         ])
 
   describe "parseHitPolicy" $ do
@@ -159,7 +159,7 @@ spec3 = do
         endOfLine
         return (DTrow (Just . (\n -> (read n) :: Int) $ myrownumber) [] [] [])
       ) `shouldParse` (DTrow (Just 1) [] [] [])
-      
+
   describe "parseDataRow" $ do
     it "should parse a zero-column row"
       $ ("| 1 |\n" :: Text ) ~> (parseDataRow []) `shouldParse` (DTrow (Just 1) [] [] [])
@@ -287,7 +287,7 @@ spec3 = do
       $ (evalTable (fromRight (error "parse error") (parseOnly (parseTable "mytable1") dmn1)) (mkFs (Just DMN_String) "Fall")) `shouldBe` Right [[[FNullary $ VS "Spareribs"]]]
     it "should run standard dmn example 1: Winter -> Roastbeef"
       $ (evalTable (fromRight (error "parse error") (parseOnly (parseTable "mytable1") dmn1)) (mkFs (Just DMN_String) "Fall")) `shouldBe` Right [[[FNullary $ VS "Spareribs"]]]
-  
+
   describe "evalTable dmn1c" $ do
     it "should run standard dmn example 1c: Fall -> Spareribs"
       $ (evalTable (fromRight (error "parse error") (parseOnly (parseTable "mytable1") dmn1c)) (mkFs (Just DMN_String) "Fall")) `shouldBe` Right [[[FNullary $ VS "Spareribs"]]]
@@ -300,7 +300,7 @@ spec3 = do
     it "should run standard dmn example 1c: Never -> Left \"no match\""
       $ (evalTable (fromRight (error "parse error") (parseOnly (parseTable "mytable1") dmn1c)) ([FNullary $ VS "Never"])) `shouldBe` Left "no rows returned -- a unique table should have one result!"
 
- 
+
   describe "evalTable dmn2" $ do
     let evaled2 = (fromRight (error "parse error") (parseOnly (parseTable "mytable1") dmn2))
     it "should handle multiple inputs: Fall, 5"   $ evalTable evaled2 [FNullary (VS "Fall"),   FNullary (VN 5)] `shouldBe` Right [[[FNullary $ VS "Spareribs"]]]
@@ -439,7 +439,7 @@ spec3 = do
     it "should infer a stringified age * 2 as a Number" $ inferType (mkF (Just DMN_String) "age * 2") `shouldBe` Just DMN_Number
     it "should infer an explicit Function age * 2 as a Number" $ inferType (FFunction (FNF3 (FNF1 "age") FNMul (FNF0 $ VN 2))) `shouldBe` Just DMN_Number
     it "should infer dmn5a as number, number, bool" $
-      dmn5a ~> (parseTable "dmn5a") `shouldParse` 
+      dmn5a ~> (parseTable "dmn5a") `shouldParse`
       (DTable "dmn5a" (HP_Collect Collect_Max)
         [ DTCH DTCH_In "Age"            (Just DMN_Number) Nothing
         , DTCH DTCH_Out "SpiritOrbs"     (Just DMN_Number) Nothing
@@ -452,7 +452,7 @@ spec3 = do
         ,DTrow (Just 4) [mkFs (Just DMN_Number) ">=65"]      [mkFs (Just DMN_Number) "7",  [(FNullary $ VB False)]]    []
         ])
     it "should infer dmn5b as number, number, bool" $
-      dmn5b ~> (parseTable "dmn5b") `shouldParse` 
+      dmn5b ~> (parseTable "dmn5b") `shouldParse`
       (DTable "dmn5b" (HP_Collect Collect_Max)
         [ DTCH DTCH_In "Age"            (Just DMN_Number) Nothing
         , DTCH DTCH_Out "SpiritOrbs"     (Just DMN_String) Nothing

@@ -67,7 +67,7 @@ outputOrder chs =
   -- for instance, each DTrow in [DTrow] contain row_outputs; each [FEELexp] in row_outputs belongs to a column ColHeader which has an enums :: Maybe [FEELexp]; that [FEELexp] list is sorted.
   -- we know that the [FEELexp] in row_outputs contains 0 or 1 FEELexps.
   -- so we need to compute, for use by sortOn, a map from each value of the nums [FEELexp], to its elemIndex; and if two elements have the same index, we recursively sort using the next column, until we are able to return an Ordering LT EQ GT
-  -- so, we want to sort the list of DTrows on 
+  -- so, we want to sort the list of DTrows on
 
 
 mySort :: [ColHeader] -> DTrow -> DTrow -> Ordering
@@ -93,7 +93,7 @@ firstNonEQ spaces args = let remaining = dropWhile (EQ==) args
 
 
 matches :: [FEELexp] -> [[FEELexp]] -> Bool
--- matches tableInput testInput = 
+-- matches tableInput testInput =
 matches inpts tableInputs = all (==True) $ zipWith fEvals inpts tableInputs
 
 
@@ -173,7 +173,7 @@ trimLeft :: String -> String
 trimLeft = dropWhile (==' ')
 trimRight :: String -> String
 trimRight = dropWhileEnd (==' ')
- 
+
 fEvals :: FEELexp -> [FEELexp] -> Bool
 fEvals arg exps = or $ (`fEval` arg) <$> exps
 
@@ -203,7 +203,7 @@ fEval rhs lhs                                 = error $ unwords [ "type error in
 --  is in the interval [e1..e2), also notated [e1..e2[, if and only if o ≥ e1 and o < e2
 -- An expression to be tested satisfies an instance of simple unary tests (grammar rule 12) if and only if, either the
 -- expression is a list and the expression satisfies at least one simple unitary test in the list, or the simple unitary tests is “-”.
--- 
+--
 
 
 -- perform type inference to resolve colheader values based on a review of the rows
@@ -223,9 +223,9 @@ mkDTable origname orighp origchs origdtrows =
                         (reprocessRows (getInputHeaders typedchs)  ri)
                         (reprocessRows (getOutputHeaders typedchs) ro)
                         rc)) <$> origdtrows)
-                         
+
 reprocessRows :: [ColHeader] -> [[FEELexp]] -> [[FEELexp]]
-reprocessRows = 
+reprocessRows =
   -- bang through all columns where the header vartype is Just something, and if the body is FNullary VS, then re- mkF it using the new type info
   zipWith (\ch cells ->
              -- Debug.Trace.trace ("** reprocessRows: have the option to reprocess cells to " ++ show (vartype ch) ++ ": " ++ show cells) $
@@ -233,8 +233,8 @@ reprocessRows =
                then -- Debug.Trace.trace ("reprocessing to " ++ show (vartype ch) ++ ": " ++ show cells) $
                     [ mkF (vartype ch) x | FNullary (VS x) <- cells ]
                else cells)
-                         
-  
+
+
 getInputHeaders :: [ColHeader] -> [ColHeader]
 getInputHeaders = getWantedHeaders DTCH_In
 
