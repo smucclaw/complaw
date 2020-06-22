@@ -14,7 +14,7 @@ curl https://www.omg.org/spec/DMN/20180521/DC.xsd -o DC.xsd
 xsd_files=(DI DC DMNDI13 DMN13)
 
 for file in ${xsd_files[@]}; do
-  XsdToHaskell $file.xsd $file.hs > $file.log
+  XsdToHaskell $file.xsd $file\'xsd.hs > $file.log
 done
 
 # XsdToHaskell DMNDI13.xsd DMNDI13.hs > DMNDI13.log
