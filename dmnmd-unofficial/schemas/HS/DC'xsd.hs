@@ -1,7 +1,7 @@
 {-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies #-}
 {-# OPTIONS_GHC -fno-warn-duplicate-exports #-}
-module Xsd'DC'xsd
-  ( module Xsd'DC'xsd
+module DC'xsd
+  ( module DC'xsd
   ) where
  
 import Text.XML.HaXml.Schema.Schema (SchemaType(..),SimpleType(..),Extension(..),Restricts(..))

@@ -1,7 +1,7 @@
 {-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies #-}
 {-# OPTIONS_GHC -fno-warn-duplicate-exports #-}
-module Xsd'DMN13'xsd
-  ( module Xsd'DMN13'xsd
+module DMN13'xsd
+  ( module DMN13'xsd
   ) where
  
 import Text.XML.HaXml.Schema.Schema (SchemaType(..),SimpleType(..),Extension(..),Restricts(..))
@@ -141,7 +141,7 @@ data TDefinitions = TDefinitions
         , tDefinitions_artifact :: [TArtifact]
         , tDefinitions_elementCollection :: [TElementCollection]
         , tDefinitions_businessContextElement :: [TBusinessContextElement]
-        , tDefinitions_Dmndi.dMNDI :: Maybe Dmndi.DMNDI
+        , tDefinitions_Dmndi_dMNDI :: Maybe Dmndi.DMNDI
         }
         deriving (Eq,Show)
 instance SchemaType TDefinitions where
@@ -183,7 +183,7 @@ instance SchemaType TDefinitions where
             , concatMap (elementToXMLArtifact) $ tDefinitions_artifact x
             , concatMap (schemaTypeToXML "elementCollection") $ tDefinitions_elementCollection x
             , concatMap (elementToXMLBusinessContextElement) $ tDefinitions_businessContextElement x
-            , maybe [] (elementToXMLDMNDI) $ tDefinitions_Dmndi.dMNDI x
+            , maybe [] (elementToXMLDMNDI) $ tDefinitions_Dmndi_dMNDI x
             ]
 instance Extension TDefinitions TNamedElement where
     supertype (TDefinitions a0 a1 a2 a3 a4 a5 a6 a7 e0 e1 e2 e3 e4 e5 e6 e7 e8) =
