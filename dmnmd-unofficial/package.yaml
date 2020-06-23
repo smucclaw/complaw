@@ -33,6 +33,8 @@ dependencies:
 - raw-strings-qq
 - optparse-applicative
 - MissingH
+- HaXml
+- hxt
 
 library:
   source-dirs: src

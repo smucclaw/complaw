@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.33.1.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 097879221bdbdad5c094ee6cf71ca5d13ed1e45ba4a23d93a441e191529e64b6
+-- hash: db4a6295d48263acff9f5308e20ee5812ca2db7c2b38bbd747da46d82a9c4a75
 
 name:           dmnmd
 version:        0.1.0.1
@@ -29,23 +29,29 @@ source-repository head
 
 library
   exposed-modules:
+      DC'xsd
+      DI'xsd
       DMN.DecisionTable
       DMN.ParseFEEL
       DMN.ParseTable
       DMN.Translate.JS
       DMN.Types
+      DMN13'xsd
+      DMNDI13'xsd
   other-modules:
       Paths_dmnmd
   hs-source-dirs:
       src
   build-depends:
-      MissingH
+      HaXml
+    , MissingH
     , attoparsec
     , base >=4.7 && <5
     , containers
     , haskeline
     , hspec
     , hspec-attoparsec
+    , hxt
     , optparse-applicative
     , raw-strings-qq
     , regex-pcre
@@ -62,7 +68,8 @@ executable dmnmd
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      MissingH
+      HaXml
+    , MissingH
     , attoparsec
     , base >=4.7 && <5
     , containers
@@ -70,6 +77,7 @@ executable dmnmd
     , haskeline
     , hspec
     , hspec-attoparsec
+    , hxt
     , optparse-applicative
     , raw-strings-qq
     , regex-pcre
@@ -87,7 +95,8 @@ test-suite dmnmd-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      MissingH
+      HaXml
+    , MissingH
     , attoparsec
     , base >=4.7 && <5
     , containers
@@ -95,6 +104,7 @@ test-suite dmnmd-test
     , haskeline
     , hspec
     , hspec-attoparsec
+    , hxt
     , optparse-applicative
     , raw-strings-qq
     , regex-pcre
