@@ -1,0 +1,72 @@
+#+TITLE: Learning Exercise: Rates Rebates
+
+* Background
+
+Consider https://www.nytimes.com/2019/08/02/science/math-equation-pedmas-bemdas-bedmas.html
+
+* Case
+
+http://www.legislation.govt.nz/act/public/1973/0005/latest/whole.html#DLM409673
+
+#+begin_src text
+A ratepayer who, at the commencement of a rating year, was the
+ratepayer of a residential property is entitled, on application in
+that year, to a rebate of --
+
+    (a) so much of the rates payable for that rating year in respect of
+        the property as represents --
+
+        (i) two-thirds of the amount by which those rates exceed $160, reduced by --
+
+        (ii) $1 for each $8 by which the ratepayer’s income for the
+             preceding tax year exceeded $25,660, that last-mentioned amount
+             being increased by $500 in respect of each person who was a
+             dependant of the ratepayer at the commencement of the rating year
+             in respect of which the application is made; or
+
+    (b) $640, --
+
+whichever amount is smaller.
+#+end_src
+
+Represent this as a mathematical formula.
+
+Write a program that implements the formula.
+
+* Test Cases
+
+What does your program do with the following input?
+
+| Case | RatesPayableTotal | Combined Income | Dependants |
+|------+-------------------+-----------------+------------|
+|    1 |              1000 |           24000 |          0 |
+|    2 |              1000 |           32000 |          0 |
+
+What do your results mean?
+
+rebate = min(640, (2/3) * (ratesPayableTotal-160) - (1/8 * (combinedIncome + dependants * 500 - 25660))
+
+Did you get $640? Or did you get $560? What do you get when you work it through by hand?
+
+* Learning Objectives
+** Ambiguity
+*** what does "X reduced by Y" mean?
+*** what does "the amount by which X exceeds Y" mean?
+** Approaches in static analysis:
+*** Requirements
+
+https://www.hillelwayne.com/post/requirements/
+
+*** Symbolic execution
+*** Types
+Integers versus Natural Numbers
+*** Dependent types
+*** Refinement types
+
+* Commit
+
+Don't look at the bugfix until you've fully absorbed everything you can learn from the case.
+
+https://github.com/ServiceInnovationLab/openfisca-aotearoa/commit/a2011c95b4a7a93a3e91c5accb4744e5565b4e75
+
+

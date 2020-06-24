@@ -1,0 +1,79 @@
+// this language is Flora-2: http://flora.sourceforge.net/docs/floraManual.pdf
+// author: Jason Morris 2020
+
+Box_Type::Thing.
+'Standard':Box_Type.
+'Non-Standard':Box_Type.
+
+Order::Thing.
+Order[|delivery_offered=>\boolean, delivery_charged=>\boolean, box_type=>Box_Type, box_percent_full=>\integer, order_value=>\integer|].
+
+// Delivery is offered for standard or non-standard box when more than half full.
+@!{delivery_offered}
+?an_order[delivery_offered->true] :-
+  ?an_order[box_percent_full->?fullness],
+  ?fullness>50,
+  ((
+?an_order[box_type->'Standard']
+);(?an_order[box_type->'Non-Standard']
+))
+.
+
+// Delivery of all non-standard boxes is charged.
+@!{delivery_charged}
+?an_order[delivery_charged->true] :-
+  ?an_order[box_type->'Non-Standard'].
+
+// Delivery is free when a standard box is more than
+// half full and contains at least $100.00 of groceries.
+@!{delivery_free}
+?an_order[delivery_charged->false] :-
+  ?an_order[box_type->'Standard'],
+  ?an_order[box_percent_full->?fullness],
+  ?fullness>50,
+  ?an_order[order_value->?value],
+  ?value>=100.
+
+
+
+// specific test cases
+
+example1[box_type->'Standard',     box_percent_full->60, order_value->200].
+example2[box_type->'Non-Standard', box_percent_full->60, order_value->200].
+example3[box_type->'Non-Standard', box_percent_full->40, order_value->200].
+example4[box_type->'Standard',     box_percent_full->40, order_value->200].
+
+
+// outputs from runflora
+//
+//     $ runflora
+//
+//     flora2 ?- ['ex-20200527.flr'].
+//     
+//     flora2 ?- ?Examples[delivery_offered->?X].
+//     
+//     ?Examples = example1
+//     ?X = true
+//     
+//     ?Examples = example2
+//     ?X = true
+//     
+//     2 solution(s) in 0.000 seconds; elapsed time = 0.001
+//     
+//     Yes
+//     
+//     flora2 ?- ?Examples[delivery_charged->?X].
+//     
+//     ?Examples = example1
+//     ?X = false
+//     
+//     ?Examples = example2
+//     ?X = true
+//     
+//     ?Examples = example3
+//     ?X = true
+//     
+//     3 solution(s) in 0.000 seconds; elapsed time = 0.000
+//     
+//     Yes
+//     

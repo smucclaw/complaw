@@ -1,55 +1,92 @@
 #+TITLE: Onboarding for SMU CCLAW Assistant Research Engineers and Trainees
 
-Junior engineers are welcome at SMU CCLAW's Research Programme in Computational Law.
+SMU CCLAW's Research Programme in Computational Law welcomes junior engineers.
 
-We offer an experience that is equal parts
-- reading/video-based :: a reading list and links to recommended third-party courses
+* Welcome
+
+This is a welcome letter from the Research Programme's principal investigator to the recently hired junior engineer. Thank you for choosing to join us. When recruiting the team we selected for a range of backgrounds and levels of experience. Some team members have decades of experience; some are relatively new to coding, but I believe that everyone will have a chance to make a contribution.
+
+Whether that contribution takes the form of programming, documentation, evangelism, testing, support, or design, remains to be seen. But in general, the best way to position yourself to make useful contributions to the team, is to have a wide range of relevant skills and competencies. Take it from Robert C. Martin, author of /The Clean Coder: A Code of Conduct for Professional Programmers/:
+
+#+BEGIN_QUOTE
+Do you know what a Nassi-Shneiderman chart is? If not, why not? Do you know the difference between a Mealy and a Moore state machine? You should. Could you write a quicksort without looking it up? Do you know what the term “Transform Analysis” means? Could you perform a functional decomposition with Data Flow Diagrams? What does the term “Tramp Data” mean? Have you heard the term “Conascence”? What is a Parnas Table?
+#+END_QUOTE
+
+Obviously, people aren't born knowing these things. Some people studied them in (what must have been a /very/ thorough course in) undergraduate computer science. Others acquire them mostly during their career -- "on-the-job training". If you're reading this, you're probably in the latter category. I certainly am. Some of those things I had never heard of, until "Uncle Bob" made me go look them up.
+
+To help you acquire useful skills, we have outlined an experience that is equal parts
+- self-instruction :: a reading list and links to recommended third-party courses
 - project-based :: structured contributions to the Research Programme at various levels of difficulty
 - apprenticeship :: opportunities to pair program with senior engineers and work together on the same team
 
-This document focuses on the readings and video component.
+This document focuses on the readings and video component. If you have joined the Programme as a junior engineer, consider this one pillar of your professional education. If you are worried that this is too much for you to take on, you please be assured that your employee performance will not be tied /directly/ to completion of readings and courses. This is not school and your manager is not your lecturer; nobody has time to test you. But if in conversation with the rest of the team we use terms that you aren't familiar with, we may gently direct you back to the recommended reading, where you will find clues that may turn out to be essential to delivering your actual assignments. Your colleagues in software engineering, whether at CCLAW or on the larger Internet, share a certain professional vocabulary because they have all been through something like this curriculum. Don't you want to be on the same page as them?
 
-* Qualifications and Temperament
+** Qualifications and Temperament
 
-The following curriculum assumes minimal computer science experience.
+The following curriculum assumes minimal computer science experience. You might have a degree, but that degree might not be in computer science. If you're a self-taught programmer with significant technical abilities already, I beg your indulgence; just keep in mind that this document caters to people who may not have done any programming at all.
 
-But it does assume a temperament suited to problem-solving, acquisition of technical skills, and high tolerance for frustration.
+The curriculum does assume a temperament suited to problem-solving, acquisition of technical skills, and high tolerance for frustration.
 
-And it assumes the sort of intelligence associated with logical reasoning and critical thinking.
+And it assumes the sort of intelligence associated with logical reasoning and critical thinking, but also with creative imagination.
 
-How do you know if you have these skills? (See what others have said about skills: [[https://www.wayup.com/guide/types-skills-best-computer-science-major/][1]], [[https://www.computersciencezone.org/10-skills-necessary-coding/][2]])
+It also assumes that you possess very strong English reading, writing, and conversational skills both spoken and written. You should be fluent enough in English that the idea of reading and writing a lot of it does not bother you.
 
-Maybe you think of yourself more as a Ravenclaw than a Gryffindor. ([[http://www.hpmor.com/][Harry Potter and the Methods of Rationality]] the Sorting Hat [[https://www.hpmor.com/chapter/10][might even agree]].)
+How do you know if you have these skills? If, as a child, you were always to be found reading a book, you're probably fine. If the Sorting Hat would [[https://www.hpmor.com/chapter/10][put you in Ravenclaw, rather than Gryffindor]], if your friends and family go to you for help with technology problems, you're probably a pretty technical person. (See what others have said: [[https://www.wayup.com/guide/types-skills-best-computer-science-major/][1]], [[https://www.computersciencezone.org/10-skills-necessary-coding/][2]])
 
-Maybe you enjoy games like the [[https://store.steampowered.com/bundle/234/Portal_Bundle/][Portal series]] and [[https://www.lazada.sg/catalog/?q=zelda+breath+wild&_keyori=ss&from=input&spm=a2o42.pdp.search.go.59702848XsoLUx][Zelda: Breath of the Wild]]. You try hard to solve the puzzles yourself before giving up and looking for the answer online.
+Maybe you enjoy games like the [[https://store.steampowered.com/bundle/234/Portal_Bundle/][Portal series]] and [[https://www.lazada.sg/catalog/?q=zelda+breath+wild&_keyori=ss&from=input&spm=a2o42.pdp.search.go.59702848XsoLUx][Zelda: Breath of the Wild]]. You try hard to solve the puzzles yourself before giving up and looking for the answer online. Maybe your hobbies are all creative in some way, and technology-related as well.
 
 Maybe your friends and family go to you for help with technology problems, from "my phone isn't working" to "can you help me build a website".
 
-Maybe your hobbies are all creative in some way, and technology-related as well. You enjoy making things. In particular you enjoy building machines.
+A career in software can rarely be conducted in isolation. The saying goes: "technical skills get you in the door, social skills get you up the ladder." Some highly technical individuals may scoff at that, and say: "[[https://en.wikipedia.org/wiki/ReiserFS][I can single-handedly develop a filesystem]]; I don't need people." And it's true that unlike kings and queens, wizards have an alternative path to power and impact: scaling through technology, rather than through people. But that is the archetype of the Saruman; isn't it be better to be a Gandalf?
 
-You are naturally drawn to systems and computers. You tend to ask: "I wonder how this thing works, and what happens if I try to make it work under circumstances slightly beyond its original design."
+At SMUCCLAW, even if you are working from home, or working remotely, you will be expected to participate as a member of a team. Because opensource communities often attract people with widely varying personal backgrounds, social norms, and communication styles, not to mention all the concrete characteristics that usually come up in discussions about "isms", they adopt [[https://opensource.guide/code-of-conduct/][Codes of Conduct]] to clarify standards of behaviour.
 
-You are fluent enough in English that the idea of reading and writing a lot of it does not bother you.
+Where teamwork is concerned, the business world frequently recommends:
+- [[https://www.amazon.com/Crucial-Conversations-Talking-Stakes-Second/dp/1469266822][Crucial Conversations]]
+- [[https://www.nonviolentcommunication.com/][Nonviolent Communication]]
+- [[https://www.amazon.com/Getting-Yes-Negotiating-Agreement-Without-ebook/dp/B0051SDM5Q/][Getting To Yes]]
 
-* Why go through this curriculum?
+** Why go through this curriculum?
 
 The world is full of people in situations which do not give them the opportunity to fulfill their potential: they are fish who have been asked to fly, birds who have been asked to swim.
 
 Check out Epicurious's [[https://www.epicurious.com/video/watch/500-vs-16-steak-dinner-pro-chef-home-cook-swap-ingredients][Ingredient Swap]]. Two chefs: one home cook, one professional expert. Most self-taught working programmers are like Lorenzo: well-meaning, doing the best they can, really likeable people. But if you're Frank, you know the history, the context, the pros and cons. Your mastery of technique is so complete that you can guess pretty accurately how something will turn out even if you've never done it before.
 
-This curriculum puts you on track to be a Frank.
+Would you rather be a Lorenzo or a Frank?
 
-In today's web-dev world, most programmers are Lorenzos, dwarves toiling away in mines deep underground with sledgehammers and chisels. Wouldn't you prefer to be an elf, working with powerful, ancient magics that you can conjure out of thin air?
-
-If you have the right temperament for technology, you will gain the theory and practice needed to understand and create computing technology across the span from individual bit in a CPU register, to Internet-scale applications. With this background, you will be able to define and achieve your goals in tech and make a unique contribution to the world of technology. [[https://www.quora.com/What-technical-skills-should-a-computer-science-graduate-have/answer/David-Lovering][Knowing the history of the field is helpful, too]], because as the saying goes, "Those who do not read history are doomed to repeat it."
-
-After a few months, you may find that enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. Having fun and feeling good is a sign you should keep going! The world will be your oyster.
+If you ask your colleagues, they will tell you that, on the whole, programming is fun! After a few months, you may find that you enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. Having fun and feeling good is a sign you should keep going! The world will be your oyster.
 
 But if you find that you aren't having fun, that you do not enjoy the work, that it's not just hard but simply incompatible with the way your brain works, that's a good discovery too: better to know now, than spend years doing something you hate.
 
-* Curriculum
+You may already be an experienced programmer, with one or two languages under your belt, and a number of projects in your portfolio. You already get what the [[http://threevirtues.com/][Three Virtues]] is saying. In that case, this curriculum assumes that you see yourself as a lifelong learner; that you are challenging yourself to go outside your comfort zone; that your goal is to level up.
 
-In video games like /Zelda: Breath of the Wild/, players acquire armour, skills, and weapons in a rough sequence from easy to hard (the technical term for this is a "[[https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux][partial order]]"). The early training levels acquaint you with basic game mechanics: how to walk, run, jump, crouch. How to engage in combat with ranged weapons and hand-to-hand. How to add things to your inventory and purchase upgrades. How to talk to NPCs and other characters.
+What does leveling up mean? Well, our context, it means this: Most programmers rely on third-party libraries; but can you imagine yourself writing a third-party library that other programmers rely on? All programmers start by learning an existing language, like Python or Javascript; can you imagine yourself writing a new language that other programmers learn? Language design and development is one of the highest forms of achievement in computer science, and if you start climbing those mountains you will find yourself in rarefied and respected company.
+
+Let me offer a couple analogies. If you ask some people "where do eggs come from?" they will say, "the supermarket." Where does water come from? "Out of the tap." And that's fine for 98% of the population.
+
+But you're in the other 2%. Maybe not quite so special as this [[https://www.reddit.com/r/edmproduction/comments/2j142b/for_anyone_who_uses_tribal_drum_samples_what/cl7g1wr/][legendary quote from the music community]] -- this is closer to 0.0002%:
+
+#+BEGIN_QUOTE
+I thought using loops was cheating, so I programmed my own using samples. I then thought using samples was cheating, so I recorded real drums. I then thought that programming it was cheating, so I learned to play drums for real. I then thought using bought drums was cheating, so I learned to make my own. I then thought using premade skins was cheating, so I killed a goat and skinned it. I then thought that was cheating too, so I grew my own goat from a baby goat. I also think that is cheating, but I'm not sure where to go from here. I haven't made any music lately, what with all the goat farming and all.
+#+END_QUOTE
+
+The point I'm trying to make is this: when you write a program, you are very conscious that your program is a made thing: it was created in response to specific goals, by a specific person who was born on a specific date and has a specific set of skills. It has a certain amount of documentation and a user interface that makes it easy or hard to use. And it has shortcomings and flaws that you can see quite clearly, because you have a Platonic intention for what you want it to be, and you can see all the ways in which your work falls short.
+
+Programming languages are also made things, with histories and biographies of their own. Just as you might be curious about the life story of a particular celebrity chef or a music band that you like, you might want to know where languages come from, how they are born, and how they grow up.
+
+If you have the right temperament for technology, this curriculum will help you gain the theory and practice needed to understand and create computing technology across the span from individual bit in a CPU register, to Internet-scale applications. In the past, you may have used languages like Python and frameworks like React. But have you ever wondered where Python came from, what kind of thinking it would take to create a framework like React? This curriculum will, with luck and perseverance, move you closer to being able to make your unique contribution to the world of technology. [[https://www.quora.com/What-technical-skills-should-a-computer-science-graduate-have/answer/David-Lovering][Knowing the history of the field is helpful, too]], because as the saying goes, "Those who do not read history are doomed to repeat it." (See also: https://www.quora.com/Why-was-the-prediction-of-future-of-programming-Bret-Victor-not-realized)
+
+*** Sidebar: On Work
+Speaking of "work": most people use "work" as a verb: "I worked really hard today." Professional creatives have the luxury of using "work" as a noun: "this is my greatest work to date." As a professional programmer, "work" is both verb and noun. And, if all goes well, "work" is also "play".
+
+*** Sidebar: On Jargon
+One of the risks of being self-taught is that you don't know the official names for things, and that leads to really unproductive Googling.
+
+A fair chunk of formal education is knowing what certain concepts are called, so that when you find yourself working with them, you can talk about them intelligently with other people. They don't let you be a doctor if you don't pass anatomy.
+
+** The skill tree
+
+In video games like /Zelda: Breath of the Wild/, players acquire armour, skills, and weapons in a rough sequence from easy to hard (the technical term for this is a "[[http://matt.might.net/articles/partial-orders/][partial order]]"). The early training levels acquaint you with basic game mechanics: how to walk, run, jump, crouch. How to engage in combat with ranged weapons and hand-to-hand. How to add things to your inventory and purchase upgrades. How to talk to NPCs and other characters.
 
 Once you've leveled up enough, you start fighting mini-bosses, bosses, and, eventually, the final boss. Many games follow that structure for a reason: it's deeply human. It's how people learn, and stay motivated. Learning is play!
 
@@ -57,88 +94,293 @@ The partially ordered sequence in which you acquire these skills is called a "sk
 
 Developing software is similar enough to playing videogames that people have sketched skill trees for coding: [[http://dungeonsanddevelopers.com]] for web development, https://github.com/miloyip/game-programmer for game development. If you don't like the thought of reading dozens and dozens of thick books, a professional career may not be right for you ... whether that career is in law, medicine, or engineering. But if you approach those books as fun -- as opportunities to gain skill, mastery, and power, which help to level you up, then that attitude will keep you [[https://www.researchgate.net/profile/Sarah_Beecham/publication/287589352_Motivating_Software_Engineers_Working_in_Virtual_Teams_Across_the_Globe/links/587cb9fe08aed3826aefcb94/Motivating-Software-Engineers-Working-in-Virtual-Teams-Across-the-Globe.pdf][motivated]] through the slog.
 
-Zelda has four divine beasts (Vahs Ruta, Rudania, Medoh, and Naboris) and one final boss: Calamity Ganon.
+/Zelda: BOTW/ has four divine beasts (Vahs Ruta, Rudania, Medoh, and Naboris) and one final boss: Calamity Ganon.
 
 Likewise, the Research Programme has four major quests (NLG, FV, IDE/LSP, DMN/BPMN) and one final boss: the DSL.
 
-Zelda also has dozens of side quests, 120 shrine dungeons, and 900 Korok puzzles scattered across the landscape. While you don't have to solve all of them to win the game, they will make you a better player and offer many opportunities to enjoy the game more.
+Zelda also has dozens of side quests, 120 shrine dungeons, and 900 Korok puzzles scattered across the landscape. While you don't have to solve all of them to win the game, they will make you a better player and offer many opportunities to enjoy the game more. Have you followed the blue glow at night to Satori Mountain? It's really beautiful!
 
-The Research Programme likewise offers numerous side quests: Internet protocols, cryptography, standards processes, the philosophy of open source, editor integrations, data visualization, SVG, APIs. And there are plenty of slightly tedious Korok puzzles. All this might smack of [[https://seths.blog/2005/03/dont_shave_that/][yak-shaving]], but it's part of skilling up. Imagine a conversation with an expert chef:
+The Research Programme likewise offers numerous side quests: Internet protocols, cryptography, standards processes, the philosophy of open source, editor integrations, data visualization, SVG, APIs. And there are plenty of slightly tedious Korok puzzles. All this might smack of [[https://seths.blog/2005/03/dont_shave_that/][yak-shaving]], but it's part of skilling up.
 
-"I like lasagna."
+Imagine a conversation with a skilled chef:
+
+"I want lasagna for dinner. But I don't have any pre-bought in the fridge."
 
 "I can make lasagna."
 
-"But I like it with extra onions and garlic. Can you do that?"
+"But I don't have any lasagna pasta sheets."
+
+"No problem, I can roll them; just give me flour and an egg."
+
+"I have some eggs in the fridge but I don't know which are hardboiled and which are raw."
+
+"There's a spinning trick you can use to find out."
+
+"Ok. I want extra onions and garlic. Can you do that?"
 
 "Sure, no problem. I'll start the prep by chopping onions and garlic."
 
 "Here you go."
 
-"So, uh, this knife you have, it needs to be sharpened."
+"So, uh, this knife you have, it really needs to be sharpened."
 
-"Do you how to sharpen a knife? I have here a 2000/4000 stone that I've never used."
+"Do you how to sharpen a knife? I think I have a sharpening stone lying around somewhere, that I've never used."
 
 "Yes, I can sharpen your knife. Give me the stone."
 
-This is the sort of skill tree that comes up all the time in cooking. A master of the kitchen doesn't just know how to cook a dish; they know how to season a wok, build a fire for smoking, upgrade the firmware on the sous vide circulator, and sharpen the knives.
+"Uh, actually, I can't find it."
+
+"Okay, do you have sandpaper?"
+
+"Let me check ... nope, I don't have any."
+
+"Never mind, I can use the bottom of a ceramic bowl."
+
+This is the sort of skill tree that comes up all the time in cooking. A master of the kitchen doesn't just know how to cook a dish; they know how to strip and season a wok, build a fire for smoking, upgrade the firmware on the sous vide circulator, bandage a wound, and sharpen a knife three different ways.
 
 In computing, the training levels begin with Unix, file editing, and connecting to our shared server over a cryptographically secured link. In the immortal words of Trinity in the Matrix: "[[https://www.youtube.com/watch?v=1eRxp_r9Qx4][I'm in.]]"
 
-** Resources
+*** Resources
 
-CCLAW has a shared AWS Linux instance which you will be given a user account on. If you do not have access to a Unix system of your own, you can use your shell account there to do your work. All you need on your computer is a terminal program and SSH.
+CCLAW has a shared Linux instance which you will be given a user account on. If you do not have access to a Unix system of your own, you can use your shell account there to do your work. All you need on your computer is a terminal program and SSH.
+
+**** Workstation
 
 If you do not have a computer of your own, please mention this to management; it may be possible to issue you a work laptop.
 
-A magician never forgets [[https://www.youtube.com/watch?v=AzGX4APCBjA][their first wand]]; a hacker never forgets their first Unix machine. For less than $200, you can order your own [[https://sg.cytron.io/c-raspberry-pi/p-RPi-4B-8G-Basic-Kit-5-UK-Plug-w-RPI4B8G?src=category.discovery][Raspberry Pi with 8 gigs of ram]].
+A magician never forgets [[https://www.youtube.com/watch?v=AzGX4APCBjA][their first wand]]; a hacker never forgets their first Unix machine. For less than $200, you can order your own [[https://sg.cytron.io/c-raspberry-pi/p-RPi-4B-8G-Basic-Kit-5-UK-Plug-w-RPI4B8G?src=category.discovery][Raspberry Pi with 8 gigs of ram]]. Or you could boot up an AWS instance in their free tier; do this using your own Amazon account.
 
-** This Guide is Open Source
+**** Access to readings and courses
+
+You may prefer to buy your own copy of books; alternatively, look to the library.
+
+The edX CS50 courses recommended in this guide are free to take, though if you want certification you will have to pay separately.
+
+**** Your Teammates
+
+Your teammates are a resource, but a valuable resource. One way you can show respect for them is by asking Google first and your teammates second.
+
+What do I mean by that?
+
+You may have had the experience of being in a movie theatre movie with someone who constantly asked their friends, out loud, "oh my god, who do you think was the murderer? Who is this character and why are they behaving that way?"
+
+Don't be that person. Try to solve your own problems first; some amount of time between five minutes and an hour is probably appropriate. Beyond an hour, if you're still lost, it's probably okay to reach out to ask for clues. If you're following explicit directions and the directions seem to be obviously faulty, go with the five-minute end of that range. If you can suggest an improvement to the directions, even better.
+
+It's okay to document your learning journey out loud, by the way. On our shared Slack chat you can say, "Here is a thing I'm trying to figure out. I'm not asking anyone for help yet, I'm just letting you know what I'm doing, and when I reach the solution, I'll share that too, in case it benefits anybody else in future." This is such an important practice that we have not one but two channels on Slack for this: #[[https://en.wikipedia.org/wiki/Rubber_duck_debugging][rubberduck]] and #[[https://blog.adrianbolboaca.ro/2012/12/teddy-bear-pair-programming/][teddybear]]. (Indeed, it's not just okay, it's a virtue; the willingness to be wrong, or ignorant, in public goes hand in hand with humility and, ultimately, confidence.)
+
+At that point someone else may feel the urge to jump in and help. This is better. Everybody likes to be helpful. Nobody likes to be interrupted.
+
+I wrote this section with the hopes of pre-empting such a situation; if I were to write it after an incident occurred, the people involved in that incident might feel unfairly singled out, as the victims of passive-aggressive policy-making. So, better safe than sorry.
+
+See also:
+- [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
+- [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
+- [[http://xyproblem.info/][XY Problem]]
+
+*** This Guide is Open Source
 
 If you find any errors or want to make any changes, fork the repository, commit changes to your fork, and send a pull request.
 
 The content of this guide is licensed under CC BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
-** README FIRST: Foundational reading and Courses
+* Project-based Learning
 
-*** [[http://cristal.inria.fr/~weis/info/commandline.html][In the Beginning was the Command Line]], Neal Stephenson
+If you're chomping at the bit, this section will satisfy -- or at least pique -- your curiosity about what we are trying to accomplish at CCLAW.
 
-*** [[https://www.edx.org/course/cs50s-introduction-to-computer-science][CS50]] from edX
+Actual tasks are defined elsewhere -- in Asana, or Github Issues -- but these are some of the main quests and side quests that the team may attempt over the coming months and years.
+
+As you read through this list of projects, ask yourself: "how would I attempt to do this with the skills I currently possess? What new skills might I have to learn to achieve these goals?"
+
+** Make it possible for a non-lawyer to think through a legal scenario with the help of their computer, without having to ask a human.
+
+If you need to think about a business scenario that deals largely with numbers -- for example, with a budget -- you might turn to a spreadsheet and use that to "help you think".
+
+Today, that's not possible for legal scenarios. You wouldn't open Microsoft Word and start typing and expect to see sentences automatically compute themselves, the way Excel might automaticallly calculate a sum or an average.
+
+"Am I allowed to do X?"
+
+"I want to achieve X. What do I need to do?"
+
+"I want to make an agreement with someone else. Help me draft an agreement that sets out our respective obligations and deadlines."
+
+"I've been asked to sign a contract for X. I'm concerned about scenario Y -- can I do Z, or will I have to do Z? How does X deal with Y?"
+
+** Make it possible to encode a law or a contract in a formal language.
+
+... this is the goal of the DSL track of work.
+
+** Make it possible to convert such an encoded law or contract, back to a natural language such as English, automatically.
+
+... and other languages, too.
+
+This is the goal of the NLG track of work.
+
+The English doesn't have to be super readable; it only has to be as good as [[http://revisor.mo.gov/main/OneSection.aspx?section=233.285&bid=12522&hl=][current legal writing]].
+
+** Make it possible for a non-lawyer to download existing libraries and examples of source code written by other people, and tweak them.
+
+... from Github, perhaps.
+
+** Make it possible for somebody drafting in our DSL to get the same kind of help from their editor as you would for another language.
+
+IntelliSense, tab completion, linting, type checking ... all these things should help a drafter.
+
+This is the goal of the IDE track of work.
+
+** Make it possible for advanced IDE features to help a drafter find bugs in their code.
+
+"Your proposed law/contract makes it impossible for somebody to actually perform their obligations, because line 12 conflicts with line 63."
+
+This is the goal of the FV track of work.
+
+** Make it possible to embed an encoded contract via XML into a PDF using XMP.
+
+XMP does for PDFs, what EXIF does for JPGs ... kind of.
+
+** As part of DSL development, identify and leverage an existing formalism for constitutive rules.
+
+As the Rates Rebates example shows, some rules are essentially mathematical formulae: how much rebate am I entitled to under condtions X and Y.
+
+There are existing business tools that save us from reinventing that particular wheel. Explore DMN: Decision Model & Notation. There's a good tutorial by Camunda.
+
+Read about the history and the pros and cons of Model-Driven Architecture.
+
+** Specify DMNMD for Markdown
+
+DMN is too good a DSL to be stuck in a graphical UI. Use Markdown tables to allow people who prefer text editors, to write decision tables in text.
+
+What would a decision table look like, translated to Markdown? Let's call that DMNMD, where the "MD" stands for Markdown.
+
+This is the start of the DMN track of work.
+
+** Implement DMNMD in native Python
+
+Now we have a way to avoiding massively complex if/then/else statements. Build it in Python.
+
+- Read Hillelogram's article on decision tables.
+- Try out the Camunda DMN demo online. Read their tutorial.
+- Write documentation and a specification for DMNMD in your favourite language.
+- Try converting some gnarly code you wrote recently to DMN syntax.
+- Implement an MVP proof of concept in your favourite language for a simplified DMNMD: supporting only a unique hit policy and S-FEEL comparison expressions in your favourite language. Don't bother supporting separator escaping, just do a string split. You can revisit this and do a proper parser later when you have more programming language / compiler theory under your belt. You can do a simple implementation just by reading the Camunda tutorial, you don't even really need to read the DMN spec to grasp how it works.
+
+** Implement DMNMD in native Typescript
+
+Same as Python, but for Typescript. Stick your work on Github first. Then consider sticking it in npm under the SMUCCLAW account. Eventually this will become a top-level package.
+
+** Implement DMNMD in your favourite language
+
+If you come from some other language, like Rust or Go or Ruby, go nuts -- same idea as above.
+
+** Document your implementation of DMNMD.
+
+There are four kinds of documentation. https://documentation.divio.com/
+
+** Make it possible to convert a DMNMD table to natural language.
+
+How would you spell out the DMNMD table in English?
+
+This is part of the NLG track of work.
+
+** Consider doing the same for BPMN that we did for DMN.
+
+While DMN is "purer" in a functional sense, BPMN deals with multiple actors, passing messages to one another, acting in time.
+
+** Build out planners, expert systems, and interactive scenario explorers.
+
+See the Drools suite of systems, like OptaPlanner, for an example. See also ILOG CPLEX. How would you integrate against these things? How would you write one?
+
+** Can legal text be drafted as a satisfaction of a system of constraints?
+
+
+* The Paradox Of What We Are Trying To Do
+
+An enormous irony hangs over our work.
+
+On the one hand, this guide is unabashedly committed to helping beginner Padawans become powerful Jedi.
+
+On the other hand, many of the goals of the Research Programme fall into the genre of "making it easy for non-programmers to program."
+
+In 1988, [[https://www.cs.utexas.edu/users/EWD/transcriptions/EWD10xx/EWD1036.html][Dijkstra remarked]]:
+
+#+BEGIN_QUOTE
+Software engineering, of course, presents itself as another worthy cause, but that is eyewash: if you carefully read its literature and analyse what its devotees actually do, you will discover that software engineering has accepted as its charter "How to program if you cannot.".
+#+END_QUOTE
+
+Many technologies have made it possible for non-Xers to do X: non-photographers can Instagram, non-sculptors can 3d-print. Arguably, the spreadsheet has made it possible for non-programmers to program numerically: FORTRAN for the masses.
+
+So why shouldn't technology make it possible for non-lawyers to cope with legal complexity?
+
+* README FIRST: Foundational reading and Courses
+
+I'm impatient to get started! What should I read?
+
+** [[http://cristal.inria.fr/~weis/info/commandline.html][In the Beginning was the Command Line]], Neal Stephenson
+
+** [[https://www.amazon.sg/Clean-Coder-Conduct-Professional-Programmers/dp/0137081073][The Clean Coder]], by Robert C. Martin
+
+** [[https://www.edx.org/course/cs50s-introduction-to-computer-science][CS50]] from edX
 
 This is a roughly 12 week course.
 
-** [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
+https://courses.edx.org/courses/course-v1:HarvardX+CS50+X/course/
+
+There are actually three different courses that I want you to take.
+- [[https://courses.edx.org/courses/course-v1:HarvardX+CS50+X/course/][CS50x]] ::  the basic prata kosong
+- [[https://cs50.harvard.edu/ai/2020/][CS50 AI]] :: seven lectures on different techniques in AI
+- [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers
+
+So, all told, this will probably take several months.
+
+** Tracking Your Progress
+
+If you'd like to use Asana to track your progress through these readings and exercises, you can create tasks for yourself, log your progress in the tasks, and click "done" when you've accomplished the task!
+
+* [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
+
+Matt Might gathers on a single page what most university curricula incoherently scatter across four years' worth of course descriptions.
+
+Robert Martin's /Clean Coder/ says "Know Your Field":
+
+#+BEGIN_QUOTE
+A wealth of ideas, disciplines, techniques, tools, and terminologies decorate the last fifty years of our field. How much of this do you know? If you want to be a professional, you should know a sizable chunk of it and constantly be increasing the size of that chunk.
+#+END_QUOTE
 
 At CCLAW, we focus on the "traditional AI" aspects of computer science: knowledge representation and reasoning ("KRR"), logic programming, scheduling and planning problems, rule systems.
 
-The books recommended here should be available at the SMU library, though you might consider buying your own copy.
+But the more you learn, the better. Knowledge is power. If you ever find yourself struggling because you've bitten off more than you can chew, remember there are giants whose shoulders you can stand on.
 
-I recommend taking up his curriculum in the following order:
+For a sense of the "last fifty years of our field", take a look at:
 
-*** The Unix philosophy
+[[http://worrydream.com/dbx/][The Future of Programming, by Bret Victor]]
+
+[[https://www.iftf.org/our-work/people-technology/technology-horizons/forecasting-the-internet/][Forecasting the Internet, work by Paul Baran]]
+
+I recommend taking up Matt Might's curriculum in the following order:
+
+** The Unix philosophy
 
 The original Unix paper is at http://www.scs.stanford.edu/18wi-cs140/sched/readings/unix.pdf -- I think his link to it may have bit-rotted.
 
 - https://www.amazon.com/UNIX-Linux-System-Administration-Handbook/dp/0134277554/ref=dp_ob_title_bk
-- https://en.wikipedia.org/wiki/Unix_philosophy#:~:text=The%20Unix%20philosophy%20emphasizes%20building,as%20opposed%20to%20monolithic%20design.
+- https://en.wikipedia.org/wiki/Unix_philosophy
 
-If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux, or you may be better off with an account on our shared AWS instance.
+If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux and [[https://docs.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7][PowerShell]], or you may be better off with an account on our shared Linux server.
 
-**** Shell multiplexing
+*** Shell multiplexing
 
 You have your choice of tmux or screen.
 
-**** Shells themselves
+*** Shells themselves
 
 You have your choice of bash or [[https://ohmyz.sh/][zsh]].
 
-*** SICP
+** SICP
 
 [[https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book.html][Structure and Interpretation of Computer Programs]] helps you realize how ubiquitous parsers and domain-specific languages are in computing. Every time you run a Python program in your terminal, at least two interpreters swing into action, doing an enormous amount of work within just a few short milliseconds. Can you say what the interpreters are and what they do?
 
 SICP expands your mental vocabulary and grammar; you will start to think about computing problems the way computer scientists do.
 
-*** About Editors
+** About Editors
 
 A good first editor nowadays might be VS Code, Atom, or Sublime.
 
@@ -146,72 +388,107 @@ If you are a Mac user, learn just enough Emacs to use its keybindings,
 and then see where else those keybindings work. The tutorial should
 take you about an hour. See https://gist.github.com/cheapRoc/9670905
 
-Speaking of keybindings, you may enjoy instaling [[https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en][Vimium]] for your web browser, so you don't have to reach for the mouse so often.
+Speaking of keybindings, you may enjoy installing [[https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en][Vimium]] for your web browser, so you don't have to reach for the mouse so often.
 
-*** Languages
+** Languages
+
+The fact that there are multiple [[https://en.wikipedia.org/wiki/Programming_paradigm][programming paradigms]] may come as news to those who grew up monolingual, or had strongly vocational educations in programming.
+
+In [[https://venturebeat.com/2019/04/24/how-programming-languages-have-evolved-a-2019-primer/][How Programming Languages Have Evolved (2019)]] Rebecca Parsons said: "We use the phrase /polyglot programming/ to capture the idea that we should judiciously expand our language choices to address different problem spaces."
 
 From Matt Might's list, I would suggest starting with
 
-- Javascript :: (update: Typescript and Deno); if you know Python this should not be difficult
+- Javascript :: (update: Typescript and Deno); this is the /lingua franca/ of the web today.
 - Python :: after Javascript will give you a good appreciation for "comparative linguistics" -- you can analyze differences in vocabulary and grammar, and begin to abstract the idea of a language feature. Python and Javascript are like two dialects of Chinese.
-- Racket :: enough Lisp to hack your .emacs, understand homoiconicity, and appreciate the [[http://winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]] essay
-- Haskell :: 
-- Prolog
+- Haskell :: Extreme FP is a very different, almost alien, mode of thought. You may, after some time, say "nice place to visit, don't want to live there." But you will never use [[https://lodash.com/][lodash]] or [[https://hask.readthedocs.io/en/latest/overview.html][Hask]] the same way again; and when you work with a dynamically typed language, you will better understand what people mean when they say "[[http://earlbarr.com/publications/typestudy.pdf][BIGNUM% of bugs are type errors]]". More below.
+- Prolog :: for an introduction to unification and backtracking as first-class language features; know enough to appreciate [[https://www.metalevel.at/prolog][the Power of Prolog]]. You want German for philosophy, Italian for romance, and Prolog for logic and constraints.
+- Racket :: enough Lisp to hack your .emacs, understand homoiconicity, and appreciate the [[http://winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]] essay.
 
-which will give you good exposure to multiple programming paradigms.
+together, these will give you good exposure to enough programming paradigms that you will know which language to use for a given situation.
 
-Programming languages take at least a month to learn properly and at
-least a year to get good at. You might choose to dedicate at least
-three months to each language; and you should use all the resources
-you can find, including books (yes, actual physical hardcopy books
-from the library -- sometimes softcopy books have formatting and
+Once you're there, you can proceed to more advanced, specialized languages. For example, if you work in constraint or logic programming, you can explore Curry, Flora-2, and ErgoAI.
+
+Most programming languages take at least two weeks to even begin to
+grapple with. Getting the compiler installed, and your editor working
+with the language, may take an hour if you're lucky or a day if you're
+not. Ask your teammates for help. Any introductory tutorial will come with exercises that you
+really should work through. After that, it will take you many months
+to get good -- to know the idioms, the warts, and the libraries.
+
+For the purposes of this curriculum you might choose to dedicate at
+least three months to each language; and you should use all the
+resources you can find, including books (yes, actual physical hardcopy
+books from the library -- sometimes softcopy books have formatting and
 layout issues which create unnecessary mysteries), video courses,
 online documentation and third-party tutorials, and community forums.
 
 http://www.rosettacode.org/wiki/Rosetta_Code is kind of like cheat codes: "programming chrestomathy".
 
-**** Standard Skills
+*** Standard Skills
 
 In every language you should master a basic set of useful skills:
 - read, manipulate, and write text files, line-by-line
 - work with regular expressions; implement grep
 - retrieve a URL
+- interact with the end user at the terminal or in a REPL
 - read, manipulate, and write JSON
 - read, manipulate, and write XML
 - read, manipulate, and write HTML
 
-You should be able to implement a web scraper in at least one language. Don't worry, there are plenty of good libraries out there, like Puppeteer for Javascript.
+You should be able to implement a web scraper in at least one language. Don't worry, there are plenty of good libraries out there, like Puppeteer for Javascript and hxt for Haskell.
 
-**** Implementing an interpreter
+*** Implementing an interpreter
 
 Work through the New Zealand Benefits RaC exercise (link to be provided).
 
-**** Haskell online resources
+*** Haskell online resources
 
 Matt Might says: "Haskell is the crown jewel of the Hindley-Milner family of languages. Fully exploiting laziness, Haskell comes closest to programming in pure mathematics of any major programming language."
 
-This statement is worth unpacking. Back in the 1990s, an influential book was published with the title /[[https://en.wikipedia.org/wiki/Software_design_pattern][Design Patterns]]/: essentially, problems that repeatedly arise in software development, and how to solve them.
+Sounds nice in theory! But you deserve to know what you're getting into: it would be unfair to downplay the cons. Read [[https://pchiusano.github.io/2017-01-20/why-not-haskell.html][Why Not Haskell]]; [[https://web.archive.org/web/20200608072453/https://dixonary.co.uk/blog/haskell/pain][The Pain Points of Haskell]]; [[https://www.stephendiehl.com/posts/marketing.html][On Marketing Haskell]] for some straight talk.
 
-For example, in cooking, every culture implements the Dumpling pattern: a meat or vegetable filling is wholly encapsulated by a carbohydrate layer, and cooked. The insides stay edible longer, because the carbohydrate layer acts as a barrier to microbes and insects. The product is also easier to handle as the outside layer stays dry while the insides are moist. To quote the [[https://www.dumplingemoji.com/][Dumpling Emoji Project]]: "Dumplings are a seemingly universal food, popular throughout the world’s cultures. Poland has pierogi. Nepal has momos. Russia has pelmeni. Japan has gyoza. Italy has ravioli. Georgia has khinkali. Korea has mandoo. Argentina has empanadas. Jews have kreplach. China has potstickers."
+Matt Might's remark is worth unpacking. Back in the 1990s, an influential book was published with the title /[[https://en.wikipedia.org/wiki/Software_design_pattern][Design Patterns]]/: essentially, problems that repeatedly arise in software development, and how to solve them.
 
-As the Wikipedia page notes, /a primary criticism of Design Patterns is that its patterns are simply workarounds for missing features in C++, replacing elegant abstract features with lengthy concrete patterns, essentially becoming a "human compiler" or "generating by hand the expansions of some macro". Peter Norvig demonstrates that 16 out of the 23 patterns in Design Patterns are simplified or eliminated (via direct language support) in Lisp or Dylan./
+In cooking, every culture implements the Dumpling pattern: a meat or vegetable filling is wholly encapsulated by a carbohydrate layer, and cooked. The insides stay edible longer, because the carbohydrate layer acts as a barrier to microbes and insects. The product is also easier to handle as the outside layer stays dry while the insides are moist.
 
-Haskell programmers, being masters of abstraction, would agree: if a certain programming problem keeps recurring, then obviously the correct approach is to solve the general case in the form of a reusable library; that library abstracts out the essence of the pattern, taking care of the hard bits, and allows you to customize it to suit your particular problem.
+The [[https://www.dumplingemoji.com/][Dumpling Emoji Project]] says: "Dumplings are a seemingly universal food, popular throughout the world’s cultures. Poland has pierogi. Nepal has momos. Russia has pelmeni. Japan has gyoza. Italy has ravioli. Georgia has khinkali. Korea has mandoo. Argentina has empanadas. Jews have kreplach. China has potstickers."
 
-Follow that line of thinking to its logical conclusion, and you might observe that writing Haskell bears certain similarities to the composition of certain challenge poems in Imperial China, where the challenge forbade repetition: you couldn't use the same word twice through the entire poem.
+But we don't force beginner cooks to learn germ theory and material science before letting them make the dumplings. We just give them a spoon, because dinner has to be on the table /tonight/.
 
-In Haskell, the idea of factoring out repeated code can be taken to the extreme.
+The Wikipedia page says: /a primary criticism of Design Patterns is that its patterns are simply workarounds for missing features in C++, replacing elegant abstract features with lengthy concrete patterns, essentially becoming a "human compiler" or "generating by hand the expansions of some macro". Peter Norvig demonstrates that 16 out of the 23 patterns in Design Patterns are simplified or eliminated (via direct language support) in Lisp or Dylan./
 
-Because such advanced patterns are embodied in the language itself and its frequently-used libraries, Haskell could fairly be considered of the hardest languages to learn: writing a new program in Haskell is like writing a poem in Classical Chinese, in which every other phrase is required to reference a different classic poem written by a centuries-dead master.
+Haskell programmers, being masters of abstraction, would agree: if a certain programming problem keeps recurring, then obviously the correct approach is to solve the general case in the form of a reusable library; wearing the hat of library author, you abstract out the essence of the pattern, taking care of the hard bits; then wearing the hat of the developer, you to customize it to suit your particular problem. If you can't solve it at the library level you put on the hat of language developer and crack open the compiler itself.
 
-The upside: when you look at code written by less sophisticated programmers in less sophisticated languages, your first reaction will be: "90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. But in Haskell you wouldn't have to do that 90% because it's already taken care of by the language or some standard library."
+Follow that line of thinking to its logical conclusion. In Imperial China, certain challenge poems forbade repetition: you couldn't use the same word twice through the entire poem. In Haskell, the idea of factoring out repeated code can be taken to similar extremes.
 
-Of course, to be fair, Joel's Law of Leaky Abstractions suggests that one day, sooner or later, you will have to grapple with the abstracted-away complexity: just because it's hidden in somebody else's library doesn't mean you won't have to figure it out for yourself.
+Let's add to the challenge: every line of your poem is also required to reference a different classic poem written by some centuries-dead poet.
 
-All that being said: these resources are recommended:
+Why? Because (to satisfy the criticism above) the advanced programming patterns are no longer in a popular book everybody has to read: instead they are embodied in the language itself and in popular libraries that everybody has to learn. Such great power! But also such great responsibility! ("If Spider-Man wrote Haskell.")
+
+Now, before you can write your program you now have to understand twenty other libraries and arcane language features. Before you can do anything useful, you first have to study all the history and learn all the masterpieces and read all the papers. Before you can build any bridge you have to be able to build every bridge.
+
+In most languages, it's at most five lines to write "Hello world". It's at most five minutes to make a peanut butter sandwich.
+
+In /Jiro Dreams of Sushi/, it's ten years before you're allowed to cook eggs. Haskell can be closer to that.
+
+This is Joel's Law of Leaky Abstractions at work: there is a certain amount of complexity in any field, and abstractions can only hide it from you for so long; sooner or later you will have to open up the black box and learn how it works. Haskell wants you to learn CS early, singing in the choir; other languages let you to learn CS late, as a sinner born again. (A New Jersey worse-is-better sinner, to be precise. [[https://www.dreamsongs.com/RiseOfWorseIsBetter.html][Essay]], [[https://www.dreamsongs.com/WorseIsBetter.html][Context]])
+
+All that being said, we'll try to make Haskell accessible, so you can climb the learning curve less painfully than most. We'll show you the easier routes up the mountain and how to get unstuck.
+
+When Lisp programmers look at code written by less sophisticated programmers in less sophisticated languages, their reaction is often: "90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. Why don't you all have a library for that? Or language features that make the solution easy?"
+
+Hence [[https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule][Greenspun's Tenth Rule]]: "Any sufficiently complicated C or Fortran program contains an ad hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp."
+
+Also hence the [[http://www.winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]].
+
+That evolution can be seen in many languages: the libraries increase in number and complexity; the language gains functional idioms and type annotations. And you end up with a sort of [[https://www.google.com/search?q=convergent+evolution+in+programming+languages][convergent evolution in language design]]. Landin [[https://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf][foresaw this in 1966]]; [[https://link.springer.com/chapter/10.1007/978-3-319-91908-9_15][retrospective]].
+
+As https://twitter.com/mcclure111/status/1272727666802786304?s=20 put it: "The only three programming languages are ASM, Python and Haskell. Anything else is actually just one of those three languages in disguise."
+
+Coming back down to earth, these resources are recommended for learning Haskell:
 
 - http://haskellbook.com/
-- https://www.udemy.com/course/learning-path-haskell-functional-programming-and-haskell/
+- https://www.udemy.com/course/learning-path-haskell-functional-programming-and-haskell/ offers 73 lectures.
 - http://dev.stephendiehl.com/hask/
 - https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html
 - https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
@@ -219,41 +496,54 @@ All that being said: these resources are recommended:
 
 "Learn You A Haskell" has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH.
 
-*** Formal Methods
+** Formal Methods
 
 - https://www.hillelwayne.com/post/decision-tables/
 - https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/
 
-*** Artificial Intelligence
+** Artificial Intelligence
 
 - Gödel, Escher, Bach.
 - Russell & Norvig.
+- https://www.doc.ic.ac.uk/~rak/history.pdf
+- https://www.doc.ic.ac.uk/~rak/papers/newbook.pdf
+- https://cs50.harvard.edu/ai/2020/
 
-*** Networking
+** Networking
 
 Understand the workings of TCP/IP, UDP, DNS, SMTP, and HTTP.
 
 Using the ~telnet~ or ~netcat~ commands, send an email by hand by talking to SMTP port 25.
 
-Load a web page by hand by asking for it from port 80.
+Load a web page by hand by asking for it from port 80. Maybe from [[http://neverssl.com/][neverssl.com]].
 
 Visit the history of cloud computing (once called "grid computing"). Visit a machine room after reading [[http://www.winestockwebdesign.com/Essays/Eternal_Mainframe.html][The Eternal Mainframe]].
 
-*** Ethics
+** Ethics
 
 Discuss:
 
-- What is an imprimatur? How did state and religious powers respond to the invention of the printing press? The life of Christophe Plantin may prove instructive. How were his professional duties at odds with his personal beliefs? Why did he leave Paris? Why did he return to France? The dates June 1, 1501, and June 15, 1520, may turn up as significant in your research. How would you compare those events with [[https://www.forbes.com/sites/carlieporterfield/2020/06/03/twitter-suspends-account-copying-trumps-tweets-for-glorifying-violence/][news from June 3, 2020]]?
-- What does "[[https://quoteinvestigator.com/2018/04/24/ink/][I never argue with a man who buys ink by the barrel]]" mean today? What argument do [[https://www.theatlantic.com/technology/archive/2014/08/advertising-is-the-internets-original-sin/376041/][The Internet's Original Sin]] and [[http://www.winestockwebdesign.com/Essays/Eternal_Mainframe.html][The Eternal Mainframe]] have in common? Where would you locate projects like [[https://www.nytimes.com/2019/05/13/us/politics/georgia-official-code-copyright.html][Carl Malamud's Public.Resource]], [[https://freedombox.org/][FreedomBox]], and [[https://www.wired.com/story/join-mastodon-twitter-alternative/][Mastodon]] on a spectrum relative to Facebook, LexisNexis, and Westlaw? What predictions did [[https://www.amazon.com/Master-Switch-Rise-Information-Empires/dp/0307390993][Tim Wu's Master Switch]] make, and how have those predictions fared in the ten years since publication?
+- What did "[[https://quoteinvestigator.com/2018/04/24/ink/][I never argue with a man who buys ink by the barrel]]" mean when it was first said? What argument do [[https://www.theatlantic.com/technology/archive/2014/08/advertising-is-the-internets-original-sin/376041/][The Internet's Original Sin]] and [[http://www.winestockwebdesign.com/Essays/Eternal_Mainframe.html][The Eternal Mainframe]] have in common? Where would you locate projects like [[https://www.nytimes.com/2019/05/13/us/politics/georgia-official-code-copyright.html][Carl Malamud's Public.Resource]], [[https://freedombox.org/][FreedomBox]], and [[https://www.wired.com/story/join-mastodon-twitter-alternative/][Mastodon]] on a spectrum relative to Facebook, LexisNexis, and Westlaw? What predictions did [[https://www.amazon.com/Master-Switch-Rise-Information-Empires/dp/0307390993][Tim Wu's Master Switch]] make, and how have those predictions fared in the ten years since publication?
+- What is an imprimatur? How did state and religious powers respond to the invention of the printing press? The life of Christophe Plantin may prove instructive. How were his professional duties at odds with his personal beliefs? The dates June 1, 1501, and June 15, 1520, may turn up as significant in your research. How would you compare those events with [[https://www.forbes.com/sites/carlieporterfield/2020/06/03/twitter-suspends-account-copying-trumps-tweets-for-glorifying-violence/][news from June 3, 2020]]?
 - How do you see these considerations applying to the future of legal tech, and to the specific aims of the Research Programme in Computational Law?
+- Why factors contribute to the widespread sharing of standards via forums like the IETF, sharing of software on sites like Github, and to the sharing of knowledge about software on sites like Khan Academy, Udemy, and Stack Overflow? What degree of sharing can be found in other fields such as medicine, accounting, law, makeup, cooking, costuming, and applied psychology?
 
-*** The rest of Matt Might's curriculum
+** The rest of Matt Might's curriculum
 
-... can probably wait until you find yourself embarking on specific side quests that need those skills, though if you want to get ahead of yourself, you should learn:
+... can probably wait until you find yourself embarking on specific side quests that need those skills. While the research programme does not touch these areas specifically, every working (web-era) programmer should know:
 
 - SQL (Postgres, SQLite, or MySQL)
 - Apache and Nginx; wget and curl
+- Some Javascript framework for front-end development
 - basic public-key cryptography (GPG to understand the concepts, openssl to create an SSL certificate of your own)
+
+Enough OS architecture to understand https://blog.quarkslab.com/playing-around-with-the-fuchsia-operating-system.html
+
+Content addressing. [[https://en.wikipedia.org/wiki/Distributed_hash_table][DHTs]]. The architeture of BitTorrent. IPFS. And [[https://www.unisonweb.org/docs/tour][Unison]]. [[https://nixos.org/features.html][Nix and NixOS]].
+
+** Law as an Application Domain in Computer Science
+
+- https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/
 
 * Other Things An Educated Technologist Should Know
 
@@ -274,10 +564,10 @@ A great deal of Unix history is bound up with the FOSS movement.
 
 *** [[https://www.amazon.sg/Soul-New-Machine-Tracy-Kidder/dp/0316491977][The Soul of a New Machine]] and [[https://en.wikipedia.org/wiki/Halt_and_Catch_Fire_(TV_series)][Halt & Catch Fire]] go well together
 
+*** [[https://en.wikipedia.org/wiki/The_Mother_of_All_Demos][The Mother of All Demos]]
+
 *** When and what was the AI Winter and the AI Spring?
 
-*** [[https://www.amazon.com/Inside-Publishing-Revolution-Adobe-Story/dp/0321115643][Inside the Publishing Revolution]]
-is a history of Adobe
 
 *** [[https://www.imdb.com/title/tt1285016/][The Social Network]]
 about Facebook
@@ -320,11 +610,18 @@ there are quite a few
 
 makes a case for test-driven development and argues for professionalization of software engineering.
 
+*** Hamming's Art of Doing Science and Engineering: http://worrydream.com/refs/Hamming-TheArtOfDoingScienceAndEngineering.pdf
+
+
 ** Hacker Culture
 
 *** [[http://www.catb.org/~esr/jargon/html/appendixb.html][A Portrait of J. Random Hacker]] offers a snapshot from the early days of the American Internet, reflecting the gender and cultural biases prevalent at that time.
 *** [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
+*** [[https://sol.gfxile.net/dontask.html][Don't ask to ask, just ask]]
+*** [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
+*** [[http://xyproblem.info/][XY Problem]]
 *** [[https://www.ietf.org/about/participate/tao/][The Tao of IETF]]
+
 ** Open Source
 
 If you're new to open source, there are plenty of guides out there:
@@ -341,6 +638,16 @@ After you've gained some familiarity with open source and open standards in comp
 [[https://stackoverflow.com/][Stack Overflow]] is where we go to ask for help. Don't just be a taker, be a giver too: answer other people's questions, and soon you'll be learning much faster than if you were only trying to answer your own.
 
 Go on IRC and lurk on your favourite channels; when I'm learning a new technology, watching other people struggle with problems, and watching the experienced members of the channel help out, is like a sneak preview of the issues I can expect to face in a few weeks or months myself, and a cheat code to learn the answers ahead of time.
+
+If you already know Python, then sit on the Freenode #python channel.
+
+If you already know Javascript, then sit on the Freenode #javascript channel. Or #typescript.
+
+Watch newbies pop up with questions.
+
+Watch how the experienced members of the channel deal with them.
+
+When a new question comes up, can you get to the answer before someone else does?
 
 ** Data Visualization, Graphic Design, and Architecture
 
@@ -390,11 +697,11 @@ At about age 20--25, if you move into tech, the rules change:
 - You are encouraged to work with colleagues to solve the problem as well and as fast as you can.
 - Looking up the answer is called "research". How do you do research? You can start by searching Google. At least twice. Or it wouldn't be re-search. Ha, ha.
 
-Sometimes you will encounter somebody who seems to be applying the school value system at work, applying long hours to developing their own solution to a problem which they could have just downloaded, and refusing to accept outside help because that would be cheating. Be careful not to be that person.
+Sometimes you will encounter somebody who seems to be applying the school value system at work, applying long hours to developing their own solution to a problem which they could have just downloaded, and refusing to accept outside help because that would be cheating. Don't be that person.
 
 ** Domain Specific Languages
 
-As Bjare Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
+As Bjarne Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
 
 You may already know a number of DSLs: HTML; Markdown; Wiki; regular expressions; TeX and LaTeX; Makefile syntax; shell scripts. You can think of them as side quests.
 
@@ -412,30 +719,59 @@ Hillel Wayne's [[https://www.hillelwayne.com/post/decision-tables/][introduction
 
 *** [[https://www.amazon.com/Nature-Technology-What-How-Evolves/dp/1416544062][The Nature of Technology]] by W. Brian Arthur
 
-* Project-based Learning
+*** [[https://www.amazon.com/Inside-Publishing-Revolution-Adobe-Story/dp/0321115643][Inside the Publishing Revolution]]
+is a history of Adobe
 
-** General Conduct
+*** Technical people can make the transition to business
 
-*** Sit on IRC.
+What technical accomplishments did the following people achieve before doing well in the startup world?
 
-If you already know Python, then sit on the Freenode #python channel.
+- ~Reed Hastings~
+- ~Eric Schmidt~
+- ~Paul Graham~
 
-If you already know Javascript, then sit on the Freenode #javascript channel. Or #typescript.
-
-Watch newbies pop up with questions.
-
-Watch how the experienced members of the channel deal with them.
-
-When a new question comes up, can you get to the answer before someone else does?
-
-** Available Projects
-
-*** Implement DMNMD in native Python
-
-*** Implement DMNMD in native Typescript
+What does it take to be next on this list? Obviously, if your first name has 4 characters and your last name has 5, please go ahead and make your billions so I (Meng Wong) can follow after you. You're the only thing standing in my way.
 
 * Apprenticeship
 
 The Centre works with a number of senior engineers. Juniors will have the opportunity to join them in pair programming sessions.
 
+
+* Introduction to Computational Law
+
+** Cultural differences between engineering and law
+
+Ron Dolin: https://youtu.be/YHri1NdYKS0
+
+** the basics of (symbolic) AI
+
+- what are planning problems?
+- what are constraint satisfaction problems?
+- what are expert systems?
+- can the British Nationality Act be encoded as a Logic Program?
+- what is the difference between deductive, inductive, and abductive reasoning? Give examples of each.
+
+** computational linguistics and computational semantics
+
+- Alice has three children. Bob has four children. Does Alice have a child? Does Alice have one child? Does Bob have two children?
+
+** software engineering practice
+
+- What software engineering have been proven to work? What does Hillel Wayne have to say about this?
+
+** constraint programming
+
+- what problems have you solved in the past which turn out to have been constraint satisfaction problems?
+
+** logic programming
+
+- what are the basic elements of logic programming that distinguish it from the kind(s) of programming you already know?
+- CLP(FD)
+- Julian
+- CHR
+
+** Ontologies
+
+- what is the difference between an ontology and a type system?
+- where are ontologies used in the real world?
 
