@@ -291,6 +291,25 @@ See the Drools suite of systems, like OptaPlanner, for an example. See also ILOG
 
 ** Can legal text be drafted as a satisfaction of a system of constraints?
 
+
+* The Paradox Of What We Are Trying To Do
+
+An enormous irony hangs over our work.
+
+On the one hand, this guide is unabashedly committed to helping beginner Padawans become powerful Jedi.
+
+On the other hand, many of the goals of the Research Programme fall into the genre of "making it easy for non-programmers to program."
+
+In 1988, [[https://www.cs.utexas.edu/users/EWD/transcriptions/EWD10xx/EWD1036.html][Dijkstra remarked]]:
+
+#+BEGIN_QUOTE
+Software engineering, of course, presents itself as another worthy cause, but that is eyewash: if you carefully read its literature and analyse what its devotees actually do, you will discover that software engineering has accepted as its charter "How to program if you cannot.".
+#+END_QUOTE
+
+Many technologies have made it possible for non-Xers to do X: non-photographers can Instagram, non-sculptors can 3d-print. Arguably, the spreadsheet has made it possible for non-programmers to program numerically: FORTRAN for the masses.
+
+So why shouldn't technology make it possible for non-lawyers to cope with legal complexity?
+
 * README FIRST: Foundational reading and Courses
 
 I'm impatient to get started! What should I read?
@@ -310,7 +329,7 @@ There are actually three different courses that I want you to take.
 - [[https://cs50.harvard.edu/ai/2020/][CS50 AI]] :: seven lectures on different techniques in AI
 - [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers
 
-So, all told, this will probably take most of a year.
+So, all told, this will probably take several months.
 
 ** Tracking Your Progress
 
@@ -345,7 +364,7 @@ The original Unix paper is at http://www.scs.stanford.edu/18wi-cs140/sched/readi
 - https://www.amazon.com/UNIX-Linux-System-Administration-Handbook/dp/0134277554/ref=dp_ob_title_bk
 - https://en.wikipedia.org/wiki/Unix_philosophy
 
-If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux, or you may be better off with an account on our shared Linux server.
+If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux and [[https://docs.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7][PowerShell]], or you may be better off with an account on our shared Linux server.
 
 *** Shell multiplexing
 
@@ -381,7 +400,7 @@ From Matt Might's list, I would suggest starting with
 
 - Javascript :: (update: Typescript and Deno); this is the /lingua franca/ of the web today.
 - Python :: after Javascript will give you a good appreciation for "comparative linguistics" -- you can analyze differences in vocabulary and grammar, and begin to abstract the idea of a language feature. Python and Javascript are like two dialects of Chinese.
-- Haskell :: Extreme FP is a very different, almost alien, mode of thought. You may, after some time, say "nice place to visit, don't want to live there." But you will never use [[https://lodash.com/][lodash]] the same way again; and when you work with a dynamically typed language, you will better understand what people mean when they say "[[http://earlbarr.com/publications/typestudy.pdf][BIGNUM% of bugs are type errors]]". More below.
+- Haskell :: Extreme FP is a very different, almost alien, mode of thought. You may, after some time, say "nice place to visit, don't want to live there." But you will never use [[https://lodash.com/][lodash]] or [[https://hask.readthedocs.io/en/latest/overview.html][Hask]] the same way again; and when you work with a dynamically typed language, you will better understand what people mean when they say "[[http://earlbarr.com/publications/typestudy.pdf][BIGNUM% of bugs are type errors]]". More below.
 - Prolog :: for an introduction to unification and backtracking as first-class language features; know enough to appreciate [[https://www.metalevel.at/prolog][the Power of Prolog]]. You want German for philosophy, Italian for romance, and Prolog for logic and constraints.
 - Racket :: enough Lisp to hack your .emacs, understand homoiconicity, and appreciate the [[http://winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]] essay.
 
