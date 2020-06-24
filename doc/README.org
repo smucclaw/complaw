@@ -1,7 +1,7 @@
 #+TITLE: Introduction tog Computational Law
 #+AUTHOR: Wong Meng Weng
 
-This introduction to computational law is presented by the Singapore Management University's Centre for Computational Law.
+This introduction to computational law is compiled by the Singapore Management University's Centre for Computational Law.
 
 It was started in late May 2020 and is a work in progress.
 
@@ -43,9 +43,13 @@ In 1978, [[https://drive.google.com/open?id=0BxOaYa8pqqSwdUt5VWdDOWdlREE][Layman
 
 32 years later, in 2010, [[https://drive.google.com/open?id=0B8axPLLxhjQFWGc0ellBYTF3RnM][Howard Darmstadter complained]] that legal drafting sucks and can learn from software.
 
-Another 32 years later, in 2042, will thinkers still be complaining about the state of legal drafting? Not if we can help it.
+Another 32 years later, in 2042, will thinkers still be complaining about the state of legal drafting?
 
-Hypothesis: natural language generation, using tools like [[http://grammaticalframework.org/][GF]], can automate the production of legal English. (Much legal English already has the look and feel of a compiled object. We just need to work out what it compiles /from/.)
+Not if we can help it.
+
+Hypothesis: natural language generation, using tools like [[http://grammaticalframework.org/][GF]], can automate the production of disambiguated legal English. (Much legal English [[http://revisor.mo.gov/main/OneSection.aspx?section=233.285&bid=12522&hl=][already has the look and feel of a compiled object]]. We just need to work out what it compiles /from/.)
+
+Legalese is so stylized it's already half way to being a [[https://en.wikipedia.org/wiki/Controlled_natural_language][controlled natural language]] (e.g. [[https://link.springer.com/chapter/10.1007/978-3-540-72982-2_24][AceRules]]). If we can move it onto a properly formal footing we can then do interesting machine-reasoning tasks: testing, inference, verification, planning.
 
 ** Automated Consistency Checking and Loophole Detection
 
