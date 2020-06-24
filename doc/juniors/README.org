@@ -335,6 +335,7 @@ So, all told, this will probably take several months.
 
 If you'd like to use Asana to track your progress through these readings and exercises, you can create tasks for yourself, log your progress in the tasks, and click "done" when you've accomplished the task!
 
+
 * [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
 Matt Might gathers on a single page what most university curricula incoherently scatter across four years' worth of course descriptions.
@@ -441,6 +442,16 @@ You should be able to implement a web scraper in at least one language. Don't wo
 
 Work through the New Zealand Benefits RaC exercise (link to be provided).
 
+*** Learn JetBrains MPS                                                                    :tools:
+
+Prerequisite: know at least two different programming languages.
+
+1. Read about DSLs generally.
+2. Learn JetBrains MPS.
+3. Read Markus Voelter's book on DSLs.
+4. Read Martin Fowler's book on DSLs.
+5. Learn mbeddr.
+6. Read TAPL.
 *** Haskell online resources
 
 Matt Might says: "Haskell is the crown jewel of the Hindley-Milner family of languages. Fully exploiting laziness, Haskell comes closest to programming in pure mathematics of any major programming language."
@@ -495,11 +506,32 @@ Coming back down to earth, these resources are recommended for learning Haskell:
 - https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
 
 "Learn You A Haskell" has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH.
+*** Learn GF
 
-** Formal Methods
+1. Read the GF book.
+2. Run through the online GF tutorial.
+
+** Formal Methods, Planning, Constraints
 
 - https://www.hillelwayne.com/post/decision-tables/
 - https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/
+
+*** Learn                                                                                  :tools:
+
+**** Learn: planning problems
+
+**** Learn: constraint satisfaction
+
+**** Learn: specification and verification with Alloy
+
+1. Read the book
+2. Read Hillel's documentation
+
+**** Learn IDP
+
+**** Learn CLP
+
+**** Learn CHR
 
 ** Artificial Intelligence
 
