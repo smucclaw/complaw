@@ -1,5 +1,8 @@
+{-# LANGUAGE EmptyCase #-}
+{-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE EmptyDataDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies #-}
-{-# OPTIONS_GHC -fno-warn-duplicate-exports #-}
+{-# OPTIONS_GHC -fno-warn-duplicate-exports -Wall -Wno-unused-imports -Wno-unused-do-bind -Wno-unused-matches #-}
 module DMN13'xsd
   ( module DMN13'xsd
   ) where
@@ -7,12 +10,22 @@ module DMN13'xsd
 import Text.XML.HaXml.Schema.Schema (SchemaType(..),SimpleType(..),Extension(..),Restricts(..))
 import Text.XML.HaXml.Schema.Schema as Schema
 import Text.XML.HaXml.OneOfN
+-- import qualified Text.XML.HaXml.XmlContent.Parser as Parser
 import qualified Text.XML.HaXml.Schema.PrimitiveTypes as Xsd
 -- ^ Include the DMN Diagram Interchange (DI) schema
 import DMNDI13'xsd as Dmndi
  
 -- Some hs-boot imports are required, for fwd-declaring types.
- 
+
+data ExtensionElements
+        deriving (Eq,Show)
+
+instance SchemaType ExtensionElements where
+    parseSchemaType :: String -> XMLParser ExtensionElements
+    parseSchemaType x = fail "There are no ExtensionElements defined"
+    schemaTypeToXML :: String -> ExtensionElements -> [Content ()]
+    schemaTypeToXML _ ee = case ee of {}
+
 elementDMNElement :: XMLParser TDMNElement
 elementDMNElement = fmap supertype elementContextEntry
                     `onFail`

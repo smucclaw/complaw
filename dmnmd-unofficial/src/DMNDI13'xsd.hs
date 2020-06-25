@@ -1,3 +1,4 @@
+{-# LANGUAGE InstanceSigs #-}
 {-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies #-}
 {-# OPTIONS_GHC -fno-warn-duplicate-exports #-}
 module DMNDI13'xsd
@@ -12,7 +13,13 @@ import DC'xsd as Dc
 import DI'xsd as Di
  
 -- Some hs-boot imports are required, for fwd-declaring types.
- 
+
+instance SimpleType Xsd.QName where
+    acceptingParser :: TextParser Xsd.QName
+    acceptingParser = fail "I don't know what a QName is"
+    simpleTypeText :: Xsd.QName -> String
+    simpleTypeText qnm = error "I don't know how to print a QName, like" ++ show qnm
+
 elementDMNDI :: XMLParser DMNDI
 elementDMNDI = parseSchemaType "DMNDI"
 elementToXMLDMNDI :: DMNDI -> [Content ()]
