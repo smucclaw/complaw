@@ -17,7 +17,7 @@ Obviously, people aren't born knowing these things. Some people studied them in 
 To help you acquire useful skills, we have outlined an experience that is equal parts
 - self-instruction :: a reading list and links to recommended third-party courses
 - project-based :: structured contributions to the Research Programme at various levels of difficulty
-- apprenticeship :: opportunities to pair program with senior engineers and work together on the same team
+- apprenticeship :: opportunities to pair program with engineers and work together on the same teams
 
 This document focuses on the readings and video component. If you have joined the Programme as a junior engineer, consider this one pillar of your professional education. If you are worried that this is too much for you to take on, you please be assured that your employee performance will not be tied /directly/ to completion of readings and courses. This is not school and your manager is not your lecturer; nobody has time to test you. But if in conversation with the rest of the team we use terms that you aren't familiar with, we may gently direct you back to the recommended reading, where you will find clues that may turn out to be essential to delivering your actual assignments. Your colleagues in software engineering, whether at CCLAW or on the larger Internet, share a certain professional vocabulary because they have all been through something like this curriculum. Don't you want to be on the same page as them?
 
@@ -35,7 +35,7 @@ How do you know if you have these skills? If, as a child, you were always to be 
 
 Maybe you enjoy games like the [[https://store.steampowered.com/bundle/234/Portal_Bundle/][Portal series]] and [[https://www.lazada.sg/catalog/?q=zelda+breath+wild&_keyori=ss&from=input&spm=a2o42.pdp.search.go.59702848XsoLUx][Zelda: Breath of the Wild]]. You try hard to solve the puzzles yourself before giving up and looking for the answer online. Maybe your hobbies are all creative in some way, and technology-related as well.
 
-Maybe your friends and family go to you for help with technology problems, from "my phone isn't working" to "can you help me build a website".
+We tried to recruit for people who are good at both technology and people.
 
 A career in software can rarely be conducted in isolation. The saying goes: "technical skills get you in the door, social skills get you up the ladder." Some highly technical individuals may scoff at that, and say: "[[https://en.wikipedia.org/wiki/ReiserFS][I can single-handedly develop a filesystem]]; I don't need people." And it's true that unlike kings and queens, wizards have an alternative path to power and impact: scaling through technology, rather than through people. But that is the archetype of the Saruman; isn't it be better to be a Gandalf?
 
@@ -54,13 +54,29 @@ Check out Epicurious's [[https://www.epicurious.com/video/watch/500-vs-16-steak-
 
 Would you rather be a Lorenzo or a Frank?
 
-If you ask your colleagues, they will tell you that, on the whole, programming is fun! After a few months, you may find that you enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. Having fun and feeling good is a sign you should keep going! The world will be your oyster.
+*** Is Programming "For You"?
 
-But if you find that you aren't having fun, that you do not enjoy the work, that it's not just hard but simply incompatible with the way your brain works, that's a good discovery too: better to know now, than spend years doing something you hate.
+ If you ask your colleagues, they will tell you that, on the whole, programming is fun! After a few months, you may find that you enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. Having fun and feeling good is a sign you should keep going! The world will be your oyster.
 
-You may already be an experienced programmer, with one or two languages under your belt, and a number of projects in your portfolio. You already get what the [[http://threevirtues.com/][Three Virtues]] is saying. In that case, this curriculum assumes that you see yourself as a lifelong learner; that you are challenging yourself to go outside your comfort zone; that your goal is to level up.
+ But if you find that you aren't having fun, that you do not enjoy the work, that it's not just hard but simply incompatible with the way your brain works, that's a good discovery too: better to know now, than spend years doing something you hate.
 
-What does leveling up mean? Well, our context, it means this: Most programmers rely on third-party libraries; but can you imagine yourself writing a third-party library that other programmers rely on? All programmers start by learning an existing language, like Python or Javascript; can you imagine yourself writing a new language that other programmers learn? Language design and development is one of the highest forms of achievement in computer science, and if you start climbing those mountains you will find yourself in rarefied and respected company.
+ You may already be an experienced programmer, with one or two languages under your belt, and a number of projects in your portfolio. You already get what the [[http://threevirtues.com/][Three Virtues]] is saying. In that case, this curriculum assumes that you see yourself as a lifelong learner; that you are challenging yourself to go outside your comfort zone; that your goal is to level up.
+
+*** What does leveling up mean?
+
+It means that some people spend their entire careers doing app development, building shopping carts and enterprise workflow systems and template fillers for clients. Many people would be proud to say in their bio:
+
+#+BEGIN_QUOTE
+I am an expert in both JavaScript-the-language and the JavaScript front-end ecosystem. I know all of the language, good parts and bad, and I have experience working with React, Redux, Backbone, Angular, Babel, Webpack, Browserify, Gulp, Mocha, Ramda, and most of the rest of the JS frontend soup.
+#+END_QUOTE
+
+A few people go far beyond that. They might add "It’s not my favorite technology, but knowing the language and its tools is pretty important for building modern web applications, even if you decide to use a compile-to-JS language."
+
+And then they stick the paragraph on to the end of her bio, as an "oh, I almost forgot". What comes before it? See https://lexi-lambda.github.io/resume.html for the full bio.
+
+*** Don't just a library. Write a library.
+
+Most programmers rely on third-party libraries; but can you imagine yourself writing a third-party library that other programmers rely on? All programmers start by learning an existing language, like Python or Javascript; can you imagine yourself writing a new language that other programmers learn? Language design and development is one of the highest forms of achievement in computer science, and if you start climbing those mountains you will find yourself in rarefied and respected company.
 
 Let me offer a couple analogies. If you ask some people "where do eggs come from?" they will say, "the supermarket." Where does water come from? "Out of the tap." And that's fine for 98% of the population.
 
@@ -291,25 +307,6 @@ See the Drools suite of systems, like OptaPlanner, for an example. See also ILOG
 
 ** Can legal text be drafted as a satisfaction of a system of constraints?
 
-
-* The Paradox Of What We Are Trying To Do
-
-An enormous irony hangs over our work.
-
-On the one hand, this guide is unabashedly committed to helping beginner Padawans become powerful Jedi.
-
-On the other hand, many of the goals of the Research Programme fall into the genre of "making it easy for non-programmers to program."
-
-In 1988, [[https://www.cs.utexas.edu/users/EWD/transcriptions/EWD10xx/EWD1036.html][Dijkstra remarked]]:
-
-#+BEGIN_QUOTE
-Software engineering, of course, presents itself as another worthy cause, but that is eyewash: if you carefully read its literature and analyse what its devotees actually do, you will discover that software engineering has accepted as its charter "How to program if you cannot.".
-#+END_QUOTE
-
-Many technologies have made it possible for non-Xers to do X: non-photographers can Instagram, non-sculptors can 3d-print. Arguably, the spreadsheet has made it possible for non-programmers to program numerically: FORTRAN for the masses.
-
-So why shouldn't technology make it possible for non-lawyers to cope with legal complexity?
-
 * README FIRST: Foundational reading and Courses
 
 I'm impatient to get started! What should I read?
@@ -329,12 +326,11 @@ There are actually three different courses that I want you to take.
 - [[https://cs50.harvard.edu/ai/2020/][CS50 AI]] :: seven lectures on different techniques in AI
 - [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers
 
-So, all told, this will probably take several months.
+So, all told, this will probably take most of a year.
 
 ** Tracking Your Progress
 
 If you'd like to use Asana to track your progress through these readings and exercises, you can create tasks for yourself, log your progress in the tasks, and click "done" when you've accomplished the task!
-
 
 * [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
@@ -365,7 +361,7 @@ The original Unix paper is at http://www.scs.stanford.edu/18wi-cs140/sched/readi
 - https://www.amazon.com/UNIX-Linux-System-Administration-Handbook/dp/0134277554/ref=dp_ob_title_bk
 - https://en.wikipedia.org/wiki/Unix_philosophy
 
-If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux and [[https://docs.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7][PowerShell]], or you may be better off with an account on our shared Linux server.
+If you run a Mac, you have a Unix system. If you run Windows, you may be successful with https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux, or you may be better off with an account on our shared Linux server.
 
 *** Shell multiplexing
 
@@ -401,7 +397,7 @@ From Matt Might's list, I would suggest starting with
 
 - Javascript :: (update: Typescript and Deno); this is the /lingua franca/ of the web today.
 - Python :: after Javascript will give you a good appreciation for "comparative linguistics" -- you can analyze differences in vocabulary and grammar, and begin to abstract the idea of a language feature. Python and Javascript are like two dialects of Chinese.
-- Haskell :: Extreme FP is a very different, almost alien, mode of thought. You may, after some time, say "nice place to visit, don't want to live there." But you will never use [[https://lodash.com/][lodash]] or [[https://hask.readthedocs.io/en/latest/overview.html][Hask]] the same way again; and when you work with a dynamically typed language, you will better understand what people mean when they say "[[http://earlbarr.com/publications/typestudy.pdf][BIGNUM% of bugs are type errors]]". More below.
+- Haskell :: Extreme FP is a very different, almost alien, mode of thought. You may, after some time, say "nice place to visit, don't want to live there." But you will never use [[https://lodash.com/][lodash]] the same way again; and when you work with a dynamically typed language, you will better understand what people mean when they say "[[http://earlbarr.com/publications/typestudy.pdf][BIGNUM% of bugs are type errors]]". More below.
 - Prolog :: for an introduction to unification and backtracking as first-class language features; know enough to appreciate [[https://www.metalevel.at/prolog][the Power of Prolog]]. You want German for philosophy, Italian for romance, and Prolog for logic and constraints.
 - Racket :: enough Lisp to hack your .emacs, understand homoiconicity, and appreciate the [[http://winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]] essay.
 
@@ -442,16 +438,6 @@ You should be able to implement a web scraper in at least one language. Don't wo
 
 Work through the New Zealand Benefits RaC exercise (link to be provided).
 
-*** Learn JetBrains MPS                                                                    :tools:
-
-Prerequisite: know at least two different programming languages.
-
-1. Read about DSLs generally.
-2. Learn JetBrains MPS.
-3. Read Markus Voelter's book on DSLs.
-4. Read Martin Fowler's book on DSLs.
-5. Learn mbeddr.
-6. Read TAPL.
 *** Haskell online resources
 
 Matt Might says: "Haskell is the crown jewel of the Hindley-Milner family of languages. Fully exploiting laziness, Haskell comes closest to programming in pure mathematics of any major programming language."
@@ -506,32 +492,11 @@ Coming back down to earth, these resources are recommended for learning Haskell:
 - https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
 
 "Learn You A Haskell" has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH.
-*** Learn GF
 
-1. Read the GF book.
-2. Run through the online GF tutorial.
-
-** Formal Methods, Planning, Constraints
+** Formal Methods
 
 - https://www.hillelwayne.com/post/decision-tables/
 - https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/
-
-*** Learn                                                                                  :tools:
-
-**** Learn: planning problems
-
-**** Learn: constraint satisfaction
-
-**** Learn: specification and verification with Alloy
-
-1. Read the book
-2. Read Hillel's documentation
-
-**** Learn IDP
-
-**** Learn CLP
-
-**** Learn CHR
 
 ** Artificial Intelligence
 

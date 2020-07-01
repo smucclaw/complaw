@@ -1,7 +1,7 @@
-#+TITLE: Introduction tog Computational Law
+#+TITLE: Introduction to Computational Law
 #+AUTHOR: Wong Meng Weng
 
-This introduction to computational law is compiled by the Singapore Management University's Centre for Computational Law.
+This introduction to computational law is presented by the Singapore Management University's Centre for Computational Law.
 
 It was started in late May 2020 and is a work in progress.
 
@@ -25,8 +25,6 @@ The US Government shared their thinking about how [[https://18f.gsa.gov/2020/05/
 
 Juro, a LegalTech startup, offered [[https://info.juro.com/machine-readable-contracts][a vision for machine-readable contracts]].
 
-Canada is going ahead with a [[https://twitter.com/mattwadd/status/1271922712307535873][Rules as Code exercise]], focusing not just on product but on process.
-
 ** Insight and Vision
 
 [[https://a16z.com/2011/08/20/why-software-is-eating-the-world/][Software is eating the world]]. What if we could write and run contracts (and statutes) the way we do programs?
@@ -43,13 +41,9 @@ In 1978, [[https://drive.google.com/open?id=0BxOaYa8pqqSwdUt5VWdDOWdlREE][Layman
 
 32 years later, in 2010, [[https://drive.google.com/open?id=0B8axPLLxhjQFWGc0ellBYTF3RnM][Howard Darmstadter complained]] that legal drafting sucks and can learn from software.
 
-Another 32 years later, in 2042, will thinkers still be complaining about the state of legal drafting?
+Another 32 years later, in 2042, will thinkers still be complaining about the state of legal drafting? Not if we can help it.
 
-Not if we can help it.
-
-Hypothesis: natural language generation, using tools like [[http://grammaticalframework.org/][GF]], can automate the production of disambiguated legal English. (Much legal English [[http://revisor.mo.gov/main/OneSection.aspx?section=233.285&bid=12522&hl=][already has the look and feel of a compiled object]]. We just need to work out what it compiles /from/.)
-
-Legalese is so stylized it's already half way to being a [[https://en.wikipedia.org/wiki/Controlled_natural_language][controlled natural language]] (e.g. [[https://link.springer.com/chapter/10.1007/978-3-540-72982-2_24][AceRules]]). If we can move it onto a properly formal footing we can then do interesting machine-reasoning tasks: testing, inference, verification, planning.
+Hypothesis: natural language generation, using tools like [[http://grammaticalframework.org/][GF]], can automate the production of legal English. (Much legal English already has the look and feel of a compiled object. We just need to work out what it compiles /from/.)
 
 ** Automated Consistency Checking and Loophole Detection
 
@@ -62,6 +56,8 @@ Ron Dolin, Harvard Law School professor, [[https://www.youtube.com/watch?v=YHri1
 ** Rules As Code
 
 See [[https://govinsider.asia/inclusive-gov/four-things-you-should-know-about-rules-as-code/][GovInsider on Rules As Code]], [[https://docs.google.com/document/d/1DBCGXjLBl31eEKJREDElQY3eqK4BM9IKwnzC37LpKbs/edit#][Seven Levels of Digitisation]], New Zealand's [[https://www.digital.govt.nz/dmsdocument/95-better-rules-for-government-discovery-report/html][Better Rules]] report, and the longer [[https://docs.google.com/document/d/1tcB8WEIZAFN-0Q6qoePDBplPewPX_cU0A1fcryYO8Qc/edit#][OECD/OPSI Primer]].
+
+See also [[https://resources.jetbrains.com/storage/products/mps/docs/MPS_DTO_Case_Study.pdf?_ga=2.202421841.1551463446.1592996255-130442592.1592996255][JetBrains MPS Case Study of the Dutch Tax Office]].
 
 ** Designing a DSL
 

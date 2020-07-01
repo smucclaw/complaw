@@ -35,9 +35,6 @@ The CCLAW community gathers at:
 Slack
 : (TODO: set up an invite mechanism)
 
-mailing list
-: (TODO: set up on Google Groups or other provider)
-
 reddit
 : (TODO: set up a subreddit)
 
