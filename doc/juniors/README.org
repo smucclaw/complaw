@@ -426,11 +426,12 @@ http://www.rosettacode.org/wiki/Rosetta_Code is kind of like cheat codes: "progr
 In every language you should master a basic set of useful skills:
 - read, manipulate, and write text files, line-by-line
 - work with regular expressions; implement grep
-- retrieve a URL
-- interact with the end user at the terminal or in a REPL
-- read, manipulate, and write JSON
-- read, manipulate, and write XML
+- construct an HTTP request and retrieve it
 - read, manipulate, and write HTML
+- read, manipulate, and write XML
+- read, manipulate, and write JSON
+- interact with the end user at the terminal or in a REPL
+- handle dates and times
 
 You should be able to implement a web scraper in at least one language. Don't worry, there are plenty of good libraries out there, like Puppeteer for Javascript and hxt for Haskell.
 
