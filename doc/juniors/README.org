@@ -488,8 +488,10 @@ Coming back down to earth, these resources are recommended for learning Haskell:
 
 - http://haskellbook.com/
 - https://www.udemy.com/course/learning-path-haskell-functional-programming-and-haskell/ offers 73 lectures.
-- http://dev.stephendiehl.com/hask/
-- https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html
+- https://twitter.com/aymannadeem?lang=en blogs frequently at https://www.aymannadeem.com/
+- https://lexi-lambda.github.io/index.html is another blog
+- http://dev.stephendiehl.com/hask/ is an entire book pretending to be a blog post
+- https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html starts getting into intermediate Haskell
 - https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
 - https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
 
