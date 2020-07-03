@@ -74,7 +74,7 @@ A few people go far beyond that. They might add "It’s not my favorite technolo
 
 And then they stick the paragraph on to the end of their bio, as an "oh, I almost forgot", because it's really the least of their skills. What does the rest of their bio contain? See https://lexi-lambda.github.io/resume.html
 
-*** Don't just a library. Write a library.
+*** Don't just use a library. Write a library.
 
 Most programmers rely on third-party libraries; but can you imagine yourself writing a third-party library that other programmers rely on? All programmers start by learning an existing language, like Python or Javascript; can you imagine yourself writing a new language that other programmers learn? Language design and development is one of the highest forms of achievement in computer science, and if you start climbing those mountains you will find yourself in rarefied and respected company.
 
