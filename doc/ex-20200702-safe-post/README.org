@@ -23,6 +23,11 @@ Four different standard SAFE templates are given. This is good for us, because i
 
 ** How much do I get?
 
+** See the FAQ questions
+
+- can we formalize the questions and the answers?
+- can we obtain answers from the questions and the instrument?
+
 * Test Cases
 
 | U | Scenario | Investment Amount | Post Money Valuation Cap | Discount | Option Pool | Series A Raise | Series A Pre-Money Val |
@@ -47,11 +52,3 @@ called, in the SAFEs, "Miscellaneous"
 ** Mathematical Formulae
 *** constraint solving
 (pre-money safes needed to be solved as a system of linear equations)
-
-* Commit
-
-Don't look at the bugfix until you've fully absorbed everything you can learn from the case.
-
-https://github.com/ServiceInnovationLab/openfisca-aotearoa/commit/a2011c95b4a7a93a3e91c5accb4744e5565b4e75
-
-
