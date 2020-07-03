@@ -470,15 +470,15 @@ In most languages, it's at most five lines to write "Hello world". It's at most 
 
 In /Jiro Dreams of Sushi/, it's ten years before you're allowed to cook eggs. Haskell can be closer to that.
 
-This is Joel's Law of Leaky Abstractions at work: there is a certain amount of complexity in any field, and abstractions can only hide it from you for so long; sooner or later you will have to open up the black box and learn how it works. Haskell wants you to learn CS early, singing in the choir; other languages let you to learn CS late, as a sinner born again. (A New Jersey worse-is-better sinner, to be precise. [[https://www.dreamsongs.com/RiseOfWorseIsBetter.html][Essay]], [[https://www.dreamsongs.com/WorseIsBetter.html][Context]])
+This is Joel's Law of Leaky Abstractions at work: there is a certain amount of complexity in any field, and abstractions can only hide it from you for so long; sooner or later you will have to open up the black box and learn how it works. Haskell wants you to learn CS early, singing in the choir; other languages let you learn CS late, as a sinner born again. (A New Jersey worse-is-better sinner, to be precise. [[https://www.dreamsongs.com/RiseOfWorseIsBetter.html][Essay]], [[https://www.dreamsongs.com/WorseIsBetter.html][Context]])
 
 All that being said, we'll try to make Haskell accessible, so you can climb the learning curve less painfully than most. We'll show you the easier routes up the mountain and how to get unstuck.
 
-When Lisp programmers look at code written by less sophisticated programmers in less sophisticated languages, their reaction is often: "90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. Why don't you all have a library for that? Or language features that make the solution easy?"
+When Lisp programmers look at code written by less sophisticated programmers in less sophisticated languages, their reaction is often: "dude, 90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. Why don't you all have a library for that? Or language features that make the solution easy?"
 
 Hence [[https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule][Greenspun's Tenth Rule]]: "Any sufficiently complicated C or Fortran program contains an ad hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp."
 
-Also hence the [[http://www.winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]].
+But also, hence the [[http://www.winestockwebdesign.com/Essays/Lisp_Curse.html][Lisp Curse]].
 
 That evolution can be seen in many languages: the libraries increase in number and complexity; the language gains functional idioms and type annotations. And you end up with a sort of [[https://www.google.com/search?q=convergent+evolution+in+programming+languages][convergent evolution in language design]]. Landin [[https://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf][foresaw this in 1966]]; [[https://link.springer.com/chapter/10.1007/978-3-319-91908-9_15][retrospective]].
 
