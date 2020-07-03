@@ -17,6 +17,71 @@ What does the cap table look like at various stages of conversion -- before, dur
 Four different standard SAFE templates are given. This is good for us, because it gives four points in configuration space, from which we can determine dimensions.
 
 #+begin_src haskell
+
+  conversion :: SAFEinstrument -> Event SeriesA -> PercentageOwnership
+
+  data SAFEinstrument = MkSafe { discount :: Maybe Int
+                               , post_cap :: Maybe Int
+                               , invested :: Int
+                               , mfn      :: Bool -- "Most Favoured Nation"
+                                 -- option to transform to a subsequent SAFEinstrument
+                               }
+
+  -- should be a NonEmptyList
+  data VersionedObject a = VO [(Date, a)] -- where "snd $ head a" is the current thing
+
+  data Event
+
+  data Definition
+
+  type Assertion = WorldState -> Bool
+
+  data Representation = Rep Party Assertion
+
+  data Modal = DeonticModal Party MayMustShant Action Deadline
+             | EpistemicModal Party WorldState
+             | TemporalModal
+           
+  faqConversion :: SAFEinstrument -> Scenario (Event SeriesA 10000000) -> WhatHappens
+
+  --                if              then  else
+  type ModalGraph = Modal (ThenElse Modal Modal)
+                  | Breach    -- exit(-1), talk to a judge
+                  | Fulfilled -- exit(0), all done
+
+  data Boilerplate = Boilerplate String
+
+  data MetaRule = MetaRule MetaRule MetaRule
+
+  data IfThen = Upon Event Modal
+
+  liquidityEvent = Upon liquidityEvent (EpistemicModal "send notice to Investor advising a liquidity event is happening")
+    >> (DeonticModal Investor MAY RespondToEmail $ Left  (Response "yes Please" >> DeonticModal (Company MUST Pay X))
+                                                   Right (Response "no thanks"  >> DeonticModal (Company MUST Pay Y))
+                                                   )
+     
+
+  -- 	(b) Liquidity Event. If there is a Liquidity Event before the
+  -- 	termination of this Safe, this Safe will automatically be
+  -- 	entitled (subject to the liquidation priority set forth in
+  -- 	Section 1(d) below) to receive a portion of Proceeds, due and
+  -- 	payable to the Investor immediately prior to, or concurrent
+  -- 	with, the consummation of such Liquidity Event, equal to the
+  -- 	greater of (i) the Purchase Amount (the “Cash-Out Amount”) or
+  -- 	(ii) the amount payable on the number of shares of Common
+  -- 	Stock equal to the Purchase Amount divided by the Liquidity
+  -- 	Price (the “Conversion Amount”).
+
+  --                                     If any of the Company’s
+  -- 	securityholders are given a choice as to the form and amount
+  -- 	of Proceeds to be received in a Liquidity Event, the Investor
+  -- 	will be given the same choice, provided that the Investor may
+  -- 	not choose to receive a form of consideration that the
+  -- 	Investor would be ineligible to receive as a result of the
+  -- 	Investor’s failure to satisfy any requirement or limitation
+  -- 	generally applicable to the Company’s securityholders, or
+  -- 	under any applicable laws.
+
 #+end_src
 
 * Answering questions
@@ -30,11 +95,11 @@ Four different standard SAFE templates are given. This is good for us, because i
 
 * Test Cases
 
-| U | Scenario | Investment Amount | Post Money Valuation Cap | Discount | Option Pool | Series A Raise | Series A Pre-Money Val |
-|---+----------+-------------------+--------------------------+----------+-------------+----------------+------------------------|
-| 1 | e.g. 1   |            100000 |                     none |        0 |        none |                |                1000000 |
-| 2 | II.1     |            200000 |                  4000000 |        0 |           0 |                |                        |
-| 3 | II.1     |            800000 |                  8000000 |        0 |        0.10 |        5000000 |               15000000 |
+| U | Scenario | Investment Amount | Post Money Valuation Cap | Discount | Option Pool | Series A Raise | Series A Pre-Money Val | Outcome     |
+|---+----------+-------------------+--------------------------+----------+-------------+----------------+------------------------+-------------|
+| 1 | e.g. 1   |            100000 |                     none |        0 |        none |                |                1000000 |             |
+| 2 | II.1     |            200000 |                  4000000 |        0 |           0 |                |                        |             |
+| 3 | II.1     |            800000 |                  8000000 |        0 |        0.10 |        5000000 |               15000000 | x * (1 - y) |
 
 
 * Learning Objectives
