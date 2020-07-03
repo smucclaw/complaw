@@ -321,10 +321,11 @@ This is a roughly 12 week course.
 
 https://courses.edx.org/courses/course-v1:HarvardX+CS50+X/course/
 
-There are actually three different courses that I want you to take.
-- [[https://courses.edx.org/courses/course-v1:HarvardX+CS50+X/course/][CS50x]] ::  the basic prata kosong
-- [[https://cs50.harvard.edu/ai/2020/][CS50 AI]] :: seven lectures on different techniques in AI
-- [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers
+There are actually three different courses that are worth checking out, all under the brand CS50.
+
+- [[https://courses.edx.org/courses/course-v1:HarvardX+CS50+X/course/][CS50x]] ::  the basic prata kosong. Do the exercises.
+- [[https://cs50.harvard.edu/ai/2020/][CS50 AI]] :: seven lectures on different techniques in AI. Do the exercises.
+- [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers. If you've done the above then you can probably skip the exercises and just skim the videos to get a sense of what the lawyer audience cares about.
 
 So, all told, this will probably take most of a year.
 
