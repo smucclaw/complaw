@@ -38,7 +38,7 @@ Four different standard SAFE templates are given. This is good for us, because i
 
 
 * Learning Objectives
-** Sections of Contracts -- Tpyes of Contract Language
+** Sections of Contracts -- Types of Contract Language
 *** Parameters
 *** Events
 *** Definitions
@@ -46,6 +46,7 @@ Four different standard SAFE templates are given. This is good for us, because i
 *** Representations by Party
 *** Deontics
 called, in the SAFEs, "Miscellaneous"
+*** Boilerplate incantations
 ** Transformators and Combinators
 *** Hypotheticals and Counterfactuals
 *** Logging Conversions of State Over Time
