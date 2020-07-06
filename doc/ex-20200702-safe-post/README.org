@@ -595,6 +595,9 @@ But we will implement the operational logic using a constraint solver, because t
 
 The ~new_money_in~ is an upper bound. In practice the round may not fill, in which case the investors will get slightly more % of the company than they had originally negotiated; while the absolute size of your slice of the pie remains the same, because the pie itself is smaller, it's a greater portion, relatively speaking.
 
+The term "cap" can be confusing.
+1. A Company Capitalization is measured in number of shares; a table showing all the shareholders is a "Capitalization Table" or "Cap Table" for short.
+2. A Valuation Cap is a limit on the effective valuation, an upper bound. So it is a cap, like the cap you wear on the top of your head. The amount is capped.
 
 *** Haskell: Constraints
 
