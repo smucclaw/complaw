@@ -78,7 +78,7 @@ To get to the desired answer -- 15% total -- we'll take the sum of the individua
 #+begin_src haskell :noweb-ref basicimplementation
 estimatedDilution :: [Security] -> Float
 estimatedDilution safes =
-  sum [ mi / pc | SAFE{money_in=mi, val_cap=(Just pc)} <- safes ]
+  sum [ money / cap | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
 #+end_src
 
 If you're new to Haskell, you can read this as "the sum of all the ~money_in / val_cap~ of all the safes". If a SAFE doesn't have a val_cap, it gets left out of the calculation.
@@ -87,10 +87,8 @@ To be able to break out the 5% and the 10%, though, we need to deal with each SA
 
 #+begin_src haskell :noweb-ref test-1
   describe "dilutionDueTo" $ do
-    it "investor A should be 5%" $
-      dilutionDueTo (series_a.valuationPre) safe_a `shouldBe` 0.05
-    it "investor B should be 10%" $
-      dilutionDueTo (series_a.valuationPre) safe_b `shouldBe` 0.10
+    it "should be  5% for investor A" $ dilutionDueTo (series_a.valuationPre) safe_a `shouldBe` 0.05
+    it "should be 10% for investor B" $ dilutionDueTo (series_a.valuationPre) safe_b `shouldBe` 0.10
 #+end_src
 
 I want ~dilutionDueTo~ to handle the full complexity of an individual SAFE's conversion, handling each of the four variants (cap/discount, no-cap/no-discount) correctly under different valuation scenarios in the Equity Financing.
@@ -130,19 +128,19 @@ If the SAFE is no-discount, no-cap, then the effective valuation is just the Ser
 If the SAFE is cap, no-discount, we take the ~val_cap~ as the effective valuation.
 
 #+begin_src haskell :noweb-ref basicimplementation
-                         (Nothing, Just pc) ->     cappedValuation
+                         (Nothing, Just _ ) ->     cappedValuation
 #+end_src
 
 If the SAFE is discount, no-cap, we reduce the Series A pre-money valuation by give SAFE's discount, and use the result.
 
 #+begin_src haskell :noweb-ref basicimplementation
-                         (Just d,  Nothing) ->                     discountedValuation
+                         (Just _,  Nothing) ->                     discountedValuation
 #+end_src
 
 If the SAFE has both cap and discount, we take whichever valuation is lower -- ~min~ means "minumum".
 
 #+begin_src haskell :noweb-ref basicimplementation
-                         (Just d,  Just pc) -> min cappedValuation discountedValuation
+                         (Just _,  Just _ ) -> min cappedValuation discountedValuation
 #+end_src
 
 A couple of helper functions make the math easier: here's how we arrived at the ~cappedValuation~ used above.
@@ -224,7 +222,7 @@ We use a plain old string to label the owner, though in a real world application
 type Entity = String -- simple type alias, nothing to see here
 #+end_src
 
-Question 2, "what is the impact of an Equity Financing on the Company's cap table?", gives us more information to work with:
+Now we are given more information to work with:
 
 #+begin_quote
 The Company signed a Series A term sheet to raise $5m at a pre-money valuation of $15m (which pre-money valuation includes (i) an ungranted and unallocated employee option pool representing 10% of the fully-diluted post-closing capitalization and (ii) all shares of Company capital stock issued in respect of outstanding safes and/or convertible promissory notes), resulting in a post-money valuation of $20m.  Investor C, the lead investor, will be investing $4m for 20% post-closing fully diluted ownership.
@@ -304,14 +302,14 @@ The equation for /Company Capitalization/ adds the conversion shares to the imme
       companyCapitalization series_a `shouldBe` 11764705
 #+end_src
 
-For now, ignore the version of the function that has the little ~'~ on the end. More on that later.
+For now, ignore the version of the function that has the little tick on the end. More on that later.
 
 #+begin_src haskell :noweb-ref basicimplementation
 companyCapitalization' eqr = sharesPre eqr + conversionSharesAll' eqr
 companyCapitalization  eqr = sharesPre eqr + conversionSharesAll  eqr
 #+end_src
 
-To arrive at that number, we had to determine the number of conversion shares: 1,764,706.
+To arrive at that number, we had to determine the number of conversion shares: 1,764,705.
 
 #+begin_src haskell :noweb-ref test-1
   describe "conversionSharesAll" $ do
@@ -327,11 +325,11 @@ conversionSharesAll  eqr = sum $ conversionShares eqr <$> eqr.convertibles
 
 The conversion shares were computed based on the conversion dilutions, which is the sum of all the dilution due to the SAFEs.
 
-We already know it should be 15%, but we reach that number in a bottom-up way.
+We already know it should be 15%, but let's reach that number in a bottom-up way.
 
 #+begin_src haskell :noweb-ref test-1
   describe "conversionDilutions" $ do
-    it "add up to 15% in this case" $
+    it "should add up to 15%" $
       conversionDilutions series_a `shouldBe` 0.15
 #+end_src
 
@@ -438,7 +436,7 @@ Well, guess what. Our code returns 17,945,702, but the test expects 17,946,424. 
 | Investor B shares     | 448,671    | 448,641    |       30 | 0.0006% |
 | Other investor shares | 448,673    | 448,643    |       30 | 0.0006% |
 
-Well, that's why we called it ~totalPost'~ -- as in "prime". We'll run
+Well, that's why we called it totalPost' -- as in "prime". We'll run
 one set of "prime" calculations, then deliberately and arbitrarily
 drop significant digits (welcome to corporate finance!) to get numbers
 that come out the same as the User Guide. The "prime" functions in the
@@ -590,7 +588,7 @@ We turn the information we are given into tests:
 --    it "should be $0.8901" $ exitPricePerShare exit10 `shouldBe` 0.8901
 #+end_src
 
-But we will implement the operational logic using a constraint solver, because the Liquidity Capitalization definition is recursive.
+But we will implement the operational logic using a constraint solver, because the Liquidity Capitalization definition is mutually recursive.
 
 
 **** Notes
@@ -598,27 +596,29 @@ But we will implement the operational logic using a constraint solver, because t
 The ~new_money_in~ is an upper bound. In practice the round may not fill, in which case the investors will get slightly more % of the company than they had originally negotiated; while the absolute size of your slice of the pie remains the same, because the pie itself is smaller, it's a greater portion, relatively speaking.
 
 
-*** Haskell: Linear Equations
-
-We can phrase all of the above mathematics in the form of linear equations.
-
-We try the ~linearEqSolver~ package.
-
-How would we phrase:
-
-- y = x + z
-- z = 3/y
-- x * y = 12
-
-#+begin_src haskell :noweb-ref basicimplementation
-mysolve = solveIntegerLinearEqs Z3 [[2, 3, 4],[6, -3, 9],[2, 0, 1]] [20, -6, 8]
-#+end_src
-
 *** Haskell: Constraints
 
-We try the ~Holmes~ package.
+We can phrase all of the above mathematics in the form of constraints.
 
+In Z3, we would say:
 
+#+begin_src z3 :tangle safe.z3
+(echo "starting Z3 solver for SAFE conversion...")
+
+(declare-const safe_a_owner        Int)
+(declare-const safe_a_money_in     Int)
+(declare-const safe_a_has_discount Bool)
+(declare-const safe_a_has_cap      Bool)
+(declare-const safe_a_val_discount Int)
+(declare-const safe_a_val_cap      Int)
+
+(assert (= safe_a_money_in 200000)) (assert (= safe_a_has_cap 200000))
+(assert (= safe_a_money_in 200000))
+(check-sat)
+(get-model)
+#+end_src
+
+This is rather wordy. Maybe we would do better in Curry or Mercury.
 
 *** DMN implementation
 

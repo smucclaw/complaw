@@ -49,10 +49,8 @@ spec1 = do
       it "should compute the expected minimum dilution from II.1 as 15%" $
         estimatedDilution [safe_a, safe_b] `shouldBe` 15 / 100
     describe "dilutionDueTo" $ do
-      it "investor A should be 5%" $
-        dilutionDueTo (series_a.valuationPre) safe_a `shouldBe` 0.05
-      it "investor B should be 10%" $
-        dilutionDueTo (series_a.valuationPre) safe_b `shouldBe` 0.10
+      it "should be  5% for investor A" $ dilutionDueTo (series_a.valuationPre) safe_a `shouldBe` 0.05
+      it "should be 10% for investor B" $ dilutionDueTo (series_a.valuationPre) safe_b `shouldBe` 0.10
     describe "sharesPre" $ do
       it "should show total common + option shares as 10,000,000" $
         sharesPre series_a `shouldBe` 10000000
@@ -63,7 +61,7 @@ spec1 = do
       it "conversion shares should add up to 1,764,705" $
         conversionSharesAll series_a `shouldBe` 1764705
     describe "conversionDilutions" $ do
-      it "add up to 15% in this case" $
+      it "should add up to 15%" $
         conversionDilutions series_a `shouldBe` 0.15
     describe "conversionShares" $ do
       it "investor A's SAFE converts to   588,235 shares" $ conversionShares series_a safe_a `shouldBe`  588235

@@ -43,14 +43,14 @@ data Scenario = LiquidityEvent { liquidityPrice :: Money
                                } deriving (Show, Eq)
 estimatedDilution :: [Security] -> Float
 estimatedDilution safes =
-  sum [ mi / pc | SAFE{money_in=mi, val_cap=(Just pc)} <- safes ]
+  sum [ money / cap | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
 dilutionDueTo :: Money -> Security -> Percentage
 dilutionDueTo valuationPre safe =
        let effectiveValuation = case (safe.discount, safe.val_cap) of
                          (Nothing, Nothing) -> valuationPre
-                         (Nothing, Just pc) ->     cappedValuation
-                         (Just d,  Nothing) ->                     discountedValuation
-                         (Just d,  Just pc) -> min cappedValuation discountedValuation
+                         (Nothing, Just _ ) ->     cappedValuation
+                         (Just _,  Nothing) ->                     discountedValuation
+                         (Just _,  Just _ ) -> min cappedValuation discountedValuation
            cappedValuation     = min (safe.val_cap) (Just valuationPre) // valuationPre
            discountRate        = 1 - safe.discount // 0
            discountedValuation = discountRate * valuationPre
@@ -101,6 +101,5 @@ investorIssue  eqr investment = floor (investment.money_in / pricePerShare  eqr)
 allInvestorIssues' :: EquityRound -> Int
 allInvestorIssues' eqr = sum $ investorIssue' eqr <$> eqr.incoming
 allInvestorIssues  eqr = sum $ investorIssue  eqr <$> eqr.incoming
-mysolve = solveIntegerLinearEqs Z3 [[2, 3, 4],[6, -3, 9],[2, 0, 1]] [20, -6, 8]
 infixl 7 //
 (//) = flip fromMaybe
