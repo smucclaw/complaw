@@ -44,6 +44,7 @@ data Scenario = LiquidityEvent { liquidityPrice :: Money
 estimatedDilution :: [Security] -> Float
 estimatedDilution safes =
   sum [ money / cap | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
+
 dilutionDueTo :: Money -> Security -> Percentage
 dilutionDueTo valuationPre safe =
        let effectiveValuation = case (safe.discount, safe.val_cap) of

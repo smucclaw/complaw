@@ -6,15 +6,17 @@ https://www.ycombinator.com/documents/
 
 ** How Complex Are SAFEs?
 
-People like to say SAFEs become a hairball after a startup has done more than a few. Is that true? Does the complexity of SAFEs scale linearly, quadratically, or exponentially? Let's find out.
+People like to say SAFEs become a hairball after a startup has done more than a few. Is that true? Does the complexity of SAFEs scale linearly, quadratically, or exponentially? By the end of this exercise you'll know enough to see why: the definitions are mutually recursive, and require solving simultaneous equations -- in the presence of rounding errors! But this is good for us, because it naturally lets us bring constraint solvers on-stage.
 
 * Two Approaches: Basic Operational vs Advanced Declarative
 
-What investors want to know: "after conversion, how much of the company will I own?" The company has to answer that question for each SAFE investor. And it has to take those answers into account when, during the Series A financing, the company sets up an option pool and deals with new investors.
+Investors want to know: "after conversion, how much of the company will I own?" The company has to answer that question for each SAFE investor. And it has to take those answers into account when, during the Series A financing, the company sets up an option pool and deals with new investors.
 
 The <<<Basic Approach>>> section shows how a computer can help to answer the question. In that section, we will do nothing more conceptually complicated than high-school algebra. We are just showing our reasoning in software instead of on paper. This is an /operational/ exercise. We will perform this exercise in Haskell, DMN, Curry, and Python, to produce code that, dealing with a specific instance of a company with SAFEs and a Series A coming up, is able to give the same answers as you would have gotten using a calculator or a spreadsheet.
 
-But that's not what computational law is really about. In computational law, abstraction is our friend and motivator. Abstraction has already helped us write operational SAFE code can handle the whole /class/ of SAFE problems, of which the examples in Appendix II are individual /instances/. Next, abstraction pushes us one level higher: it wants us to write declarative specifications from which we can automatically /extract/ the operational code for SAFEs, or any other financial contract, or any other contract at all! The instance "comes out of" the class. We want the class to "come out of" the rules.
+One goal of this "programming chrestomathy" is to show how different languages and programming paradigms treat certain problems. The Haskell approach showcases the strengths of types. The Curry approach highlights constraints and logic. The DMN approach makes it easy to follow the data flow and visually compare the different variants of the safe. The Python version is relatable and motivates the idea of model-based code generation.
+
+But operational implementation is only one part of what computational law is really about. In computational law, abstraction is our friend and motivator. Abstraction has already helped us write operational SAFE code can handle the whole /class/ of SAFE problems, of which the examples in Appendix II are individual /instances/. Next, abstraction pushes us one level higher: it wants us to write declarative specifications from which we can automatically /extract/ the operational code for SAFEs, or any other financial contract, or any other contract at all! The instance "comes out of" the class. We want the class to "come out of" the rules.
 
 Following that instinct, in the <<<Advanced Approach>>> section, we will take a step back and encode the SAFE template itself in a higher-level /declarative/ form. We will know we are successful when, having written up the SAFE in our DSL, we can automatically compile it to a natural language representation of the rules that looks similar to the original text of the SAFE, and to an operational implementation that looks like the output of the above operational exercise. This is an exercise in Model-Driven Engineering, and is similar in spirit to what code generators do from UML; in the past, people did it with SBVR. In one of our exercises we will do it from DMN. Formal methods allow us to do useful things at the level of declarative specifications, that are not available at the level of individual implementations.
 
@@ -25,11 +27,11 @@ But enough talk, let's get started.
 :header-args:haskell: :noweb-ref basictypes
 :END:
 
-First we will flesh out the exercise in Haskell. Simple Haskell, at that. Nothing fancy. Most of our functions just do addition and subtraction and multiplication. You can follow along even if you don't know Haskell.
+First we will flesh out the exercise in Haskell. Simple Haskell, at that. Nothing fancy. Most of our functions just do addition and subtraction and multiplication. You can follow along even if you don't know Haskell. By the end, you will know a bit.
 
 ** Appendix II, Example 1
 
-Let's turn Appendix II, Example 1 into code! Because we believe in test-driven development, we will write the tests first, and then write the code.
+Let's turn Appendix II, Example 1 into code! Because we believe in test-driven development, we will write the tests first, and then write the code. And we will do this in a "literate programming" style, where the code in this README becomes the code that actually runs.
 
 *** Appendix II, Example 1: in Haskell
 
@@ -81,9 +83,11 @@ estimatedDilution safes =
   sum [ money / cap | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
 #+end_src
 
-If you're new to Haskell, you can read this as "the sum of all the ~money_in / val_cap~ of all the safes". If a SAFE doesn't have a val_cap, it gets left out of the calculation.
+If you're new to Haskell, you can read this as "the sum of all the ~money_in / val_cap~ of all the safes". If a SAFE doesn't have a val_cap, it gets left out of the calculation. The User Guide takes a shortcut: it knows it's dealing with cap-only, no-discount SAFEs, so it cuts to the chase. But the solution isn't generalizable. What's the estimated dilution for a discount-only, no-cap SAFE? There isn't one! If the next round issues at super-low valuation, the dilution could creep close to 100%.
 
-To be able to break out the 5% and the 10%, though, we need to deal with each SAFE on its own. Let's call that "dilutionDueTo".
+The solution: calculate actual dilution, given a valuation.
+
+To be able to break out the 5% and the 10%, we need to deal with each SAFE on its own. Let's call that "dilutionDueTo".
 
 #+begin_src haskell :noweb-ref test-1
   describe "dilutionDueTo" $ do
@@ -93,11 +97,12 @@ To be able to break out the 5% and the 10%, though, we need to deal with each SA
 
 I want ~dilutionDueTo~ to handle the full complexity of an individual SAFE's conversion, handling each of the four variants (cap/discount, no-cap/no-discount) correctly under different valuation scenarios in the Equity Financing.
 
-To do that, ~dilutionDueTo~ will need to know, at the very least, what the Series A pre-money valuation is.
+To do that, ~dilutionDueTo~ needs to know the Series A pre-money valuation.
 
 That means the function needs to have at least two arguments: the Series A pre-money valuation, and the specifics of the SAFE.
 
 #+begin_src haskell :noweb-ref basicimplementation
+
 dilutionDueTo :: Money -> Security -> Percentage
 dilutionDueTo valuationPre safe =
 #+end_src
@@ -169,6 +174,10 @@ infixl 7 //
 (//) = flip fromMaybe
 #+end_src
 
+One more remark: The term "cap" can be confusing.
+1. A /Company Capitalization/ is measured in number of shares; it is a total of all the shares in the company at a certain point in the conversion process. A table showing all the shareholders is a "Capitalization Table" or "Cap Table" for short. The User Guide examples contain quite a few.
+2. A /Valuation Cap/ is a limit on the effective valuation, an upper bound. So it is a cap, like the cap you wear on the top of your head. The amount is capped.
+
 Anyway, where were we?
 
 We were calculating that Investor A will get 5% and Investor B will get 10%, and we were being exhaustively comprehensive about the conversion dilution.
@@ -210,9 +219,13 @@ to indicate that a SAFE object doesn't need to have a ~discount~ attribute.
 
 Another approach is to always set the discount attribute, and treat it as a number most of the time, but set it to ~undefined~ when the SAFE is one of the no-discount variants.
 
+#+begin_src typescript
+interface SAFE { ... discount: number | null; ... }
+#+end_src
+
 "Think it about it," they will argue, "if there is no discount on the SAFE, ~undefined~ will be treated as ~0~, which gives the right answer when you do ~discountRate = 1 - discount~."
 
-And they would be right -- as far as discounts go. But treating an undefined valuation cap as 0 is going to blow up when you divide by zero.
+And they would be right -- as far as discounts go. But treating an undefined valuation cap as 0 is going to blow up when you divide by zero. This is why [[https://medium.com/@hinchman_amanda/null-pointer-references-the-billion-dollar-mistake-1e616534d485][Tony Hoare called "null" his "billion dollar mistake]]".
 
 In Haskell, we explicitly wrap the number inside a ~Maybe~. If a SAFE has 10% discount, no-cap, we would say ~discount=Just 10%~ and ~val_cap=Nothing~. That's more formal and structured, and that's the reason we defined ~//~ to give defaults to ~Nothing~ values.
 
@@ -595,9 +608,6 @@ But we will implement the operational logic using a constraint solver, because t
 
 The ~new_money_in~ is an upper bound. In practice the round may not fill, in which case the investors will get slightly more % of the company than they had originally negotiated; while the absolute size of your slice of the pie remains the same, because the pie itself is smaller, it's a greater portion, relatively speaking.
 
-The term "cap" can be confusing.
-1. A Company Capitalization is measured in number of shares; a table showing all the shareholders is a "Capitalization Table" or "Cap Table" for short.
-2. A Valuation Cap is a limit on the effective valuation, an upper bound. So it is a cap, like the cap you wear on the top of your head. The amount is capped.
 
 *** Haskell: Constraints
 
@@ -763,7 +773,7 @@ for future consideration,
 :header-args:haskell: :noweb-ref advanced
 :END:
 
-In this section we develop a formal model suited to representing all of the SAFE.
+In this section we develop a formal model suited to representing all of the SAFE. Our approach: build a GF grammar which produces a Haskell grammar.
 
 Ken Adams introduces various categories of contract language. We can see these categories show up in the SAFE:e
 
@@ -883,6 +893,26 @@ We can specify that somebody is obliged to, permitted to, or prohibited from doi
 
   -- we use the time library: https://two-wrongs.com/haskell-time-library-tutorial.html
 #+end_src
+
+** Formal Methods
+
+<<<Basic Approach>>> above showed that because a SAFE conversion event involved mutually recursive definitions, it needed to be framed as a word problem in simultaneous equations. Solving those equations resulted in the "correct answer" for the SAFEs converting at Series A. This is probably why SAFEs are considered a hairball.
+
+We know from quadratic equations that sometimes there's more than one correct answer. Could that be true here too?
+
+Is it possible for a set of SAFEs to have more than one solution -- or no solutions at all?
+
+Open up the cap-only, no-discount version of the SAFE (v1.1) and look at the definition of Liquidity Capitalization.
+
+#+begin_quote
+"Liquidity Capitalization" ... includes all Converting Securities, *other than* any Safes and other convertible securities (including without limitation shares of Preferred Stock) where the holders of such securities are receiving Cash-Out Amounts or similar liquidation preference payments in lieu of Conversion Amounts or similar “as-converted” payments ...
+#+end_quote
+
+My intuition tells me that this feels like a knights/knaves logic problem: "I always tell the truth, and my brother always lies. Am I lying?"
+
+We can use formal methods to explore this intuition. Is our formalization well-suited to integration with a third-party tool like Alloy or Z3?
+
+Do constraint problems like this arise in law and contracts elsewhere?
 
 * Test Cases
 
