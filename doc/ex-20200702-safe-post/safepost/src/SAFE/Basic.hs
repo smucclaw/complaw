@@ -13,7 +13,7 @@ import Data.Maybe
 import Math.LinearEquationSolver
 
 type Percentage = Float
-type Money = Float
+type      Money = Float
 data Security = SAFE { owner    :: Entity       -- who purchased this safe
                      , money_in :: Money        -- how much money did the investor put in?
                      , discount :: Maybe Float  -- usually something like 20%
@@ -43,7 +43,8 @@ data Scenario = LiquidityEvent { liquidityPrice :: Money
                                } deriving (Show, Eq)
 estimatedDilution :: [Security] -> Float
 estimatedDilution safes =
-  sum [ money / cap | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
+  sum [ money / cap
+      | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
 
 dilutionDueTo :: Money -> Security -> Percentage
 dilutionDueTo valuationPre safe =
@@ -56,7 +57,7 @@ dilutionDueTo valuationPre safe =
            discountRate        = 1 - safe.discount // 0
            discountedValuation = discountRate * valuationPre
         in safe.money_in / effectiveValuation
-sharesPre eqr = eqr.commonPre + eqr.optionsPreOutstanding + eqr.optionsPrePromised + eqr.optionsPreFree
+sharesPre eqr = sum $ [commonPre, optionsPreOutstanding, optionsPrePromised, optionsPreFree] <*> [eqr]
 companyCapitalization' eqr = sharesPre eqr + conversionSharesAll' eqr
 companyCapitalization  eqr = sharesPre eqr + conversionSharesAll  eqr
 conversionSharesAll :: EquityRound -> Int

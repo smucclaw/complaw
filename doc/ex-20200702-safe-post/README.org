@@ -16,9 +16,9 @@ The <<<Basic Approach>>> section shows how a computer can help to answer the que
 
 One goal of this "programming chrestomathy" is to show how different languages and programming paradigms treat certain problems. The Haskell approach showcases the strengths of types. The Curry approach highlights constraints and logic. The DMN approach makes it easy to follow the data flow and visually compare the different variants of the safe. The Python version is relatable and motivates the idea of model-based code generation.
 
-But operational implementation is only one part of what computational law is really about. In computational law, abstraction is our friend and motivator. Abstraction has already helped us write operational SAFE code can handle the whole /class/ of SAFE problems, of which the examples in Appendix II are individual /instances/. Next, abstraction pushes us one level higher: it wants us to write declarative specifications from which we can automatically /extract/ the operational code for SAFEs, or any other financial contract, or any other contract at all! The instance "comes out of" the class. We want the class to "come out of" the rules.
+But operational implementation is only one part of what computational law is really about. In computational law, abstraction is our friend and motivator. Abstraction encourages us to write operational SAFE code which can handle the whole /class/ of SAFE problems, of which the examples in Appendix II are individual /instances/. Next, abstraction pushes us one level higher: it wants us to write declarative specifications from which we can automatically /extract/ the operational code for SAFEs, or any other financial contract, or any other contract at all! The instance "comes out of" the class. We want the class to "come out of" the rules.
 
-Following that instinct, in the <<<Advanced Approach>>> section, we will take a step back and encode the SAFE template itself in a higher-level /declarative/ form. We will know we are successful when, having written up the SAFE in our DSL, we can automatically compile it to a natural language representation of the rules that looks similar to the original text of the SAFE, and to an operational implementation that looks like the output of the above operational exercise. This is an exercise in Model-Driven Engineering, and is similar in spirit to what code generators do from UML; in the past, people did it with SBVR. In one of our exercises we will do it from DMN. Formal methods allow us to do useful things at the level of declarative specifications, that are not available at the level of individual implementations.
+Following that instinct, in the <<<Advanced Approach>>> section, we will take a step back and encode the SAFE template itself in a higher-level /declarative/ form. We will know we are successful when, having written up the SAFE in our DSL, we can automatically compile it to a natural language representation of the rules that looks similar to the original text of the SAFE, and to an operational implementation that looks like the output of the above operational exercise. This is an exercise in Model-Driven Engineering, and is similar in spirit to what code generators do from UML; in the past, people did it with SBVR. In one of our exercises we will do it from DMN. Formal methods allow us to do useful things at the level of declarative specifications, that cannot be done at the level of individual implementations.
 
 But enough talk, let's get started.
 
@@ -80,7 +80,8 @@ To get to the desired answer -- 15% total -- we'll take the sum of the individua
 #+begin_src haskell :noweb-ref basicimplementation
 estimatedDilution :: [Security] -> Float
 estimatedDilution safes =
-  sum [ money / cap | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
+  sum [ money / cap
+      | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
 #+end_src
 
 If you're new to Haskell, you can read this as "the sum of all the ~money_in / val_cap~ of all the safes". If a SAFE doesn't have a val_cap, it gets left out of the calculation. The User Guide takes a shortcut: it knows it's dealing with cap-only, no-discount SAFEs, so it cuts to the chase. But the solution isn't generalizable. What's the estimated dilution for a discount-only, no-cap SAFE? There isn't one! If the next round issues at super-low valuation, the dilution could creep close to 100%.
@@ -107,16 +108,16 @@ dilutionDueTo :: Money -> Security -> Percentage
 dilutionDueTo valuationPre safe =
 #+end_src
 
-Haskell is strongly typed. In this function, we use ~Money~ as the type of the valuation, and we use a Float to represent the percentage.
+Haskell is strongly typed. In this function, we use ~Money~ as the type of the valuation, and Percentage as the type of the result. Under the hood both are Floats. The type alias keeps them conceptually separated. 
 
 #+begin_src haskell :noweb-ref basictypes
 type Percentage = Float
-type Money = Float
+type      Money = Float
 #+end_src
 
-(In the real world, we would bulk up our Money with a currency label, and to avoid floating-point errors we should use an Integer number of cents, but because this is just a learning exercise we will keep things simple and do everything with Floats.)
+(In the real world, we would augment Money with a currency label, and to avoid floating-point errors we should use an Integer number of cents. Percentage would be a Rational instead of a Float. but because this is just a learning exercise we will keep things simple and do everything with Floats.)
 
-Each SAFE converts at a certain /effective valuation/, which is based on, but can be different to, the Series A pre-money valuation.
+Each SAFE converts at a certain /effective valuation/, which is based on, but usually different to, the Series A pre-money valuation.
 
 It all depends on which of the four variants the SAFE belongs to. We'll set up a ~case~ statement, aka a ~switch~ statement, to handle the four possibilities:
 
@@ -288,7 +289,7 @@ How did they arrive at those numbers? Read on...
 The total number of as-if-converted shares /prior to conversion/ is the sum of the founder stock and the options in the ESOP, including the available options.
 
 #+begin_src haskell :noweb-ref basicimplementation
-sharesPre eqr = eqr.commonPre + eqr.optionsPreOutstanding + eqr.optionsPrePromised + eqr.optionsPreFree
+sharesPre eqr = sum $ [commonPre, optionsPreOutstanding, optionsPrePromised, optionsPreFree] <*> [eqr]
 #+end_src
 
 The "immediately prior" table shows 10 million total shares at the start of the round. We'll call that ~sharesPre~.
