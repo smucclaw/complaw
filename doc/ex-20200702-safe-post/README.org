@@ -137,7 +137,7 @@ If the SAFE is cap, no-discount, we take the ~val_cap~ as the effective valuatio
                          (Nothing, Just _ ) ->     cappedValuation
 #+end_src
 
-If the SAFE is discount, no-cap, we reduce the Series A pre-money valuation by give SAFE's discount, and use the result.
+If the SAFE is discount, no-cap, we reduce the Series A pre-money valuation by the given SAFE's discount, and use the result.
 
 #+begin_src haskell :noweb-ref basicimplementation
                          (Just _,  Nothing) ->                     discountedValuation
@@ -304,9 +304,9 @@ The "immediately prior" table shows 10 million total shares at the start of the 
 
 The next step is conversion of the SAFEs:
 
-#+begin_src
+#+begin_quote
 As explained in example #1 above, the Company’s outstanding post-money safes will convert into at least 15% of the Company Capitalization, which includes, without double counting, all safe and note conversion shares, the existing option pool, and all promised options, but excludes the new money shares as well as the option pool increase associated with the Equity Financing.  In this example, the safes convert into exactly 15% because the post-money valuation of the Equity Financing is sufficiently high that all safes convert into Safe Preferred Stock at a price per share based on their respective valuation caps rather than Standard Preferred Stock at the Series A price per share (see Section B, question 2 in the Q&A).
-#+end_src
+#+end_quote
 
 The equation for /Company Capitalization/ adds the conversion shares to the immediately prior ~sharesPre~. The expected answer is 11,764,705.
 
