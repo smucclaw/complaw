@@ -10,7 +10,6 @@
 module SAFE.Basic where
 import Data.Ratio
 import Data.Maybe
-import Math.LinearEquationSolver
 
 type Percentage = Float
 type      Money = Float

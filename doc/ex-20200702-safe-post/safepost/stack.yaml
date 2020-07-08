@@ -40,8 +40,6 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
-- linearEqSolver-2.3@sha256:20c319cbc471006dcd0c5810d131b6784a7823d02c8af87825a06b0c8906b297,1273
-- sbv-8.6@sha256:1bcd7a8851157a97e44a000498f984fb738e54441f16e8c2e2afcc1d0818e888,19781
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

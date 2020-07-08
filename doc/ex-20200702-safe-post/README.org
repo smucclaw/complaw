@@ -994,7 +994,6 @@ spec1 = do
 module SAFE.Basic where
 import Data.Ratio
 import Data.Maybe
-import Math.LinearEquationSolver
 
 <<basictypes>>
 <<basicimplementation>>
