@@ -910,8 +910,6 @@ function sharesPre (eqr : EquityRound) {
   return _.sum([eqr.commonPre, eqr.optionsPreOutstanding, eqr.optionsPrePromised, eqr.optionsPreFree])
 }
 
-console.log(`* sharesPre = ${sharesPre(series_a)}`)
-
 function conversionDilutions (eqr : EquityRound) {
   return _.sum([safe_a, safe_b].map(safe => dilutionDueTo(eqr.valuationPre, safe)))
 }
@@ -933,6 +931,31 @@ function conversion (eqr : EquityRound) {
 }
 conversion(series_a)
 #+end_src
+
+The output:
+
+#+begin_example
+mengwong@solo-wmw ~/src/smucclaw/complaw/doc/ex-20200702-safe-post/safe-ts $ node src/index.js
+{
+  allInvestorIssues: 4486425.488453881,
+  allInvestorMoney: 5000000.16,
+  companyCapitalization: 11764705.88235294,
+  conversionDilutions: 0.15,
+  conversionSharesAll: 1764705.8823529407,
+  optionsNewFree: 1694570.152311869,
+  pricePerShare: 1.11447301930408,
+  sharesPre: 10000000,
+  totalPost: 17945701.52311869
+}
+#+end_example
+
+**** To make the typescript work
+
+#+begin_example
+npm i --save nerdamer typescript lodash
+tsc -w safe.ts
+node safe.js
+#+end_example
 
 *** Conversion in DMN
 
