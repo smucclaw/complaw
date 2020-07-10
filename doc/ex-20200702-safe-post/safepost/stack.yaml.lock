@@ -3,10 +3,24 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: record-dot-preprocessor-0.2.5@sha256:d1ce85ac1f1ce2d108a82032b97734c57f96078bc824527841306ff08e991a68,2401
+    pantry-tree:
+      size: 945
+      sha256: 9f07eb837282755c2a823c65fbc0da1c58084c1297129fa99e7c951e21645d42
+  original:
+    hackage: record-dot-preprocessor-0.2.5@sha256:d1ce85ac1f1ce2d108a82032b97734c57f96078bc824527841306ff08e991a68,2401
+- completed:
+    hackage: record-hasfield-1.0@sha256:c7f39b8d3f9299c7361e115e97f3474274b3487233cb155c58eb0bec7625afcb,1477
+    pantry-tree:
+      size: 441
+      sha256: dafde98d4d1c77fd3507e7c0602c888cd79531bc7f0fe0c74b6ca27e34585f55
+  original:
+    hackage: record-hasfield-1.0@sha256:c7f39b8d3f9299c7361e115e97f3474274b3487233cb155c58eb0bec7625afcb,1477
 snapshots:
 - completed:
-    size: 531696
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/3.yaml
-    sha256: 65e3a94c65ad07fa1913649e3f1e36c4af51bf528a5d9fd217bdc1b46d0477cc
-  original: lts-16.3
+    size: 531701
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/4.yaml
+    sha256: d6119cdacc6d6b39c0bb8f6e11e8db6a21e92a38552e0d553414ba346592b53f
+  original: lts-16.4

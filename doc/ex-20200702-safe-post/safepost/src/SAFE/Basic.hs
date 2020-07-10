@@ -46,28 +46,28 @@ estimatedDilution safes =
       | SAFE{money_in=money, val_cap=(Just cap)} <- safes ]
 
 dilutionDueTo :: Money -> Security -> Percentage
-dilutionDueTo valuationPre safe =
-       let effectiveValuation = case (safe.discount, safe.val_cap) of
+dilutionDueTo valuationPre safe = safe.money_in / effectiveValuation valuationPre safe
+effectiveValuation valuationPre safe = case (safe.discount, safe.val_cap) of
                          (Nothing, Nothing) -> valuationPre
                          (Nothing, Just _ ) ->     cappedValuation
                          (Just _,  Nothing) ->                     discountedValuation
                          (Just _,  Just _ ) -> min cappedValuation discountedValuation
-           cappedValuation     = min (safe.val_cap) (Just valuationPre) // valuationPre
-           discountRate        = 1 - safe.discount // 0
+    where
+           cappedValuation     = min (val_cap safe) (Just valuationPre) // valuationPre
+           discountRate        = 1 - discount safe // 0
            discountedValuation = discountRate * valuationPre
-        in safe.money_in / effectiveValuation
 sharesPre eqr = sum $ [commonPre, optionsPreOutstanding, optionsPrePromised, optionsPreFree] <*> [eqr]
 companyCapitalization' eqr = sharesPre eqr + conversionSharesAll' eqr
 companyCapitalization  eqr = sharesPre eqr + conversionSharesAll  eqr
 conversionSharesAll :: EquityRound -> Int
 conversionSharesAll' eqr = ceiling $ conversionDilutions eqr * (fromIntegral (sharesPre eqr) / (1 - conversionDilutions eqr))
-conversionSharesAll  eqr = sum $ conversionShares eqr <$> eqr.convertibles
+conversionSharesAll  eqr = sum $ conversionShares eqr <$> convertibles (eqr :: EquityRound)
 conversionDilutions :: EquityRound -> Float
 conversionDilutions eqr =
-  sum $ dilutionDueTo (eqr.valuationPre) <$> (eqr.convertibles)
+  sum $ dilutionDueTo (eqr.valuationPre) <$> (convertibles (eqr :: EquityRound))
 conversionShares :: EquityRound -> Security -> Int
 conversionShares eqr safe
-  = floor(dilutionDueTo (valuationPre eqr) safe * fromIntegral ( companyCapitalization' eqr ))
+  = floor(dilutionDueTo (eqr.valuationPre) safe * fromIntegral ( companyCapitalization' eqr ))
 totalPost' eqr =
   let cc    = fromIntegral(companyCapitalization eqr)
       vp    =              valuationPre          eqr
@@ -78,7 +78,7 @@ totalPost' eqr =
     floor ( (aim*cc - aim*opf - vp*opf + vp*cc) / (vp - vp*op - aim*op) )
 allInvestorMoney :: EquityRound -> Money
 allInvestorMoney eqr
-  = sum $ money_in <$> eqr.incoming
+  = sum $ money_in <$> incoming eqr
 optionsNewFree' :: EquityRound -> Int
 optionsNewFree' eqr
   = floor (optionsPost eqr * fromIntegral(totalPost' eqr)) - optionsPreFree eqr
@@ -97,10 +97,10 @@ floor000 n = n `div` 1000 * 1000
 totalPost :: EquityRound -> Int
 totalPost eqr = companyCapitalization eqr + allInvestorIssues eqr + optionsNewFree eqr
 investorIssue' :: EquityRound -> Security -> Int
-investorIssue' eqr investment = floor (investment.money_in / pricePerShare' eqr)
-investorIssue  eqr investment = floor (investment.money_in / pricePerShare  eqr)
+investorIssue' eqr investment = floor (money_in investment / pricePerShare' eqr)
+investorIssue  eqr investment = floor (money_in investment / pricePerShare  eqr)
 allInvestorIssues' :: EquityRound -> Int
-allInvestorIssues' eqr = sum $ investorIssue' eqr <$> eqr.incoming
-allInvestorIssues  eqr = sum $ investorIssue  eqr <$> eqr.incoming
+allInvestorIssues' eqr = sum $ investorIssue' eqr <$> incoming eqr
+allInvestorIssues  eqr = sum $ investorIssue  eqr <$> incoming eqr
 infixl 7 //
 (//) = flip fromMaybe

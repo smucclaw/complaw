@@ -1,4 +1,4 @@
-+TITLE: Learning Exercise: Post-Money SAFE
+#+TITLE: Learning Exercise: Post-Money SAFE
 
 * Background
 
@@ -12,17 +12,17 @@ People like to say SAFEs become a hairball after a startup has done more than a 
 
 Investors want to know: "after conversion, how much of the company will I own?" The company has to answer that question for each SAFE investor. And it has to take those answers into account when, during the Series A financing, the company sets up an option pool and deals with new investors.
 
-The <<<Basic Approach>>> section shows how a computer can help to answer the question. In that section, we will do nothing more conceptually complicated than high-school algebra. We are just showing our reasoning in software instead of on paper. This is an /operational/ exercise. We will perform this exercise in Haskell, DMN, Curry, and Python, to produce code that, dealing with a specific instance of a company with SAFEs and a Series A coming up, is able to give the same answers as you would have gotten using a calculator or a spreadsheet.
+The Basic Approach section shows how a computer can help to answer the question. In that section, we will do nothing more conceptually complicated than high-school algebra. We are just showing our reasoning in software instead of on paper. This is an /operational/ exercise. We will perform this exercise in Haskell, DMN, Curry, and Python, to produce code that, dealing with a specific instance of a company with SAFEs and a Series A coming up, is able to give the same answers as you would have gotten using a calculator or a spreadsheet.
 
 One goal of this "programming chrestomathy" is to show how different languages and programming paradigms treat certain problems. The Haskell approach showcases the strengths of types. The Curry approach highlights constraints and logic. The DMN approach makes it easy to follow the data flow and visually compare the different variants of the safe. The Python version is relatable and motivates the idea of model-based code generation.
 
 But operational implementation is only one part of what computational law is really about. In computational law, abstraction is our friend and motivator. Abstraction encourages us to write operational SAFE code which can handle the whole /class/ of SAFE problems, of which the examples in Appendix II are individual /instances/. Next, abstraction pushes us one level higher: it wants us to write declarative specifications from which we can automatically /extract/ the operational code for SAFEs, or any other financial contract, or any other contract at all! The instance "comes out of" the class. We want the class to "come out of" the rules.
 
-Following that instinct, in the <<<Advanced Approach>>> section, we will take a step back and encode the SAFE template itself in a higher-level /declarative/ form. We will know we are successful when, having written up the SAFE in our DSL, we can automatically compile it to a natural language representation of the rules that looks similar to the original text of the SAFE, and to an operational implementation that looks like the output of the above operational exercise. This is an exercise in Model-Driven Engineering, and is similar in spirit to what code generators do from UML; in the past, people did it with SBVR. In one of our exercises we will do it from DMN. Formal methods allow us to do useful things at the level of declarative specifications, that cannot be done at the level of individual implementations.
+Following that instinct, in the Advanced Approach section, we will take a step back and encode the SAFE template itself in a higher-level /declarative/ form. We will know we are successful when, having written up the SAFE in our DSL, we can automatically compile it to a natural language representation of the rules that looks similar to the original text of the SAFE, and to an operational implementation that looks like the output of the above operational exercise. This is an exercise in Model-Driven Engineering, and is similar in spirit to what code generators do from UML; in the past, people did it with SBVR. In one of our exercises we will do it from DMN. Formal methods allow us to do useful things at the level of declarative specifications, that cannot be done at the level of individual implementations.
 
 But enough talk, let's get started.
 
-* Basic Approach: Show Me The Money
+* <<<Basic Approach>>>: Show Me The Money
 :PROPERTIES:
 :header-args:haskell: :noweb-ref basictypes
 :END:
@@ -92,8 +92,8 @@ To be able to break out the 5% and the 10%, we need to deal with each SAFE on it
 
 #+begin_src haskell :noweb-ref test-1
   describe "dilutionDueTo" $ do
-    it "should be  5% for investor A" $ dilutionDueTo (series_a.valuationPre) safe_a `shouldBe` 0.05
-    it "should be 10% for investor B" $ dilutionDueTo (series_a.valuationPre) safe_b `shouldBe` 0.10
+    it "should be  5% for investor A" $ dilutionDueTo (valuationPre series_a) safe_a `shouldBe` 0.05
+    it "should be 10% for investor B" $ dilutionDueTo (valuationPre series_a) safe_b `shouldBe` 0.10
 #+end_src
 
 I want ~dilutionDueTo~ to handle the full complexity of an individual SAFE's conversion, handling each of the four variants (cap/discount, no-cap/no-discount) correctly under different valuation scenarios in the Equity Financing.
@@ -105,7 +105,7 @@ That means the function needs to have at least two arguments: the Series A pre-m
 #+begin_src haskell :noweb-ref basicimplementation
 
 dilutionDueTo :: Money -> Security -> Percentage
-dilutionDueTo valuationPre safe =
+dilutionDueTo valuationPre safe = safe.money_in / effectiveValuation valuationPre safe
 #+end_src
 
 Haskell is strongly typed. In this function, we use ~Money~ as the type of the valuation, and Percentage as the type of the result. Under the hood both are Floats. The type alias keeps them conceptually separated. 
@@ -122,7 +122,7 @@ Each SAFE converts at a certain /effective valuation/, which is based on, but us
 It all depends on which of the four variants the SAFE belongs to. We'll set up a ~case~ statement, aka a ~switch~ statement, to handle the four possibilities:
 
 #+begin_src haskell :noweb-ref basicimplementation :noexpand
-       let effectiveValuation = case (safe.discount, safe.val_cap) of
+effectiveValuation valuationPre safe = case (safe.discount, safe.val_cap) of
 #+end_src
 
 If the SAFE is no-discount, no-cap, then the effective valuation is just the Series A pre-money valuation.
@@ -152,21 +152,18 @@ If the SAFE has both cap and discount, we take whichever valuation is lower -- ~
 A couple of helper functions make the math easier: here's how we arrived at the ~cappedValuation~ used above.
 
 #+begin_src haskell :noweb-ref basicimplementation
-           cappedValuation     = min (safe.val_cap) (Just valuationPre) // valuationPre
+    where
+           cappedValuation     = min (val_cap safe) (Just valuationPre) // valuationPre
 #+end_src
 
 And here's how we arrived at the ~discountedValuation~ we used above:
 
 #+begin_src haskell :noweb-ref basicimplementation
-           discountRate        = 1 - safe.discount // 0
+           discountRate        = 1 - discount safe // 0
            discountedValuation = discountRate * valuationPre
 #+end_src
 
 With all that math worked out in advance, we are now ready to return the dilution proper. Whereas ~estimatedDilution~ above calculated it as ~money_in / val_cap~, we now realize that the ~val_cap~ denominator there was a hand-wave for the more correct ~effectiveValuation~. Now we can do it right:
-
-#+begin_src haskell :noweb-ref basicimplementation
-        in safe.money_in / effectiveValuation
-#+end_src
 
 Observant Haskellers will say, "wait, what's ~//~?" You got me. It's syntactic sugar for ~fromMaybe~, borrowed from Perl's [[https://www.effectiveperlprogramming.com/2010/10/set-default-values-with-the-defined-or-operator/][defined-or operator]]. You can think of it as "iff the left-hand-side is undefined, then use the value on the right". It's a bit like ~||~ meaning "or", but with a twist. The difference between ~//~ and ~||~ will be appreciated by anyone who has ever been bitten by a truthiness bug, in which code that meant to test for ~undefined~ accidentally matched on a defined ~0~ value.
 
@@ -189,7 +186,7 @@ Hmm. If we don't speed up a little, we're going to be here all day.
 The Company issued a pro rata side letter to Investor B, giving this investor the right to purchase 10% of the new money being raised in the next Equity Financing.  For example, if the Company raises a $5m Series A, Investor B would have a contractual right to invest up to $500k. 
 #+end_quote
 
-Tell you what, we'll deal with the pro-rata side letter properly in the <<<Advanced Approach>>>. For now, we'll just treat Investor B as part of the new money, as far as the Series A is concerned.
+Tell you what, we'll deal with the pro-rata side letter properly in the Advanced Approach. For now, we'll just treat Investor B as part of the new money, as far as the Series A is concerned.
 
 **** Question 2: What is the impact of an Equity Financing on the Company’s cap table?
 
@@ -334,7 +331,7 @@ To arrive at that number, we had to determine the number of conversion shares: 1
 #+begin_src haskell :noweb-ref basicimplementation
 conversionSharesAll :: EquityRound -> Int
 conversionSharesAll' eqr = ceiling $ conversionDilutions eqr * (fromIntegral (sharesPre eqr) / (1 - conversionDilutions eqr))
-conversionSharesAll  eqr = sum $ conversionShares eqr <$> eqr.convertibles
+conversionSharesAll  eqr = sum $ conversionShares eqr <$> convertibles (eqr :: EquityRound)
 #+end_src
 
 The conversion shares were computed based on the conversion dilutions, which is the sum of all the dilution due to the SAFEs.
@@ -350,10 +347,10 @@ We already know it should be 15%, but let's reach that number in a bottom-up way
 #+begin_src haskell :noweb-ref basicimplementation
 conversionDilutions :: EquityRound -> Float
 conversionDilutions eqr =
-  sum $ dilutionDueTo (eqr.valuationPre) <$> (eqr.convertibles)
+  sum $ dilutionDueTo (eqr.valuationPre) <$> (convertibles (eqr :: EquityRound))
 #+end_src
 
-For sure, all of the above calculations could fit into a spreadsheet. Auto-generation of a spreadsheet is consistent with the goals of the <<<Advanced Approach>>> below.
+For sure, all of the above calculations could fit into a spreadsheet. Auto-generation of a spreadsheet is consistent with the goals of the Advanced Approach below.
 
 A handful of other functions may be useful. ~conversionShares~ tells us how many shares a particular SAFE converts to.
 
@@ -366,7 +363,7 @@ A handful of other functions may be useful. ~conversionShares~ tells us how many
 #+begin_src haskell :noweb-ref basicimplementation
 conversionShares :: EquityRound -> Security -> Int
 conversionShares eqr safe
-  = floor(dilutionDueTo (valuationPre eqr) safe * fromIntegral ( companyCapitalization' eqr ))
+  = floor(dilutionDueTo (eqr.valuationPre) safe * fromIntegral ( companyCapitalization' eqr ))
 #+end_src
 
 **** New Money
@@ -393,7 +390,7 @@ But wait:
 - The increase in the option pool depends on the number of shares issued to the Series A investors.
 - The number of shares issued to the Series A investors depends on the price per share.
 
-You will recall from high school mathematics that this is a system of linear equations! We have four equations and four unknowns.
+You will recall from high school mathematics that this is a system of simultaneous equations! We have four equations and four unknowns.
 
 - pricePerShare = valuationPre / (companyCapitalization + optionsNewFree)
 - optionsNewFree = optionsPost * totalPost - optionsPreFree
@@ -402,13 +399,13 @@ You will recall from high school mathematics that this is a system of linear equ
 
 Uppercase represent unknowns, lowercase represent knowns.
 - PPS = vp / (cc + ONF)
-- ONF = vp / PPS - cc
+- ONF = op * TP - opf
 - TP  = cc + AII + ONF
 - AII = aim / PPS
 
 Drawing on those high-school skills, we solve the equations by hand.
-Later, we'll look at how to use a constraint solver to do the same
-thing. We solve the simultaneous equations for totalPost:
+(Later, we'll look at how to use a constraint solver to do the same
+thing.) We solve for totalPost:
 
 - TP = cc + (aim / PPS) + (op * TP - opf)
 - TP = cc + (aim / (vp / (cc + (op * TP - opf) ) ) ) + (op * TP - opf)
@@ -468,7 +465,7 @@ We relied on ~allInvestorMoney~, one of the known terms in the equation:
 #+begin_src haskell :noweb-ref basicimplementation
 allInvestorMoney :: EquityRound -> Money
 allInvestorMoney eqr
-  = sum $ money_in <$> eqr.incoming
+  = sum $ money_in <$> incoming eqr
 #+end_src
 
 We define the other functions in terms of the knowns:
@@ -532,8 +529,8 @@ To pass that test, let's define ~investorIssue~ to calculate the number of share
 
 #+begin_src haskell :noweb-ref basicimplementation
 investorIssue' :: EquityRound -> Security -> Int
-investorIssue' eqr investment = floor (investment.money_in / pricePerShare' eqr)
-investorIssue  eqr investment = floor (investment.money_in / pricePerShare  eqr)
+investorIssue' eqr investment = floor (money_in investment / pricePerShare' eqr)
+investorIssue  eqr investment = floor (money_in investment / pricePerShare  eqr)
 #+end_src
 
 #+begin_src haskell :noweb-ref test-1
@@ -543,8 +540,8 @@ investorIssue  eqr investment = floor (investment.money_in / pricePerShare  eqr)
 
 #+begin_src haskell :noweb-ref basicimplementation
 allInvestorIssues' :: EquityRound -> Int
-allInvestorIssues' eqr = sum $ investorIssue' eqr <$> eqr.incoming
-allInvestorIssues  eqr = sum $ investorIssue  eqr <$> eqr.incoming
+allInvestorIssues' eqr = sum $ investorIssue' eqr <$> incoming eqr
+allInvestorIssues  eqr = sum $ investorIssue  eqr <$> incoming eqr
 #+end_src
 
 What percentage of ~totalPost~ is the available option pool?
@@ -558,175 +555,342 @@ What percentage of ~totalPost~ is the available option pool?
       floor(1000 * fromIntegral(optionsNewFree series_a + optionsPreFree series_a) / fromIntegral(totalPost series_a)) `shouldBe` floor(optionsPost series_a * 1000)
 #+end_src
 
-**** Standard Preferred vs Safe Preferred Stock
-Our treatment of this example declines to address the matter of Standard vs Safe Preferred Stock from page 21. We'll get to it in <<<Advanced Approach>>> below.
-**** Question 3: What happens to the safes if the Company is acquired for $10m prior to an Equity Financing?
+**** Let's pause here.
 
-#+begin_quote
-The Company receives a proposal to be acquired for $10m in cash. Immediately prior to the acquisition, the Company’s cap table looks as follows: ...
-#+end_quote
-
-You know the drill: we set up the scenario.
-#+begin_src haskell :noweb-ref test-setup
-exit10 = LiquidityEvent { liquidityPrice = 10000000
-                        , common         =  9250000
-                        , optionsUsed    =   300000
-                        , optionsFree    =   450000
-                        , convertibles   = [safe_a, safe_b]
-                        }
-#+end_src
-
-And we set up the type:
-#+begin_src haskell :noweb-ref basictypes
-data Scenario = LiquidityEvent { liquidityPrice :: Money
-                               , common         :: Int
-                               , optionsUsed    :: Int
-                               , optionsFree    :: Int
-                               , convertibles   :: [Security]
-                               } deriving (Show, Eq)
-#+end_src
-
-The user guide tells us how to think about this:
-
-#+begin_quote
-In this /Liquidity Event/, the individual safe holders will automatically receive the greater of their /Purchase Amount/ (the “Cash-Out Amount”) or the amount payable on their /Conversion Amount/, the number of shares of Common Stock equal to the /Purchase Amount/ divided by the /Liquidity Price/. 
-#+end_quote
-
-We turn the information we are given into tests:
-
-#+begin_src haskell :noweb-ref test-1
---  describe "conversionAmount" $ do
---    it "investor A's Conversion Amount is   561,764 shares" $ conversionAmountShares exit10 safe_a `shouldBe`  561764
---    it "investor B's Conversion Amount is 1,123,527 shares" $ conversionAmountShares exit10 safe_b `shouldBe` 1123529
---  describe "exitPricePerShare" $ do
---    it "should be $0.8901" $ exitPricePerShare exit10 `shouldBe` 0.8901
-#+end_src
-
-But we will implement the operational logic using a constraint solver, because the Liquidity Capitalization definition is mutually recursive.
-
-
+We won't deal with Standard vs Safe Preferred Stock right now; and we'll defer Question 3 as well. We'll get to it in Advanced Approach below.
 **** Notes
 
 The ~new_money_in~ is an upper bound. In practice the round may not fill, in which case the investors will get slightly more % of the company than they had originally negotiated; while the absolute size of your slice of the pie remains the same, because the pie itself is smaller, it's a greater portion, relatively speaking.
 
 
-*** Haskell: Constraints
+*** Constraints in Haskell didn't work
 
-We can phrase all of the above mathematics in the form of constraints.
+We can phrase all of the above mathematics in the form of constraints. Math.MFSolve lets us say:
 
-In Z3, we would say:
-
-#+begin_src z3 :tangle safe.z3
-(echo "starting Z3 solver for SAFE conversion...")
-
-(declare-const safe_a_owner        Int)
-(declare-const safe_a_money_in     Int)
-(declare-const safe_a_has_discount Bool)
-(declare-const safe_a_has_cap      Bool)
-(declare-const safe_a_val_discount Int)
-(declare-const safe_a_val_cap      Int)
-
-(assert (= safe_a_money_in 200000)) (assert (= safe_a_has_cap 200000))
-(assert (= safe_a_money_in 200000))
-(check-sat)
-(get-model)
+#+begin_src haskell :noweb-ref exclude
+asConstraints eqr =
+  let aim :: Expr SimpleVar Float
+      [ aim,  -- all investor money
+        aii,  -- all investor issues
+        cc,   -- company capitalization
+        sp,   -- shares Pre conversion
+        csa,  -- conversion shares all
+        vp,   -- valuationPre
+        op,   -- optionsPost
+        onf,  -- optionsNewFree
+        opf,  -- optionsPreFree
+        tp,   -- totalPost
+        pps ] -- pricePerShare
+        = map (makeVariable . SimpleVar) (words "aim aii cc sp csa vp op onf opf tp pps")
+  in showVars $ flip execSolver noDeps $ do
+     aim === makeConstant (allInvestorMoney eqr)
+     aii === aim / pps
+     cc  === sp + csa
+     sp  === makeConstant (fromIntegral (sharesPre eqr))
+     csa === makeConstant (fromIntegral (conversionSharesAll eqr))
+     vp  === makeConstant (valuationPre eqr)
+     op  === makeConstant (optionsPost eqr)
+     onf === op * tp - opf
+     opf === makeConstant (fromIntegral (optionsPreFree eqr))
+     tp  === cc + aii + onf
+     pps === vp / (cc + onf)
 #+end_src
 
-This is rather wordy. Maybe we would do better in Curry or Mercury.
+Solving this gets us most of the way; we need to minimize the final equation:
 
-*** DMN implementation
+#+begin_src text
+*Main Lib SAFE.Basic> asConstraints series_a
+csa = 1764705.0
+opf = 100000.0
+sp = 1.0e7
+aim = 5000000.0
+vp = 1.5e7
+cc = 1.1764705e7
+op = 0.1
+aii = -1.1664705e7 + 0.9*tp
+onf = -100000.0 + 0.1*tp
+pps - 1.5e7/(1.1664705e7 + 0.1*tp) = 0
+-1.1664705e7 + 0.9*tp - 5000000.0/pps = 0
+#+end_src
 
-In this section we experiment with the idea of representing the logic in DMN/FEEL, to make it easier to see the data flow.
+*** Constraints in Prolog / CLP(R) didn't work
 
-| discount rate   |
-|-----------------|
-| discount        |
-|-----------------|
-| 100% - discount |
-
-| dilution due to discount                     |
-|----------------------------------------------|
-| series A pre-money valuation                 |
-| discount rate                                |
-|----------------------------------------------|
-| series A pre-money valuation * discount rate |
-
-| dilution due to valuation cap                    |
-|--------------------------------------------------|
-| valuation cap                                    |
-| series A pre-money valuation                     |
-|--------------------------------------------------|
-| max(valuation cap, series A pre-money valuation) |
-
-Whichever dilution is most investor-favourable is the one that gets used.
-
-| discount | valuation cap | effective dilution                                           |
-|----------+---------------+--------------------------------------------------------------|
-| none     | none          | money_in / series A pre-money valuation                      |
-| none     | -             | dilution due to valuation cap                                |
-| -        | none          | dilution due to discount                                     |
-| -        | -             | max(dilution due to discount, dilution due to valuation cap) |
-
-The conversion dilution is the sum of all the individual dilutions.
-
-| conversion dilution                       |
-|-------------------------------------------|
-| safes                                     |
-|-------------------------------------------|
-| sum(effective dilution for safe <- safes) |
-
-
-*** Basic Prolog / CLP(FD) Implementation
-
-In this section we use Prolog and CLP(FD) to solve the examples.
+In this section we try Prolog. Unfortunately CLPR(Q,R) isn't up to solving this particular problem.
 
 #+begin_src prolog :noweb-ref lineq
 
-  test1(Convertibles) :-
-      Convertibles = [ safe{owner:"Investor A", money_in:200000, val_cap:4000000}, 
-                       safe{owner:"Investor B", money_in:800000, val_cap:8000000} ].
+  test1(Convertibles, SeriesA) :-
+      Convertibles = [ Safe_A, Safe_B ],
+      SeriesA = eqr{valuationPre:   15000000,
+		    new_money_in:    5000000,
+		    commonPre:       9250000,
+                    optionsPreOutstanding: 300000,
+		    optionsPrePromised:    350000,
+                    optionsPreFree: 100000,
+                    optionsPost:    10 / 100,
+                    convertibles:   [Safe_A, Safe_B],
+                    incoming:       [SeriesA_c, SeriesA_b, SeriesA_other]
+		   },
+      SeriesA_c     = equity{owner:"Investor C", money_in:4000000,   shareClass:"A"},
+      SeriesA_b     = equity{owner:"Investor B", money_in:499998.97, shareClass:"A"},
+      SeriesA_other = equity{owner:"Other New Investors", money_in:500001.19, shareClass:"A"},
+      Safe_A        =   safe{owner:"Investor A", money_in:200000, val_cap:4000000},
+      Safe_B        =   safe{owner:"Investor B", money_in:800000, val_cap:8000000}.
 
-  dilutionDueTo(safe{owner:O, money_in: MI                          }, ValPre, Dil, Log) :-                   Dil is MI / ValPre,
-                                                                                                               string_concat(O, ": no cap no discount", Log).
-  dilutionDueTo(safe{owner:O, money_in: MI,              val_cap: PC}, ValPre, Dil, Log) :- ( ValPre <  PC -> Dil is MI / ValPre; Dil is MI / PC ),
-                                                                                             string_concat(O, ": cap no discount", Log).
-  dilutionDueTo(safe{owner:O, money_in: MI, discount: D             }, ValPre, Dil, Log) :- Discounted is (ValPre * (1-D)),       Dil is MI / Discounted,
-                                                                                             string_concat(O, ": discount no cap", Log).
-  dilutionDueTo(safe{owner:O, money_in: MI, discount: D, val_cap: PC}, ValPre, Dil, Log) :- Discounted is (ValPre * (1-D)), ( Discounted <  PC
-                                                                                                                             -> Dil is MI / Discounted
-                                                                                                                             ;  Dil is MI / PC),
-                                                                                             string_concat(O, ": cap and discount", Log).
+dilutionDueTo(ValPre, Safe, Dil, Log) :- effectiveValuation(ValPre, Safe, EffVal, Log),
+					 Dil = Safe.money_in / EffVal.
 
-  %% 0.15
-  conversionDilutions(Convertibles, ValPre, DilPercentage) :-
-      maplist({ValPre}/[Convertible, Dil, Log]>>dilutionDueTo(Convertible,ValPre,Dil,Log), Convertibles, Dils, Logs),
-      foldl(add,Dils,0,DilPercentage),
-      forall(nth1(I, Logs, LogLine),
-             print_message(informational, conversion_dilution(LogLine))).
+effectiveValuation(ValPre, safe{owner:O, money_in: _                          }, EffVal, Log) :- EffVal = ValPre,
+												  string_concat(O, ": no cap no discount", Log).
+effectiveValuation(ValPre, safe{owner:O, money_in: _,              val_cap: PC}, EffVal, Log) :- ( ValPre <  PC -> EffVal = ValPre; EffVal = PC ),
+												  string_concat(O, ": cap no discount", Log).
+effectiveValuation(ValPre, safe{owner:O, money_in: _, discount: D             }, EffVal, Log) :- EffVal = (ValPre * (1-D)),
+												  string_concat(O, ": discount no cap", Log).
+effectiveValuation(ValPre, safe{owner:O, money_in: _, discount: D, val_cap: PC}, EffVal, Log) :- Discounted = (ValPre * (1-D)),
+												  ( Discounted <  PC -> EffVal = Discounted ;  EffVal = PC),
+												  string_concat(O, ": cap and discount", Log).
+
+%% 0.15
+conversionDilutions(Convertibles, ValPre, DilPercentage) :-
+    maplist({ValPre}/[Convertible, Dil, Log]>>dilutionDueTo(ValPre,Convertible,Dil,Log), Convertibles, Dils, Logs),
+    foldl(add,Dils,0,DilPercentage),
+    forall(nth1(I, Logs, LogLine), print_message(informational, conversion_dilution(LogLine))).
+
+conversionShares(SeriesA,CC_Roughly,Safe,NumConversionShares) :-
+    dilutionDueTo(SeriesA.valuationPre, Safe, Dil, Log),
+    { NumConversionShares = Dil * CC_Roughly }.
+
+getMoneyIn(Incoming,MI) :- Incoming.money_in = MI.
+
+conversion(SeriesA,CompanyCapitalization,ConversionSharesAll) :-
+    format('* attempting conversion calculations for Series A~n', []),
+    conversionDilutions(SeriesA.convertibles,SeriesA.valuationPre,DilPercentage),
+    format('** dilutions are total ~w~n', [DilPercentage]),
+    { SharesPre = (SeriesA.commonPre + SeriesA.optionsPreOutstanding + SeriesA.optionsPrePromised + SeriesA.optionsPreFree) },
+    format('** SharesPre = ~w~n', [SharesPre]),
+    { ConversionSharesAll = DilPercentage * SharesPre / (1 - DilPercentage) },
+    format('** computed conversion shares = ~w~n', [ConversionSharesAll]),
+    { CompanyCapitalization = SharesPre + ConversionSharesAll },
+    format('** computed company capitalization = ~w~n', [CompanyCapitalization]),
+    maplist(getMoneyIn, SeriesA.incoming, MIlist),
+    sum_list(MIlist, AllInvestorMoney),
+    format('** computed AllInvestorMoney = ~w~n', [AllInvestorMoney]),
+    {
+    TotalPost = CompanyCapitalization + AllInvestorIssues + OptionsNewFree,
+    TotalPost > 0,
+    OptionsNewFree = SeriesA.optionsPost * TotalPost - SeriesA.optionsPreFree,
+    PricePerShare = SeriesA.valuationPre / ( CompanyCapitalization + OptionsNewFree ),
+    AllInvestorIssues = AllInvestorMoney / PricePerShare
+    },
+    format('** computed pricePerShare = ~w, totalPost = ~w~n', [PricePerShare, TotalPost])
+.
 
   :- multifile prolog:message//1.
   prolog:message(conversion_dilution(LogLine)) -->
       [ LogLine ].
 
-
-  conversionShares(SharesPre, DilPercentage, ConversionShares) :-
-      ConversionShares is SharesPre / (1-DilPercentage) - SharesPre.
+  main :- test1(Convertibles, SeriesA), conversion(SeriesA,CC,NCSA).
 
   add(X,Y,Sum) :- Sum is X+Y.
+#+end_src
 
-  %% equityRound(ValPre, NewMoneyIn, CommonPre, OptionsPre, OptionsPost,
-  %%             Convertibles, PricePerShare, SharesPost) :-
-  %%     InitialShares #= CommonPre + OptionsPre,
-  %%     ConversionShares #= 
+Sadly, the CLP(Q,R) library is unable to solve the simultaneous equations.
 
+*** Constraints in Curry didn't work
 
+Curry was also unable to solve the simultaneous equations. We include the Curry code to show the syntax:
+
+#+begin_src curry
+conversion eqr
+  | sPre == i2f( commonPre eqr + optionsPreOutstanding eqr + optionsPrePromised eqr + optionsPreFree eqr )
+  & valPre == valuationPre eqr
+  & cc    =:= sPre + csall
+  & csall =:= (dilutionDueTo valPre safe_a * cc + dilutionDueTo valPre safe_b * cc)
+  & pps   =:= valuationPre eqr / (cc + onf)
+  & onf   =:= optionsPost eqr * tp - i2f(optionsPreFree eqr)
+  & tp    =:= cc + aii + onf
+  & aii   =:= allInvestorMoney eqr / pps
+  = [ "totalPost = " ++ show tp ]
+  where sPre, valPre, cc, pps, onf, tp, aii, csall free
+        convShares safe = dilutionDueTo (valuationPre eqr) safe * cc
+#+end_src
+
+*** Constraints in Z3 worked
+
+This is straight-up Z3 in SMT-LIB format. Basically, Lisp S-expressions. Super verbose. 
+
+#+begin_src z3 :tangle safe.z3
+;; utility functions
+(define-fun max ((x Real) (y Real)) Real (ite (> x y) x y))
+(define-fun min ((x Real) (y Real)) Real (ite (< x y) x y))
+
+(define-fun dilutionDueTo
+    ((valuationPre Real) (safe_money_in Real) (safe_has_discount Bool) (safe_has_val_cap Bool) (safe_discount Real) (safe_val_cap Real))
+    Real
+    (ite       (and (= safe_has_discount false) (= safe_has_val_cap false)) (/ safe_money_in valuationPre)
+      (ite     (and (= safe_has_discount false) (= safe_has_val_cap true )) (/ safe_money_in (ite (< valuationPre safe_val_cap) valuationPre safe_val_cap))
+	(ite   (and (= safe_has_discount true ) (= safe_has_val_cap false)) (/ safe_money_in (* valuationPre (- 1 safe_discount)))
+	       (                                                             / safe_money_in (min (ite (< valuationPre safe_val_cap) valuationPre safe_val_cap)
+												  (* valuationPre (- 1 safe_discount))))
+	  ))))
+
+;; we set up the problem with some known values
+(declare-const safe_A_money_in Real) (declare-const safe_A_val_cap  Real) (declare-const safe_A_has_discount Bool) (declare-const safe_A_has_val_cap Bool)
+(declare-const safe_B_money_in Real) (declare-const safe_B_val_cap  Real) (declare-const safe_B_has_discount Bool) (declare-const safe_B_has_val_cap Bool)
+(assert (= safe_A_money_in 200000)) (assert (= safe_A_has_discount false)) (assert (= safe_A_has_val_cap true)) (assert (= safe_A_val_cap 4000000))
+(assert (= safe_B_money_in 800000)) (assert (= safe_B_has_discount false)) (assert (= safe_B_has_val_cap true)) (assert (= safe_B_val_cap 8000000))
+
+(declare-const seriesA_valuationPre          Real) (assert (= seriesA_valuationPre        15000000))
+(declare-const seriesA_new_money_in          Real) (assert (= seriesA_new_money_in         5000000))
+(declare-const seriesA_commonPre             Real) (assert (= seriesA_commonPre            9250000))
+(declare-const seriesA_optionsPreOutstanding Real) (assert (= seriesA_optionsPreOutstanding 300000))
+(declare-const seriesA_optionsPrePromised    Real) (assert (= seriesA_optionsPrePromised    350000))
+(declare-const seriesA_optionsPreFree        Real) (assert (= seriesA_optionsPreFree        100000))
+(declare-const seriesA_optionsPost           Real) (assert (= seriesA_optionsPost           0.10))
+
+(declare-const seriesA_c_money_in            Real) (assert (= seriesA_c_money_in            4000000.0))
+(declare-const seriesA_b_money_in            Real) (assert (= seriesA_b_money_in             499998.97))
+(declare-const seriesA_other_money_in        Real) (assert (= seriesA_other_money_in         500001.19))
+
+;; we do a quick check on the dilution numbers
+(declare-const ddA Real)
+(assert (= ddA (dilutionDueTo seriesA_valuationPre safe_A_money_in safe_A_has_discount safe_A_has_val_cap 0 safe_A_val_cap)))
+(declare-const ddB Real)
+(assert (= ddB (dilutionDueTo seriesA_valuationPre safe_B_money_in safe_B_has_discount safe_B_has_val_cap 0 safe_B_val_cap)))
+
+;; now we set up the simultaneous equations
+(declare-const conversionDilutions   Real)
+(declare-const sharesPre             Real)
+(declare-const conversionSharesAll   Real)
+(declare-const companyCapitalization Real)
+(declare-const pricePerShare         Real)
+(declare-const optionsNewFree        Real)
+(declare-const totalPost             Real)
+(declare-const allInvestorIssues     Real)
+(declare-const allInvestorMoney      Real)
+
+(assert (= conversionDilutions (+ (dilutionDueTo seriesA_valuationPre safe_A_money_in safe_A_has_discount safe_A_has_val_cap 0 safe_A_val_cap)
+				  (dilutionDueTo seriesA_valuationPre safe_B_money_in safe_B_has_discount safe_B_has_val_cap 0 safe_B_val_cap))))
+(assert (= sharesPre             (+ seriesA_commonPre seriesA_optionsPreOutstanding seriesA_optionsPrePromised seriesA_optionsPreFree)))
+(assert (= conversionSharesAll   (* conversionDilutions companyCapitalization)))
+(assert (= companyCapitalization (+ sharesPre conversionSharesAll)))
+(assert (= allInvestorMoney      (+ seriesA_c_money_in seriesA_b_money_in seriesA_other_money_in)))
+(assert (= pricePerShare         (/ seriesA_valuationPre (+ companyCapitalization optionsNewFree))))
+(assert (= optionsNewFree        (- (* seriesA_optionsPost totalPost) seriesA_optionsPreFree)))
+(assert (= totalPost             (+ companyCapitalization allInvestorIssues optionsNewFree)))
+(assert (> totalPost             0))
+(assert (= allInvestorIssues     (/ allInvestorMoney pricePerShare)))
+
+(check-sat)
+(get-model)
+
+(get-value (totalPost))
 
 #+end_src
 
-*** Curry
+There was a problem with the ~define-fun dilutionDueTo~ which required manual application of [[https://github.com/Z3Prover/z3/commit/eab7ae58bec086583f630d8d4e4a5b4b4ac294e1][a patch to the Z3 source code]]. SMH.
 
-In this section we use the experimental language Curry to solve the examples.
+The good news: Z3 succeeded where CLP(R) and Curry failed!
 
+Anyway, the result:
+
+#+begin_src text
+$ z3 safe.z3
+sat
+(model
+  (define-fun optionsNewFree () Real
+    (/ 7802083400000000.0 4604166661.0))
+  (define-fun conversionSharesAll () Real
+    (/ 30000000.0 17.0))
+  (define-fun totalPost () Real
+    (/ 82625000661000000.0 4604166661.0))
+  (define-fun allInvestorIssues () Real
+    (/ 20656250661000000.0 4604166661.0))
+  (define-fun pricePerShare () Real
+    (/ 4604166661.0 4131250000.0))
+  (define-fun allInvestorMoney () Real
+    (/ 125000004.0 25.0))
+  (define-fun companyCapitalization () Real
+    (/ 200000000.0 17.0))
+  (define-fun sharesPre () Real
+    10000000.0)
+  (define-fun conversionDilutions () Real
+    (/ 3.0 20.0))
+#+end_src
+
+What do the numbers work out to?
+
+| optionsNewFree        | 1694570.1523118692 |
+| pricePerShare         | 1.1144730193040848 |
+| totalPost             |  17945701.52311869 |
+| companyCapitalization |  11764705.88235294 |
+| conversionSharesAll   | 1764705.8823529412 |
+
+That looks right! Note that a layer of rounding will be required to translate this to the real world -- shares are usually treated as Ints, not Floats, and people may object to having too many significant digits in a price per share.
+
+*** Z3 from Haskell
+
+https://github.com/IagoAbal/haskell-z3
+
+The Haskell interface to Z3 would allow us to specify all those equations much more compactly, but the result will still be the same.
+
+*** Conversion in DMN
+
+We can represent the conversion logic in DMN/FEEL, in the same way that we did with Haskell. We can't expect DMN to solve the simultaneous equations. We'll do that ourselves. But we can get it to produce results. We use context expressions here.
+
+The important logic is the determination of effective valuation. Whichever valuation is most investor-favourable is the one that gets used.
+
+| safe.discount | safe.val_cap | safe.effective_valuation                 |
+|---------------+--------------+------------------------------------------|
+| none          | none         | series A pre-money valuation             |
+| none          | -            | capped valuation                         |
+| -             | none         | discounted valuation                     |
+| -             | -            | min(valuation cap, discounted valuation) |
+
+Discount Rate:
+
+| safe.discount_rate |               |
+|-----------------+---------------|
+| discount        | safe.discount |
+|-----------------+---------------|
+| 100% - discount |               |
+
+Discounted valuation:
+
+| safe.discounted_valuation                    |                      |
+|----------------------------------------------+----------------------|
+| series A pre-money valuation                 | seriesA.valuationPre |
+| discount rate                                | safe.discount_rate   |
+|----------------------------------------------+----------------------|
+| series A pre-money valuation * discount rate |                      |
+
+Capped Valuation:
+
+| safe.capped_valuation                            |                      |
+|--------------------------------------------------+----------------------|
+| valuation cap                                    | safe.val_cap         |
+| series A pre-money valuation                     | seriesA.valuationPre |
+|--------------------------------------------------+----------------------|
+| min(valuation cap, series A pre-money valuation) |                      |
+
+The conversion dilution for a particular safe:
+
+| safe.conversionShares         |                          |
+|-------------------------------+--------------------------|
+| money in                      | safe.money_in            |
+| effective dilution            | safe.effective_valuation |
+|-------------------------------+--------------------------|
+| money in / effective dilution |                          |
+
+The sum of all the conversion dilutions:
+
+| allConversionShares                 |
+|-------------------------------------|
+| safes                               |
+|-------------------------------------|
+| sum(safe.conversionShares <- safes) |
+
+and so on, following the same logic as found in the Haskell above.
 
 ** Natural Language Generation
 
@@ -736,7 +900,7 @@ It should be possible to use the operational implementation to provide explanati
 
 *** Examples
 
-
+Take text out of the Appendix II Example 1 walkthrough; we should be able to generate that text from the code above.
 
 *** Grammars
 
@@ -744,37 +908,32 @@ To facilitate the extraction of natural language from the Haskell and DMN/FEEL e
 
 Let's write some grammars in GF to generate the above desired example text.
 
-* Multiple Variants of SAFEs
+* SAFE Events
 
-Four different standard SAFE templates are given. This is good for us, because it gives four points in configuration space, from which we can determine dimensions.
+We've seen how the conversion logic can be represented in Haskell, Z3, and DMN.
 
-#+begin_src haskell
+But conversion is only one scenario.
 
-  -- should be a NonEmptyList
-  data VersionedObject a = VO [(Date, a)] -- where "snd $ head a" is the current thing
+Other events may trigger the SAFE in different ways.
 
-#+end_src
+Let's look at how DMN can help answer the question "has an X event happened?"
 
-Let's do a simple decision table to help people answer their questions.
+** Dissolution Event
 
-** Answering questions
+** Liquidity Event
 
-*** How much of the company does an investor get, given the terms?
-*** What does the cap table look like at various stages of conversion -- before, during, after?
-*** See also the FAQ questions
+** Conversion Event
 
-for future consideration,
-- can we formalize the questions and the answers?
-- can we obtain answers from the questions and the instrument?
+** Other Events?
 
-** Basic DMN and FEEL Treatment
+Absence of repayment term.
 
-* Advanced Approach
+* <<<Advanced Approach>>>
 :PROPERTIES:
 :header-args:haskell: :noweb-ref advanced
 :END:
 
-In this section we develop a formal model suited to representing all of the SAFE. Our approach: build a GF grammar which produces a Haskell grammar.
+In this section we develop a formal model suited to representing all of the SAFE. Our approach: build a GF grammar which produces a Haskell grammar. Fill the grammars with concrete values to produce both a natural language representation of the rules and and a set of computations to embody the Basic Approach.
 
 Ken Adams introduces various categories of contract language. We can see these categories show up in the SAFE:e
 
@@ -793,7 +952,8 @@ Ken Adams introduces various categories of contract language. We can see these c
 
   faqConversion :: SAFEinstrument -> Scenario (Event SeriesA 10000000) -> WhatHappens
 
- 
+  -- should be a NonEmptyList
+  data VersionedObject a = VO [(Date, a)] -- where "snd $ head a" is the current thing
   #+end_src
 
 A Graph of Events and Modals
@@ -897,7 +1057,7 @@ We can specify that somebody is obliged to, permitted to, or prohibited from doi
 
 ** Formal Methods
 
-<<<Basic Approach>>> above showed that because a SAFE conversion event involved mutually recursive definitions, it needed to be framed as a word problem in simultaneous equations. Solving those equations resulted in the "correct answer" for the SAFEs converting at Series A. This is probably why SAFEs are considered a hairball.
+Basic Approach above showed that because a SAFE conversion event involved mutually recursive definitions, it needed to be framed as a word problem in simultaneous equations. Solving those equations resulted in the "correct answer" for the SAFEs converting at Series A. This is probably why SAFEs are considered a hairball.
 
 We know from quadratic equations that sometimes there's more than one correct answer. Could that be true here too?
 
@@ -914,6 +1074,53 @@ My intuition tells me that this feels like a knights/knaves logic problem: "I al
 We can use formal methods to explore this intuition. Is our formalization well-suited to integration with a third-party tool like Alloy or Z3?
 
 Do constraint problems like this arise in law and contracts elsewhere?
+** Question 3: What happens to the safes if the Company is acquired for $10m prior to an Equity Financing?
+
+
+
+#+begin_quote
+The Company receives a proposal to be acquired for $10m in cash. Immediately prior to the acquisition, the Company’s cap table looks as follows: ...
+#+end_quote
+
+You know the drill: we set up the scenario.
+#+begin_src haskell :noweb-ref test-setup
+exit10 = LiquidityEvent { liquidityPrice = 10000000
+                        , common         =  9250000
+                        , optionsUsed    =   300000
+                        , optionsFree    =   450000
+                        , convertibles   = [safe_a, safe_b]
+                        }
+#+end_src
+
+And we set up the type:
+#+begin_src haskell :noweb-ref basictypes
+data Scenario = LiquidityEvent { liquidityPrice :: Money
+                               , common         :: Int
+                               , optionsUsed    :: Int
+                               , optionsFree    :: Int
+                               , convertibles   :: [Security]
+                               } deriving (Show, Eq)
+#+end_src
+
+The user guide tells us how to think about this:
+
+#+begin_quote
+In this /Liquidity Event/, the individual safe holders will automatically receive the greater of their /Purchase Amount/ (the “Cash-Out Amount”) or the amount payable on their /Conversion Amount/, the number of shares of Common Stock equal to the /Purchase Amount/ divided by the /Liquidity Price/. 
+#+end_quote
+
+We turn the information we are given into tests:
+
+#+begin_src haskell :noweb-ref test-1
+--  describe "conversionAmount" $ do
+--    it "investor A's Conversion Amount is   561,764 shares" $ conversionAmountShares exit10 safe_a `shouldBe`  561764
+--    it "investor B's Conversion Amount is 1,123,527 shares" $ conversionAmountShares exit10 safe_b `shouldBe` 1123529
+--  describe "exitPricePerShare" $ do
+--    it "should be $0.8901" $ exitPricePerShare exit10 `shouldBe` 0.8901
+#+end_src
+
+But we will implement the operational logic using a constraint solver, because the Liquidity Capitalization definition is mutually recursive.
+
+
 
 * Test Cases
 
@@ -939,7 +1146,7 @@ called, in the SAFEs, "Miscellaneous"
 *** Logging Conversions of State Over Time
 ** Mathematical Formulae
 *** constraint solving
-(pre-money safes needed to be solved as a system of linear equations)
+(pre-money safes needed to be solved as a system of simultaneous equations)
 
 
 * Bonus: Constraint Approaches
@@ -1002,7 +1209,7 @@ import Data.Maybe
 
 
 #+begin_src prolog :noweb yes :tangle prolog/safe.pl
-:- use_module(library(clpfd)).
+:- use_module(library(clpq)).
 :- use_module(library(yall)).
 <<lineq>>
 #+end_src

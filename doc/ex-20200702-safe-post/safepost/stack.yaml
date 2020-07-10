@@ -17,7 +17,7 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: lts-16.3
+resolver: lts-16.4
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -40,6 +40,8 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
+- record-dot-preprocessor-0.2.5@sha256:d1ce85ac1f1ce2d108a82032b97734c57f96078bc824527841306ff08e991a68,2401
+- record-hasfield-1.0@sha256:c7f39b8d3f9299c7361e115e97f3474274b3487233cb155c58eb0bec7625afcb,1477
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
@@ -64,3 +66,4 @@ extra-deps:
 #
 # Allow a newer minor version of GHC than the snapshot specifies
 # compiler-check: newer-minor
+allow-newer: true
