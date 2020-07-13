@@ -699,19 +699,23 @@ https://en.wikipedia.org/wiki/Psychological_safety
 
 ** The School vs Work Value System
 
-20th-century style schooling imparts the following unspoken rules:
+20th-century style schooling imparts the following unspoken rules to those in their teens:
 - The problem is a standard question which has been solved before; there is a known, correct answer.
 - The problem is a slight variation on something posed to millions of other schoolchildren.
 - You have to solve it on your own; working with others is considered cheating.
 - Looking up the answer is considered cheating.
 
-At about age 20--25, if you move into tech, the rules change:
+If you move into tech, the rules change in your twenties:
 - The problem has never been solved before; if a known answer existed, you would be able to download it.
 - While the problem may be a variation on a theme, you may never have been properly taught that theme.
 - You are encouraged to work with colleagues to solve the problem as well and as fast as you can.
 - Looking up the answer is called "research". How do you do research? You can start by searching Google. At least twice. Or it wouldn't be re-search. Ha, ha.
 
 Sometimes you will encounter somebody who seems to be applying the school value system at work, applying long hours to developing their own solution to a problem which they could have just downloaded, and refusing to accept outside help because that would be cheating. Don't be that person.
+
+Esther Dyson likes to say: "Make /new/ mistakes!"
+
+In software (unless you're working on a [[https://en.wikipedia.org/wiki/Kata_(programming)][kata]]), write /new/ code!
 
 ** Domain Specific Languages
 
