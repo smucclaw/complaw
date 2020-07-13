@@ -333,6 +333,15 @@ So, all told, this will probably take most of a year.
 
 If you'd like to use Asana to track your progress through these readings and exercises, you can create tasks for yourself, log your progress in the tasks, and click "done" when you've accomplished the task!
 
+I will set up a handful of learning objectives in Asana as a starting point.
+
+** "I think I'm done ... what should I do next?"
+
+If you find yourself at a loose end:
+1. review Asana; are there really no tasks assigned to you?
+2. review your learning objectives; are you all caught up on the assigned reading? Are you "done" learning Haskell and Python and Unix?
+3. look around for where you could help; does some other team need help? Can you help that team move forward?
+
 * [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
 Matt Might gathers on a single page what most university curricula incoherently scatter across four years' worth of course descriptions.
