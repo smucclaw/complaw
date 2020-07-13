@@ -257,13 +257,17 @@ XMP does for PDFs, what EXIF does for JPGs ... kind of.
 
 As the Rates Rebates example shows, some rules are essentially mathematical formulae: how much rebate am I entitled to under condtions X and Y.
 
-There are existing business tools that save us from reinventing that particular wheel. Explore DMN: Decision Model & Notation. There's a good tutorial by Camunda.
+There are existing business tools that save us from reinventing that particular wheel. Explore DMN: Decision Model & Notation. There's a good tutorial by Camunda. See also https://twitter.com/hillelogram/status/1248082689149861888
 
 Read about the history and the pros and cons of Model-Driven Architecture.
 
 ** Specify DMNMD for Markdown
 
 DMN is too good a DSL to be stuck in a graphical UI. Use Markdown tables to allow people who prefer text editors, to write decision tables in text.
+
+See:
+- https://twitter.com/hillelogram/status/1248082689149861888
+- https://www.youtube.com/watch?v=0XL-LM0fpN4
 
 What would a decision table look like, translated to Markdown? Let's call that DMNMD, where the "MD" stands for Markdown.
 
