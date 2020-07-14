@@ -39,6 +39,8 @@ We tried to recruit for people who are good at both technology and people.
 
 A career in software can rarely be conducted in isolation. The saying goes: "technical skills get you in the door, social skills get you up the ladder." Some highly technical individuals may scoff at that, and say: "[[https://en.wikipedia.org/wiki/ReiserFS][I can single-handedly develop a filesystem]]; I don't need people." And it's true that unlike kings and queens, wizards have an alternative path to power and impact: scaling through technology, rather than through people. But that is the archetype of the Saruman; isn't it be better to be a Gandalf?
 
+See [[https://twitter.com/drose_999/status/1282864720572059649?s=20][Dan Rose on his Facebook 360]].
+
 At SMUCCLAW, even if you are working from home, or working remotely, you will be expected to participate as a member of a team. Because opensource communities often attract people with widely varying personal backgrounds, social norms, and communication styles, not to mention all the concrete characteristics that usually come up in discussions about "isms", they adopt [[https://opensource.guide/code-of-conduct/][Codes of Conduct]] to clarify standards of behaviour. We have a [[../../COC.md][code of conduct]] too. Please read it and help us keep standards high!
 
 Where teamwork is concerned, the business world frequently recommends:
