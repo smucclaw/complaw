@@ -401,6 +401,8 @@ If you are a Mac user, learn just enough Emacs to use its keybindings,
 and then see where else those keybindings work. The tutorial should
 take you about an hour. See https://gist.github.com/cheapRoc/9670905
 
+If you're curious about Elder Magics, you might go deeper into Emacs. Sacha Chua has a good Emacs blog: https://sachachua.com/blog/emacs/
+
 Speaking of keybindings, you may enjoy installing [[https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en][Vimium]] for your web browser, so you don't have to reach for the mouse so often.
 
 ** Languages
