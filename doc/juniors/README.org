@@ -788,16 +788,20 @@ If you are more comfortable working in Windows, we recommend at the least instal
 - Windows Subsystem for Linux
 
 We recommend you install
-- Git
-- Slack (on your laptop and your phone)
+- Git (and set ~git config --global pull.rebase true~) to make life better; see https://www.atlassian.com/git/tutorials/merging-vs-rebasing for details
+- Slack
 - Emacs
 - VS Code / Atom / Sublime Text
 - Zoom
 - node and npm
 - python 3
 - Docker
-- ssh
+- ssh; and set up an ssh key using ~ssh-keygen~; you will use this for Github and other logins.
 - [[https://symless.com/synergy][Synergy, from Symless]], to span multiple computers with one keyboard/mouse; particularly useful if you've got multiple computers connected to one display using PBP/PIP.
+
+On your phone, consider installing:
+- Google Authenticator, because a lot of the things we do have 2FA set.
+- Slack
 
 * Introduction to Computational Law
 
