@@ -196,6 +196,7 @@ I wrote this section with the hopes of pre-empting such a situation; if I were t
 
 See also:
 - [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
+- [[https://jvns.ca/blog/good-questions][How to ask good questions]]
 - [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
 - [[http://xyproblem.info/][XY Problem]]
 
@@ -660,6 +661,7 @@ makes a case for test-driven development and argues for professionalization of s
 
 *** [[http://www.catb.org/~esr/jargon/html/appendixb.html][A Portrait of J. Random Hacker]] offers a snapshot from the early days of the American Internet, reflecting the gender and cultural biases prevalent at that time.
 *** [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
+*** [[http://jvns.ca/blog/good-questions][How to ask good questions]]
 *** [[https://sol.gfxile.net/dontask.html][Don't ask to ask, just ask]]
 *** [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
 *** [[http://xyproblem.info/][XY Problem]]
