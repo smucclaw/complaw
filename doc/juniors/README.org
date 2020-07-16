@@ -765,7 +765,6 @@ For your home setup, consider these options:
 - 32" 4K UHD monitors have really come down in price: [[https://www.qoo10.sg/item/SAMSUNG-U32R590-32-INCH-UHD-CURVED-GAMING-MONITOR-PIP/678209634][$449 for Samsung's U32R590]] as of [2020-07-16 Thu], though obviously this may be out of date by the time you read it.
 - A mechanical keyboard; options include the [[https://www.lazada.sg/products/filco-majestouch-2-convertible-tenkeyless-bluetooth-mechanical-keyboard-i334040658-s722084125.html][Filco Majestouch 2 TKL BT]]. Get the Blue switches if you're working solo, Brown if you're sharing space.
 - You can elevate your laptop with a [[https://www.amazon.sg/Nexstand-Adjustable-Eye-Level-Ergonomic-Lightweight/dp/B01HHYQBB8][Nexstand]].
-- [[https://symless.com/synergy][Synergy, from Symless]], to span multiple computers with one keyboard/mouse; particularly useful if you've got multiple computers connected to one display using PBP/PIP.
 - Ergonomics is important. Some people have reported success with a standing desk.
 
 ** Onboarding Checklist
@@ -777,6 +776,28 @@ You should see invites in your email for
 - Github
 - Asana
 - and assuming you have an SMU email address, library.smu.edu.sg should link you through /Clean Coder/
+
+** Setting up your computer
+
+We standardise on Macbook Airs as development workstations.
+- Turn on FileVault
+- require password or fingerprint access after sleep
+
+If you are more comfortable working in Windows, we recommend at the least installing
+- PowerShell
+- Windows Subsystem for Linux
+
+We recommend you install
+- Git
+- Slack (on your laptop and your phone)
+- Emacs
+- VS Code / Atom / Sublime Text
+- Zoom
+- node and npm
+- python 3
+- Docker
+- ssh
+- [[https://symless.com/synergy][Synergy, from Symless]], to span multiple computers with one keyboard/mouse; particularly useful if you've got multiple computers connected to one display using PBP/PIP.
 
 * Introduction to Computational Law
 
