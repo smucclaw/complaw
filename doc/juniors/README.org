@@ -514,6 +514,9 @@ Coming back down to earth, these resources are recommended for learning Haskell:
 
 "Learn You A Haskell" has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH.
 
+Other Haskell random factlets:
+- You may have heard that Haskell is really good for programming language design and compiler development. That's one of the reasons we're using it. You might have heard of Perl 6; you might not have heard that Perl 6 (now Raku) was first implemented in Haskell, [[https://medium.com/a-computer-of-ones-own/audrey-tang-open-government-hacker-d7b80a69c0df][by Audrey Tang, who went on to be digital minister of Taiwan]].
+
 ** Formal Methods
 
 - https://www.hillelwayne.com/post/decision-tables/
