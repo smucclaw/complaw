@@ -750,7 +750,7 @@ In software (unless you're working on a [[https://en.wikipedia.org/wiki/Kata_(pr
 
 ** Domain Specific Languages
 
-As Bjarne Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
+As Bjarne Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpreter or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
 
 You may already know a number of DSLs: HTML; Markdown; Wiki; regular expressions; TeX and LaTeX; Makefile syntax; shell scripts. You can think of them as side quests.
 
