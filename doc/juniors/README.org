@@ -263,7 +263,7 @@ XMP does for PDFs, what EXIF does for JPGs ... kind of.
 
 As the Rates Rebates example shows, some rules are essentially mathematical formulae: how much rebate am I entitled to under condtions X and Y.
 
-There are existing business tools that save us from reinventing that particular wheel. Explore DMN: Decision Model & Notation. There's a good tutorial by Camunda. See also https://twitter.com/hillelogram/status/1248082689149861888
+There are existing business tools that save us from reinventing that particular wheel. Explore DMN: Decision Model & Notation. There's a [[https://camunda.com/dmn/][good tutorial by Camunda]]. See also https://twitter.com/hillelogram/status/1248082689149861888
 
 Read about the history and the pros and cons of Model-Driven Architecture.
 
@@ -284,10 +284,10 @@ This is the start of the DMN track of work.
 Now we have a way to avoiding massively complex if/then/else statements. Build it in Python.
 
 - Read Hillelogram's article on decision tables.
-- Try out the Camunda DMN demo online. Read their tutorial.
+- Try out the Camunda DMN demo online. [[https://camunda.com/dmn/][Read their tutorial]].
 - Write documentation and a specification for DMNMD in your favourite language.
 - Try converting some gnarly code you wrote recently to DMN syntax.
-- Implement an MVP proof of concept in your favourite language for a simplified DMNMD: supporting only a unique hit policy and S-FEEL comparison expressions in your favourite language. Don't bother supporting separator escaping, just do a string split. You can revisit this and do a proper parser later when you have more programming language / compiler theory under your belt. You can do a simple implementation just by reading the Camunda tutorial, you don't even really need to read the DMN spec to grasp how it works.
+- Implement an MVP proof of concept in your favourite language for a simplified DMNMD: supporting only a unique hit policy and S-FEEL comparison expressions in your favourite language. Don't bother supporting separator escaping, just do a string split. You can revisit this and do a proper parser later when you have more programming language / compiler theory under your belt. You can do a simple implementation just by reading the [[https://camunda.com/dmn/][Camunda tutorial]], you don't even really need to read the DMN spec to grasp how it works.
 
 ** Implement DMNMD in native Typescript
 
