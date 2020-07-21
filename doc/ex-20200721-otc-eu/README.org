@@ -143,7 +143,7 @@ Here the expressions in the body cells are not directly matched against the obje
 
 In our extension to DMN syntax we might indicate that with a type annotation of ~: predicate~.
 
-In a language like Alloy we would take advantage of a relational syntax to show that party a vs party b are swappable, particularly with respect to rule 4. Because we don't want to bind so tightly to A and B that we fail to match a situation where ~A~ matches ~third~, and ~B~ matches ~isfin~ or ~notfin~.
+In a language like Alloy we would take advantage of a relational syntax to show that party a vs party b are swappable, particularly with respect to rules 2 and 4. We don't want to bind so tightly to A and B that we fail to match a situation where ~A~ is ~third~, and ~B~ is ~isfin~ or ~notfin~.
 
 * In L4-Vapourware
 

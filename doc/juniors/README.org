@@ -584,6 +584,10 @@ Content addressing. [[https://en.wikipedia.org/wiki/Distributed_hash_table][DHTs
 
 - https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/
 
+* Know your tools.
+
+https://missing.csail.mit.edu/
+
 * Other Things An Educated Technologist Should Know
 
 In conversations among experienced technologists, many of the following references are expected to be common knowledge "within the tribe".
