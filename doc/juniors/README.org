@@ -407,13 +407,29 @@ Speaking of keybindings, you may enjoy installing [[https://chrome.google.com/we
 
 ** Languages
 
-The fact that there are multiple [[https://en.wikipedia.org/wiki/Programming_paradigm][programming paradigms]] may come as news to those who grew up monolingual, or had strongly vocational educations in programming.
+The fact that there are multiple [[https://en.wikipedia.org/wiki/Programming_paradigm][programming paradigms]] may come as news to those who grew up monolingual, or had strongly vocational educations in programming. This is perhaps the weakest point of the self-taught programmer: it is too easy to pick one language and stick to it, defining your identity narrowly. "I'm a Python programmer" subtly implies "I'm a not-Javascript, not-Ocaml, not-Ruby programmer". But languages facilitate cognition. Why accept constraints on your ability to think and solve problems?
+
+The [[https://repository.wellesley.edu/object/ir116][2007 Model Curriculum for a Liberal Arts Degree in Computer Science]] is emphatic about learning multiple paradigms:
+
+#+begin_quote
+Different paradigms, such as object-oriented and functional, provide
+distinctive ways of thinking about and solving problems. Students who
+experience multiple approaches and appreciate their tradeoffs
+understand the value of applying alternative problem-solving models
+when confronting complex, real-world applications. Two approaches that
+integrate object-oriented and functional programming are presented in
+detail in Appendices A and B. If desired, functional programming could
+be replaced by another sufficiently different paradigm, such as logic
+programming.
+#+end_quote
 
 In [[https://venturebeat.com/2019/04/24/how-programming-languages-have-evolved-a-2019-primer/][How Programming Languages Have Evolved (2019)]] Rebecca Parsons said: "We use the phrase /polyglot programming/ to capture the idea that we should judiciously expand our language choices to address different problem spaces."
 
+Peter Van Roy's [[https://www.info.ucl.ac.be/~pvr/VanRoyChapter.pdf][Programming Paradigms for Dummies]] shows the ingredients that go into programming languages. If natural languages [[https://en.wikipedia.org/wiki/Grammatical_category][differ by features]], programming languages differ by paradigm.
+
 From Matt Might's list, I would suggest starting with
 
-- Javascript :: (update: Typescript and Deno); this is the /lingua franca/ of the web today.
+- Javascript :: (update: Typescript and Deno); this is the /lingua franca/ of the web today. But it is not a well-designed language; it has many flaws, both in its [[https://www.destroyallsoftware.com/talks/wat][native syntax]] and in its [[https://www.hillelwayne.com/post/stamping-on-eventstream/][jungle of packages]].
 - Python :: after Javascript will give you a good appreciation for "comparative linguistics" -- you can analyze differences in vocabulary and grammar, and begin to abstract the idea of a language feature. Python and Javascript are like two dialects of Chinese.
 - Haskell :: Extreme FP is a very different, almost alien, mode of thought. You may, after some time, say "nice place to visit, don't want to live there." But you will never use [[https://lodash.com/][lodash]] the same way again; and when you work with a dynamically typed language, you will better understand what people mean when they say "[[http://earlbarr.com/publications/typestudy.pdf][BIGNUM% of bugs are type errors]]". More below.
 - Prolog :: for an introduction to unification and backtracking as first-class language features; know enough to appreciate [[https://www.metalevel.at/prolog][the Power of Prolog]]. You want German for philosophy, Italian for romance, and Prolog for logic and constraints.
@@ -421,14 +437,12 @@ From Matt Might's list, I would suggest starting with
 
 together, these will give you good exposure to enough programming paradigms that you will know which language to use for a given situation.
 
-Once you're there, you can proceed to more advanced, specialized languages. For example, if you work in constraint or logic programming, you can explore Curry, Flora-2, and ErgoAI.
+Once you're there, you can proceed to more advanced, specialized languages. For example, if you work in constraint or logic programming, you can explore Curry, Flora-2, and ErgoAI. Or try Oz.
 
 Most programming languages take at least two weeks to even begin to
 grapple with. Getting the compiler installed, and your editor working
 with the language, may take an hour if you're lucky or a day if you're
-not. Ask your teammates for help. Any introductory tutorial will come with exercises that you
-really should work through. After that, it will take you many months
-to get good -- to know the idioms, the warts, and the libraries.
+not. Ask your teammates for help. Any introductory tutorial will come with exercises that you really should work through. After that, it will take you many months to get good -- to know the idioms, the warts, and the libraries.
 
 For the purposes of this curriculum you might choose to dedicate at
 least three months to each language; and you should use all the
