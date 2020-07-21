@@ -143,7 +143,7 @@ Here the expressions in the body cells are not directly matched against the obje
 
 In our extension to DMN syntax we might indicate that with a type annotation of ~: predicate~.
 
-In a language like Alloy we would take advantage of a relational syntax to show that party a vs party b are swappable, particularly with respect to rules 2 and 4. We don't want to bind so tightly to A and B that we fail to match a situation where ~A~ is ~third~, and ~B~ is ~isfin~ or ~notfin~.
+In a language like Alloy we would take advantage of a relational syntax to show that party a vs party b are swappable, particularly with respect to rules 2 and 4. We don't want to bind so tightly to A and B that we fail to match a situation where ~A~ is ~notfin~, and ~B~ is ~isfin~.
 
 * In L4-Vapourware
 
@@ -178,9 +178,9 @@ Here's what the regulation might look like in a possible syntax for L4:
 Note that the DMN table is inlined directly into the DSL.
 
 What does the syntax mean?
-- The tilde (~~~) acts as a heavily overloaded "match" operator.
+- The tilde (~) acts as a heavily overloaded "match" operator.
 - We support counterfactual reasoning by way of Haskell's record-modification syntax -- the definition of ~third~ treats ~this.thirdCountryEntity()~ as an overrideable instance prototype method.
-- Conjunctive and disjunctive lists use syntax that looks like ~[,,,&]~ and ~[,,,|]~ as syntactic sugar for ~all [,,,]~ and ~any [,,,]~ respectively.
+- Conjunctive and disjunctive lists use syntax that looks like ~[,,,&]~ and ~[,,,|]~ as syntactic sugar for ~all [,,,,]~ and ~any [,,,,]~ respectively.
 - We use an alias in the rule definition because we observe recursion in the "subject to the clearing obligation" condition in rules 4 and 5 relating to third-country entities. L4 probably needs to impose some sort of bounded recursion or constraint satisfaction logic to deduce/reduce a decidable, satisfiable interpretation of the rules.
 
 * LegalRuleML
@@ -197,6 +197,8 @@ LegalRuleML offers a way to link back to the source regulations:
    refIDSystemSource="http://www.legislation.gov.uk/eur/2012/648/title/ii/2019-10-31"/>
 </lrml:LegalReferences>
 #+end_src
+
+We'll talk about expressing the semantics of the rules in LegalRuleML separately.
 
 * The Underlying Ontology, or Types
 
