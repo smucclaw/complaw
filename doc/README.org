@@ -51,6 +51,10 @@ Hypothesis: the CS field of [[https://en.wikipedia.org/wiki/Formal_verification]
 
 In Sep 2017 the Atlantic Magazine discussed how FV could save the world from [[https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/][The Coming Software Apocalypse]].
 
+See pages 6 to 9 of [[https://doi.org/10.6028/NIST.IR.8151][Dramatically Reducing Software Vulnerabilities (2016)]] for a concise summary of different formal methods.
+
+Pamela Zave compares [[http://pamelazave.com/compare.pdf][Alloy and SPIN]].
+
 Ron Dolin, Harvard Law School professor, [[https://www.youtube.com/watch?v=YHri1NdYKS0][looks at the legal system through an engineer's eyes]].
 
 ** Rules As Code
@@ -189,7 +193,7 @@ A company can be modelled as the sum of its contracts.
 
    1. Lay introduction to formal methods: [[https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/][the Coming Software Apocalypse]]
    2. Contract Formalization: [[https://drive.google.com/open?id=0BxOaYa8pqqSwbl9GMWtwVU5HSFU][Hvitved's PhD thesis]]; John Camilleri's [[https://drive.google.com/open?id=1vHHbR-7yXIdG_xNPCOyEZujjNl6EjMsn][PhD thesis]]
-   3. BPMN tutorial[[https://www.visual-paradigm.com/tutorials/bpmn1.jsp][1]],[[https://www.visual-paradigm.com/tutorials/bpmn2.jsp][2]],[[https://www.visual-paradigm.com/tutorials/bpmn3.jsp][3]],[[https://www.visual-paradigm.com/tutorials/bpmn4.jsp][4]]
+   3. BPMN tutorial [[https://www.visual-paradigm.com/tutorials/bpmn1.jsp][1]],[[https://www.visual-paradigm.com/tutorials/bpmn2.jsp][2]],[[https://www.visual-paradigm.com/tutorials/bpmn3.jsp][3]],[[https://www.visual-paradigm.com/tutorials/bpmn4.jsp][4]]
    4. [[http://www.cse.chalmers.se/~gersch/slides-talks/slides-ATVA-07.pdf][Model Checking Contracts]].
    5. Introduction to [[https://pat.comp.nus.edu.sg/?page_id=2581][PAT]] by Sun Jun?
    6. @hillelogram's [[https://hillelwayne.com/post/business-case-formal-methods/][The Business Case for Formal Methods]]: [[https://medium.com/@jason_90344/utterly-unpersuasive-formal-methods-and-law-bb8ecf048374][discussion with Jason Morris]]
