@@ -150,15 +150,17 @@ In a language like Alloy we would take advantage of a relational syntax to show 
 Here's what the regulation might look like in a possible syntax for L4:
 
 #+begin_src text
-  RULE    4.1 /@/ en"Title II" // en"Article 4" // en"Clearing Obligation" //> en"Section 1"
-  ALIAS   subj(clearOb) -- "subject to clearing obligation"
-  PARTIES P @ en"Counterparties"
+  RULE    4.1
+  ALIAS   en "Title II" // "Article 4" // "Clearing Obligation" //> "Section 1"
+  PARTIES P @ en "Counterparties"
   MUST    clear all dc:Contract
-  WHERE ( dc ~ (derivative ~ declared (subj(clearObj) ~~ rule 5.2))
+  WHERE ( dc ~ (derivative ~ declared (subjectToClearingObligation) ~~ rule 5.2))
         , partyConditions @ (
           LET      isfin =    financial & rule 4a.1.2
                   notfin = nonfinancial & rule 10.1
-                   third = thirdCountryEntity & counterfactual(this{thirdCountryEntity={return False}}, subj(clearOb))
+                   third = thirdCountryEntity
+                           & counterfactual(this{thirdCountryEntity={return False}},
+                                            subjectToClearingObligation)
               effectInEU = effectByGeography Geo.EU ~ [direct, substantial & foreseeable]
            IN dc ~
                  | F | party.a : pred | party.b : pred | other          | return |
@@ -181,7 +183,14 @@ What does the syntax mean?
 - The tilde (~) acts as a heavily overloaded "match" operator.
 - We support counterfactual reasoning by way of Haskell's record-modification syntax -- the definition of ~third~ treats ~this.thirdCountryEntity()~ as an overrideable instance prototype method.
 - Conjunctive and disjunctive lists use syntax that looks like ~[,,,&]~ and ~[,,,|]~ as syntactic sugar for ~all [,,,,]~ and ~any [,,,,]~ respectively.
-- We use an alias in the rule definition because we observe recursion in the "subject to the clearing obligation" condition in rules 4 and 5 relating to third-country entities. L4 probably needs to impose some sort of bounded recursion or constraint satisfaction logic to deduce/reduce a decidable, satisfiable interpretation of the rules.
+
+For future discussion:
+
+Counterfactuals demand recursion: L4 probably needs to impose some sort of bounded recursion or constraint satisfaction logic to deduce/reduce a decidable, satisfiable interpretation of the rules.
+
+Types: How does the CS dichotomy between dynamic typing and static typing play into, e.g., the definition of a "clearing obligation"? Is a contract subject to a clearing obligation? Are the counterparties to that contract subject to the clearing obligation? How shall we model these notions?
+
+Passive voice: what does it mean for something to be "declared"? If it's declared by the regulation, it's alethic; if it's declared by a party, it's epistemic.
 
 * LegalRuleML
 
@@ -235,4 +244,8 @@ But it leads one to ask: What is the type of a clearing obligation? Does it atta
 * Natural Language Generation
 
 A challenge for our NLG team: develop GF-based code that reads the DMN table and outputs the original regulations. Along the way, evolve the ontology so that it contains all the information needed to build the relevant GF grammar.
+
+* Diffs require a DSL unto their own.
+
+https://www.legislation.gov.uk/eur/2019/834/article/1
 
