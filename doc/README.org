@@ -97,7 +97,7 @@ Specific technologies we aim to build on:
 
 ** Natural Language Generation
 
-with Grammatical Framework
+with Grammatical Framework; read http://www.cse.chalmers.se/~aarne/articles/cade2011.pdf
 
 ** Model-Driven Architectures
 
