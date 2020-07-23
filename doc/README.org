@@ -123,6 +123,8 @@ While interactive theorem provers are the extreme example of "AI Augmentation" i
 
 Broadly defined, including symbolic execution, model checking, type systems (basic, dependent, and more advanced), and syntactic (e.g. decision tables). Consider ontology inference as a problem domain related to type inference. See the Rates Rebates case study for an example.
 
+https://www.cs.cmu.edu/~rwh/papers/unreasonable/basl.pdf
+
 * A Longer Syllabus
 
 ** Rules as Code:
