@@ -196,6 +196,7 @@ I wrote this section with the hopes of pre-empting such a situation; if I were t
 
 See also:
 - [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
+- [[https://jvns.ca/blog/good-questions][How to ask good questions]]
 - [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
 - [[http://xyproblem.info/][XY Problem]]
 
@@ -660,6 +661,7 @@ makes a case for test-driven development and argues for professionalization of s
 
 *** [[http://www.catb.org/~esr/jargon/html/appendixb.html][A Portrait of J. Random Hacker]] offers a snapshot from the early days of the American Internet, reflecting the gender and cultural biases prevalent at that time.
 *** [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
+*** [[http://jvns.ca/blog/good-questions][How to ask good questions]]
 *** [[https://sol.gfxile.net/dontask.html][Don't ask to ask, just ask]]
 *** [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
 *** [[http://xyproblem.info/][XY Problem]]
@@ -748,7 +750,7 @@ In software (unless you're working on a [[https://en.wikipedia.org/wiki/Kata_(pr
 
 ** Domain Specific Languages
 
-As Bjarne Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpretr or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
+As Bjarne Stroustrup once remarked, if you're trying to solve a problem, first design a programming language expressive enough to elegantly represent solutions in your problem domain; implement the language with an interpreter or compiler or embedded DSL; then implement the solution to your original problem in that language, which should now be simple enough for you to do "as an exercise for the reader."
 
 You may already know a number of DSLs: HTML; Markdown; Wiki; regular expressions; TeX and LaTeX; Makefile syntax; shell scripts. You can think of them as side quests.
 
