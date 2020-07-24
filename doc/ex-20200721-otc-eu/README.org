@@ -241,9 +241,13 @@ There are other ways to formalize this; can a party be said to be subject to a c
 
 But it leads one to ask: What is the type of a clearing obligation? Does it attach to a party? Or to a contract?
 
-* Natural Language Generation
+* Challenge: Natural Language Generation
 
 A challenge for our NLG team: develop GF-based code that reads the DMN table and outputs the original regulations. Along the way, evolve the ontology so that it contains all the information needed to build the relevant GF grammar.
+
+* Challenge: Code Generation
+
+Given the DMN table, or the L4 representation, enriched with the natural language resources that attach to this case, automatically generate the DocAssemble YAML.
 
 * Diffs require a DSL unto their own.
 
