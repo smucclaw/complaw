@@ -214,6 +214,24 @@ Actual tasks are defined elsewhere -- in Asana, or Github Issues -- but these ar
 
 As you read through this list of projects, ask yourself: "how would I attempt to do this with the skills I currently possess? What new skills might I have to learn to achieve these goals?"
 
+** From Your Own Experience
+
+Have you ever been in a situation where you wanted expert advice about a body of rules, to inform your choice of actions?
+
+How did you solve that problem?
+
+Did you learn the body of rules for yourself? How long did that take?
+
+Did you look for answers online in some community of practice, e.g. Reddit or Stack Overflow?
+
+Did you seek advice from an expert human? E.g. a lawyer?
+
+Did you use computational resources rooted in machine reasoning?
+
+How do you approach problems in medicine and health differently from problems in law and contracts?
+
+How do you approach problems in the fields where you have the most experience, differently from the above? E.g. finance, accounting, data science, music, arts?
+
 ** Make it possible for a non-lawyer to think through a legal scenario with the help of their computer, without having to ask a human.
 
 If you need to think about a business scenario that deals largely with numbers -- for example, with a budget -- you might turn to a spreadsheet and use that to "help you think".
@@ -352,6 +370,13 @@ If you find yourself at a loose end:
 1. review Asana; are there really no tasks assigned to you?
 2. review your learning objectives; are you all caught up on the assigned reading? Are you "done" learning Haskell and Python and Unix?
 3. look around for where you could help; does some other team need help? Can you help that team move forward?
+
+** Research Meets Practice
+
+Browse the presentations at http://www.remep.net/materials-2020/
+- Michael Genesereth: https://www.remep.net/wp-content/uploads/2020/06/Michael-Genesereth_Computational-Law_The-Cop-in-the-Backseat_ReMeP2020.pdf?x45466
+- Robert Kowalski: https://www.remep.net/wp-content/uploads/2020/06/Bob_Kowalski.png?x45466
+- Marcus Triska: https://www.remep.net/wp-content/uploads/2020/06/Markus-Triska_Logic-Programming-in-modern-e-Government-Services_ReMeP2020.pdf?x45466
 
 * [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
