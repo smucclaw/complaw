@@ -252,4 +252,77 @@ Given the DMN table, or the L4 representation, enriched with the natural languag
 * Diffs require a DSL unto their own.
 
 https://www.legislation.gov.uk/eur/2019/834/article/1
+** Compiler Output
+
+#+begin_src text :tangle compilation.log
+  mengwong@cclaw% l4c -Wall -o otc-1.pdf -o otc-1.docx -o otc-1-medium.png -o otc.drl --lang=en_GB,id otc-1.l4
+  ,*  compilation log for otc-1.l4 started 20200728-1300
+  ,** importing standard libraries: legal, finance
+  ,** importing jurisdiction: Delaware US
+  ,** loading rule 4.1 ... loaded
+
+  ,*  warnings and errors
+  ,** clause 12.1 is in conflict with clause 14.3: impossible obligations.
+  ,** clause 19.5, 19.7, and 19.12 are redundant: unreachable code block, will never execute.
+  ,** clause 23.1.* fails totality check: non-exhaustive type partitions means some possible inputs are not handled.
+     - Winter is handled
+     - Spring is handled
+     - Summer is not handled
+     - Fall and GuestCount <= 8 is not handled
+  ,** clause 31 may be unenforceable: unlikely to stand up in court, see case link https://...
+
+  ,*  outputs: lang=en_GB (British English) dialects=ken_adams; lang=id (Bahasa Indonesia)
+  ,** pdf:  en_GB id
+  ,** docx: en_GB id
+  ,** png:  en_GB id
+
+  ,*  computing execution sequence...
+  ,** dependency DAG written to execution.dot, execution.png, execution.svg, execution.html
+
+  ,*  outputs: Drools Rule Language
+  ,** rules ready for importing to Drools decision engine
+#+end_src
+
+
+* Editable Demo
+
+As you edit, the PDF output changes, and the DocAssemble interview changes, automatically.
+
+#+begin_src haskell :tangle otc-1.l4
+  IMPORT <std/legal.l4> <std/finance.l4> <jurisdictions/uk.l4> 
+
+  RULE    4.1
+  ALIAS   en "Title II" // "Article 4" // "Clearing Obligation" //> "Section 1"
+  PARTIES P @ en "Counterparties"
+  MUST    clear all dc:Contract <@ clearOb
+  WHERE ( dc ~ (derivative ~ declared (subjectToClearingObligation) ~~ rule 5.2))
+        , partyConditions @ (
+          LET      isfin =    financial & rule 4a.1.2
+                  notfin = nonfinancial & rule 10.1
+                   third = thirdCountryEntity
+                           & counterfactual(this{thirdCountryEntity={return False}},
+                                            subjectToClearingObligation)
+              effectInEU = effectByGeography Geo.EU ~ [direct, substantial & foreseeable]
+           IN dc ~
+                 | F | party.a : pred | party.b : pred | other         | return |
+                 |---+----------------+----------------+---------------+--------|
+                 | 1 | isfin          | isfin          | -             | TRUE   |
+                 | 2 | notfin         | isfin          | -             | TRUE   |
+                 | 3 | isfin, notfin  | third          | -             | TRUE   |
+                 | 4 | third          | third          | effectInEU    | TRUE   |
+        )
+        & ( dcDate @ ( dc.date | dc.novation.date ) >= clearOb.effectiveDate
+          & asOf(dcDate, partyConditions) )
+        )
+
+<lrml:LegalReferences
+ xmlns:appex="http://docs.oasis-open.org/legalruleml/examples/compactified/"
+ refType="http://example.legalruleml.org/lrml#LegalSource">
+  <lrml:LegalReference refersTo=".11"
+   refID="ECLI:EU:C:2012:648"
+   refIDSystemName="Regulation (EU) No 648/2012 of the European Parliament and of the Council of 4 July 2012 on OTC derivatives, central counterparties and trade repositories (Text with EEA relevance)"
+   refIDSystemSource="http://www.legislation.gov.uk/eur/2012/648/title/ii/2019-10-31"/>
+</lrml:LegalReferences>
+
+#+end_src
 
