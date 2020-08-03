@@ -185,6 +185,10 @@ false.
 false.
 #+end_example
 
+How to interpret the results: the first is true, the others are false.
+
+*** TODO it would be nice to add explainability
+
 ** In Haskell
 
 To make this easier to think about, let's set up a couple of concrete
