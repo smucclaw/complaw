@@ -11,6 +11,7 @@ module SAFE.Events where
 import Data.Map
 import Data.Maybe
 import Data.Tree
+import Data.Tree.Pretty
 
 data Imbued a = Imbued { underlying :: a
                        , attrs      :: Map String MyParamVal }
@@ -23,6 +24,14 @@ data EventBody = EvName String
 -- tail is the happy path, to which "execution" proceeds if the node is performed satisfactorily
 -- head is the unhappy path.
 type Agreement = Tree Clause
+
+-- TODO: devise a monadic notation to make this even more readable as an EDSL
+-- this syntax allows us to say x `hence` y `lest` z
+infixr 7 `hence`
+infixr 7 `lest`
+x `hence` yz = Node x yz
+y `lest`  z  = [ z, y ]
+
 data Party = Party { name :: String
   , attrsc :: (Map String MyParamVal)
   } deriving (Show, Eq)
@@ -60,7 +69,8 @@ data Temporal = T_Before MyYMD
               deriving (Show, Eq)
 type Days = Int
 
-data Clause = MkCl { conditions :: [State]
+data Clause = MkCl { name       :: String
+                   , conditions :: [State]
                    , upon       :: Event
                    , parties    :: [Party]
                    , deontic    :: Deontic
@@ -74,7 +84,8 @@ fulfilled = Node Fulfilled []
 breach    = Node Breach []
 transferFunds :: MyYMD -> Party -> Int -> String -> Clause
 transferFunds closingDate investor amount dest =
-  MkCl { conditions = []
+  MkCl { name = "transfer funds"
+       , conditions = []
        , upon = (Just closingDate, EvName "closing")
        , parties = [investor]
        , deontic = Must
@@ -86,7 +97,8 @@ transferFunds closingDate investor amount dest =
   }
 issuePreferred :: Party -> Party -> Int -> Clause
 issuePreferred company investor numShares =
-  MkCl { conditions = [] -- always
+  MkCl { name = "issue shares"
+       , conditions = [] -- always
        , upon       = (Nothing, GreenLight)
        , parties    = [company]
        , deontic    = Must
@@ -106,14 +118,15 @@ mktxns company investorAmounts closingDate pricepershare = do
   (investor,amount) <- investorAmounts
   let investorSendsMoney  = transferFunds closingDate investor amount (unwords $ mystr <$> [attrsc company ! k | k <- [ "bank", "acct" ] ])
       companyIssuesShares = issuePreferred company investor (floor (fromIntegral amount / pricepershare))
-  return $ -- the state graph of obligations. you may consider this a finite state machine.
-    MkTxn [company,investor] (investorSendsMoney
-                              `hence` (companyIssuesShares
-                                       `hence` fulfilled
-                                       `lest`  breach)
-                              `lest`  breach)
--- TODO: devise a monadic notation to make this even more readable as an EDSL
-infixr 7 `hence`
-infixr 7 `lest`
-x `hence` yz = Node x yz
-y `lest`  z  = [ z, y ]
+  return $
+    -- a transaction is an agreement between the parties: company and investor
+    MkTxn [company,investor]
+    -- the state graph of the contract. you may consider this a finite state machine.
+    (investorSendsMoney
+      `hence` (companyIssuesShares
+                `hence` fulfilled
+                `lest`  breach)
+      `lest`  breach)
+asDAG :: Transaction -> String
+asDAG (MkTxn parties agreement) = unlines [ unwords ( "Between" : ( ( name :: Party->String ) <$> parties ) ) 
+                                          , drawVerticalTree ( ( name :: Clause -> String ) <$> agreement ) ]

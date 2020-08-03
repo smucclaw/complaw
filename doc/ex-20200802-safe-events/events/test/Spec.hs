@@ -15,6 +15,7 @@ import Data.Map
 import Control.Monad
 import SAFE.Events
 import Data.Tree
+import Data.Tree.Pretty
 import Control.Arrow
 import Debug.Trace
 

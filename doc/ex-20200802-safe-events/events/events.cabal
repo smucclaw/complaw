@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3e8197c9f5d579b94a6cdd72d700e95e103cd6e6bcd9c1c1cc49762e6fc86341
+-- hash: 4c81b61b5ba492a5b863fe87c862df5965c4e12326df86f5092d5d8c5f57deb8
 
 name:           events
 version:        0.1.0.0
@@ -36,6 +36,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , pretty-tree
     , record-dot-preprocessor
     , record-hasfield
   default-language: Haskell2010
@@ -51,6 +52,7 @@ executable events-exe
       base >=4.7 && <5
     , containers
     , events
+    , pretty-tree
     , record-dot-preprocessor
     , record-hasfield
   default-language: Haskell2010
@@ -68,6 +70,7 @@ test-suite events-test
     , containers
     , events
     , hspec
+    , pretty-tree
     , record-dot-preprocessor
     , record-hasfield
   default-language: Haskell2010

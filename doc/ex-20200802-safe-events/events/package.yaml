@@ -24,6 +24,7 @@ dependencies:
 - containers
 - record-dot-preprocessor
 - record-hasfield
+- pretty-tree
 
 library:
   source-dirs: src
