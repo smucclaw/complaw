@@ -12,6 +12,16 @@ reformatted slightly for org
 
 "Equity Financing" means a bona fide transaction or series of transactions with the principal purpose of raising capital, pursuant to which the Company issues and sells Preferred Stock at a fixed valuation, including but not limited to, a pre-money or post-money valuation.
 
+**** Quibbles
+
+Let's go on a hunt for ambiguity! Imagine a scenario in which each transaction in the series issues and sells Preferred stock at a known valuation that is different to the valuation for every other transaction. Would you consider the "fixed valuation" criterion to be met?
+
+If the subject of the sentence is "a series of transactions" then one could argue that within the series, the valuation is anything but fixed: it wibble-wobbles up and down with each transaction.
+
+If the subject of the sentence is "a [bona fide] transaction", then the valuation is fixed for that valuation.
+
+In practice, this problem would not arise, because in a financing round, stock is always issued at the same price within that round. For certain values of "always"...
+
 *** Dissolution Event
 
 "Dissolution Event" means
@@ -264,11 +274,17 @@ embodied in a specific agreement between two parties:
     (investor,amount) <- investorAmounts
     let investorSendsMoney  = transferFunds closingDate investor amount (unwords $ mystr <$> [attrsc company ! k | k <- [ "bank", "acct" ] ])
         companyIssuesShares = issuePreferred company investor (floor (fromIntegral amount / pricepershare))
-    return $
-      MkTxn [company,investor] $
-      Node investorSendsMoney [ Node Breach []
-                              , Node companyIssuesShares [ Node Breach [], Node Fulfilled [] ] ]
-      -- TODO: syntactic sugar for HENCE and LEST to connect clauses
+    return $ -- the state graph of obligations. you may consider this a finite state machine.
+      MkTxn [company,investor] (investorSendsMoney
+                                `hence` (companyIssuesShares
+                                         `hence` fulfilled
+                                         `lest`  breach)
+                                `lest`  breach)
+  -- TODO: devise a monadic notation to make this even more readable as an EDSL
+  infixr 7 `hence`
+  infixr 7 `lest`
+  x `hence` yz = Node x yz
+  y `lest`  z  = [ z, y ]
 #+end_src
 
 We set up a transaction between the company Acme and the investor Richie Moneybags:
@@ -311,11 +327,11 @@ agreements must meet a certain set of criteria.
                 , allActionVal "issue shares" "valuation_fixed" (== MyBool True)
                 , allActionVal "issue shares" "val_p_p_o"       (`elem` [MyString x | x <- ["pre_money", "post_money", "other"]])
                 ]
-    where allActionVal n k p =
+    where allActionVal n k p = -- the list comprehension below unwraps a seven-layer burrito. well, maybe five.
             all p $ [ params a ! k | txn                        <- underlying im
                                    , MkCl { actions = actions } <- flatten (getAgreement txn)
                                    , a                          <- actions
-                                   , a.name == n 
+                                   , a.name == n -- we filter for the desired action name
                                    ]
 
   -- todo: consider hxt's arrowlist approach to tree traversal and matching with >>>
@@ -397,6 +413,8 @@ If you're curious about how the types fit together:
               | Fulfilled
               | Breach
     deriving (Show, Eq)
+  fulfilled = Node Fulfilled []
+  breach    = Node Breach []
 #+end_src
 
 * NLG representations

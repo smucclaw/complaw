@@ -53,11 +53,11 @@ isEF im = and [ attrs im ! "bona fide"                        == MyBool True
               , allActionVal "issue shares" "valuation_fixed" (== MyBool True)
               , allActionVal "issue shares" "val_p_p_o"       (`elem` [MyString x | x <- ["pre_money", "post_money", "other"]])
               ]
-  where allActionVal n k p =
+  where allActionVal n k p = -- the list comprehension below unwraps a seven-layer burrito. well, maybe five.
           all p $ [ params a ! k | txn                        <- underlying im
                                  , MkCl { actions = actions } <- flatten (getAgreement txn)
                                  , a                          <- actions
-                                 , a.name == n 
+                                 , a.name == n -- we filter for the desired action name
                                  ]
 
 -- todo: consider hxt's arrowlist approach to tree traversal and matching with >>>

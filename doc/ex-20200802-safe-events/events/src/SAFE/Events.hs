@@ -70,6 +70,8 @@ data Clause = MkCl { conditions :: [State]
             | Fulfilled
             | Breach
   deriving (Show, Eq)
+fulfilled = Node Fulfilled []
+breach    = Node Breach []
 transferFunds :: MyYMD -> Party -> Int -> String -> Clause
 transferFunds closingDate investor amount dest =
   MkCl { conditions = []
@@ -104,8 +106,14 @@ mktxns company investorAmounts closingDate pricepershare = do
   (investor,amount) <- investorAmounts
   let investorSendsMoney  = transferFunds closingDate investor amount (unwords $ mystr <$> [attrsc company ! k | k <- [ "bank", "acct" ] ])
       companyIssuesShares = issuePreferred company investor (floor (fromIntegral amount / pricepershare))
-  return $
-    MkTxn [company,investor] $
-    Node investorSendsMoney [ Node Breach []
-                            , Node companyIssuesShares [ Node Breach [], Node Fulfilled [] ] ]
-    -- TODO: syntactic sugar for HENCE and LEST to connect clauses
+  return $ -- the state graph of obligations. you may consider this a finite state machine.
+    MkTxn [company,investor] (investorSendsMoney
+                              `hence` (companyIssuesShares
+                                       `hence` fulfilled
+                                       `lest`  breach)
+                              `lest`  breach)
+-- TODO: devise a monadic notation to make this even more readable as an EDSL
+infixr 7 `hence`
+infixr 7 `lest`
+x `hence` yz = Node x yz
+y `lest`  z  = [ z, y ]
