@@ -463,7 +463,21 @@ Let's use our main executable app to just print the tree
 main = mapM_ putStrLn $ asDAG <$> underlying myFinancing1
 #+end_src
 
+Success! The left child is the non-performance path, and the right child is the performance path.
 
+#+begin_example
+mengwong@venice4 events % stack exec events-exe
+Parties: Acme Inc. Richard Moneybags III
+      transfer funds
+            |
+   -------------
+  /             \
+Breach     issue shares
+                |
+           ---------
+          /         \
+        Breach  Fulfilled
+#+end_example
 * NLG representations
 
 See https://github.com/smucclaw/nlg
