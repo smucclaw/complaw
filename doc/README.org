@@ -123,6 +123,12 @@ As a learning exercise: represent the rules regarding an AGM as a system of cons
 
 While interactive theorem provers are the extreme example of "AI Augmentation" in "CASE" tooling, editors like VS Code offer code completion, linting and other mechanisms. It would be really interesting to see how those mechanisms could translate to interactive legal drafting in a DSL.
 
+We might call the VS Code / LSP approach "backend-oriented".
+
+A "frontend-oriented" approach would be Jupyter Notebooks.
+
+See this thread  https://twitter.com/avibryant/status/1289680996841828354?s=21 and the source text from the book /A Small Matter of Programming/.
+
 ** Formal Methods
 
 Broadly defined, including symbolic execution, model checking, type systems (basic, dependent, and more advanced), and syntactic (e.g. decision tables). Consider ontology inference as a problem domain related to type inference. See the Rates Rebates case study for an example.
