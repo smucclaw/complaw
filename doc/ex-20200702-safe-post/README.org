@@ -192,7 +192,7 @@ Tell you what, we'll deal with the pro-rata side letter properly in the Advanced
 
 Earlier, when we defined ~safe_a~ and ~safe_b~, we used record syntax, which should have given you enough to go on. Now it's time to define types explicitly. Since we're coming up on a Series A, let's give ourselves a way to talk about both SAFEs and equity securities:
 
-#+begin_src haskell basictypes
+#+begin_src haskell :noweb-ref basictypes
 data Security = SAFE { owner    :: Entity       -- who purchased this safe
                      , money_in :: Money        -- how much money did the investor put in?
                      , discount :: Maybe Float  -- usually something like 20%
@@ -1041,15 +1041,7 @@ Other events may trigger the SAFE in different ways.
 
 Let's look at how DMN can help answer the question "has an X event happened?"
 
-** Dissolution Event
-
-** Liquidity Event
-
-** Conversion Event
-
-** Other Events?
-
-Absence of repayment term.
+See related Case Study 20200802
 
 * <<<Advanced Approach>>>
 :PROPERTIES:
