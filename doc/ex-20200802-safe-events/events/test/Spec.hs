@@ -44,6 +44,7 @@ myFinancing1 = Imbued mytxns $ fromList
   , ("arity",              MyInt (length mytxns))
   , ("principal purpose",  MyString "raising capital")
   ]
+-- a thing is an Equity Financing if ...
 isEF :: Imbued [Transaction] -> Bool
 isEF im = and [ attrs im ! "bona fide"                        == MyBool True
               , myint (attrs im ! "arity")                    >= 1

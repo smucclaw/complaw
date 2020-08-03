@@ -228,16 +228,16 @@ kind of security.
 #+begin_src haskell :noweb-ref basicimplementation
   transferFunds :: MyYMD -> Party -> Int -> String -> Clause
   transferFunds closingDate investor amount dest =
-    MkCl { name = "transfer funds"
+    MkCl { name       = "transfer funds"
          , conditions = []
-         , upon = (Just closingDate, EvName "closing")
-         , parties = [investor]
-         , deontic = Must
-         , actions = [MkAct "transfer funds"
+         , upon       = (Just closingDate, EvName "closing")
+         , parties    = [investor]
+         , deontic    = Must
+         , actions    = [MkAct "transfer funds"
            (fromList [("currency",    MyString "USD")
                      ,("amount",      MyInt    amount)
                      ,("destination", MyString dest)])]
-         , temporal = T_Rel 3 (T_Event (EvName "closing"))
+         , temporal   = T_Rel 3 (T_Event (EvName "closing"))
     }
 #+end_src
 
@@ -246,7 +246,7 @@ There are many types of securities. Here we know the company will issue Preferre
 #+begin_src haskell :noweb-ref basicimplementation
   issuePreferred :: Party -> Party -> Int -> Clause
   issuePreferred company investor numShares =
-    MkCl { name = "issue shares"
+    MkCl { name       = "issue shares"
          , conditions = [] -- always
          , upon       = (Nothing, GreenLight)
          , parties    = [company]
@@ -285,6 +285,21 @@ embodied in a specific agreement between two parties:
                   `hence` fulfilled
                   `lest`  breach)
         `lest`  breach)
+  -- the "hence" and "lest" bits basically mean "then" and "else"
+  -- see section 2.3 of Hvitved https://drive.google.com/file/d/1sLmVMZqHhQDzj8dikKt-8CNemF-nGCn1/view?usp=sharing
+  -- together, "hence" and "lest" construct a tree of clauses:
+  --       Node investorSendsMoney [ Node Breach [],
+  --                                 Node companyIssuesShare [ Node Breach [], Node Fulfilled [] ] ]
+  -- in which the first element is "what if the clause fails" and the second element is "what if the clause succeeds, then control passes to ..."
+
+  -- this agreement is an example of a declarative specification, and contains enough information for a PGF component to generate English:
+
+  --     "When in the course of human events on the date of closing the
+  --     aforesaid Investor pays the Correct Sum, being 100,000 Dollars,
+  --     then immediately and without delaye the Company shall issue
+  --     five hundred Shares of Preferred Stock and if it should fail to
+  --     do so within five days the Company shall be in BREACHE!."
+
 #+end_src
 
 We set up a transaction between the company Acme and the investor Richie Moneybags:
@@ -295,7 +310,10 @@ We set up a transaction between the company Acme and the investor Richie Moneyba
 
 The definition of an Equity Financing is phrased as a constitutive
 rule, in which transactions appear to be imbued with purpose and other
-attributes. No problem.
+attributes. No problem:
+https://en.wikipedia.org/wiki/Fundamental_theorem_of_software_engineering
+says "We can solve any problem by introducing an extra level of
+indirection." So let's imbue some underlying thing with attributes:
 
 #+begin_src haskell :noweb-ref basictypes
 data Imbued a = Imbued { underlying :: a
@@ -317,6 +335,7 @@ as a predicate upon the imbued object, where the constituent
 agreements must meet a certain set of criteria.
 
 #+begin_src haskell :noweb-ref test-setup
+  -- a thing is an Equity Financing if ...
   isEF :: Imbued [Transaction] -> Bool
   isEF im = and [ attrs im ! "bona fide"                        == MyBool True
                 , myint (attrs im ! "arity")                    >= 1
@@ -411,19 +430,22 @@ If you're curious about how the types fit together:
                 deriving (Show, Eq)
   type Days = Int
 
-  data Clause = MkCl { name       :: String
+  data Clause = MkCl { name       ::  String
                      , conditions :: [State]
-                     , upon       :: Event
+                     , upon       ::  Event
                      , parties    :: [Party]
-                     , deontic    :: Deontic
+                     , deontic    ::  Deontic
                      , actions    :: [Action]
-                     , temporal   :: Temporal
+                     , temporal   ::  Temporal
                      }
               | Fulfilled
               | Breach
     deriving (Show, Eq)
   fulfilled = Node Fulfilled []
   breach    = Node Breach []
+  getName MkCl { name = n } = n
+  getName Fulfilled         = "Fulfilled"
+  getName Breach            = "Breach"
 #+end_src
 
 A handful of utility functions...
@@ -432,7 +454,7 @@ A handful of utility functions...
 #+begin_src haskell :noweb-ref basicimplementation
   asDAG :: Transaction -> String
   asDAG (MkTxn parties agreement) = unlines [ unwords ( "Parties:" : ( ( name :: Party->String ) <$> parties ) ) 
-                                            , drawVerticalTree ( ( name :: Clause -> String ) <$> agreement ) ]
+                                            , drawVerticalTree ( getName <$> agreement ) ]
 #+end_src
 
 Let's use our main executable app to just print the tree
@@ -516,7 +538,7 @@ import Data.Tree
 The library
 
 #+begin_src haskell :noweb yes :tangle events/src/SAFE/Events.hs
-{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes, LambdaCase #-}
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
 
 <<tangleWarning>>
