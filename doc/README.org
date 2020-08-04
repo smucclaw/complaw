@@ -115,7 +115,9 @@ At the intersection of:
 - constraint programming
 - SMT integration
 
-See [[https://www.cs.yale.edu/homes/piskac/papers/2019HallahanETALquasiquoter.pdf][G2Q]] and Curry ([[https://www.informatik.uni-kiel.de/~curry/tutorial/tutorial.pdf][tutorial]], [[https://en.wikipedia.org/wiki/Curry_(programming_language)][Wikipedia]], website, [[https://www-ps.informatik.uni-kiel.de/kics2/][KiCS2]]).
+See [[https://www.cs.yale.edu/homes/piskac/papers/2019HallahanETALquasiquoter.pdf][G2Q]] or perhaps more realistically [[https://hackage.haskell.org/package/sbv][SBV]].
+
+See Curry ([[https://www.informatik.uni-kiel.de/~curry/tutorial/tutorial.pdf][tutorial]], [[https://en.wikipedia.org/wiki/Curry_(programming_language)][Wikipedia]], website, [[https://www-ps.informatik.uni-kiel.de/kics2/][KiCS2]]).
 
 As a learning exercise: represent the rules regarding an AGM as a system of constraints, and treat as a planning problem the question of "what paperwork in what order needs to be issued by what actors?"
 
