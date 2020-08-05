@@ -56,13 +56,27 @@ Check out Epicurious's [[https://www.epicurious.com/video/watch/500-vs-16-steak-
 
 Would you rather be a Lorenzo or a Frank?
 
+More importantly, do you even enjoy cooking in the first place?
+
 *** Is Programming "For You"?
 
- If you ask your colleagues, they will tell you that, on the whole, programming is fun! After a few months, you may find that you enjoy the work, and look forward to periods of focus, the sense of accomplishment you get from solving one problem after another, and the sense of impact associated with knowing that people are reading your documentation and relying on your working code. Having fun and feeling good is a sign you should keep going! The world will be your oyster.
+The Japanese notion of "Ikigai" can be useful for young people trying to make career decisions. Study the [[https://www.weforum.org/agenda/2017/08/is-this-japanese-concept-the-secret-to-a-long-life/][Ikigai Venn diagram]]. How does it structure your thinking? Where do your friends and family fall?
 
- But if you find that you aren't having fun, that you do not enjoy the work, that it's not just hard but simply incompatible with the way your brain works, that's a good discovery too: better to know now, than spend years doing something you hate.
+Some of the junior engineers at the Research Programme are only a few years into a technical career, and they may be asking themselves if it's the right choice. Technical careers can be challenging.
 
- You may already be an experienced programmer, with one or two languages under your belt, and a number of projects in your portfolio. You already get what the [[http://threevirtues.com/][Three Virtues]] is saying. In that case, this curriculum assumes that you see yourself as a lifelong learner; that you are challenging yourself to go outside your comfort zone; that your goal is to level up.
+Type 1 challenging: "I go to the gym three times a week; this month I can lift 40kg, next year I want to lift 60kg." You think of a computer as a toy, or a tool. A medium for personal expression. A way to make the world a better place. Or a way to have fun! -- to make yourself smarter and more creative. These positives outweigh the inevitable frustrations.
+
+Type 2 challenging: "I'm constantly lost and I just can't seem to keep up with my peers -- even when I can get the computer to do what I want, I just don't enjoy the time I spend programming; it doesn't give me a sense of flow, or mastery, or achievement. When I want to express myself creatively I have plenty of other avenues that have nothing to do with technology. When I even think about computers, I start to feel bad."
+
+Type 3 challenging: "the people around me are toxic." The tech industry is rife with stories about bad behaviour. We'll get into this later in this README. Back to the main point --
+
+Some people start out in type 2 and switch to type 1. Many self-taught programmers got into software as a mid-career thing. They developed enough mastery to start treating computers as a fun challenge, a toy, a tool that they could start to apply in their own lives, perhaps in the way that the pioneers of computing called "[[https://en.wikipedia.org/wiki/Intelligence_amplification][intelligence amplification]]".
+
+But some people don't see the point of any of that, and are quite happy living an essentially non-computational life, finding fulfilment and pleasure elsewhere. If they need something done, rather than scripting a machine to do it, they get a human to do it. For most of human history, the route to power was through people. That's how kings and queens have extended their will into the world since the invention of agriculture. Only in the past few centuries and decades has it been possible to extend your will into the world directly, using, basically, magic.
+
+If, after a year with us, you find that you aren't having fun, that you do not enjoy the work, that magic is, for you, not just hard but simply incompatible with the way your brain works, that's a good discovery: better to know now, than spend years doing something you hate. But give it a chance, if you can: maybe find some way to connect technology to other areas of your life which you already care about, and see if you can use computers to help make the world a better place, or at least have some fun, in those areas. Or maybe you can "go into management" -- product management, project management, account management. Having spent time in the trenches of software development you can put your experience to good use helping to coordinate and organize the work that others do.
+
+The senior engineers on the team tend to be type 1 people who got into computing early because they had an affinity for it. If you already have one or two languages under your belt, and a number of projects in your portfolio, you might recognize yourself as belonging to the same tribe as them. You already understand what the [[http://threevirtues.com/][Three Virtues]] is saying. In that case, this curriculum assumes that you see yourself as a lifelong learner; that you are challenging yourself to go outside your comfort zone; that your goal is to level up.
 
 *** What does leveling up mean?
 
@@ -74,7 +88,7 @@ I am an expert in both JavaScript-the-language and the JavaScript front-end ecos
 
 A few people go far beyond that. They might add "It’s not my favorite technology, but knowing the language and its tools is pretty important for building modern web applications, even if you decide to use a compile-to-JS language."
 
-And then they stick the paragraph on to the end of their bio, as an "oh, I almost forgot", because it's really the least of their skills. What does the rest of their bio contain? See https://lexi-lambda.github.io/resume.html
+And then they stick the paragraph on to the end of their bio, as an "oh, I almost forgot", because it's really the least of their skills. What does the rest of their bio say? https://lexi-lambda.github.io/resume.html
 
 *** Don't just use a library. Write a library.
 
