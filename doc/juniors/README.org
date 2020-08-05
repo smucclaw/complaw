@@ -869,41 +869,369 @@ On your phone, consider installing:
 - Google Authenticator, because a lot of the things we do have 2FA set.
 - Slack
 
-* Introduction to Computational Law
+* Detailed Syllabus for readings and software
 
-** Cultural differences between engineering and law
+The following detailed syllabus is organized by modules each lasting an average of 2 weeks. About half of the material listed below is optional and not part of the official Trainee Development Plan.
 
-Ron Dolin: https://youtu.be/YHri1NdYKS0
+While most software packages come with standard tutorials and introductions, other areas involve specific academic readings that will be provided separately.
 
-** the basics of (symbolic) AI
+Specific readings will be assigned according to the trainee's background, interest, and progress. Some of the books are pretty long and probably can't be finished in two weeks; in those cases, you are expected to just skim through and read chapters of particular interest.
 
-- what are planning problems?
-- what are constraint satisfaction problems?
-- what are expert systems?
-- can the British Nationality Act be encoded as a Logic Program?
+** Web Development: Introduction                                                           :module:
+
+*** Technical Skills and Competencies
+
+- front-end programming on the web: Javascript
+- basic web development: HTML, CSS, Node, Express
+- introduction to types: Typescript
+- use cases, customer personas, storyboards, mockups
+
+*** Outcomes
+
+- able to conceive and realize a simple single-page web app
+
+*** Training Duration (Weeks / Months)
+
+2 weeks, 4 meetups
+
+** The Cultural Context of Software                                                        :module:
+
+*** Technical Skills and Competencies
+
+- read: In the Beginning was the Command Line
+- read: As We May Think
+- read: IFTF / Baran / Forecasting the Internet
+- watch: the Mother of All Demos
+- watch: Hidden Figures
+- watch: the Imitation Game
+- read: Neuromancer
+- watch: the Matrix (1999)
+- read: Licklider, Man-Computer Symbiosis
+- read: Engelbart: Augmenting Human Intellect
+- read: Diamond Age
+
+*** Outcomes
+
+- understand the history of computing over the past 70 years and the visions of some of the pioneers
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** The Missing Semester                                                                    :module:
+
+refer to the MIT Missing Semester course.
+
+*** Technical Skills and Competencies
+
+- learn at least one modern editor: VS Code
+- learn at least one classic editor: Emacs or Vim
+- literate programming in Python using Jupyter Notebook
+- cryptography with GPG and SSH
+- version control: using Git. Read Atlassian on merge and rebase.
+- the Unix command line and pipes. tmux and screen
+- regular expressions
+- Windows PowerShell and structured pipes
+- working with CSV, YAML, JSON, XML, and HTML at the command line
+- ohmyzsh
+- alternatives to vanilla Emacs and vim
+
+*** Outcomes
+
+- comfortable operating in the Unix / Linux terminal
+- know how to save and run macros in Emacs
+- know how to use Emacs keybindings in the Mac environment and other editors
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+**  to Logic Programming                                                       :module:
+
+*** Technical Skills and Competencies
+
+- SWI-Prolog
+- Flora-2
+- LPS by Kowalski & Sadri
+
+*** Outcomes
+
+- able to write simple programs in Prolog to perform deduction
+- aware of Flora-2; able to write simple programs using frame logic
+- aware of LPS; able to write simple programs involving the event calculus
+- able to solve abductive problems using unification and backtracking
+
+*** Training Duration (Weeks / Months)
+
+3 weeks
+
+** Introduction to Symbolic AI                                                             :module:
+
+*** Technical Skills and Competencies
+
+- read Godel, Escher, Bach
+- work through the following CS50AI lessons: Search, Knowledge, Uncertainty, Language
+
+*** Outcomes
+
+- understand the concept of a formal language and well-formed syntax
+- be able to solve planning problems
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** Introduction to Expert Systems and Rule Engines                                         :module:
+
+*** Technical Skills and Competencies
+
+- read: British Nationality Act as a Logic Program
+- tracing the logic of an expert systems in Prolog
+- DocAssemble
+- DMN
+
+*** Outcomes
+
+- understand backward-chaining vs forward-chaining rules
+- able to build an interview in DocAssemble
+- able to model a simple ruleset in a language-independent manner
 - what is the difference between deductive, inductive, and abductive reasoning? Give examples of each.
 
-** computational linguistics and computational semantics
+*** Training Duration (Weeks / Months)
 
-- Alice has three children. Bob has four children. Does Alice have a child? Does Alice have one child? Does Bob have two children?
+2 weeks
 
-** software engineering practice
+** Introduction to Modal Logics                                                            :module:
 
-- What software engineering have been proven to work? What does Hillel Wayne have to say about this?
+*** Technical Skills and Competencies
 
-** constraint programming
+- Temporal Modal Logics: LTL, CTL: forever vs once
+- Deontic Modal Logics: Must vs May
+- Epistemic Modal Logics: knows vs believes
 
-- what problems have you solved in the past which turn out to have been constraint satisfaction problems?
+*** Outcomes
 
-** logic programming
+- understand the historical context of computational law: Genesereth
+- able to compose meaningful sentences in formal modal logic and translate them to English
 
-- what are the basic elements of logic programming that distinguish it from the kind(s) of programming you already know?
-- CLP(FD)
-- Julian
-- CHR
+*** Training Duration (Weeks / Months)
 
-** Ontologies
+2 weeks
 
-- what is the difference between an ontology and a type system?
-- where are ontologies used in the real world?
+** Formal Methods: Introduction                                                            :module:
+
+*** Technical Skills and Competencies
+
+- read pp 6--9 of [[https://doi.org/10.6028/NIST.IR.8151][Dramatically Reducing Software Vulnerabilities (2016)]] on formal methods.
+- Constraint Satisfaction Problems using Z3 and PAT; work through the Z3 tutorial.
+- Prolog: CLP(FD) and CLP(B)
+- A tour of SMTLIB and TPTP: kinds of problems that SAT can solve
+- Decision Tables as Lightweight Formal Method: read Hillel Wayne
+- Types as Lightweight Formal Method
+
+*** Outcomes
+
+- able to formulate a range of problems for solving by SAT/SMT engines
+- able to write native Prolog CLP(x) to solve logic problems
+- able to write native Z3 to solve logic problems
+- able to write native Z3 to solve simultaneous equations and other math problems
+- able to interface with SAT solvers from common languages
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** Formal Methods: Intermediate                                                            :module:
+
+*** Technical Skills and Competencies
+
+- Alloy: read the book
+
+*** Outcomes
+
+- able to model and debug simple relational systems and state protocols in Alloy
+
+*** Training Duration (Weeks / Months)
+
+3 weeks
+
+** Formal Methods: Advanced 1                                                              :module:
+
+*** Technical Skills and Competencies
+
+- TLA+
+
+*** Outcomes
+
+- able to model and verify programs and protocols in TLA+
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** Formal Methods: Advanced 2                                                              :module:
+
+*** Technical Skills and Competencies
+
+- PAT
+
+*** Outcomes
+
+- get to know PAT
+
+*** Training Duration (Weeks / Months)
+
+1 week
+
+** Introduction to Functional Programming                                                  :module:
+
+*** Technical Skills and Competencies
+
+- Introductory Haskell
+- some Haskell libraries: HXT and Aeson
+
+*** Outcomes
+
+- can write basic Haskell programs
+- can parse and emit XML and JSON
+- can read and modify intermediate Haskell programs
+
+*** Training Duration (Weeks / Months)
+
+4 weeks
+
+** Formal Methods: Advanced 3                                                              :module:
+
+*** Technical Skills and Competencies
+
+- Coq or Agda
+
+*** Outcomes
+
+one of the below:
+- learn a little Coq
+- learn a little Agda
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** Introduction to Computational Linguistics and Computational Semantics                   :module:
+
+*** Technical Skills and Competencies
+
+- GF
+
+*** Outcomes
+
+- able to write application grammars in GF
+- able to extend existing resource grammars in GF
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** Introduction to Data Modeling with Ontologies, Types, and OOP                           :module:
+
+*** Technical Skills and Competencies
+
+- OWL and the Semantic Web
+- some awareness of SUMO, Cyc, and UFO-L
+- some awareness of KIF and LKIF
+- practice modeling the world using Haskell and GF grammars
+
+*** Outcomes
+
+- aware of the shortcomings of the RDF approach
+- aware of the available open ontologies
+- aware of automated inference engines as used by Protege
+- able to draft a domain of discourse in a type system
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** Software Modeling with UML, SBVR, DMN, and BPMN                                         :module:
+
+*** Technical Skills and Competencies
+
+- UML
+- SBVR
+- DMN
+- BPMN
+
+*** Outcomes
+
+- Aware of the expressive capabilities, strengths, and weaknesses of each modeling notation.
+- able to construct legal rules in CCLAW's extension of DMN
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** Other Logics and Programming Paradigms                                                  :module:
+
+*** Technical Skills and Competencies
+
+- Communicating Sequential Processes
+- the Pi Calculus
+- Erlang
+- two classic approaches to concurrency
+
+*** Outcomes
+
+- able to speak intelligently about concurrency
+- draft a simple Erlang program
+
+*** Training Duration (Weeks / Months)
+
+2 weeks
+
+** Applications in Computational Law                                                       :module:
+
+*** Technical Skills and Competencies
+
+- watch Ron Dolin: https://youtu.be/YHri1NdYKS0
+- read: Layman Allen, Howard Darmstadter, Ken Adams
+- read and work through the case studies provided by CCLAW
+- learn the CCLAW L4 DSL in whatever forms it currently takes
+
+*** Outcomes
+
+- able to formalise contracts and laws
+- able to write and run software to formally verify and find loopholes in contracts and laws
+- able to work through a CCLAW use case as developed with industry partner
+
+Discuss:
+Alice has three children. Bob has four children. Does Alice have a child? Does Alice have one child? Does Bob have two children?
+
+*** Training Duration (Weeks / Months)
+
+4 weeks
+
+** Computational Foundations                                                               :module:
+
+*** Technical Skills and Competencies
+
+Following the Harvard CS50 syllabus:
+- Understanding of binary logic and ASCII representations
+- Initial familiarity with Linux and C programming
+- Algorithms
+- Python from first principles
+- Data Structures
+- SQL: databases and the concept of a normal form
+- spreadsheets: vlookup(), index(match()), and query()
+
+*** Outcomes
+
+Trainee will:
+- be able to view problems through a computational lens
+- be able to sketch solutions to computational problems using pseudocode and architectural diagrams
+- be able to do simple programming in Python
+- be able to work with relational databases
+- be able to work with spreadsheets at an advanced level
+
+*** Training Duration (Weeks / Months)
+
+12 weeks
 
