@@ -871,7 +871,7 @@ On your phone, consider installing:
 
 * Detailed Syllabus for readings and software
 
-The following detailed syllabus is organized by modules each lasting an average of 2 weeks. About half of the material listed below is optional and not part of the official Trainee Development Plan.
+The following detailed syllabus is organized by modules lasting an average of 2 weeks. About half of the material listed below is optional and not part of the official Trainee Development Plan for two reasons: one, we needed to make the official plan fit within a year, and two, the plan requested only technical skills and competencies. There's no room in the official TDP for ethics or history or design, which is the sort of thing that one could imagine [[https://twitter.com/Grady_Booch/status/1290550738867740674][Grady Booch getting grumpy about]]. The extended "director's cut" content is here, but it may well take you more than a year to get through. That seems about right, though: many master's in CS take two years. This syllabus assumes you can read very very fast, are very very smart, and have aptitude for both theoretical computer science and real-world programming.
 
 While most software packages come with standard tutorials and introductions, other areas involve specific academic readings that will be provided separately.
 
