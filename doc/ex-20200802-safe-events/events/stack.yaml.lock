@@ -11,6 +11,38 @@ packages:
       sha256: 810d2e5cafbecd6d0d0af42b2522d9e55be0241a03a688cdde2cca10490e1b0a
   original:
     hackage: pretty-tree-0.1.0.0@sha256:49b0e17008f9d30328db2bcc2958f3a7b78d154d2335c2dbaa2073e237b524ae,668
+- completed:
+    size: 3492588
+    url: https://github.com/anka-213/gf-core/archive/85ab6daaaa6b6db0f4b29b7938e7772cddd518a7.tar.gz
+    name: gf
+    version: 3.10.4
+    sha256: 77568d98377d6b27c6dda0ba920db4d56f21e8dc91e9f9849ab284219e62db9e
+    pantry-tree:
+      size: 65196
+      sha256: b0c807c341c50bc0f1c668db89a1b26f538f78e2a1067e59595e93c5f4f5a6ab
+  original:
+    url: https://github.com/anka-213/gf-core/archive/85ab6daaaa6b6db0f4b29b7938e7772cddd518a7.tar.gz
+- completed:
+    hackage: cgi-3001.5.0.0@sha256:3d1193a328d5f627a021a0ef3927c1ae41dd341e32dba612fed52d0e3a6df056,2990
+    pantry-tree:
+      size: 993
+      sha256: c6f1c2f201b196b43cd8d0537482796c9fd389b40c4be945ee66348d31f130bf
+  original:
+    hackage: cgi-3001.5.0.0@sha256:3d1193a328d5f627a021a0ef3927c1ae41dd341e32dba612fed52d0e3a6df056,2990
+- completed:
+    hackage: json-0.10@sha256:d9fc6b07ce92b8894825a17d2cf14799856767eb30c8bf55962baa579207d799,3210
+    pantry-tree:
+      size: 3190
+      sha256: 5654f66b7cd8bf087ac040a9b0a83eb064219eab32230f61a3adeddfdbb4d4cd
+  original:
+    hackage: json-0.10@sha256:d9fc6b07ce92b8894825a17d2cf14799856767eb30c8bf55962baa579207d799,3210
+- completed:
+    hackage: multipart-0.2.0@sha256:b8770e3ff6089be4dd089a8250894b31287cca671f3d258190a505f9351fa8a9,1084
+    pantry-tree:
+      size: 383
+      sha256: 9fdde2d2b30cd298547070160c06b80eb0fbc0cea15f21fd5b2fe06db4450cde
+  original:
+    hackage: multipart-0.2.0@sha256:b8770e3ff6089be4dd089a8250894b31287cca671f3d258190a505f9351fa8a9,1084
 snapshots:
 - completed:
     size: 532379

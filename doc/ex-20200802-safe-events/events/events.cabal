@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4c81b61b5ba492a5b863fe87c862df5965c4e12326df86f5092d5d8c5f57deb8
+-- hash: 5377b8dd4707797cca0c32881bbc4e799445f26ed979420f7af90c49b3b285c4
 
 name:           events
 version:        0.1.0.0
@@ -29,6 +29,8 @@ library
   exposed-modules:
       Lib
       SAFE.Events
+      SAFE.NLG
+      Grammars.SAFE
   other-modules:
       Paths_events
   hs-source-dirs:
@@ -36,6 +38,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , gf
     , pretty-tree
     , record-dot-preprocessor
     , record-hasfield
@@ -52,6 +55,7 @@ executable events-exe
       base >=4.7 && <5
     , containers
     , events
+    , gf
     , pretty-tree
     , record-dot-preprocessor
     , record-hasfield
@@ -69,6 +73,7 @@ test-suite events-test
       base >=4.7 && <5
     , containers
     , events
+    , gf
     , hspec
     , pretty-tree
     , record-dot-preprocessor

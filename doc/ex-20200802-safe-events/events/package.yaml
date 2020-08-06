@@ -25,6 +25,7 @@ dependencies:
 - record-dot-preprocessor
 - record-hasfield
 - pretty-tree
+- gf
 
 library:
   source-dirs: src
