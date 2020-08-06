@@ -104,7 +104,7 @@ The response from the rule base shows up as a non-Turing-complete, "safe" subset
 
     function legalDates(asOf: Date) : Date[] {
       return fullMoonDates(asOf)
-        .map(x => [x, x+ 1]).flat()
+        .flatMap(x => [x, addDays(x,1)])
     }
 
     function fullMoonDates(asOf: Date) : Date[] {
@@ -235,21 +235,20 @@ Deontic = shant.
 we'll pretend we got back fullMoonDates from some URL.
 #+begin_src typescript :tangle potato.ts
   function getDatesFromURL(_:string) : Date[] {
-  return ([ "2020-1-10",
-            "2020-2-8",
-            "2020-3-9",
-            "2020-4-7",
-            "2020-5-6",
-            "2020-6-5",
-            "2020-7-4",
-            "2020-8-2",
-            "2020-9-1",
-            "2020-10-1",
+  return ([ "2020-01-10",
+            "2020-02-08",
+            "2020-03-09",
+            "2020-04-07",
+            "2020-05-06",
+            "2020-06-05",
+            "2020-07-04",
+            "2020-08-02",
+            "2020-09-01",
+            "2020-10-01",
             "2020-10-30",
             "2020-11-29",
-            "2020-12-29" ].map(x=>new Date(x)))
+            "2020-12-29" ].map(x=>Date.parse(x)))
   }
-
 #+end_src
 
 
@@ -410,3 +409,14 @@ You may need to
 #+begin_example
 pack_install(julian).
 #+end_example
+
+** Typescript!
+
+#+begin_src typescript :tangle potato.ts
+function addDays(date, days) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+#+end_src
