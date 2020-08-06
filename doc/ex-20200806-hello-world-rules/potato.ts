@@ -62,11 +62,11 @@ function rule1(world : World, party : Party, action: Action, actionSpec: ActionS
 }
 
 function isPotato(item : Farmed) : boolean { // rule 2
-  return item.hasOwnProperty("species") && item.species === "Tuberosum solanum"
+  return item.hasOwnProperty("species") && item.species === "Solanum tuberosum"
 }
 
 function isLegalPotato(item : Farmed, legalDates : Date[]) : boolean { // rule 3
-  return item.hasOwnProperty("wasPlanted") && legalDates.includes(item.wasPlanted)
+  return (item.hasOwnProperty("wasPlanted") && legalDates.map(x=>x.valueOf()).includes(item.wasPlanted.valueOf()))
 }
 
 const potato1 = {species:"Solanum tuberosum", wasPlanted:new Date("2020-01-10")}
@@ -75,6 +75,7 @@ const potato3 = {species:"Solanum tuberosum", wasPlanted:new Date("2020-01-12")}
 
 console.log(`potato1: ` + rule1({legalDates:legalDates(new Date("2020-08-06"))}, "_", "trade", potato1, undefined))
 console.log(`potato2: ` + rule1({legalDates:legalDates(new Date("2020-08-06"))}, "_", "trade", potato2, undefined))
+console.log(`potato3: ` + rule1({legalDates:legalDates(new Date("2020-08-06"))}, "_", "trade", potato3, undefined))
 
 function addDays(date : Date, days : number) {
   var result = new Date(date);

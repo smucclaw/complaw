@@ -125,7 +125,7 @@ The rule base encodes the original decree in a semantically lossless, machine-re
    SHANT  trade Item
    WHEN   Item.isPotato
    UNLESS Item.isLegalPotato
-       OR P.hasExemption(FROM DirectorOfAgriculture) // implicitly "THAT P MAY trade Item"
+       OR UNLIKELY P.hasExemption(FROM DirectorOfAgriculture) // implicitly "THAT P MAY trade Item"
  
    RULE 2
    DEEM Item.isPotato
@@ -294,15 +294,19 @@ Then we represent rules 1, 2, and 3:
   }
 
   function isPotato(item : Farmed) : boolean { // rule 2
-    return item.hasOwnProperty("species") && item.species === "Tuberosum solanum"
+    return item.hasOwnProperty("species") && item.species === "Solanum tuberosum"
   }
 
   function isLegalPotato(item : Farmed, legalDates : Date[]) : boolean { // rule 3
-    return item.hasOwnProperty("wasPlanted") && legalDates.includes(item.wasPlanted)
+    return (item.hasOwnProperty("wasPlanted") && legalDates.map(x=>x.valueOf()).includes(item.wasPlanted.valueOf()))
   }
 #+end_src
 
-That's enough to ask a question:
+Now we can ask another question:
+
+** Given a past potato already planted on a given date, was that potato legal?
+
+Running directly, the rule engine asks questions like:
 
 #+begin_src typescript :tangle potato.ts :noweb-ref clause_ts
 const potato1 = {species:"Solanum tuberosum", wasPlanted:new Date("2020-01-10")}
@@ -311,9 +315,122 @@ const potato3 = {species:"Solanum tuberosum", wasPlanted:new Date("2020-01-12")}
 
 console.log(`potato1: ` + rule1({legalDates:legalDates(new Date("2020-08-06"))}, "_", "trade", potato1, undefined))
 console.log(`potato2: ` + rule1({legalDates:legalDates(new Date("2020-08-06"))}, "_", "trade", potato2, undefined))
+console.log(`potato3: ` + rule1({legalDates:legalDates(new Date("2020-08-06"))}, "_", "trade", potato3, undefined))
 #+end_src
 
-**** The encoding/interpretive process involved the following human reasoning:
+The answer:
+
+#+begin_example
+potato1: MAY
+potato2: MAY
+potato3: SHANT
+#+end_example
+
+In a multi-tier architecture, the app queries the rule engine over a JSON API.
+
+First it asks what information it needs to collect from the user: "I desire to sell an item, and want to know if I may. Tell me the schema for the remaining subquery".
+
+#+begin_src json
+  // the app asks:
+  { "request": { "key":  "isItemLegal"
+               , "goal": "deontic"
+               , "known": { }
+               , "asOf": "2020-08-06"
+               , "id":   "2001", "version": "1", "locale": "en_SG" } }
+
+  // the rule engine answers: (in future this will be upgraded to real JSON Schema)
+  { "response": { "id": "2001"
+                , "schema": { "item": { "species":    { "type": string, "title": "Species",       "subtitle": "What species is this item?",  "hint": "Solanum tuberosum" },
+                                        "wasPlanted": { "type": string, "title": "Planting Date", "subtitle": "When was the plant planted?", "hint": "January 1 2020"    } },
+                              "action": [ "trade", "purchase", "disposal", "loan", "manufacture", "harvest" ] } } }
+#+end_src
+
+The app presents the user with a query UI. At any time, even if the user has only filled in a subset of the given information, the front-end can re-query the rules engine with the new information:
+
+#+begin_src json
+  // the app asks:
+  { "request": { "key":  "isItemLegal"
+               , "goal": "deontic"
+               , "known": { "action": "trade" }
+               , "asOf": "2020-08-06"
+               , "id":   "2002", "version": "1", "locale": "en_SG" } }
+
+  // the rule engine answers:
+  { "response": { "id": "2002"
+                , "schema": { "item": { "species":    { "type": string, "title": "Species",       "subtitle": "What species is this item?",  "hint": "Solanum tuberosum" },
+                                        "wasPlanted": { "type": string, "title": "Planting Date", "subtitle": "When was the plant planted?", "hint": "January 1 2020"    } } } } }
+#+end_src
+
+The rule engine always gives the most informative response it can, given the information submitted:
+
+#+begin_src json
+  // the app asks:
+  { "request": { "key":  "isItemLegal"
+               , "goal": "deontic"
+               , "known": { "action": "trade", "item": { "species": "Lateolabrax japonicus" } }
+               , "asOf": "2020-08-06"
+               , "id":   "2003", "version": "1", "locale": "en_SG" } }
+
+  // the rule engine answers:
+  { "response": { "id": "2003"
+                , "answer": "undefined"
+                , "explanation": "Ruleset can only give judgements about potatoes, not fish." } }
+#+end_src
+
+It patiently waits until the user has given up all the information they need to give up:
+
+#+begin_src json
+  // the app asks:
+  { "request": { "key":  "isItemLegal"
+               , "known": { "item": { "species": "Solanum tuberosum" }, "action": "trade" }
+               , "asOf": "2020-08-06"
+               , "id":   "2004", "version": "1", "locale": "en_SG" } }
+
+  // the rule engine answers:
+  { "response": { "id": "2004"
+                , "schema": { "item": { "wasPlanted": { "type": string, "title": "Planting Date", "subtitle": "When was the plant planted?", "hint": "January 1 2020" } } } }
+#+end_src
+
+Some decision paths are marked as "OR UNLIKELY", which means they are only queried if supervening branches have failed. For example, it is usually a safe assumption that an exemption is not granted by the Director of Agriculture. Most end-users will abandon the interview at this point, having received a tentative answer sufficient to their needs.
+
+#+begin_src json
+  // the app asks:
+  { "request": { "key":  "isItemLegal"
+               , "goal": "deontic"
+               , "known": { "action": "trade", "item": { "species": "Solanum tuberosum", "wasPlanted": "2020-01-15" } }
+               , "asOf": "2020-08-06"
+               , "id":   "2005", "version": "1", "locale": "en_SG" } }
+
+  // the rule engine answers:
+  { "response": { "id": "2005"
+                , "answer": { "deontic": "SHANT" }
+                , "epistemicStatus": "tentative"
+                , "explanation": "Rule 1 states: ...."
+                , "schema": { "exemption": { "granted": { "type": "boolean", "default": "false" }
+                                           , "from": { "type": string, "hint": "DirectorOfAgriculture" } } }
+                } }
+#+end_src
+
+But some completists may insist on answering:
+
+#+begin_src json
+  // the app asks:
+  { "request": { "key":  "isItemLegal"
+               , "goal": "deontic"
+               , "known": { "action": "trade", "item": { "species": "Solanum tuberosum", "wasPlanted": "2020-01-15" }
+                          , "exemption": { "granted": "true", "from": "Director Of Agriculture" } }
+               , "asOf": "2020-08-06"
+               , "id":   "2006", "version": "1", "locale": "en_SG" } }
+
+  // the rule engine answers:
+  { "response": { "id": "2006"
+                , "answer": { "deontic": "MAY" }
+                , "epistemicStatus": "confident"
+                , "explanation": "Rule 1 states: ...."
+                } }
+#+end_src
+
+** The encoding/interpretive process involved the following human reasoning:
 
 We know that the correct answer is (intensionally) "the two days before and after a full moon".
 
@@ -344,20 +461,13 @@ SQL table of contains authoritative table of moon_dates.
    LIMIT 2
 #+end_src
 
-** What counts as a potato?
-** Given a past potato already planted on a given date, was that potato legal?
-** What is the penalty for planting an illegal potato?
-** What paperwork do I need to file, if any, in compliance with this regulation?
+* Code Extraction
 
-* Components by Layer
-
-** Rule Base
-
-** Rule Engine
-
-* Alternative Modes
+Challenge: write a parser/interpreter for the language shown above. Automate the extraction of the Prolog and Typescript code shown above. Also add transpilation targets to DocAssemble and Python. What additional hints are needed by the compiler?
 
 * Learning Objective
+
+Logic programming is easier in a logic programming language.
 
 * Case, version 2:
 

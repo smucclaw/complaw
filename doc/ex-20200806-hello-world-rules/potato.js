@@ -44,16 +44,17 @@ function rule1(world, party, action, actionSpec, exemption) {
     }
 }
 function isPotato(item) {
-    return item.hasOwnProperty("species") && item.species === "Tuberosum solanum";
+    return item.hasOwnProperty("species") && item.species === "Solanum tuberosum";
 }
 function isLegalPotato(item, legalDates) {
-    return item.hasOwnProperty("wasPlanted") && legalDates.includes(item.wasPlanted);
+    return (item.hasOwnProperty("wasPlanted") && legalDates.map(x => x.valueOf()).includes(item.wasPlanted.valueOf()));
 }
 const potato1 = { species: "Solanum tuberosum", wasPlanted: new Date("2020-01-10") };
 const potato2 = { species: "Solanum tuberosum", wasPlanted: new Date("2020-01-11") };
 const potato3 = { species: "Solanum tuberosum", wasPlanted: new Date("2020-01-12") };
 console.log(`potato1: ` + rule1({ legalDates: legalDates(new Date("2020-08-06")) }, "_", "trade", potato1, undefined));
 console.log(`potato2: ` + rule1({ legalDates: legalDates(new Date("2020-08-06")) }, "_", "trade", potato2, undefined));
+console.log(`potato3: ` + rule1({ legalDates: legalDates(new Date("2020-08-06")) }, "_", "trade", potato3, undefined));
 function addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);

@@ -3,7 +3,7 @@ RULE   1
   SHANT  trade Item
   WHEN   Item.isPotato
   UNLESS Item.isLegalPotato
-      OR P.hasExemption(FROM DirectorOfAgriculture) // implicitly "THAT P MAY trade Item"
+      OR UNLIKELY P.hasExemption(FROM DirectorOfAgriculture) // implicitly "THAT P MAY trade Item"
 
   RULE 2
   DEEM Item.isPotato
