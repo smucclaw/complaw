@@ -1,5 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable #-}
-module SAFE where
+module Grammars.SAFE where
 
 import Data.Data
 import PGF hiding (Tree)
@@ -43,88 +43,88 @@ instance Gf GFloat where
 ----------------------------------------------------
 
 data Action =
-   AComplDir ActionDir Term 
- | AComplIndir ActionIndir Term 
- | AComplNoneDir ActionDir ListTerm 
- | AComplNoneIndir ActionIndir ListTerm 
- | ANeg Action 
- | ConjAction Conjunction ListAction 
+   AComplDir ActionDir Term
+ | AComplIndir ActionIndir Term
+ | AComplNoneDir ActionDir ListTerm
+ | AComplNoneIndir ActionIndir ListTerm
+ | ANeg Action
+ | ConjAction Conjunction ListAction
   deriving (Show,Data)
 
 data ActionDir =
-   ASlashIndir ActionDirIndir Term 
- | ConjSlashDir Conjunction ListActionDir 
- | Issue 
- | Raise 
- | Sell 
+   ASlashIndir ActionDirIndir Term
+ | ConjSlashDir Conjunction ListActionDir
+ | Issue
+ | Raise
+ | Sell
   deriving (Show,Data)
 
 data ActionDirIndir =
-   ConjSlashDirIndir Conjunction ListActionDirIndir 
- | IssueAt 
- | SellAt 
+   ConjSlashDirIndir Conjunction ListActionDirIndir
+ | IssueAt
+ | SellAt
   deriving (Show,Data)
 
 data ActionIndir =
-   ASlashDir ActionDirIndir Term 
- | ConjSlashIndir Conjunction ListActionIndir 
- | PursuantTo Action 
+   ASlashDir ActionDirIndir Term
+ | ConjSlashIndir Conjunction ListActionIndir
+ | PursuantTo Action
   deriving (Show,Data)
 
 data Attribute =
-   AttrNeg Attribute 
- | BonaFide 
- | ConjAttribute Conjunction ListAttribute 
- | Fixed 
- | ForBenefit Term 
- | PostMoney 
- | PreMoney 
- | Voluntary 
- | WithPurpose Action 
+   AttrNeg Attribute
+ | BonaFide
+ | ConjAttribute Conjunction ListAttribute
+ | Fixed
+ | ForBenefit Term
+ | PostMoney
+ | PreMoney
+ | Voluntary
+ | WithPurpose Action
   deriving (Show,Data)
 
 data Conjunction =
-   And 
- | Or 
+   And
+ | Or
   deriving (Show,Data)
 
 data Determiner =
-   APl 
- | ASg 
- | All 
- | Any 
- | AnyOther 
- | ThePl 
- | TheSg 
+   APl
+ | ASg
+ | All
+ | Any
+ | AnyOther
+ | ThePl
+ | TheSg
   deriving (Show,Data)
 
-data Event = Ev Kind 
+data Event = Ev Kind
   deriving (Show,Data)
 
 data Kind =
-   Capital 
- | ChangeOfControl 
- | ComplKind KindTerm Term 
- | DirectListing 
- | DissolutionEvent 
- | EquityFinancing 
- | GeneralAssignment 
- | InitialPublicOffering 
- | KAttribute Attribute Kind 
- | KWhetherOr ListAttribute Kind 
- | LiquidityEvent 
- | PreferredStock 
- | SingleOrSeries Kind 
- | Termination 
- | Transaction 
- | Valuation 
+   Capital
+ | ChangeOfControl
+ | ComplKind KindTerm Term
+ | DirectListing
+ | DissolutionEvent
+ | EquityFinancing
+ | GeneralAssignment
+ | InitialPublicOffering
+ | KAttribute Attribute Kind
+ | KWhetherOr ListAttribute Kind
+ | LiquidityEvent
+ | PreferredStock
+ | SingleOrSeries Kind
+ | Termination
+ | Transaction
+ | Valuation
   deriving (Show,Data)
 
 data KindTerm =
-   ConjSlashTerm Conjunction ListKindTerm 
- | Dissolution 
- | Liquidation 
- | WindingUp 
+   ConjSlashTerm Conjunction ListKindTerm
+ | Dissolution
+ | Liquidation
+ | WindingUp
   deriving (Show,Data)
 
 newtype ListAction = ListAction [Action] deriving (Show,Data)
@@ -144,33 +144,28 @@ newtype ListKindTerm = ListKindTerm [KindTerm] deriving (Show,Data)
 newtype ListTerm = ListTerm [Term] deriving (Show,Data)
 
 data Sentence =
-   SAction Temporal Term Action 
- | SDefProp Kind Attribute 
- | SDefTerm Kind Term 
+   SAction Temporal Term Action
+ | SDefProp Kind Attribute
+ | SDefTerm Kind Term
   deriving (Show,Data)
 
 data Temporal =
-   TFuture 
- | TPast 
- | TPresent 
- | Upon Event 
+   TFuture
+ | TPast
+ | TPresent
+ | Upon Event
   deriving (Show,Data)
 
 data Term =
-   Company 
- | ConjTerm Conjunction ListTerm 
- | Creditors Term 
- | RelDir Term Term Temporal ActionDir 
- | RelIndir Term Term Temporal ActionIndir 
- | TDet Determiner Kind 
- | TExcluding Determiner Kind Term 
- | TIncluding Determiner Kind Term 
+   Company
+ | ConjTerm Conjunction ListTerm
+ | Creditors Term
+ | RelDir Term Term Temporal ActionDir
+ | RelIndir Term Term Temporal ActionIndir
+ | TDet Determiner Kind
+ | TExcluding Determiner Kind Term
+ | TIncluding Determiner Kind Term
   deriving (Show,Data)
-
-data Agreement
-
-data Clause
-
 
 instance Gf Action where
   gf (AComplDir x1 x2) = mkApp (mkCId "AComplDir") [gf x1, gf x2]
@@ -203,9 +198,9 @@ instance Gf ActionDir where
     case unApp t of
       Just (i,[x1,x2]) | i == mkCId "ASlashIndir" -> ASlashIndir (fg x1) (fg x2)
       Just (i,[x1,x2]) | i == mkCId "ConjSlashDir" -> ConjSlashDir (fg x1) (fg x2)
-      Just (i,[]) | i == mkCId "Issue" -> Issue 
-      Just (i,[]) | i == mkCId "Raise" -> Raise 
-      Just (i,[]) | i == mkCId "Sell" -> Sell 
+      Just (i,[]) | i == mkCId "Issue" -> Issue
+      Just (i,[]) | i == mkCId "Raise" -> Raise
+      Just (i,[]) | i == mkCId "Sell" -> Sell
 
 
       _ -> error ("no ActionDir " ++ show t)
@@ -218,8 +213,8 @@ instance Gf ActionDirIndir where
   fg t =
     case unApp t of
       Just (i,[x1,x2]) | i == mkCId "ConjSlashDirIndir" -> ConjSlashDirIndir (fg x1) (fg x2)
-      Just (i,[]) | i == mkCId "IssueAt" -> IssueAt 
-      Just (i,[]) | i == mkCId "SellAt" -> SellAt 
+      Just (i,[]) | i == mkCId "IssueAt" -> IssueAt
+      Just (i,[]) | i == mkCId "SellAt" -> SellAt
 
 
       _ -> error ("no ActionDirIndir " ++ show t)
@@ -252,13 +247,13 @@ instance Gf Attribute where
   fg t =
     case unApp t of
       Just (i,[x1]) | i == mkCId "AttrNeg" -> AttrNeg (fg x1)
-      Just (i,[]) | i == mkCId "BonaFide" -> BonaFide 
+      Just (i,[]) | i == mkCId "BonaFide" -> BonaFide
       Just (i,[x1,x2]) | i == mkCId "ConjAttribute" -> ConjAttribute (fg x1) (fg x2)
-      Just (i,[]) | i == mkCId "Fixed" -> Fixed 
+      Just (i,[]) | i == mkCId "Fixed" -> Fixed
       Just (i,[x1]) | i == mkCId "ForBenefit" -> ForBenefit (fg x1)
-      Just (i,[]) | i == mkCId "PostMoney" -> PostMoney 
-      Just (i,[]) | i == mkCId "PreMoney" -> PreMoney 
-      Just (i,[]) | i == mkCId "Voluntary" -> Voluntary 
+      Just (i,[]) | i == mkCId "PostMoney" -> PostMoney
+      Just (i,[]) | i == mkCId "PreMoney" -> PreMoney
+      Just (i,[]) | i == mkCId "Voluntary" -> Voluntary
       Just (i,[x1]) | i == mkCId "WithPurpose" -> WithPurpose (fg x1)
 
 
@@ -270,8 +265,8 @@ instance Gf Conjunction where
 
   fg t =
     case unApp t of
-      Just (i,[]) | i == mkCId "And" -> And 
-      Just (i,[]) | i == mkCId "Or" -> Or 
+      Just (i,[]) | i == mkCId "And" -> And
+      Just (i,[]) | i == mkCId "Or" -> Or
 
 
       _ -> error ("no Conjunction " ++ show t)
@@ -287,13 +282,13 @@ instance Gf Determiner where
 
   fg t =
     case unApp t of
-      Just (i,[]) | i == mkCId "APl" -> APl 
-      Just (i,[]) | i == mkCId "ASg" -> ASg 
-      Just (i,[]) | i == mkCId "All" -> All 
-      Just (i,[]) | i == mkCId "Any" -> Any 
-      Just (i,[]) | i == mkCId "AnyOther" -> AnyOther 
-      Just (i,[]) | i == mkCId "ThePl" -> ThePl 
-      Just (i,[]) | i == mkCId "TheSg" -> TheSg 
+      Just (i,[]) | i == mkCId "APl" -> APl
+      Just (i,[]) | i == mkCId "ASg" -> ASg
+      Just (i,[]) | i == mkCId "All" -> All
+      Just (i,[]) | i == mkCId "Any" -> Any
+      Just (i,[]) | i == mkCId "AnyOther" -> AnyOther
+      Just (i,[]) | i == mkCId "ThePl" -> ThePl
+      Just (i,[]) | i == mkCId "TheSg" -> TheSg
 
 
       _ -> error ("no Determiner " ++ show t)
@@ -328,22 +323,22 @@ instance Gf Kind where
 
   fg t =
     case unApp t of
-      Just (i,[]) | i == mkCId "Capital" -> Capital 
-      Just (i,[]) | i == mkCId "ChangeOfControl" -> ChangeOfControl 
+      Just (i,[]) | i == mkCId "Capital" -> Capital
+      Just (i,[]) | i == mkCId "ChangeOfControl" -> ChangeOfControl
       Just (i,[x1,x2]) | i == mkCId "ComplKind" -> ComplKind (fg x1) (fg x2)
-      Just (i,[]) | i == mkCId "DirectListing" -> DirectListing 
-      Just (i,[]) | i == mkCId "DissolutionEvent" -> DissolutionEvent 
-      Just (i,[]) | i == mkCId "EquityFinancing" -> EquityFinancing 
-      Just (i,[]) | i == mkCId "GeneralAssignment" -> GeneralAssignment 
-      Just (i,[]) | i == mkCId "InitialPublicOffering" -> InitialPublicOffering 
+      Just (i,[]) | i == mkCId "DirectListing" -> DirectListing
+      Just (i,[]) | i == mkCId "DissolutionEvent" -> DissolutionEvent
+      Just (i,[]) | i == mkCId "EquityFinancing" -> EquityFinancing
+      Just (i,[]) | i == mkCId "GeneralAssignment" -> GeneralAssignment
+      Just (i,[]) | i == mkCId "InitialPublicOffering" -> InitialPublicOffering
       Just (i,[x1,x2]) | i == mkCId "KAttribute" -> KAttribute (fg x1) (fg x2)
       Just (i,[x1,x2]) | i == mkCId "KWhetherOr" -> KWhetherOr (fg x1) (fg x2)
-      Just (i,[]) | i == mkCId "LiquidityEvent" -> LiquidityEvent 
-      Just (i,[]) | i == mkCId "PreferredStock" -> PreferredStock 
+      Just (i,[]) | i == mkCId "LiquidityEvent" -> LiquidityEvent
+      Just (i,[]) | i == mkCId "PreferredStock" -> PreferredStock
       Just (i,[x1]) | i == mkCId "SingleOrSeries" -> SingleOrSeries (fg x1)
-      Just (i,[]) | i == mkCId "Termination" -> Termination 
-      Just (i,[]) | i == mkCId "Transaction" -> Transaction 
-      Just (i,[]) | i == mkCId "Valuation" -> Valuation 
+      Just (i,[]) | i == mkCId "Termination" -> Termination
+      Just (i,[]) | i == mkCId "Transaction" -> Transaction
+      Just (i,[]) | i == mkCId "Valuation" -> Valuation
 
 
       _ -> error ("no Kind " ++ show t)
@@ -357,9 +352,9 @@ instance Gf KindTerm where
   fg t =
     case unApp t of
       Just (i,[x1,x2]) | i == mkCId "ConjSlashTerm" -> ConjSlashTerm (fg x1) (fg x2)
-      Just (i,[]) | i == mkCId "Dissolution" -> Dissolution 
-      Just (i,[]) | i == mkCId "Liquidation" -> Liquidation 
-      Just (i,[]) | i == mkCId "WindingUp" -> WindingUp 
+      Just (i,[]) | i == mkCId "Dissolution" -> Dissolution
+      Just (i,[]) | i == mkCId "Liquidation" -> Liquidation
+      Just (i,[]) | i == mkCId "WindingUp" -> WindingUp
 
 
       _ -> error ("no KindTerm " ++ show t)
@@ -482,9 +477,9 @@ instance Gf Temporal where
 
   fg t =
     case unApp t of
-      Just (i,[]) | i == mkCId "TFuture" -> TFuture 
-      Just (i,[]) | i == mkCId "TPast" -> TPast 
-      Just (i,[]) | i == mkCId "TPresent" -> TPresent 
+      Just (i,[]) | i == mkCId "TFuture" -> TFuture
+      Just (i,[]) | i == mkCId "TPast" -> TPast
+      Just (i,[]) | i == mkCId "TPresent" -> TPresent
       Just (i,[x1]) | i == mkCId "Upon" -> Upon (fg x1)
 
 
@@ -502,7 +497,7 @@ instance Gf Term where
 
   fg t =
     case unApp t of
-      Just (i,[]) | i == mkCId "Company" -> Company 
+      Just (i,[]) | i == mkCId "Company" -> Company
       Just (i,[x1,x2]) | i == mkCId "ConjTerm" -> ConjTerm (fg x1) (fg x2)
       Just (i,[x1]) | i == mkCId "Creditors" -> Creditors (fg x1)
       Just (i,[x1,x2,x3,x4]) | i == mkCId "RelDir" -> RelDir (fg x1) (fg x2) (fg x3) (fg x4)
@@ -513,21 +508,3 @@ instance Gf Term where
 
 
       _ -> error ("no Term " ++ show t)
-
-instance Show Agreement
-
-instance Gf Agreement where
-  gf _ = undefined
-  fg _ = undefined
-
-
-
-instance Show Clause
-
-instance Gf Clause where
-  gf _ = undefined
-  fg _ = undefined
-
-
-
-

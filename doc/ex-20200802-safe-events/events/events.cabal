@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c63edf12844038f7858f223d46c79c0f9cbf63bd2a33155c993c36fda9d902bc
+-- hash: 5377b8dd4707797cca0c32881bbc4e799445f26ed979420f7af90c49b3b285c4
 
 name:           events
 version:        0.1.0.0
@@ -29,6 +29,8 @@ library
   exposed-modules:
       Lib
       SAFE.Events
+      SAFE.NLG
+      Grammars.SAFE
   other-modules:
       Paths_events
   hs-source-dirs:
