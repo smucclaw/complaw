@@ -257,17 +257,60 @@ So we can call `nextAvailableDates`:
 console.log("the next available dates are: " + JSON.stringify(nextAvailableDates(new Date("2020-08-06"), new Date("2020-08-06"), 4)));
 #+end_src
 
-Let's convert the remaining rules:
+Let's convert the remaining rules. First we set up a type for the generic deontic rule:
 
-#+begin_src typescript :tangle potato.ts
-  interface clause {
+#+begin_src typescript :tangle potato.ts :noweb-ref clause_ts
+  interface Clause {
     "conditions": Condition[];
     "party": Party[];
     "deontic": Deontic;
-  
+    "action": Action;
+    "actionSpec": ActionSpec[];
+    "temporal": Temporal;
   }
 
+  type Condition  = string;
+  type Party      = string;
+  enum Deontic { must="MUST", may="MAY", shant="SHANT" };
+  type Action     = string;
+  type ActionSpec = Farmed;
+  type Temporal   = string;
+  interface World { "legalDates" : Date[] }
+  interface Exemption { "from": string }
 
+  interface Farmed { "species": string; "wasPlanted": Date }
+#+end_src
+
+Then we represent rules 1, 2, and 3:
+#+begin_src typescript :tangle potato.ts :noweb-ref clause_ts
+  function rule1(world : World, party : Party, action: Action, actionSpec: ActionSpec, exemption?: Exemption) : Deontic | undefined {
+    if (action === "trade" && isPotato(actionSpec)) {
+      if (isLegalPotato(actionSpec, world.legalDates) ||
+        (exemption != undefined && exemption.from == "DirectorOfAgriculture")) {
+        return Deontic.may
+      }
+      return Deontic.shant
+    }
+  }
+
+  function isPotato(item : Farmed) : boolean { // rule 2
+    return item.hasOwnProperty("species") && item.species === "Tuberosum solanum"
+  }
+
+  function isLegalPotato(item : Farmed, legalDates : Date[]) : boolean { // rule 3
+    return item.hasOwnProperty("wasPlanted") && legalDates.includes(item.wasPlanted)
+  }
+#+end_src
+
+That's enough to ask a question:
+
+#+begin_src typescript :tangle potato.ts :noweb-ref clause_ts
+const potato1 = {species:"Solanum tuberosum", wasPlanted:new Date("2020-01-10")}
+const potato2 = {species:"Solanum tuberosum", wasPlanted:new Date("2020-01-11")}
+const potato3 = {species:"Solanum tuberosum", wasPlanted:new Date("2020-01-12")}
+
+console.log(`potato1: ` + rule1({legalDates:legalDates(new Date("2020-08-06"))}, "_", "trade", potato1, undefined))
+console.log(`potato2: ` + rule1({legalDates:legalDates(new Date("2020-08-06"))}, "_", "trade", potato2, undefined))
 #+end_src
 
 **** The encoding/interpretive process involved the following human reasoning:
