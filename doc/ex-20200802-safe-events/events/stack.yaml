@@ -41,6 +41,14 @@ packages:
 #
 extra-deps:
 - pretty-tree-0.1.0.0@sha256:49b0e17008f9d30328db2bcc2958f3a7b78d154d2335c2dbaa2073e237b524ae,668
+# The rest are for GF
+- github: anka-213/gf-core
+  commit: 85ab6daaaa6b6db0f4b29b7938e7772cddd518a7
+- cgi-3001.5.0.0@sha256:3d1193a328d5f627a021a0ef3927c1ae41dd341e32dba612fed52d0e3a6df056,2990
+- json-0.10@sha256:d9fc6b07ce92b8894825a17d2cf14799856767eb30c8bf55962baa579207d799,3210
+- multipart-0.2.0@sha256:b8770e3ff6089be4dd089a8250894b31287cca671f3d258190a505f9351fa8a9,1084
+
+allow-newer: true
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
