@@ -172,7 +172,7 @@ rule(2, isPotato(Item)) :- member(Item.get(species), ["Solanum tuberosum"]).
 Rule 3 is a similar test but implemented in a more natively-Prolog style. It needs rule 4.
 
 #+begin_src prolog :noweb-ref prolog
-rule(3, isLegalPotato(Item)) :- rule(_,legalDates(Item.get(wasPlanted))).
+rule(3, isLegalPotato(Item)) :- rule(_,isPotato(Item)), rule(_,legalDates(Item.get(wasPlanted))).
 #+end_src
 
 Rule 4 maps the externally given full-moon-dates to legal dates.
