@@ -1,0 +1,230 @@
+#+TITLE: Hello World for Deliverable Rules
+
+* Background
+
+Rules As Code is a fine idea, but very abstract. What could it look like, concretely?
+
+Suppose a client wants to place an order for a Rules As Code project. The client is a system integrator project manager type entity. Their initial architecture diagram breaks down the moving parts thus:
+
+| role          | responsibility                                            |
+|---------------+-----------------------------------------------------------|
+| App Developer | Produce working front-end UI                              |
+|               | which interacts with end-user                             |
+|               | based on back-end rules                                   |
+|               | to elicit user input                                      |
+|               | and produce advisory opinions                             |
+|               | and produce documents for filing.                         |
+|---------------+-----------------------------------------------------------|
+| Back-end      | Produce an API implementing an expert system rule engine: |
+| rule engine   | given a current goal and knowledge state,                 |
+| developer     | returns a list of working assumptions,                    |
+|               | tentative conclusions, and questions to ask,              |
+|               | which will help the system get closer to the goal.        |
+|               | This rule engine in turn relies on a rule base.           |
+|---------------+-----------------------------------------------------------|
+| Back-end      | Produce a library of rules consumable by a rule engine.   |
+| rule base     | The rules include an ontology / type system,              |
+| developer     | forward-chaining (if/then) rules, and                     |
+|               | backward-chaining (then/if) rules.                        |
+|               | The rules also encode constitutive rules and              |
+|               | prescriptive rules.                                       |
+
+In this project, the rule engine and rule base developer are the same party. It is possible that in future, a previously developed rule base can be repurposed and reused. Other apps and rule engines may wish to consume the same rules. Or the front-end app developer may prefer to include the rule base in their single-page app directly, with a minimal embedded rule engine.
+
+* Case, version 1:
+
+Government regulations decree that potatoes may be traded only if they are harvested from plants planted on the two days immediately preceding and following a full moon.
+
+Farmers want to know:
+- when are the next available dates for planting potatoes?
+- what counts as a potato?
+- given a past potato already planted on a given date, was that potato legal?
+- what is the penalty for planting an illegal potato?
+- what paperwork do I need to file, if any, in compliance with this regulation?
+
+Rule developers want to know:
+- For the purposes of the regulations, when does a full moon occur?
+- What algorithm determines the mapping from a full moon to the two approved days?
+- What if a full moon technically occurs at noontime on a given day? In other words the moon is equally full on two nights.
+
+App developers want to know:
+- knowing that the rules are strange and arbitrary and may change in the future at any time, what reasonably robust architecture can be expected to survive future regulatory changes without much re-work, if any?
+
+* Assumptions
+
+Let's assume that an authoritative list of full-moon dates is provided by government fiat.
+
+* Test Cases
+
+** When are the next available dates for planting potatoes?
+
+*** App: data panel in app shows two sets of dates -- current0 and upcoming1, or upcoming1 and upcoming2.
+
+The app requests dates from a rule engine over the usual JSON API.
+
+#+begin_src json
+{ "request": { "key":  "next available dates"
+             , "for":  "potatoes"
+             , "date": "2020-08-06"
+             , "limit": "2"
+             , "id":   "1001", "version": "1", "locale": "en_SG" } }
+
+{ "response": { "id": "1001"
+              , "dates": ["2020-09-02", "2020-10-01"] } }
+#+end_src
+
+It's up to the app to convert the dates 
+
+*** Rule engine: requests dates from the rule base.
+
+The rule engine, in turn, requests the underlying rules from the rule base, and executes them.
+
+We know that the correct answer is (intensionally) "the two days before and after a full moon".
+
+The system converts that to the desired (extensional) answer by means of two operations:
+1. table lookup against externally provided list of full moons
+2. a "world knowledge" rule that /somehow knows/ that the two days adjacent to a given night, are the day of that night, and the day after that night.
+
+Functionally, given a date of a full moon, the second operation returns the two days allowed by the decree:
+#+begin_src haskell :noweb-ref basicimplementation
+legalDates night = [ sameDay night, nextDay night ]
+  where sameDay x = x
+        nextDay x = addDays 1 x
+#+end_src
+
+*** Rule base: 
+
+The rule base encodes the original decree.
+
+#+begin_src typescript
+function night2day(nightDate : Date) : Date {
+  
+}
+#+end_src
+
+SQL table of contains authoritative table of moon_dates.
+
+#+begin_src sql
+  SELECT * FROM fullMoonDates
+   WHERE full_moon_date >= (current_date - 1)
+   LIMIT 2
+#+end_src
+
+** What counts as a potato?
+** Given a past potato already planted on a given date, was that potato legal?
+** What is the penalty for planting an illegal potato?
+** What paperwork do I need to file, if any, in compliance with this regulation?
+
+* Components by Layer
+
+** Rule Base
+
+** Rule Engine
+
+* Alternative Modes
+
+* Learning Objective
+
+* Case, version 2:
+
+Government drafting offices want to accelerate service delivery.
+- They are currently drafting the next edition of the regulations; they want to be able to express the potato rules in code, and then have software extract those rules to English in an automated fashion.
+- In version 2 of the rules, potatoes may be legally planted on days immediately preceding and following a full moon, unless one or both of those days is a public holiday, in which case the potato legality window slides to the days before and after the holiday, at the farmer's discretion; but the number of available-planting days may not exceed 2.
+
+Economists want to know: 
+- what is a farmer?
+- Will Version 2 of the rules favour small producers or large producers? Assuming public holidays are frequent, and assuming the ideal planting period (which has very little to do with the phase of the moon) is relatively short, and the ideal planting period varies by geography, then farmers will want to have discretion over whether to plant before or after the public holiday. In a Big Ag scenario, there is only one farmer, with thousands of farms; are all of those farms constrained to plant potatoes on the same two days? Or can the days slide differently for different farms?
+
+Rule developers want to know:
+- What is a farmer? If a farmer has multiple farms, and different farms see the full moon at different times, and those times fall across the decision boundary, which of those farms is to be used for the calculation of the legal days? Do different farms get to elect different days?
+
+Maybe one conclusion from a RaC approach is that allowing farmers to have discretion about how to slide the window creates too much complexity, and the government needs to mandate the alternative days induced by the public holiday.
+
+* Infrastructure
+The following blobs of code help with the tangle/noweb auto-generation of Haskell code from this README.
+
+#+NAME: tangleWarning
+#+begin_src haskell
+-- DO NOT EDIT THIS FILE!
+-- direct edits will be clobbered.
+-- 
+-- this file is autogenerated!
+-- open the parent README.org in emacs and hit   C-c C-v t   to regenerate this file.
+#+end_src
+
+** Haskell Tests! TDD FTW!
+
+#+begin_src haskell :noweb yes :tangle events/test/Spec.hs
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+
+<<tangleWarning>>
+
+module Main where
+
+import Test.Hspec
+import Data.Maybe
+import Data.Map
+import Control.Monad
+import SAFE.Events
+import Data.Tree
+import Data.Tree.Pretty
+import Control.Arrow
+import Debug.Trace
+
+main :: IO ()
+main = do
+  forM_ [spec1] $ hspec
+  return ()
+
+<<test-setup>>
+
+spec1 :: Spec
+spec1 = do
+  <<test-1>>
+#+end_src
+
+** Haskell Executable! Something shiny for a sense of accomplishment.
+
+#+begin_src haskell :noweb yes :tangle events/app/Main.hs
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+
+<<tangleWarning>>
+
+module Main where
+
+import HelloWorld
+import Data.Map
+import Data.Tree
+
+<<test-setup>>
+<<exe>>
+
+#+end_src
+
+** Haskell library! Used by both the tests and the executable.
+
+#+begin_src haskell :noweb yes :tangle events/src/HelloWorld.hs
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+
+<<tangleWarning>>
+
+module HelloWorld where
+import Data.Map
+import Data.Maybe
+import Data.Tree
+import Data.Time.Calendar
+
+<<basictypes>>
+<<basicimplementation>>
+#+end_src
+
+** Prolog!
+
+#+begin_src prolog :noweb yes :tangle helloworld.pl
+:- use_module(library(clpq)).
+:- use_module(library(yall)).
+<<prolog>>
+#+end_src
