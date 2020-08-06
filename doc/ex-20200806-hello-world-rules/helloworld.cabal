@@ -16,6 +16,7 @@ tested-with:         GHC == 8.8.3
 
 common common-options
   build-depends:       base ^>= 4.13.0.0
+                     , time
   
   ghc-options:         -Wall
                        -Wcompat

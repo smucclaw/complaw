@@ -1,5 +1,7 @@
 #+TITLE: Hello World for Deliverable Rules
 
+Government regulations decree that potatoes may be traded only if they are harvested from plants planted on the two days immediately preceding and following a full moon, unless an exemption is granted by the Director of Agriculture.
+
 * Background
 
 Rules As Code is a fine idea, but very abstract. What could it look like, concretely?
@@ -22,7 +24,7 @@ Suppose a client wants to place an order for a Rules As Code project. The client
 |               | which will help the system get closer to the goal.        |
 |               | This rule engine in turn relies on a rule base.           |
 |---------------+-----------------------------------------------------------|
-| Back-end      | Produce a library of rules consumable by a rule engine.   |
+| Back-end      | Produce a library of rules consumable by a rule engine:   |
 | rule base     | The rules include an ontology / type system,              |
 | developer     | forward-chaining (if/then) rules, and                     |
 |               | backward-chaining (then/if) rules.                        |
@@ -33,7 +35,7 @@ In this project, the rule engine and rule base developer are the same party. It 
 
 * Case, version 1:
 
-Government regulations decree that potatoes may be traded only if they are harvested from plants planted on the two days immediately preceding and following a full moon.
+Government regulations decree that potatoes may be traded only if they are harvested from plants planted on the two days immediately preceding and following a full moon, unless an exemption is granted by the Director of Agriculture.
 
 Farmers want to know:
 - when are the next available dates for planting potatoes?
@@ -52,47 +54,219 @@ App developers want to know:
 
 * Assumptions
 
-Let's assume that an authoritative list of full-moon dates is provided by government fiat.
+Let's assume that an authoritative list of full-moon dates exists at https://www.almanac.com/astronomy/moon/full
 
 * Test Cases
 
 ** When are the next available dates for planting potatoes?
 
-*** App: data panel in app shows two sets of dates -- current0 and upcoming1, or upcoming1 and upcoming2.
+*** App: data panel in app shows the next four dates available for planting
 
 The app requests dates from a rule engine over the usual JSON API.
 
 #+begin_src json
-{ "request": { "key":  "next available dates"
+// the app asks:
+{ "request": { "key":  "nextAvailableDates"
              , "for":  "potatoes"
              , "date": "2020-08-06"
-             , "limit": "2"
+             , "asOf": "2020-08-06"
+             , "limit": "4"
              , "id":   "1001", "version": "1", "locale": "en_SG" } }
 
+// the rule engine answers:
 { "response": { "id": "1001"
-              , "dates": ["2020-09-02", "2020-10-01"] } }
+              , "dates": ["2020-09-01", "2020-09-02", "2020-10-01", "2020-10-02"] } }
 #+end_src
 
-It's up to the app to convert the dates 
+It's up to the app to convert the dates to a more human-friendly representation.
 
-*** Rule engine: requests dates from the rule base.
+*** Rule engine: requests relevant rules in an executable form from the rule base
 
-The rule engine, in turn, requests the underlying rules from the rule base, and executes them.
+To compute those dates, the rule engine requested the underlying rules from the rule base, in an executable form.
+
+#+begin_src json
+  { "request": { "key":  "nextAvailableDates"
+               , "for":  "potatoes"
+               , "date": "2020-08-06"
+               , "asOf": "2020-08-06"
+               , "lang": "typescript"
+               , "id":   "1002", "version": "1", "locale": "en_SG" } }
+#+end_src
+
+The response from the rule base shows up as a non-Turing-complete, "safe" subset of Typescript:
+
+#+begin_src typescript :tangle potato.ts
+    function nextAvailableDates (date: Date, asOf: Date, limit: number) : Date[] {
+      return legalDates(asOf)
+        .filter(x => x >= date)
+        .splice(0, limit)
+    }
+
+    function legalDates(asOf: Date) : Date[] {
+      return fullMoonDates(asOf)
+        .map(x => [x, x+ 1]).flat()
+    }
+
+    function fullMoonDates(asOf: Date) : Date[] {
+      return getDatesFromURL("https://www.almanac.com/astronomy/moon/full/")
+    }
+
+#+end_src
+
+How did the rule base produce those functions?
+
+*** Rule base
+
+The rule base encodes the original decree in a semantically lossless, machine-readable form:
+
+#+begin_src text :tangle potato.l4
+   RULE   1
+   PARTY  P
+   SHANT  trade Item
+   WHEN   Item.isPotato
+   UNLESS Item.isLegalPotato
+       OR P.hasExemption(FROM DirectorOfAgriculture) // implicitly "THAT P MAY trade Item"
+ 
+   RULE 2
+   DEEM Item.isPotato
+   WHEN Item.species ~ ["Solanum tuberosum"]
+ 
+   RULE 3
+   DEEM Item.isLegalPotato
+   WHEN Item.wasPlanted matches anyOf LegalDates
+ 
+   RULE   4
+   DEFINE LegalDates
+    BEING a list of dates each called LegalDate
+    GIVEN FullMoonDates being a list of dates each called FullMoonDate
+     EACH LegalDate
+  MATCHES FullMoonDate
+       OR FullMoonDate + 1
+ 
+   RULE   5
+   DEFINE FullMoonDates
+ EXTERNAL url "https://www.almanac.com/astronomy/moon/full/"
+#+end_src
+
+This is enough information for a parser/interpreter to extract the following functions:
+
+**** in Prolog
+
+The Prolog-executable version of the rule shuffles things around a little to respect execution order:
+
+#+begin_src prolog :noweb-ref prolog
+rule(1, P, may, trade(Item)) :- rule(_,isPotato(Item)), rule(_, isLegalPotato(Item)).
+rule(1, P, may, trade(Item)) :- hasExemption(P, from(directorOfAgriculture), that(P,may,trade(Item))).
+rule(1, P, shant, trade(Item)) :- \+ rule(1, P, may, trade(Item)).
+#+end_src
+
+The extraction mechanism sinks the default "SHANT" to the bottom, and promotes the UNLESS exception to the top.
+
+Rules 2 is a straightforward test of set membership.
+
+#+begin_src prolog :noweb-ref prolog
+rule(2, isPotato(Item)) :- member(Item.get(species), ["Solanum tuberosum"]).
+#+end_src
+
+Rule 3 is a similar test but implemented in a more natively-Prolog style. It needs rule 4.
+
+#+begin_src prolog :noweb-ref prolog
+rule(3, isLegalPotato(Item)) :- rule(_,legalDates(Item.get(wasPlanted))).
+#+end_src
+
+Rule 4 maps the externally given full-moon-dates to legal dates.
+
+#+begin_src prolog :noweb-ref prolog
+rule(4,
+     legalDates(Date)) :- rule(_, fullMoonDates(FMD)),
+                          ( Date = FMD ; 
+                            form_time(FMD,datetime(J0,_)), J1 #= J0+1, form_time(Date,datetime(J1,0)) ).
+#+end_src
+
+Rule 5 retrieves the list of full-moon-dates from an external URL, [[https://www.swi-prolog.org/pldoc/man?section=http-clients][the details of which]] we will not go into here; we simulate that retrieval by directly inserting some dates into the store.
+
+#+begin_src prolog :noweb-ref prolog
+rule(5, fullMoonDates(2020-1-10)).
+rule(5, fullMoonDates(2020-2-8)).
+rule(5, fullMoonDates(2020-3-9)).
+rule(5, fullMoonDates(2020-4-7)).
+rule(5, fullMoonDates(2020-5-6)).
+rule(5, fullMoonDates(2020-6-5)).
+rule(5, fullMoonDates(2020-7-4)).
+rule(5, fullMoonDates(2020-8-2)).
+rule(5, fullMoonDates(2020-9-1)).
+rule(5, fullMoonDates(2020-10-1)).
+rule(5, fullMoonDates(2020-10-30)).
+rule(5, fullMoonDates(2020-11-29)).
+rule(5, fullMoonDates(2020-12-29)).
+#+end_src
+
+Now we can test the rule:
+
+#+begin_src prolog :noweb-ref prolog
+potato1(item{species:"Solanum tuberosum", wasPlanted:2020-1-10}).
+potato2(item{species:"Solanum tuberosum", wasPlanted:2020-1-11}).
+potato3(item{species:"Solanum tuberosum", wasPlanted:2020-1-12}).
+hasExemption(nobody, from(no-one), that(nothing)).
+#+end_src
+
+And the output is as expected:
+
+#+begin_example
+
+?- potato1(I), rule(1, meng, Deontic, trade(I)).
+I = item{species:"Solanum tuberosum", wasPlanted:2020-1-10},
+Deontic = may .
+
+?- potato2(I), rule(1, meng, Deontic, trade(I)).
+I = item{species:"Solanum tuberosum", wasPlanted:2020-1-11},
+Deontic = may .
+
+?- potato3(I), rule(1, meng, Deontic, trade(I)).
+I = item{species:"Solanum tuberosum", wasPlanted:2020-1-12},
+Deontic = shant.
+
+#+end_example
+
+**** in Haskell
+
+**** in Typescript
+
+we'll pretend we got back fullMoonDates from some URL.
+#+begin_src typescript :tangle potato.ts
+  function getDatesFromURL(_:string) : Date[] {
+  return ([ "2020-1-10",
+            "2020-2-8",
+            "2020-3-9",
+            "2020-4-7",
+            "2020-5-6",
+            "2020-6-5",
+            "2020-7-4",
+            "2020-8-2",
+            "2020-9-1",
+            "2020-10-1",
+            "2020-10-30",
+            "2020-11-29",
+            "2020-12-29" ].map(x=>new Date(x)))
+  }
+
+#+end_src
+
+
+**** The encoding/interpretive process involved the following human reasoning:
 
 We know that the correct answer is (intensionally) "the two days before and after a full moon".
 
-The system converts that to the desired (extensional) answer by means of two operations:
-1. table lookup against externally provided list of full moons
-2. a "world knowledge" rule that /somehow knows/ that the two days adjacent to a given night, are the day of that night, and the day after that night.
+The system converts that to the desired (extensional) answer by means of three operations:
+1. table lookup against externally provided list of full moon dates
+2. a "world knowledge" rule that /somehow knows/ that the two days adjacent to a given night, are the day preceding that night, and the day following.
+3. THere is an assumption that a full moon happens at night. But a night spans two dates! Also, a full moon could happen technically during the day -- that's what our data source gives us. So we use another "world knowledge" rule that /cleverly knows/ that if a full moon happens between midnight and noon, the "other allowed day" is the day before; but if a full moon happens between noon and midnight, the "other allowed day" is the day after.
 
-Functionally, given a date of a full moon, the second operation returns the two days allowed by the decree:
 #+begin_src haskell :noweb-ref basicimplementation
 legalDates night = [ sameDay night, nextDay night ]
   where sameDay x = x
         nextDay x = addDays 1 x
 #+end_src
-
-*** Rule base: 
 
 The rule base encodes the original decree.
 
@@ -154,7 +328,7 @@ The following blobs of code help with the tangle/noweb auto-generation of Haskel
 
 ** Haskell Tests! TDD FTW!
 
-#+begin_src haskell :noweb yes :tangle events/test/Spec.hs
+#+begin_src haskell :noweb yes :tangle test/Spec.hs
 {-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
 
@@ -186,7 +360,7 @@ spec1 = do
 
 ** Haskell Executable! Something shiny for a sense of accomplishment.
 
-#+begin_src haskell :noweb yes :tangle events/app/Main.hs
+#+begin_src haskell :noweb yes :tangle app/Main.hs
 {-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
 
@@ -205,7 +379,7 @@ import Data.Tree
 
 ** Haskell library! Used by both the tests and the executable.
 
-#+begin_src haskell :noweb yes :tangle events/src/HelloWorld.hs
+#+begin_src haskell :noweb yes :tangle src/HelloWorld.hs
 {-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
 
@@ -216,6 +390,7 @@ import Data.Map
 import Data.Maybe
 import Data.Tree
 import Data.Time.Calendar
+import Data.Time.Format.ISO8601
 
 <<basictypes>>
 <<basicimplementation>>
@@ -223,8 +398,15 @@ import Data.Time.Calendar
 
 ** Prolog!
 
-#+begin_src prolog :noweb yes :tangle helloworld.pl
-:- use_module(library(clpq)).
+#+begin_src prolog :noweb yes :tangle potato.pl
+:- use_module(library(clpfd)).
+:- use_module(library(julian)).
 :- use_module(library(yall)).
 <<prolog>>
 #+end_src
+
+You may need to
+
+#+begin_example
+pack_install(julian).
+#+end_example
