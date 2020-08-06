@@ -480,7 +480,14 @@ Breach     issue shares
 #+end_example
 * NLG representations
 
-See https://github.com/smucclaw/nlg
+See also https://github.com/smucclaw/nlg
+
+#+begin_src haskell :noweb-ref test-1
+  describe "natural language generation" $ do
+    it "should turn a GF structure into English" $
+      linearize gr (lang gr) (gf action) `shouldBe` "issues and sells preferred stock at a pre-money fixed valuation"
+#+end_src
+
 
 ** NLG assistance
 
