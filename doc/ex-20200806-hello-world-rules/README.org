@@ -102,12 +102,12 @@ The response from the rule base shows up as a non-Turing-complete, "safe" subset
         .splice(0, limit)
     }
 
-    function legalDates(asOf: Date) : Date[] {
+    function legalDates(asOf: Date) : Date[] { // rule 4
       return fullMoonDates(asOf)
         .flatMap(x => [x, addDays(x,1)])
     }
 
-    function fullMoonDates(asOf: Date) : Date[] {
+    function fullMoonDates(asOf: Date) : Date[] { // rule 5
       return getDatesFromURL("https://www.almanac.com/astronomy/moon/full/")
     }
 
@@ -247,10 +247,28 @@ we'll pretend we got back fullMoonDates from some URL.
             "2020-10-01",
             "2020-10-30",
             "2020-11-29",
-            "2020-12-29" ].map(x=>Date.parse(x)))
+            "2020-12-29" ].map(x=>new Date(x)))
   }
 #+end_src
 
+So we can call `nextAvailableDates`:
+
+#+begin_src typescript :tangle potato.ts
+console.log("the next available dates are: " + JSON.stringify(nextAvailableDates(new Date("2020-08-06"), new Date("2020-08-06"), 4)));
+#+end_src
+
+Let's convert the remaining rules:
+
+#+begin_src typescript :tangle potato.ts
+  interface clause {
+    "conditions": Condition[];
+    "party": Party[];
+    "deontic": Deontic;
+  
+  }
+
+
+#+end_src
 
 **** The encoding/interpretive process involved the following human reasoning:
 
@@ -413,7 +431,7 @@ pack_install(julian).
 ** Typescript!
 
 #+begin_src typescript :tangle potato.ts
-function addDays(date, days) {
+function addDays(date : Date, days : number) {
   var result = new Date(date);
   result.setDate(result.getDate() + days);
   return result;
