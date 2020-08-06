@@ -933,8 +933,16 @@ refer to the MIT Missing Semester course.
 - regular expressions
 - Windows PowerShell and structured pipes
 - working with CSV, YAML, JSON, XML, and HTML at the command line
+- curl to fetch
+- wget -m to mirror
 - ohmyzsh
 - alternatives to vanilla Emacs and vim
+
+exercise: does the website https://missing.csail.mit.edu/ contain any mention of "graphviz"? How would you answer this question:
+- as a non-magic-user? (by hand)
+- as a magic-user? (google site:)
+- as a magic-wielder? (wget ... grep -r)
+- as a sorceror?
 
 *** Outcomes
 

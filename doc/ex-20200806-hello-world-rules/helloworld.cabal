@@ -1,0 +1,71 @@
+cabal-version:       2.4
+name:                helloworld
+version:             0.0.0.0
+synopsis:            Hello World for a CCLAW RaC project
+description:         Hello World for a CCLAW RaC project
+license:             MIT
+license-file:        LICENSE
+author:              Wong Meng Weng
+maintainer:          Wong Meng Weng <mwwong@smu.edu.sg>
+copyright:           2020 Wong Meng Weng
+category:            Dev
+build-type:          Simple
+extra-doc-files:     README.md
+                     CHANGELOG.md
+tested-with:         GHC == 8.8.3
+
+common common-options
+  build-depends:       base ^>= 4.13.0.0
+                     , time
+  
+  ghc-options:         -Wall
+                       -Wcompat
+                       -Widentities
+                       -Wincomplete-uni-patterns
+                       -Wincomplete-record-updates
+  if impl(ghc >= 8.0)
+    ghc-options:       -Wredundant-constraints
+  if impl(ghc >= 8.2)
+    ghc-options:       -fhide-source-paths
+  if impl(ghc >= 8.4)
+    ghc-options:       -Wmissing-export-lists
+                       -Wpartial-fields
+  if impl(ghc >= 8.8)
+    ghc-options:       -Wmissing-deriving-strategies
+
+  default-language:    Haskell2010
+
+library
+  import:              common-options
+  hs-source-dirs:      src
+  exposed-modules:     Helloworld
+
+executable helloworld
+  import:              common-options
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  build-depends:       helloworld
+  ghc-options:         -threaded
+                       -rtsopts
+                       -with-rtsopts=-N
+
+test-suite helloworld-test
+  import:              common-options
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       helloworld
+  ghc-options:         -threaded
+                       -rtsopts
+                       -with-rtsopts=-N
+
+benchmark helloworld-benchmark
+  import:              common-options
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      benchmark
+  main-is:             Main.hs
+  build-depends:       gauge
+                     , helloworld
+  ghc-options:         -threaded
+                       -rtsopts
+                       -with-rtsopts=-N
