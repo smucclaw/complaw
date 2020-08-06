@@ -133,7 +133,8 @@ The rule base encodes the original decree in a semantically lossless, machine-re
  
    RULE 3
    DEEM Item.isLegalPotato
-   WHEN Item.wasPlanted matches anyOf LegalDates
+   WHEN Item.isPotato
+    AND Item.wasPlanted matches anyOf LegalDates
  
    RULE   4
    DEFINE LegalDates
@@ -155,9 +156,9 @@ This is enough information for a parser/interpreter to extract the following fun
 The Prolog-executable version of the rule shuffles things around a little to respect execution order:
 
 #+begin_src prolog :noweb-ref prolog
-rule(1, P, may, trade(Item)) :- rule(_,isPotato(Item)), rule(_, isLegalPotato(Item)).
-rule(1, P, may, trade(Item)) :- hasExemption(P, from(directorOfAgriculture), that(P,may,trade(Item))).
-rule(1, P, shant, trade(Item)) :- \+ rule(1, P, may, trade(Item)).
+rule(1, P, may, trade(Item))   :- rule(_,isPotato(Item)), rule(_, isLegalPotato(Item)).
+rule(1, P, may, trade(Item))   :- rule(_,isPotato(Item)), hasExemption(P, from(directorOfAgriculture), that(P,may,trade(Item))).
+rule(1, P, shant, trade(Item)) :- rule(_,isPotato(Item)), \+ rule(1, P, may, trade(Item)).
 #+end_src
 
 The extraction mechanism sinks the default "SHANT" to the bottom, and promotes the UNLESS exception to the top.
