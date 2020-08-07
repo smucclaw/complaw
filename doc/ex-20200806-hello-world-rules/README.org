@@ -136,7 +136,7 @@ The rule base encodes the original decree in a semantically lossless, machine-re
    WHEN Item.isPotato
     AND Item.wasPlanted matches anyOf LegalDates
  
-   RULE   4
+     RULE 4
    DEFINE LegalDates
     BEING a list of dates each called LegalDate
     GIVEN FullMoonDates being a list of dates each called FullMoonDate
@@ -232,6 +232,60 @@ Deontic = shant.
 **** in Haskell
 
 **** in DMN
+
+We assume the table of full-moon-dates is populated at compile time.
+
+#+NAME: fullMoons
+|  F | wasPlanted | legalDate1 |
+|----+------------+------------|
+|  1 | 2020-01-10 | True       |
+|  2 | 2020-02-08 | True       |
+|  3 | 2020-03-09 | True       |
+|  4 | 2020-04-07 | True       |
+|  5 | 2020-05-06 | True       |
+|  6 | 2020-06-05 | True       |
+|  7 | 2020-07-04 | True       |
+|  8 | 2020-08-02 | True       |
+|  9 | 2020-09-01 | True       |
+| 10 | 2020-10-01 | True       |
+| 11 | 2020-10-30 | True       |
+| 12 | 2020-11-29 | True       |
+| 13 | 2020-12-29 | True       |
+
+The adjacent day can be derived by adding a duration of 1 day.
+
+#+NAME: adjacentDay
+| F | wasPlanted                           | legalDate2 |
+|---+--------------------------------------+------------|
+| 1 | in (fullMoons.wasPlanted + P1DT0H)   | True       |
+
+Okay, we have to find a native FEEL way of saying the above.
+
+The item's legalDate attribute is true if either 1 or 2 is true.
+
+#+NAME: legalDate
+| F | legalDate                |
+|---+--------------------------|
+| 2 | legalDate1 or legalDate2 |
+
+Now we have enough information to answer the question: May we trade this item?
+
+#+NAME: mayTrade
+| F | species           | legalDate1 | exemptionGranted | mayTrade |
+|---+-------------------+------------+------------------+----------|
+| 1 | Solanum tuberosum | True       | -                | True     |
+| 2 | Solanum tuberosum | False      | False            | False    |
+| 3 | Solanum tuberosum | False      | True             | True     |
+| 4 | -                 | -          | -                | NULL     |
+
+Oh dear, we return a NULL because that's the closest we can get to having a ~Maybe Deontic~.
+
+The question is: may we trade? When we are dealing with potatoes, we
+can give a ~Just True~ or ~Just False~ answer. But if the input
+information is not about potatoes but about, say, a Hyrule Bass
+instead, the answer is Nothing.
+
+When Haskell looks up a key in a map, if the key isn't in the map at all, you get back Nothing. http://hackage.haskell.org/package/containers-0.6.3.1/docs/Data-Map-Strict.html#g:9
 
 **** in Typescript
 
