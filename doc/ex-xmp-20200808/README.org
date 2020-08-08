@@ -63,7 +63,7 @@ Why shouldn't digital contracts carry similar metadata about parties and deadlin
 
 * Reality
 
-Some already do. High frequency electronic trades [[https://www.vice.com/en_us/article/nzzgpw/this-video-of-a-half-second-of-high-frequency-trades-is-just-too-much][long ago shed their wet-ink-on-paper origins]]. [[https://en.wikipedia.org/wiki/ISDA_Master_Agreement][ISDA]] and [[https://en.wikipedia.org/wiki/Incoterms][Incoterms]] have well-defined schemas.
+Some already do. High frequency electronic trades [[https://www.vice.com/en_us/article/nzzgpw/this-video-of-a-half-second-of-high-frequency-trades-is-just-too-much][long ago shed their wet-ink-on-paper origins]]. [[https://en.wikipedia.org/wiki/ISDA_Master_Agreement][ISDA]] and [[https://en.wikipedia.org/wiki/Incoterms][Incoterms]] have well-defined schemas. The most evolved financial contracts are pure metadata, no PDF at all!
 
 * Inline Strategies for Word
 
@@ -75,7 +75,7 @@ The Right Way To Do This is to define your variables as Document Properties (Fil
 
 This is the Right Way because it unifies the visible text of the document with the machine-readable metadata: we observe best-practice principles: Single Source of Truth, Don't Repeat Yourself.
 
-Nobody's going to do this. Getting any organization (of more than, say, five people) to embrace this technique will be harder than eradicating smallpox.
+Guess what? Nobody's going to do this. Getting any organization (of more than, say, five people) to embrace this technique will be harder than eradicating smallpox.
 
 But that's what's shown in the ~exiftool~ demo example above, just to prove that metadata is a thing.
 
@@ -91,13 +91,13 @@ The "definitions" section is often the most structured section of a contract. Bu
 
 * Sidecar Strategies for PDF
 
-No matter. You don't engross Word. You engross PDF. How could we encode metadata in PDF?
+No matter. You don't sign a Word doc. You sign a PDF. How could we encode metadata in PDF?
 
 The example above shows metadata sitting inside what's called XMP. (See a [[https://www.adobe.com/content/dam/acom/en/products/xmp/Pdfs/xmp_whitepaper.pdf][Manager's Guide to XMP]]).
 
 The metadata is flattened to a key/value dictionary. If the legal industry could agree on a schema for simple contract metadata, we could start shipping "parametric PDFs" with the metadata already populated and ready for mechanical extraction.
 
-It's possible to have multi-level dictionaries in XMP. After all, it's just XML.
+It's even possible to have multi-level dictionaries in XMP. After all, it's just XML.
 
 * But wait, there's more!
 
