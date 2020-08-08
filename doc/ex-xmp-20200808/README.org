@@ -53,7 +53,7 @@ Current practice: a junior associate at a law firm, working on a deal, manually 
 
 Advanced practice: a junior executive at a company, perhaps in an informal "general counsel" role, manually transfers the same details into the user interface of a document assembly system. That system could be DocAssemble or ContractExpress or HotDocs or some in-house web form that eventually produces a PDF subsequently conveyed into an e-signature back-end. The GC may have given blanket approval to a range of templates, and pre-authorized the sales department to proceed.
 
-Either way, the finished contract, when it arrives at the counterparty, might as well have been walked from the printer to the scanner along the way. From Web to Word to PDF to basically a stack of JPEGs virtually stapled together: how the digital have fallen.
+Either way, the finished contract, when it arrives at the counterparty, might as well have been walked from the printer to the scanner along the way. From Web to Word to a PDF that's basically a stack of JPEGs stapled together: oh, how the digital have fallen.
 
 * Insight
 
@@ -67,7 +67,7 @@ Some already do. High frequency electronic trades [[https://www.vice.com/en_us/a
 
 * Inline Strategies for Word
 
-Inline markup is a challenge. HTML has microformats and RDF. Word, not so much: the junior staff who work with Word picked it up as pre-teens writing homework essays. Paragraph styles are a mystery, margins are all over the place, and "track changes" the only new thing they learned since they left college.
+Inline markup is a challenge. HTML has microformats and RDF. Word, not so much: the junior staff who work with Word picked it up as pre-teens writing homework essays. Paragraph styles are a mystery. Margins are all over the place. "Track changes" is the only new thing they learned since they left college.
 
 ** Document Properties
 
@@ -93,9 +93,11 @@ The "definitions" section is often the most structured section of a contract. Bu
 
 No matter. You don't engross Word. You engross PDF. How could we encode metadata in PDF?
 
-The example above shows metadata sitting inside what's called XMP. (See a [[https://www.adobe.com/content/dam/acom/en/products/xmp/Pdfs/xmp_whitepaper.pdf][Manager's Guide to XMP]].
+The example above shows metadata sitting inside what's called XMP. (See a [[https://www.adobe.com/content/dam/acom/en/products/xmp/Pdfs/xmp_whitepaper.pdf][Manager's Guide to XMP]]).
 
 The metadata is flattened to a key/value dictionary. If the legal industry could agree on a schema for simple contract metadata, we could start shipping "parametric PDFs" with the metadata already populated and ready for mechanical extraction.
+
+It's possible to have multi-level dictionaries in XMP. After all, it's just XML.
 
 * But wait, there's more!
 
