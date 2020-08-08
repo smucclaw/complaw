@@ -251,22 +251,25 @@ We assume the table of full-moon-dates is populated at compile time.
 | 11 | 2020-10-30 | True       |
 | 12 | 2020-11-29 | True       |
 | 13 | 2020-12-29 | True       |
+| 14 |          - | False      |
 
 The adjacent day can be derived by adding a duration of 1 day.
 
 #+NAME: adjacentDay
-| F | wasPlanted                           | legalDate2 |
-|---+--------------------------------------+------------|
-| 1 | in (fullMoons.wasPlanted + P1DT0H)   | True       |
+| F | wasPlanted                         | legalDate2 |
+|---+------------------------------------+------------|
+| 1 | in (fullMoons.wasPlanted + P1DT0H) | True       |
+| 2 | -                                  | False      |
 
-Okay, we have to find a native FEEL way of saying the above.
+Okay, we have to find a native FEEL way of saying the above. And we have to overload ~+~ to be an ~fmap +~ when applied to lists. We can deal with that later.
 
 The item's legalDate attribute is true if either 1 or 2 is true.
 
 #+NAME: legalDate
-| F | legalDate                |
-|---+--------------------------|
-| 2 | legalDate1 or legalDate2 |
+| F | item                     | legalDate |
+|---+--------------------------+-----------|
+| 1 | legalDate1 or legalDate2 | True      |
+| 2 | -                        | False     |
 
 Now we have enough information to answer the question: May we trade this item?
 
@@ -278,7 +281,7 @@ Now we have enough information to answer the question: May we trade this item?
 | 3 | Solanum tuberosum | False      | True             | True     |
 | 4 | -                 | -          | -                | NULL     |
 
-Oh dear, we return a NULL because that's the closest we can get to having a ~Maybe Deontic~.
+Oh dear, we return a NULL because that's the closest we can get to having a ~Maybe Deontic~. This is on DMN, which explicitly subscribes to ternary logic, see 10.3.2.4.
 
 The question is: may we trade? When we are dealing with potatoes, we
 can give a ~Just True~ or ~Just False~ answer. But if the input
@@ -286,6 +289,8 @@ information is not about potatoes but about, say, a Hyrule Bass
 instead, the answer is Nothing.
 
 When Haskell looks up a key in a map, if the key isn't in the map at all, you get back Nothing. http://hackage.haskell.org/package/containers-0.6.3.1/docs/Data-Map-Strict.html#g:9
+
+So if you think of ~Maybe Bool~ as ternary logic, you've got the right intuition.
 
 **** in Typescript
 
@@ -520,7 +525,11 @@ SQL table of contains authoritative table of moon_dates.
 
 * Code Extraction
 
+** From L4
 Challenge: write a parser/interpreter for the language shown above. Automate the extraction of the Prolog and Typescript code shown above. Also add transpilation targets to DocAssemble and Python. What additional hints are needed by the compiler?
+
+** From DMN
+Challenge: extend our DMNMD engine to support the FEEL expression ~in~. Extend our DMN implementation to overload function sections involving the mathematical operators ~+ - * /~ to fmap over lists. This is how we arrive at ~legalDate2~.
 
 * Learning Objective
 
