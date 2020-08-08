@@ -10,7 +10,7 @@ This contract for the sale of a tomato makes use of Document Properties:
 $ exiftool fruit-contract-2.docx | grep "^L4."
 L4.Seller.Name                  : Alice Apple
 L4.Buyer.Name                   : Bob Banana
-L4.CashConsideration            : USD 100
+L4.Consideration                : USD 100
 L4.ClosingDate                  : 1970:01:01 10:00:00Z
 #+end_example
 
@@ -18,7 +18,7 @@ L4.ClosingDate                  : 1970:01:01 10:00:00Z
 
 Suppose that Word doc was saved to PDF.
 
-We use ~exiftool~ to copy the metadata to the PDF:
+We use [[https://exiftool.org/][exiftool]] to copy the metadata to the PDF:
 
 #+begin_src bash
 exiftool -args fruit-contract-2.docx | grep '^-L4' | perl -ple 's/^-/-XMP-pdfx:/' > fruit-contract-2.args
