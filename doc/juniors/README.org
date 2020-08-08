@@ -222,7 +222,7 @@ The content of this guide is licensed under CC BY-NC-SA 4.0: https://creativecom
 
 * Project-based Learning
 
-If you're chomping at the bit, this section will satisfy -- or at least pique -- your curiosity about what we are trying to accomplish at CCLAW.
+If you're champing at the bit, this section will satisfy -- or at least pique -- your curiosity about what we are trying to accomplish at CCLAW.
 
 Actual tasks are defined elsewhere -- in Asana, or Github Issues -- but these are some of the main quests and side quests that the team may attempt over the coming months and years.
 
@@ -566,14 +566,17 @@ Coming back down to earth, these resources are recommended for learning Haskell:
 - https://twitter.com/aymannadeem?lang=en blogs frequently at https://www.aymannadeem.com/
 - https://lexi-lambda.github.io/index.html is another blog
 - http://dev.stephendiehl.com/hask/ is an entire book pretending to be a blog post
-- https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html starts getting into intermediate Haskell
-- https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
-- https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
 
 "Learn You A Haskell" has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH.
 
 Other Haskell random factlets:
 - You may have heard that Haskell is really good for programming language design and compiler development. That's one of the reasons we're using it. You might have heard of Perl 6; you might not have heard that Perl 6 (now Raku) was first implemented in Haskell, [[https://medium.com/a-computer-of-ones-own/audrey-tang-open-government-hacker-d7b80a69c0df][by Audrey Tang, who went on to be digital minister of Taiwan]].
+
+After you've achieved Beginner Haskell status you can proceed to Intermediate Haskell:
+- https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html starts getting into intermediate Haskell
+- https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
+- https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
+- http://felixmulder.com/writing/2020/08/08/Revisiting-application-structure
 
 ** Formal Methods
 
