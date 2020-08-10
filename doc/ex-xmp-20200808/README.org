@@ -41,7 +41,7 @@ Your robo-lawyer would be delighted to receive that PDF; it saves a lot of guess
 
 In law, entire cottage industries have grown up around extraction of structured information from unstructured data: in case law, in legislation, and in contracts.
 
-Some contract analytics specialists imagine a future in which their software would evolve from the current "glorified OCR" to more intelligent solutions [[https://twitter.com/AlexHamiltonRad/status/1291585184379396096][able to grapple with the pragmatics of legal questions]].
+Some contract analytics specialists imagine a future in which their software would evolve from "glorified OCR" to more intelligent solutions [[https://twitter.com/AlexHamiltonRad/status/1291585184379396096][able to grapple with the pragmatics of legal questions]].
 
 This is the first in a series of cases that build toward that future. In this case we add the simplest possible metadata -- the /parameters/ to an existing docx or PDF contract.
 
@@ -99,7 +99,27 @@ The metadata is flattened to a key/value dictionary. If the legal industry could
 
 It's even possible to have multi-level dictionaries in XMP. After all, it's just XML.
 
-* But wait, there's more!
+* Prior Art
 
-One widely accepted dichotomy in CS is between code and data. This case study embeds the data parameters in PDF. A future case study will embed the code.
+The technical challenge of contract formalization has been taken up in different ways over the years:
+- in 2007, the OASIS [[https://www.oasis-open.org/committees/legalxml-econtracts/][LegalXML eContracts v1.0 standard]] was released.
+- in 2012, Harry Surden proposed [[https://scholar.law.colorado.edu/articles/148/][Computable Contracts]].
+- in 2012, Tom Hvitved wrote [[https://drive.google.com/file/d/0BxOaYa8pqqSwbl9GMWtwVU5HSFU/view?usp=sharing][a PhD thesis on Contract Formalization]].
 
+Even if the technical challenges were solved, the complementary market challenge would remain: catalyzing adoption across a multi-sided platform populated with rowdy tech startups, skeptical law firms, and end-customers whose attitude to disciplined contract lifecycle management resembles most peoples' attitude to buying insurance: they'll get around to it another day.
+
+The history of successful IETF protocols may offer inspiration.
+
+Why might things be different this time? In 2020, on the receiver side, there is a flourishing industry of "contract analytics" startups (you may recall [[https://www.artificiallawyer.com/2018/02/26/lawgeex-hits-94-accuracy-in-nda-review-vs-85-for-human-lawyers/][the LawGeex success story]]). On the sender side, while the document assembly industry is quite mature, the opensource community has produced new tools like [[https://docassemble.org/][DocAssemble]]. It is conceivable that a flywheel could be set in motion to get both sides adopting a new protocol to augment existing old-school traditions with useful metadata. Has this happened before? Yes: in the world of anti-spam, the hoary old RFC822 email protocol was extended by sender authentication standards [[https://www.csoonline.com/article/3254234/mastering-email-security-with-dmarc-spf-and-dkim.html][DKIM and SPF]], which append "sidecar" information to the underlying message.
+
+* Future Work
+
+We might try embedding an entire eContracts nugget of XML in XMP.
+
+One widely accepted dichotomy in CS is between code and data. This case study embeds the data parameters in PDF. A future case study will embed the code. See [[http://docs.oasis-open.org/legalxml-econtracts/CS01/legalxml-econtracts-specification-1.0.html#d0e1594][Case 2 and Case 4 of eContracts Appendix A]] for a concise description of the challenge.
+
+Reach out to the contract analytics industry to ask:
+- Would this kind of embedded metadata be useful to you?
+- Would you be interested in participating in an interoperability trial with senders?
+- What percentage of inbound contracts handled by contract analytics firms are generated in an automated manner amenable to metadata markup of the form described above?
+- Which products on the sender side would you identify as being more open to such an innovation exercise?
