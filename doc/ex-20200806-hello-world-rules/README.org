@@ -366,6 +366,10 @@ Then we represent rules 1, 2, and 3:
 
 Now we can ask another question:
 
+**** in GF
+
+What grammar would be suitable for turning the L4 representation into English?
+
 ** Given a past potato already planted on a given date, was that potato legal?
 
 Running directly, the rule engine asks questions like:
@@ -465,9 +469,9 @@ Some decision paths are marked as "OR UNLIKELY", which means they are only queri
 
   // the rule engine answers:
   { "response": { "id": "2005"
-                , "answer": { "deontic": "SHANT" }
-                , "epistemicStatus": "tentative"
-                , "explanation": "Rule 1 states: ...."
+                , "answer": { "deontic": "SHANT"
+                            , "epistemicStatus": "tentative"
+                            , "explanation": "Rule 1 states: ...." }
                 , "schema": { "exemption": { "granted": { "type": "boolean", "default": "false" }
                                            , "from":    { "type": "string", "hint": "DirectorOfAgriculture" } } }
                 } }
@@ -486,11 +490,15 @@ But some completists may insist on answering:
 
   // the rule engine answers:
   { "response": { "id": "2006"
-                , "answer": { "deontic": "MAY" }
-                , "epistemicStatus": "confident"
-                , "explanation": "Rule 1 states: ...."
+                , "answer": { "deontic": "MAY"
+                            , "epistemicStatus": "confident"
+                            , "explanation": "Rule 1 states: ...." }
                 } }
 #+end_src
+
+* Code Extraction / Metaprogramming
+
+Can we write code that writes code? In the examples above, the "rule engine" functions returned by the rule base to the runtime were written by hand. But it /should/ be possible to write code that writes those functions: all the information one needs is in the L4. (If it isn't, we need to grow the L4 language.)
 
 ** The encoding/interpretive process involved the following human reasoning:
 
@@ -499,31 +507,7 @@ We know that the correct answer is (intensionally) "the two days before and afte
 The system converts that to the desired (extensional) answer by means of three operations:
 1. table lookup against externally provided list of full moon dates
 2. a "world knowledge" rule that /somehow knows/ that the two days adjacent to a given night, are the day preceding that night, and the day following.
-3. THere is an assumption that a full moon happens at night. But a night spans two dates! Also, a full moon could happen technically during the day -- that's what our data source gives us. So we use another "world knowledge" rule that /cleverly knows/ that if a full moon happens between midnight and noon, the "other allowed day" is the day before; but if a full moon happens between noon and midnight, the "other allowed day" is the day after.
-
-#+begin_src haskell :noweb-ref basicimplementation
-legalDates night = [ sameDay night, nextDay night ]
-  where sameDay x = x
-        nextDay x = addDays 1 x
-#+end_src
-
-The rule base encodes the original decree.
-
-#+begin_src typescript
-function night2day(nightDate : Date) : Date {
-  
-}
-#+end_src
-
-SQL table of contains authoritative table of moon_dates.
-
-#+begin_src sql
-  SELECT * FROM fullMoonDates
-   WHERE full_moon_date >= (current_date - 1)
-   LIMIT 2
-#+end_src
-
-* Code Extraction
+3. There is an assumption that a full moon happens at night. But a night spans two dates! Also, a full moon could happen technically during the day -- that's what our data source gives us. So we use another "world knowledge" rule that /cleverly knows/ that if a full moon happens between midnight and noon, the "other allowed day" is the day before; but if a full moon happens between noon and midnight, the "other allowed day" is the day after.
 
 ** From L4
 Challenge: write a parser/interpreter for the language shown above. Automate the extraction of the Prolog and Typescript code shown above. Also add transpilation targets to DocAssemble and Python. What additional hints are needed by the compiler?
