@@ -5,7 +5,7 @@ rule(1, P, may, trade(Item))   :- rule(_,isPotato(Item)), rule(_, isLegalPotato(
 rule(1, P, may, trade(Item))   :- rule(_,isPotato(Item)), hasExemption(P, from(directorOfAgriculture), that(P,may,trade(Item))).
 rule(1, P, shant, trade(Item)) :- rule(_,isPotato(Item)), \+ rule(1, P, may, trade(Item)).
 rule(2, isPotato(Item)) :- member(Item.get(species), ["Solanum tuberosum"]).
-rule(3, isLegalPotato(Item)) :- rule(_,legalDates(Item.get(wasPlanted))).
+rule(3, isLegalPotato(Item)) :- rule(_,isPotato(Item)), rule(_,legalDates(Item.get(wasPlanted))).
 rule(4,
      legalDates(Date)) :- rule(_, fullMoonDates(FMD)),
                           ( Date = FMD ; 

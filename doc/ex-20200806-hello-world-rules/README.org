@@ -370,6 +370,8 @@ Now we can ask another question:
 
 What grammar would be suitable for turning the L4 representation into English?
 
+(How much of our existing work can we reuse?)
+
 ** Given a past potato already planted on a given date, was that potato legal?
 
 Running directly, the rule engine asks questions like:
@@ -512,6 +514,143 @@ The system converts that to the desired (extensional) answer by means of three o
 ** From L4
 Challenge: write a parser/interpreter for the language shown above. Automate the extraction of the Prolog and Typescript code shown above. Also add transpilation targets to DocAssemble and Python. What additional hints are needed by the compiler?
 
+Right, let's define the language, by writing tests, types, and a parser.
+
+#+begin_src haskell :noweb-ref test-1
+  describe "L4 Types" $ do
+    it "a program is a list of zero or more statements" $
+      parse l4program "" `shouldSucceedOn` emptyProgram1
+    it "zero statements" $
+      parse l4program "" emptyProgram1 `parseSatisfies` \l4 -> l4.statements == []
+    it "a statement starts with a rule number" $
+      parse l4program "" `shouldSucceedOn` simpleDeem1
+    it "rule number 2" $
+      parse l4program "" simpleDeem1 `parseSatisfies` \l4 -> head l4.statements == Deem
+        { hornHead = HHOP (MkOP (ObjectSpec $ "Item" :| []) "isPotato")
+        , hornBody = MkCE Normal (CEStr "Item.species ~ [\"Solanum tuberosum\"]")
+        , raw = Stm "source text" "filename" 0 (Just 2) }
+#+end_src
+
+#+begin_src haskell :noweb-ref test-setup
+emptyProgram1 :: String
+emptyProgram1 = "\n"
+
+simpleDeem1 :: String
+simpleDeem1 = "RULE 2\nDEEM Item.isPotato\nWHEN Item.species ~ [\"Solanum tuberosum\"]"
+#+end_src
+
+#+begin_src haskell :noweb-ref l4types
+  data L4Program = L4Program
+    { statements :: [Statement]
+    , hints :: [L4Hint]
+    } deriving (Show, Eq)
+
+  data StmCommon = Stm { src      :: String
+                       , filename :: String
+                       , lineno   :: Int
+                       , ruleno   :: Maybe Int
+                       } deriving (Show, Eq)
+
+  data Statement = Deem { hornHead :: HornHead
+                        , hornBody :: HornBody
+                        , raw :: StmCommon }
+                   | Define { raw :: StmCommon }
+                   | Reg { preconditions :: ConditionExpr
+                         , conditions    :: ConditionExpr
+                         , parties       :: NonEmpty Party
+                         , deontic       :: Deontic
+                         , action        :: Action
+                         , actionSpec    :: ActionSpec
+                         , temporal      :: Temporal
+                         , raw           :: StmCommon
+                         }
+    deriving (Show, Eq)
+
+  data HornHead = HHOP ObjectPredicate
+    deriving (Show, Eq)
+
+  type ObjectPredicate = ObjectAttribute
+
+  data ObjectAttribute = MkOP ObjectSpec AttributeName deriving (Eq)
+  instance Show ObjectAttribute where show (MkOP (ObjectSpec os) pa) = intercalate "." (NE.toList os ++ [pa])
+
+  data ObjectSpec = ObjectSpec (NonEmpty String) deriving Eq
+  instance Show ObjectSpec where show (ObjectSpec os) = intercalate "." (NE.toList os)
+
+  type AttributeName = String
+
+  type HornBody = ConditionExpr
+
+  type Party      = String
+  type Action     = String
+  type ActionSpec = String
+  type Temporal   = String
+  data Deontic    = MUST | MAY | SHANT deriving (Show, Eq)
+  data ConditionExpr = MkCE  Probability LeafCE
+                     | CEOr  ConditionExpr ConditionExpr
+                     | CEAnd ConditionExpr ConditionExpr
+                     deriving (Show, Eq)
+  data LeafCE = CEOP    ObjectPredicate
+              | CEMatch ObjectAttribute MatchOp MatchRHS
+              | CEStr   String
+    deriving (Show, Eq)
+
+  data MatchOp = MatchTilde
+    deriving (Show, Eq)
+
+  data MatchRHS = MatchString String
+                | MatchList [MatchRHS]
+    deriving (Show, Eq)
+
+  data Probability = Likely | Normal | Unlikely deriving (Show, Eq)
+
+  data L4Hint = L4Hint { raw :: StmCommon }
+    deriving (Show, Eq)
+#+end_src
+
+#+begin_src haskell :noweb-ref l4parser
+type Parser = Parsec Void String
+
+l4program :: Parser L4Program
+l4program = do
+  many newline
+  statements <- many l4statement
+  many newline
+  eof
+  L4Program { statements = statements, hints = [] } <$ eof
+
+l4statement :: Parser Statement
+l4statement = do
+  ruleNum <- string "RULE" >> sc *> integer
+  stm <- stmDeem (Stm "source text" "filename" 0 (Just ruleNum)) -- <|> stmDefine <|> stmRegulative
+  return stm
+
+stmDeem :: StmCommon -> Parser Statement
+stmDeem stmc = do
+  oa <- (lexeme "DEEM" *> lexeme objectAttribute) <?> "deem line"
+  ce <- conditionExpr <?> "condition expression"
+  return $ Deem (HHOP oa) ce stmc
+
+objectAttribute :: Parser ObjectAttribute
+objectAttribute = do
+  mychars <- many (alphaNumChar <|> char '.' <|> char '_')
+  let mywords = splitOn "." mychars
+  return $ MkOP (ObjectSpec (NE.fromList $ init mywords)) (last mywords)
+
+conditionExpr :: Parser ConditionExpr
+conditionExpr = do
+  ce <- lexeme "WHEN" *> (many $ noneOf ("\n" :: String))
+  return $ MkCE Normal (CEStr ce)
+
+#+end_src
+
+Maybe we'll move faster if we use BNFC, particularly since we want whitespace support for the off-side rule.
+
+#+begin_src haskell :noweb-ref exe
+main = do
+  print "Hello, World!"
+#+end_src
+
 ** From DMN
 Challenge: extend our DMNMD engine to support the FEEL expression ~in~. Extend our DMN implementation to overload function sections involving the mathematical operators ~+ - * /~ to fmap over lists. This is how we arrive at ~legalDate2~.
 
@@ -556,15 +695,19 @@ The following blobs of code help with the tangle/noweb auto-generation of Haskel
 
 module Main where
 
+import Test.Hspec.Megaparsec
 import Test.Hspec
 import Data.Maybe
 import Data.Map
+import Data.List.Split
 import Control.Monad
-import SAFE.Events
 import Data.Tree
-import Data.Tree.Pretty
 import Control.Arrow
 import Debug.Trace
+import L4.Types
+import L4.Parser
+import Text.Megaparsec
+import Data.List.NonEmpty (NonEmpty((:|)))
 
 main :: IO ()
 main = do
@@ -588,7 +731,7 @@ spec1 = do
 
 module Main where
 
-import HelloWorld
+import Helloworld
 import Data.Map
 import Data.Tree
 
@@ -599,21 +742,79 @@ import Data.Tree
 
 ** Haskell library! Used by both the tests and the executable.
 
-#+begin_src haskell :noweb yes :tangle src/HelloWorld.hs
+#+begin_src haskell :noweb yes :tangle src/Helloworld.hs
 {-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
 
 <<tangleWarning>>
 
-module HelloWorld where
+module Helloworld where
 import Data.Map
 import Data.Maybe
 import Data.Tree
 import Data.Time.Calendar
 import Data.Time.Format.ISO8601
+import L4.Types
+import L4.Parser
 
-<<basictypes>>
 <<basicimplementation>>
+#+end_src
+
+** Haskell L4 Libraries
+
+*** for Types
+#+begin_src haskell :noweb yes :tangle src/L4/Types.hs
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+
+<<tangleWarning>>
+
+module L4.Types where
+import qualified Data.List.NonEmpty as NE
+import Data.List.NonEmpty (NonEmpty)
+import Data.Map
+import Data.Time.Calendar
+import Data.Time.Format.ISO8601
+import Data.List (intercalate)
+
+<<l4types>>
+<<l4utils>>
+#+end_src
+
+*** for Parser
+
+#+begin_src haskell :noweb yes :tangle src/L4/Parser.hs
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+
+<<tangleWarning>>
+
+module L4.Parser where
+import L4.Types
+import Text.Megaparsec
+import Text.Megaparsec.Char
+import qualified Data.List.NonEmpty as NE
+import qualified Text.Megaparsec.Char.Lexer as L
+import Data.Void
+import Data.List.Split
+
+<<l4parser>>
+
+-- see https://markkarpov.com/tutorial/megaparsec.html
+sc :: Parser ()
+sc = L.space
+  space1                         -- (2)
+  (L.skipLineComment "//")       -- (3)
+  (L.skipBlockComment "/*" "*/") -- (4)
+
+lexeme :: Parser a -> Parser a
+lexeme = L.lexeme sc
+
+symbol :: String -> Parser String
+symbol = L.symbol sc
+
+integer :: Parser Int
+integer = lexeme L.decimal
 #+end_src
 
 ** Prolog!

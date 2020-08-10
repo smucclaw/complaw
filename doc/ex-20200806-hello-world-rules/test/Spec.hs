@@ -9,22 +9,42 @@
 
 module Main where
 
+import Test.Hspec.Megaparsec
 import Test.Hspec
 import Data.Maybe
 import Data.Map
+import Data.List.Split
 import Control.Monad
-import SAFE.Events
 import Data.Tree
-import Data.Tree.Pretty
 import Control.Arrow
 import Debug.Trace
+import L4.Types
+import L4.Parser
+import Text.Megaparsec
+import Data.List.NonEmpty (NonEmpty((:|)))
 
 main :: IO ()
 main = do
   forM_ [spec1] $ hspec
   return ()
 
+emptyProgram1 :: String
+emptyProgram1 = "\n"
 
+simpleDeem1 :: String
+simpleDeem1 = "RULE 2\nDEEM Item.isPotato\nWHEN Item.species ~ [\"Solanum tuberosum\"]"
 
 spec1 :: Spec
 spec1 = do
+  describe "L4 Types" $ do
+    it "a program is a list of zero or more statements" $
+      parse l4program "" `shouldSucceedOn` emptyProgram1
+    it "zero statements" $
+      parse l4program "" emptyProgram1 `parseSatisfies` \l4 -> l4.statements == []
+    it "a statement starts with a rule number" $
+      parse l4program "" `shouldSucceedOn` simpleDeem1
+    it "rule number 2" $
+      parse l4program "" simpleDeem1 `parseSatisfies` \l4 -> head l4.statements == Deem
+        { hornHead = HHOP (MkOP (ObjectSpec $ "Item" :| []) "isPotato")
+        , hornBody = MkCE Normal (CEStr "Item.species ~ [\"Solanum tuberosum\"]")
+        , raw = Stm "source text" "filename" 0 (Just 2) }
