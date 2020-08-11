@@ -368,9 +368,67 @@ Now we can ask another question:
 
 **** in GF
 
-What grammar would be suitable for turning the L4 representation into English?
+Here's an abstract syntax that is very faithful to the structure of L4. I think the final version shouldn't necessarily be that, but as a first step, a straightforward GF representation is probably easier to understand.
 
-(How much of our existing work can we reuse?)
+These are my abstract syntax categories. _Rule_ is the start category, others are intermediate categories that contain useful constituents on our way to a complete rule.
+
+#+begin_src gf :noweb-ref gfPotato
+flags startcat = Rule ;
+
+cat
+  Rule ;        -- The start category
+  Term ;        -- "a potato", "farmer John Smith"
+  Action ;      -- "trade a potato", "be legal"
+  Deontic ;     -- "may/must/shan't …"
+  [Deontic]{2} ; -- List with min. 2 elements
+#+end_src
+
+In addition to categories, a GF abstract syntax has _functions_. Let's start with the most important one.
+
+#+begin_src gf :noweb-ref gfPotato
+fun
+  MkRule
+    : Int        -- rule #
+    -> Term      -- party
+    -> [Deontic] -- what they may/shan't do
+    -> Rule ;    -- "Rule 1: Meng shan't trade a potato."
+#+end_src
+
+A number, a party and a list of actions make up a rule. Now let us see some terms and actions.
+
+#+begin_src gf :noweb-ref gfPotato
+-- Some terms
+  Party : String -> Term ;  -- Party name can be any string, e.g. "Meng"
+  Potato : Term ;           -- "a potato"
+
+-- Some actions
+  Trade,                    -- "trade a potato"
+  Plant                     -- "plant a potato"
+   : Term -> Action ;
+
+-- Deontics
+  May,                      -- "may [plant a potato]"
+  Must,                     -- "must [plant a potato]"
+  Shant                     -- "shan't [plant a potato]"
+   : Action -> Deontic ;
+#+end_src
+
+Let's put all this together in a GF abstract syntax.
+
+#+begin_src gf :noweb yes :tangle Potato.gf
+<<tangleWarning>>
+abstract Potato = {
+<<gfPotato>>
+}
+#+end_src
+
+Now we're able to generate a tree like this. (There's no concrete syntax yet -- exercise for the reader!)
+
+![Abstract syntax tree for "Meng shan't plant a potato and shan't trade a potato"](https://listenmaa.fi/b/meng_shant_plant_nor_trade_potato.png)
+
+It is very easy to transform the L4 code to this grammar. But as I said earlier, the final grammar shouldn't follow L4's syntax too faithfully.
+
+Natural language has a different information structure, and we will likely want to use things like aggregation (_Meng shan't plant nor trade the potato_ instead of _Meng shan't plant the potato nor trade the potato_), anaphoric reference (_**it** is illegal if …_) etc.
 
 ** Given a past potato already planted on a given date, was that potato legal?
 
