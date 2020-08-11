@@ -14,7 +14,7 @@ We maintain a small but growing set of learning exercises:
 | [[ex-20200527-grocery/][shipping boxes]]   | introduces DMN and interpretive ambiguity                  |
 | [[ex-20200609-rebates/][NZ rates rebates]] | what does "X reduced by Y" mean?                           |
 | [[ex-20200702-safe-post][safe conversion]]  | how do we compute SAFE conversion at Series A?             |
-| safe events      | defining SAFE financing, liquidity, and dissolution events |
+| [[ex-20200802-safe-events/][safe events]]      | defining SAFE financing, liquidity, and dissolution events |
 | [[ex-20200721-otc-eu][OTC derivatives]]  | clearing obligations for OTC counterparties in Europe      |
 
 
