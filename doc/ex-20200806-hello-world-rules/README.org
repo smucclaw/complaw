@@ -136,7 +136,7 @@ The rule base encodes the original decree in a semantically lossless, machine-re
    WHEN Item.isPotato
     AND Item.wasPlanted matches anyOf LegalDates
  
-   RULE   4
+     RULE 4
    DEFINE LegalDates
     BEING a list of dates each called LegalDate
     GIVEN FullMoonDates being a list of dates each called FullMoonDate
@@ -233,6 +233,65 @@ Deontic = shant.
 
 **** in DMN
 
+We assume the table of full-moon-dates is populated at compile time.
+
+#+NAME: fullMoons
+|  F | wasPlanted | legalDate1 |
+|----+------------+------------|
+|  1 | 2020-01-10 | True       |
+|  2 | 2020-02-08 | True       |
+|  3 | 2020-03-09 | True       |
+|  4 | 2020-04-07 | True       |
+|  5 | 2020-05-06 | True       |
+|  6 | 2020-06-05 | True       |
+|  7 | 2020-07-04 | True       |
+|  8 | 2020-08-02 | True       |
+|  9 | 2020-09-01 | True       |
+| 10 | 2020-10-01 | True       |
+| 11 | 2020-10-30 | True       |
+| 12 | 2020-11-29 | True       |
+| 13 | 2020-12-29 | True       |
+| 14 |          - | False      |
+
+The adjacent day can be derived by adding a duration of 1 day.
+
+#+NAME: adjacentDay
+| F | wasPlanted                         | legalDate2 |
+|---+------------------------------------+------------|
+| 1 | in (fullMoons.wasPlanted + P1DT0H) | True       |
+| 2 | -                                  | False      |
+
+Okay, we have to find a native FEEL way of saying the above. And we have to overload ~+~ to be an ~fmap +~ when applied to lists. We can deal with that later.
+
+The item's legalDate attribute is true if either 1 or 2 is true.
+
+#+NAME: legalDate
+| F | item                     | legalDate |
+|---+--------------------------+-----------|
+| 1 | legalDate1 or legalDate2 | True      |
+| 2 | -                        | False     |
+
+Now we have enough information to answer the question: May we trade this item?
+
+#+NAME: mayTrade
+| F | species           | legalDate1 | exemptionGranted | mayTrade |
+|---+-------------------+------------+------------------+----------|
+| 1 | Solanum tuberosum | True       | -                | True     |
+| 2 | Solanum tuberosum | False      | False            | False    |
+| 3 | Solanum tuberosum | False      | True             | True     |
+| 4 | -                 | -          | -                | NULL     |
+
+Oh dear, we return a NULL because that's the closest we can get to having a ~Maybe Deontic~. This is on DMN, which explicitly subscribes to ternary logic, see 10.3.2.4.
+
+The question is: may we trade? When we are dealing with potatoes, we
+can give a ~Just True~ or ~Just False~ answer. But if the input
+information is not about potatoes but about, say, a Hyrule Bass
+instead, the answer is Nothing.
+
+When Haskell looks up a key in a map, if the key isn't in the map at all, you get back Nothing. http://hackage.haskell.org/package/containers-0.6.3.1/docs/Data-Map-Strict.html#g:9
+
+So if you think of ~Maybe Bool~ as ternary logic, you've got the right intuition.
+
 **** in Typescript
 
 we'll pretend we got back fullMoonDates from some URL.
@@ -295,7 +354,7 @@ Then we represent rules 1, 2, and 3:
       return Deontic.shant
     }
   }
-
+  // functional-style method-at-large
   function isPotato(item : Farmed) : boolean { // rule 2
     return item.hasOwnProperty("species") && item.species === "Solanum tuberosum"
   }
@@ -306,6 +365,12 @@ Then we represent rules 1, 2, and 3:
 #+end_src
 
 Now we can ask another question:
+
+**** in GF
+
+What grammar would be suitable for turning the L4 representation into English?
+
+(How much of our existing work can we reuse?)
 
 ** Given a past potato already planted on a given date, was that potato legal?
 
@@ -406,9 +471,9 @@ Some decision paths are marked as "OR UNLIKELY", which means they are only queri
 
   // the rule engine answers:
   { "response": { "id": "2005"
-                , "answer": { "deontic": "SHANT" }
-                , "epistemicStatus": "tentative"
-                , "explanation": "Rule 1 states: ...."
+                , "answer": { "deontic": "SHANT"
+                            , "epistemicStatus": "tentative"
+                            , "explanation": "Rule 1 states: ...." }
                 , "schema": { "exemption": { "granted": { "type": "boolean", "default": "false" }
                                            , "from":    { "type": "string", "hint": "DirectorOfAgriculture" } } }
                 } }
@@ -427,11 +492,15 @@ But some completists may insist on answering:
 
   // the rule engine answers:
   { "response": { "id": "2006"
-                , "answer": { "deontic": "MAY" }
-                , "epistemicStatus": "confident"
-                , "explanation": "Rule 1 states: ...."
+                , "answer": { "deontic": "MAY"
+                            , "epistemicStatus": "confident"
+                            , "explanation": "Rule 1 states: ...." }
                 } }
 #+end_src
+
+* Code Extraction / Metaprogramming
+
+Can we write code that writes code? In the examples above, the "rule engine" functions returned by the rule base to the runtime were written by hand. But it /should/ be possible to write code that writes those functions: all the information one needs is in the L4. (If it isn't, we need to grow the L4 language.)
 
 ** The encoding/interpretive process involved the following human reasoning:
 
@@ -440,33 +509,195 @@ We know that the correct answer is (intensionally) "the two days before and afte
 The system converts that to the desired (extensional) answer by means of three operations:
 1. table lookup against externally provided list of full moon dates
 2. a "world knowledge" rule that /somehow knows/ that the two days adjacent to a given night, are the day preceding that night, and the day following.
-3. THere is an assumption that a full moon happens at night. But a night spans two dates! Also, a full moon could happen technically during the day -- that's what our data source gives us. So we use another "world knowledge" rule that /cleverly knows/ that if a full moon happens between midnight and noon, the "other allowed day" is the day before; but if a full moon happens between noon and midnight, the "other allowed day" is the day after.
+3. There is an assumption that a full moon happens at night. But a night spans two dates! Also, a full moon could happen technically during the day -- that's what our data source gives us. So we use another "world knowledge" rule that /cleverly knows/ that if a full moon happens between midnight and noon, the "other allowed day" is the day before; but if a full moon happens between noon and midnight, the "other allowed day" is the day after.
 
-#+begin_src haskell :noweb-ref basicimplementation
-legalDates night = [ sameDay night, nextDay night ]
-  where sameDay x = x
-        nextDay x = addDays 1 x
-#+end_src
-
-The rule base encodes the original decree.
-
-#+begin_src typescript
-function night2day(nightDate : Date) : Date {
-  
-}
-#+end_src
-
-SQL table of contains authoritative table of moon_dates.
-
-#+begin_src sql
-  SELECT * FROM fullMoonDates
-   WHERE full_moon_date >= (current_date - 1)
-   LIMIT 2
-#+end_src
-
-* Code Extraction
-
+** From L4
 Challenge: write a parser/interpreter for the language shown above. Automate the extraction of the Prolog and Typescript code shown above. Also add transpilation targets to DocAssemble and Python. What additional hints are needed by the compiler?
+
+Right, let's define the language, by writing tests, types, and a parser.
+
+#+begin_src haskell :noweb-ref test-1
+  describe "L4 Types" $ do
+    it "a program is a list of zero or more statements" $
+      parse l4program "" `shouldSucceedOn` emptyProgram1
+    it "zero statements" $
+      parse l4program "" emptyProgram1 `parseSatisfies` \l4 -> l4.statements == []
+    it "a statement starts with a rule number" $
+      parse l4program "" `shouldSucceedOn` simpleDeem1
+    it "rule number 2" $
+      parse l4program "" simpleDeem1 `parseSatisfies` \l4 -> head l4.statements == Deem
+        { hornHead = HHOP (MkOP (ObjectSpec $ "Item" :| []) "isPotato")
+        , hornBody = MkCE Normal (CEStr "Item.species ~ [\"Solanum tuberosum\"]")
+        , raw = Stm "source text" "filename" 0 (Just 2) }
+#+end_src
+
+We'll set up some raw input for the tests:
+
+#+begin_src haskell :noweb-ref test-setup
+emptyProgram1 :: String
+emptyProgram1 = "\n"
+
+simpleDeem1 :: String
+simpleDeem1 = "RULE 2\nDEEM Item.isPotato\nWHEN Item.species ~ [\"Solanum tuberosum\"]"
+#+end_src
+
+The basic types for the language:
+
+#+begin_src haskell :noweb-ref l4types
+  data L4Program = L4Program
+    { statements :: [Statement]
+    , hints :: [L4Hint]
+    } deriving (Show, Eq)
+
+  data StmCommon = Stm { src      :: String
+                       , filename :: String
+                       , lineno   :: Int
+                       , ruleno   :: Maybe Int
+                       } deriving (Show, Eq)
+
+  data Statement = Deem { hornHead :: HornHead
+                        , hornBody :: HornBody
+                        , raw :: StmCommon }
+                   | Define { raw :: StmCommon }
+                   | Reg { preconditions :: ConditionExpr
+                         , conditions    :: ConditionExpr
+                         , parties       :: NonEmpty Party
+                         , deontic       :: Deontic
+                         , action        :: Action
+                         , actionSpec    :: ActionSpec
+                         , temporal      :: Temporal
+                         , raw           :: StmCommon
+                         }
+    deriving (Show, Eq)
+
+  data HornHead = HHOP ObjectPredicate
+    deriving (Show, Eq)
+
+  type ObjectPredicate = ObjectAttribute
+
+  data ObjectAttribute = MkOP ObjectSpec AttributeName deriving (Eq)
+  instance Show ObjectAttribute where show (MkOP (ObjectSpec os) pa) = intercalate "." (NE.toList os ++ [pa])
+
+  data ObjectSpec = ObjectSpec (NonEmpty String) deriving Eq
+  instance Show ObjectSpec where show (ObjectSpec os) = intercalate "." (NE.toList os)
+
+  type AttributeName = String
+
+  type HornBody = ConditionExpr
+
+  type Party      = String
+  type Action     = String
+  type ActionSpec = String
+  type Temporal   = String
+  data Deontic    = MUST | MAY | SHANT deriving (Show, Eq)
+  data ConditionExpr = MkCE  Probability LeafCE
+                     | CEOr  ConditionExpr ConditionExpr
+                     | CEAnd ConditionExpr ConditionExpr
+                     deriving (Show, Eq)
+  data LeafCE = CEOP    ObjectPredicate
+              | CEMatch ObjectAttribute MatchOp MatchRHS
+              | CEStr   String
+    deriving (Show, Eq)
+
+  data MatchOp = MatchTilde
+    deriving (Show, Eq)
+
+  data MatchRHS = MatchString String
+                | MatchList [MatchRHS]
+    deriving (Show, Eq)
+
+  data Probability = Likely | Normal | Unlikely deriving (Show, Eq)
+
+  data L4Hint = L4Hint { raw :: StmCommon }
+    deriving (Show, Eq)
+#+end_src
+
+A language reference manual would be a good thing to write, right about now.
+
+And now our job is to simply parse the DSL into the types.
+
+#+begin_src haskell :noweb-ref l4parser
+type Parser = Parsec Void String
+
+l4program :: Parser L4Program
+l4program = do
+  many newline
+  statements <- many l4statement
+  many newline
+  eof
+  L4Program { statements = statements, hints = [] } <$ eof
+
+l4statement :: Parser Statement
+l4statement = do
+  ruleNum <- string "RULE" >> sc *> integer
+  stm <- stmDeem (Stm "source text" "filename" 0 (Just ruleNum)) -- <|> stmDefine <|> stmRegulative
+  return stm
+
+stmDeem :: StmCommon -> Parser Statement
+stmDeem stmc = do
+  oa <- (lexeme "DEEM" *> lexeme objectAttribute) <?> "deem line"
+  ce <- conditionExpr <?> "condition expression"
+  return $ Deem (HHOP oa) ce stmc
+
+objectAttribute :: Parser ObjectAttribute
+objectAttribute = do
+  mychars <- many (alphaNumChar <|> char '.' <|> char '_')
+  let mywords = splitOn "." mychars
+  return $ MkOP (ObjectSpec (NE.fromList $ init mywords)) (last mywords)
+
+conditionExpr :: Parser ConditionExpr
+conditionExpr = do
+  ce <- lexeme "WHEN" *> (many $ noneOf ("\n" :: String))
+  return $ MkCE Normal (CEStr ce)
+
+#+end_src
+
+For fun, we might consider using BNFC as an alternative approach.
+
+When we've gone a little farther we will have the app/Main print interesting things and also implement the rule engine.
+
+#+begin_src haskell :noweb-ref exe
+main = do
+  print "Hello, World!"
+#+end_src
+
+*** Schema Inference
+
+Inari asked: what's up with the .wasPlanted attribute? It's not defined or deemed anywhere! Well, that just tells us that we have to interrogate it from the user! We know its type -- thanks, Hindley-Milner -- and where it fits in the object model. So just from the rule definitions we can infer the schema aka ontology:
+
+#+begin_src typescript :noweb-ref clause_ts
+interface ItemInterface {
+  isPotato      : Bool;
+  isLegalPotato : Bool;
+  wasPlanted    : Date;
+  species       : string;
+}
+
+const LegalDates : Date[];
+#+end_src
+
+Alternatively, because we know that ~isPotato~ and ~isLegalPotato~ are defined, we could make them methods of a class:
+
+#+begin_src typescript :noweb-ref clause_ts
+
+    class ItemClass {
+      wasPlanted    : Date;
+      species       : string;
+
+      isPotato () : boolean {
+        return ["Solanum tuberosum"].includes(this.species)
+      }
+      isLegalPotato (legalDates : Date[]) : boolean {
+        return ( this.isPotato() && 
+          legalDates.map(x=>x.valueOf()).includes(this.wasPlanted.valueOf()))
+      }
+    }
+#+end_src
+
+The properties which aren't methods are the ones we need to get from the user.
+
+** From DMN
+Challenge: extend our DMNMD engine to support the FEEL expression ~in~. Extend our DMN implementation to overload function sections involving the mathematical operators ~+ - * /~ to fmap over lists. This is how we arrive at ~legalDate2~.
 
 * Learning Objective
 
@@ -509,15 +740,19 @@ The following blobs of code help with the tangle/noweb auto-generation of Haskel
 
 module Main where
 
+import Test.Hspec.Megaparsec
 import Test.Hspec
 import Data.Maybe
 import Data.Map
+import Data.List.Split
 import Control.Monad
-import SAFE.Events
 import Data.Tree
-import Data.Tree.Pretty
 import Control.Arrow
 import Debug.Trace
+import L4.Types
+import L4.Parser
+import Text.Megaparsec
+import Data.List.NonEmpty (NonEmpty((:|)))
 
 main :: IO ()
 main = do
@@ -541,7 +776,7 @@ spec1 = do
 
 module Main where
 
-import HelloWorld
+import Helloworld
 import Data.Map
 import Data.Tree
 
@@ -552,21 +787,79 @@ import Data.Tree
 
 ** Haskell library! Used by both the tests and the executable.
 
-#+begin_src haskell :noweb yes :tangle src/HelloWorld.hs
+#+begin_src haskell :noweb yes :tangle src/Helloworld.hs
 {-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
 
 <<tangleWarning>>
 
-module HelloWorld where
+module Helloworld where
 import Data.Map
 import Data.Maybe
 import Data.Tree
 import Data.Time.Calendar
 import Data.Time.Format.ISO8601
+import L4.Types
+import L4.Parser
 
-<<basictypes>>
 <<basicimplementation>>
+#+end_src
+
+** Haskell L4 Libraries
+
+*** for Types
+#+begin_src haskell :noweb yes :tangle src/L4/Types.hs
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+
+<<tangleWarning>>
+
+module L4.Types where
+import qualified Data.List.NonEmpty as NE
+import Data.List.NonEmpty (NonEmpty)
+import Data.Map
+import Data.Time.Calendar
+import Data.Time.Format.ISO8601
+import Data.List (intercalate)
+
+<<l4types>>
+<<l4utils>>
+#+end_src
+
+*** for Parser
+
+#+begin_src haskell :noweb yes :tangle src/L4/Parser.hs
+{-# LANGUAGE OverloadedStrings, DuplicateRecordFields, QuasiQuotes #-}
+{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+
+<<tangleWarning>>
+
+module L4.Parser where
+import L4.Types
+import Text.Megaparsec
+import Text.Megaparsec.Char
+import qualified Data.List.NonEmpty as NE
+import qualified Text.Megaparsec.Char.Lexer as L
+import Data.Void
+import Data.List.Split
+
+<<l4parser>>
+
+-- see https://markkarpov.com/tutorial/megaparsec.html
+sc :: Parser ()
+sc = L.space
+  space1                         -- (2)
+  (L.skipLineComment "//")       -- (3)
+  (L.skipBlockComment "/*" "*/") -- (4)
+
+lexeme :: Parser a -> Parser a
+lexeme = L.lexeme sc
+
+symbol :: String -> Parser String
+symbol = L.symbol sc
+
+integer :: Parser Int
+integer = lexeme L.decimal
 #+end_src
 
 ** Prolog!

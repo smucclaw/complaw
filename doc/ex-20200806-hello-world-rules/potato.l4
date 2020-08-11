@@ -11,9 +11,10 @@ RULE   1
 
   RULE 3
   DEEM Item.isLegalPotato
-  WHEN Item.wasPlanted matches anyOf LegalDates
+  WHEN Item.isPotato
+   AND Item.wasPlanted matches anyOf LegalDates
 
-  RULE   4
+    RULE 4
   DEFINE LegalDates
    BEING a list of dates each called LegalDate
    GIVEN FullMoonDates being a list of dates each called FullMoonDate

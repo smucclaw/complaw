@@ -1,0 +1,125 @@
+#+TITLE: Embedding Contract Parameters As Metadata
+
+* Demo 1: Word
+
+Did you know you can insert structured metadata into a plain old Word contract?
+
+This contract for the sale of a tomato makes use of Document Properties:
+
+#+begin_example
+$ exiftool fruit-contract-2.docx | grep "^L4."
+L4.Seller.Name                  : Alice Apple
+L4.Buyer.Name                   : Bob Banana
+L4.Consideration                : USD 100
+L4.ClosingDate                  : 1970:01:01 10:00:00Z
+#+end_example
+
+* Demo 2: PDF
+
+Suppose that Word doc was saved to PDF.
+
+We use [[https://exiftool.org/][exiftool]] to copy the metadata to the PDF:
+
+#+begin_src bash
+exiftool -args fruit-contract-2.docx | grep '^-L4' | perl -ple 's/^-/-XMP-pdfx:/' > fruit-contract-2.args
+exiftool -config xmp.config -@ fruit-contract-2.args fruit-contract-2.pdf
+#+end_src
+
+Now the PDF has the metadata in XMP:
+
+#+begin_example
+$ exiftool -G fruit-contract-2.pdf | grep L4
+[XMP]           L4 Buyer Name                   : Bob Banana
+[XMP]           L4 Closing Date                 : 1970:01:01 10:00:00Z
+[XMP]           L4 Consideration                : USD 100
+[XMP]           L4 Seller Name                  : Alice Apple
+#+end_example
+
+Your robo-lawyer would be delighted to receive that PDF; it saves a lot of guesswork.
+
+* Background
+
+In law, entire cottage industries have grown up around extraction of structured information from unstructured data: in case law, in legislation, and in contracts.
+
+Some contract analytics specialists imagine a future in which their software would evolve from "glorified OCR" to more intelligent solutions [[https://twitter.com/AlexHamiltonRad/status/1291585184379396096][able to grapple with the pragmatics of legal questions]].
+
+This is the first in a series of cases that build toward that future. In this case we add the simplest possible metadata -- the /parameters/ to an existing docx or PDF contract.
+
+In future cases we will add the "moving parts" of a contract -- its /operational semantics/ -- as well. Who has to do what when certain events happen? What rules must be obeyed? What are the defined terms?
+
+* Context
+
+Current practice: a junior associate at a law firm, working on a deal, manually types in details of the parties, dollar amounts, and other key paramters of the contract. They're done when no yellow-highlighted square brackets remain. They click "Accept All Changes", save to a file named "clean", and (after further sign-offs) upload it to DocuSign (or one of its cousins) for engrossing.
+
+Advanced practice: a junior executive at a company, perhaps in an informal "general counsel" role, manually transfers the same details into the user interface of a document assembly system. That system could be DocAssemble or ContractExpress or HotDocs or some in-house web form that eventually produces a PDF subsequently conveyed into an e-signature back-end. The GC may have given blanket approval to a range of templates, and pre-authorized the sales department to proceed.
+
+Either way, the finished contract, when it arrives at the counterparty, might as well have been walked from the printer to the scanner along the way. From Web to Word to a PDF that's basically a stack of JPEGs stapled together: oh, how the digital have fallen.
+
+* Insight
+
+But JPEGs aren't as dumb as they look. Digital photographs carry EXIF data about location, camera, lens, zoom, ISO, shutter speed, etc.
+
+Why shouldn't digital contracts carry similar metadata about parties and deadlines and dollar amounts?
+
+* Reality
+
+Some already do. High frequency electronic trades [[https://www.vice.com/en_us/article/nzzgpw/this-video-of-a-half-second-of-high-frequency-trades-is-just-too-much][long ago shed their wet-ink-on-paper origins]]. [[https://en.wikipedia.org/wiki/ISDA_Master_Agreement][ISDA]] and [[https://en.wikipedia.org/wiki/Incoterms][Incoterms]] have well-defined schemas. The most evolved financial contracts are pure metadata, no PDF at all!
+
+* Inline Strategies for Word
+
+Inline markup is a challenge. HTML has microformats and RDF. Word, not so much: the junior staff who work with Word picked it up as pre-teens writing homework essays. Paragraph styles are a mystery. Margins are all over the place. "Track changes" is the only new thing they learned since they left college.
+
+** Document Properties
+
+The Right Way To Do This is to define your variables as Document Properties (File / Properties / Custom). You have a choice of text, date, number, or boolean. You get the values to appear by clicking "Insert Fields / Document Automation / DocProperty" and then typing the variable name in the text box after DOCPROPERTY. You can peek at the magic by pressing Alt-F9.
+
+This is the Right Way because it unifies the visible text of the document with the machine-readable metadata: we observe best-practice principles: Single Source of Truth, Don't Repeat Yourself.
+
+Guess what? Nobody's going to do this. Getting any organization (of more than, say, five people) to embrace this technique will be harder than eradicating smallpox.
+
+But that's what's shown in the ~exiftool~ demo example above, just to prove that metadata is a thing.
+
+Are there less purist alternatives?
+
+** Embedded term sheets: tables in the Word Doc.
+
+A table of key:value pairs could carry structured data.
+
+** Parsing defined terms
+
+The "definitions" section is often the most structured section of a contract. But they are flattened text, and already troubled by the hyphenation problem.
+
+* Sidecar Strategies for PDF
+
+No matter. You don't sign a Word doc. You sign a PDF. How could we encode metadata in PDF?
+
+The example above shows metadata sitting inside what's called XMP. (See a [[https://www.adobe.com/content/dam/acom/en/products/xmp/Pdfs/xmp_whitepaper.pdf][Manager's Guide to XMP]]).
+
+The metadata is flattened to a key/value dictionary. If the legal industry could agree on a schema for simple contract metadata, we could start shipping "parametric PDFs" with the metadata already populated and ready for mechanical extraction.
+
+It's even possible to have multi-level dictionaries in XMP. After all, it's just XML.
+
+* Prior Art
+
+The technical challenge of contract formalization has been taken up in different ways over the years:
+- in 2007, the OASIS [[https://www.oasis-open.org/committees/legalxml-econtracts/][LegalXML eContracts v1.0 standard]] was released.
+- in 2012, Harry Surden proposed [[https://scholar.law.colorado.edu/articles/148/][Computable Contracts]].
+- in 2012, Tom Hvitved wrote [[https://drive.google.com/file/d/0BxOaYa8pqqSwbl9GMWtwVU5HSFU/view?usp=sharing][a PhD thesis on Contract Formalization]].
+
+Even if the technical challenges were solved, the complementary market challenge would remain: catalyzing adoption across a multi-sided platform populated with rowdy tech startups, skeptical law firms, and end-customers whose attitude to disciplined contract lifecycle management resembles most peoples' attitude to buying insurance: they'll get around to it another day.
+
+The history of successful IETF protocols may offer inspiration.
+
+Why might things be different this time? In 2020, on the receiver side, there is a flourishing industry of "contract analytics" startups (you may recall [[https://www.artificiallawyer.com/2018/02/26/lawgeex-hits-94-accuracy-in-nda-review-vs-85-for-human-lawyers/][the LawGeex success story]]). On the sender side, while the document assembly industry is quite mature, the opensource community has produced new tools like [[https://docassemble.org/][DocAssemble]]. It is conceivable that a flywheel could be set in motion to get both sides adopting a new protocol to augment existing old-school traditions with useful metadata. Has this happened before? Yes: in the world of anti-spam, the hoary old RFC822 email protocol was extended by sender authentication standards [[https://www.csoonline.com/article/3254234/mastering-email-security-with-dmarc-spf-and-dkim.html][DKIM and SPF]], which append "sidecar" information to the underlying message.
+
+* Future Work
+
+We might try embedding an entire eContracts nugget of XML in XMP.
+
+One widely accepted dichotomy in CS is between code and data. This case study embeds the data parameters in PDF. A future case study will embed the code. See [[http://docs.oasis-open.org/legalxml-econtracts/CS01/legalxml-econtracts-specification-1.0.html#d0e1594][Case 2 and Case 4 of eContracts Appendix A]] for a concise description of the challenge.
+
+Reach out to the contract analytics industry to ask:
+- Would this kind of embedded metadata be useful to you?
+- Would you be interested in participating in an interoperability trial with senders?
+- What percentage of inbound contracts handled by contract analytics firms are generated in an automated manner amenable to metadata markup of the form described above?
+- Which products on the sender side would you identify as being more open to such an innovation exercise?

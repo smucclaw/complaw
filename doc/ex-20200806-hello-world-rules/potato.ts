@@ -66,7 +66,7 @@ function isPotato(item : Farmed) : boolean { // rule 2
 }
 
 function isLegalPotato(item : Farmed, legalDates : Date[]) : boolean { // rule 3
-  return (item.hasOwnProperty("wasPlanted") && legalDates.map(x=>x.valueOf()).includes(item.wasPlanted.valueOf()))
+  return (isPotato(item) && item.hasOwnProperty("wasPlanted") && legalDates.map(x=>x.valueOf()).includes(item.wasPlanted.valueOf()))
 }
 
 const potato1 = {species:"Solanum tuberosum", wasPlanted:new Date("2020-01-10")}

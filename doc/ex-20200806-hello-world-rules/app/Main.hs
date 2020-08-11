@@ -9,6 +9,14 @@
 
 module Main where
 
-import HelloWorld
+import Helloworld
 import Data.Map
 import Data.Tree
+
+emptyProgram1 :: String
+emptyProgram1 = "\n"
+
+simpleDeem1 :: String
+simpleDeem1 = "RULE 2\nDEEM Item.isPotato\nWHEN Item.species ~ [\"Solanum tuberosum\"]"
+main = do
+  print "Hello, World!"
