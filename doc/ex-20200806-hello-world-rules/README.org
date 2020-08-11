@@ -413,22 +413,27 @@ A number, a party and a list of actions make up a rule. Now let us see some term
    : Action -> Deontic ;
 #+end_src
 
-Let's put all this together in a GF abstract syntax.
+With this grammar fragment, we can generate a tree like this. (There's no concrete syntax yet -- exercise for the reader!)
 
-#+begin_src gf :noweb yes :tangle Potato.gf
-<<tangleWarning>>
-abstract Potato = {
-<<gfPotato>>
-}
+#+begin_src
+      MkRule : Rule
+      /     |     \
+     /      |      \
+    1     Party    BaseDeontic
+            |        /     \
+            |       /       \
+         "Meng"  Shant     Shant
+                   |         |
+                   |         |
+                 Plant     Trade
+                   |         |
+                   |         |
+                 Potato    Potato
 #+end_src
-
-Now we're able to generate a tree like this. (There's no concrete syntax yet -- exercise for the reader!)
-
-![Abstract syntax tree for "Meng shan't plant a potato and shan't trade a potato"](https://listenmaa.fi/b/meng_shant_plant_nor_trade_potato.png)
 
 It is very easy to transform the L4 code to this grammar. But as I said earlier, the final grammar shouldn't follow L4's syntax too faithfully.
 
-Natural language has a different information structure, and we will likely want to use things like aggregation (_Meng shan't plant nor trade the potato_ instead of _Meng shan't plant the potato nor trade the potato_), anaphoric reference (_**it** is illegal if …_) etc.
+Natural language has a different information structure, and we will likely want to use things like aggregation (_Meng shan't plant nor trade the potato_ instead of _Meng shan't plant the potato and shan't trade the potato_), anaphoric reference (_it is illegal if …_) etc.
 
 ** Given a past potato already planted on a given date, was that potato legal?
 
@@ -919,6 +924,16 @@ symbol = L.symbol sc
 integer :: Parser Int
 integer = lexeme L.decimal
 #+end_src
+
+** GF
+
+#+begin_src gf :noweb yes :tangle Potato.gf
+<<tangleWarning>>
+abstract Potato = {
+<<gfPotato>>
+}
+#+end_src
+
 
 ** Prolog!
 
