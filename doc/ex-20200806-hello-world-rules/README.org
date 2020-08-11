@@ -354,7 +354,7 @@ Then we represent rules 1, 2, and 3:
       return Deontic.shant
     }
   }
-
+  // functional-style method-at-large
   function isPotato(item : Farmed) : boolean { // rule 2
     return item.hasOwnProperty("species") && item.species === "Solanum tuberosum"
   }
@@ -531,6 +531,8 @@ Right, let's define the language, by writing tests, types, and a parser.
         , raw = Stm "source text" "filename" 0 (Just 2) }
 #+end_src
 
+We'll set up some raw input for the tests:
+
 #+begin_src haskell :noweb-ref test-setup
 emptyProgram1 :: String
 emptyProgram1 = "\n"
@@ -538,6 +540,8 @@ emptyProgram1 = "\n"
 simpleDeem1 :: String
 simpleDeem1 = "RULE 2\nDEEM Item.isPotato\nWHEN Item.species ~ [\"Solanum tuberosum\"]"
 #+end_src
+
+The basic types for the language:
 
 #+begin_src haskell :noweb-ref l4types
   data L4Program = L4Program
@@ -608,6 +612,10 @@ simpleDeem1 = "RULE 2\nDEEM Item.isPotato\nWHEN Item.species ~ [\"Solanum tubero
     deriving (Show, Eq)
 #+end_src
 
+A language reference manual would be a good thing to write, right about now.
+
+And now our job is to simply parse the DSL into the types.
+
 #+begin_src haskell :noweb-ref l4parser
 type Parser = Parsec Void String
 
@@ -644,12 +652,49 @@ conditionExpr = do
 
 #+end_src
 
-Maybe we'll move faster if we use BNFC, particularly since we want whitespace support for the off-side rule.
+For fun, we might consider using BNFC as an alternative approach.
+
+When we've gone a little farther we will have the app/Main print interesting things and also implement the rule engine.
 
 #+begin_src haskell :noweb-ref exe
 main = do
   print "Hello, World!"
 #+end_src
+
+*** Schema Inference
+
+Inari asked: what's up with the .wasPlanted attribute? It's not defined or deemed anywhere! Well, that just tells us that we have to interrogate it from the user! We know its type -- thanks, Hindley-Milner -- and where it fits in the object model. So just from the rule definitions we can infer the schema aka ontology:
+
+#+begin_src typescript :noweb-ref clause_ts
+interface ItemInterface {
+  isPotato      : Bool;
+  isLegalPotato : Bool;
+  wasPlanted    : Date;
+  species       : string;
+}
+
+const LegalDates : Date[];
+#+end_src
+
+Alternatively, because we know that ~isPotato~ and ~isLegalPotato~ are defined, we could make them methods of a class:
+
+#+begin_src typescript :noweb-ref clause_ts
+
+    class ItemClass {
+      wasPlanted    : Date;
+      species       : string;
+
+      isPotato () : boolean {
+        return ["Solanum tuberosum"].includes(this.species)
+      }
+      isLegalPotato (legalDates : Date[]) : boolean {
+        return ( this.isPotato() && 
+          legalDates.map(x=>x.valueOf()).includes(this.wasPlanted.valueOf()))
+      }
+    }
+#+end_src
+
+The properties which aren't methods are the ones we need to get from the user.
 
 ** From DMN
 Challenge: extend our DMNMD engine to support the FEEL expression ~in~. Extend our DMN implementation to overload function sections involving the mathematical operators ~+ - * /~ to fmap over lists. This is how we arrive at ~legalDate2~.
