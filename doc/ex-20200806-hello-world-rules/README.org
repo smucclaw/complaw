@@ -104,7 +104,7 @@ The response from the rule base shows up as a non-Turing-complete, "safe" subset
 
     function legalDates(asOf: Date) : Date[] { // rule 4
       return fullMoonDates(asOf)
-        .flatMap(x => [x, addDays(x,1)])
+        .flatMap(x => [x, addDays(x,1)]) // \x -> [x, dateAdd x 1]
     }
 
     function fullMoonDates(asOf: Date) : Date[] { // rule 5
@@ -134,7 +134,7 @@ The rule base encodes the original decree in a semantically lossless, machine-re
    RULE 3
    DEEM Item.isLegalPotato
    WHEN Item.isPotato
-    AND Item.wasPlanted matches anyOf LegalDates
+    AND Item.wasPlanted ~ anyOf LegalDates
  
      RULE 4
    DEFINE LegalDates
@@ -231,6 +231,8 @@ Deontic = shant.
 
 **** in Haskell
 
+left as an exercise for the reader, ha ha.
+
 **** in DMN
 
 We assume the table of full-moon-dates is populated at compile time.
@@ -274,12 +276,12 @@ The item's legalDate attribute is true if either 1 or 2 is true.
 Now we have enough information to answer the question: May we trade this item?
 
 #+NAME: mayTrade
-| F | species           | legalDate1 | exemptionGranted | mayTrade |
-|---+-------------------+------------+------------------+----------|
-| 1 | Solanum tuberosum | True       | -                | True     |
-| 2 | Solanum tuberosum | False      | False            | False    |
-| 3 | Solanum tuberosum | False      | True             | True     |
-| 4 | -                 | -          | -                | NULL     |
+| F | species           | legalDate | exemptionGranted | mayTrade |
+|---+-------------------+-----------+------------------+----------|
+| 1 | Solanum tuberosum | True      | -                | True     |
+| 2 | Solanum tuberosum | False     | False            | False    |
+| 3 | Solanum tuberosum | False     | True             | True     |
+| 4 | -                 | -         | -                | NULL     |
 
 Oh dear, we return a NULL because that's the closest we can get to having a ~Maybe Deontic~. This is on DMN, which explicitly subscribes to ternary logic, see 10.3.2.4.
 
@@ -622,7 +624,7 @@ The basic types for the language:
                         , hornBody :: HornBody
                         , raw :: StmCommon }
                    | Define { raw :: StmCommon }
-                   | Reg { preconditions :: ConditionExpr
+                   | Reg { preconditions :: ConditionExpr -- a Regulative rule, as seen in Hvitved chapter 2
                          , conditions    :: ConditionExpr
                          , parties       :: NonEmpty Party
                          , deontic       :: Deontic
@@ -652,7 +654,7 @@ The basic types for the language:
   type Action     = String
   type ActionSpec = String
   type Temporal   = String
-  data Deontic    = MUST | MAY | SHANT deriving (Show, Eq)
+  data Deontic    = MUST | MAY | SHANT deriving (Show, Eq) -- "must not" do something, "may not" ... which is ... must (not x)?
   data ConditionExpr = MkCE  Probability LeafCE
                      | CEOr  ConditionExpr ConditionExpr
                      | CEAnd ConditionExpr ConditionExpr
@@ -698,8 +700,8 @@ l4statement = do
 
 stmDeem :: StmCommon -> Parser Statement
 stmDeem stmc = do
-  oa <- (lexeme "DEEM" *> lexeme objectAttribute) <?> "deem line"
-  ce <- conditionExpr <?> "condition expression"
+  oa <- (lexeme "DEEM" *> lexeme objectAttribute) <?> "deem line"   -- DEEM Item.isLegalPotato
+  ce <- conditionExpr <?> "condition expression"                    -- WHEN Item.isPotato AND Item.species ~ ["Solanum tuberosum"]
   return $ Deem (HHOP oa) ce stmc
 
 objectAttribute :: Parser ObjectAttribute
@@ -766,7 +768,22 @@ Challenge: extend our DMNMD engine to support the FEEL expression ~in~. Extend o
 
 Logic programming is easier in a logic programming language.
 
+The main rule is may be decomposed into sub-rules, or rule framgments. Each rule fragment is (borrowing LegalRuleML's terminology) either a *constitutive* rule or a *prescriptive* rule.
+
+The /prescriptive/ rule applies to farmers and other parties who seek to trade potatoes: they MAY trade only those potatoes which are legal potatoes. Illegal potatoes SHANT be traded. Note that there is no counterparty to that prescriptive rule; it applies to all.
+
+The /constitutive/ rule applies to the potatoes: What is a potato? When is it legal?
+
 * Case, version 2:
+
+Potato buyers have the right, within one week of purchase, to return purchased potatoes for a 90% refund, which the seller must issue within 3 days of the return.
+
+** In L4
+
+This begins to look more like a contract: the emphasis is on the regulative rules, rather than the constitutive rules. While the source of this rule lies in legislation, it could be trivially transposed into a particular contract between the potato parties.
+
+
+* Case, version 3:
 
 Government drafting offices want to accelerate service delivery.
 - They are currently drafting the next edition of the regulations; they want to be able to express the potato rules in code, and then have software extract those rules to English in an automated fashion.
