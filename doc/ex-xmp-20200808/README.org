@@ -102,6 +102,7 @@ It's even possible to have multi-level dictionaries in XMP. After all, it's just
 * Prior Art
 
 The technical challenge of contract formalization has been taken up in different ways over the years:
+- in 2001, Marc Lauritsen called for [[https://medium.com/@MarcLauritsen01/opening-legal-knowledge-automation-7908f1640d2f][Open Practice Tools]].
 - in 2007, the OASIS [[https://www.oasis-open.org/committees/legalxml-econtracts/][LegalXML eContracts v1.0 standard]] was released.
 - in 2012, Harry Surden proposed [[https://scholar.law.colorado.edu/articles/148/][Computable Contracts]].
 - in 2012, Tom Hvitved wrote [[https://drive.google.com/file/d/0BxOaYa8pqqSwbl9GMWtwVU5HSFU/view?usp=sharing][a PhD thesis on Contract Formalization]].
