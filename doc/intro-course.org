@@ -1,0 +1,1328 @@
+#+TITLE: An Introductory Course in Formal Languages and Protocols in Computational Law
+
+This document lives at https://github.com/smucclaw/complaw/tree/master/doc/intro-course.org
+
+* Introduction
+
+This course was designed in mid-2017 to survey the field of computational contracts, which is just now emerging from academia toward industrial practice. It has been regularly updated since and was reviewed in 2020.
+
+** Audiences
+
+The course is intended for specific audiences.
+
+One, the non-technical reader with some experience with the legal profession, considering a career in legal engineering, unafraid to dip a toe into computer science. A bright young law student, perhaps with some natural affinity for programming, who seeks alternatives to the standard future: junior associate, senior associate, partner, corpse.
+
+Two, the technical reader, perhaps a self-taught or [[http://matt.might.net/articles/what-cs-majors-should-know/][classically educated programmer]], who is interested in approaching contract law as a special case of applied computer science.
+
+** By the end of this course
+
+You will gain passing acquaintance with the foundational technologies, past and current efforts, and leading figures in the field of computational law in general, and computable contracts and legislation in particular.
+
+** Course Structure
+
+This is a self-study course. It's mostly readings, web pages, and some videos.
+
+If you get stuck, ask for help.
+
+* Volume 1 (two days) -- Background Survey
+
+** Motivation and Explication
+
+1. What if we could write contracts (and statutes) the way we do programs? (Not to mention compile, test, debug, and verify ... or even share and sell.)
+2. http://compk.stanford.edu/ articulates the vision.
+3. Harry Surden (2014) explains computable contracts on his blog ([[http://www.harrysurden.com/wordpress/archives/203][part 1]], [[http://www.harrysurden.com/wordpress/archives/230][part 2]]).
+4. Eventually, professional services will be provided around contract drafting. Wait -- law firms already do that! Except, by and large, without technology and tools. Automation is just the first step.
+5. Darmstadter's [[https://drive.google.com/open?id=0B8axPLLxhjQFWGc0ellBYTF3RnM][Precision's Counterfeit]] angsts about the problem from the point of view of a lawyer.
+6. One premise of the approach in this course is that the CS field of [[https://en.wikipedia.org/wiki/Formal_verification][Formal Verification]] has much to offer. In Sep 2017 the Atlantic Magazine discussed how FV could save the world from [[https://www.theatlantic.com/technology/archive/2017/09/saving-the-world-from-code/540393/][The Coming Software Apocalypse]].
+7. https://www.youtube.com/watch?v=YHri1NdYKS0 Ron Dolin on an Engineer's Journey Through the Legal System
+
+** Some context
+
+- [[https://drive.google.com/open?id=0BxOaYa8pqqSwM2o1ZDNaTno2MXM][Why Contracts Are Written In Legalese, by Claire Hill]]
+- [[https://drive.google.com/open?id=1n9uAan9yXKHjmauk2HCNvVSzWxdQYeRw][Juro's White Paper]]
+- [[https://blog.stephenwolfram.com/2016/10/computational-law-symbolic-discourse-and-the-ai-constitution/][Computational Law, Symbolic Discourse and the AI Constitution]] by Stephen Wolfram, Oct 12 2016
+- [[https://www.amazon.com/Manual-Style-Contract-Drafting/dp/1634259645/][A Manual of Style for Contract Drafting]] by Ken Adams, now in its fourth edition, offers uncanny parallels to [[https://www.amazon.com/Elements-Programming-Style-2nd/dp/0070342075/][style guides in programming]].
+- In legislation space, as opposed to contract space, see https://www.calc.ngo/sites/default/files/loophole/jan-2014.pdf for an account of how drafting happens.
+- AI isn't just machine learning: https://www.nytimes.com/2018/06/20/technology/deep-learning-artificial-intelligence.html
+- [[http://logic.stanford.edu/publications/genesereth/complaw.pdf][The Cop in the Back Seat]] -- genesereth. And hence https://sites.google.com/a/coherentknowledge.com/tutorial-capturing-real-world-knowledge/home
+- https://www.youtube.com/watch?v=YGG3e_1JX7Q Reasoning With Regulations - Vijay Saraswat
+- https://www.youtube.com/watch?v=0XL-LM0fpN4 ReMeP keynote by Kowalski
+- http://www.calc.ngo/sites/default/files/loophole/Loophole%20-%202020-01%20%282020-02-09%29.pdf to be read at the start and end of a course in computational law, as a springboard for assessing where its concepts find resonances in prior art and current work.
+
+** What Legalese the Startup Thinks, in slides and videos
+
+- https://rossintelligence.com/author/alexis/
+- https://goo.gl/1e8Hpc -- see the speaker notes for the voice track
+- [[https://docs.google.com/presentation/d/1puQ_kEQn5kGM75a0teZDqUQr4BAMTot8ttO-YYCdp84/edit#slide=id.p][Legalese's startup pitch deck]] envisions the commercial opportunity for a business audience; the door is wide open for a classic [[https://www.amazon.com/Innovators-Solution-Creating-Sustaining-Successful-ebook/dp/B00E257S7C][Christensen disruption]]. The industry can be mapped using [[http://wardleypedia.org/mediawiki/index.php/Wardley_Mapping][Wardley maps]].
+
+** A Quick Survey of Prior Art in Computable Contracts
+
+Ready to add some tabs to your browser?
+
+The three most important readings are marked *IMPORTANT* below. If you print anything, print those. Skim everything else, but read those.
+
+Computable contracts is a narrow segment of computational law, which goes back over 30 years. For a sense of the larger field, see [[https://www.researchgate.net/publication/259872879_The_TAXMAN_Project_Towards_a_Cognitive_Theory_of_Legal_Argument][the contents page of Computer Science and Law]] (1979), [[https://drive.google.com/open?id=0BxOaYa8pqqSwNWg4d1lsSGJnSVE][the ICAIL retrospective]] "A History of AI and Law in 50 papers" (2012), and [[https://drive.google.com/open?id=0BxOaYa8pqqSwNFlaNEUzd1d3RGc][slides from the intro to AI & Law workshop at ICAIL 2017]].
+
+Meng gave [[https://docs.google.com/presentation/d/1qP7Immmo51Rik9X96KmyZPLi2zC2mGQSTgsWccq3wNA/edit#slide=id.g228038fb28_0_3][a presentation covering some of this material]] at CodeX on 2017-09-09. The novel version of that movie is available at https://github.com/legalese/complaw-deeptech/blob/master/doc/chapter-201707.org ([[http://legalese.github.io/doc/chapter-201707.html][HTML version]]).
+
+*** American Work
+
+1. The earliest work dates back to 1988: skim Ronald Lee's [[https://www.researchgate.net/publication/228185635_A_Logic_Model_for_Electronic_Contracting][A Logic Model for Electronic Contracting]].
+2. In the late 1990s and early 2000s, Nick Szabo put forward [[http://nakamotoinstitute.org/contract-language/][a formal language for contracts]].
+3. *IMPORTANT* -- In 2011 some Argentinians published [[http://publicaciones.dc.uba.ar/Publications/2011/GMS11/gms_flacos-2011-tr.pdf][FormaLex]]. They [[https://drive.google.com/open?id=0BxOaYa8pqqSwT01LUGdDMjdMRXc][followed up in 2017]].
+4. More recently, Flood & Goodenough published [[https://www.financialresearch.gov/working-papers/files/OFRwp-2015-04_Contract-as-Automaton-The-Computational-Representation-of-Financial-Agreements.pdf][Contract as Automaton]] (2015, 2017).
+5. In 2016, [[https://www.hklaw.com/Josias-Dewey/][Josias Dewey]] of [[http://contractcode.io/][contractcode.io]] wrote a [[https://docs.google.com/document/d/1Cun8B6V_CbedxrhW26j0ZfAfcuVKtrVOdg9tY7XR8Lw/edit][white paper]].
+6. In 2017, Shrutarshi Basu, Ph.D. candidate at Cornell, wrote a conveyancing reasoner: http://basus.me/conveyor/
+7. In 2016 and 2017, William Farmer and Qian Hu at McMaster University produced [[https://link.springer.com/chapter/10.1007%252F978-3-319-56157-8_9][FCL: A Formal Language for Writing Contracts]].
+
+*** European Work
+
+1. Knowledge-Based Systems and Legal Applications, 1991: https://www.elsevier.com/books/knowledge-based-systems-and-legal-applications/bench-capon/978-0-12-086441-6
+2. In the 2000s, Jean-Marc Eber wrote [[https://www.lexifi.com/files/resources/MLFiPaper.pdf][Composing Contracts: an adventure in financial engineering]]. That paper begat [[https://www.lexifi.com/product/technology/contract-description-language][MLFi]], a domain-specific language for financial contracts. Eber's company, [[https://www.lexifi.com/company][LexiFi]], sells to financial institutions.
+3. In 1999, Aspassia-Kaliopi Daskalopulu wrote a PhD thesis at the University of London on [[http://opim.wharton.upenn.edu/~sok/papers/d/AspassiaPhD.pdf][Logic-Based Tools for the Analysis and Representation of Legal Contracts]]; subsequent work explored [[https://arxiv.org/abs/cs/0106009][model checking]].
+4. In 2002, [[https://www.computer.org/csdl/proceedings/hicss/2002/1435/07/14350170b.pdf][Using Event Semantics for Modeling Contracts]] came out of the Netherlands.
+5. The [[http://www.estrellaproject.org/][Estrella Project]] ran from 2006 to 2008, [[http://www.leibnizcenter.org/][out of Amsterdam]], and produced [[https://github.com/RinkeHoekstra/lkif-core][LKIF]], a legal ontology -- [[http://www.leibnizcenter.org/~winkels/LegalOntologies.html][one of many]]; see [[https://www.amazon.com/Approaches-Legal-Ontologies-Methodologies-Governance/dp/9400734751/][Approaches to Legal Ontologies]]. LKIF stands on the shoulders of [[https://en.wikipedia.org/wiki/Knowledge_Interchange_Format][KIF]] which was a creation of Michael Genesereth at Stanford and others. See papers such as [[http://www.leibnizcenter.org/docs/hoekstra/Hoekstra-LOAIT07.pdf][The LKIF Core Ontology of Basic Legal Concepts]] which probably has some overlap with the [[http://www.estrellaproject.org/doc/D1.4-OWL-Ontology-of-Basic-Legal-Concepts.pdf][OWL Ontology of Basic Legal Concepts]].
+6. In 2005, Adrian Paschke at TUM.de (et al) described [[http://rbsla.ruleml.org/docs/37910209.pdf][ContractLog]] to cover SLAs. ([[http://rbsla.ruleml.org/rbsla%20-%20ContractLog_%20Knowledge%20Representation%20for%20Contracts,%20Policies%20and%20SLAs.html][link]])
+7. In 2007, the LegalXML OASIS working group produced the [[http://docs.oasis-open.org/legalxml-econtracts/CS01/legalxml-econtracts-specification-1.0.pdf][eContracts v1.0 specification]].
+8. From 2007 to 2010, in Norway, [[http://cosodis.project.ifi.uio.no/][the CoSoDIS project]] begat the contract language CL, under [[http://www.cse.chalmers.se/~gersch/][Schneider]] (in Sweden). Browse [[http://cosodis.project.ifi.uio.no/publications.shtml][publications]]. Particularly, [[https://www.researchgate.net/publication/221027131_Model_Checking_Contracts_-_A_Case_Study][Model Checking Contracts]].
+9. *IMPORTANT* -- Chapter 1 of Camilleri's 2015 [[https://gupea.ub.gu.se/bitstream/2077/40725/1/gupea_2077_40725_1.pdf][Analysing Normative Contracts]] briefly surveys the field of computable contracts. The rest of the thesis demonstrates applications of CL: [[http://remu.grammaticalframework.org/contracts/diagrams/][contract-oriented diagrams]] (web), a [[http://remu.grammaticalframework.org/contracts/cnl/][CNL editor]] (web), and [[http://www.cs.um.edu.mt/~svrg/Tools/CLTool/][CLan]] (Java), a contract language analyzer, produced under [[http://remu.grammaticalframework.org/contracts/][the REMU project]], funded by the Swedish Research Council.
+10. *IMPORTANT* -- Chapter 1 of Hvitved's 2012 [[https://drive.google.com/open?id=0BxOaYa8pqqSwbl9GMWtwVU5HSFU][Contract Formalization]] comprehensively surveys the prior art in contract languages. That chapter describes many efforts not listed here.
+11. Chapter 2 introduces Hvitved's language, [[https://drive.google.com/open?id=0BxOaYa8pqqSwbl9GMWtwVU5HSFU][CSL]]. CSL was developed as part of [[http://www.sciencedirect.com/science/article/pii/S156783260800074X][POETS]] under the Danish Advanced Technology Foundation's [[http://web.archive.org/web/20141216182613/http://3gerp.org/][3gERP]] project. The implementation is in Haskell.
+12. Starting in the 2000s a Newcastle Group including [[https://scholar.google.com/citations?user=nBgFa0kAAAAJ][Carlos Molina-Jimenez]], Santosh Shrivastava, [[http://hdl.handle.net/10443/1814][Abdelsadiq]] and Ellis Solaiman worked on formalization and model checking. Languages included [[https://drive.google.com/open?id=0BxOaYa8pqqSwbkFhR3BHOEp5cGM]["X-Contracts"]] and EROP.
+13. In 2017, [[http://www.cs.bath.ac.uk/smartlaw2017/papers/SmartLaw2017_paper_1.pdf][Eric Tjong Tjin Tai]] from Tilburg, NL, published a short paper, "[[http://www.cs.bath.ac.uk/smartlaw2017/papers/SmartLaw2017_paper_1.pdf][Formalizing Contract Law for Smart Contracts]]".
+14. Most contract law concerns itself primarily with deontic logic; but parties must give notice to one another, and we might call that epistemic logic. Some people in Amsterdam have been working on [[https://link.springer.com/chapter/10.1007/978-3-662-48561-3_30][model checking of epistemic logic]].
+
+** Prior Art in Regulations, Compliance, and Rules
+
+Contracts are private law; legislation and regulation are public law. Enterprises have internal laws, called Business Rules.
+
+1. Vinay Gupta (2017) motivated computable legislation in his manifesto [[http://internetofagreements.com/][The Internet of Agreements]]: smart contracts need smart law.
+2. In Australia, [[http://www.governatori.net/research/pubs/index.html][Guido Governatori]] has been doing for legislation what the above efforts do for contracts. http://digital-legislation.net describes computable legislation and regulations; see the [[https://digital-legislation.net/img/concept-map.pdf][marketecture PDF]]. His previous efforts include Regorous and DrContract.
+3. [[https://www.unibo.it/sitoweb/monica.palmirani/en][Monica Palmirani]] chairs the [[https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=legalruleml][OASIS committee]] for [[http://www.governatori.net/papers/2013/ruleml2013tutorial.pdf][LegalRuleML]] (2013 tutorial). See the [[https://lists.oasis-open.org/archives/legalruleml/][mailing list archives]].
+4. The [[http://mirelproject.eu/index.html][MIREL Project]] (Mining and Reasoning with Legal Texts) kicked off in February 2016 and is going strong.
+5. The [[https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=legalxml-econtracts#technical][eContracts]] standard ran from 2000 to 2007.
+6. The [[http://web.archive.org/web/20080422234946/http://www.normeinrete.it/][NormeinRete]] project ran from 1999 to 2007, and has produced work such as [[https://www.researchgate.net/publication/260387643_xmLegesEditor_an_OpenSource_Visual_XML_Editor_for_supporting_Legal_National_Standards][xmLegesEditor]], part of the [[http://www.xmleges.org/eng/index.php?option=com_frontpage&Itemid=1][XMLeges]] suite.
+7. In Pittsburgh (with Matthias Grabmair), the [[http://dl.acm.org/citation.cfm?id=2746096&dl=ACM&coll=DL&CFID=937658292&CFTOKEN=67801372][LUIMA project]] attempts to extract semantics from regulations. See also [[https://www.researchgate.net/publication/266177190_On_Rule_Extraction_from_Regulations][Adam Wyner]]; and [[http://works.bepress.com/hyun_lee/2/][Applying Software Development Techniques to Statutory Drafting]].
+8. [[http://www.akomantoso.org/][Akoma Ntoso]] is a markup XML for legislation.
+9. [[https://en.wikipedia.org/wiki/GJXDM][The Global Justice XML Data Model]] is a data reference model for the exchange of information within the justice and public safety communities.
+10. The [[http://lov.okfn.org/dataset/lov/about][Linked Open Vocabularies]] project may list a few contract/legal ontologies.
+
+The name for this field is "RegTech".
+
+** Some Software Projects, Companies, and Consortia
+
+1. [[https://www.kentlaw.iit.edu/institutes-centers/center-for-access-to-justice-and-technology/a2j-author][A2JAuthor]] is a software tool that delivers greater access to justice for self-represented litigants by enabling non-technical authors from the courts, clerk's offices, legal services programs, and website editors to rapidly build and implement customer friendly web-based interfaces for document assembly.
+2. [[https://en.wikipedia.org/wiki/Business_rules_engine][Business Rules Engines]] have been around forever: [[https://en.wikipedia.org/wiki/Oracle_Policy_Automation][Oracle Policy Automation]] dates back to 2008. [[https://www.neotalogic.com/][Neota Logic]] is a recent entrant. See also [[https://en.wikipedia.org/wiki/Drools][Drools]], [[https://en.wikipedia.org/wiki/Jess_(programming_language)][Jess]], [[https://www-01.ibm.com/software/info/ilog/][iLog]]. IBM Watson's [[http://io9.gizmodo.com/ibms-watson-can-now-debate-its-opponents-1571837847][Debater does a bit of this]].
+3. [[http://benjamingrosof.com/][Ben Grosof]]'s company [[http://www.coherentknowledge.com/][Coherent Knowledge]] commercializes Textual RuleLog (a Prolog variant) as Ergo, to reason through regulatory compliance. See 2016 [[variant of Textual R][YouTube demo]] (15m), 2015 [[https://www.slideshare.net/ruleml2012/ruleml2015-tutorial-powerful-practical-semantic-rules-in-rulelog-fundamentals-and-recent-progress][RuleML slides]].
+4. [[http://www.r3.com/][R3]] has raised a lot of money. They work with banks, because that's where the money is. They run [[https://www.eventsforce.net/r3/frontend/reg/tAgendaWebsite.csp?pageID=1976&ef_sel_menu=44&eventID=9&mode=&eventID=9][summits on smart contracts]] and have published on smart contract templates: [[https://arxiv.org/abs/1608.00771][foundations]] and [[https://arxiv.org/pdf/1612.04496][requirements]] (2016). See [[https://drive.google.com/file/d/0BxOaYa8pqqSwWTAzS3hjZUlVWUk/view?usp=sharing][slides from June 2016]] and [[https://www.r3.com/slides/third-smart-contract-templates-summit-slides.pdf][June 2017]]. Their demo runs ISDA master templates through an end-to-end proof of concept prototype against a DLT/blockchain.
+5. ISDA, the trade association, encourages the use of [[https://www2.isda.org/functional-areas/technology-infrastructure/fpml/][FpML]].
+
+** Prior Art: Non-Computational Contracts
+
+We call this the "document assembly" or "document automation" industry.
+
+*** Commercial efforts
+
+- [[http://www.contractexpress.com/][ContractExpress]] (first website 2002)
+- [[http://www.hotdocs.com/][HotDocs]] (first website 1996, software v4.0)
+- [[http://www.exari.com/][Exari]] (first website 2006)
+- https://www.visirule.co.uk/legal-demos how would you reimplement this system using our tools?
+
+*** Opensource Template and Expert Systems
+
+- [[http://commonaccord.org/][CommonAccord]] (started 2001). Compare [[https://en.wikipedia.org/wiki/JavaScript_templating][text templating systems]] like [[http://handlebarsjs.com/][Handlebars]], and the ur-macro language [[https://en.wikipedia.org/wiki/M4_(computer_language)][m4]].
+- [[http://commonform.github.io][CommonForm]] (started Feb 2015)
+- [[http://docassemble.org/][DocAssemble]] (started Jan 2016) being commercialized by [[http://community.lawyer][community.lawyer]]
+- [[https://www.qnamarkup.org/][QnAmarkup]] by David Colarusso (started 2014)
+- [[http://worksheets.stanford.edu/homepage/directory_publicsector.php][worksheets.stanford.edu]]
+- https://www.metalevel.at/prolog/expertsystems
+
+*** Why aren't template approaches good enough?
+
+- [[https://medium.com/@Legalese/code-is-law-is-code-4492c864f33f][Because you need first-class functions,]] and a formalization that natively supports modal logics in a way that naturally lends itself to formal verification methods.
+
+** Conferences and Books
+
+Skim the proceedings of past conferences.
+
+- FLACOS, the workshop on Formal Languages And Contract-Oriented Software, ran from 2007 to 2012. [[http://flacos07.project.ifi.uio.no/][2007]] ([[http://folk.uio.no/gerardo/report-UiO-366.pdf][proceedings]]), [[http://flacos08.project.ifi.uio.no/][2008]] ([[http://www.cs.um.edu.mt/gordon.pace/Workshops/FLACOS2008/Proceedings.pdf][proceedings]]), [[http://web.archive.org/web/20130118003725/http://www.dsi.uclm.es/retics/flacos09/][2009]] ([[http://www.cs.um.edu.mt/gordon.pace/Research/Papers/flacos2009proceedings.pdf][proceedings]]), [[http://www.sefm2010.isti.cnr.it/workshops_flacos.php][2010]] ([[https://pdfs.semanticscholar.org/a6b8/1666650c9635f52c212a4fb2d481bbc1f02c.pdf][proceedings]]), [[http://flacos11.lcc.uma.es/][2011]] ([[https://arxiv.org/html/1109.2399][proceedings]]), [[http://www.um.edu.mt/ict/flacos2012/][2012]] ([[http://eptcs.web.cse.unsw.edu.au/content.cgi?FLACOS2012][proceedings]]).
+- [[https://nms.kcl.ac.uk/icail2017/][ICAIL]] is in its 16th year; see [[http://dl.acm.org/event.cfm?id=RE294&CFID=947570198&CFTOKEN=59975776][past papers]].
+- [[http://jurix.nl/][Jurix]] is in its 30th year, run by the Dutch [[https://en.wikipedia.org/wiki/JURIX][Foundation for Legal Knowledge and Information Systems]]. See sample proceedings from [[http://jurix.nl/pdf/j91-02.pdf][1991: isomorphic models of separate rules and exceptions in legislation]] by Henry Prakken.
+- summer school: [[https://lawandlogic.org/][Law and Logic]] is a quick intro.
+- [[http://www.springer.com/gp/book/9783319195742][Logic in the Theory and Practice of Lawmaking]] is a much longer textbook.
+- a more comprehensive introduction to logic: http://www.logicinaction.org
+- summer school: [[http://2017.ruleml-rr.org/][RuleML / Rules and Reasoning]]
+- summer school: [[http://deepspec.org/events/ss17detail.html][DeepSpec]]
+- SIGCNL: special interest group, controlled natural languages http://www.sigcnl.org/cnl2020.html
+
+** Researchers
+
+European researchers tend to be CS professors with an interest in law.
+
+US researchers tend to be law professors with an interest in software.
+
+*** European researchers
+
+- [[http://www.cse.chalmers.se/~gersch/][Gerardo Schneider]], CS Professor at the University of Gothenburg, Sweden. (Connected with CL)
+- [[http://www.cs.um.edu.mt/gordon.pace/projects.html][Gordon Pace]], Associate CS/ICT Professor at the University of Malta. ([[http://www.cs.um.edu.mt/gordon.pace/publications.html][publications]])
+- [[http://www.cse.chalmers.se/~cajohn/][John J. Camilleri]], Ph.D. student at Chalmers University of Technology and the University of Gothenburg, Sweden.
+- [[http://www.governatori.net/research/][Guido Governatori]], Senior Principal Researcher at NICTA Queensland, Australia. (Connected with digital-legislation.net)
+- [[http://www.eui.eu/DepartmentsAndCentres/Law/People/Professors/Sartor.aspx][Giovanni Sartor]], Professor, Legal Informatics, European University Institute of Florence.
+- [[https://www.abdn.ac.uk/ncs/people/profiles/azwyner][Adam Wyner]], Lecturer, University of Aberdeen, focuses on modeling argumentation and legal reasoning.
+- [[https://scholar.google.com/citations?user=aPIm2nYAAAAJ][Rinke Hoekstra]], VU University Amsterdam, is the LKIF OWL guy.
+- [[https://nms.kcl.ac.uk/peter.mcburney/blockchain.html][Peter McBurney]] at King's College London is interested in blockchain smart contracts.
+
+*** USA!
+
+- [[http://www.harrysurden.com/][Harry Surden]], Colorado Law School. [[http://lawreview.law.ucdavis.edu/issues/46/2/articles/46-2_surden.pdf][Computable Contracts]], 2012
+- [[http://www.danielmartinkatz.com/][Daniel Martin Katz]], Illinois Tech - Chicago Kent College of Law. [[https://computationallegalstudies.com/][Computational Legal Studies]], co-founder [[https://lexpredict.com/][LexPredict]].
+- [[https://en.wikipedia.org/wiki/John_Henry_Clippinger,_Jr.][John Henry Clippinger]], MIT Media Lab, previously the [[https://cyber.harvard.edu/people/jclippinger][Law Lab]] at Berkman with
+- [[http://www.vermontlaw.edu/directory/person?name=Goodenough,Oliver][Oliver Goodenough]], Vermont Law School, co-founder [[https://www.skoposlabs.com/][Skopos Labs]]; co-authored with
+- [[http://www.flood-dalton.org/mark/][Mark Flood]], [[http://www.treasury.gov/initiatives/Pages/ofr.aspx][OFR]].
+- [[http://www.nyls.edu/faculty/faculty-profiles/faculty_profiles/houman_shadab/][Houman Shadab]], New York Law School, co-founder [[http://clause.io/][clause.io]].
+- Thorne McCarty: [[http://digitalcommons.law.msu.edu/lr/vol2016/iss2/5][one]], [[https://www.researchgate.net/publication/316523910_Probability_Geometry_Logic_A_Triptych_for_a_Learnable_Knowledge_Representation_Language][two]], three
+
+** Organizations with related interests
+
+Mostly in the blockchain / smart contracts space.
+
+- Primavera's [[http://coalalex.org/][Coala Lex]] is interested in relating blockchain smart contracts to the incumbent legal system.
+- [[https://www.hyperledger.org/][Hyperledger]] comes off the Linux Foundation.
+- [[http://www.r3.com/][R3]] was described above.
+- [[http://iaail.org/][IAAIL]] is the International Association for Artificial Intelligence and Law. They run the ICAIL conference.
+- Vinay Gupta and Rob Knight at [[http://hexayurt.capital/][Hexayurt Capital]] are plotting to realize the vision described at http://www.internetofagreements.com/
+- John Armour, Sarah Green, and perhaps others at Oxford are working on something that Meng will learn more about soon.
+- CSIRO: https://www.researchgate.net/publication/37620212_On_compliance_of_business_processes_with_business_contracts and digital-legislation.net
+
+** Other Resources
+
+Legalese's "[[https://legalese.com/v1.0/page/past][Past]]" page attempts to survey the research.
+
+Legalese's "[[https://legalese.com/v1.0/page/present][Present]]" page shows the subset of today's LegalTech industry landscape related to contracts.
+
+* Volume 2 (one semester) -- Introduction to L4
+
+/This section is under construction./
+
+This volume teaches L4. It will take a few months to get productive.
+
+As a newly fledged legal developer, you will be ready to use the language and its tools to read and write contracts-as-code and legislation-as-code.
+
+You will be able to generate visualizations and operate the verification engine.
+
+You can start contributing to opensource libraries of contract code. Share your work on Github.
+
+** Contents
+
+*** Motivation
+
+- Darmstadter, Precision's Counterfeit
+- https://papers.ssrn.com/sol3/papers.cfm?abstract_id=332941
+
+*** Learning Exercise: Shipping Boxes
+
+You and your life partner recently retired from a long and successful career in software engineering. As a retirement job, you decide to open a small grocery convenience store franchise together. You have spent six hours a day pair programming with your partner for the last 30 years, and you think that a change of pace will be pleasant for the two of you. The grocery franchise headquarters sends you these rules:
+
+#+BEGIN_QUOTE
+Delivery is offered for standard or non-standard box when more than half full. Delivery is free when a standard box is more than half full and contains at least $100.00 of groceries. Delivery of all non-standard boxes is charged.
+#+END_QUOTE
+
+You print those three sentences on a piece of A3 poster paper and tell your two junior staffers to post it on the wall next to the eggs and milk. You and your partner go out to run an errand. When you get back, the place is a mess! All the eggs are smashed and the milk is spilled. "What happened?" you ask. One of your junior staff has a black eye; the other has a bruised chin. They answer: "customers kept coming to us with different combinations of boxes, fullness, and grocery value. And we couldn't agree on what the rules meant. We used our discretion, but we would decide similar cases differently for different customers. The customers started to fight with us. They called us racist. Then we started to fight with each other; we called each other stupid. Now we need more eggs."
+
+You say to the staff, "come on, how hard can this be? Take down the poster. We'll do a new version."
+
+Reaching for a fresh sheet of paper, grinning at your partner because it feels like you've done this a thousand times before, you say: "Shall we begin?"
+
+Before you read more about this exercise online, try to rewrite those rules yourself. As this is a learning exercise, feel free to produce multiple representations as you sketch your way toward a goal. Use any formats or languages you like: you can write functions in C, Javascript, or Python. You can write a logic program in Prolog, if you know Prolog. You can set up a system of SQL queries, if you know SQL. You can draw a flowchart, or a decision tree, or a decision table. Or you can draft it in English.
+
+This exercise was first posed on Twitter: https://twitter.com/jrpotvin/status/1264895071549349889?s=20. A few experts in computational law responded by offering implementations in a range of different notations and languages. This is called "programming chrestomathy". In practice, it means, "I need to do some basic thing in a new language I'm learning. I'll go look it up on Rosetta Code".
+
+After you have produced your version of the rules, run these test cases, and compare your outputs to your classmates'.
+
+What happens when:
+1. a     standard box, more      than half full, contains $200 of groceries?
+3. a non-standard box, more      than half full, contains $200 of groceries?
+2. a non-standard box,      less than half full, contains $200 of groceries?
+4. a     standard box,      less than half full, contains $200 of groceries?
+
+Your classmates may produce implementations that disagree with yours: they may return different outputs for the same inputs. You might believe they are wrong; they might believe you are wrong. What is going on? Is there a bug in their code? A bug in your code? A bug in the spec? As experienced programmers, how do you approach this situation?
+
+Discuss.
+
+This exercise introduces a number of concepts:
+- qualifiers as operators: X when Y. Y => X versus Y <=> X.
+- operator binding and precedence; anaphora resolution
+- conjunctive and disjunctive expansion
+- quantifier binding: what is the difference between "delivery of all non-standard boxes is charged", or "all delivery of non-standard boxes is charged"?
+- rule fragments and granularity; clauses and sub-clauses.
+- binary versus ternary logic -- the law of the excluded middle -- the closed-world assumption.
+- natural language versus propositional logic
+- Logical implication versus Gricean implicatures. https://plato.stanford.edu/entries/implicature/#GricTheo
+- ontological representation of concepts
+
+*** Warm-Ups: Trying Out Some Existing Contract Language Environments
+
+- Visit AnaCon, CL, Clang. Observe C-OD.
+- Visit the Basus environment.
+- Visit [[https://drive.google.com/open?id=0BxOaYa8pqqSwbl9GMWtwVU5HSFU][CSL]] and POETS.
+- You should at least learn SQL.
+
+*** The Be-All and End-All of Contract Languages
+
+**** Introduction to L4.
+L4 is basically CL's extensions bolted on top of a CSL core.
+
+**** Using L4 to develop contracts.
+Write your first contract.
+**** Syntax: Control Flow and Clause Composition
+**** Syntax: Rules
+**** Syntax: Genre Extensions
+financial agreements
+
+startup investments
+
+corporate law
+
+employment agreements
+
+NDAs
+
+ESOPs
+
+conveyancing
+
+maritime agreements
+
+**** Review the contract library.
+Jurisdiction customization.
+**** Using L4 to develop legislation.
+Write your first bill.
+Rule defeasibility.
+**** Review the statute library.
+
+*** Secondary Weapon Enhancements
+
+**** Automated Bug-Finding.
+
+Introduction to CTL* and model checking.
+
+http://web.iitd.ac.in/~sumeet/slide3.pdf
+
+Introduction to TLA+.
+http://lamport.azurewebsites.net/tla/book-02-08-08.pdf
+
+Review of Model Checking with CL.
+
+Property verification via model checking.
+
+Conflict detection via model checking.
+***** A Bestiary of Standard Bugs
+
+****** Type Errors.
+Debt vs Equity.
+****** Action Conflicts.
+****** Rule Conflicts.
+****** Loopholes.
+****** Dangling References.
+****** Undefined Terms.
+****** Inconsistency with Legislation.
+
+ambiguity: "These public areas could be any public path, a green or an open space that is managed or maintained for the Government or a public body, and is accessible to the general public without payment of any fee," the authority said.
+
+https://www.todayonline.com/singapore/no-exercising-dog-walking-within-condominiums-common-areas-bca?cid=h3_referral_inarticlelinks_03092019_todayonline
+
+
+****** Model Checking Property Violations.
+****** Incompleteness.
+
+
+**** Multilingual Natural Language Generation.
+
+Introduction to GF.
+
+https://www.youtube.com/watch?v=x1LFbDQhbso
+
+http://www.grammaticalframework.org/~aarne/ud-gf-malta-2017.pdf
+
+See [[https://drive.google.com/open?id=0BxOaYa8pqqSwcGR2TjJLQ0VROE0][Translating Formal Software Specifications to Natural Language]]
+
+How would you go upstream from https://writing.kemitchell.com/2020/04/18/Common-Form-Simplified.html in GF?
+
+***** English Output
+
+***** Italian Output
+
+***** Indonesian Output
+
+***** German Output
+
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=596668
+
+***** aside: why NLP is hard
+
+the missouri challenge:
+http://revisor.mo.gov/main/OneSection.aspx?section=233.285&bid=12522&hl=
+
+
+**** Type Checking.
+
+Sanity checking.
+
+Domain Expressions.
+
+PCSL.
+
+Debt vs Equity example.
+
+**** Visualization. Scenario explorers.
+
+**** Ambiguity.
+
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=332984
+
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1288689
+
+**** Call-Outs to Oracles.
+
+**** Integration with Blockchain-based automated execution environments
+
+
+
+*** Advanced L4
+
+**** The Interpretation Combinator: "It Depends"
+
+**** Ternary Logic: Yes, No, Maybe
+
+**** Building an Expert System in L4
+
+*** Social Implications
+[[http://www.theconglomerate.org/2009/11/a-wiki-for-contracts-transactional-lawyers-wanted.html][Github for Contracts]]
+
+
+* Volume 3 (one to two years) -- Advanced Background
+
+/This section is under construction./
+
+There is enough material in here for a Master's degree. If you go fast, you could cover it all in a year. If you go deep, it might take two.
+
+You will understand the mathematical logic and architectural decisions that inform the design of the L4 language.
+
+You'll be ready to start developing and extending the core language itself, the way Guido van Rossum develops Python, the way Mats develops Ruby, the way DHH developed Rails.
+
+When you attend academic conferences about law and logic, you will be able to follow the arguments of wizards about the fine points of action logics vs state logics; about whether Hvitved loses anything by defining permission in terms of counterparty obligations; about whether CSL, CL, or FL better sidesteps the paradoxes of Standard Deontic Logic; about whether Governatori's defeasible logics map elegantly to SBVR and LegalRuleML.
+
+** First, Be Well
+- https://www.theatlantic.com/education/archive/2018/11/graduate-school-terrible-peoples-mental-health/576769/
+
+** Motivation and Problems
+
+- How to be a Genius (vs a Consultant), with thanks to ed kmett.
+- three generations of document assembly
+
+** Prior Art: Computational Law Projects
+
+We review the above projects in more detail.
+
+** Prior Art: Rule languages. Declarative Programming.
+
+- https://en.wikipedia.org/wiki/Business_rules_engine
+- Governatori: [[https://www.researchgate.net/publication/37617796_Representing_Business_Contracts_in_RuleML][Representing Business Contracts in RuleML]]
+- http://xml.coverpages.org/ruleML.html
+- rules and norms 2009 -- requirements for rule interchange languages
+- conversion between rule languages and execution systems
+  - https://link.springer.com/chapter/10.1007/978-3-642-16289-3_12
+  - https://link.springer.com/chapter/10.1007/978-3-642-16289-3_14
+  - https://link.springer.com/chapter/10.1007/978-3-642-16289-3_25
+  - https://link.springer.com/chapter/10.1007/978-3-642-16289-3_22
+  - 
+
+** Legal Theory
+
+- How to do things with Hohfeld - https://t.co/5XrP6bU2j3?amp=1
+
+from Hohfeld and the Analysis of Rights, in /Jurisprudence/, quoting Rosecoe Pound:
+
+    A power is a legally recognized or conferred capacity of creating, divesting, or altering rights, powers and privileges and so of creating duties and liabilities. It has been called a capacity of altering the sphere of rights orjural relations of persons, using these terms to mean rights in the broader sense. (1959, 93)
+
+contrast https://www.postgresql.org/docs/9.6/sql-grant.html
+
+- https://link.springer.com/article/10.1007/s10506-006-9009-x Sartor on rights and fundamental legal concepts
+- https://www.eui.eu/Documents/DepartmentsCentres/Law/Professors/Sartor/Giovanni-Sartor-CV.pdf
+- https://plato.stanford.edu/entries/legal-obligation/
+
+** Smart Statutes
+- adrian kelly, smartstatute.net
+- openfisca
+- regulation as a platform data61
+- xalgorithms
+- a whole history of interpretive implementers, like
+  - IDIOM
+    https://www.modernanalyst.com/Resources/Articles/tabid/115/ID/3109/The-Role-of-SQL-in-Decision-Centric-Processes.aspx
+http://idiomsoftware.com/docs/deloitte%20brea%20submission%20final.pdf
+http://idiomsoftware.com/pages/solutions/currentrecentprojects.aspx
+
+
+NOVA
+http://www.nova-hub.com/e-government/
+
+https://discuss.digital.govt.nz/d/OI3Xdw68/comment/2258?membership_token=p9cdLqYpaUGiqJhpRQYNNK38&utm_campaign=discussion_mailer&utm_medium=email&utm_source=new_comment
+
+*** Government desire for rules as code
+
+http://ruleml.org/talks/MarkusTriska-LogicInThePublicSector-RuleMLWebinar-2020-03-25.pdf
+
+EU EMIR reporting regulations as code: https://etendering.ted.europa.eu/cft/cft-display.html?cftId=6051
+
+BoE work: https://www.fca.org.uk/innovation/regtech/digital-regulatory-reporting
+
+https://18f.gsa.gov/2020/05/12/rapid-implementation-of-policy-as-code/
+
+*** Past Projects
+- https://www.theaustralian.com.au/business/business-spectator/news-story/learning-from-the-qld-health-payroll-fiasco-/174743f09e91d9550521b04d45d43ac3
+- https://spectrum.ieee.org/riskfactor/computing/software/michigans-midas-unemployment-system-algorithm-alchemy-that-created-lead-not-gold
+- https://www.oag-bvg.gc.ca/internet/English/parl_oag_201805_01_e_43033.html
+
+*** Real World Use of Rules as Code in Singapore
+https://www.sciencedirect.com/science/article/pii/S0926580515000370
+in the BIM field
+Survey of the Rules Landscape: Technologies and Tools
+
+*** Decision Tables, DMN, SBVR, BDDs
+
+- https://www.rand.org/pubs/research_memoranda/RM3306.html
+- https://twitter.com/hillelogram/status/1166429051797549059
+- https://t.co/CEP3jX5WLa?amp=1
+- https://pdfs.semanticscholar.org/750f/ecf4349faeeab9a827a929de37be30f3df26.pdf
+- https://twitter.com/MartinClausen8/status/1253348407105724418
+- http://ceur-ws.org/Vol-2196/BPM_2018_paper_24.pdf A Tool for the Uniqueification of DMN Decision Tables
+- 
+
+
+*** Prolog, Flora-2, RuleLog from Coherent Knowledge; see Jason Morris's work
+constitutive/definitional vs prescriptive/behavioral rules (LegalRuleML)
+http://www.rulespeak.com/en/ and http://www.brsolutions.com/wp-content/uploads/2016/10/TableSpeak-Primer.pdf 
+RAAP, Xalgo, OpenFisca, 
+Background Reading on Smart Statutes
+History – https://repository.law.umich.edu/cgi/viewcontent.cgi?article=1028&context=articles
+https://sci-hub.tw/10.1145/112646.112660#
+https://cgi.csc.liv.ac.uk/~tbc/publications/ICAIL87supp.pdf
+https://www.researchgate.net/publication/317044637_Legal_Ontology_for_Open_Government_Data_Mashups
+https://aiasworkshop.org/AIAS2019.html
+https://sites.google.com/view/legregsw2019/home
+
+
+
+*** better Rules
+
+**** discussion [2019-05-01 Wed] with Brenda in NZ about the benefits thing
+
+https://twitter.com/mattwadd/status/1123270422152318977
+
+https://twitter.com/BR3NDA/status/1123364483479375872
+
+***** legislative source
+http://www.legislation.govt.nz/act/public/1973/0005/latest/DLM409673.html
+
+#+BEGIN_QUOTE
+3 Rates rebate
+
+1. A ratepayer
+     who, at the commencement of a rating year,
+          was the ratepayer of a residential property
+
+   is entitled, on application in that year,
+   to a rebate of—
+
+    (a) so much of the rates payable for that rating year
+        in respect of the property as represents—
+
+        (i)  two-thirds of the amount by which those rates exceed $160,
+
+             reduced by—
+
+        (ii) $1 for each $8 by which
+               the ratepayer’s income for the preceding tax year
+                 exceeded $25,180,
+                   that last-mentioned amount being increased by $500
+                     in respect of each person who was a dependant of the ratepayer
+                       at the commencement of
+                       the rating year
+                         in respect of which the application is made;
+
+        or
+
+    (b) $630,—
+
+    whichever amount is smaller.
+
+(1A) A ratepayer
+       who, at the commencement of a rating year,
+            was the ratepayer of a residential property,
+        and later during that year 
+            becomes the ratepayer of another residential property,
+     is entitled to
+        a rates rebate under subsection (1).
+     The amount of the rebate must be apportioned according to
+     the amount of time the ratepayer was the ratepayer of each
+     residential property during the rating year.
+
+(2) The Governor-General may
+    from time to time, by Order in Council,
+    amend the provisions of subsection (1)
+    by substituting any amount
+                for any amount
+                    specified in that subsection.
+#+END_QUOTE
+
+***** OpenFisca implementation
+https://github.com/ServiceInnovationLab/openfisca-aotearoa/blob/master/openfisca_aotearoa/variables/acts/rates_rebates/rates_rebates.py#L36
+
+***** (beard tax example)
+https://github.com/ServiceInnovationLab/example-rules-as-code/blob/master/legislation.pdf
+
+***** my reactions
+
+****** "there's got to be a better way!"
+
+****** alleged bug in the code
+
+https://twitter.com/BR3NDA/status/1123374702502662144
+
+We put it into open fisca, and its been running in production for nearly 3 years. (3 years of Rebates). I've got a report that its not doing the right numbers just for this year, but not much further info. so I'm rereading that legislation to see they mean by "wrong numbers".
+
+****** what was the bug in the code?
+
+****** test cases
+
+******* test 1
+
+rate_payable = 5000
+ratepayer_income = 50000
+dependents = 4
+
+what is the rebate?
+
+2/3*(5000-160) - (50000 - (25180 + 500*4)) / 8
+
+2/3*(rate_payable-160) - (ratepayer_income - (25180 + 500*dependents)) / 8
+
+
+****** openfisca source code
+
+#+BEGIN_SRC python
+class rates_rebates__rebate(Variable):
+    value_type = float
+    entity = Titled_Property
+    definition_period = YEAR
+    label = "Yearly rebate applied to housing rates."
+    reference = "Obtained from spreadsheet at Department Of Internal Affairs Innovation Lab"
+
+    def formula(titled_properties, period, parameters):
+        income_threshold = parameters(period).entitlements.rates_rebates.income_threshold
+        additional_per_dependant = parameters(period).entitlements.rates_rebates.additional_per_dependant
+        initial_contribution = parameters(period).entitlements.rates_rebates.initial_contribution
+        maximum_allowable = parameters(period).entitlements.rates_rebates.maximum_allowable
+
+        # sum allowable income including all the dependants for property
+        allowable_income = (titled_properties.sum(titled_properties.members('rates_rebates__dependants', period)) * additional_per_dependant) + income_threshold
+
+        # wrapping floor math function is non legislative and only to conform output of variable with existing infrastracture.
+        excess_income = floor((titled_properties.sum(titled_properties.members('rates_rebates__combined_income', period)) - allowable_income) / 8)
+
+        # minus the initial contribution
+        rates_minus_contribution = titled_properties('rates_rebates__rates_total', period) - initial_contribution
+
+        # perform the calculation
+        rebate = rates_minus_contribution - ((rates_minus_contribution / 3) + excess_income)
+
+        # Ensures the results aren't negative (less than 0) or greater than the maximum_allowable
+        return clip(rebate, 0, maximum_allowable)
+#+END_SRC
+
+****** how did the bug arrive in the code?
+
+surfacing bugs is a pain in the ass; consider the case reported in https://www.modernanalyst.com/Resources/Articles/tabid/115/ID/3109/The-Role-of-SQL-in-Decision-Centric-Processes.aspx
+
+We have another example that demonstrates this in practice. A government front-line department had miscalculated average daily pay for a decade, thereby underpaying all termination payments. The average daily pay had to be recalculated for the entire period from original source data. So in the new process, daily accumulators were created for every day that an employee was employed. Then every payment that spanned any given day needed to be added to the day’s average on a pro-rated basis: for instance, weekly and overtime earnings, shift allowances, various monthly, quarterly, and annual adverse condition and other bonuses, annual and long service leave etc. The ‘provenance’ of each and every payment made had to be assessed against the provenance of each individual daily accumulator – that is, the context of every payment to the employee had to be matched with the context of the daily accumulator, while that specific accumulator was being processed.
+
+****** could we do better? how would we know we are doing better?
+
+******* we could rewrite the implementation in OpenFisca
+
+******** a discussion of OpenFisca
+
+https://openfisca.org/doc/coding-the-legislation/25_vectorial_computing.html
+vectorial computing basically means that all formulas operate in the Array monad.
+
+this idea of "vectorial" computing shows up in Prolog and in Alloy as well.
+
+
+******* we could rewrite the implementation in some other pet language
+******* but all of these rewrites would suffer the same problem as the original
+
+******* Dunning-Krueger effect
+
+******* this has been discussed in 
+
+******** https://sci-hub.tw/10.1145/112646.112660#
+
+******* how can we have more confidence in the software we produce?
+
+this is an old question in software engineering
+
+we offer three ways to answer this question:
+- tests (which descends from Zermelo's answer to the Russell Paradox: set theory)
+- correctness by construction (which descends from Russell's answer to the paradox: type theory)
+- natural language isomorphism
+
+tests expand to model checking, SAT/SMT
+
+correctness by construction expand to ITP/ATP CoQ, B, specification languages
+
+these approaches intertwine; Alloy and TLA+ backend to SAT engines and model checkers
+
+natural language isomorphism is a novel approach: it complements the other two.
+
+****** they could have had test cases and illustrative examples
+
+******* test cases might have surfaced the bug
+
+the QuickCheck tradition
+
+(and quickcheck for state machines! https://github.com/advancedtelematic/quickcheck-state-machine/)
+
+tests for undefinedness and errors arising from compositional complexity; see Hillel
+
+****** they could have written it code-first, English-second
+
+******* of course this was too much to ask in 1973
+
+****** but code in what language?
+
+****** anyway, how would this piece of code be represented in other languages?
+
+******* GPLs
+
+******** python
+
+******** typescript
+
+******** scala
+
+******** haskell
+
+******** racket or common lisp
+
+******* rule languages
+
+******** akoma ntoso
+
+doesn't quite cut the mustard
+
+******** ruleml and legalruleml
+- [[https://www.academia.edu/25774829/LegalRuleML_Design_Principles_and_Foundations?email_work_card=view-paper][legalruleml design principles and foundations]] includes a good introduction to defeasible reasoning
+- reasoning with legalruleml https://ts.data61.csiro.au/publications/nicta_full_text/9310.pdf
+******** SBVR
+
+******** DMN
+
+******** PL/SQL
+
+******** xalgorithms
+
+******** prolog
+https://www.amzi.com/articles/prolog_under_the_hood.htm
+******** flora-2
+
+******** LPS logicalcontracts
+
+- the event calculus explained, shanahan https://www.doc.ic.ac.uk/~mpsha/ECExplained.pdf
+- https://pdfs.semanticscholar.org/180f/64c82ca34be6ec016ccaf09cd1b3ccb74248.pdf USING THE EVENT CALCULUS FOR TRACKING THE NORMATIVE STATE OF CONTRACTS
+
+
+******** worksheets / symbium
+
+******** drools and others in the JRS-94 family
+
+******** back to openfisca
+
+****** Let's introduce a better way: L4 brings NLG and FV
+
+****** representing the rule in L4 is no less readable
+
+show
+
+****** alternative verbosities are available, in various styles of compactness vs normalization
+
+****** thanks to the NLG it is possible to produce natural language
+
+http://www.grammaticalframework.org/doc/tutorial/gf-tutorial.html#toc134
+
+****** thanks to the reversibility of GF it is possible to parse natural language
+
+library for arithmetic
+
+library for deontics
+
+library for synonymous locutions, synonymous vs non-synonymous rearrangements
+
+****** contra Coode (1845) and Adams (2018), real-world legal grammars require multiple ways to say the same thing
+
+in other words, they require synonyms; though sometimes the synonyms are not quite synonyms, because of nuance; as we have just shown, ha ha.
+
+see also vagueness vs ambiguity in Claire Hill and in Layman Allen
+
+****** the first thing that L4 gives drafters is rich IDE support through LSP
+
+****** Here is an editor that produces natural language through the magic of Language Server Protocol
+
+******* pedagogy: we implement a simple version of L4 constrained to a theory of conditional predicates * integer and real arithmetic
+
+this is a larger thing
+https://www.researchgate.net/publication/221665834_The_GF_Mathematics_Library
+
+******* here is the abstract language
+
+******* here is the concrete syntax
+
+******* here is the GF grammar
+
+******* actually here are multiple GF grammars; some more purple, some more plain
+
+******* here is the LSP working with emacs
+
+******* here is the LSP working with VS Code
+
+******* Eclipse?
+
+http://www.molto-project.eu/sites/default/files/freerbmt2012.pdf
+
+for our Eclipse specialist to review:
+- 2012, MDE Basics with a DSL Focus
+- https://link-springer-com.libproxy.smu.edu.sg/chapter/10.1007/978-3-642-30982-3_2
+- https://link-springer-com.libproxy.smu.edu.sg/content/pdf/10.1007%2F978-3-642-30982-3_2.pdf
+
+******* it's really the LSP language server that knows how to do cool tricks.
+
+******** it can do live output to english; as you type, the english changes.
+
+(well, every time your buffer contents are syntactically valid)
+
+******** autocompletion
+
+******** automated testing
+
+******** live output to French!
+
+******** each automated test brings up an explainer
+
+******* here is an explainer written in Flora-2 that says why something is the way it is.
+
+******* here is an extraction to an expert system shell, that automatically asks relevant questions
+
+like docassemble?
+
+******* here is a debugger for the language that prints the state of a rule during execution
+
+******* here is the test suite using Gherkin / Zenroom syntax
+
+******* here is a more advanced test suite that uses some TLA+ / LTL / CTL / Alloy syntax for assertions
+
+******* here is the specification transpiled to a form suitable for running in a corresponding FV engine
+
+******* here is the FV engine automatically finding bugs in your regulation
+
+******* here is the abstract language compiling to all the other languages we have visited so far
+
+******* here is the abstract language compiling to a visualization
+
+see what haapio and passera and hagan have been working on
+
+******* but wait, there's more; let's also compile it to blockchain languages also
+
+******** ethereum
+
+******** bitcoin
+
+******** adjoint
+
+******** kadena
+
+******** agoric
+
+******** tezos
+
+******** agrello
+
+******** zenroom
+
+******** etc
+
+******* a summary of benefits
+
+******** one input, multiple outputs
+
+bringing the benefits of controlled natural languages
+
+******** features useful to the drafter
+
+IDE livecoding
+
+reading it in natural language
+https://www.sciencedirect.com/science/article/pii/S0167642314000069?via%3Dihub
+
+test suites
+
+code sharing, working with other jurisdictions
+
+******** features useful to the user
+
+interface; expert system; explainer; who to complain to
+
+******** features useful to the power user
+
+how to submit a pull request in your current democracy
+
+******** features useful to industry
+
+"what-if" scenario modeling
+
+******* open questions
+
+******** should we make more use of Attempto
+
+codeco
+https://link.springer.com/article/10.1007%2Fs10849-012-9167-z
+
+acerules
+https://github.com/tkuhn/AceRules
+
+but acerules is not enough to do the LSAT
+
+******** let us get advice from Schneider, Inari, Camilleri
+
+** Use Case: terms of service, privacy policies
+
+- investment agreements. debt and equity. convertibles.
+- procedural regulatory compliance. directors, members, resolutions, preemptive notices.
+- [[https://en.wikipedia.org/wiki/Creative_Commons_Rights_Expression_Language][ccREL]] ([[https://www.w3.org/Submission/ccREL/][w3c]])
+- [[https://www.w3.org/community/odrl/][ODRL]]
+- http://uterms.software/
+- http://openminted.eu/
+- http://remu.grammaticalframework.org/contracts/ is the index to a lot of work product from REMU including CNL and C-OD
+- http://remu.grammaticalframework.org/contracts/converter/
+- http://remu.grammaticalframework.org/retreat/2016/ workplan for june 2016 to 2017
+
+*** Other Requirements and Use Cases
+
+**** A Party has a Right during qualifying portions of the business process
+
+Our expression language gives a way to concisely filter the business process states and state transitions for party rights.
+
+*** Running Code
+
+https://twitter.com/roundtablelaw/status/1201186332120367104?s=21
+
+OWL and LKIF and all that are well and good but how do we reduce this stuff to practice? What does it even mean to reduce a specification language to practice?
+
+** Use Case: corporate secretarial paperwork
+
+considered as a planning problem
+
+Planning as a field of AI
+- https://en.wikipedia.org/wiki/Satplan
+
+
+** Introduction to Legal Ontologies
+
+http://people.cs.ksu.edu/~abreed/CIS890/
+
+the two books:
+- [[https://www.springer.com/gp/book/9789400714960][legal ontology engineering]]
+- [[https://www.springer.com/gp/book/9789400701199][approaches to legal ontologies]]
+
+OWL vs SUMO.
+- http://www.adampease.org/OP/Pitfalls.html
+
+- https://www.sciencedirect.com/science/article/pii/S0957417419302398
+- http://www.loa.istc.cnr.it/dolce/overview.html
+- https://github.com/RinkeHoekstra/lkif-core
+- https://ontouml.readthedocs.io/en/latest/intro/ufo.html
+- http://www.mkbergman.com/category/description-logics/
+- http://www.adampease.org/OP/
+- https://www.youtube.com/watch?v=EFQRvyyv7Fs introduction to SUMO
+- https://drive.google.com/open?id=1qtnDwcpdOdu3xvtjQ7j5GizC827Ht2_t Modeling Legal Terminology in SUMO 2020
+- https://github.com/ontologyportal/sumo/blob/master/Law.kif
+- SUMO goes with SigmaKEE https://github.com/ontologyportal/sigmakee
+
+"multi-agent systems"
+- file:///Users/mengwong/Downloads/Jade_-_A_Java_Agent_Development_Framework.pdf
+- abandoned: http://www.fipa.org/specs/fipa00086/XC00086D.html
+- https://www.researchgate.net/publication/228517710_The_FIPA-OS_agent_platform_Open_source_for_open_standards
+
+
+
+** Introduction to Business Modeling
+
+- http://www.omg.org/spec/SBVR/index.htm
+- http://www.omg.org/spec/BPMN/index.htm
+- http://www.omg.org/spec/CMMN/index.htm
+- http://www.omg.org/spec/DMN/
+- https://www.slideshare.net/dgagne/bpmncmmndmn-an-intro-to-the-triple-crown-of-process-improvement-standards-denis-gagne
+- http://www.academia.edu/download/30698417/cyberlaws_2011_2_20_70022.pdf Law Modeling with Ontological Support and BPMN: a Case Study (very important!)
+- https://dl.acm.org/doi/10.1109/RELAW.2008.6
+- https://dl.acm.org/doi/abs/10.1109/RELAW.2008.8
+- [[https://en.wikipedia.org/wiki/Object_Constraint_Language][OCL]] is part of [[https://en.wikipedia.org/wiki/Unified_Modeling_Language][UML]]; see [[https://orbilu.uni.lu/bitstream/10993/15339/1/oclr-report.pdf][OCLR]] for temporals. See [[https://drive.google.com/open?id=1-8J77Z89gQEYJg7fh_rbFE8fT2eYOWxy][an authoring tool for informal and formal requirements]]. See [[https://www.revolvy.com/page/Unified-Modeling-Language][introduction to UML by Revolvy]].
+- conversion of BPMN to natural language: see [[http://www.henrikleopold.com/publications/][Henrik Leopold]]'s [[http://www.henrikleopold.com/downloads/][software]].
+- CWM: is anybody actually using this stuff? https://www.omg.org/spec/CWM/About-CWM/
+- https://www.flokzu.com/blog/en/category/process-templates
+
+
+*** modal extensions to BPMN
+
+**** time
+https://hal.archives-ouvertes.fr/file/index/docid/921390/filename/iiWAS_2013.pdf
+
+**** deontics
+
+**** epistemics
+message-passing
+
+*** Modeling contracts in BPMN, UML, etc
+
+- https://www.researchgate.net/publication/228672416_Contract_workflow_model_patterns_using_BPMN
+- http://tyconmismatch.com/papers/nfm2017_specgen.pdf
+- https://www.researchgate.net/publication/43669248_Deriving_Operation_Contracts_from_UML_Class_Diagrams
+- http://ceur-ws.org/Vol-363/paper16.pdf
+- http://ceur-ws.org/Vol-363/paper15.pdf
+- https://ts.data61.csiro.au/publications/nicta_full_text/9310.pdf enabling reasoning in legalruleml
+
+*** Logical Spreadsheets
+
+http://logic.stanford.edu/people/mkassoff/papers/introtologicalspreadsheets.pdf
+
+
+*** consider a simpler DSL for BPMN itself
+- perhaps along the lines of https://bestofjs.org/projects/flowchartjs
+- previous efforts and frameworks for DSL development include https://www.researchgate.net/publication/282286236_Montages_-_Engineering_of_Computer_Languages which was done for ContractML
+
+** formal BPMN
+
+BPMN 2.0’s lack of a formal semantics has been addressed by multiple authors:
+- LTS :: https://link.springer.com/chapter/10.1007/978-3-319-28934-2_9
+- OCL :: https://www.researchgate.net/publication/338300241_Enhancing_the_Correctness_of_BPMN_Models
+- Petri Nets :: https://link.springer.com/chapter/10.1007/978-3-319-23063-4_4 and https://www.sciencedirect.com/science/article/pii/S0020025516322782 (RECATNets)
+- logic programming :: https://link.springer.com/chapter/10.1007/978-3-319-03677-9_5
+- sim kimsia's gist collecting BPMN verifiers: https://t.co/f2dDHveQKu?amp=1
+
+
+** The Interaction of Business Modeling and Games
+
+- https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20180005540.pdf
+- thread about Love Letter: https://twitter.com/mengwong/status/1216031913032347649
+
+** Introduction to Semantic Web and Rules
+- Ben Grosof's tutorial from AAAI13 : http://www.mit.edu/~bgrosof/paps/talk-aaai13-rules-tutorial.pdf
+- https://www.w3.org/Submission/SWRL/
+- OWL
+  - https://www.academia.edu/2812947/Judging_Amy_Automated_legal_assessment_using_OWL_2?email_work_card=view-paper
+  - https://core.ac.uk/download/pdf/78530263.pdf#page=65
+  - 
+- CommonRules
+- http://kaon2.semanticweb.org/
+- 
+- https://github.com/josd/eye/blob/master/README.md
+- http://hackage.haskell.org/package/swish
+- KBpedia http://www.mkbergman.com/2168/woohoo-kbpedia-is-now-open-source/
+- https://en.wikipedia.org/wiki/R2ML
+- RIF :: https://www.w3.org/2005/rules/wiki/RIF_FAQ
+
+** Introduction to Business Rules
+- history, bruce silver: https://www.youtube.com/watch?v=u04dVheZOws
+- OPA
+- Drools / Jess
+- iLog
+- DataLog / RuleLog / [[http://flora.sourceforge.net/tutorial.html][Flora-2]] / CoherentKnowledge
+- some early history behind RIF: https://www.w3.org/Policy/pling/wiki/images/1/14/RIF-PLING-TPAC08.pdf
+
+** Introduction to KRR
+
+*** Three Kinds of Reasoning
+
+https://www.emse.fr/~zimmermann/Teaching/KRR/intro-krr.pdf
+
+|-------+-------+--------+-----------+-------------+----------------------------------------------------+-----------------------------------------|
+| cause | rules | effect | reasoning | produces    | technique                                          | also                                    |
+|-------+-------+--------+-----------+-------------+----------------------------------------------------+-----------------------------------------|
+| given | given |        | deductive | conclusions | logic                                              | law                                     |
+|-------+-------+--------+-----------+-------------+----------------------------------------------------+-----------------------------------------|
+| given |       | given  | inductive | theories    | ML, pattern recognition                            | science                                 |
+|-------+-------+--------+-----------+-------------+----------------------------------------------------+-----------------------------------------|
+|       | given | given  | abductive | models      | SAT solving, constraint solving, backtracking, ASP | jokes. engineering. applied psychology. |
+|-------+-------+--------+-----------+-------------+----------------------------------------------------+-----------------------------------------|
+|       |       | given  |           |             |                                                    | history                                 |
+|-------+-------+--------+-----------+-------------+----------------------------------------------------+-----------------------------------------|
+|       | given |        |           |             |                                                    | religion                                |
+|-------+-------+--------+-----------+-------------+----------------------------------------------------+-----------------------------------------|
+| given |       |        |           |             |                                                    | art                                     |
+|-------+-------+--------+-----------+-------------+----------------------------------------------------+-----------------------------------------|
+
+
+https://twitter.com/clairlemon/status/1253226791163981824?s=21
+
+
+| Reasoning | Question | Examples | Problems | Primary Programming Paradigm |
+|-----------+----------+----------+----------+------------------------------|
+| Deductive |          |          |          | Logic                        |
+|-----------+----------+----------+----------+------------------------------|
+| Inductive |          |          |          | Machine Learning             |
+|-----------+----------+----------+----------+------------------------------|
+| Abductive |          |          |          | Answer Set                   |
+|-----------+----------+----------+----------+------------------------------|
+
+
+*** Previous Work
+Knowledge representation and reasoning
+
+http://www.mirelproject.eu/publications/D1.1.pdf
+
+e.g. the representation of time: http://ceur-ws.org/Vol-1875/paper2.pdf
+
+http://www.molto-project.eu/workplan/knowledge-engineering
+
+OWL, RDF, SparQL
+
+https://en.wikipedia.org/wiki/SNePS
+
+OWL goes to F-Logic: https://arxiv.org/pdf/0808.1721.pdf
+
+OpenCyc
+
+npacerules
+
+https://wiki.opencog.org/w/AtomSpace
+
+ape lexicon
+
+Grakn
+
+https://en.wikipedia.org/wiki/Curry_(programming_language)
+
+decheem.io
+
+https://carneades.github.io/
+
+c&c boxer
+- https://linguistics.stackexchange.com/questions/21099/cc-boxer-source-code
+- https://github.com/chrzyki/candc
+
+** On Logic Languages
+
+- IKR: The IKRIS Knowledge Language:
+  - http://www.ihmc.us/users/phayes/IKL/GUIDE/GUIDE.html
+  - http://www.jfsowa.com/ikl/Hayes06.ppt
+  - http://www.jfsowa.com/ikl/
+- https://en.wikipedia.org/wiki/Common_Logic
+- Flora-2
+- Prolog
+  - and minimal extensions http://www.jekejeke.ch/idatab/doclet/prod/en/docs/15_min/10_docu/02_reference/07_theory/01_minimal/package.html
+- Aspic+ https://dspace.library.uu.nl/handle/1874/304259
+
+** Prior Art: Computational Contracts
+
+- Previous Contract Languages. FormaLex, CL, CSL. See A High-Level Survey of Prior Art in Contracts, above.
+
+- https://github.com/CatalaLang/catala
+
+- Lawsky, A Logic for Statutes
+
+- https://www.researchgate.net/publication/318969100_From_an_Ontology_of_Service_Contracts_to_Contract_Modeling_in_Enterprise_Architecture
+
+** Introduction to Computational Linguistics
+
+- Natural Language Processing. NLTK.
+  - spacy.io
+  - https://bitbucket.org/coherentknowledge/ergonlp
+  - https://www.lexpredict.com/2017/07/03/open-sourcing-contract-analytics-platform/
+  - historical approaches: prolog. contractexpress.
+- Introduction to Grammatical Framework.
+  - grammaticalframework.org
+- Natural Language Generation.
+  - http://www.molto-project.eu/biblio/deliverable/ace-grammar-library
+  - http://rewerse.net/deliverables/m12/i1-d2.pdf SBVR and ACE.
+  - http://attempto.ifi.uzh.ch/site/resources/
+  - https://github.com/Attempto/ACE-in-GF
+- https://publications.europa.eu/en/web/eu-vocabularies/th-concept/-/resource/eurovoc/2335?target=Browse
+
+- Text Planning.
+  - docassemble; hub.clerical.ai
+- https://amr.isi.edu/index.html
+- framenet, wordnet, etc.
+  - https://framenet2.icsi.berkeley.edu/fnReports/data/frameIndex.xml?frame=Required_event
+  - https://framenet2.icsi.berkeley.edu/fnReports/data/frameIndex.xml?frame=Desirable_event
+  - asian corpora:
+    - http://compling.hss.ntu.edu.sg/ntumc/
+    - https://anlp.jp/proceedings/annual_meeting/2018/pdf_dir/C3-5.pdf
+    - http://lrec-conf.org/workshops/lrec2018/W29/pdf/8_W29.pdf
+
+- bringing it all together
+  - https://johnjcamilleri.com/academic/publications/fyp2010.pdf
+  - john camilleri's phd thesis
+
+- typed applicatives! Basically ~<*>~ but polymorphic.
+
+  - "i ate and drank the food and wine"
+    - "i ate the food"
+    - and "i drank the wine"
+
+  - "i hereby undertake and warrant that certain facts about the past are true and to perform certain actions in the future"
+    - "i hereby undertake to perform certain actions in the future"
+    - "I hereby warrant that certain facts about the past are true"
+
+** Introduction to Mathematical Logic
+
+- [[http://repository.cmu.edu/cgi/viewcontent.cgi?article=1923&context=compsci][On the Unusual Effectiveness of Logic in Computer Science]]
+- https://www.cs.toronto.edu/~sacook/csc438h/
+- Predicate Logic.
+- Modal logics. Kripke structures. Deontic, Epistemic, Temporal, Dynamic Logics. Mu-modal logic.
+- Standard Deontic Logic and its paradoxes.
+- Defeasible Logic: Governatori. Finite Automata.
+- Prolog and OWL together: DR-PROLOG [4] is an implementation of a system for defeasible reasoning on the web, specifically aimed at the semantic web technologies allowing reasoning with rules and ontological knowledge written in RDF Schema (RDFS) or OWL. (https://www.researchgate.net/publication/220254273_A_review_of_current_defeasible_reasoning_implementations 2008)
+
+
+What does all this mean for us?
+
+Applying these concepts to the legal domain, doing some violence in translation along the way, we might simplify to say:
+
+- Epistemic Logic :: Did Party A give notice to Party B about Fact F? Party C represented & warranted, in a contract already signed, that they had no knowledge that Fact F might be true; they believed it was false. Can Party D demonstrate that Party C was lying? Perhaps if Party D gave Party C notice about Fact F being true before the contract was signed.
+
+https://en.wikipedia.org/wiki/Speech_act#In_multiagent_universes
+
+- Deontic Logic :: Is Party A obliged to perform act X by deadline D?
+- Temporal Logic :: Is condition C /always/ or /sometimes/ true across a time span T1 to T2?
+- Defeasible Logic :: You have to do what Dad tells you to do, unless Mom tells you differently.
+- Dynamic Logic :: Let's model the future as a set of actions and assertion/invariants that hold or don't, after those actions. If Party A performs action X, then they must perform action Y immediately afterwards or they will breach the contract. If Party A checks in luggage weighing more than 25 kg, they must immediately pay a $50 surcharge, or they will not be allowed on the flight.
+- Kripke structures :: Once this assertion is true, how do we know it will always be true? What could make it untrue? What can we know about related assertions?
+- Petri Nets :: Visualize our future state transitions.
+
+
+** Introduction to Functional Programming.
+
+- Introduction to Functional Programming. haskellbook.com.
+
+consider the "cases not exhaustive" from haskell -- this should be a key feature of our language, but beyond sum types, to any kind of theory domain partitioning. basically https://ndmitchell.com/downloads/paper-qualifying_dissertation-30_jun_2005.pdf but for law. every time, every possible action by every party, is it accounted for?
+
+https://www.reddit.com/r/haskell/comments/chcd9j/why_is_nonexhaustive_patterns_in_case_a_runtime/
+
+** Applications in AI
+
+*** Apollo vs Dionysus
+- The [[https://docs.google.com/presentation/d/1xrQebPOlxgnRumPN77fa72wxzvK1m4FOKDOs_03UHP4/pub?start=false&loop=false&delayms=3000][A.I. Dichotomy]]: Symbolic vs Statistical, Logic vs Emotion, Apollo vs Dionysus
+
+*** explainability
+- http://clasp.gu.se/news-events/conference-on-logic-and-machine-learning-in-natural-language--laml-/invited-abstracts/aarne-ranta
+- http://www.law.nyu.edu/centers/ili/events/algorithms-anKd-explanations
+- https://arxiv.org/pdf/1811.01439.pdf
+- 
+
+** Programming Language Theory
+
+- Programming Paradigms.
+- Types and Programming Languages.
+- Automated Theorem Proving
+
+http://www.leancop.de/mleancop/
+https://www.academia.edu/36734121/A_Simple_Semi-automated_Proof_Assistant_for_First-order_Modal_Logics (see citation 5 in particular)
+
+Positional-Slotted, Object-Applicative RuleML (PSOA RuleML) permits relation applications with optional object identifiers and, orthogonally, arguments that are positional or slotted. The resulting positional-slotted, object-applicative (psoa) terms and rules over them were given a first-order model-theoretic foundation (paper, slides), blending slot distribution, as in RIF, with integrated psoa terms, as in RuleML. In order to support reasoning in PSOA RuleML, the implemention of the PSOA2TPTP translator is in progress, which maps PSOA RuleML knowledge bases to the TPTP format, as widely used for theorem provers. With this translator, reasoning in PSOA RuleML is available using the VampirePrime prover. The composition of PSOA2TPTP and VampirePrime to PSOATransRun is being developed at PSOA RuleML.
+http://ruleml.org/index.html
+
+- Agda, Idris and CoQ
+- Dependent Types in Haskell
+- Dependent Types in GF
+
+** Model Checking and Formal Verification
+
+- overview and introduction: https://twitter.com/hillelogram/status/1228925795860729857
+- https://www.youtube.com/watch?v=V1ymYoP1j7w imandra by aesthetic integration
+- simple constraints: https://www.metalevel.at/prolog/clpz
+- advanced constraints: http://constraint-handling-rules.org/
+- applied to argumentation theory: https://content.iospress.com/articles/argument-and-computation/aac039
+- Used in the 1990s for legal-like computations: http://www.informatik.uni-ulm.de/pm/fileadmin/pm/home/fruehwirth/drafts/ki-heft-final.pdf
+- application to business: https://dtai.cs.kuleuven.be/projects/CHR/files/Elston_SecuritEase.pdf
+- planning: https://www.swi-prolog.org/pack/list?p=pddl_valoptic_api and https://github.com/RobertSasak/Prolog-Planning-Library
+- http://herbrete.vvv.enseirb-matmeca.fr/IF311/lecture1.pdf http://herbrete.vvv.enseirb-matmeca.fr/IF311/
+- https://www.hillelwayne.com/post/why-dont-people-use-formal-methods/
+- https://medium.com/@jason_90344/utterly-unpersuasive-formal-methods-and-law-bb8ecf048374
+- on cleanroom: http://infohost.nmt.edu/~al/cseet-paper.html
+- Model Checking. CTL* and LCTL. [[https://ericpony.github.io/z3py-tutorial/guide-examples.htm][Z3 (in Python) -- this is a recommended tutorial intro to SMT]]. [[http://smtlib.cs.uiowa.edu/language.shtml][SMTLIB2]]. [[https://www.amazon.com/Practical-TLA-Planning-Driven-Development-ebook/dp/B07FMHX7M2/][TLA+]]. Alloy. IVy. Uppaal. NuSMV. [[https://yurichev.com/writings/SAT_SMT_draft-EN.pdf][SAT/SMT]]. https://www.key-project.org
+- VTSA summer school: http://resources.mpi-inf.mpg.de/departments/rg1/conferences/vtsa17/index.html
+- SAT/SMT summer school: http://www.sc-square.org/CSA/school/programme.html
+- using XSB Prolog's possibly withered LMC model checking feature
+- FormaLex
+- IronFleet: https://www.microsoft.com/en-us/research/publication/ironfleet-proving-practical-distributed-systems-correct/
+- VERDI: http://verdi.uwplse.org/
+- https://drive.google.com/open?id=1ZiDsstQj8Dt32mDg1xtwKrTWhx3sbcsJ
+- list of verification and synthesis tools
+  - https://github.com/johnyf/tool_lists/blob/master/verification_synthesis.md
+  - https://www.cs.rice.edu/CS/Verification/Software/software.html
+
+** Relatable (or at least real-world) Examples:
+
+*** nonself design bug
+https://www.aclu.org/blog/juvenile-justice/minnesota-prosecutor-charges-sexting-teenage-girl-child-pornography
+
+sibling(X,Y) :- parent(X,Z), parent(Y,Z).
+
+oops, now i am my own sibling
+
+sibling(X,Y) :- parent(X,Z), parent(Y,Z), X \== Y.
+
+
+** Our Contribution
+
+- https://en.wikipedia.org/wiki/Cognitive_dimensions_of_notations
+- Introduction to Contract Law.
+- The Clause Construct.
+- Definitions.
+- The Interpretation Combinator: Definitions for the purpose of a context.
+- Legal idioms.
+- Ambiguity vs vagueness.
+- Oracles: calling the expert witness forward in time.
+- Extending the core language with subdomain expression languages.
+
+- Language Features for L4 concrete syntax
+
+  - specification rather than implementation language :: supports refinement to multiple targets
+
+  - declarative rather than imperative :: though certain rules may be described "within a 'do' monad"
+
+  - progressive refinement may be considered an extremely verbose syntax :: imagine giving a class definition using one sentence for each keyword, one paragraph for each attribute (although subclassing represents one approach to progressive refinement which is more cognate). There is some meat to this idea: maybe one family of ideas is (unit testing with manual tests, set-theoretic approaches, case based reasoning); another is (reasoning from principles, type-theoretic approaches, ATP/ITP, property-based testing); is there a convergence between these schools of thought?
+
+  - rewriting :: refactoring at the level of macros
+
+  - counterfactual :: see for example companies act regarding waiver of AGM: many rules operate as if the AGM had not been waived
+
+  - principled reasoning :: overaps with defeasibility, because one principle can override another, and there can be meta meta rules; this reminds me of the metarule logic developed by that japanese dude who presented at salzburg 2017
+
+  - default rules :: lurking in the background, provided by legislation and by case law
+
+  - defeasibility :: every predicate is augmented with an invisible "well, unless"; this interacts with the "rewriting" feature
+
+  - case-based vs rule-based :: some rule decisions can be punted to something more resembling ML case-based reasoning, with KNN etc; see CMMN from OMG
+
+  - introspection :: any rule which involves gender shall be adjusted to be gender neutral
+
+
+* Volume 4 (three to six years) -- Research Directions
+
+After mastering the above subjects, pick an advanced topic and dive in. You may spend several years [[http://matt.might.net/articles/phd-school-in-pictures/][advancing the state of the art]]. For extra credit, move to Northern Europe and attach yourself to one of the professors in the field. You will probably come away with a Ph.D.
+
+- Temporal Issues in Legislative Versioning. Computing legality over time. Introduction to bitemporal databases. Applications to legal scenarios. See [[https://www.calc.ngo/sites/default/files/loophole/jul-2015.pdf][p 20 of Loophole Jul 2015]].
+- [[http://www.springer.com/gp/book/9783319195742][Logic in the Theory and Practice of Lawmaking]]: textbook. Pre-CS legal scholarship. Legal formalism vs legal realism. Types of rules. Complete vs Incomplete Contracts. Allocation of decision rights under uncertainty: I cut, you choose.
+- https://bargaininggame.wordpress.com/2015/08/23/are-there-constitutive-rules/
+- https://www.semanticscholar.org/paper/A-Logic-Based%2C-Reactive-Calculus-of-Events-Chesani-Mello/f484498e8fbce57c8a00e7886f1ddf25e7644a31
+- http://lps.doc.ic.ac.uk/
+- NLG: Contract drafting. Ken Adams. Tina Stark. Quill. Text planning. [[https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2932333][Interpretive caveats]].
+
