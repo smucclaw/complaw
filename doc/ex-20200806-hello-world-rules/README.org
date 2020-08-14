@@ -135,7 +135,7 @@ The rule base encodes the original decree in a semantically lossless, machine-re
    DEEM Item.isLegalPotato
    WHEN Item.isPotato
     AND Item.wasPlanted ~ anyOf LegalDates
- 
+
      RULE 4
    DEFINE LegalDates
     BEING a list of dates each called LegalDate
@@ -379,10 +379,10 @@ flags startcat = Rule ;
 
 cat
   Rule ;        -- The start category
-  Term ;        -- "a potato", "farmer John Smith"
+  Party ;       -- "farmer Meng"
+  Object ;      -- "a potato"
   Action ;      -- "trade a potato", "be legal"
-  Deontic ;     -- "may/must/shan't …"
-  [Deontic]{2} ; -- List with min. 2 elements
+  Modal ;       -- "may/must/shan't …"
 #+end_src
 
 In addition to categories, a GF abstract syntax has _functions_. Let's start with the most important one.
@@ -390,52 +390,124 @@ In addition to categories, a GF abstract syntax has _functions_. Let's start wit
 #+begin_src gf :noweb-ref gfPotato
 fun
   MkRule
-    : Int        -- rule #
-    -> Term      -- party
-    -> [Deontic] -- what they may/shan't do
+    : Party      -- party
+    -> Modal     -- may/must/shant
+    -> Action    -- what they may/must/shan't do, e.g. "trade potatoes"
     -> Rule ;    -- "Rule 1: Meng shan't trade a potato."
 #+end_src
 
-A number, a party and a list of actions make up a rule. Now let us see some terms and actions.
+A party, a modal and an action make up a rule.
+
+Now let us define some parties. We want any name to be a possible party, so we add a function `MkParty` that takes a string literal to a party.
+In addition, we define two special parties `Nobody` and `Everybody`.
 
 #+begin_src gf :noweb-ref gfPotato
--- Some terms
-  Party : String -> Term ;  -- Party name can be any string, e.g. "Meng"
-  Potato : Term ;           -- "a potato"
+-- Parties
+  MkParty : String -> Party ;  -- Party name can be any string, e.g. "Meng"
+  Nobody,                      -- Nobody and Everybody are special Parties
+  Everybody
+    : Party ;
+#+end_src
 
--- Some actions
+Next let us define some modals: *may*, *must* and *shan't*. These are going to be used together with actions.
+
+#+begin_src gf :noweb-ref gfPotato
+-- Modals
+  May,                      -- "may (plant a potato)"
+  Must,                     -- "must (plant a potato)"
+  Shant                     -- "shan't (plant a potato)"
+   : Modal ;
+#+end_src
+
+Finally some actions. Verbs like *Trade* and *Plant* take an object, so their type signature is `Object -> Action`. Then we define *Potato* and *Cabbage* as objects.
+
+#+begin_src gf :noweb-ref gfPotato
+-- Actions
   Trade,                    -- "trade a potato"
   Plant                     -- "plant a potato"
-   : Term -> Action ;
+   : Object -> Action ;
 
--- Deontics
-  May,                      -- "may [plant a potato]"
-  Must,                     -- "must [plant a potato]"
-  Shant                     -- "shan't [plant a potato]"
-   : Action -> Deontic ;
+-- Objects
+  Potato : Object ;         -- "potato"
+  Cabbage : Object ;        -- "cabbage"
 #+end_src
 
-With this grammar fragment, we can generate a tree like this. (There's no concrete syntax yet -- exercise for the reader!)
+With this grammar fragment, we can generate trees like this. (There's no concrete syntax yet -- we'll do it soon!)
 
 #+begin_src
-      MkRule : Rule
-      /     |     \
-     /      |      \
-    1     Party    BaseDeontic
-            |        /     \
-            |       /       \
-         "Meng"  Shant     Shant
-                   |         |
-                   |         |
-                 Plant     Trade
-                   |         |
-                   |         |
-                 Potato    Potato
+        _ MkRule _
+       /     |    \
+      /      |     \
+  MkParty  Shant  Plant
+     |              |
+     |              |
+   "Meng"         Potato
 #+end_src
 
-It is very easy to transform the L4 code to this grammar. But as I said earlier, the final grammar shouldn't follow L4's syntax too faithfully.
 
-Natural language has a different information structure, and we will likely want to use things like aggregation (_Meng shan't plant nor trade the potato_ instead of _Meng shan't plant the potato and shan't trade the potato_), anaphoric reference (_it is illegal if …_) etc.
+Now we'll do the concrete syntax. I have imported modules from the Resource Grammar Library (http://www.grammaticalframework.org/lib/doc/synopsis/index.html). I don't need to do it, but I'll prefix the types and functions with a module name, such as SyntaxEng, for the sake of clarity.
+
+#+begin_src gf :noweb-ref gfPotatoCnc
+  lincat
+    Rule = SyntaxEng.S ;
+    Party = SyntaxEng.NP ;
+    Object = SyntaxEng.NP ;
+    Action = SyntaxEng.VP ;
+    Modal = {
+      verb : SyntaxEng.VV ;
+      pol : SyntaxEng.Pol
+      } ;
+
+  lin
+   -- : Party -> Modal -> Action -> Rule
+   MkRule party modal action =
+     let modalAction : VP = -- apply the modal to the action: [may]+[plant cabbage]
+           SyntaxEng.mkVP modal.verb action ;
+         clause : Cl =  -- Combine subject and predicate into a clause.
+           SyntaxEng.mkCl party modalAction ; -- Still open for polarity.
+      in SyntaxEng.mkS modal.pol clause ; -- Polarity comes from modal
+
+   -- : String -> Party
+   MkParty str = SymbolicEng.symb str ;
+
+   -- : Party
+   Everybody = SyntaxEng.everybody_NP ;
+   Nobody = SyntaxEng.nobody_NP ;
+
+   -- : Modal
+   May = {
+     verb = ExtraEng.may_VV ;
+     pol = SyntaxEng.positivePol
+     } ;
+   Must = {
+     verb = SyntaxEng.must_VV ;
+     pol = SyntaxEng.positivePol
+     } ;
+   Shant = { -- The verb is "shall", and the whole sentence will be negated.
+     verb = ExtraEng.shall_VV ;
+     pol = SyntaxEng.negativePol
+     } ;
+
+   -- : Object -> Action
+   Trade p = SyntaxEng.mkVP trade_V2 p ;
+   Plant p = SyntaxEng.mkVP plant_V2 p ;
+
+   -- : Object
+   Potato = -- mkNP with aPl_Det makes indefinite plural
+     SyntaxEng.mkNP SyntaxEng.aPl_Det potato_N ;
+   Cabbage = -- just mkNP makes a mass noun
+     SyntaxEng.mkNP cabbage_N ;
+
+  oper
+   trade_V2 : V2 = mkV2 "trade" ;
+   plant_V2 : V2 = mkV2 "plant" ;
+   potato_N : N = mkN "potato" ;
+   cabbage_N : N = mkN "cabbage" ;
+#+end_src
+
+TODO:
+1. Explanations about the concrete syntax
+2. Haskell program that translates between "everybody shan't trade cabbage" and "nobody may trade cabbage", or makes inferences like "nobody may trade cabbage" -> may Meng trade cabbage?
 
 ** Given a past potato already planted on a given date, was that potato legal?
 
@@ -774,6 +846,7 @@ The /prescriptive/ rule applies to farmers and other parties who seek to trade p
 
 The /constitutive/ rule applies to the potatoes: What is a potato? When is it legal?
 
+
 * Case, version 2:
 
 Potato buyers have the right, within one week of purchase, to return purchased potatoes for a 90% refund, which the seller must issue within 3 days of the return.
@@ -951,6 +1024,12 @@ abstract Potato = {
 }
 #+end_src
 
+#+begin_src gf :noweb yes :tangle PotatoEng.gf
+<<tangleWarning>>
+concrete PotatoEng of Potato = open SyntaxEng, ParadigmsEng, SymbolicEng, ExtraEng in {
+<<gfPotatoCnc>>
+}
+#+end_src
 
 ** Prolog!
 

@@ -8,28 +8,32 @@ flags startcat = Rule ;
 
 cat
   Rule ;        -- The start category
-  Term ;        -- "a potato", "farmer John Smith"
+  Party ;       -- "farmer Meng"
+  Object ;      -- "a potato"
   Action ;      -- "trade a potato", "be legal"
-  Deontic ;     -- "may/must/shan't …"
-  [Deontic]{2} ; -- List with min. 2 elements
+  Modal ;       -- "may/must/shan't …"
 fun
   MkRule
-    : Int        -- rule #
-    -> Term      -- party
-    -> [Deontic] -- what they may/shan't do
+    : Party      -- party
+    -> Modal     -- may/must/shant
+    -> Action    -- what they may/must/shan't do, e.g. "trade potatoes"
     -> Rule ;    -- "Rule 1: Meng shan't trade a potato."
--- Some terms
-  Party : String -> Term ;  -- Party name can be any string, e.g. "Meng"
-  Potato : Term ;           -- "a potato"
-
--- Some actions
+-- Parties
+  MkParty : String -> Party ;  -- Party name can be any string, e.g. "Meng"
+  Nobody,                      -- Nobody and Everybody are special Parties
+  Everybody
+    : Party ;
+-- Modals
+  May,                      -- "may (plant a potato)"
+  Must,                     -- "must (plant a potato)"
+  Shant                     -- "shan't (plant a potato)"
+   : Modal ;
+-- Actions
   Trade,                    -- "trade a potato"
   Plant                     -- "plant a potato"
-   : Term -> Action ;
+   : Object -> Action ;
 
--- Deontics
-  May,                      -- "may [plant a potato]"
-  Must,                     -- "must [plant a potato]"
-  Shant                     -- "shan't [plant a potato]"
-   : Action -> Deontic ;
+-- Objects
+  Potato : Object ;         -- "potato"
+  Cabbage : Object ;        -- "cabbage"
 }
