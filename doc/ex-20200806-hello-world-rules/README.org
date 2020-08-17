@@ -505,9 +505,82 @@ Now we'll do the concrete syntax. I have imported modules from the Resource Gram
    cabbage_N : N = mkN "cabbage" ;
 #+end_src
 
-TODO:
-1. Explanations about the concrete syntax
-2. Haskell program that translates between "everybody shan't trade cabbage" and "nobody may trade cabbage", or makes inferences like "nobody may trade cabbage" -> may Meng trade cabbage?
+Now we have a concrete syntax. Next I'll show how to paraphrase sentences like  "everybody shan't trade cabbage" to "nobody may trade cabbage".
+
+First, we compile the grammar with `gf -make -f haskell PotatoEng.gf`. This produces two files: `Potato.pgf` and `Potato.hs`.
+
+The PGF file (Potato.pgf) is needed so that we can access the GF grammar from other programming languages. We'll be using the [PGF API](http://hackage.haskell.org/package/gf-3.10/docs/PGF.html).
+
+The Haskell file (Potato.hs) is a translation of the GF abstract syntax into Haskell. The GF categories become Haskell data types, and the GF functions become Haskell constructors of those data types.
+
+#+begin_src haskell :noweb-ref paraphrase
+paraphrase :: Rule -> Rule
+#+end_src
+
+Here's a Haskell function. The type `Rule` is exactly the same Rule as the start category of the GF grammar.
+As we remember from the grammar, the way to construct a Rule is with the function `MkRule`, which takes a Party, a Modal and an Action. So I can pattern match directly in the function argument.
+
+#+begin_src haskell
+paraphrase (MkRule party modal action) = …
+#+end_src
+
+Now we're interested in the scenario where Nobody or Everybody may or shan't do something. Those parts are in the `party` and the `modal`. So actually we can just do this:
+
+#+begin_src haskell :noweb-ref paraphrase
+paraphrase (MkRule Nobody May action) = MkRule Everybody Shant action
+paraphrase (MkRule Everybody Shant action) = MkRule Nobody May action
+paraphrase rule = rule
+#+end_src
+
+In the first two cases, we flip the party and the modality, so that "nobody may" is just another way of saying "everybody shan't".
+For any other combination, we just return the original rule.
+
+Now we test this. Let's define some helper functions first.
+
+#+begin_src haskell :noweb-ref paraphraseExpr
+paraphraseExpr :: Expr -> Expr
+paraphraseExpr = gf . paraphrase . fg
+#+end_src
+
+The functions `gf` and `fg` are defined as follows in `Potato.hs`.
+
+#+begin_src haskell
+class Gf a where
+  gf :: a -> Expr
+  fg :: Expr -> a
+#+end_src
+
+Now what is left is to parse a string with the PGF, paraphrase the tree, and linearize back to English.
+
+#+begin_src haskell :noweb-ref paraphraseString
+paraphraseString :: PGF -> String -> String
+paraphraseString gr str = linearize gr eng (paraphraseExpr tree)
+  where
+    eng = head $ languages gr  :: Language
+    rule = startCat gr         :: Type
+    tree = head $ parse gr eng rule str :: Expr
+#+end_src
+
+And this is the test.
+
+#+begin_src haskell :noweb-ref test-2
+  describe "Paraphrasing" $ do
+    it "should paraphrase a sentence and preserve its semantics" $
+         paraphraseString gr "everybody shan't plant cabbage"
+                  `shouldBe` "nobody may plant cabbage"
+    it "should not change a sentence that can't be paraphrased" $
+         paraphraseString gr "Meng shan't plant cabbage"
+                  `shouldBe` "Meng shan't plant cabbage"
+
+#+end_src
+
+When you write `stack test` in the directory where this README is, you should see
+
+Homework to the reader:
+1. Write a function that takes two strings, and tests if they have the same semantics (according to `paraphrase` function)
+2. Make inferences like "nobody may trade cabbage" -> may Meng trade cabbage?
+
+
 
 ** Given a past potato already planted on a given date, was that potato legal?
 
@@ -906,10 +979,13 @@ import L4.Types
 import L4.Parser
 import Text.Megaparsec
 import Data.List.NonEmpty (NonEmpty((:|)))
+import GF.Paraphrase (paraphraseString)
+import PGF (PGF, readPGF)
 
 main :: IO ()
 main = do
-  forM_ [spec1] $ hspec
+  gr <- readPGF "src/GF/Potato.pgf"
+  forM_ [spec1, spec2 gr] $ hspec
   return ()
 
 <<test-setup>>
@@ -917,6 +993,11 @@ main = do
 spec1 :: Spec
 spec1 = do
   <<test-1>>
+
+spec2 :: PGF -> Spec
+spec2 gr = do
+  <<test-2>>
+
 #+end_src
 
 ** Haskell Executable! Something shiny for a sense of accomplishment.
@@ -1017,19 +1098,35 @@ integer = lexeme L.decimal
 
 ** GF
 
-#+begin_src gf :noweb yes :tangle Potato.gf
+#+begin_src gf :noweb yes :tangle src/GF/Potato.gf
 <<tangleWarning>>
 abstract Potato = {
 <<gfPotato>>
 }
 #+end_src
 
-#+begin_src gf :noweb yes :tangle PotatoEng.gf
+#+begin_src gf :noweb yes :tangle src/GF/PotatoEng.gf
 <<tangleWarning>>
 concrete PotatoEng of Potato = open SyntaxEng, ParadigmsEng, SymbolicEng, ExtraEng in {
 <<gfPotatoCnc>>
 }
 #+end_src
+
+#+begin_src haskell :noweb yes :tangle src/GF/Paraphrase.hs
+<<tangleWarning>>
+
+module GF.Paraphrase where
+import PGF hiding (paraphrase)
+import GF.Potato
+
+<<paraphrase>>
+
+<<paraphraseExpr>>
+
+<<paraphraseString>>
+
+#+end_src
+
 
 ** Prolog!
 
