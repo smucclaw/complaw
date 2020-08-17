@@ -23,7 +23,8 @@ common common-options
                      , record-dot-preprocessor
                      , record-hasfield
                      , split
-          
+                     , gf
+
   ghc-options:         -Wcompat
                        -Widentities
                        -Wincomplete-uni-patterns
@@ -43,7 +44,7 @@ common common-options
 library
   import:              common-options
   hs-source-dirs:      src
-  exposed-modules:     Helloworld L4.Parser L4.Types
+  exposed-modules:     Helloworld L4.Parser L4.Types GF.Paraphrase GF.Potato
 
 executable helloworld
   import:              common-options

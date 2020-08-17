@@ -22,10 +22,13 @@ import L4.Types
 import L4.Parser
 import Text.Megaparsec
 import Data.List.NonEmpty (NonEmpty((:|)))
+import GF.Paraphrase (paraphraseString)
+import PGF (PGF, readPGF)
 
 main :: IO ()
 main = do
-  forM_ [spec1] $ hspec
+  gr <- readPGF "src/GF/Potato.pgf"
+  forM_ [spec1, spec2 gr] $ hspec
   return ()
 
 emptyProgram1 :: String
@@ -48,3 +51,13 @@ spec1 = do
         { hornHead = HHOP (MkOP (ObjectSpec $ "Item" :| []) "isPotato")
         , hornBody = MkCE Normal (CEStr "Item.species ~ [\"Solanum tuberosum\"]")
         , raw = Stm "source text" "filename" 0 (Just 2) }
+
+spec2 :: PGF -> Spec
+spec2 gr = do
+  describe "Paraphrasing" $ do
+    it "should paraphrase a sentence and preserve its semantics" $
+         paraphraseString gr "everybody shan't plant cabbage"
+                  `shouldBe` "nobody may plant cabbage"
+    it "should not change a sentence that can't be paraphrased" $
+         paraphraseString gr "Meng shan't plant cabbage"
+                  `shouldBe` "Meng shan't plant cabbage"
