@@ -35,11 +35,11 @@ To help you acquire useful skills, we have outlined an experience that is equal 
 - project-based :: structured contributions to the Research Programme at various levels of difficulty
 - apprenticeship :: opportunities to pair program with engineers and work together on the same teams
 
-This document focuses on the readings and video component. If you have joined the Programme as a junior engineer, consider this one pillar of your professional education. If you are worried that this is too much for you to take on, please be assured that your employee performance will not be tied /directly/ to completion of readings and courses. This is not school and your manager is not your lecturer; nobody has time to test you. But if in conversation with the rest of the team we use terms that you aren't familiar with, we may gently direct you back to the recommended reading, where you will find clues that may turn out to be essential to delivering your actual assignments. Your colleagues in software engineering, whether at CCLAW or on the larger Internet, share a certain professional vocabulary because they have all been through something like this curriculum. Don't you want to be on the same page as them?
+This document focuses on the readings and video component. If you have joined the Programme as a junior engineer, consider this one pillar of your professional education. If you are worried that this is too much for you to take on, please be assured that your employee performance will not be tied /directly/ to completion of readings and courses. This is not school and your manager is not your lecturer; nobody has time to test you. But if in conversation with the rest of the team we use terms that you aren't familiar with, we may gently direct you back to the recommended reading, where you will find clues that may turn out to be essential to delivering your actual assignments.
 
 ** Qualifications and Temperament
 
-The following curriculum assumes minimal computer science experience. You might have a degree, but that degree might not be in computer science. If you're a self-taught programmer with significant technical abilities already, I beg your indulgence; just keep in mind that this document caters to people who may not have done any programming at all.
+The following curriculum assumes minimal computer science experience. You might have a degree, but that degree might not be in CS. If you're a self-taught programmer with significant technical abilities already, I beg your indulgence; just keep in mind that this document caters to people who may not have done any programming at all. Please feel free to edit it to be a better resource for them!
 
 The curriculum does assume a temperament suited to problem-solving, acquisition of technical skills, and high tolerance for frustration.
 
@@ -261,7 +261,9 @@ It's natural to feel shy about sharing your work:
 The antidote:
 - https://twitter.com/MariaShen/status/1293025429238853633
 
-Hm, maybe we've identified one evolutionary driver of techbro culture? Because the willingness to be wrong in public actually helps the organization as a whole. Well, let's see if we can take the good parts (confidence, communication) and leave behind the less savoury bits.
+Working in public also means having conversations on public channels, by default, rather than private messages. If you save your private messages for truly confidential content, then the discussions you have in public, even if they appear to only be one-on-one, can be read by someone in the future who might be hunting for clues as to why certain "historical" decisions were made.
+
+Hm, maybe we've identified one evolutionary driver of techbro culture? Because the willingness to be verbosely wrong in public actually helps the organization as a whole. Well, let's see if we can take the good parts (confidence, communication) and leave behind the less savoury bits.
 
 Anyway, this is also a cultural thing, and for the junior engineers to feel the psychological safety needed to engage, the senior engineers have to set an example.
 
