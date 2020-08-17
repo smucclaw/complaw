@@ -22,8 +22,6 @@ If you don't have access to those resources, say something!
 
 When recruiting the team we selected for a range of backgrounds and levels of experience. Some team members have decades of experience; some are relatively new to coding, but I believe that everyone will have a chance to make a contribution.
 
-[[https://img2.thejournal.ie/inline/901049/original/?width=600&version=901049]]
-
 Whether that contribution takes the form of programming, documentation, evangelism, testing, support, or design, remains to be seen. But in general, the best way to position yourself to make useful contributions to the team, is to have a wide range of relevant skills and competencies. Take it from Robert C. Martin, author of /The Clean Coder: A Code of Conduct for Professional Programmers/:
 
 #+BEGIN_QUOTE
