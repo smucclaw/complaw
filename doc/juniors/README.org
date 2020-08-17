@@ -4,7 +4,25 @@ SMU CCLAW's Research Programme in Computational Law welcomes junior engineers.
 
 * Welcome
 
-This is a welcome letter from the Research Programme's principal investigator to the recently hired junior engineer. Thank you for choosing to join us. When recruiting the team we selected for a range of backgrounds and levels of experience. Some team members have decades of experience; some are relatively new to coding, but I believe that everyone will have a chance to make a contribution.
+This is a welcome letter from the Research Programme's principal investigator to the recently hired junior engineer. Thank you for choosing to join us. If it's your first day and you're wondering "what am I supposed to do?" you've come to the right place.
+
+** Onboarding
+
+Somebody should have given you access to:
+- an email address at the university
+- (which should get you into the university library, through which you can reach many of the readings linked from this document)
+- Google Drive, our file repository, which also contains many readings under the "BlackHole" folder
+- Asana, for task management
+- Github, our code repository
+- Slack, for chatting amongst the team; you should join all the channels which you can.
+
+If you don't have access to those resources, say something!
+
+** Your place in the team
+
+When recruiting the team we selected for a range of backgrounds and levels of experience. Some team members have decades of experience; some are relatively new to coding, but I believe that everyone will have a chance to make a contribution.
+
+[[https://img2.thejournal.ie/inline/901049/original/?width=600&version=901049]]
 
 Whether that contribution takes the form of programming, documentation, evangelism, testing, support, or design, remains to be seen. But in general, the best way to position yourself to make useful contributions to the team, is to have a wide range of relevant skills and competencies. Take it from Robert C. Martin, author of /The Clean Coder: A Code of Conduct for Professional Programmers/:
 
@@ -86,7 +104,7 @@ It means that some people spend their entire careers doing app development, buil
 I am an expert in both JavaScript-the-language and the JavaScript front-end ecosystem. I know all of the language, good parts and bad, and I have experience working with React, Redux, Backbone, Angular, Babel, Webpack, Browserify, Gulp, Mocha, Ramda, and most of the rest of the JS frontend soup.
 #+END_QUOTE
 
-A few people go far beyond that. They might add "It’s not my favorite technology, but knowing the language and its tools is pretty important for building modern web applications, even if you decide to use a compile-to-JS language."
+Some people [[https://youtu.be/3018ABlET1Y?t=787][consider that the modern equivalent of blue-collar labour]]. Some people go far beyond that. They might add /It’s not my favorite technology, but knowing the language and its tools is pretty important for building modern web applications, even if you decide to use a compile-to-JS language./
 
 And then they stick the paragraph on to the end of their bio, as an "oh, I almost forgot", because it's really the least of their skills. What does the rest of their bio say? https://lexi-lambda.github.io/resume.html
 
@@ -119,6 +137,10 @@ Speaking of "work": most people use "work" as a verb: "I worked really hard toda
 One of the risks of being self-taught is that you don't know the official names for things, and that leads to really unproductive Googling.
 
 A fair chunk of formal education is knowing what certain concepts are called, so that when you find yourself working with them, you can talk about them intelligently with other people. They don't let you be a doctor if you don't pass anatomy.
+
+*** Sidebar: On Promotion
+
+The senior researchers on the project, sadly, aren't going to be with us forever. Some will be with us for only a year. That's not much time for you to learn to fill their shoes. But the junior engineers are expected to learn what they can so they can become the next generation of senior engineers. I need you to pay attention to the work they do, and to how they do it, and how they teach it.
 
 ** The skill tree
 
@@ -213,6 +235,37 @@ See also:
 - [[https://jvns.ca/blog/good-questions][How to ask good questions]]
 - [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
 - [[http://xyproblem.info/][XY Problem]]
+
+**** Tracking Your Progress
+
+We use Asana to track progress at work. Work includes readings and learning exercises.
+
+A task management system may take some getting used to -- but in time I hope you will come to see it as a friend and not a chore. In traditional office-bound organizations, people rely on meetings and informal social mechanisms to know what others are working on, and to communicate what they are working on. In early 2020 when many organizations were forced to go remote, there was a great deal of disruption: some old-fashioned managers' old-fashioned paranoid instincts may have kicked in, to the tune of "if I can't see my staff sitting at their desks, then I'm going to assume they are at home slacking off watching TV and idling." The technology sector turns out to have been more ready than most, in that many successful software organizations have been remote-first or remote-only for ages. They make heavy use of task-tracking software, which helps quell the fears of those old-fashioned managers, or least transmute them to "if I can't see my staff updating Asana ..."
+
+Tracking your tasks helps you answer the question: "gosh, what did I even do this day/week/month?" Looking at your list of completed tasks helps me realize that I actually get quite a lot done in the past week, even if it wasn't work that I might have started the week planning to do. This takes discipline: the only way you get to see that list is if you create tasks along the way. For example, I just went and created a task: "update onboarding README".
+
+You can log progress by creating subtasks and by logging comments to tasks.
+
+[[http://projects.csail.mit.edu/gsb/old-archive/gsb-archive/gsb2000-02-11.html][Yak-shaving]] is a good example of recursion; sometimes it's part of the learning process, and sometimes it's unnecessary work which you can trim. Often it's hard to know in advance which category the work falls into; if in doubt, ask others! Either way, though, you deserve to get credit for that work. So create subtasks. If you're really off on a tangent, this gives your teammates a chance to gently steer you toward not wasting your time.
+
+Logging comments to tasks is often a good way to share your thinking with others and clarify it with yourself. Get that rich inner dialogue out in the open: log your findings, your working hypotheses, and your opinions. Blow off a little steam. Again, this gives your team members an opportunity to step in; if you're getting frustrated or stuck or lost, they can help bail you out. In turn, when you watch your teammates struggling with something you already solved, you can step in and help.
+
+TODO: As a starting point, go duplicate out some of the standard learning/reading tasks under "Learning Computational Law" for yourself, and log your readings as you go.
+
+**** Working in Public
+
+Being verbose in Asana is one way of working in public, keeping your visibility up so that your teammates don't have to wonder if you've been hit by a bus. You might think, /as long as I turn in my work on time, why should everybody else need to know of my progress?/ The problem with software is that working in isolation tends to not be very sustainable in the long term: it takes only one episode of "oops, I didn't actually get it done on time" or "oops, the work you turned in was actually based on a misinterpretation of the requirements" for everybody else to assume that if they're not hearing from you then you're off in your own world again ... and that doesn't inspire confidence.
+
+It's natural to feel shy about sharing your work:
+- https://twitter.com/darcy_sandall/status/1294178520873070592
+- https://twitter.com/chrisalbon/status/1294858338522423301
+
+The antidote:
+- https://twitter.com/MariaShen/status/1293025429238853633
+
+Hm, maybe we've identified one evolutionary driver of techbro culture? Because the willingness to be wrong in public actually helps the organization as a whole. Well, let's see if we can take the good parts (confidence, communication) and leave behind the less savoury bits.
+
+Anyway, this is also a cultural thing, and for the junior engineers to feel the psychological safety needed to engage, the senior engineers have to set an example.
 
 *** This Guide is Open Source
 
@@ -371,12 +424,6 @@ There are actually three different courses that are worth checking out, all unde
 - [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers. If you've done the above then you can probably skip the exercises and just skim the videos to get a sense of what the lawyer audience cares about.
 
 So, all told, this will probably take most of a year.
-
-** Tracking Your Progress
-
-If you'd like to use Asana to track your progress through these readings and exercises, you can create tasks for yourself, log your progress in the tasks, and click "done" when you've accomplished the task!
-
-I will set up a handful of learning objectives in Asana as a starting point.
 
 ** "I think I'm done ... what should I do next?"
 

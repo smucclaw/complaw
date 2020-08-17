@@ -103,6 +103,8 @@ Specific technologies we aim to build on:
 
 with Grammatical Framework; read http://www.cse.chalmers.se/~aarne/articles/cade2011.pdf
 
+Isomorphism and Argumentation: https://intranet.csc.liv.ac.uk/~tbc/publications/ICAILTom.pdf
+
 ** Model-Driven Architectures
 
 while the first wave of MDA came and went leaving little but UML behind, a new generation of DMN and BPMN modeling tools bear promise. In particular, DMN is amenable to static analysis, such as exhaustiveness checking, conflict detection.
