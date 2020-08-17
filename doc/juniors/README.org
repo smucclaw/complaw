@@ -240,9 +240,11 @@ We use Asana to track progress at work. Work includes readings and learning exer
 
 A task management system may take some getting used to -- but in time I hope you will come to see it as a friend and not a chore. In traditional office-bound organizations, people rely on meetings and informal social mechanisms to know what others are working on, and to communicate what they are working on. In early 2020 when many organizations were forced to go remote, there was a great deal of disruption: some old-fashioned managers' old-fashioned paranoid instincts may have kicked in, to the tune of "if I can't see my staff sitting at their desks, then I'm going to assume they are at home slacking off watching TV and idling." The technology sector turns out to have been more ready than most, in that many successful software organizations have been remote-first or remote-only for ages. They make heavy use of task-tracking software, which helps quell the fears of those old-fashioned managers, or least transmute them to "if I can't see my staff updating Asana ..."
 
-Tracking your tasks helps you answer the question: "gosh, what did I even do this day/week/month?" Looking at your list of completed tasks helps me realize that I actually get quite a lot done in the past week, even if it wasn't work that I might have started the week planning to do. This takes discipline: the only way you get to see that list is if you create tasks along the way. For example, I just went and created a task: "update onboarding README".
+Tracking your tasks helps you answer the question: "gosh, what did I even do this day/week/month?" Looking at my list of completed tasks helps me realize that I actually get quite a lot done, even if it wasn't work that I originally planned on; it was emergent work. It still feels satisfying to mark a task complete.
 
-You can log progress by creating subtasks and by logging comments to tasks.
+But this takes discipline: the only way you get to mark a task complete is if you created it in the first place. And I sometimes have to remind myself to do that. For example, I just went and created a task: "update onboarding README".
+
+Two good ways to report progress: by creating subtasks and by logging comments to tasks.
 
 [[http://projects.csail.mit.edu/gsb/old-archive/gsb-archive/gsb2000-02-11.html][Yak-shaving]] is a good example of recursion; sometimes it's part of the learning process, and sometimes it's unnecessary work which you can trim. Often it's hard to know in advance which category the work falls into; if in doubt, ask others! Either way, though, you deserve to get credit for that work. So create subtasks. If you're really off on a tangent, this gives your teammates a chance to gently steer you toward not wasting your time.
 
