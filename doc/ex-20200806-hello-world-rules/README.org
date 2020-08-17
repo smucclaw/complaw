@@ -1124,7 +1124,6 @@ import GF.Potato
 <<paraphraseExpr>>
 
 <<paraphraseString>>
-
 #+end_src
 
 
