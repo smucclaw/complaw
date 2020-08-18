@@ -236,6 +236,10 @@ See also:
 
 **** Tracking Your Progress
 
+#+begin_quote
+Figuring out how to get people to consistently track what they're doing, and making it easy to do so with minimal duplication of effort, remains one of the hardest problems in tech. I hate doing it, I hated enforcing it, and I hate when we don't have the visibility it provides. [[https://twitter.com/darkuncle/status/1295445905391276035][@darkuncle 2020-08-18]]
+#+end_quote
+
 We use Asana to track progress at work. Work includes readings and learning exercises.
 
 A task management system may take some getting used to -- but in time I hope you will come to see it as a friend and not a chore. In traditional office-bound organizations, people rely on meetings and informal social mechanisms to know what others are working on, and to communicate what they are working on. In early 2020 when many organizations were forced to go remote, there was a great deal of disruption: some old-fashioned managers' old-fashioned paranoid instincts may have kicked in, to the tune of "if I can't see my staff sitting at their desks, then I'm going to assume they are at home slacking off watching TV and idling." The technology sector turns out to have been more ready than most, in that many successful software organizations have been remote-first or remote-only for ages. They make heavy use of task-tracking software, which helps quell the fears of those old-fashioned managers, or least transmute them to "if I can't see my staff updating Asana ..."
@@ -624,6 +628,8 @@ Coming back down to earth, these resources are recommended for learning Haskell:
 
 Other Haskell random factlets:
 - You may have heard that Haskell is really good for programming language design and compiler development. That's one of the reasons we're using it. You might have heard of Perl 6; you might not have heard that Perl 6 (now Raku) was first implemented in Haskell, [[https://medium.com/a-computer-of-ones-own/audrey-tang-open-government-hacker-d7b80a69c0df][by Audrey Tang, who went on to be digital minister of Taiwan]].
+- Haskell is used for data science (at Target, at least): https://www.forbes.com/sites/quora/2018/01/24/when-is-haskell-more-useful-than-r-or-python-in-data-science/#522db41e69e4
+- See the Haskell data analysis cookbook: http://haskelldata.com/
 
 After you've achieved Beginner Haskell status you can proceed to Intermediate Haskell:
 - https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html starts getting into intermediate Haskell
@@ -884,7 +890,7 @@ The Centre works with a number of senior engineers. Juniors will have the opport
 
 For your home setup, consider these options:
 
-- 32" 4K UHD monitors have really come down in price: [[https://www.qoo10.sg/item/SAMSUNG-U32R590-32-INCH-UHD-CURVED-GAMING-MONITOR-PIP/678209634][$449 for Samsung's U32R590]] as of [2020-07-16 Thu], though obviously this may be out of date by the time you read it.
+- [[https://tiamat.tsotech.com/4k-is-for-programmers][4k is for programmers]]. 32" 4K UHD monitors have really come down in price: [[https://www.qoo10.sg/item/SAMSUNG-U32R590-32-INCH-UHD-CURVED-GAMING-MONITOR-PIP/678209634][$449 for Samsung's U32R590]] as of [2020-07-16 Thu], though obviously this may be out of date by the time you read it.
 - A mechanical keyboard; options include the [[https://www.lazada.sg/products/filco-majestouch-2-convertible-tenkeyless-bluetooth-mechanical-keyboard-i334040658-s722084125.html][Filco Majestouch 2 TKL BT]]. Get the Blue switches if you're working solo, Brown if you're sharing space.
 - You can elevate your laptop with a [[https://www.amazon.sg/Nexstand-Adjustable-Eye-Level-Ergonomic-Lightweight/dp/B01HHYQBB8][Nexstand]].
 - Ergonomics is important. Some people have reported success with a standing desk.
