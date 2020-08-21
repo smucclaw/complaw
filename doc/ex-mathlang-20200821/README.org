@@ -1,0 +1,76 @@
+#+TITLE: A Short Introduction To Parsing
+
+#+begin_quote
+Any pidgin algebra can be dressed up as pidgin English to please the generals. [[https://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf][Landin 1966, The Next 700 Programming Languages]]
+#+end_quote
+
+In this exercise we learn parsing from first principles.
+
+The learning method is by induction, which means we toss you in the water at successively greater depths; before you know it, you'll have learned to swim.
+
+* A Simple Calculator
+
+in your favourite language, write a program that, given the input string, takes it apart, computes it in a way that would satisfy your math teacher in school, and produce a result.
+
+Work down the table row by row, evolving your program to be able to handle both the current row and all earlier rows.
+
+Your inner 10-year-old already knows everything you need to do this.
+
+| input string       | learning objective                               |
+|--------------------+--------------------------------------------------|
+| 4                  | convert a string to an integer and print it      |
+| 6                  | handle different numbers                         |
+| 8                  | handle different numbers                         |
+| 2+2                | "+" is a binary operator                         |
+| 2 + 2              | discard whitespace                               |
+| 2 +     2          | discard arbitrary whitespace                     |
+| 2 + 4 + 6          | handle different numbers and multiple operators  |
+| 2 + 4 + 6 + 8      | handle different numbers and multiple operators  |
+| 2 + 4 + 6 - 8      | handle a mix of operators                        |
+| 2 + 10             | numbers can have multiple digits! "tokenization" |
+| 10 + 22            | multiple digits on both sides                    |
+| 10 * 22            | introduce the multiplication operator            |
+| 10 ** 2            | tokenization is for operators too                |
+| 22 / 10            | introduce division                               |
+| 22 / (10)          | introduce parentheses                            |
+| 22 / (5+5)         | introduce parentheses for real                   |
+| -22                | introduce negative numbers                       |
+| -22 / (5+5)        | introduce negative numbers in action             |
+| (50+50) / -22      | introduce negative numbers in inconvenient spots |
+| -22 / (-5+12)      | introduce negative numbers in other spots        |
+| (0-22) / (2+2)     | do your parens really work?                      |
+| (0-(11+11) / 2 + 2 | operator precedence                              |
+| 2+4*6              | operator precedence                              |
+| 2*4+6              | operator precedence                              |
+| 2*(4+6)            | do your parens still work?                       |
+
+Technical terms for the tricks you performed along the way:
+- tokenization
+- lexing
+- construction of an abstract syntax tree
+- recursive evaluation
+- definition of operator precedence
+- prefix vs infix notation
+- binary vs unary operators
+
+Read: http://otfried.org/courses/cs206/notes/calculator.pdf
+
+* Part 2: Use GF to turn arbitrary math expressions into English
+
+Take a look at https://cdecl.org/
+
+That's a bidirectional English-to-C converter.
+
+Now imagine a bidirectional English-to-Math converter. You've played this game before, as a 12 year old: they're called word problems in math class.
+
+Write a GF grammar that, given the abstract syntax tree you parsed, produces a coherent English equivalent.
+
+* Now that you've done it by hand
+
+Imagine other languages and their grammars; wouldn't it be nice to abstract out to a separate layer the idea of a lexer? Given a language definition of some sort, it should be possible to automate the code-generation of a lexer and compiler. That's why "yacc" is called "yet another compiler compiler". And that's exactly what Eric Schmidt did before his days as a Google billionaire CEO -- he wrote "lex" as an intern at Bell Labs in 1975.
+
+If you come from Javascript, look at [[https://pegjs.org/online][PEG.js]].
+
+In other languages, see: http://www.rosettacode.org/wiki/Arithmetic_evaluation
+
+

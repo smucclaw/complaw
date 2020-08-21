@@ -928,6 +928,13 @@ Potato buyers have the right, within one week of purchase, to return purchased p
 
 This begins to look more like a contract: the emphasis is on the regulative rules, rather than the constitutive rules. While the source of this rule lies in legislation, it could be trivially transposed into a particular contract between the potato parties.
 
+Is there a constitutive rule fragment in the sentence at all? Yes: we could conceive of an equivalent formulation, in which a "valid refund" is one which was issued within 3 days and has the value of at least 90% of the original purchase price. One could construct the clause graph with the terms of the refund "in-lined", as it were, the same way a lambda expression is un-named and in-lined; or one could label the terms explicitly as a function in a "where" block. We'll deal with that below.
+
+** Under what conditions am I obliged to ...
+
+We begin to appreciate the research tradition of [[https://plato.stanford.edu/entries/logics-for-games/][logics for games]]. When game developers build things like [[https://boardgamegeek.com/boardgame/129622/love-letter][Love Letter]], [[https://boardgamegeek.com/boardgame/258/fluxx][Fluxx]], or [[https://boardgamegeek.com/boardgame/205896/rising-sun][Rising Sun]] do they model the fairly sophisticated game rules in some kind of formalism? Because if they did we should seriously consider stealing that. If, as I suspect, they do not, then we would have to first build it for them, and then steal it.
+
+** 
 
 * Case, version 3:
 

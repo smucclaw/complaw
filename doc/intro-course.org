@@ -135,7 +135,13 @@ We call this the "document assembly" or "document automation" industry.
 - [[http://docassemble.org/][DocAssemble]] (started Jan 2016) being commercialized by [[http://community.lawyer][community.lawyer]]
 - [[https://www.qnamarkup.org/][QnAmarkup]] by David Colarusso (started 2014)
 - [[http://worksheets.stanford.edu/homepage/directory_publicsector.php][worksheets.stanford.edu]]
+- https://github.com/informalsystems/themis-contract
+- not to mention all the approaches that basically treat contract templatng as an exercise in web-page templating
+- IACCCM has nice [[http://contract-design.iaccm.com/][design guidance]].
+
+Expert Systems
 - https://www.metalevel.at/prolog/expertsystems
+
 
 *** Why aren't template approaches good enough?
 
@@ -1019,6 +1025,7 @@ BPMN 2.0’s lack of a formal semantics has been addressed by multiple authors:
 
 ** The Interaction of Business Modeling and Games
 
+- https://plato.stanford.edu/entries/logics-for-games/
 - https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20180005540.pdf
 - thread about Love Letter: https://twitter.com/mengwong/status/1216031913032347649
 
