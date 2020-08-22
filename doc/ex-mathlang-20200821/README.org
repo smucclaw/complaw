@@ -8,23 +8,119 @@ In this exercise we learn parsing from first principles.
 
 The learning method is by induction, which means we toss you in the water at successively greater depths; before you know it, you'll have learned to swim!
 
-Your swimming coach is Socrates.
+* The Dungeon Game
 
-Socrates asks you to pretend that your inner 10-year-old is locked in a room. Through the window you feed a strip of paper, one character at a time. At each step, Socrates asks your 10-year-old:
-- What do you make of this new character?
+Let's play a game. Your inner 10-year-old is locked in a cell. Don't worry, it's very comfortable. We only call it the Dungeon Game to distinguish it from Searle's Chinese Room, which is a different game. There is a window in the wall through which you can pass food and water. Through the window you will feed a strip of paper, on which a series of large letters is printed. (Actually, numbers.)
+
+The game is this. You say: "this strip of paper contains a math problem. I want the answer. Like, if the paper says "2+2", the answer is four. When we reach the end of the strip, if you give the correct answer, you get to play Minecraft for ten minutes, or whatever."
+
+Problem is, the game only lets you push the strip of paper into the room one character at a time.
+
+So, for each round in the game, you feed them one more character from the strip, and your 10-year-old has to answer these questions:
+- What does this new character tell you?
 - What are you expecting next?
 - If the paper stops here, what answer would you give?
 
-That's what parsers do, and if it sounds tedious, well, the job of a parser library is to relieve as much of that tedium as possible. For now, though, we need to accept the tedium, because the library lies in our future; if we jump straight to using a library we won't understand what it is doing under the hood, and it's important that you know what happens under the hood. We're building an edifice of understanding from the ground up, brick by brick. What your ten-year-old does, a computer does. The steps of the algorithm are the same; the only difference is that the computer can run one to two billion of these steps every second. No wonder we outsource the tedium to them.
+Training level, round 1. The paper starts with "2". Your 10-year-old says: "You gave me a 2. If there's nothing else, I'll say the answer is 2. But there could be more -- like, since this is the training level, I'm going to guess you're going for 2+2, which would be 4 like you said."
 
-* A Simple Calculator
+Smart kid. Round 2. The next character is, indeed, a "+". Your 10-year-old says: "You gave me a plus. So the answer is going to be two plus whatever comes next -- so if you give me another number, I'll add 2 to it, and that'll be the answer. But if we stop here I'll cry foul because there is no answer to "2+" -- your question isn't complete!"
 
-in your favourite language, write a program or a function that, given the input string, takes it apart, computes it in a way that would satisfy your math teacher in school. But using ~eval()~ is cheating!
+Round 3. The kid tugs one more character through the window. It reads: "4". Your 10-year-old says, "ha ha, so it's not 2+2, it's 2+4. If the paper ends here, then the answer is 6. But it looks like there's more to come."
 
-In Python, the simplest possible parser checks if the input is a single digit:
+Round 4. One more character enters the room. It reads: "0". Your 10-year-old says, "OK, I get it. So I've got a 40, not a 4. That makes the question so far 2 plus 40; if the paper stops here, the answer is 42."
+
+You say, "yup, end of input: the correct answer is ... 42!" Somewhere, Douglas Adams is smiling down on you and your inner 10-year-old.
+
+In this exercise, feed your 10-year-old the input string, and listen for the answers in each round: what do you make of the character you just got, what might come next, and if we stop here, what is the answer "so far"? Be as literal-minded as you can: if you get a space character, don't just skip over it mentally. You should say something like: "I got a space, and the previous input was a number, so I know the number just ended, and there won't be any more digits to follow; I'm expecting the next thing to come along will be an operator like plus or minus."
+
+| input string                |
+|-----------------------------|
+| 4                           |
+| 6                           |
+| 0                           |
+| 9                           |
+| 2+2                         |
+| 2 + 2                       |
+| 2 + \nbsp{}\nbsp{}\nbsp{} 2 |
+| 2 + 4 + 6                   |
+| 2 + 4 + 6 - 8               |
+| 2 + 4 + 6 - 80              |
+| 2 + 4 + 6 - 80 / 10         |
+| 2 + 10                      |
+| 10 + 22                     |
+| 10 * 10                     |
+| 10 ** 2                     |
+| 22 / 10                     |
+| 22 *                        |
+| 22 / (10)                   |
+| 22 / (5+5)                  |
+| -22                         |
+| -22 / (5+5)                 |
+| (50+50) / -22               |
+| -22 / (-5+12)               |
+| (0-22) / (2+2)              |
+| (11+11) / 2 + 2 * 2         |
+| (0-(11                      |
+| 11 + +10                    |
+| 11 + -10                    |
+| 2+4*6                       |
+| 2*4+6                       |
+| 2*(4+6)                     |
+
+If your inner 10-year-old gets all the answers right, then nothing to fear at the next math test!
+
+* Doing it in code
+
+Going character by character is basically what parsers do, and if it sounds tedious, well, the job of a parser /library/ is to relieve as much of that tedium as possible. For now, though, we need to accept the tedium, because the library lies in our future; if we jump straight to using a library we won't understand what it is doing under the hood, and it's important that you know what happens under the hood. We're building an edifice of understanding from the ground up, brick by brick. What your ten-year-old does, a computer does. The steps of the algorithm are the same; the only difference is that the computer can run one to two billion of these steps every second. No wonder we outsource the tedium to them.
+
+Next exercise. Still no parser library allowed. Instead, you'll be building a primitive parser from scratch, and along the way you'll probably reinvent many of the principles that inform real-world parser libraries.
+
+In your favourite language, *for each row in this table*, write a program or a function that, given the input string, takes it apart, computes it in a way that would satisfy your math teacher in school. But using ~eval()~ is cheating!
+
+Start simple. Your first program only has to handle the input "4". Seriously. Don't get ahead of yourself! It's tempting to jump ahead, but you'll regret it later. Don't worry. This exercise moves fast. You can evolve your program to handle new cases, as long as it also handles all the old cases.
+
+| input string                | learning objective                               |
+|-----------------------------+--------------------------------------------------|
+| 4                           | convert a string to an integer and print it      |
+| 6                           | handle different numbers                         |
+| 0                           | handle different numbers                         |
+| 9                           | handle different numbers                         |
+| @                           | show an error message                            |
+| 2+2                         | "+" is a binary operator                         |
+| 2 + 2                       | discard whitespace                               |
+| 2 + \nbsp{}\nbsp{}\nbsp{} 2 | discard arbitrary whitespace                     |
+| 2 + 4 + 6                   | handle different numbers and multiple operators  |
+| 2 + 4 + 6 - 8               | handle different numbers and multiple operators  |
+| 2 + 4 + 6 - 80              | handle a mix of operators                        |
+| 2 + 4 + 6 - 80 / 10         | operator precedence!                             |
+| 2 + 10                      | numbers can have multiple digits! "tokenization" |
+| 10 + 22                     | multiple digits on both sides                    |
+| 10 * 10                     | introduce the multiplication operator            |
+| 10 ** 2                     | tokenization is for operators too                |
+| 22 / 10                     | introduce division                               |
+| 22 *                        | what happens when you run out of input?          |
+| 22 / (10)                   | introduce parentheses                            |
+| 22 / (5+5)                  | introduce parentheses for real                   |
+| -22                         | introduce negative numbers                       |
+| -22 / (5+5)                 | introduce negative numbers in action             |
+| (50+50) / -22               | introduce negative numbers in inconvenient spots |
+| -22 / (-5+12)               | introduce negative numbers in other spots        |
+| (0-22) / (2+2)              | do your parens really work?                      |
+| (11+11) / 2 + 2 * 2         | operator precedence!                             |
+| (0-(11                      | give the most detailed error message possible.   |
+| 11 + +10                    | give the most detailed error message possible.   |
+| 11 + -10                    | this is not an error.                            |
+| 2+4*6                       | operator precedence                              |
+| 2*4+6                       | operator precedence                              |
+| 2*(4+6)                     | do your parens still work?                       |
+
+Unlike the Dungeon Game, you're given the whole string at once, so you can deal with it however you like.
+
+* Example Answers
+
+In Python, the simplest possible parser, which works for the first five rows, checks if the input is a single digit:
 #+begin_src python :tangle parsers.py
   #!/usr/bin/python3
-  import re
   def prsr1 (str):
       if len(str) == 1:
          if ord('0') <= ord(str) <= ord('9'):
@@ -38,7 +134,7 @@ In Python, the simplest possible parser checks if the input is a single digit:
   print("2 should be 2:", prsr1("2") == 2)
 #+end_src
 
-Same idea in Javascript, but with a tokenization step. Well, this is Typescript, so we need a ~tsc~ step, but aside from that:
+Same idea in Javascript, but with a tokenization step.
 
 #+begin_src typescript :tangle parsers.ts
   export function prsr1 (str) {
@@ -72,6 +168,7 @@ Work down the table row by row, evolving your program to be able to handle both 
 #+end_src
 
 #+begin_src python :tangle parsers.py
+  import re
   def prsr2 (str):
       tokens = re.split(r'\b',str)
       if len(tokens) == 3:
@@ -86,39 +183,6 @@ Along the way you will throw up your hands and say "the approach I've been using
 
 Remember, your inner 10-year-old already knows everything you need to do this!
 
-You should be able to dialogue with your inner 10-year-old. Go character by character. What does your 10-year-old, locked in the room, have to say, for each new character on the strip of paper?
-
-| input string                | learning objective                               |
-|-----------------------------+--------------------------------------------------|
-| 4                           | convert a string to an integer and print it      |
-| 6                           | handle different numbers                         |
-| 8                           | handle different numbers                         |
-| 2+2                         | "+" is a binary operator                         |
-| 2 + 2                       | discard whitespace                               |
-| 2 + \nbsp{}\nbsp{}\nbsp{} 2 | discard arbitrary whitespace                     |
-| 2 + 4 + 6                   | handle different numbers and multiple operators  |
-| 2 + 4 + 6 + 8               | handle different numbers and multiple operators  |
-| 2 + 4 + 6 - 8               | handle a mix of operators                        |
-| 2 + 10                      | numbers can have multiple digits! "tokenization" |
-| 10 + 22                     | multiple digits on both sides                    |
-| 10 * 10                     | introduce the multiplication operator            |
-| 10 ** 2                     | tokenization is for operators too                |
-| 22 / 10                     | introduce division                               |
-| 22 *                        | what happens when you run out of input?          |
-| 22 / (10)                   | introduce parentheses                            |
-| 22 / (5+5)                  | introduce parentheses for real                   |
-| -22                         | introduce negative numbers                       |
-| -22 / (5+5)                 | introduce negative numbers in action             |
-| (50+50) / -22               | introduce negative numbers in inconvenient spots |
-| -22 / (-5+12)               | introduce negative numbers in other spots        |
-| (0-22) / (2+2)              | do your parens really work?                      |
-| (11+11) / 2 + 2 * 2         | operator precedence                              |
-| (0-(11                      | give the most detailed error message possible.   |
-| 11 + +10                    | give the most detailed error message possible.   |
-| 11 + -10                    | this is not an error.                            |
-| 2+4*6                       | operator precedence                              |
-| 2*4+6                       | operator precedence                              |
-| 2*(4+6)                     | do your parens still work?                       |
 
 ** Error messages
 
@@ -158,7 +222,7 @@ ValueError
 
 *** Javascript / Typescript
 
-You may need to npm i -g typescript
+You may need to ~npm i -g typescript~. We use ~tsc~ to compile Typescript to runnable Javascript.
 
 #+begin_example
 $ tsc parsers.ts
