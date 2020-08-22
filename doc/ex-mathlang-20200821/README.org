@@ -6,9 +6,11 @@ Any pidgin algebra can be dressed up as pidgin English to please the generals. [
 
 In this exercise we learn parsing from first principles.
 
-The learning method is by induction, which means we toss you in the water at successively greater depths; before you know it, you'll have learned to swim.
+The learning method is by induction, which means we toss you in the water at successively greater depths; before you know it, you'll have learned to swim!
 
-It may help to pretend that your inner 10-year-old is locked in a room. Through the window you feed a strip of paper, one character at a time. At each step, you ask your 10-year-old:
+Your swimming coach is Socrates.
+
+Socrates asks you to pretend that your inner 10-year-old is locked in a room. Through the window you feed a strip of paper, one character at a time. At each step, Socrates asks your 10-year-old:
 - What do you make of this new character?
 - What are you expecting next?
 - If the paper stops here, what answer would you give?
