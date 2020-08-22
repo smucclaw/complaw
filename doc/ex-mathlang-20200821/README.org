@@ -40,6 +40,7 @@ In this exercise, feed your 10-year-old the input string, and listen for the ans
 | 2 + \nbsp{}\nbsp{}\nbsp{} 2 |
 | 2 + 4 * 6                   |
 | 2 + 4 * 6 - 8               |
+| 2 + 4 * 6 * 8               |
 | 2 + 4 * 6 - 80              |
 | 2 + 4 * 6 - 80 / 10         |
 | 10 ** 2                     |
@@ -54,7 +55,7 @@ Going character by character is basically what parsers do, and if it sounds tedi
 
 Next exercise. Still no parser library allowed. Instead, you'll be building a primitive parser from scratch, and along the way you'll probably reinvent many of the principles that inform real-world parser libraries.
 
-In your favourite language, *for each row in this table*, write a program or a function that, given the input string, takes it apart, computes it in a way that would satisfy your math teacher in school. But using ~eval()~ is cheating!
+In your favourite language, *for each row in this table*, write a program or a function that, given the input string, takes it apart and computes it in a way that would satisfy your math teacher in school. But using ~eval()~ is cheating!
 
 Start simple. Your first program only has to handle the input "4". Seriously. Don't get ahead of yourself! It's tempting to jump ahead, but you'll regret it later. Don't worry. This exercise moves fast. You can evolve your program to handle new cases, as long as it also handles all the old cases.
 
