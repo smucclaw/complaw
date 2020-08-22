@@ -478,7 +478,7 @@ If you run a Mac, you have a Unix system. If you run Windows, you may be success
 
 *** Shell multiplexing
 
-You have your choice of tmux or screen.
+You have your choice of tmux or screen. Most people prefer [[https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/][tmux]] nowadays.
 
 *** Shells themselves
 
