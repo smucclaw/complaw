@@ -12,31 +12,44 @@ The learning method is by induction, which means we toss you in the water at suc
 
 in your favourite language, write a program or a function that, given the input string, takes it apart, computes it in a way that would satisfy your math teacher in school. But using ~eval()~ is cheating!
 
-Here's an example to start you off, in Javascript:
-#+begin_src typescript :tangle parsers.ts
-  var prsr1 = (str) => {
-    tokens = str.split(/\b/);
-    console.log(tokens);
-    if (tokens.length == 1) { return parseInt(tokens[0]) }
-  }
-#+end_src
-
-Same thing in Python:
+In Python, the simplest possible parser checks if the input is a single digit:
 #+begin_src python :tangle parsers.py
   #!/usr/bin/python3
   import re
   def prsr1 (str):
-      tokens = re.split(r'\b',str)
-      if len(tokens) == 3:
-          return(tokens[1])
-  print(prsr1("2"), "should be 2")
+      if len(str) == 1:
+         if ord('0') <= ord(str) <= ord('9'):
+             return(int(str))
+         else:
+             print("i can only handle a simple integer right now")
+             raise ValueError
+      else:
+          print("i can only handle a single character right now")
+          raise ValueError
+  print("2 should be 2:", prsr1("2") == 2)
+#+end_src
+
+Same idea in Javascript, but with a tokenization step. Well, this is Typescript, so we need a ~tsc~ step, but aside from that:
+
+#+begin_src typescript :tangle parsers.ts
+  export function prsr1 (str) {
+    const tokens = str.split(/\b/);
+    console.log(tokens);
+    if (tokens.length == 1
+      && "0".charCodeAt(0) <= tokens[0].charCodeAt(0)
+      && "9".charCodeAt(0) >= tokens[0].charCodeAt(0)
+       ) { return parseInt(tokens[0]) }
+    else {
+      console.error("expecting a single numeric digit")
+    }
+  }
 #+end_src
 
 Work down the table row by row, evolving your program to be able to handle both the current row and all earlier rows.
 
 #+begin_src typescript :tangle parsers.ts
-  var prsr2 = (str) => {
-    tokens = str.split(/\b/);
+  export function prsr2 (str) {
+    const tokens = str.split(/\b/);
     console.log(tokens);
     if (tokens.length == 1) { return parseInt(tokens[0]) }
     if ((tokens[0]+tokens[2]).match(/^[0-9]+$/)) {
@@ -96,8 +109,72 @@ Remember, your inner 10-year-old already knows everything you need to do this!
 | 2*4+6                       | operator precedence                              |
 | 2*(4+6)                     | do your parens still work?                       |
 
+** Error messages
+
 When you run out of input or deal with an ill-formed input string, give the most appropriate error message you can. What does your favourite programming language do when asked to deal with the same input?
 
+** Example Runs
+
+*** Python
+
+#+begin_example
+$ python3
+Python 3.8.5 (default, Jul 21 2020, 10:48:26)
+[Clang 11.0.3 (clang-1103.0.32.62)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import parsers
+2 should be 2: True
+4 should be 4
+>>> parsers.prsr1("6")
+6
+>>> parsers.prsr1("t")
+i can only handle a simple integer right now
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/Users/mengwong/src/smucclaw/complaw/doc/ex-mathlang-20200821/parsers.py", line 9, in prsr1
+    raise ValueError
+ValueError
+>>> parsers.prsr1("two")
+i can only handle a single character right now
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/Users/mengwong/src/smucclaw/complaw/doc/ex-mathlang-20200821/parsers.py", line 12, in prsr1
+    raise ValueError
+ValueError
+#+end_example
+
+*** Javascript / Typescript
+
+You may need to npm i -g typescript
+
+#+begin_example
+$ tsc parsers.ts
+$ node
+Welcome to Node.js v14.4.0.
+Type ".help" for more information.
+> p=require('./parsers.js')
+[ '2' ]
+2 should be 2
+[ '2', '+', '2' ]
+4 should be 4
+[ '2', '*', '4' ]
+8 should be 8
+{
+  __esModule: true,
+  prsr1: [Function: prsr1],
+  prsr2: [Function: prsr2]
+}
+> p.prsr1("two")
+[ 'two' ]
+expecting a single numeric digit
+undefined
+> p.prsr1("0")
+[ '0' ]
+0
+
+#+end_example
+
+** Learning Objectives
 Technical terms for the tricks you performed along the way:
 - tokenization
 - lexing
