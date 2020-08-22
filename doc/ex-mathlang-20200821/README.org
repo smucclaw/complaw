@@ -15,6 +15,8 @@ Socrates asks you to pretend that your inner 10-year-old is locked in a room. Th
 - What are you expecting next?
 - If the paper stops here, what answer would you give?
 
+That's what parsers do, and if it sounds tedious, well, the job of a parser library is to relieve as much of that tedium as possible. For now, though, we need to accept the tedium, because the library lies in our future; if we jump straight to using a library we won't understand what it is doing under the hood, and it's important that you know what happens under the hood. We're building an edifice of understanding from the ground up, brick by brick. What your ten-year-old does, a computer does. The steps of the algorithm are the same; the only difference is that the computer can run one to two billion of these steps every second. No wonder we outsource the tedium to them.
+
 * A Simple Calculator
 
 in your favourite language, write a program or a function that, given the input string, takes it apart, computes it in a way that would satisfy your math teacher in school. But using ~eval()~ is cheating!
