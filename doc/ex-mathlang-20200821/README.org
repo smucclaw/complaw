@@ -97,7 +97,7 @@ You should be able to dialogue with your inner 10-year-old. Go character by char
 | 2 + 4 + 6 - 8               | handle a mix of operators                        |
 | 2 + 10                      | numbers can have multiple digits! "tokenization" |
 | 10 + 22                     | multiple digits on both sides                    |
-| 10 * 22                     | introduce the multiplication operator            |
+| 10 * 10                     | introduce the multiplication operator            |
 | 10 ** 2                     | tokenization is for operators too                |
 | 22 / 10                     | introduce division                               |
 | 22 *                        | what happens when you run out of input?          |
@@ -108,7 +108,7 @@ You should be able to dialogue with your inner 10-year-old. Go character by char
 | (50+50) / -22               | introduce negative numbers in inconvenient spots |
 | -22 / (-5+12)               | introduce negative numbers in other spots        |
 | (0-22) / (2+2)              | do your parens really work?                      |
-| (0-(11+11) / 2 + 2          | operator precedence                              |
+| (11+11) / 2 + 2 * 2         | operator precedence                              |
 | (0-(11                      | give the most detailed error message possible.   |
 | 11 + +10                    | give the most detailed error message possible.   |
 | 11 + -10                    | this is not an error.                            |
@@ -121,6 +121,8 @@ You should be able to dialogue with your inner 10-year-old. Go character by char
 When you run out of input or deal with an ill-formed input string, give the most appropriate error message you can. What does your favourite programming language do when asked to deal with the same input?
 
 ** Example Runs
+
+From emacs org-mode, editing this README.org, C-c C-v C-t to tangle output.
 
 *** Python
 
