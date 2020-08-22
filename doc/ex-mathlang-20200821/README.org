@@ -10,39 +10,93 @@ The learning method is by induction, which means we toss you in the water at suc
 
 * A Simple Calculator
 
-in your favourite language, write a program that, given the input string, takes it apart, computes it in a way that would satisfy your math teacher in school, and produce a result.
+in your favourite language, write a program or a function that, given the input string, takes it apart, computes it in a way that would satisfy your math teacher in school. But using ~eval()~ is cheating!
+
+Here's an example to start you off, in Javascript:
+#+begin_src typescript :tangle parsers.ts
+  var prsr1 = (str) => {
+    tokens = str.split(/\b/);
+    console.log(tokens);
+    if (tokens.length == 1) { return parseInt(tokens[0]) }
+  }
+#+end_src
+
+Same thing in Python:
+#+begin_src python :tangle parsers.py
+  #!/usr/bin/python3
+  import re
+  def prsr1 (str):
+      tokens = re.split(r'\b',str)
+      if len(tokens) == 3:
+          return(tokens[1])
+  print(prsr1("2"), "should be 2")
+#+end_src
 
 Work down the table row by row, evolving your program to be able to handle both the current row and all earlier rows.
 
-Your inner 10-year-old already knows everything you need to do this.
+#+begin_src typescript :tangle parsers.ts
+  var prsr2 = (str) => {
+    tokens = str.split(/\b/);
+    console.log(tokens);
+    if (tokens.length == 1) { return parseInt(tokens[0]) }
+    if ((tokens[0]+tokens[2]).match(/^[0-9]+$/)) {
+      if (tokens[1] == "*") { return tokens[0] * tokens[2]; }
+      if (tokens[1] == "+") { return parseInt(tokens[0]) + parseInt(tokens[2]) }
+    }
+  }
+  console.log(prsr2("2") + ` should be 2`)
+  console.log(prsr2("2+2") + ` should be 4`)
+  console.log(prsr2("2*4") + ` should be 8`)
+#+end_src
 
-| input string       | learning objective                               |
-|--------------------+--------------------------------------------------|
-| 4                  | convert a string to an integer and print it      |
-| 6                  | handle different numbers                         |
-| 8                  | handle different numbers                         |
-| 2+2                | "+" is a binary operator                         |
-| 2 + 2              | discard whitespace                               |
-| 2 +     2          | discard arbitrary whitespace                     |
-| 2 + 4 + 6          | handle different numbers and multiple operators  |
-| 2 + 4 + 6 + 8      | handle different numbers and multiple operators  |
-| 2 + 4 + 6 - 8      | handle a mix of operators                        |
-| 2 + 10             | numbers can have multiple digits! "tokenization" |
-| 10 + 22            | multiple digits on both sides                    |
-| 10 * 22            | introduce the multiplication operator            |
-| 10 ** 2            | tokenization is for operators too                |
-| 22 / 10            | introduce division                               |
-| 22 / (10)          | introduce parentheses                            |
-| 22 / (5+5)         | introduce parentheses for real                   |
-| -22                | introduce negative numbers                       |
-| -22 / (5+5)        | introduce negative numbers in action             |
-| (50+50) / -22      | introduce negative numbers in inconvenient spots |
-| -22 / (-5+12)      | introduce negative numbers in other spots        |
-| (0-22) / (2+2)     | do your parens really work?                      |
-| (0-(11+11) / 2 + 2 | operator precedence                              |
-| 2+4*6              | operator precedence                              |
-| 2*4+6              | operator precedence                              |
-| 2*(4+6)            | do your parens still work?                       |
+#+begin_src python :tangle parsers.py
+  def prsr2 (str):
+      tokens = re.split(r'\b',str)
+      if len(tokens) == 3:
+          return(tokens[1])
+      if len(tokens) == 5:
+          if (tokens[2] == "*"): return int(tokens[1]) * int(tokens[3])
+          if (tokens[2] == "+"): return int(tokens[1]) + int(tokens[3])
+  print(prsr2("2+2"), "should be 4")
+#+end_src
+
+Along the way you will throw up your hands and say "the approach I've been using so far won't work for the next problem!" That is fine. It is called "progress".
+
+Remember, your inner 10-year-old already knows everything you need to do this!
+
+| input string                | learning objective                               |
+|-----------------------------+--------------------------------------------------|
+| 4                           | convert a string to an integer and print it      |
+| 6                           | handle different numbers                         |
+| 8                           | handle different numbers                         |
+| 2+2                         | "+" is a binary operator                         |
+| 2 + 2                       | discard whitespace                               |
+| 2 + \nbsp{}\nbsp{}\nbsp{} 2 | discard arbitrary whitespace                     |
+| 2 + 4 + 6                   | handle different numbers and multiple operators  |
+| 2 + 4 + 6 + 8               | handle different numbers and multiple operators  |
+| 2 + 4 + 6 - 8               | handle a mix of operators                        |
+| 2 + 10                      | numbers can have multiple digits! "tokenization" |
+| 10 + 22                     | multiple digits on both sides                    |
+| 10 * 22                     | introduce the multiplication operator            |
+| 10 ** 2                     | tokenization is for operators too                |
+| 22 / 10                     | introduce division                               |
+| 22 *                        | what happens when you run out of input?          |
+| 22 / (10)                   | introduce parentheses                            |
+| 22 / (5+5)                  | introduce parentheses for real                   |
+| -22                         | introduce negative numbers                       |
+| -22 / (5+5)                 | introduce negative numbers in action             |
+| (50+50) / -22               | introduce negative numbers in inconvenient spots |
+| -22 / (-5+12)               | introduce negative numbers in other spots        |
+| (0-22) / (2+2)              | do your parens really work?                      |
+| (0-(11+11) / 2 + 2          | operator precedence                              |
+| (0-(11                      | give the most detailed error message possible.   |
+| 11 + +10                    | give the most detailed error message possible.   |
+| 11 + -10                    | this is not an error.                            |
+| 2+4*6                       | operator precedence                              |
+| 2*4+6                       | operator precedence                              |
+| 2*(4+6)                     | do your parens still work?                       |
+
+When you run out of input or deal with an ill-formed input string, give the most appropriate error message you can. What does your favourite programming language do when asked to deal with the same input?
 
 Technical terms for the tricks you performed along the way:
 - tokenization
@@ -63,7 +117,7 @@ That's a bidirectional English-to-C converter.
 
 Now imagine a bidirectional English-to-Math converter. You've played this game before, as a 12 year old: they're called word problems in math class.
 
-Write a GF grammar that, given the abstract syntax tree you parsed, produces a coherent English equivalent.
+Write a GF grammar that, given the abstract syntax tree you parsed, produces a coherent English equivalent. As in, "The sum of two and two is four." "Twenty-two divided by the sum of five and five is 2.2".
 
 * Now that you've done it by hand
 
