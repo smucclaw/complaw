@@ -257,8 +257,8 @@ Write a GF grammar that, given the abstract syntax tree you parsed, produces a c
 
 Imagine other languages and their grammars; wouldn't it be nice to abstract out to a separate layer the idea of a lexer? Given a language definition of some sort, it should be possible to automate the code-generation of a lexer and compiler. That's why "yacc" is called "yet another compiler compiler". And that's exactly what Eric Schmidt did before his days as a Google billionaire CEO -- he wrote "lex" as an intern at Bell Labs in 1975.
 
-If you come from Javascript, look at [[https://pegjs.org/online][PEG.js]].
+If you come from Javascript, look at [[https://pegjs.org/online][PEG.js]] or [[https://zaa.ch/jison/][Jison]].
 
 In other languages, see: http://www.rosettacode.org/wiki/Arithmetic_evaluation
 
-
+Finally, learn [[http://bnfc.digitalgrammars.com/][BNFC]].
