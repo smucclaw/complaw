@@ -6552,3 +6552,3055 @@ filling author...
  'filled': True,
  'id_citations': 'cT0QCq0AAAAJ:k_IJM867U9cC',
  'source': 'citations'}
+#+end_example
+*** 2008 An algorithm for business process compliance
+#+begin_example
+{'bib': {'cites': '29',
+         'title': 'An algorithm for business process compliance',
+         'year': '2008'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:KxtntwgDAa4C',
+ 'source': 'citations'}
+#+end_example
+*** 2008 An algorithm for business process compliance :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper provides a novel mechanism to check whether '
+                     'business processes are compliant with business rules '
+                     'regulating them. The key point is that compliance is a '
+                     'relationship between two sets of specifications: the '
+                     'specifications for executing a business process and the '
+                     'specifications regulating it.',
+         'author': 'Guido Governatori and Antonino Rotolo',
+         'cites': '29',
+         'cites_id': '3148139293319367301',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/220810013_An_Algorithm_for_Business_Process_Compliance/links/09e4150e1a40ba79f9000000.pdf',
+         'journal': 'Legal Knowledge and Information Systems: JURIX 2008: the '
+                    'Twentieth First Annual Conference',
+         'pages': '186-195',
+         'publisher': 'IOS Press',
+         'title': 'An algorithm for business process compliance',
+         'url': 'https://www.researchgate.net/profile/Guido_Governatori/publication/220810013_An_Algorithm_for_Business_Process_Compliance/links/09e4150e1a40ba79f9000000.pdf',
+         'volume': '21',
+         'year': '2008'},
+ 'citations_link': '/scholar?cites=3148139293319367301',
+ 'cites_per_year': {2009: 4,
+                    2010: 3,
+                    2011: 3,
+                    2012: 4,
+                    2013: 2,
+                    2014: 4,
+                    2015: 4,
+                    2016: 2,
+                    2017: 1,
+                    2018: 1,
+                    2019: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:KxtntwgDAa4C',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Regorous: a business process compliance checker
+#+begin_example
+{'bib': {'cites': '28',
+         'title': 'Regorous: a business process compliance checker',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:F9fV5C73w3QC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Regorous: a business process compliance checker :filled:
+#+begin_example
+{'bib': {'abstract': 'We report on the development of Regorous, a business '
+                     'process compliance checker, based on the '
+                     'compliance-by-design methodology proposed by Governatori '
+                     'and Sadiq [8]. For a screencast see http://www. youtube. '
+                     'com/watch? v= gFmDQJNai_4r',
+         'author': 'Guido Governatori and Sidney Shek',
+         'cites': '28',
+         'cites_id': '11381871201041757799',
+         'eprint': 'https://ts.data61.csiro.au/publications/nicta_full_text/7001.pdf',
+         'pages': '245-246',
+         'title': 'Regorous: a business process compliance checker',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/2514601.2514638',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=11381871201041757799',
+ 'cites_per_year': {2013: 4,
+                    2014: 2,
+                    2015: 4,
+                    2016: 3,
+                    2017: 2,
+                    2018: 3,
+                    2019: 6,
+                    2020: 4},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:F9fV5C73w3QC',
+ 'source': 'citations'}
+#+end_example
+*** 2011 On the relationship between Carneades and defeasible logic
+#+begin_example
+{'bib': {'cites': '28',
+         'title': 'On the relationship between Carneades and defeasible logic',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:5ugPr518TE4C',
+ 'source': 'citations'}
+#+end_example
+*** 2011 On the relationship between Carneades and defeasible logic :filled:
+#+begin_example
+{'bib': {'abstract': 'We study the formal relationships between the '
+                     'inferential aspects of Carneades (a general '
+                     'argumentation framework) and Defeasible Logic. The '
+                     'outcome of the investigation is that the current proof '
+                     'standards proposed in the Carneades framework correspond '
+                     'to some variants of Defeasible Logic.',
+         'author': 'Guido Governatori',
+         'cites': '28',
+         'cites_id': '2915204390792203717',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/221539146_On_the_relationship_between_Carneades_and_Defeasible_Logic/links/09e4150ebd1cb79d15000000/On-the-relationship-between-Carneades-and-Defeasible-Logic.pdf',
+         'pages': '31-40',
+         'title': 'On the relationship between Carneades and defeasible logic',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/2018358.2018362',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=2915204390792203717',
+ 'cites_per_year': {2011: 4,
+                    2012: 6,
+                    2013: 2,
+                    2014: 1,
+                    2015: 6,
+                    2016: 2,
+                    2017: 1,
+                    2018: 4,
+                    2019: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:5ugPr518TE4C',
+ 'source': 'citations'}
+#+end_example
+*** 2005 A semantic web based architecture for e-contracts in defeasible logic
+#+begin_example
+{'bib': {'cites': '28',
+         'title': 'A semantic web based architecture for e-contracts in '
+                  'defeasible logic',
+         'year': '2005'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:HoB7MX3m0LUC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 A semantic web based architecture for e-contracts in defeasible logic :filled:
+#+begin_example
+{'bib': {'abstract': 'We introduce the DR-CONTRACT architecture to represent '
+                     'and reason on e-Contracts. The architecture extends the '
+                     'DR-device architecture by a deontic defeasible logic of '
+                     'violation. We motivate the choice for the logic and we '
+                     'show how to extend RuleML to capture the notions '
+                     'relevant to describe e-contracts for a monitoring '
+                     'perspective in Defeasible Logic.',
+         'author': 'Guido Governatori and Duy Pham Hoang',
+         'cites': '28',
+         'cites_id': '14407359404373776039',
+         'eprint': 'ftp://nozdr.ru/biblio/kolxoz/Cs/CsLn/R/Rules%20and%20Rule%20Markup%20Languages%20for%20the%20Semantic%20Web,%201%20conf.,%20RuleML%202005(LNCS3791,%20Springer,%202005)(ISBN%20354029922X)(232s).pdf#page=153',
+         'pages': '145-159',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'A semantic web based architecture for e-contracts in '
+                  'defeasible logic',
+         'url': 'https://link.springer.com/chapter/10.1007/11580072_12',
+         'year': '2005'},
+ 'citations_link': '/scholar?cites=14407359404373776039',
+ 'cites_per_year': {2006: 4,
+                    2007: 7,
+                    2008: 3,
+                    2009: 7,
+                    2010: 1,
+                    2011: 3,
+                    2012: 1,
+                    2013: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:HoB7MX3m0LUC',
+ 'source': 'citations'}
+#+end_example
+*** 2003 A defeasible logic of policy-based intention
+#+begin_example
+{'bib': {'cites': '28',
+         'title': 'A defeasible logic of policy-based intention',
+         'year': '2003'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:ZHo1McVdvXMC',
+ 'source': 'citations'}
+#+end_example
+*** 2003 A defeasible logic of policy-based intention :filled:
+#+begin_example
+{'bib': {'abstract': 'Most of the theories on formalising intention interpret '
+                     'it as a unary modal operator in Kripkean semantics, '
+                     'which gives it a monotonic look. We argue that '
+                     'policy-based intentions exhibit non-monotonic behaviour '
+                     'which could be captured through a non-monotonic system '
+                     'like defeasible logic. To this end we outline a '
+                     'defeasible logic of intention. The proposed technique '
+                     'alleviates most of the problems related to logical '
+                     'omniscience. The proof theory given shows how our '
+                     'approach helps in the maintenance of '
+                     'intention-consistency in agent systems like BDI.',
+         'author': 'Guido Governatori and Vineet Padmanabhan',
+         'cites': '28',
+         'cites_id': '13671670716306281492',
+         'eprint': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.88.3810&rep=rep1&type=pdf',
+         'pages': '414-426',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'A defeasible logic of policy-based intention',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-540-24581-0_35',
+         'year': '2003'},
+ 'citations_link': '/scholar?cites=13671670716306281492',
+ 'cites_per_year': {2003: 2,
+                    2004: 3,
+                    2005: 2,
+                    2006: 2,
+                    2007: 2,
+                    2008: 5,
+                    2009: 2,
+                    2010: 1,
+                    2011: 2,
+                    2012: 4,
+                    2013: 1,
+                    2014: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:ZHo1McVdvXMC',
+ 'source': 'citations'}
+#+end_example
+*** 2016 The rationale behind the concept of goal
+#+begin_example
+{'bib': {'cites': '27',
+         'title': 'The rationale behind the concept of goal',
+         'year': '2016'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:srBcWmd28BQC',
+ 'source': 'citations'}
+#+end_example
+*** 2016 The rationale behind the concept of goal :filled:
+#+begin_example
+{'bib': {'abstract': 'The paper proposes a fresh look at the concept of goal '
+                     'and advances that motivational attitudes like desire, '
+                     'goal and intention are just facets of the broader notion '
+                     'of (acceptable) outcome. We propose to encode the '
+                     'preferences of an agent as sequences of “alternative '
+                     "acceptable outcomes”. We then study how the agent's "
+                     'beliefs and norms can be used to filter the mental '
+                     'attitudes out of the sequences of alternative acceptable '
+                     'outcomes. Finally, we formalise such intuitions in a '
+                     'novel Modal Defeasible Logic and we prove that the '
+                     'resulting formalisation is computationally feasible.',
+         'author': 'Guido Governatori and Francesco Olivieri and Simone '
+                   'Scannapieco and Antonino Rotolo and Matteo Cristani',
+         'cites': '27',
+         'cites_id': '4168731218339448442',
+         'eprint': 'https://arxiv.org/pdf/1512.04021',
+         'journal': 'Theory and Practice of Logic Programming',
+         'number': '3',
+         'pages': '296-324',
+         'publisher': 'Cambridge University Press',
+         'title': 'The rationale behind the concept of goal',
+         'url': 'https://www.cambridge.org/core/journals/theory-and-practice-of-logic-programming/article/rationale-behind-the-concept-of-goal/06F126ACC01C49525498448266A5DE98',
+         'volume': '16',
+         'year': '2016'},
+ 'citations_link': '/scholar?cites=4168731218339448442',
+ 'cites_per_year': {2015: 3, 2016: 4, 2017: 5, 2018: 8, 2019: 6, 2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:srBcWmd28BQC',
+ 'source': 'citations'}
+#+end_example
+*** 2015 Business process regulatory compliance is hard
+#+begin_example
+{'bib': {'cites': '27',
+         'title': 'Business process regulatory compliance is hard',
+         'year': '2015'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:gXFvZ3BI3UoC',
+ 'source': 'citations'}
+#+end_example
+*** 2015 Business process regulatory compliance is hard :filled:
+#+begin_example
+{'bib': {'author': 'Silvano Colombo Tosatto and Guido Governatori and Pierre '
+                   'Kelsen',
+         'cites': '27',
+         'cites_id': '14353120041934575023',
+         'journal': 'IEEE Transactions on Services Computing',
+         'number': '6',
+         'pages': '958-970',
+         'publisher': 'IEEE',
+         'title': 'Business process regulatory compliance is hard',
+         'volume': '8',
+         'year': '2015'},
+ 'citations_link': '/scholar?cites=14353120041934575023',
+ 'cites_per_year': {2013: 4,
+                    2014: 1,
+                    2015: 3,
+                    2016: 5,
+                    2017: 5,
+                    2018: 2,
+                    2019: 3,
+                    2020: 4},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:gXFvZ3BI3UoC',
+ 'source': 'citations'}
+#+end_example
+*** 2015 Deontic defeasible reasoning in legal interpretation: two options for modelling interpretive arguments
+#+begin_example
+{'bib': {'cites': '27',
+         'title': 'Deontic defeasible reasoning in legal interpretation: two '
+                  'options for modelling interpretive arguments',
+         'year': '2015'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:4LC-jEhLaRQC',
+ 'source': 'citations'}
+#+end_example
+*** 2015 Deontic defeasible reasoning in legal interpretation: two options for modelling interpretive arguments :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper offers a new logical machinery for reasoning '
+                     'about interpretive canons. We identify some options for '
+                     'modelling reasoning about interpretations and show that '
+                     'interpretative argumentation has a distinctive structure '
+                     'where the claim that a legal text ought or may be '
+                     'interpreted in a certain way can be supported or '
+                     'attacked by arguments, whose conflicts may have to be '
+                     'assessed according to further arguments.',
+         'author': 'Antonino Rotolo and Guido Governatori and Giovanni Sartor',
+         'cites': '27',
+         'cites_id': '17158026141741626451',
+         'eprint': 'https://ts.data61.csiro.au/publications/nicta_full_text/8525.pdf',
+         'pages': '99-108',
+         'title': 'Deontic defeasible reasoning in legal interpretation: two '
+                  'options for modelling interpretive arguments',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/2746090.2746100',
+         'year': '2015'},
+ 'citations_link': '/scholar?cites=17158026141741626451',
+ 'cites_per_year': {2016: 9, 2017: 9, 2018: 2, 2019: 4, 2020: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:4LC-jEhLaRQC',
+ 'source': 'citations'}
+#+end_example
+*** 2015 The Regorous Approach to Process Compliance
+#+begin_example
+{'bib': {'cites': '27',
+         'title': 'The Regorous Approach to Process Compliance',
+         'year': '2015'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:JZsVLox4iN8C',
+ 'source': 'citations'}
+#+end_example
+*** 2015 The Regorous Approach to Process Compliance :filled:
+#+begin_example
+{'bib': {'abstract': 'We propose an ITC (Information and Communication '
+                     'Technology) approach to support regulatory compliance '
+                     'for business processes, and we report on the development '
+                     'and evaluation of a business process compliance checker '
+                     'called Regorous, based on the compliance-by-design '
+                     'methodology proposed by Governatori and Sadiq [1].',
+         'author': 'Guido Governatori',
+         'cites': '27',
+         'cites_id': '18430306272753889055',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/281095044_The_Regorous_Approach_to_Process_Compliance/links/55d474a108ae0a341723bee5/The-Regorous-Approach-to-Process-Compliance.pdf',
+         'pages': '33-40',
+         'publisher': 'IEEE Press',
+         'title': 'The Regorous Approach to Process Compliance',
+         'url': 'https://ieeexplore.ieee.org/abstract/document/7310668/',
+         'year': '2015'},
+ 'citations_link': '/scholar?cites=18430306272753889055',
+ 'cites_per_year': {2015: 1, 2016: 3, 2017: 3, 2018: 10, 2019: 6, 2020: 4},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:JZsVLox4iN8C',
+ 'source': 'citations'}
+#+end_example
+*** 2015 No Time for Compliance
+#+begin_example
+{'bib': {'cites': '27', 'title': 'No Time for Compliance', 'year': '2015'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:lM7bPffmjyEC',
+ 'source': 'citations'}
+#+end_example
+*** 2015 No Time for Compliance :filled:
+#+begin_example
+{'bib': {'abstract': 'In the past few years several business process '
+                     'compliance frameworks based on temporal logic have been '
+                     'proposed. In this paper we investigate whether the use '
+                     'of temporal logic is suitable for the task at hand: '
+                     'namely to check whether the specifications of a business '
+                     'process are compatible with the formalisation of the '
+                     'norms regulating the business process. We provide an '
+                     'example inspired by real life norms where the use of '
+                     'linear temporal logic produces a result that is not '
+                     'compatible with the legal understanding of the norms in '
+                     'the example.',
+         'author': 'Guido Governatori and Mustafa Hashmi',
+         'cites': '27',
+         'cites_id': '173702434699345937',
+         'eprint': 'https://eprints.qut.edu.au/85237/1/GuidoHashmi_EDOC15.pdf',
+         'pages': '9-18',
+         'publisher': 'IEEE Press',
+         'title': 'No Time for Compliance',
+         'url': 'https://ieeexplore.ieee.org/abstract/document/7321149/',
+         'year': '2015'},
+ 'citations_link': '/scholar?cites=173702434699345937',
+ 'cites_per_year': {2015: 4, 2016: 3, 2017: 3, 2018: 6, 2019: 8, 2020: 3},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:lM7bPffmjyEC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 A modal defeasible reasoner of deontic logic for the semantic web
+#+begin_example
+{'bib': {'cites': '27',
+         'title': 'A modal defeasible reasoner of deontic logic for the '
+                  'semantic web',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:KrOX6H5u0oYC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 A modal defeasible reasoner of deontic logic for the semantic web :filled:
+#+begin_example
+{'bib': {'abstract': 'Defeasible logic is a non-monotonic formalism that deals '
+                     'with incomplete and conflicting information, whereas '
+                     'modal logic deals with the concepts of necessity and '
+                     'possibility. These types of logics play a significant '
+                     'role in the emerging Semantic Web, which enriches the '
+                     'available Web information with meaning, leading to '
+                     'better cooperation between end-users and applications. '
+                     'Defeasible and modal logics, in general, and, '
+                     'particularly, deontic logic provide means for modeling '
+                     'agent communities, where each agent is characterized by '
+                     'its cognitive profile and normative system, as well as '
+                     'policies, which define privacy requirements, access '
+                     'permissions, and individual rights. Toward this '
+                     'direction, this article discusses the extension of '
+                     'DR-DEVICE, a Semantic Web-aware defeasible reasoner, '
+                     'with a mechanism for expressing modal logic operators, '
+                     'while testing the implementation via deontic logic '
+                     'operators …',
+         'author': 'Efstratios Kontopoulos and Nick Bassiliades and Guido '
+                   'Governatori and Grigoris Antoniou',
+         'cites': '27',
+         'cites_id': '2398264376254326120',
+         'eprint': 'https://www.researchgate.net/profile/Nick_Bassiliades/publication/314038782_A_Modal_Defeasible_Reasoner_of_Deontic_Logic_for_the_Semantic_Web/links/58e286dfaca272059ab62ecd/A-Modal-Defeasible-Reasoner-of-Deontic-Logic-for-the-Semantic-Web.pdf',
+         'pages': '140-167',
+         'publisher': 'IGI Global',
+         'title': 'A modal defeasible reasoner of deontic logic for the '
+                  'semantic web',
+         'url': 'https://www.igi-global.com/chapter/content/76175',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=2398264376254326120',
+ 'cites_per_year': {2012: 2,
+                    2013: 5,
+                    2014: 3,
+                    2015: 3,
+                    2016: 4,
+                    2017: 2,
+                    2018: 2,
+                    2019: 4,
+                    2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:KrOX6H5u0oYC',
+ 'source': 'citations'}
+#+end_example
+*** 2011 Designing for Compliance: Norms and Goals
+#+begin_example
+{'bib': {'cites': '27',
+         'title': 'Designing for Compliance: Norms and Goals',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:LkGwnXOMwfcC',
+ 'source': 'citations'}
+#+end_example
+*** 2011 Designing for Compliance: Norms and Goals :filled:
+#+begin_example
+{'bib': {'abstract': 'We address the problem of define a modal defeasible '
+                     'theory able to capture intuitions as “being compliant” '
+                     'with a set of norms and a set of goals. We will treat '
+                     'norms and goals as modalised literals. From the '
+                     'definition of this new kind of logic, two main issues '
+                     'arises whether a theory is compliant or not: (a) how to '
+                     'revise a non compliant theory to obtain a new compliant '
+                     'one; (b) in case the theory is compliant how to create '
+                     'an entirely new process starting from the theory, i.e., '
+                     'from the fully declarative description of the '
+                     'specifications for a process and the norms.',
+         'author': 'Guido Governatori and Francesco Olivieri and Simone '
+                   'Scannapieco and Matteo Cristani',
+         'cites': '27',
+         'cites_id': '13257252268852628202',
+         'eprint': 'https://www.researchgate.net/profile/Francesco_Olivieri/publication/221343168_Designing_for_Compliance_Norms_and_Goals/links/55ae3f0c08aee079922018da/Designing-for-Compliance-Norms-and-Goals.pdf',
+         'journal': 'Rule-Based Modeling and Computing on the Semantic Web',
+         'pages': '282-297',
+         'publisher': 'Springer Berlin/Heidelberg',
+         'title': 'Designing for Compliance: Norms and Goals',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-642-24908-2_29',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=13257252268852628202',
+ 'cites_per_year': {2012: 4,
+                    2013: 6,
+                    2014: 2,
+                    2015: 3,
+                    2016: 2,
+                    2017: 1,
+                    2018: 3,
+                    2019: 3,
+                    2020: 3},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:LkGwnXOMwfcC',
+ 'source': 'citations'}
+#+end_example
+*** 1996 Towards a computational treatment of deontic defeasibility
+#+begin_example
+{'bib': {'cites': '27',
+         'title': 'Towards a computational treatment of deontic defeasibility',
+         'year': '1996'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:2P1L_qKh6hAC',
+ 'source': 'citations'}
+#+end_example
+*** 1996 Towards a computational treatment of deontic defeasibility :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we describe an algorithmic framework for a '
+                     'multi-modal logic arising from the combination of the '
+                     'system of modal (epistemic) logic devised by Meyer and '
+                     'van der Hoek for dealing with nonmonotonic reasoning '
+                     'with a deontic logic of the Jones and Pörn-type. The '
+                     'idea behind this (somewhat eclectic) formal set-up is to '
+                     'have a modal framework expressive enough to model '
+                     'certain kinds of deontic defeasibility, in particular by '
+                     'taking into account preferences on norms. The '
+                     'appropriate inference mechanism is provided by a '
+                     'tableau-like modal theorem proving system which supports '
+                     'a proof method closely related to the semantics of modal '
+                     'operators. We argue that this system is particularly '
+                     'well-suited for mechanizing nonmonotonic forms of '
+                     'inference in a monotonic multimodal setting.',
+         'author': 'Alberto Artosi and Guido Governatori and Giovanni Sartor',
+         'cites': '27',
+         'cites_id': '13391001114809742335',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/37617682_Towards_a_Computational_Treatment_of_Deontic_Defeasibility/links/09e4150e3f52484102000000/Towards-a-Computational-Treatment-of-Deontic-Defeasibility.pdf',
+         'pages': '27-46',
+         'publisher': 'Springer, London',
+         'title': 'Towards a computational treatment of deontic defeasibility',
+         'url': 'https://link.springer.com/chapter/10.1007/978-1-4471-1488-8_2',
+         'year': '1996'},
+ 'citations_link': '/scholar?cites=13391001114809742335',
+ 'cites_per_year': {1996: 2,
+                    1997: 3,
+                    1998: 2,
+                    1999: 6,
+                    2000: 1,
+                    2001: 2,
+                    2002: 1,
+                    2003: 1,
+                    2004: 1,
+                    2005: 1,
+                    2006: 1,
+                    2007: 1,
+                    2008: 2,
+                    2009: 1,
+                    2010: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:2P1L_qKh6hAC',
+ 'source': 'citations'}
+#+end_example
+*** 2016 Semantic business process regulatory compliance checking using LegalRuleML
+#+begin_example
+{'bib': {'cites': '26',
+         'title': 'Semantic business process regulatory compliance checking '
+                  'using LegalRuleML',
+         'year': '2016'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:afceBpUbn5YC',
+ 'source': 'citations'}
+#+end_example
+*** 2016 Semantic business process regulatory compliance checking using LegalRuleML :filled:
+#+begin_example
+{'bib': {'abstract': 'Legal documents are the source of norms, guidelines, and '
+                     'rules that often feed into different applications. In '
+                     'this perspective, to foster the need of development and '
+                     'deployment of different applications, it is important to '
+                     'have a sufficiently expressive conceptual framework such '
+                     'that various heterogeneous aspects of norms can be '
+                     'modeled and reasoned with. In this paper, we investigate '
+                     'how to exploit Semantic Web technologies and languages, '
+                     'such as LegalRuleML, to model a legal document. We show '
+                     'how the semantic annotations can be used to empower a '
+                     'business process (regulatory) compliance system and '
+                     'discuss the challenges of adapting a semantic approach '
+                     'to legal domain.',
+         'author': 'Guido Governatori and Mustafa Hashmi and Ho-Pun Lam and '
+                   'Serena Villata and Monica Palmirani',
+         'cites': '26',
+         'cites_id': '7568038404223414332',
+         'eprint': 'https://hal.archives-ouvertes.fr/hal-01572441/file/paperEKAW2016.pdf',
+         'pages': '746-761',
+         'publisher': 'Springer, Cham',
+         'title': 'Semantic business process regulatory compliance checking '
+                  'using LegalRuleML',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-319-49004-5_48',
+         'year': '2016'},
+ 'citations_link': '/scholar?cites=7568038404223414332',
+ 'cites_per_year': {2015: 2, 2016: 6, 2017: 6, 2018: 8, 2019: 4},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:afceBpUbn5YC',
+ 'source': 'citations'}
+#+end_example
+*** 2008 Changing legal systems: Abrogation and annulment. part ii: Temporalised defeasible logic
+#+begin_example
+{'bib': {'cites': '26',
+         'title': 'Changing legal systems: Abrogation and annulment. part ii: '
+                  'Temporalised defeasible logic',
+         'year': '2008'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:cFHS6HbyZ2cC',
+ 'source': 'citations'}
+#+end_example
+*** 2008 Changing legal systems: Abrogation and annulment. part ii: Temporalised defeasible logic :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we propose a temporal extension of '
+                     'Defeasible Logic to model legal modifications, such as '
+                     'abrogation and annulment. Hence, this framework '
+                     'overcomes the difficulty, discussed elsewhere [7], of '
+                     'capturing these modification types using belief and base '
+                     'revision.',
+         'author': 'Guido Governatori and Antonino Rotolo',
+         'cites': '26',
+         'cites_id': '12058749090795678819',
+         'eprint': 'http://www.academia.edu/download/38512116/normas.pdf',
+         'title': 'Changing legal systems: Abrogation and annulment. part ii: '
+                  'Temporalised defeasible logic',
+         'url': 'http://www.academia.edu/download/38512116/normas.pdf',
+         'year': '2008'},
+ 'citations_link': '/scholar?cites=12058749090795678819',
+ 'cites_per_year': {2008: 3,
+                    2009: 1,
+                    2010: 6,
+                    2011: 5,
+                    2012: 2,
+                    2013: 1,
+                    2014: 1,
+                    2015: 4,
+                    2016: 2,
+                    2017: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:cFHS6HbyZ2cC',
+ 'source': 'citations'}
+#+end_example
+*** 2006 The cost of social agents
+#+begin_example
+{'bib': {'cites': '26', 'title': 'The cost of social agents', 'year': '2006'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:O3NaXMp0MMsC',
+ 'source': 'citations'}
+#+end_example
+*** 2006 The cost of social agents :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we follow the BOID (Belief, Obligation, '
+                     'Intention, Desire) architecture to describe agents and '
+                     'agent types in Defeasible Logic. We argue that the '
+                     'introduction of obligations can provide a new reading of '
+                     'the concepts of intention and intentionality. Then we '
+                     'examine the notion of social agent (ie, an agent where '
+                     'obligations prevail over intentions) and discuss some '
+                     'computational and philosophical issues related to it. We '
+                     'show that the notion of social agent either requires '
+                     'more complex computations or has some philosophical '
+                     'drawbacks.',
+         'author': 'Guido Governatori and Antonino Rotolo and Vineet '
+                   'Padmanabhan',
+         'cites': '26',
+         'cites_id': '12922906954954637255',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/221455980_The_cost_of_social_agents/links/0deec524db9d7b09b4000000/The-cost-of-social-agents.pdf',
+         'pages': '513-520',
+         'publisher': 'ACM',
+         'title': 'The cost of social agents',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/1160633.1160728',
+         'year': '2006'},
+ 'citations_link': '/scholar?cites=12922906954954637255',
+ 'cites_per_year': {2006: 3,
+                    2007: 9,
+                    2008: 5,
+                    2009: 5,
+                    2010: 1,
+                    2011: 1,
+                    2012: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:O3NaXMp0MMsC',
+ 'source': 'citations'}
+#+end_example
+*** 2002 On fibring semantics for BDI logics
+#+begin_example
+{'bib': {'cites': '26',
+         'title': 'On fibring semantics for BDI logics',
+         'year': '2002'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:vV6vV6tmYwMC',
+ 'source': 'citations'}
+#+end_example
+*** 2002 On fibring semantics for BDI logics :filled:
+#+begin_example
+{'bib': {'abstract': 'This study examines BDI logics in the context of '
+                     'Gabbay’s fibring semantics. We show that dovetailing (a '
+                     'special form of fibring) can be adopted as a semantic '
+                     'methodology to combine BDI logics. We develop a set of '
+                     'interaction axioms that can capture static as well as '
+                     'dynamic aspects of the mental states in BDI systems, '
+                     'using Catach’s incestual schema G a,b,c,d. Further we '
+                     'exemplify the constraints required on fibring function '
+                     'to capture the semantics of interactions among '
+                     'modalities. The advantages of having a fibred approach '
+                     'is discussed in the final section.',
+         'author': 'Guido Governatori and Vineet Padmanabhan and Abdul Sattar',
+         'cites': '26',
+         'cites_id': '8932507760926247487',
+         'eprint': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.468.847&rep=rep1&type=pdf#page=214',
+         'pages': '198-210',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'On fibring semantics for BDI logics',
+         'url': 'https://link.springer.com/chapter/10.1007/3-540-45757-7_17',
+         'year': '2002'},
+ 'citations_link': '/scholar?cites=8932507760926247487',
+ 'cites_per_year': {2003: 2,
+                    2004: 2,
+                    2005: 2,
+                    2006: 5,
+                    2007: 1,
+                    2008: 3,
+                    2009: 1,
+                    2010: 2,
+                    2011: 1,
+                    2012: 1,
+                    2013: 1,
+                    2014: 1,
+                    2015: 2,
+                    2016: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:vV6vV6tmYwMC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Business process compliance: An abstract normative framework
+#+begin_example
+{'bib': {'cites': '25',
+         'title': 'Business process compliance: An abstract normative '
+                  'framework',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:qyhmnyLat1gC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Business process compliance: An abstract normative framework :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we propose an abstract framework to model '
+                     'the             deontic notions relevant for business '
+                     'process compliance. In             particular, we '
+                     'provide a comprehensive classification of '
+                     'the             obligation types relevant for modelling '
+                     'whether a process is             compliant, and we '
+                     'describe their semantics in terms of '
+                     'execution             traces.',
+         'author': 'Guido Governatori',
+         'cites': '25',
+         'cites_id': '16186159821355323095',
+         'eprint': 'https://www.degruyter.com/downloadpdf/journals/itit/55/6/article-p231.pdf',
+         'journal': 'IT-Information Technology',
+         'number': '6',
+         'pages': '231-238',
+         'publisher': 'De Gruyter Oldenbourg',
+         'title': 'Business process compliance: An abstract normative '
+                  'framework',
+         'url': 'https://www.degruyter.com/view/journals/itit/55/6/article-p231.xml',
+         'volume': '55',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=16186159821355323095',
+ 'cites_per_year': {2014: 4, 2015: 8, 2016: 3, 2017: 4, 2018: 3, 2019: 3},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:qyhmnyLat1gC',
+ 'source': 'citations'}
+#+end_example
+*** 2012 Business process data compliance
+#+begin_example
+{'bib': {'cites': '25',
+         'title': 'Business process data compliance',
+         'year': '2012'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:Ri6SYOTghG4C',
+ 'source': 'citations'}
+#+end_example
+*** 2012 Business process data compliance :filled:
+#+begin_example
+{'bib': {'abstract': 'Most approaches to business process compliance are '
+                     'restricted to the analysis of the structure of '
+                     'processes. It has been argued that full regulatory '
+                     'compliance requires information on not only the '
+                     'structure of processes but also on what the tasks in a '
+                     'process do. To this end Governatori and Sadiq [2007] '
+                     'proposed to extend business processes with semantic '
+                     'annotations. We propose a methodology to automatically '
+                     'extract one kind of such annotations; in particular the '
+                     'annotations related to the data schema and templates '
+                     'linked to the various tasks in a business process.',
+         'author': 'Mustafa Hashmi and Guido Governatori and Moe Thandar Wynn',
+         'cites': '25',
+         'cites_id': '18219208915604714571',
+         'eprint': 'https://eprints.qut.edu.au/51316/1/RuleML2012.pdf',
+         'pages': '32-46',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Business process data compliance',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-642-32689-9_4',
+         'year': '2012'},
+ 'citations_link': '/scholar?cites=18219208915604714571',
+ 'cites_per_year': {2012: 1,
+                    2013: 5,
+                    2014: 4,
+                    2015: 4,
+                    2016: 5,
+                    2017: 1,
+                    2018: 1,
+                    2019: 3,
+                    2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:Ri6SYOTghG4C',
+ 'source': 'citations'}
+#+end_example
+*** 2011 What are the necessity rules in defeasible reasoning?
+#+begin_example
+{'bib': {'cites': '25',
+         'title': 'What are the necessity rules in defeasible reasoning?',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:vbGhcppDl1QC',
+ 'source': 'citations'}
+#+end_example
+*** 2011 What are the necessity rules in defeasible reasoning? :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper investigates a new approach for computing the '
+                     'inference of defeasible logic. The algorithm proposed '
+                     'can substantially reduced the theory size increase due '
+                     'to transformations while preserving the representation '
+                     'properties in different variants of DL. Experiments also '
+                     'show that our algorithm outperform traditional approach '
+                     'by several order of amplitudes.',
+         'author': 'Ho-Pun Lam and Guido Governatori',
+         'cites': '25',
+         'cites_id': '4591523940325341147',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/221306844_What_Are_the_Necessity_Rules_in_Defeasible_Reasoning/links/09e4150e1a40ac0d01000000.pdf',
+         'pages': '187-192',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'What are the necessity rules in defeasible reasoning?',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-642-20895-9_17',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=4591523940325341147',
+ 'cites_per_year': {2012: 3,
+                    2013: 6,
+                    2014: 2,
+                    2015: 1,
+                    2016: 2,
+                    2017: 2,
+                    2018: 3,
+                    2019: 3},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:vbGhcppDl1QC',
+ 'source': 'citations'}
+#+end_example
+*** 2010 Law, logic and business processes
+#+begin_example
+{'bib': {'cites': '25',
+         'title': 'Law, logic and business processes',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:VL0QpB8kHFEC',
+ 'source': 'citations'}
+#+end_example
+*** 2010 Law, logic and business processes :filled:
+#+begin_example
+{'bib': {'abstract': 'Since its inception one of the aims of legal informatics '
+                     'has been to provide tools to support and improve the day '
+                     'to day activities of legal and normative practice and a '
+                     'better understanding of legal reasoning. The internet '
+                     'revolutions, where more and more daily activities are '
+                     'routinely performed with the support of ITC tools, '
+                     'offers new opportunities to legal informatics. We argue '
+                     'that the current technology begins to be mature enough '
+                     'to embrace in the challenge to make intelligent ICT '
+                     'support widespread in the legal and normative domain. In '
+                     'this paper we examine a logical model to encode norms '
+                     'and we use the formalisation of relevant law and '
+                     'regulations for regulatory compliance for business '
+                     'processes.',
+         'author': 'Guido Governatori',
+         'cites': '25',
+         'cites_id': '12184216376486352064',
+         'eprint': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.431.104&rep=rep1&type=pdf',
+         'pages': '1-10',
+         'publisher': 'IEEE',
+         'title': 'Law, logic and business processes',
+         'url': 'https://ieeexplore.ieee.org/abstract/document/5625356/',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=12184216376486352064',
+ 'cites_per_year': {2011: 2,
+                    2012: 4,
+                    2013: 3,
+                    2014: 4,
+                    2015: 1,
+                    2016: 4,
+                    2017: 1,
+                    2018: 3,
+                    2019: 1,
+                    2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:VL0QpB8kHFEC',
+ 'source': 'citations'}
+#+end_example
+*** 2008 Proof explanation for a nonmonotonic Semantic Web rules language
+#+begin_example
+{'bib': {'cites': '25',
+         'title': 'Proof explanation for a nonmonotonic Semantic Web rules '
+                  'language',
+         'year': '2008'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:EUQCXRtRnyEC',
+ 'source': 'citations'}
+#+end_example
+*** 2008 Proof explanation for a nonmonotonic Semantic Web rules language :filled:
+#+begin_example
+{'bib': {'abstract': 'In this work, we present the design and implementation '
+                     'of a system for proof explanation in the Semantic Web, '
+                     'based on defeasible reasoning. Trust is a vital feature '
+                     'for Semantic Web. If users (humans and agents) are to '
+                     'use and integrate system answers, they must trust them. '
+                     'Thus, systems should be able to explain their actions, '
+                     'sources, and beliefs. Our system produces automatically '
+                     'proof explanations using a popular logic programming '
+                     'system (XSB), by interpreting the output from the '
+                     'proof’s trace and converting it into a meaningful '
+                     'representation. It also supports an XML representation '
+                     'for agent communication, which is a common scenario in '
+                     'the Semantic Web. In this paper, we present the design '
+                     'and implementation of the system, a RuleML language '
+                     'extension for the representation of a proof explanation, '
+                     'and we give some examples of the system. The system in '
+                     'essence implements a proof layer for …',
+         'author': 'Grigoris Antoniou and Antonis Bikakis and Nikos Dimaresis '
+                   'and Manolis Genetzakis and Giannis Georgalis and Guido '
+                   'Governatori and Efie Karouzaki and Nikolas Kazepis and '
+                   'Dimitris Kosmadakis and Manolis Kritsotakis and Giannis '
+                   'Lilis and Antonis Papadogiannakis and Panagiotis '
+                   'Pediaditis and Constantinos Terzakis and Rena Theodosaki '
+                   'and Dimitris Zeginis',
+         'cites': '25',
+         'cites_id': '640428827236940268',
+         'eprint': 'http://www.academia.edu/download/42444779/Proof_explanation_for_a_nonmonotonic_Sem20160208-26579-1blpanq.pdf',
+         'journal': 'Data & Knowledge Engineering',
+         'number': '3',
+         'pages': '662-687',
+         'publisher': 'North-Holland',
+         'title': 'Proof explanation for a nonmonotonic Semantic Web rules '
+                  'language',
+         'url': 'https://www.sciencedirect.com/science/article/pii/S0169023X07001863',
+         'volume': '64',
+         'year': '2008'},
+ 'citations_link': '/scholar?cites=640428827236940268',
+ 'cites_per_year': {2008: 5,
+                    2009: 3,
+                    2010: 1,
+                    2011: 5,
+                    2012: 1,
+                    2013: 2,
+                    2014: 1,
+                    2015: 4,
+                    2016: 1,
+                    2017: 1,
+                    2018: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:EUQCXRtRnyEC',
+ 'source': 'citations'}
+#+end_example
+*** 2002 A Gentzen system for reasoning with contrary-to-duty obligations: A preliminary study
+#+begin_example
+{'bib': {'cites': '25',
+         'title': 'A Gentzen system for reasoning with contrary-to-duty '
+                  'obligations: A preliminary study',
+         'year': '2002'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:RGFaLdJalmkC',
+ 'source': 'citations'}
+#+end_example
+*** 2002 A Gentzen system for reasoning with contrary-to-duty obligations: A preliminary study :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we present a Gentzen system for reasoning '
+                     'with contraryto-duty obligations. The intuition behind '
+                     'the system is that a contraryto-duty is a special kind '
+                     'of normative exception. The logical machinery to '
+                     'formalize this idea is taken from substructural logics '
+                     'and it is based on the definition of a new non-classical '
+                     'connective capturing the notion of reparational '
+                     'obligation. Then the system is tested against well-known '
+                     'contrary-to-duty paradoxes.',
+         'author': 'Guido Governatori and Antonino Rotolo',
+         'cites': '25',
+         'cites_id': '15131040249532075319',
+         'eprint': 'https://espace.library.uq.edu.au/view/UQ:9872/deon02.pdf?dsi_version=116e246a10e618f67ef108f43e5345b1',
+         'pages': '97-116',
+         'publisher': 'Imperial College',
+         'title': 'A Gentzen system for reasoning with contrary-to-duty '
+                  'obligations: A preliminary study',
+         'url': 'https://espace.library.uq.edu.au/view/UQ:9872/deon02.pdf?dsi_version=116e246a10e618f67ef108f43e5345b1',
+         'year': '2002'},
+ 'citations_link': '/scholar?cites=15131040249532075319',
+ 'cites_per_year': {2002: 1,
+                    2003: 2,
+                    2004: 6,
+                    2005: 3,
+                    2006: 2,
+                    2007: 3,
+                    2008: 3,
+                    2009: 1,
+                    2010: 1,
+                    2011: 1,
+                    2012: 1,
+                    2013: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:RGFaLdJalmkC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 Preferences of agents in defeasible logic
+#+begin_example
+{'bib': {'cites': '24',
+         'title': 'Preferences of agents in defeasible logic',
+         'year': '2005'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:70eg2SAEIzsC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 Preferences of agents in defeasible logic :filled:
+#+begin_example
+{'bib': {'abstract': 'We are interested in programming languages for cognitive '
+                     'agents with preferences. We define rule-based agent '
+                     'theories and inference procedures in defeasible logic, '
+                     'and in this setting we discuss patterns of agent '
+                     'behavior called agent types.',
+         'author': 'Mehdi Dastani and Guido Governatori and Antonino Rotolo '
+                   'and Leendert Van Der Torre',
+         'cites': '24',
+         'cites_id': '4013983162173978438',
+         'eprint': 'https://core.ac.uk/download/pdf/14983042.pdf',
+         'pages': '695-704',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Preferences of agents in defeasible logic',
+         'url': 'https://link.springer.com/chapter/10.1007/11589990_72',
+         'year': '2005'},
+ 'citations_link': '/scholar?cites=4013983162173978438',
+ 'cites_per_year': {2005: 1,
+                    2006: 4,
+                    2007: 2,
+                    2008: 5,
+                    2009: 5,
+                    2010: 3,
+                    2011: 1,
+                    2012: 1,
+                    2013: 1,
+                    2014: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:70eg2SAEIzsC',
+ 'source': 'citations'}
+#+end_example
+*** 1998 Shakespearian modal logic: A labelled treatment of modal identity
+#+begin_example
+{'bib': {'cites': '24',
+         'title': 'Shakespearian modal logic: A labelled treatment of modal '
+                  'identity',
+         'year': '1998'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:hMod-77fHWUC',
+ 'source': 'citations'}
+#+end_example
+*** 1998 Shakespearian modal logic: A labelled treatment of modal identity :filled:
+#+begin_example
+{'bib': {'abstract': 'To be or not to be: that is the question (Hamlet, III, '
+                     'i, 56) abstract. In this paper we describe a modal proof '
+                     'system arising from the combination of a tableau-like '
+                     'classical system, which incorporates a restricted '
+                     '(“analytical”) version of the cut rule, with a label '
+                     'formalism which allows for a speicialised, logic '
+                     'dependant unification algorithm. The system provides a '
+                     'uniform proof-theoretical treatment of first-order '
+                     '(normal) modal logics with identity, with and without '
+                     'Barcan formula and/or its converse',
+         'author': 'Alberto Artosi and Paola Benassi and Guido Governatori and '
+                   'Antonino Rotolo',
+         'cites': '24',
+         'cites_id': '4333568546316231502',
+         'eprint': 'http://www.academia.edu/download/39374245/AIML98.pdf',
+         'pages': '1-21',
+         'publisher': 'CSLI',
+         'title': 'Shakespearian modal logic: A labelled treatment of modal '
+                  'identity',
+         'url': 'http://www.academia.edu/download/39374245/AIML98.pdf',
+         'year': '1998'},
+ 'citations_link': '/scholar?cites=4333568546316231502',
+ 'cites_per_year': {1997: 1,
+                    1998: 1,
+                    1999: 1,
+                    2000: 5,
+                    2001: 3,
+                    2002: 1,
+                    2003: 4,
+                    2004: 4,
+                    2005: 1,
+                    2006: 1,
+                    2007: 1,
+                    2008: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:hMod-77fHWUC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 The uses of norms
+#+begin_example
+{'bib': {'cites': '23', 'title': 'The uses of norms', 'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:OR75R8vi5nAC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 The uses of norms :filled:
+#+begin_example
+{'bib': {'abstract': 'This chapter presents a variety of applications of '
+                     'norms. These applications include governance in '
+                     'sociotechnical systems, data licensing and data '
+                     'collection, understanding software development teams, '
+                     'requirements engineering, assurance, natural resource '
+                     'allocation, wireless grids, autonomous vehicles, serious '
+                     'games, and virtual worlds.',
+         'author': 'Munindar P Singh and Matthew Arrott and Tina Balke and '
+                   'Amit K Chopra and Rob Christiaanse and Stephen Cranefield '
+                   'and Frank Dignum and Davide Eynard and Emilia Farcas and '
+                   'Nicoletta Fornara and Fabien Gandon and Guido Governatori '
+                   'and Hoa Khanh Dam and Joris Hulstijn and Ingolf Krueger '
+                   'and Ho-Pun Lam and Michael Meisinger and Pablo Noriega and '
+                   'Bastin Tony Roy Savarimuthu and Kartik Tadanki and Harko '
+                   'Verhagen and Serena Villata',
+         'cites': '23',
+         'cites_id': '13243680359666131800',
+         'eprint': 'https://drops.dagstuhl.de/volltexte/2013/4004/pdf/p191-ch07-singh-use-of-norms.pdf',
+         'publisher': 'Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik',
+         'title': 'The uses of norms',
+         'url': 'https://drops.dagstuhl.de/opus/volltexte/2013/4004/',
+         'volume': '4',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=13243680359666131800',
+ 'cites_per_year': {2014: 1,
+                    2015: 5,
+                    2016: 9,
+                    2017: 4,
+                    2018: 2,
+                    2019: 1,
+                    2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:OR75R8vi5nAC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 A computationally grounded logic of knowledge, belief and certainty
+#+begin_example
+{'bib': {'cites': '23',
+         'title': 'A computationally grounded logic of knowledge, belief and '
+                  'certainty',
+         'year': '2005'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:zA6iFVUQeVQC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 A computationally grounded logic of knowledge, belief and certainty :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper presents a logic of knowledge, belief and '
+                     'certainty, which allows us to explicitly express the '
+                     'knowledge, belief and certainty of an agent. A '
+                     'computationally grounded model, called interpreted KBC '
+                     'systems, is given for interpreting this logic. The '
+                     'relationships between knowledge, belief and certainty '
+                     'are explored. In particular, certainty entails belief; '
+                     'and to the agent what it is certain of appears to be the '
+                     'knowledge. To formalize those agents that are able to '
+                     'introspect their own belief and certainty, we identify a '
+                     'subclass of interpreted KBC systems, called '
+                     'introspective KBC systems. We provide sound and complete '
+                     'axiomatizations for the logics. We show that the '
+                     'validity problem for the interpreted KBC systems is '
+                     'PSPACE-complete, and the same problem for introspective '
+                     'KBC systems is co-NP complete, thus no harder than that '
+                     'of the propositional logic.',
+         'author': 'Kaile Su and Abdul Sattar and Guido Governatori and '
+                   'Qingliang Chen',
+         'cites': '23',
+         'cites_id': '2236236408117525300',
+         'eprint': 'https://research-repository.griffith.edu.au/bitstream/handle/10072/2669/30706_1.pdf?sequence=1',
+         'pages': '149-156',
+         'title': 'A computationally grounded logic of knowledge, belief and '
+                  'certainty',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/1082473.1082496',
+         'year': '2005'},
+ 'citations_link': '/scholar?cites=2236236408117525300',
+ 'cites_per_year': {2006: 3,
+                    2007: 2,
+                    2008: 2,
+                    2009: 1,
+                    2010: 5,
+                    2011: 2,
+                    2012: 1,
+                    2013: 2,
+                    2014: 1,
+                    2015: 1,
+                    2016: 2,
+                    2017: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:zA6iFVUQeVQC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 Observation-based model for BDI-agents
+#+begin_example
+{'bib': {'cites': '23',
+         'title': 'Observation-based model for BDI-agents',
+         'year': '2005'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:abG-DnoFyZgC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 Observation-based model for BDI-agents :filled:
+#+begin_example
+{'bib': {'abstract': 'We present a new computational model of BDI-agents, '
+                     'called the observation-based BDI-model. The key point of '
+                     'this BDI-model is to express agents’ beliefs, desires '
+                     'and intentions as a set of runs (computing paths), which '
+                     'is exactly a system in the interpreted system model, a '
+                     'well-known agent model due to Halpern and his '
+                     'colleagues. Our BDI-model is computationally grounded in '
+                     'that we are able to associate the BDI-agent model with a '
+                     'computer program, and formulas, involving agents’ '
+                     'beliefs, desires (goals) and intentions, can be '
+                     'understood as properties of program computations. We '
+                     'present a sound and complete proof system with respect '
+                     'to our BDI-model and explore how symbolic model checking '
+                     'techniques can be applied to model checking BDI-agents. '
+                     'In order to make our BDI-model more flexible and '
+                     'practically realistic, we generalize it so that agents '
+                     'can have multiple sources of beliefs, goals and '
+                     'intentions.',
+         'author': 'Kaile Su and Abdul Sattar and Kewen Wang and Xiangyu Luo '
+                   'and Guido Governatori and Vineet Padmanabhan',
+         'cites': '23',
+         'cites_id': '7224126622404806248',
+         'eprint': 'https://www.aaai.org/Papers/AAAI/2005/AAAI05-031.pdf?q=bdi',
+         'pages': '190-195',
+         'title': 'Observation-based model for BDI-agents',
+         'url': 'https://www.aaai.org/Papers/AAAI/2005/AAAI05-031.pdf?q=bdi',
+         'year': '2005'},
+ 'citations_link': '/scholar?cites=7224126622404806248',
+ 'cites_per_year': {2005: 2,
+                    2006: 3,
+                    2007: 3,
+                    2008: 1,
+                    2009: 3,
+                    2010: 1,
+                    2011: 1,
+                    2012: 2,
+                    2013: 1,
+                    2014: 1,
+                    2015: 2,
+                    2016: 1,
+                    2017: 1,
+                    2018: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:abG-DnoFyZgC',
+ 'source': 'citations'}
+#+end_example
+*** 1999 Labelled tableaux for non-normal modal logics
+#+begin_example
+{'bib': {'cites': '23',
+         'title': 'Labelled tableaux for non-normal modal logics',
+         'year': '1999'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:ldfaerwXgEUC',
+ 'source': 'citations'}
+#+end_example
+*** 1999 Labelled tableaux for non-normal modal logics :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we show how to extend KEM, a tableau-like '
+                     'proof system for normal modal logic, in order to deal '
+                     'with classes of non-normal modal logics, such as '
+                     'monotonic and regular, in a uniform and modular way.',
+         'author': 'Guido Governatori and Alessandro Luppi',
+         'cites': '23',
+         'cites_id': '8906979836629063843',
+         'eprint': 'ftp://nozdr.ru/biblio/kolxoz/Cs/CsLn/A/AI-IA%2099..%20Advances%20in%20Artificial%20Intelligence,%206%20conf.(LNCS1792,%20Springer,%202000)(ISBN%203540673504)(400s)_CsLn_.pdf#page=129',
+         'pages': '119-130',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Labelled tableaux for non-normal modal logics',
+         'url': 'https://link.springer.com/chapter/10.1007/3-540-46238-4_11',
+         'year': '1999'},
+ 'citations_link': '/scholar?cites=8906979836629063843',
+ 'cites_per_year': {1999: 1,
+                    2000: 1,
+                    2001: 1,
+                    2002: 2,
+                    2003: 1,
+                    2004: 3,
+                    2005: 2,
+                    2006: 4,
+                    2007: 1,
+                    2008: 1,
+                    2009: 2,
+                    2010: 1,
+                    2011: 2,
+                    2012: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:ldfaerwXgEUC',
+ 'source': 'citations'}
+#+end_example
+*** 2014 Strategic Argumentation is NP-Complete.
+#+begin_example
+{'bib': {'cites': '22',
+         'title': 'Strategic Argumentation is NP-Complete.',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:m_tu6TPmoiMC',
+ 'source': 'citations'}
+#+end_example
+*** 2014 Strategic Argumentation is NP-Complete. :filled:
+#+begin_example
+{'bib': {'abstract': 'We study the complexity of the Strategic Argumentation '
+                     'Problem for 2-player dialogue games where a player '
+                     'should decide what move (set of rules) to play at each '
+                     'turn in order to prove (disprove) a given thesis. We '
+                     'show that this is an NP-complete problem.',
+         'author': 'Guido Governatori and Francesco Olivieri and Simone '
+                   'Scannapieco and Antonino Rotolo and Matteo Cristani',
+         'cites': '22',
+         'cites_id': '8737421105838125595',
+         'eprint': 'https://arxiv.org/pdf/1312.4287',
+         'pages': '399-404',
+         'title': 'Strategic Argumentation is NP-Complete.',
+         'url': 'http://books.google.com/books?hl=en&lr=&id=Kp3YBAAAQBAJ&oi=fnd&pg=PA399&dq=info:G3J78jOOQXkJ:scholar.google.com&ots=krWAEe0MpR&sig=PAB4-IBlBnr64eYKJVWtySQqHCM',
+         'year': '2014'},
+ 'citations_link': '/scholar?cites=8737421105838125595',
+ 'cites_per_year': {2014: 3, 2015: 2, 2016: 7, 2017: 4, 2018: 3, 2019: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:m_tu6TPmoiMC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Compliant business process design by declarative specifications
+#+begin_example
+{'bib': {'cites': '22',
+         'title': 'Compliant business process design by declarative '
+                  'specifications',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:n84Jz4DGfQYC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Compliant business process design by declarative specifications :filled:
+#+begin_example
+{'bib': {'abstract': 'We propose algorithms to synthesise the specifications '
+                     'modelling the capabilities of an agent, the environment '
+                     'she acts in, and the governing norms, into a process '
+                     'graph. This process graph corresponds to a collection of '
+                     'courses of action and represents all the licit '
+                     'alternatives the agent may choose to meet her outcomes. '
+                     'The starting point is a compliant situation, i.e., a '
+                     'situation where an agent is capable of reaching all her '
+                     'outcomes without violating the norms. In this case, the '
+                     'resulting process will be compliant by design.',
+         'author': 'Francesco Olivieri and Guido Governatori and Simone '
+                   'Scannapieco and Matteo Cristani',
+         'cites': '22',
+         'cites_id': '10954563750973556859',
+         'eprint': 'https://ts.data61.csiro.au/publications/nicta_full_text/7278.pdf',
+         'pages': '213-228',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Compliant business process design by declarative '
+                  'specifications',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-642-44927-7_15',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=10954563750973556859',
+ 'cites_per_year': {2014: 1,
+                    2015: 2,
+                    2016: 4,
+                    2017: 4,
+                    2018: 5,
+                    2019: 5,
+                    2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:n84Jz4DGfQYC',
+ 'source': 'citations'}
+#+end_example
+*** 2010 Superiority based revision of defeasible theories
+#+begin_example
+{'bib': {'cites': '22',
+         'title': 'Superiority based revision of defeasible theories',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:bnK-pcrLprsC',
+ 'source': 'citations'}
+#+end_example
+*** 2010 Superiority based revision of defeasible theories :filled:
+#+begin_example
+{'bib': {'abstract': 'We propose a systematic investigation on how to modify a '
+                     'preference relation in a defeasible logic theory to '
+                     'change the conclusions of the theory itself. We argue '
+                     'that the approach we adopt is applicable to legal '
+                     'reasoning, where users, in general, cannot change facts '
+                     'and rules, but can propose their preferences about the '
+                     'relative strength of the rules.',
+         'author': 'Guido Governatori and Francesco Olivieri and Simone '
+                   'Scannapieco and Matteo Cristani',
+         'cites': '22',
+         'cites_id': '6189675021519443032',
+         'eprint': 'https://ts.data61.csiro.au/publications/nicta_full_text/4011.pdf',
+         'pages': '104-118',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Superiority based revision of defeasible theories',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-642-16289-3_10',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=6189675021519443032',
+ 'cites_per_year': {2009: 1,
+                    2010: 3,
+                    2011: 3,
+                    2012: 2,
+                    2013: 1,
+                    2014: 3,
+                    2015: 3,
+                    2016: 2,
+                    2017: 3},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:bnK-pcrLprsC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Picking up the best goal
+#+begin_example
+{'bib': {'cites': '21', 'title': 'Picking up the best goal', 'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:fbc8zXXH2BUC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Picking up the best goal :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we analyse different notions of the '
+                     'concept of goal starting from the idea of sequences of '
+                     '“alternative acceptable outcomes”. We study the '
+                     'relationships between goals and concepts like agent’s '
+                     'beliefs, norms, and desires, and we propose a '
+                     'formalisation using Defeasible Logic that will be able '
+                     'to provide a computationally feasible approach. The '
+                     'resulting system captures various nuances of the notion '
+                     'of goal against different normative domains, for which '
+                     'the right decision is not only context-dependent, but it '
+                     'must be chosen from a pool of alternatives as wide as '
+                     'possible.',
+         'author': 'Guido Governatori and Francesco Olivieri and Antonino '
+                   'Rotolo and Simone Scannapieco and Matteo Cristani',
+         'cites': '21',
+         'cites_id': '3167312990293910936',
+         'eprint': 'http://ndl.ethernet.edu.et/bitstream/123456789/59025/1/110.pdf.pdf#page=114',
+         'pages': '99-113',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Picking up the best goal',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-642-39617-5_12',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=3167312990293910936',
+ 'cites_per_year': {2013: 2,
+                    2014: 2,
+                    2015: 2,
+                    2016: 3,
+                    2017: 4,
+                    2018: 4,
+                    2019: 2,
+                    2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:fbc8zXXH2BUC',
+ 'source': 'citations'}
+#+end_example
+*** 2006 Rule-based agents in temporalised defeasible logic
+#+begin_example
+{'bib': {'cites': '21',
+         'title': 'Rule-based agents in temporalised defeasible logic',
+         'year': '2006'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:yD5IFk8b50cC',
+ 'source': 'citations'}
+#+end_example
+*** 2006 Rule-based agents in temporalised defeasible logic :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper provides a framework based on temporal '
+                     'defeasible logic to reason about deliberative rule-based '
+                     'cognitive agents. Compared to previous works in this '
+                     'area our framework has the advantage that it can reason '
+                     'about temporal rules. We show that for rule-based '
+                     'cognitive agents deliberation is more than just deriving '
+                     'conclusions in terms of their mental components. Our '
+                     'paper is an extension of [5,6] in the area of cognitive '
+                     'agent programming.',
+         'author': 'Guido Governatori and Vineet Padmanabhan and Antonino '
+                   'Rotolo',
+         'cites': '21',
+         'cites_id': '14572623193075591025',
+         'eprint': 'http://www.academia.edu/download/31753659/main.pdf',
+         'pages': '31-40',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Rule-based agents in temporalised defeasible logic',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-540-36668-3_6',
+         'year': '2006'},
+ 'citations_link': '/scholar?cites=14572623193075591025',
+ 'cites_per_year': {2007: 8,
+                    2008: 1,
+                    2009: 4,
+                    2010: 3,
+                    2011: 1,
+                    2012: 1,
+                    2013: 1,
+                    2014: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:yD5IFk8b50cC',
+ 'source': 'citations'}
+#+end_example
+*** 2000 Argumentation semantics for defeasible logics
+#+begin_example
+{'bib': {'cites': '21',
+         'title': 'Argumentation semantics for defeasible logics',
+         'year': '2000'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:rO6llkc54NcC',
+ 'source': 'citations'}
+#+end_example
+*** 2000 Argumentation semantics for defeasible logics :filled:
+#+begin_example
+{'bib': {'abstract': 'Defeasible logic is a simple but efficient rule-based '
+                     'non-monotonic logic. It has powerful implementations and '
+                     'shows promise to be applied in the areas of legal '
+                     'reasoning and the modelling of business rules. So far '
+                     'defeasible logic has been defined only '
+                     'proof-theoretically. Argumentation-based semantics have '
+                     'become popular in the area of logic programming. In this '
+                     'paper we give an argumentation-based semantics for '
+                     'defeasible logic.',
+         'author': 'Guido Governatori and Michael J Maher and Grigoris '
+                   'Antoniou and David Billington',
+         'cites': '21',
+         'cites_id': '16748518573222327050',
+         'eprint': 'https://research-repository.griffith.edu.au/bitstream/handle/10072/9310/14450_1.pdf?sequence=1',
+         'pages': '27-37',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Argumentation semantics for defeasible logics',
+         'url': 'https://link.springer.com/chapter/10.1007/3-540-44533-1_7',
+         'year': '2000'},
+ 'citations_link': '/scholar?cites=16748518573222327050',
+ 'cites_per_year': {2000: 2,
+                    2001: 4,
+                    2002: 2,
+                    2003: 1,
+                    2004: 1,
+                    2005: 2,
+                    2006: 3,
+                    2007: 1,
+                    2008: 1,
+                    2009: 1,
+                    2010: 1,
+                    2011: 1,
+                    2012: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:rO6llkc54NcC',
+ 'source': 'citations'}
+#+end_example
+*** 1997 Un modello formale per il ragionamento giuridico
+#+begin_example
+{'bib': {'cites': '21',
+         'title': 'Un modello formale per il ragionamento giuridico',
+         'year': '1997'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:7PzlFSSx8tAC',
+ 'source': 'citations'}
+#+end_example
+*** 1997 Un modello formale per il ragionamento giuridico :filled:
+#+begin_example
+{'bib': {'abstract': 'La logica modale nasce contemporaneamente alla logica '
+                     'della tradizione occidentale e, come questa, discende da '
+                     'Aristotele, che per primo ne fornı una trattazione con '
+                     'la sua teoria del sillogismo modale e diede una '
+                     'definizione di necessario come “cio cheee non puo non '
+                     'essere”. Le dispute intorno alla concezione delle '
+                     'modalita si sono susseguite, in ambito filosofico, fin '
+                     'dall’antichita portando a teorie modali estremamente '
+                     'complesse durante il medioevo, senza mai sostanzialmente '
+                     'staccarsi, dal punto di vista deduttivo formale, dalla '
+                     'trattazione sillogistica aristotelica. Un nuovo impulso '
+                     'allo sviluppo della logica modale fu dato da Leibniz con '
+                     'l’osservazione delle analogie tra la teoria della '
+                     'quantificazione, nella forma del quadrato delle '
+                     'opposizioni, ei concetti modali, osservazione che '
+                     'suggerı l’identificazione, almeno in parte tuttora '
+                     'valida, di necessario, possibile, impossibile e '
+                     'contingente rispettivamente con l’universale '
+                     'affermativa, la particolare affermativa, l’universale '
+                     'negativa e la particolare negativa. Leibniz poneva alla '
+                     'base di tali analogie il suo concetto di “mondi '
+                     'possibili” come singole entita individuali e la '
+                     'definizione, ad esso connessa, di necessario come “cio '
+                     'chee vero in ogni mondo possibile”. Un passo decisivo '
+                     'verso la sistemazione sintattica attuale delle logiche '
+                     'modali fu fornito dallo sviluppo dei sistemi logistici '
+                     'da parte di Frege e dai problemi sollevati dalla '
+                     'sostituzione degli equivalenti nei contesti opachi o '
+                     'indiretti (contesti di credenza, conoscenza e '
+                     'necessita), che riguardano direttamente le logiche '
+                     'modali nella loro concezione piu ampia. Un problema che '
+                     'emerge dai sistemi logistici, benche noto e trattato sin '
+                     'dall …',
+         'author': 'Guido Governatori',
+         'cites': '21',
+         'cites_id': '14873927077157767094',
+         'eprint': 'http://filosofiajuridica.com.br/arquivo/arquivo_49.pdf',
+         'title': 'Un modello formale per il ragionamento giuridico',
+         'url': 'http://filosofiajuridica.com.br/arquivo/arquivo_49.pdf',
+         'year': '1997'},
+ 'citations_link': '/scholar?cites=14873927077157767094',
+ 'cites_per_year': {1998: 3,
+                    1999: 1,
+                    2000: 6,
+                    2001: 1,
+                    2002: 3,
+                    2003: 2,
+                    2004: 1,
+                    2005: 1,
+                    2006: 1,
+                    2007: 1,
+                    2008: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:7PzlFSSx8tAC',
+ 'source': 'citations'}
+#+end_example
+*** 1994 Labelled model modal logic
+#+begin_example
+{'bib': {'cites': '21', 'title': 'Labelled model modal logic', 'year': '1994'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:M05iB0D1s5AC',
+ 'source': 'citations'}
+#+end_example
+*** 1994 Labelled model modal logic :filled:
+#+begin_example
+{'bib': {'abstract': '2 Label Formalism A set of “world” labels is introduced, '
+                     'where a label i is defined to be either (i) an element '
+                     'of a (non empty) set ΦC={w1, w2, w3,...} of constant '
+                     '“world” symbols, or (ii) an element of a (non empty) set '
+                     'ΦV={W1, W2, W3,...} of “world” variables, or (iii) a '
+                     '“path” term (k, k) where (iiia) k∈ ΦC∪ ΦV and (iiib) k∈ '
+                     'ΦC or k=(m, m) where (m, m) is a label. Intuitively, we '
+                     'may think of a label i∈ ΦCas denoting a world, and a '
+                     'label i∈ ΦV as denoting a set of worlds in some Kripke '
+                     'model (we assume familiarity with standard Kripke '
+                     'semantics, see [Ch80]). A label i=(k, k) may be viewed '
+                     'as representing a path from k to a (set of) world (s) k '
+                     'accessible from k. For example, the label (W1, w1) '
+                     'represents a path which takes us to a set W1 of worlds '
+                     'accessible from the initial world w1;(w2,(W1, w1))) '
+                     'represents a path which takes us to a world w2 '
+                     'accessible by any world accessible from w1,(ie, '
+                     'accessible by the subpath (W1, w1)) and so on (notice '
+                     'that the labels are read from right to left). For any '
+                     'label i=(k, k) we call k the head of i, k the body of i, '
+                     'and denote them by h (i) and b (i) respectively. Notice '
+                     'that these notions are recursive: if b (i) denotes the '
+                     'body of i, then b (b (i)) will denote the body of b (i), '
+                     'b (b (b (i))) will denote the body of b (b (i)); and so '
+                     'on. For example, if i is (w4,(W3,(w3,(W2, w1)))), then b '
+                     '(i)=(W3,(w3,(W2, w1))), b (b (i))=(w3,(W2, w1)), b (b (b '
+                     '(i)))=(W2, w1), b (b (b (b (i))))= w1. We call each of b '
+                     '(i), b (b (i)), etc., a segment of i. Let s (i) denote '
+                     'any segment of i (obviously, by definition every segment '
+                     's (i) of a label i is a label); then h (s (i)) will '
+                     'denote the head of s (i). For any label i, we define the '
+                     'length of i, l (i), as the number of world symbols …',
+         'author': 'Alberto Artosi and Guido Governatori',
+         'cites': '21',
+         'cites_id': '9075383949192206166',
+         'eprint': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.19.1295&rep=rep1&type=pdf',
+         'journal': 'Proceedings of the CADE-12 Workshop on Automated Model '
+                    'Building',
+         'pages': '11-17',
+         'title': 'Labelled model modal logic',
+         'url': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.19.1295&rep=rep1&type=pdf',
+         'year': '1994'},
+ 'citations_link': '/scholar?cites=9075383949192206166',
+ 'cites_per_year': {1993: 1,
+                    1994: 3,
+                    1995: 6,
+                    1996: 1,
+                    1997: 2,
+                    1998: 1,
+                    1999: 4,
+                    2000: 1,
+                    2001: 1,
+                    2002: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:M05iB0D1s5AC',
+ 'source': 'citations'}
+#+end_example
+*** 2012 Rule Based Business Process Compliance.
+#+begin_example
+{'bib': {'cites': '20',
+         'title': 'Rule Based Business Process Compliance.',
+         'year': '2012'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:8d8msizDQcsC',
+ 'source': 'citations'}
+#+end_example
+*** 2012 Rule Based Business Process Compliance. :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we report on the development and '
+                     'evaluation of a business process compliance checker, '
+                     'based on the compliance-by-design methodology proposed '
+                     'by Governatori and Sadiq [9]. For a screencast see '
+                     'http://www. youtube. com/watch? v= gFmDQJNai_4',
+         'author': 'Guido Governatori and Sidney Shek',
+         'cites': '20',
+         'cites_id': '15250793896343796236',
+         'eprint': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.367.4286&rep=rep1&type=pdf',
+         'title': 'Rule Based Business Process Compliance.',
+         'url': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.367.4286&rep=rep1&type=pdf',
+         'year': '2012'},
+ 'citations_link': '/scholar?cites=15250793896343796236',
+ 'cites_per_year': {2013: 4,
+                    2014: 1,
+                    2015: 2,
+                    2016: 3,
+                    2017: 4,
+                    2018: 3,
+                    2019: 3},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:8d8msizDQcsC',
+ 'source': 'citations'}
+#+end_example
+*** 2016 On ASPIC+ and Defeasible Logic.
+#+begin_example
+{'bib': {'cites': '19',
+         'title': 'On ASPIC+ and Defeasible Logic.',
+         'year': '2016'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:22N0J9dj6kwC',
+ 'source': 'citations'}
+#+end_example
+*** 2016 On ASPIC+ and Defeasible Logic. :filled:
+#+begin_example
+{'bib': {'abstract': 'Dung-like argumentation framework ASPIC+ and Defeasible '
+                     'Logic (DL) are both well-studied rule-based formalisms '
+                     'for defeasible reasoning. We compare the two frameworks '
+                     'and establish a linkage between an instantiation of '
+                     'ASPIC+ and a DL variant, which leads to a better '
+                     'understanding and cross-fertilization–in particular our '
+                     'work sheds light on features such as ambiguity '
+                     'propagating/blocking, team defeat and strict rules for '
+                     'argumentation, while emphasizing the '
+                     'argumentation-theoretic features of DL.',
+         'author': 'Ho-Pun Lam and Guido Governatori and Régis Riveret',
+         'cites': '19',
+         'cites_id': '18326251525832803085',
+         'eprint': 'https://www.researchgate.net/profile/Regis_Riveret2/publication/305183649_On_ASPIC_and_Defeasible_Logic/links/5784558008aee45b8442f2e2/On-ASPIC-and-Defeasible-Logic.pdf',
+         'pages': '359-370',
+         'title': 'On ASPIC+ and Defeasible Logic.',
+         'url': 'http://books.google.com/books?hl=en&lr=&id=cRjpDAAAQBAJ&oi=fnd&pg=PA359&dq=info:DYO5harsU_4J:scholar.google.com&ots=H3vzEYhDL5&sig=qRE--iBi5QxgWqKke6xqGAfjLQg',
+         'year': '2016'},
+ 'citations_link': '/scholar?cites=18326251525832803085',
+ 'cites_per_year': {2016: 1, 2017: 2, 2018: 7, 2019: 7, 2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:22N0J9dj6kwC',
+ 'source': 'citations'}
+#+end_example
+*** 2011 Justice delayed is justice denied: logics for a temporal account of reparations and legal compliance
+#+begin_example
+{'bib': {'cites': '19',
+         'title': 'Justice delayed is justice denied: logics for a temporal '
+                  'account of reparations and legal compliance',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:ULOm3_A8WrAC',
+ 'source': 'citations'}
+#+end_example
+*** 2011 Justice delayed is justice denied: logics for a temporal account of reparations and legal compliance :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we extend the logic of violation proposed '
+                     'by [14] with time, more precisely, we temporalise that '
+                     'logic. The resulting system allows us to capture many '
+                     'subtleties of the concept of legal compliance. In '
+                     'particular, the formal characterisation of compliance '
+                     'can handle different types of legal obligation and '
+                     'different temporal constraints over them. The logic is '
+                     'also able to represent, and reason about, chains of '
+                     'reparative obligations, since in many cases the '
+                     'fulfillment of these types of obligation still amount to '
+                     'legally acceptable situations.',
+         'author': 'Guido Governatori and Antonino Rotolo',
+         'cites': '19',
+         'cites_id': '17341836665998156219',
+         'eprint': 'http://ts.data61.csiro.au/publications/nicta_full_text/4982.pdf',
+         'journal': 'Computational Logic in Multi-Agent Systems',
+         'pages': '364-382',
+         'publisher': 'Springer Berlin/Heidelberg',
+         'title': 'Justice delayed is justice denied: logics for a temporal '
+                  'account of reparations and legal compliance',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-642-22359-4_25',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=17341836665998156219',
+ 'cites_per_year': {2011: 1,
+                    2012: 2,
+                    2013: 4,
+                    2014: 3,
+                    2015: 1,
+                    2016: 4,
+                    2017: 1,
+                    2018: 2,
+                    2019: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:ULOm3_A8WrAC',
+ 'source': 'citations'}
+#+end_example
+*** 2007 Proof explanation in the DR-DEVICE system
+#+begin_example
+{'bib': {'cites': '19',
+         'title': 'Proof explanation in the DR-DEVICE system',
+         'year': '2007'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:nb7KW1ujOQ8C',
+ 'source': 'citations'}
+#+end_example
+*** 2007 Proof explanation in the DR-DEVICE system :filled:
+#+begin_example
+{'bib': {'abstract': 'Trust is a vital feature for the Semantic Web: If users '
+                     '(humans and agents) are to use and integrate system '
+                     'answers, they must trust them. Thus, systems should be '
+                     'able to explain their actions, sources, and beliefs, and '
+                     'this issue is the topic of the proof layer in the design '
+                     'of the Semantic Web. This paper presents the design of a '
+                     'system for proof explanation on the Semantic Web, based '
+                     'on defeasible reasoning. The basis of this work is the '
+                     'DR-DEVICE system that is extended to handle proofs. A '
+                     'critical aspect is the representation of proofs in an '
+                     'XML language, which is achieved by a RuleML language '
+                     'extension.',
+         'author': 'Nick Bassiliades and Grigoris Antoniou and Guido '
+                   'Governatori',
+         'cites': '19',
+         'cites_id': '1065619971830794103',
+         'eprint': 'http://rewerse.eu/publications/download/REWERSE-RP-2007-126.pdf',
+         'pages': '249-258',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Proof explanation in the DR-DEVICE system',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-540-72982-2_19',
+         'year': '2007'},
+ 'citations_link': '/scholar?cites=1065619971830794103',
+ 'cites_per_year': {2007: 1,
+                    2008: 4,
+                    2009: 2,
+                    2010: 2,
+                    2011: 3,
+                    2012: 2,
+                    2013: 1,
+                    2014: 2,
+                    2015: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:nb7KW1ujOQ8C',
+ 'source': 'citations'}
+#+end_example
+*** 2017 Normative requirements as linked data
+#+begin_example
+{'bib': {'cites': '18',
+         'title': 'Normative requirements as linked data',
+         'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:Mb21Z44dZ7IC',
+ 'source': 'citations'}
+#+end_example
+*** 2017 Normative requirements as linked data :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper, we propose a proof of concept for the '
+                     'ontological representation of normative requirements as '
+                     'Linked Data on the Web. Starting from the LegalRuleML '
+                     'ontology, we present an extension of this ontology to '
+                     'model normative requirements and rules. Furthermore, we '
+                     'define an operational formalization of the deontic '
+                     'reasoning over these concepts on top of the Semantic Web '
+                     'languages.',
+         'author': 'Fabien Gandon and Guido Governatori and Serena Villata',
+         'cites': '18',
+         'cites_id': '9712672567287924634',
+         'eprint': 'https://hal.archives-ouvertes.fr/hal-01643769/document',
+         'title': 'Normative requirements as linked data',
+         'url': 'https://hal.archives-ouvertes.fr/hal-01643769/',
+         'year': '2017'},
+ 'citations_link': '/scholar?cites=9712672567287924634',
+ 'cites_per_year': {2018: 6, 2019: 11, 2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:Mb21Z44dZ7IC',
+ 'source': 'citations'}
+#+end_example
+*** 1996 Labelled proofs for quantified modal logic
+#+begin_example
+{'bib': {'cites': '18',
+         'title': 'Labelled proofs for quantified modal logic',
+         'year': '1996'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:bFI3QPDXJZMC',
+ 'source': 'citations'}
+#+end_example
+*** 1996 Labelled proofs for quantified modal logic :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we describe a modal proof system arising '
+                     'from the combination of a tableau-like classical system, '
+                     'which incorporates a restricted (“analytic”) version of '
+                     'the cut rule, with a label formalism which allows for a '
+                     'specialised, logic-dependent unification algorithm. The '
+                     'system provides a uniform proof-theoretical treatment of '
+                     'first-order (normal) modal logics with and without the '
+                     'Barcan Formula and/or its converse.',
+         'author': 'Alberto Artosi and Paola Benassi and Guido Governatori and '
+                   'Antonino Rotolo',
+         'cites': '18',
+         'cites_id': '10087633764109317876',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/2533398_Labelled_Proofs_for_Quantified_Modal_Logic/links/0912f50e3f5a9e3bee000000/Labelled-Proofs-for-Quantified-Modal-Logic.pdf',
+         'pages': '70-86',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Labelled proofs for quantified modal logic',
+         'url': 'https://link.springer.com/chapter/10.1007/3-540-61630-6_5',
+         'year': '1996'},
+ 'citations_link': '/scholar?cites=10087633764109317876',
+ 'cites_per_year': {1996: 2,
+                    1997: 1,
+                    1998: 1,
+                    1999: 9,
+                    2000: 1,
+                    2001: 2,
+                    2002: 1,
+                    2003: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:bFI3QPDXJZMC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Legal contractions: a logical analysis
+#+begin_example
+{'bib': {'cites': '17',
+         'title': 'Legal contractions: a logical analysis',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:LhH-TYMQEocC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Legal contractions: a logical analysis :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper systematically investigates how to model '
+                     'legal contraction in an expressive variant of Defeasible '
+                     'Deontic Logic. We argue that legal contraction is an '
+                     'umbrella concept that includes operations which are '
+                     'conceptually and technically different: removing rules, '
+                     'adding exceptions, and modifying rule priorities. The '
+                     'peculiarities of deleting legal conclusions show that an '
+                     'extension of those operations is sometimes needed, which '
+                     'works on the indirect conclusions from which the target '
+                     'effect of the contraction is obtained. The proposed '
+                     'techniques are discussed in the context of a new version '
+                     'for the logic of AGM postulates of contraction.',
+         'author': 'Guido Governatori and Antonino Rotolo and Francesco '
+                   'Olivieri and Simone Scannapieco',
+         'cites': '17',
+         'cites_id': '17789815098740622760',
+         'eprint': 'https://www.researchgate.net/profile/Francesco_Olivieri/publication/262333257_Legal_contractions_A_logical_analysis/links/55ae3e6e08ae98e661a61ad8.pdf',
+         'pages': '63-72',
+         'title': 'Legal contractions: a logical analysis',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/2514601.2514609',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=17789815098740622760',
+ 'cites_per_year': {2012: 1,
+                    2013: 2,
+                    2014: 2,
+                    2015: 4,
+                    2016: 2,
+                    2017: 2,
+                    2018: 1,
+                    2019: 3},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:LhH-TYMQEocC',
+ 'source': 'citations'}
+#+end_example
+*** 2003 An algorithm for the induction of defeasible logic theories from databases
+#+begin_example
+{'bib': {'cites': '17',
+         'title': 'An algorithm for the induction of defeasible logic theories '
+                  'from databases',
+         'year': '2003'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:fPk4N6BV_jEC',
+ 'source': 'citations'}
+#+end_example
+*** 2003 An algorithm for the induction of defeasible logic theories from databases :filled:
+#+begin_example
+{'bib': {'abstract': 'Defeasible logic is a non-monotonic logic with '
+                     'applications in rule-based domains such as law. To ease '
+                     'the development and improve the accuracy of expert '
+                     'systems based on defeasible logic, it is desirable to '
+                     'automatically induce a theory of the logic from a '
+                     'training set of precedent data. Empirical evidence '
+                     'suggests that minimal theories that describe the '
+                     'training set tend to be more faithful representations of '
+                     'reality. We show via transformation from the hitting set '
+                     'problem that this global minimization problem is '
+                     'intractable, belonging to the class of NP optimisation '
+                     'problems. Given the inherent difficulty of finding the '
+                     'optimal solution, we instead use heuristics and '
+                     'demonstrate that a best-first, greedy, branch and bound '
+                     'algorithm can be used to find good theories in short '
+                     'time. This approach displays significant improvements in '
+                     'both accuracy and theory size as compared to recent work '
+                     'in the area that post-processed the output of an Apriori '
+                     'association rule-mining algorithm, with comparable '
+                     'execution times.',
+         'author': 'Benjamin Johnston and Guido Governatori',
+         'cites': '17',
+         'cites_id': '7563328889560424760',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/37617594_An_Algorithm_For_The_Induction_Of_Defeasible_Logic_Theories_From_Databases/links/0912f50e3f5a626ed3000000.pdf',
+         'pages': '75-83',
+         'title': 'An algorithm for the induction of defeasible logic theories '
+                  'from databases',
+         'url': 'https://www.researchgate.net/profile/Guido_Governatori/publication/37617594_An_Algorithm_For_The_Induction_Of_Defeasible_Logic_Theories_From_Databases/links/0912f50e3f5a626ed3000000.pdf',
+         'year': '2003'},
+ 'citations_link': '/scholar?cites=7563328889560424760',
+ 'cites_per_year': {2003: 1,
+                    2004: 2,
+                    2005: 2,
+                    2006: 3,
+                    2007: 2,
+                    2008: 2,
+                    2009: 1,
+                    2010: 2,
+                    2011: 1,
+                    2012: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:fPk4N6BV_jEC',
+ 'source': 'citations'}
+#+end_example
+*** 1998 Dealing with label dependent deontic modalities
+#+begin_example
+{'bib': {'cites': '17',
+         'title': 'Dealing with label dependent deontic modalities',
+         'year': '1998'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:a0OBvERweLwC',
+ 'source': 'citations'}
+#+end_example
+*** 1998 Dealing with label dependent deontic modalities :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper, following Scott’s advice, we argue that '
+                     'normative reasoning can be represented in a '
+                     'multi-setting framework; in particular in a multi-modal '
+                     'one, where modalities are indexed. Indexed modalities '
+                     'can model several aspects involved in normative '
+                     'reasoning. Systems are combined using Gabbay’s fibring '
+                     'methodology which provides complete semantics that can '
+                     'be used to model a labelled tableaulike proofs system.',
+         'author': 'Dov M Gabbay and Guido Governatori',
+         'cites': '17',
+         'cites_id': '4755579464584452415',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/2528771_Dealing_with_Label_Dependent_Deontic_Modalities/links/09e4150e3f525631b6000000/Dealing-with-Label-Dependent-Deontic-Modalities.pdf',
+         'journal': 'Norms, Logics and Information Systems. New Studies in '
+                    'Deontic Logic',
+         'pages': '311-330',
+         'title': 'Dealing with label dependent deontic modalities',
+         'url': 'https://www.researchgate.net/profile/Guido_Governatori/publication/2528771_Dealing_with_Label_Dependent_Deontic_Modalities/links/09e4150e3f525631b6000000/Dealing-with-Label-Dependent-Deontic-Modalities.pdf',
+         'year': '1998'},
+ 'citations_link': '/scholar?cites=4755579464584452415',
+ 'cites_per_year': {1999: 2,
+                    2000: 4,
+                    2001: 4,
+                    2002: 1,
+                    2003: 2,
+                    2004: 1,
+                    2005: 2,
+                    2006: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:a0OBvERweLwC',
+ 'source': 'citations'}
+#+end_example
+*** 2018 Modelling Legal Knowledge for GDPR Compliance Checking.
+#+begin_example
+{'bib': {'cites': '16',
+         'title': 'Modelling Legal Knowledge for GDPR Compliance Checking.',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:hcF2OqvMasEC',
+ 'source': 'citations'}
+#+end_example
+*** 2018 Modelling Legal Knowledge for GDPR Compliance Checking. :filled:
+#+begin_example
+{'bib': {'abstract': 'In the last fifteen years, Semantic Web technologies '
+                     'have been successfully applied to the legal domain. By '
+                     'composing all those techniques and theoretical methods, '
+                     'we propose an integrated framework for modelling legal '
+                     'documents and legal knowledge to support legal '
+                     'reasoning, in particular checking compliance. This paper '
+                     'presents a proof-of-concept applied to the GDPR domain, '
+                     'with the aim to detect infringements of privacy '
+                     'compulsory norms or to prevent possible violations using '
+                     'BPMN and Regorous engine.',
+         'author': 'Monica Palmirani and Guido Governatori',
+         'cites': '16',
+         'cites_id': '13463151051009303660',
+         'eprint': 'https://cris.unibo.it/bitstream/11585/701396/1/FAIA313-0101.pdf',
+         'pages': '101-110',
+         'title': 'Modelling Legal Knowledge for GDPR Compliance Checking.',
+         'url': 'http://books.google.com/books?hl=en&lr=&id=hrh9DwAAQBAJ&oi=fnd&pg=PA101&dq=info:bCTW0Iy41roJ:scholar.google.com&ots=KuIO1AzG6b&sig=knU6VHAHW5XMi2-WBt4R687peBY',
+         'year': '2018'},
+ 'citations_link': '/scholar?cites=13463151051009303660',
+ 'cites_per_year': {2019: 10, 2020: 6},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:hcF2OqvMasEC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 A Study on Translating Regulatory Rules from Natural Language to Defeasible Logics.
+#+begin_example
+{'bib': {'cites': '16',
+         'title': 'A Study on Translating Regulatory Rules from Natural '
+                  'Language to Defeasible Logics.',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:u-coK7KVo8oC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 A Study on Translating Regulatory Rules from Natural Language to Defeasible Logics. :filled:
+#+begin_example
+{'bib': {'abstract': 'Legally binding regulations are expressed in natural '
+                     'language. Yet, we cannot formally or automatically '
+                     'reason with regulations in that form. Defeasible Logic '
+                     'has been used to formally represent the semantic '
+                     'interpretation of regulations; such representations may '
+                     'provide the abstract specification for a machinereadable '
+                     'and processable representation as in LegalRuleML. '
+                     'However, manual translation is prohibitively costly in '
+                     'terms of time, labour, and knowledge. The paper '
+                     'discusses work in progress using the state-of-the-art in '
+                     'automatic translation of a sample of regulatory clauses '
+                     'to a machine readable formal representation and a '
+                     'comparison to correlated Defeasible Logic '
+                     'representations. It outlines some key problems and '
+                     'proposes tasks to address the problems.',
+         'author': 'Adam Z Wyner and Guido Governatori',
+         'cites': '16',
+         'cites_id': '11549173511567941178',
+         'eprint': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.415.8913&rep=rep1&type=pdf#page=202',
+         'title': 'A Study on Translating Regulatory Rules from Natural '
+                  'Language to Defeasible Logics.',
+         'url': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.415.8913&rep=rep1&type=pdf#page=202',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=11549173511567941178',
+ 'cites_per_year': {2014: 1,
+                    2015: 2,
+                    2016: 1,
+                    2017: 1,
+                    2018: 6,
+                    2019: 4,
+                    2020: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:u-coK7KVo8oC',
+ 'source': 'citations'}
+#+end_example
+*** 2011 Modelling temporal legal rules
+#+begin_example
+{'bib': {'cites': '16',
+         'title': 'Modelling temporal legal rules',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:tKAzc9rXhukC',
+ 'source': 'citations'}
+#+end_example
+*** 2011 Modelling temporal legal rules :filled:
+#+begin_example
+{'bib': {'abstract': 'Legal reasoning involves multiple temporal dimensions '
+                     'but the existing state of the art of legal '
+                     'representation languages does not allow us to easily '
+                     'combine expressiveness, performance and legal reasoning '
+                     'requirements. Moreover we also aim at the combination of '
+                     'legal temporal reasoning with the defeasible logic '
+                     'approach, maintaining a computable complexity. The '
+                     'contribution of this work is to extend LKIF-rules with '
+                     'temporal dimensions and defeasible tools, extending our '
+                     'previous work [17].',
+         'author': 'Monica Palmirani and Guido Governatori and Giuseppe '
+                   'Contissa',
+         'cites': '16',
+         'cites_id': '10172153906074088367',
+         'eprint': 'https://ts.data61.csiro.au/publications/nicta_full_text/4983.pdf',
+         'pages': '131-135',
+         'title': 'Modelling temporal legal rules',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/2018358.2018378',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=10172153906074088367',
+ 'cites_per_year': {2011: 1,
+                    2012: 1,
+                    2013: 1,
+                    2014: 4,
+                    2015: 3,
+                    2016: 3,
+                    2017: 1,
+                    2018: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:tKAzc9rXhukC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 Nested rules in defeasible logic
+#+begin_example
+{'bib': {'cites': '16',
+         'title': 'Nested rules in defeasible logic',
+         'year': '2005'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:CHSYGLWDkRkC',
+ 'source': 'citations'}
+#+end_example
+*** 2005 Nested rules in defeasible logic :filled:
+#+begin_example
+{'bib': {'abstract': 'Defeasible Logic is a rule-based non-monotonic logic '
+                     'with tractable reasoning services. In this paper we '
+                     'extend Defeasible Logic with nested rules. We consider a '
+                     'new Defeasible Logic, called DL ns , where we allow one '
+                     'level of nested rules. A nested rule is a rule where the '
+                     'antecedent or the consequent of the rule are rules '
+                     'themselves. The inference conditions for DL ns  are '
+                     'based on reflection on the inference structures (rules) '
+                     'of the particular theory at hand. Accordingly DL ns  can '
+                     'be considered an amalgamated reflective system with '
+                     'implicit reflection mechanism. Finally we outline some '
+                     'possible applications of the logic.',
+         'author': 'Insu Song and Guido Governatori',
+         'cites': '16',
+         'cites_id': '17998732799712278579',
+         'eprint': 'ftp://nozdr.ru/biblio/kolxoz/Cs/CsLn/R/Rules%20and%20Rule%20Markup%20Languages%20for%20the%20Semantic%20Web,%201%20conf.,%20RuleML%202005(LNCS3791,%20Springer,%202005)(ISBN%20354029922X)(232s).pdf#page=212',
+         'pages': '204-208',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Nested rules in defeasible logic',
+         'url': 'https://link.springer.com/chapter/10.1007/11580072_18',
+         'year': '2005'},
+ 'citations_link': '/scholar?cites=17998732799712278579',
+ 'cites_per_year': {2006: 1,
+                    2007: 6,
+                    2008: 2,
+                    2009: 2,
+                    2010: 3,
+                    2011: 1,
+                    2012: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:CHSYGLWDkRkC',
+ 'source': 'citations'}
+#+end_example
+*** 2001 Actions made explicit in BDI
+#+begin_example
+{'bib': {'cites': '16',
+         'title': 'Actions made explicit in BDI',
+         'year': '2001'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:u_35RYKgDlwC',
+ 'source': 'citations'}
+#+end_example
+*** 2001 Actions made explicit in BDI :filled:
+#+begin_example
+{'bib': {'abstract': 'The Belief, Desire, Intention (BDI) architecture is '
+                     'increasingly being used in a wide range of complex '
+                     'applications for agents. Many theories and models exist '
+                     'which support this architecture and the recent version '
+                     'is that of Capability being added as an additional '
+                     'construct. In all these models the concept of action is '
+                     'seen in an endogenous manner. We argue that the Result '
+                     'of an action performed by an agent is extremely '
+                     'important when dealing with composite actions and hence '
+                     'the need for an explicit representation of them. The '
+                     'Capability factor is supported using a RES construct and '
+                     'it is shown how the components of a composite action is '
+                     'supported using these two. Further, we introduce an OPP '
+                     '(opportunity) operator which in alliance with Result and '
+                     'Capability provides better semantics for practical '
+                     'reasoning in BDI.',
+         'author': 'Vineet Padmanabhan and Guido Governatori and Abdul Sattar',
+         'cites': '16',
+         'cites_id': '11837376061309546755',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/220935167_Actions_Made_Explicit_in_BDI/links/0deec524db9d8071e1000000.pdf',
+         'pages': '390-401',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Actions made explicit in BDI',
+         'url': 'https://link.springer.com/chapter/10.1007/3-540-45656-2_34',
+         'year': '2001'},
+ 'citations_link': '/scholar?cites=11837376061309546755',
+ 'cites_per_year': {2002: 2,
+                    2003: 3,
+                    2004: 2,
+                    2005: 3,
+                    2006: 2,
+                    2007: 2,
+                    2008: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:u_35RYKgDlwC',
+ 'source': 'citations'}
+#+end_example
+*** 2000 Fibred modal tableaux
+#+begin_example
+{'bib': {'cites': '16', 'title': 'Fibred modal tableaux', 'year': '2000'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:SeFeTyx0c_EC',
+ 'source': 'citations'}
+#+end_example
+*** 2000 Fibred modal tableaux :filled:
+#+begin_example
+{'bib': {'abstract': 'We describe a general and uniform tableau methodology '
+                     'for multi-modal logics arising from Gabbay’s methodology '
+                     'of fibring and Governatori’s labelled tableau system '
+                     'KEM.',
+         'author': 'Dov M Gabbay and Guido Governatori',
+         'cites': '16',
+         'cites_id': '3343541664211610565',
+         'eprint': 'https://www.researchgate.net/profile/Guido_Governatori/publication/262275526_Fibred_Modal_Tableaux/links/564400aa08ae9f9c13e3fc62.pdf',
+         'pages': '161-191',
+         'publisher': 'Springer, Dordrecht',
+         'title': 'Fibred modal tableaux',
+         'url': 'https://link.springer.com/content/pdf/10.1007/978-94-011-4040-9_7.pdf',
+         'year': '2000'},
+ 'citations_link': '/scholar?cites=3343541664211610565',
+ 'cites_per_year': {2000: 1,
+                    2001: 1,
+                    2002: 4,
+                    2003: 4,
+                    2004: 1,
+                    2005: 1,
+                    2006: 1,
+                    2007: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:SeFeTyx0c_EC',
+ 'source': 'citations'}
+#+end_example
+*** 1999 A new approach to base revision
+#+begin_example
+{'bib': {'cites': '16',
+         'title': 'A new approach to base revision',
+         'year': '1999'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:XiSMed-E-HIC',
+ 'source': 'citations'}
+#+end_example
+*** 1999 A new approach to base revision :filled:
+#+begin_example
+{'bib': {'abstract': 'We present three approaches to revision of belief bases, '
+                     'which are also examined in the case in which the '
+                     'sentences in the base are partitioned between those '
+                     'which can and those which cannot be changed; the '
+                     'approaches are shown to be semantically equivalent. A '
+                     'new approach is then presented, based on the '
+                     'modification of individual rules, instead of deletion. '
+                     'The resulting base is semantically equivalent to that '
+                     'generated by the other approaches, in the sense that it '
+                     'has the same models, but the rule part alone has fewer '
+                     'models, that is, is subjected to a smaller change.',
+         'author': 'Paolo Di Giusto and Guido Governatori',
+         'cites': '16',
+         'cites_id': '2788672684995009378',
+         'pages': '327-341',
+         'publisher': 'Springer Berlin Heidelberg',
+         'title': 'A new approach to base revision',
+         'url': 'https://link.springer.com/chapter/10.1007/3-540-48159-1_23',
+         'year': '1999'},
+ 'citations_link': '/scholar?cites=2788672684995009378',
+ 'cites_per_year': {2006: 1,
+                    2007: 1,
+                    2008: 2,
+                    2009: 1,
+                    2010: 2,
+                    2011: 2,
+                    2012: 3,
+                    2013: 2,
+                    2014: 1,
+                    2015: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:XiSMed-E-HIC',
+ 'source': 'citations'}
+#+end_example
+*** 1994 Ked: A deontic theorem prover
+#+begin_example
+{'bib': {'cites': '16',
+         'title': 'Ked: A deontic theorem prover',
+         'year': '1994'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:JoZmwDi-zQgC',
+ 'source': 'citations'}
+#+end_example
+*** 1994 Ked: A deontic theorem prover :filled:
+#+begin_example
+{'bib': {'abstract': 'Deontic logic (DL) is increasingly recognized as an '
+                     'indispensable tool in such application areas as formal '
+                     'representation of legal knowledge and reasoning, formal '
+                     'specification of computer systems and formal analysis of '
+                     'database integrity constraints. Despite this '
+                     'acknowledgement, there have been few attempts to provide '
+                     'computationally tractable inference mechanisms for DL '
+                     '(most notably [Bel87],[McC83],[McC86],[Sus87]). In this '
+                     'paper we shall be concerned with providing a '
+                     'computationally oriented proof method for standard DL '
+                     '(SDL), ie, normal systems of modal logic with the usual '
+                     'possible-worlds semantics ([Aq87],[Ch80],[Han65]). '
+                     'Because of the natural and easily implementable style of '
+                     'proof construction it uses, this method seems '
+                     'particularly well-suited for applications in the AI and '
+                     'Law field, and though in the present version it works '
+                     'for SDL only, it forms an appropriate basis for '
+                     'developing efficient proof methods for more expressive '
+                     'and sophisticated extensions of SDL. The content of the '
+                     'paper is as follows. In Section 2, we briefly introduce '
+                     'SDL together with the logical notation being used. In '
+                     'Section 3, we describe the theorem proving system KED. '
+                     'In Sections 4 and 5, we present KED method of proof '
+                     'search. In the last section, we provide a sample of the '
+                     'KED Prolog implementation and give an example output of '
+                     'the program.',
+         'author': 'Alberto Artosi and Paola Cattabriga and Guido Governatori',
+         'cites': '16',
+         'cites_id': '8214727400238590648',
+         'eprint': 'https://www.academia.edu/download/43158992/KED_A_Deontic_Theorem_Prover20160228-3894-1qcku78.pdf',
+         'pages': '60-76',
+         'title': 'Ked: A deontic theorem prover',
+         'url': 'https://www.academia.edu/download/43158992/KED_A_Deontic_Theorem_Prover20160228-3894-1qcku78.pdf',
+         'year': '1994'},
+ 'citations_link': '/scholar?cites=8214727400238590648',
+ 'cites_per_year': {1995: 1,
+                    1996: 1,
+                    1997: 1,
+                    1998: 1,
+                    1999: 1,
+                    2000: 4,
+                    2001: 2,
+                    2002: 3,
+                    2003: 1,
+                    2004: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:JoZmwDi-zQgC',
+ 'source': 'citations'}
+#+end_example
+*** 2018 Norms modeling constructs of business process compliance management frameworks: a conceptual evaluation
+#+begin_example
+{'bib': {'cites': '15',
+         'title': 'Norms modeling constructs of business process compliance '
+                  'management frameworks: a conceptual evaluation',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:UwBXQvKX0hQC',
+ 'source': 'citations'}
+#+end_example
+*** 2018 Norms modeling constructs of business process compliance management frameworks: a conceptual evaluation :filled:
+#+begin_example
+{'bib': {'abstract': 'The effectiveness of a compliance management framework '
+                     '(CMF) can be guaranteed only if the framework is based '
+                     'on sound conceptual and formal foundations. In '
+                     'particular, the formal language used in the CMF is able '
+                     'to expressively represent the specifications of '
+                     'normative requirements (hereafter, norms) that impose '
+                     'constraints on various activities of a business process. '
+                     'However, if the language used lacks expressiveness and '
+                     'the modelling constructs proposed in the CMF are not '
+                     'able to properly represent different types of norms, it '
+                     'can significantly impede the reliability of the '
+                     'compliance results produced by the CMF. This paper '
+                     'investigates whether existing CMFs are able to provide '
+                     'reasoning and modeling support for various types of '
+                     'normative requirements by evaluating the conceptual '
+                     'foundations of the modeling constructs that existing '
+                     'CMFs use to represent a specific type of norm. The '
+                     'evaluation …',
+         'author': 'Mustafa Hashmi and Guido Governatori',
+         'cites': '15',
+         'cites_id': '4326048818669874063',
+         'eprint': 'https://www.researchgate.net/profile/Mustafa_Hashmi2/publication/319701282_Norms_Modeling_Constructs_of_Business_Process_Compliance_Management_Frameworks_A_Conceptual_Evaluation/links/59c9be630f7e9bbfdc32fa97/Norms-Modeling-Constructs-of-Business-Process-Compliance-Management-Frameworks-A-Conceptual-Evaluation.pdf',
+         'journal': 'Artificial Intelligence and Law',
+         'number': '3',
+         'pages': '251-305',
+         'publisher': 'Springer Netherlands',
+         'title': 'Norms modeling constructs of business process compliance '
+                  'management frameworks: a conceptual evaluation',
+         'url': 'https://link.springer.com/article/10.1007/s10506-017-9215-8',
+         'volume': '26',
+         'year': '2018'},
+ 'citations_link': '/scholar?cites=4326048818669874063',
+ 'cites_per_year': {2017: 2, 2018: 1, 2019: 9, 2020: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:UwBXQvKX0hQC',
+ 'source': 'citations'}
+#+end_example
+*** 2016 On learning attacks in probabilistic abstract argumentation
+#+begin_example
+{'bib': {'cites': '15',
+         'title': 'On learning attacks in probabilistic abstract argumentation',
+         'year': '2016'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:CXI6bF9CpJ4C',
+ 'source': 'citations'}
+#+end_example
+*** 2016 On learning attacks in probabilistic abstract argumentation :filled:
+#+begin_example
+{'bib': {'abstract': 'Probabilistic argumentation combines the quantitative '
+                     'uncertainty accounted by probability theory with the '
+                     'qualitative uncertainty captured by argumentation. In '
+                     'this paper, we investigate the problem of learning the '
+                     'structure of an argumentative graph to account for (a '
+                     'distribution of) labellings of a set of arguments. We '
+                     'consider a general abstract framework, where the '
+                     'structure of arguments is left unspecified, and we focus '
+                     'on the grounded semantics. We present, with experimental '
+                     'insights, an anytime algorithm evaluating ‘on the '
+                     'fly’hypothetical attacks from the examination of an '
+                     'input stream of labellings.',
+         'author': 'Régis Riveret and Guido Governatori',
+         'cites': '15',
+         'cites_id': '13200003682773635155',
+         'eprint': 'http://www.ifaamas.org/Proceedings/aamas2016/pdfs/p653.pdf',
+         'pages': '653-661',
+         'title': 'On learning attacks in probabilistic abstract argumentation',
+         'url': 'http://www.ifaamas.org/Proceedings/aamas2016/pdfs/p653.pdf',
+         'year': '2016'},
+ 'citations_link': '/scholar?cites=13200003682773635155',
+ 'cites_per_year': {2016: 2, 2017: 4, 2018: 1, 2019: 4, 2020: 4},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:CXI6bF9CpJ4C',
+ 'source': 'citations'}
+#+end_example
+*** 2014 Modeling obligations with event-calculus
+#+begin_example
+{'bib': {'cites': '15',
+         'title': 'Modeling obligations with event-calculus',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:vDZJ-YLwNdEC',
+ 'source': 'citations'}
+#+end_example
+*** 2014 Modeling obligations with event-calculus :filled:
+#+begin_example
+{'bib': {'abstract': 'Time plays an important role in norms. In this paper we '
+                     'start from our previously proposed classification of '
+                     'obligations, and point out some shortcomings of Event '
+                     'Calculus (EC) to represent obligations. We propose an '
+                     'extension of EC that avoids such shortcomings and we '
+                     'show how to use it to model the various types of '
+                     'obligations.',
+         'author': 'Mustafa Hashmi and Guido Governatori and Moe Thandar Wynn',
+         'cites': '15',
+         'cites_id': '17268125430485320653',
+         'eprint': 'https://eprints.qut.edu.au/62424/5/62424.pdf',
+         'pages': '296-310',
+         'publisher': 'Springer, Cham',
+         'title': 'Modeling obligations with event-calculus',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-319-09870-8_22',
+         'year': '2014'},
+ 'citations_link': '/scholar?cites=17268125430485320653',
+ 'cites_per_year': {2015: 4, 2016: 3, 2017: 1, 2018: 3, 2019: 2, 2020: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:vDZJ-YLwNdEC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Normative requirements for business process compliance
+#+begin_example
+{'bib': {'cites': '15',
+         'title': 'Normative requirements for business process compliance',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:OP4eGU-M3BUC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Normative requirements for business process compliance :filled:
+#+begin_example
+{'bib': {'abstract': 'Norms regulate the behaviour of their subjects and '
+                     'define what is legal and what is illegal. Norms '
+                     'typically describe the conditions under which they are '
+                     'applicable and the normative effects as a result of '
+                     'their applications. On the other hand, process models '
+                     'specify how a business operation or service is to be '
+                     'carried out to achieve a desired outcome. Norms can have '
+                     'a significant impact on how business operations are '
+                     'conducted and they can apply to the whole or a part of a '
+                     'business process. For example, they may impose '
+                     'conditions on the different aspects of a process (e.g., '
+                     'perform tasks in a specific sequence (control-flow), at '
+                     'a specific time or within a certain time frame (temporal '
+                     'aspect), by specific people (resources). We propose a '
+                     'framework that provides the formal semantics of the '
+                     'normative requirements for determining whether a '
+                     'business process complies with a normative document '
+                     '(where a …',
+         'author': 'Mustafa Hashmi and Guido Governatori and Moe Thandar Wynn',
+         'cites': '15',
+         'cites_id': '16666841050988959020',
+         'eprint': 'https://eprints.qut.edu.au/59286/1/59286b.pdf',
+         'pages': '100-116',
+         'publisher': 'Springer, Cham',
+         'title': 'Normative requirements for business process compliance',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-319-07950-9_8',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=16666841050988959020',
+ 'cites_per_year': {2013: 1,
+                    2014: 1,
+                    2015: 3,
+                    2016: 2,
+                    2017: 1,
+                    2018: 3,
+                    2019: 2,
+                    2020: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:OP4eGU-M3BUC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Towards a model of UAVs Navigation in urban canyon through Defeasible Logic
+#+begin_example
+{'bib': {'cites': '15',
+         'title': 'Towards a model of UAVs Navigation in urban canyon through '
+                  'Defeasible Logic',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:Z5m8FVwuT1cC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 Towards a model of UAVs Navigation in urban canyon through Defeasible Logic :filled:
+#+begin_example
+{'bib': {'abstract': 'This article shows how a non-monotonic rule based system '
+                     '(defeasible logic) can be integrated with numerical '
+                     'computation engines, and how this can be applied to '
+                     'solve the Vehicle Routing Problem. To this end, we have '
+                     'simulated a physical system from which we can obtain '
+                     'numerical information. The physical system perceives '
+                     'information from its environment and generates '
+                     'predicates that can be reasoned by a defeasible logic '
+                     'engine. The conclusions/decisions derived will then be '
+                     'realized by the physical system as it takes actions '
+                     'based on the conclusion derived. Here we consider a '
+                     'scenario where a ‘flock’ of Unmanned Autonomous Vehicles '
+                     '(UAVs) have to navigate within an urban canyon '
+                     'environment. The UAVs are self-autonomous without '
+                     'centralized control. The goal of the UAVs is to navigate '
+                     'to their desired destinations without colliding with '
+                     'each other. In case of possible collision, the UAVs …',
+         'author': 'Ho-Pun Lam and Guido Governatori',
+         'cites': '15',
+         'cites_id': '13041399507223137338',
+         'eprint': 'http://www.governatori.net/papers/2011/uav.pdf',
+         'journal': 'Journal of Logic and Computation',
+         'number': '2',
+         'pages': '373-395',
+         'publisher': 'Oxford University Press',
+         'title': 'Towards a model of UAVs Navigation in urban canyon through '
+                  'Defeasible Logic',
+         'url': 'https://academic.oup.com/logcom/article-abstract/23/2/373/1196874',
+         'volume': '23',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=13041399507223137338',
+ 'cites_per_year': {2012: 1,
+                    2013: 2,
+                    2014: 4,
+                    2015: 3,
+                    2016: 2,
+                    2017: 1,
+                    2018: 2},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:Z5m8FVwuT1cC',
+ 'source': 'citations'}
+#+end_example
+*** 2007 Dialogue games in defeasible logic
+#+begin_example
+{'bib': {'cites': '15',
+         'title': 'Dialogue games in defeasible logic',
+         'year': '2007'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:NhqRSupF_l8C',
+ 'source': 'citations'}
+#+end_example
+*** 2007 Dialogue games in defeasible logic :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we show how to capture dialogue games in '
+                     'Defeasible Logic. We argue that Defeasible Logic is a '
+                     'natural candidate and general representation formalism '
+                     'to capture dialogue games even with requirements more '
+                     'complex than existing formalisms for this kind of games. '
+                     'We parse the dialogue into defeasible rules with time of '
+                     'the dialogue as time of the rule. As the dialogue '
+                     'evolves we allow an agent to upgrade the strength of '
+                     'unchallenged rules. The proof procedures of [1] are used '
+                     'to determine the winner of a dialogue game.',
+         'author': 'Subhasis Thakur and Guido Governatori and Vineet '
+                   'Padmanabhan and J Eriksson Lundström',
+         'cites': '15',
+         'cites_id': '8699985945933052084',
+         'eprint': 'http://www.defeasible.com/PhD/2008/SubhasisThakur.pdf',
+         'pages': '497-506',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Dialogue games in defeasible logic',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-540-76928-6_51',
+         'year': '2007'},
+ 'citations_link': '/scholar?cites=8699985945933052084',
+ 'cites_per_year': {2007: 1,
+                    2008: 3,
+                    2009: 3,
+                    2010: 1,
+                    2011: 4,
+                    2012: 1,
+                    2013: 1,
+                    2014: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:NhqRSupF_l8C',
+ 'source': 'citations'}
+#+end_example
+*** 2000 A tableau methodology for deontic conditional logics
+#+begin_example
+{'bib': {'cites': '15',
+         'title': 'A tableau methodology for deontic conditional logics',
+         'year': '2000'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:D03iK_w7-QYC',
+ 'source': 'citations'}
+#+end_example
+*** 2000 A tableau methodology for deontic conditional logics :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper we present a theorem proving methodology '
+                     'for a restricted but significant fragment of the '
+                     'conditional language made up of (boolean combinations '
+                     'of) conditional statements with unnested antecedents. '
+                     'The method is based on the possible world semantics for '
+                     'conditional logics. The KEM label formalism, designed to '
+                     'account for the semantics of normal modal logics, is '
+                     'easily adapted to the semantics of conditional logics by '
+                     'simply indexing labels with formulas. The inference '
+                     'rules are provided by the propositional system KE+-a '
+                     'tableau-like analytic proof system devised to be used '
+                     'both as a refutation and a direct method of '
+                     'proof-enlarged with suitable elimination rules for the '
+                     'conditional connective. The theorem proving methodology '
+                     'we are going to present can be viewed as a first step '
+                     'towards developing an appropriate algorithmic framework '
+                     'for several conditional logics for (defeasible) '
+                     'conditional obligation.',
+         'author': 'Alberto Artosi and Guido Governatori',
+         'cites': '15',
+         'cites_id': '14835282987226378384',
+         'eprint': 'https://arxiv.org/pdf/cs/0003050',
+         'journal': 'arXiv preprint cs/0003050',
+         'title': 'A tableau methodology for deontic conditional logics',
+         'url': 'https://arxiv.org/abs/cs/0003050',
+         'year': '2000'},
+ 'citations_link': '/scholar?cites=14835282987226378384',
+ 'cites_per_year': {2000: 5,
+                    2001: 2,
+                    2002: 2,
+                    2003: 2,
+                    2004: 1,
+                    2005: 1,
+                    2006: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:D03iK_w7-QYC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 A methodological evaluation of business process compliance management frameworks
+#+begin_example
+{'bib': {'cites': '14',
+         'title': 'A methodological evaluation of business process compliance '
+                  'management frameworks',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:Aul-kAQHnToC',
+ 'source': 'citations'}
+#+end_example
+*** 2013 A methodological evaluation of business process compliance management frameworks :filled:
+#+begin_example
+{'bib': {'abstract': 'Existing compliance management frameworks (CMFs) offer a '
+                     'multitude of compliance management functionalities for '
+                     'the modeling of specific norms for specific domain and '
+                     'compliance checking of normative requirements. This '
+                     'makes difficult for enterprises to decide on a framework '
+                     'suitable for their compliance requirements. Making a '
+                     'decision on the suitability requires a deep '
+                     'understanding of the functionalities of a framework. '
+                     'Gaining such an understanding is a difficult task which, '
+                     'in turn, requires specialised tools and methodologies '
+                     'for evaluation. Current compliance research lacks such '
+                     'tools and methodologies for evaluating CMFs. This paper '
+                     'reports a methodological evaluation of existing CMFs '
+                     'based on pre-defined evaluation criteria. Our evaluation '
+                     'highlights what existing CMFs can offer, and what they '
+                     'cannot. Also, it underpins various open questions and '
+                     'discusses the challenges in this direction.',
+         'author': 'Mustafa Hashmi and Guido Governatori',
+         'cites': '14',
+         'cites_id': '4441242316160755848',
+         'eprint': 'https://eprints.qut.edu.au/60571/1/60571S.pdf',
+         'pages': '106-115',
+         'publisher': 'Springer, Cham',
+         'title': 'A methodological evaluation of business process compliance '
+                  'management frameworks',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-319-02922-1_8',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=4441242316160755848',
+ 'cites_per_year': {2013: 2, 2014: 1, 2015: 4, 2016: 6, 2017: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:Aul-kAQHnToC',
+ 'source': 'citations'}
+#+end_example
+*** 2008 A system for modal and deontic defeasible reasoning
+#+begin_example
+{'bib': {'cites': '14',
+         'title': 'A system for modal and deontic defeasible reasoning',
+         'year': '2008'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:OU6Ihb5iCvQC',
+ 'source': 'citations'}
+#+end_example
+*** 2008 A system for modal and deontic defeasible reasoning :filled:
+#+begin_example
+{'bib': {'abstract': 'Defeasible reasoning is a well-established nonmonotonic '
+                     'reasoning approach that has recently been combined with '
+                     'semantic web technologies. This paper describes modal '
+                     'and deontic extensions of defeasible logic, and shows '
+                     'how these extensions can bbe used for modelling '
+                     'multi-agent systems and policies.',
+         'author': 'Grigoris Antoniou and Nikos Dimaresis and Guido '
+                   'Governatori',
+         'cites': '14',
+         'cites_id': '14631607788141854697',
+         'eprint': 'https://core.ac.uk/download/pdf/15027725.pdf',
+         'pages': '2261-2265',
+         'title': 'A system for modal and deontic defeasible reasoning',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/1363686.1364226',
+         'year': '2008'},
+ 'citations_link': '/scholar?cites=14631607788141854697',
+ 'cites_per_year': {2008: 6,
+                    2009: 1,
+                    2010: 1,
+                    2011: 1,
+                    2012: 1,
+                    2013: 2,
+                    2014: 1,
+                    2015: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:OU6Ihb5iCvQC',
+ 'source': 'citations'}
+#+end_example
+*** 2017 Evaluating legaldocml and legalruleml as a standard for sharing normative information in the aec/fm domain
+#+begin_example
+{'bib': {'cites': '13',
+         'title': 'Evaluating legaldocml and legalruleml as a standard for '
+                  'sharing normative information in the aec/fm domain',
+         'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:TXgqPU86QykC',
+ 'source': 'citations'}
+#+end_example
+*** 2017 Evaluating legaldocml and legalruleml as a standard for sharing normative information in the aec/fm domain :filled:
+#+begin_example
+{'bib': {'abstract': 'Legal text is typically conveyed in natural language and '
+                     'thus not readily suitable for computer processing. '
+                     'Numerous work-around approaches have been proposed by '
+                     'researchers in the Architecture, Engineering, '
+                     'Construction and Facilities Management (AEC/FM) domain '
+                     'over the last four decades to create computable '
+                     'representations of normative data that can be used to '
+                     'automate some of the processes in the domain. The '
+                     'transition from human-readable text to a structured '
+                     'representation can occur in many possible ways, eg '
+                     'through Natural Language Processing (NLP) techniques, '
+                     'manual annotations, or through direct coding. In all '
+                     'cases, however, the human-readable document at the '
+                     'source remains the sole point of reference. Ideally, '
+                     'however, one digital structured representation should '
+                     'also be available and recognised as the single digital '
+                     'point of reference. Research in the AEC/FM domain has '
+                     'shown that automated compliant building design processes '
+                     'would benefit from a single standardised and manageable '
+                     'digital representation of normative data. Recent efforts '
+                     'in the legal domain have shown promising developments in '
+                     'legal mark-up languages such as LegalDocML and '
+                     'LegalRuleML as emerging open standards for legal '
+                     'knowledge interchange. In this article, we explore the '
+                     'potential of adapting these emerging standards to '
+                     'accommodate specific requirements of the AEC/FM domain.',
+         'author': 'Johannes Dimyadi and Guido Governatori and Robert Amor',
+         'cites': '13',
+         'cites_id': '14104070510978091644',
+         'eprint': 'https://www.researchgate.net/profile/Johannes_Dimyadi/publication/318010726_Evaluating_LegalDocML_and_LegalRuleML_as_a_Standard_for_Sharing_Normative_Information_in_the_AECFM_Domain/links/5a0b5c64aca2721a23f9c777/Evaluating-LegalDocML-and-LegalRuleML-as-a-Standard-for-Sharing-Normative-Information-in-the-AEC-FM-Domain.pdf',
+         'journal': 'Proceedings of the Joint Conference on Computing in '
+                    'Construction (JC3)',
+         'pages': '637-644',
+         'title': 'Evaluating legaldocml and legalruleml as a standard for '
+                  'sharing normative information in the aec/fm domain',
+         'url': 'https://www.researchgate.net/profile/Johannes_Dimyadi/publication/318010726_Evaluating_LegalDocML_and_LegalRuleML_as_a_Standard_for_Sharing_Normative_Information_in_the_AECFM_Domain/links/5a0b5c64aca2721a23f9c777/Evaluating-LegalDocML-and-LegalRuleML-as-a-Standard-for-Sharing-Normative-Information-in-the-AEC-FM-Domain.pdf',
+         'volume': '1',
+         'year': '2017'},
+ 'citations_link': '/scholar?cites=14104070510978091644',
+ 'cites_per_year': {2016: 1, 2017: 1, 2018: 2, 2019: 4, 2020: 5},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:TXgqPU86QykC',
+ 'source': 'citations'}
+#+end_example
+*** 2012 Possible world semantics for defeasible deontic logic
+#+begin_example
+{'bib': {'cites': '13',
+         'title': 'Possible world semantics for defeasible deontic logic',
+         'year': '2012'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:86PQX7AUzd4C',
+ 'source': 'citations'}
+#+end_example
+*** 2012 Possible world semantics for defeasible deontic logic :filled:
+#+begin_example
+{'bib': {'abstract': 'Defeasible Deontic Logic is a simple and computationally '
+                     'efficient approach for the representation of normative '
+                     'reasoning. Traditionally defeasible logics are defined '
+                     'proof theoretically based on the proof conditions for '
+                     'the logic. While several logic programming, operational '
+                     'and argumentation semantics have been provided for '
+                     'defeasible logics, possible world semantics for (modal) '
+                     'defeasible logics remained elusive. In this paper we '
+                     'address this issue.',
+         'author': 'Guido Governatori and Antonino Rotolo and Erica Calardo',
+         'cites': '13',
+         'cites_id': '6075171313717992460',
+         'eprint': 'http://ts.data61.csiro.au/publications/nicta_full_text/5783.pdf',
+         'pages': '46-60',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Possible world semantics for defeasible deontic logic',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-642-31570-1_4',
+         'year': '2012'},
+ 'citations_link': '/scholar?cites=6075171313717992460',
+ 'cites_per_year': {2013: 3, 2014: 1, 2015: 2, 2016: 1, 2017: 4, 2018: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:86PQX7AUzd4C',
+ 'source': 'citations'}
+#+end_example
+*** 2010 Burdens of Proof in Monological Argumentation.
+#+begin_example
+{'bib': {'cites': '13',
+         'title': 'Burdens of Proof in Monological Argumentation.',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:8AbLer7MMksC',
+ 'source': 'citations'}
+#+end_example
+*** 2010 Burdens of Proof in Monological Argumentation. :filled:
+#+begin_example
+{'bib': {'abstract': 'We shall argue that burdens of proof are relevant also '
+                     'to monological reasoning, ie, for deriving the '
+                     'conclusions of a knowledge-base allowing for conflicting '
+                     'arguments. Reasoning with burdens of proof can provide a '
+                     'useful extension of current argument-based non-monotonic '
+                     'logics, at least a different perspective on them. '
+                     'Firstly we shall provide an objective characterisation '
+                     'of burdens of proof, assuming that burdens concerns rule '
+                     'antecedents (literals in the body of rules), rather than '
+                     'agents. Secondly, we shall analyse the conditions for a '
+                     'burden to be satisfied, by considering credulous or '
+                     'skeptical derivability of the concerned antecedent or of '
+                     'its complement. Finally, we shall develop a method for '
+                     'developing inferences out of a knowledge base merging '
+                     'rules and proof burdens in the framework of defeasible '
+                     'logic.',
+         'author': 'Guido Governatori and Giovanni Sartor',
+         'cites': '13',
+         'cites_id': '4379690571809031546',
+         'eprint': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.589.6484&rep=rep1&type=pdf',
+         'pages': '57-66',
+         'title': 'Burdens of Proof in Monological Argumentation.',
+         'url': 'http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.589.6484&rep=rep1&type=pdf',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=4379690571809031546',
+ 'cites_per_year': {2010: 1,
+                    2011: 4,
+                    2012: 1,
+                    2013: 2,
+                    2014: 2,
+                    2015: 1,
+                    2016: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:8AbLer7MMksC',
+ 'source': 'citations'}
+#+end_example
+*** 2006 Affective web service design
+#+begin_example
+{'bib': {'cites': '13',
+         'title': 'Affective web service design',
+         'year': '2006'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:9vf0nzSNQJEC',
+ 'source': 'citations'}
+#+end_example
+*** 2006 Affective web service design :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper, we propose that, in order to improve '
+                     'customer satisfaction, we need to incorporate '
+                     'communication modes (e.g., speech act) in the current '
+                     'standards of web services specifications. We show that '
+                     'with the communication modes, we can estimate various '
+                     'affects on service consumers during their interactions '
+                     'with web services. With this information, a web-service '
+                     'management system can automatically prevent and '
+                     'compensate potential negative affects, and even take '
+                     'advantage of positive affects.',
+         'author': 'Insu Song and Guido Governatori',
+         'cites': '13',
+         'cites_id': '8860283013353453135',
+         'eprint': 'http://www.academia.edu/download/42476960/eserv.pdf',
+         'pages': '71-80',
+         'publisher': 'Springer, Berlin, Heidelberg',
+         'title': 'Affective web service design',
+         'url': 'https://link.springer.com/chapter/10.1007/978-3-540-36668-3_10',
+         'year': '2006'},
+ 'citations_link': '/scholar?cites=8860283013353453135',
+ 'cites_per_year': {2006: 1,
+                    2007: 2,
+                    2008: 1,
+                    2009: 3,
+                    2010: 3,
+                    2011: 2,
+                    2012: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:9vf0nzSNQJEC',
+ 'source': 'citations'}
+#+end_example
+*** 2019 Revision of defeasible preferences
+#+begin_example
+{'bib': {'cites': '12',
+         'title': 'Revision of defeasible preferences',
+         'year': '2019'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:4x91efyQ1HQC',
+ 'source': 'citations'}
+#+end_example
+*** 2019 Revision of defeasible preferences :filled:
+#+begin_example
+{'bib': {'abstract': 'There are several contexts of non-monotonic reasoning '
+                     'where a priority between rules is established with the '
+                     'purpose of solving conflicts. We investigate how to '
+                     'modify such a priority (preference) relation in a '
+                     'non-monotonic logic in order to change the conclusions '
+                     'of the theory itself. We shall argue that the approach '
+                     'we adopt has a natural counterpart in legal reasoning '
+                     'and argumentation, where users cannot typically change '
+                     'the facts or the rules, but can propose their '
+                     'preferences about the relative strength of the rules.',
+         'author': 'Guido Governatori and Francesco Olivieri and Matteo '
+                   'Cristani and Simone Scannapieco',
+         'cites': '12',
+         'cites_id': '10536896678188073936',
+         'journal': 'International Journal of Approximate Reasoning',
+         'pages': '205-230',
+         'publisher': 'Elsevier',
+         'title': 'Revision of defeasible preferences',
+         'url': 'https://www.sciencedirect.com/science/article/pii/S0888613X18301336',
+         'volume': '104',
+         'year': '2019'},
+ 'citations_link': '/scholar?cites=10536896678188073936',
+ 'cites_per_year': {2012: 2, 2013: 1, 2014: 4, 2015: 1, 2016: 2, 2017: 1},
+ 'filled': True,
+ 'id_citations': 'cT0QCq0AAAAJ:4x91efyQ1HQC',
+ 'source': 'citations'}
+#+end_example
+*** 2014 LIVE: a Tool for Checking Licenses Compatibility between Vocabularies and Data
+#+begin_example
+{'bib': {'cites': '12',
+         'title': 'LIVE: a Tool for Checking Licenses Compatibility between '
+                  'Vocabularies and Data',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'cT0QCq0AAAAJ:OVe_t5h5bhEC',
+ 'source': 'citations'}
+#+end_example
