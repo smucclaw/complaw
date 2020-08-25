@@ -1,0 +1,544 @@
+* Jerrold Soh
+
+#+begin_example
+{'affiliation': 'Singapore Management University',
+ 'citedby': 9,
+ 'email': '@smu.edu.sg',
+ 'filled': False,
+ 'id': 'Q_BoKqYAAAAJ',
+ 'interests': ['Law'],
+ 'name': 'Jerrold Soh',
+ 'url_picture': 'https://scholar.google.com/citations?view_op=medium_photo&user=Q_BoKqYAAAAJ'}
+#+end_example
+filling author...
+** filled
+#+begin_example
+{'affiliation': 'Singapore Management University',
+ 'citedby': 9,
+ 'email': '@smu.edu.sg',
+ 'filled': False,
+ 'id': 'Q_BoKqYAAAAJ',
+ 'interests': ['Law'],
+ 'name': 'Jerrold Soh',
+ 'publications': [{'bib': {'cites': '8',
+         'title': 'Legal area classification: a comparative study of text '
+                  'classifiers on Singapore supreme court judgments',
+         'year': '2019'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:YsMSGLbcyi4C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '1',
+         'title': "A network analysis of the Singapore Court of Appeal's "
+                  'citations to precedent',
+         'year': '2019'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:IjCSPb-OGe4C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'The Development of Singapore Law: A Bicentennial '
+                  'Retrospective',
+         'year': '2020'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:WF5omc3nYNoC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'When are Algorithms Biased? A Multi-Disciplinary Survey',
+         'year': '2020'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:ufrVoPGSRksC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'The Inefficiency of Quasi–Per Se Rules: Regulating '
+                  'Information Exchange in EU and US Antitrust Law',
+         'year': '2020'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:Tyk-4Ss8FVUC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Legal Area Classification: A Comparative Study of Text '
+                  'Classifiers on Singapore Supreme Court Judgments',
+         'year': '2019'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:W7OEmFMy1HYC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'The state of legal innovation in Asia-Pacific',
+         'year': '2019'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:UeHWp8X0CEIC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'TOWARDS A GENERAL APPROACH FOR COMPUTER-ASSISTED ANALYSIS '
+                  'OF LEGAL DECISIONS: IN DOMAIN NAME DISPUTES, DOES THE '
+                  'PANELIST MATTER?',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:9yKSN-GCB0IC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0', 'title': 'Document management systems', 'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:_FxGoFyzp5QC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0', 'title': 'The Legal Magic 8-Ball', 'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:eQOLeE2rZwMC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'The ex-ante regulation of information exchange: A new look '
+                  'at the prophylactic rule',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:2osOgNQ5qMEC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Towards a general framework for empirical legal analysis: '
+                  'In domain name disputes, do panelists matter?',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:u-x6o8ySG0sC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Technology and data as lawyers’ allies–From data to '
+                  'insights',
+         'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:d1gkVwhDpl0C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'The future of law conference 2017: Charting the converging '
+                  'paths of law and technology',
+         'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'Q_BoKqYAAAAJ:u5HHmVD_uO8C',
+ 'source': 'citations'}],
+ 'url_picture': 'https://scholar.google.com/citations?view_op=medium_photo&user=Q_BoKqYAAAAJ'}
+#+end_example
+** 14 publications
+*** 2019 Legal area classification: a comparative study of text classifiers on Singapore supreme court judgments :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper conducts a comparative study on the '
+                     "performance of various machine learning (``ML'') "
+                     'approaches for classifying judgments into legal areas. '
+                     'Using a novel dataset of 6,227 Singapore Supreme Court '
+                     'judgments, we investigate how state-of-the-art NLP '
+                     'methods compare against traditional statistical models '
+                     'when applied to a legal corpus that comprised few but '
+                     'lengthy documents. All approaches tested, including '
+                     'topic model, word embedding, and language model-based '
+                     'classifiers, performed well with as little as a few '
+                     'hundred judgments. However, more work needs to be done '
+                     'to optimize state-of-the-art methods for the legal '
+                     'domain.',
+         'author': 'Jerrold Soh Tsin Howe and Lim How Khang and Ian Ernst Chai',
+         'cites': '8',
+         'cites_id': '11103739232651758710',
+         'eprint': 'https://arxiv.org/pdf/1904.06470',
+         'journal': 'arXiv preprint arXiv:1904.06470',
+         'title': 'Legal area classification: a comparative study of text '
+                  'classifiers on Singapore supreme court judgments',
+         'url': 'https://arxiv.org/abs/1904.06470',
+         'year': '2019'},
+ 'citations_link': '/scholar?cites=11103739232651758710',
+ 'cites_per_year': {2019: 3, 2020: 5},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:YsMSGLbcyi4C',
+ 'source': 'citations'}
+#+end_example
+| 2019 | Legal area classification: a comparative study of text classifiers on Singapore supreme court judgments | arXiv preprint arXiv:1904.06470 |
+*** 2019 A network analysis of the Singapore Court of Appeal's citations to precedent :filled:
+#+begin_example
+{'bib': {'abstract': '1 This article examines trends in the Singapore Court of '
+                     "Appeal's precedent citation behaviour using network "
+                     'analysis, an empirical technique hitherto not applied to '
+                     'Singapore jurisprudence. The main objective is to '
+                     'introduce network analysis and establish both a '
+                     'theoretical framework and an empirical methodology for '
+                     'applying it to Singapore jurisprudence at a larger scale '
+                     'than presently undertaken. More substantively, this '
+                     'article presents findings revealed by applying network '
+                     'analysis to a preliminary dataset of reported Singapore '
+                     'Court of Appeal judgments decided 2000-2017. There are '
+                     'two motivations for this.',
+         'author': 'Jerrold Soh',
+         'cites': '1',
+         'cites_id': '12503912983615263436',
+         'eprint': 'https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=5113&context=sol_research',
+         'journal': 'SAcLJ',
+         'pages': '246',
+         'title': "A network analysis of the Singapore Court of Appeal's "
+                  'citations to precedent',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/saclj31&section=12',
+         'volume': '31',
+         'year': '2019'},
+ 'citations_link': '/scholar?cites=12503912983615263436',
+ 'cites_per_year': {2020: 1},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:IjCSPb-OGe4C',
+ 'source': 'citations'}
+#+end_example
+| 2019 | A network analysis of the Singapore Court of Appeal's citations to precedent | SAcLJ |
+*** 2020 The Development of Singapore Law: A Bicentennial Retrospective :filled:
+#+begin_example
+{'bib': {'abstract': 'The present article reviews (in broad brushstrokes) the '
+                     'status of Singapore law during its bicentennial year. It '
+                     'is not only about origins but also about growth–in '
+                     'particular, the autochthonous or indigenous growth of '
+                     'the Singapore legal system (particularly since the '
+                     'independence of Singapore as a nation state on 9 August '
+                     '1965). The analysis of this growth is divided into '
+                     'quantitative as well as qualitative parts. In '
+                     'particular, the former constitutes an empirical analysis '
+                     'which attempts–for the very first time− to tell the '
+                     'development of Singapore law through numbers, building '
+                     'on emerging techniques in data visualisation and '
+                     'empirical legal studies.',
+         'author': 'Andrew Phang and Yihan Goh and Jerrold Soh',
+         'cites': '0',
+         'eprint': 'https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=5114&context=sol_research',
+         'journal': 'Singapore Academy of Law Journal (Forthcoming)',
+         'title': 'The Development of Singapore Law: A Bicentennial '
+                  'Retrospective',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3602508',
+         'year': '2020'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:WF5omc3nYNoC',
+ 'source': 'citations'}
+#+end_example
+| 2020 | The Development of Singapore Law: A Bicentennial Retrospective | Singapore Academy of Law Journal (Forthcoming) |
+*** 2020 When are Algorithms Biased? A Multi-Disciplinary Survey :filled:
+#+begin_example
+{'bib': {'abstract': 'Bias means different things to lawyers, psychologists, '
+                     'statisticians, and computer scientists. While such '
+                     'interdisciplinary variation obfuscates the definition '
+                     'and thus management of algorithmic bias, it may also '
+                     'shed light on the nature of bias itself. This paper '
+                     'surveys bias definitions across these disciplines, '
+                     'analyses their intersection, and assesses how they shape '
+                     'when algorithms are said to be “biased”. It reveals bias '
+                     'as a systematic deviation from a presupposed ideal. To '
+                     'call an algorithm “biased” is to claim that ideal worth '
+                     'pursuing. Where mathematical ideals, like statistical '
+                     'expectations, are put forth, bias assertions plausibly '
+                     'avoid norm assertions. Existing accounts of algorithmic '
+                     'bias, however, go further than the objective sciences '
+                     'and, by asserting that some algorithm or dataset is '
+                     'unfair, implicates the normative arts. This underscores '
+                     'the necessity of multi-disciplinary perspectives and '
+                     'communication in measuring and managing algorithmic '
+                     'bias.',
+         'author': 'Jerrold Soh',
+         'cites': '0',
+         'journal': 'A Multi-Disciplinary Survey (April 20, 2020)',
+         'title': 'When are Algorithms Biased? A Multi-Disciplinary Survey',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3602662',
+         'year': '2020'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:ufrVoPGSRksC',
+ 'source': 'citations'}
+#+end_example
+| 2020 | When are Algorithms Biased? A Multi-Disciplinary Survey | A Multi-Disciplinary Survey (April 20, 2020) |
+*** 2020 The Inefficiency of Quasi–Per Se Rules: Regulating Information Exchange in EU and US Antitrust Law :filled:
+#+begin_example
+{'bib': {'abstract': 'It is well understood that the exchange of information '
+                     'between horizontal competitors can violate competition '
+                     'law provisions in both the European Union (EU) and the '
+                     'United States, namely, article 101 of the Treaty on the '
+                     'Functioning of the European Union and section 1 of the '
+                     'Sherman Act. However, despite ostensible similarities '
+                     'between EU and U.S. antitrust law concerning interfirm '
+                     'information exchange, substantial differences remain. In '
+                     'this article, we make a normative argument for the U.S. '
+                     "antitrust regime's approach, on the basis that the "
+                     'United States’ approach to information exchange is '
+                     'likely to be more efficient than the relevant approach '
+                     'under the EU competition regime. Using economic theories '
+                     'of harm concerning information exchange to understand '
+                     'the imposition of liability in relation to “stand‐alone” '
+                     'instances of information exchange, we argue that such '
+                     'liability must be grounded on the conception of …',
+         'author': 'Kenneth Khoo and Jerrold Soh',
+         'cites': '0',
+         'eprint': 'https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=5109&context=sol_research',
+         'journal': 'American Business Law Journal',
+         'number': '1',
+         'pages': '45-111',
+         'publisher': 'John Wiley & Sons, Inc.',
+         'title': 'The Inefficiency of Quasi–Per Se Rules: Regulating '
+                  'Information Exchange in EU and US Antitrust Law',
+         'url': 'https://onlinelibrary.wiley.com/doi/abs/10.1111/ablj.12155',
+         'volume': '57',
+         'year': '2020'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:Tyk-4Ss8FVUC',
+ 'source': 'citations'}
+#+end_example
+| 2020 | The Inefficiency of Quasi–Per Se Rules: Regulating Information Exchange in EU and US Antitrust Law | American Business Law Journal |
+*** 2019 Legal Area Classification: A Comparative Study of Text Classifiers on Singapore Supreme Court Judgments :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper conducts a comparative study on the '
+                     "performance of various machine learning (``ML'') "
+                     'approaches for classifying judgments into legal areas. '
+                     'Using a novel dataset of 6,227 Singapore Supreme Court '
+                     'judgments, we investigate how state-of-the-art NLP '
+                     'methods compare against traditional statistical models '
+                     'when applied to a legal corpus that comprised few but '
+                     'lengthy documents. All approaches tested, including '
+                     'topic model, word embedding, and language model-based '
+                     'classifiers, performed well with as little as a few '
+                     'hundred judgments. However, more work needs to be done '
+                     'to optimize state-of-the-art methods for the legal '
+                     'domain.',
+         'author': 'Jerrold Soh Tsin Howe and Lim How Khang and Ian Ernst Chai',
+         'cites': '0',
+         'journal': 'arXiv',
+         'pages': 'arXiv: 1904.06470',
+         'title': 'Legal Area Classification: A Comparative Study of Text '
+                  'Classifiers on Singapore Supreme Court Judgments',
+         'url': 'https://ui.adsabs.harvard.edu/abs/2019arXiv190406470S/abstract',
+         'year': '2019'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:W7OEmFMy1HYC',
+ 'source': 'citations'}
+#+end_example
+| 2019 | Legal Area Classification: A Comparative Study of Text Classifiers on Singapore Supreme Court Judgments | arXiv |
+*** 2019 The state of legal innovation in Asia-Pacific :filled:
+#+begin_example
+{'bib': {'abstract': 'The report currently covers ten jurisdictions which, '
+                     'appearing alphabetically in separatechapters following '
+                     'this preface, are Australia, China, Hong Kong, India, '
+                     'Japan, the Republic ofKorea, Malaysia, Russia, '
+                     'Singapore, and a snapshot chapter of the United States. '
+                     'Collectively, these country-chapters make three points '
+                     'clear.',
+         'author': 'Jerrold Tsin Howe SOH',
+         'cites': '0',
+         'eprint': 'https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=4915&context=sol_research',
+         'pages': '1',
+         'publisher': 'Singapore Academy of Law',
+         'title': 'The state of legal innovation in Asia-Pacific',
+         'url': 'https://ink.library.smu.edu.sg/sol_research/2957/',
+         'year': '2019'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:UeHWp8X0CEIC',
+ 'source': 'citations'}
+#+end_example
+*** 2019 The state of legal innovation in Asia-Pacific :error:
+WARNING: caught exception: <class 'KeyError'>
+*** 2018 TOWARDS A GENERAL APPROACH FOR COMPUTER-ASSISTED ANALYSIS OF LEGAL DECISIONS: IN DOMAIN NAME DISPUTES, DOES THE PANELIST MATTER? :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper introduces an automated methodology for '
+                     'descriptive legal analysis using data on 27,000 domain '
+                     'name disputes decided under the Uniform Domain Names '
+                     'Dispute Resolution Policy. Using the methodology, I '
+                     'examine whether characteristics of adjudicating panels '
+                     'affect who wins such disputes. Controls for legal '
+                     'factors are synthesised by applying text mining to '
+                     'pre-processed decision texts. L1-penalised logistic '
+                     'regression is then used for estimation. Significance '
+                     'tests are conducted using post-selection inference '
+                     'methods. I find that panellist identity and size does '
+                     'not significantly affect dispute outcomes. Further, the '
+                     'synthesised controls are effective proxies for legal '
+                     'factors, suggesting that the methodology can be applied '
+                     'to other legal fields.',
+         'author': 'JERROLD SOH TSIN HOWE',
+         'cites': '0',
+         'title': 'TOWARDS A GENERAL APPROACH FOR COMPUTER-ASSISTED ANALYSIS '
+                  'OF LEGAL DECISIONS: IN DOMAIN NAME DISPUTES, DOES THE '
+                  'PANELIST MATTER?',
+         'url': 'https://sb-cris.nus.edu.sg/handle/10635/146977',
+         'year': '2018'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:9yKSN-GCB0IC',
+ 'source': 'citations'}
+#+end_example
+*** 2018 TOWARDS A GENERAL APPROACH FOR COMPUTER-ASSISTED ANALYSIS OF LEGAL DECISIONS: IN DOMAIN NAME DISPUTES, DOES THE PANELIST MATTER? :error:
+WARNING: caught exception: <class 'KeyError'>
+*** 2018 Document management systems :filled:
+#+begin_example
+{'bib': {'abstract': 'Those who have played ballgames will know that, '
+                     'initially, it feels more like the ball is dribbling '
+                     'youthan the other way around. Managing legal documents '
+                     'is similar. Whether thedocuments in question are '
+                     'submissions, affidavits, client briefs, contracts, '
+                     'orcorporate announcements, managing your documents well '
+                     '(and not letting yourdocuments manage you) will help you '
+                     'score points for clients.',
+         'author': 'Jerrold Tsin Howe SOH',
+         'cites': '0',
+         'eprint': 'https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=4740&context=sol_research',
+         'title': 'Document management systems',
+         'url': 'https://ink.library.smu.edu.sg/sol_research/2782/',
+         'year': '2018'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:_FxGoFyzp5QC',
+ 'source': 'citations'}
+#+end_example
+*** 2018 Document management systems :error:
+WARNING: caught exception: <class 'KeyError'>
+*** 2018 The Legal Magic 8-Ball :filled:
+#+begin_example
+{'bib': {'abstract': 'KELVIN Tan sat down with Jerrold Soh, one of four '
+                     'founders of Lex Quanta, at Collision 8, home to the '
+                     "Singapore Academy of Law's Future Law Innovation "
+                     'Programme (FLIP). FLIP is an initiative aimed at '
+                     'cultivating and supporting legal tech start-ups, and '
+                     'amongst those firms which have benefitted is Lex Quanta, '
+                     'a startup which aims to build legally-sensitive data '
+                     'analytics solutions.',
+         'author': 'Jerrold Soh',
+         'cites': '0',
+         'journal': 'Sing. Comp. L. Rev.',
+         'pages': '129',
+         'title': 'The Legal Magic 8-Ball',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/singclr1&section=27',
+         'year': '2018'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:eQOLeE2rZwMC',
+ 'source': 'citations'}
+#+end_example
+| 2018 | The Legal Magic 8-Ball | Sing. Comp. L. Rev. |
+*** 2018 The ex-ante regulation of information exchange: A new look at the prophylactic rule :filled:
+#+begin_example
+{'bib': {'abstract': 'It is trite law that the exchange of information '
+                     'betweenhorizontal competitors may amount to '
+                     'anti-competitiveinfringements under Art 101 TFEU. The '
+                     'conceptual basis for thisrule, however, is far less '
+                     'obvious. In this article, we attempt toelucidate the '
+                     'fundamental nature of the rule. If the rule is to '
+                     'beconsistent with the welfare-maximising objective of '
+                     'competitionlaw, it must be grounded on the conception of '
+                     'prophylaxis–aform of ex-ante regulation. However, given '
+                     'the prophylacticnature of this rule, we argue that '
+                     'enforcement of it through thestatutory medium of Art 101 '
+                     'TFEU is problematic. We providethree reasons for why '
+                     'this is so. First, we argue that the classicaldichotomy '
+                     'between “object-type” infringements and “effect-type” '
+                     'infringements in Art 101 TEFU aims to address '
+                     'bothpresumed and actual anti-competitive harm. '
+                     'Regulating the riskof future anti-competitive harm from '
+                     'information exchange, however, requires further '
+                     'inferential leaps that may not bejustified. Second, '
+                     'drawing on the literature in industrialeconomics, we '
+                     'assert that any clear dichotomy separatinginformation '
+                     'exchange practices into distinct categories of '
+                     '“object-type” infringements and “effect-type” '
+                     'infringements islikely to be arbitrary. Third, we '
+                     'contend that in contrast to theambit of Art 101 TFEU, '
+                     'the rule prohibiting informationexchange has a far more '
+                     'limited scope–that of preventing thefacilitation of '
+                     'collusion. In light of the aforementioned reasons, we '
+                     'suggest potential avenues for reform. In particular, '
+                     'wesubmit that liability for information exchange '
+                     'betweencompetitors should only be imposed when firms '
+                     'breach clearand bright-line standards specifying the '
+                     'exact practices that …',
+         'author': 'Kenneth KHOO and Jerrold Tsin Howe SOH',
+         'cites': '0',
+         'eprint': 'https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=4812&context=sol_research',
+         'publisher': 'Kluwer',
+         'title': 'The ex-ante regulation of information exchange: A new look '
+                  'at the prophylactic rule',
+         'url': 'https://ink.library.smu.edu.sg/sol_research/2854/',
+         'year': '2018'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:2osOgNQ5qMEC',
+ 'source': 'citations'}
+#+end_example
+*** 2018 The ex-ante regulation of information exchange: A new look at the prophylactic rule :error:
+WARNING: caught exception: <class 'KeyError'>
+*** 2018 Towards a general framework for empirical legal analysis: In domain name disputes, do panelists matter? :filled:
+#+begin_example
+{'bib': {'abstract': 'This paper introduces an automated methodology for '
+                     'empirical legal analysis using data on∼ 27,000 domain '
+                     'name disputes decided under the Uniform Domain Names '
+                     'Dispute Resolution Policy. Using the methodology, I '
+                     'examine whether characteristics of adjudicating panels '
+                     'affect who wins such disputes. Controls for legal '
+                     'factors are synthesised by applying text mining to '
+                     'pre-processed decision texts. L1-penalised logistic '
+                     'regression is then used for estimation. Significance '
+                     'tests are conducted using post-selection inference '
+                     'methods. I find that panellist identity and size does '
+                     'not significantly affect dispute outcomes. Further, the '
+                     'synthesised controls are effective proxies for legal '
+                     'factors, suggesting that the methodology can be applied '
+                     'to other legal fields.',
+         'author': 'Jerrold Tsin Howe SOH',
+         'cites': '0',
+         'pages': '1',
+         'title': 'Towards a general framework for empirical legal analysis: '
+                  'In domain name disputes, do panelists matter?',
+         'url': 'https://ink.library.smu.edu.sg/sol_research_smu/93/',
+         'year': '2018'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:u-x6o8ySG0sC',
+ 'source': 'citations'}
+#+end_example
+*** 2018 Towards a general framework for empirical legal analysis: In domain name disputes, do panelists matter? :error:
+WARNING: caught exception: <class 'KeyError'>
+*** 2017 Technology and data as lawyers’ allies–From data to insights :filled:
+#+begin_example
+{'bib': {'abstract': 'A lawyer’s tools of the trade were his law books. In '
+                     'those days, a firm’s library was very manageable. There '
+                     'were few commentaries and the text of the law–cases and '
+                     'legislation–were self-contained. Local case law that was '
+                     'reported took up only a volume each year in the Malayan '
+                     'Law Journal. Older firms may have had the early Kyshe’s '
+                     'law reports. Statutes were contained in four volumes–DK '
+                     'Walters, who had written the definitive commentary on '
+                     'Municipal Ordinances, was published in one volume. '
+                     'Roland Braddell’s ‘The Law of the Straits Settlements’ '
+                     'was another volume. For a litigator, there was the Penal '
+                     'Code, the Criminal Procedure Code and the Evidence Act, '
+                     'the same volumes used by lawyers.',
+         'author': 'Zi Qian CHANG and Edmund Koh KOH and Jerrold Tsin Howe SOH '
+                   'and Bu FAN',
+         'cites': '0',
+         'eprint': 'https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=4739&context=sol_research',
+         'title': 'Technology and data as lawyers’ allies–From data to '
+                  'insights',
+         'url': 'https://ink.library.smu.edu.sg/sol_research/2781/',
+         'year': '2017'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:d1gkVwhDpl0C',
+ 'source': 'citations'}
+#+end_example
+*** 2017 Technology and data as lawyers’ allies–From data to insights :error:
+WARNING: caught exception: <class 'KeyError'>
+*** 2017 The future of law conference 2017: Charting the converging paths of law and technology :filled:
+#+begin_example
+{'bib': {'abstract': 'Jointly organised by the Centre for Cross-Border '
+                     'Commercial Law in Asia at the Singapore Management '
+                     'University (SMU) School of Law and Osborne Clarke, the '
+                     'inaugural Future of Law Conference that took place from '
+                     '26 to 27 October 2017 brought together leading academics '
+                     'and practitioners from around the world to tackle issues '
+                     'at the intersection of law and technology. This article '
+                     'provides but a snippet of the insights discussed at the '
+                     'conference.',
+         'author': 'Jerrold Tsin Howe SOH and Amelia CHEW',
+         'cites': '0',
+         'eprint': 'https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=4745&context=sol_research',
+         'title': 'The future of law conference 2017: Charting the converging '
+                  'paths of law and technology',
+         'url': 'https://ink.library.smu.edu.sg/sol_research/2787/',
+         'year': '2017'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'Q_BoKqYAAAAJ:u5HHmVD_uO8C',
+ 'source': 'citations'}
+#+end_example
+*** 2017 The future of law conference 2017: Charting the converging paths of law and technology :error:
+WARNING: caught exception: <class 'KeyError'>
