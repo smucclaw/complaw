@@ -38,13 +38,25 @@ We write a simple Python program using the [[https://pypi.org/project/scholarly/
 
           orgprint("**", "filled", filled_author)
 
-          print("** publications");
+          print("**", len(filled_author.publications),"publications");
 
           for pub in filled_author.publications:
-              orgprint("***",pub.bib['year']+ " "+pub.bib['title'], pub)
-              pub.fill()
-              orgprint("***",pub.bib['year']+ " "+pub.bib['title']+" :filled:", pub)
-          
+              try:
+                  pub.fill()
+                  bibYear    = pub.bib['year']
+                  bibTitle   = pub.bib['title']
+                  bibJournal = pub.bib['journal']
+
+                  orgprint("***",bibYear+ " "+bibTitle+" :filled:", pub)
+
+                  print(enpipe([bibYear, bibTitle, bibJournal]))
+
+              except:
+                  print("***",pub.bib['year']+ " "+pub.bib['title']+" :error:")
+                  print("WARNING: caught exception:", sys.exc_info()[0])
+
+
+
 
 #+end_src
 
@@ -52,4 +64,20 @@ To run the program,
 
 #+begin_example
 journals $ python3.8 ./scholars.py < authors.txt | tee out-`date +%Y%m%d-%H%M%S`.org
+
+journals $ for i in "Daniel Martin Katz" "Oliver Goodenough" "Jerrold Soh" "Lim How Khang"; do echo $i | python3.8 scholars.py > "out-$i"-`date +%Y%m%d-%H%M%S`.org 2>&1 & done
+[7] 48325 48326
+[8] 48327 48329
+[10] 48330 48332
+[11] 48333 48335
+
+journals $ grep '^|' out-Jerrold\ Soh-20200825-111818.org 
+| 2019 | Legal area classification: a comparative study of text classifiers on Singapore supreme court judgments | arXiv preprint arXiv:1904.06470 |
+| 2019 | A network analysis of the Singapore Court of Appeal's citations to precedent | SAcLJ |
+| 2020 | The Development of Singapore Law: A Bicentennial Retrospective | Singapore Academy of Law Journal (Forthcoming) |
+| 2020 | When are Algorithms Biased? A Multi-Disciplinary Survey | A Multi-Disciplinary Survey (April 20, 2020) |
+| 2020 | The Inefficiency of Quasi–Per Se Rules: Regulating Information Exchange in EU and US Antitrust Law | American Business Law Journal |
+| 2019 | Legal Area Classification: A Comparative Study of Text Classifiers on Singapore Supreme Court Judgments | arXiv |
+| 2018 | The Legal Magic 8-Ball | Sing. Comp. L. Rev. |
+
 #+end_example

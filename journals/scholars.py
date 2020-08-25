@@ -23,9 +23,17 @@ for line in sys.stdin:
 
         orgprint("**", "filled", filled_author)
 
-        print("** publications");
+        print("**", len(filled_author.publications),"publications");
 
         for pub in filled_author.publications:
-            orgprint("***",pub.bib['year']+ " "+pub.bib['title'], pub)
-            pub.fill()
-            orgprint("***",pub.bib['year']+ " "+pub.bib['title']+" :filled:", pub)
+            try:
+                pub.fill()
+                orgprint("***",pub.bib['year']+ " "+pub.bib['title']+" :filled:", pub)
+
+                print(enpipe([pub.bib['year'],
+                              pub.bib['title'],
+                              pub.bib['journal']]))
+
+            except:
+                print("***",pub.bib['year']+ " "+pub.bib['title']+" :error:")
+                print("WARNING: caught exception:", sys.exc_info()[0])
