@@ -55,7 +55,7 @@ We write a simple Python program using the [[https://pypi.org/project/scholarly/
                   print(enpipe([bibYear, bibTitle, bibJournal]))
   
               except:
-                  print("***",pub.bib.get('year','NilYear') + " "+pub.bib.  get('title','NilTitle')+" :error:")
+                  # print("***",pub.bib.get('year','NilYear') + " "+pub.bib.  get('title','NilTitle')+" :error:")
                   print("WARNING: caught exception:", sys.exc_info()[0])
 
 
