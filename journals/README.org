@@ -14,47 +14,49 @@ We write a simple Python program using the [[https://pypi.org/project/scholarly/
 
 #+begin_src python :tangle scholars.py
   #!python3.8
-
+  
   from scholarly import scholarly
   import sys, re, json
-
+  
   def orgprint (stars, title, text):
       print(stars, title)
       print("#+begin_example")
       print(text)
       print("#+end_example")
-
+  
   def enpipe (x):
       return ("| " + " | ".join(x) + " |")
-
+  
   for line in sys.stdin:
       names = re.split('\s*=\s*', line)
       for name in names:
           author = next(scholarly.search_author(name))
           orgprint("*", name, author)
-
+  
           print("filling author...")
           filled_author = author.fill(sections=['publications'])
-
-          orgprint("**", "filled", filled_author)
-
+  
+          try:
+              orgprint("**", "filled", filled_author)
+          except:
+              orgprint("**", "filled", "!! Error encountered. !!")
+  
           print("**", len(filled_author.publications),"publications");
-
+  
           for pub in filled_author.publications:
               try:
                   pub.fill()
-                  bibYear    = pub.bib['year']
-                  bibTitle   = pub.bib['title']
-                  bibJournal = pub.bib['journal']
-
+                  bibYear    = pub.bib.get('year','NilYear')
+                  bibTitle   = pub.bib.get('title','NilTitle')
+                  bibJournal = pub.bib.get('journal','NilJournal')
+  
                   orgprint("***",bibYear+ " "+bibTitle+" :filled:", pub)
-
+  
                   print(enpipe([bibYear, bibTitle, bibJournal]))
-
+  
               except:
-                  print("***",pub.bib['year']+ " "+pub.bib['title']+" :error:")
+                  print("***",pub.bib.get('year','NilYear') + " "+pub.bib.  get('title','NilTitle')+" :error:")
                   print("WARNING: caught exception:", sys.exc_info()[0])
-
 
 
 
