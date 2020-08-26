@@ -926,7 +926,7 @@ conditionExpr = do
 
 #+end_src
 
-For fun, we might consider using BNFC as an alternative approach.
+For fun, we might consider using BNFC as an alternative approach. See [[https://github.com/smucclaw/dsl/blob/langspec/README.org][the DSL repo]].
 
 When we've gone a little farther we will have the app/Main print interesting things and also implement the rule engine.
 

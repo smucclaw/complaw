@@ -222,7 +222,7 @@ You may have had the experience of being in a movie theatre movie with someone w
 
 Don't be that person. Try to solve your own problems first; some amount of time between five minutes and an hour is probably appropriate. Beyond an hour, if you're still lost, it's probably okay to reach out to ask for clues. If you're following explicit directions and the directions seem to be obviously faulty, go with the five-minute end of that range. If you can suggest an improvement to the directions, even better.
 
-It's okay to document your learning journey out loud, by the way. On our shared Slack chat you can say, "Here is a thing I'm trying to figure out. I'm not asking anyone for help yet, I'm just letting you know what I'm doing, and when I reach the solution, I'll share that too, in case it benefits anybody else in future." This is such an important practice that we have not one but two channels on Slack for this: #[[https://en.wikipedia.org/wiki/Rubber_duck_debugging][rubberduck]] and #[[https://blog.adrianbolboaca.ro/2012/12/teddy-bear-pair-programming/][teddybear]]. (Indeed, it's not just okay, it's a virtue; the willingness to be wrong, or ignorant, in public goes hand in hand with humility and, ultimately, confidence.)
+It's okay to document your learning journey out loud, by the way. On our shared Slack chat you can say, "Here is a thing I'm trying to figure out. I'm not asking anyone for help yet, I'm just letting you know what I'm doing, and when I reach the solution, I'll share that too, in case it benefits anybody else in future." We have a channel on Slack for this: #[[https://en.wikipedia.org/wiki/Rubber_duck_debugging][rubberduck]]. (Indeed, it's not just okay, it's a virtue; the willingness to be wrong, or ignorant, in public goes hand in hand with humility and, ultimately, confidence.)
 
 At that point someone else may feel the urge to jump in and help. This is better. Everybody likes to be helpful. Nobody likes to be interrupted.
 
@@ -619,9 +619,7 @@ Coming back down to earth, these resources are recommended for learning Haskell:
 - https://twitter.com/aymannadeem?lang=en blogs frequently at https://www.aymannadeem.com/
 - https://lexi-lambda.github.io/index.html is another blog
 - http://dev.stephendiehl.com/hask/ is an entire book pretending to be a blog post
-- https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html starts getting into intermediate Haskell
-- https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
-- https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
+- https://ocharles.org.uk/ starts getting into intermediate Haskell
 - https://www.quora.com/What-effects-did-learning-Haskell-have-on-you/answer/Panicz-Godek for historians only
 
 "Learn You A Haskell" has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH.
