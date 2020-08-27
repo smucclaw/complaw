@@ -581,6 +581,70 @@ Homework to the reader:
 2. Make inferences like "nobody may trade cabbage" -> may Meng trade cabbage?
 
 
+**** in SUMO
+Documenting Inari's first attempt at formalizing the potato case in SUMO. It's incomplete, and I'm unable to run anything but very basic queries on it, so probably there's something wrong with the axioms too.
+
+First we define some classes.
+
+#+BEGIN_SRC lisp :tangle Potato.kif
+(subclass FullMoon TimePoint)
+(documentation FullMoon EnglishLanguage "The class of all &%TimePoints that are at full moon")
+
+(subclass PotatoPlanting Planting)
+(documentation PotatoPlanting EnglishLanguage "The &%Planting of &%PotatoTubers")
+
+(subclass PotatoPlantingInterval TimeInterval)
+(documentation PotatoPlantingInterval EnglishLanguage "The &%TimeInterval when it's legal to do &%PotatoPlanting")
+#+END_SRC
+
+Then we define axioms. First, PotatoPlanting is defined as those instances of planting where the patient of the planting is a potato.
+
+#+BEGIN_SRC lisp :tangle Potato.kif
+(<=>
+  (instance ?PotPlng PotatoPlanting)
+  (exists (?Potato)
+    (and
+      (instance ?Potato PotatoTuber)
+      (patient ?PotPlng ?Potato))))
+
+#+END_SRC
+
+Second, we say that farmers may engage in PotatoPlanting during PotatoPlantingInterval. (Note that it's not even trying to prohibit PotatoPlanting during other intervals. Also the exact time ±2 days is missing. Probably other bugs too that I didn't notice yet.)
+
+
+#+BEGIN_SRC lisp :tangle Potato.kif
+(=>
+  (instance ?PP PotatoPlantingInterval)
+  (exists (?FM ?PPStart ?PPEnd)
+    (and
+      (instance ?FM FullMoon)
+      (instance ?PPStart TimePoint)
+      (instance ?PPEnd TimePoint)
+      (equal ?PP (TimeIntervalFn ?PPStart ?PPEnd))))
+      (temporallyBetween ?PPStart ?FM ?PPEnd)
+      (duration ?PP
+        (MeasureFn 96 HourDuration))
+      (holdsDuring ?PP
+        (forall (?Farmer)
+          (exists (?Plng)
+            (and
+              (instance ?Farmer Human)
+              (instance ?Plng PotatoPlanting)
+              (holdsRight ?Farmer
+                (agent ?Plng ?Farmer)))))))))
+#+END_SRC
+
+With these axioms, I could in theory query things like "is full moon in a potato planting interval", or in SUO-KIF,
+
+#+BEGIN_SRC lisp
+(=>
+ (instance ?PP PotatoPlantingInterval)
+ (exist (?FM)
+   (and
+    (instance ?FM FullMoon)
+    (temporalPart ?FM ?PP))))
+#+END_SRC
+
 
 ** Given a past potato already planted on a given date, was that potato legal?
 
