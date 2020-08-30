@@ -1,0 +1,2048 @@
+* Daniel Martin Katz
+
+#+begin_example
+{'affiliation': 'Professor of Law, Illinois Tech - Chicago Kent College of Law '
+                '+ LexPredict',
+ 'citedby': 1177,
+ 'email': '@kentlaw.iit.edu',
+ 'filled': False,
+ 'id': 'QmmExesAAAAJ',
+ 'interests': ['Legal informatics',
+               'Law & Entrepreneurship',
+               'Artificial Intelligence & Law',
+               'Positive Legal Theory',
+               'Law & Technology'],
+ 'name': 'Daniel Martin Katz',
+ 'url_picture': 'https://scholar.google.com/citations?view_op=medium_photo&user=QmmExesAAAAJ'}
+#+end_example
+filling author...
+** filled
+#+begin_example
+{'affiliation': 'Professor of Law, Illinois Tech - Chicago Kent College of Law '
+                '+ LexPredict',
+ 'citedby': 1177,
+ 'email': '@kentlaw.iit.edu',
+ 'filled': False,
+ 'id': 'QmmExesAAAAJ',
+ 'interests': ['Legal informatics',
+               'Law & Entrepreneurship',
+               'Artificial Intelligence & Law',
+               'Positive Legal Theory',
+               'Law & Technology'],
+ 'name': 'Daniel Martin Katz',
+ 'publications': [{'bib': {'cites': '221',
+         'title': 'Quantitative legal prediction-or-how i learned to stop '
+                  'worrying and start preparing for the data-driven future of '
+                  'the legal services industry',
+         'year': '2012'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:u5HHmVD_uO8C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '152',
+         'title': 'A general approach for predicting the behavior of the '
+                  'Supreme Court of the United States',
+         'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:R3hNpaxXUhUC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '84',
+         'title': 'Measuring, monitoring, and managing legal complexity',
+         'year': '2015'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:YOwf2qJgpHMC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '78',
+         'title': 'Hustle and flow: a social network analysis of the American '
+                  'federal judiciary',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:u-x6o8ySG0sC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '76',
+         'title': 'Measuring the complexity of the law: the United States Code',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:0EnyYjriUFMC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '62',
+         'title': 'Predicting the behavior of the supreme court of the united '
+                  'states: A general approach',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:hqOjcs7Dif8C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '57',
+         'title': 'Reproduction of Hierarchy-A Social Network Analysis of the '
+                  'American Law Professoriate',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:IjCSPb-OGe4C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '55',
+         'title': 'A mathematical approach to the study of the united states '
+                  'code',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:UeHWp8X0CEIC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '47',
+         'title': 'Taking State Constitution Seriously',
+         'year': '2007'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:9yKSN-GCB0IC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '35',
+         'title': 'Distance measures for dynamic citation networks',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:qjMakFHDy7sC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '33',
+         'title': 'Social Architecture, Judicial Peer Effects and the '
+                  'Evolution of the Law: Toward a Positive Theory of Judicial '
+                  'Social Structure',
+         'year': '2007'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:d1gkVwhDpl0C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '31',
+         'title': 'The MIT School of Law-A perspective on legal education in '
+                  'the 21st century',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:KlAtU1dfN6UC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '30', 'title': 'Harnessing legal complexity', 'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:r0BpntZqJG4C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '30',
+         'title': 'An empirical survey of the population of us tax court '
+                  'written decisions',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:5nxA0vEk-isC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '28',
+         'title': 'Institutional rules, strategic behavior, and the legacy of '
+                  'Chief Justice William Rehnquist: setting the record '
+                  'straight on Dickerson v. United States',
+         'year': '2006'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:2osOgNQ5qMEC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '23',
+         'title': 'Law as a seamless web? comparison of various network '
+                  'representations of the united states supreme court corpus '
+                  '(1791-2005)',
+         'year': '2009'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:zYLM7Y9cAGgC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '18',
+         'title': 'Properties of the United States code citation network',
+         'year': '2009'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:Tyk-4Ss8FVUC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '17',
+         'title': 'Legal by design: a new paradigm for handling complexity in '
+                  'banking regulation and elsewhere in law',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:kNdYIx-mwKoC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '14',
+         'title': 'The electronic world treaty index: Collecting the '
+                  'population of international agreements in the 20th century',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:qxL8FJ1GzNcC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '13',
+         'title': 'On the stability of community detection algorithms on '
+                  'longitudinal citation data',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:Y0pCki6q_DkC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '9',
+         'title': 'Measuring and modeling the US Regulatory Ecosystem',
+         'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:4JMBOYKVnBMC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '9',
+         'title': 'A Case Study on Legal Case Annotation.',
+         'year': '2013'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:roLk4NBRz8UC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '6',
+         'title': 'LexNLP: Natural language processing and information '
+                  'extraction for legal and regulatory texts',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:M3NEmzRMIkIC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '6',
+         'title': 'Legal n-grams? a simple approach to track the ‘evolution’of '
+                  'legal language',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:YsMSGLbcyi4C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '6',
+         'title': 'World Treaty Index: An electronic treaty database spanning '
+                  'the 20th century',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:WF5omc3nYNoC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '5',
+         'title': 'Crowdsourcing accurately and robustly predicts Supreme '
+                  'Court decisions',
+         'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:isC4tDSrTZIC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '5',
+         'title': 'Law on the market? evaluating the securities market impact '
+                  'of supreme court decisions',
+         'year': '2015'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:M3ejUd6NZC8C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '5',
+         'title': 'An Rx for the Modification of the Medicare Prescription '
+                  'Drug, Improvement, and Modernization Act of 2003: Toward a '
+                  'Reform with Results',
+         'year': '2005'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:W7OEmFMy1HYC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '4',
+         'title': 'Law on the market? abnormal stock returns and supreme court '
+                  'decision-making',
+         'year': '2017'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:k_IJM867U9cC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '4',
+         'title': 'Article I, Section 4 of the Constitution, the Voting Rights '
+                  'Act, and Restoration of the Congressional Portion of the '
+                  'Election Ballot: The Final Frontier of Felon …',
+         'year': '2007'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:eQOLeE2rZwMC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '4',
+         'title': 'Hustle and Flow: A Social Network Analysis of the American '
+                  'Federal Judiciary’,(2010)'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:bEWYMUwI8FkC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '2',
+         'title': 'OpenEDGAR: Open Source Software for SEC EDGAR Analysis',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:JV2RwH3_ST0C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '2',
+         'title': 'Algorithmic Trading and Mutual Fund Performance',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:qUcmZB5y_30C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '2',
+         'title': 'Projects of Humanitarianism: Sex Trafficking and Migration '
+                  'in the Twenty-First Century United States.',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:QIV2ME_5wuYC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '1',
+         'title': 'Sensitivity of collective outcomes identifies pivotal '
+                  'components',
+         'year': '2020'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:BqipwSGYUEgC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '1',
+         'title': 'Harnessing the complexity of legal systems for governing '
+                  'global challenges',
+         'year': '2019'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:GnPB-g6toBAC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '1',
+         'title': 'System and Method for Resolving Warrants',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:IWHjjKOFINEC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '1',
+         'title': 'Perspectives on Law and Legal Institutions as Complex '
+                  'Adaptive Systems.',
+         'year': '2011'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:8k81kl-MbHgC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Complex Societies and the Growth of the Law',
+         'year': '2020'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:O3NaXMp0MMsC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Microsurgical vasectomy reversal-experience from a single '
+                  'Australian surgeon',
+         'year': '2019'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:ns9cj8rnVeAC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': '2 Mapping law’s complexity with “Legal Maps”',
+         'year': '2018'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:hMod-77fHWUC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'How Smart Resolution Planning Can Help Banks Improve '
+                  'Transparency, Increase Profitability and Reduce Risk',
+         'year': '2015'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:4TOpqqG69KYC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Supreme Court Analytics on the Past Term',
+         'year': '2015'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:mVmsd5A6BfQC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Portfolio Theory as a Pattern of Timeless Moments',
+         'year': '2014'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:maZDTaKrznsC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Building the United States Supreme Court Disposition Corpus '
+                  '1791-2009',
+         'year': '2010'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:_FxGoFyzp5QC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'RIMS LOBBYING FOR WORKER-EDUCATION TAX BREAKS.',
+         'year': '1995'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:e5wmG9Sq2KIC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': "Banks shouldn't be exempt from pollution risks.",
+         'year': '1994'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:RHpTSmoSYBkC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'British VI to issue new captive rules.',
+         'year': '1994'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:HDshCWvjkbEC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': "Bumps acknowledged in Hawaii m'ged care plan.",
+         'year': '1994'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:-f6ydRqryjwC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0', 'title': 'Hierarchy in Organizations', 'year': '1979'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:L8Ckcad2t8MC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'International Criminal Tribunal for the Former Yugoslavia '
+                  '(2009). United Nations Security Council. Retrieved from '
+                  'http://www. icty. org/x/file/Legal Library/Statute …'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:TFP_iSt0sucC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Before the Paper Chase: Student Culture at Harvard'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:dhFuZR0502QC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0', 'title': 'Volume 1o November 2015 Number i'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:9ZlFYXVOiuMC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0', 'title': 'Law Journal'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:ULOm3_A8WrAC',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0', 'title': 'Workshop Format'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:UebtZRa9Y70C',
+ 'source': 'citations'},
+                  {'bib': {'cites': '0',
+         'title': 'Reproduction of Heirarchy? A Network Analysis of the '
+                  'American Law Professoriate'},
+ 'filled': False,
+ 'id_citations': 'QmmExesAAAAJ:ufrVoPGSRksC',
+ 'source': 'citations'}],
+ 'url_picture': 'https://scholar.google.com/citations?view_op=medium_photo&user=QmmExesAAAAJ'}
+#+end_example
+** 56 publications
+*** 2012 Quantitative legal prediction-or-how i learned to stop worrying and start preparing for the data-driven future of the legal services industry :filled:
+#+begin_example
+{'bib': {'abstract': "Welcome to law's information revolution'-revolution "
+                     'already in 2 progress. While the 2008 financial crisis '
+                     'can be seen as the precipitating event, developments in '
+                     'legal information technology are actually a root cause '
+                     'of many of the long-term changes in the legal services '
+                     'market. When considering the downturn in the legal '
+                     'employment market, one should understand there are two '
+                     'distinct trends at play-one is cyclical and the other is '
+                     'structural. The cyclical downturn in the market for '
+                     'legal services is related to broader economic '
+                     'conditions. 4 Some portion of the downturn in demand '
+                     'specifically associated with the broader business cycle '
+                     'will likely abate once broader economic conditions '
+                     'improve. Driven by technology, the structural portion of '
+                     'the downturn appears to be permanent, such that many of '
+                     'those legal jobs displaced both before and by the great '
+                     'recession will not return.',
+         'author': 'Daniel Martin Katz',
+         'cites': '221',
+         'cites_id': '11314305929287865930',
+         'eprint': 'http://law.emory.edu/elj/_documents/volumes/62/4/contents/katz.pdf',
+         'journal': 'Emory LJ',
+         'pages': '909',
+         'title': 'Quantitative legal prediction-or-how i learned to stop '
+                  'worrying and start preparing for the data-driven future of '
+                  'the legal services industry',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/emlj62&section=27',
+         'volume': '62',
+         'year': '2012'},
+ 'citations_link': '/scholar?cites=11314305929287865930',
+ 'cites_per_year': {2013: 13,
+                    2014: 23,
+                    2015: 18,
+                    2016: 18,
+                    2017: 33,
+                    2018: 37,
+                    2019: 49,
+                    2020: 19},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:u5HHmVD_uO8C',
+ 'source': 'citations'}
+#+end_example
+| 2012 | Quantitative legal prediction-or-how i learned to stop worrying and start preparing for the data-driven future of the legal services industry | Emory LJ |
+*** 2017 A general approach for predicting the behavior of the Supreme Court of the United States :filled:
+#+begin_example
+{'bib': {'abstract': 'Building on developments in machine learning and prior '
+                     'work in the science of judicial prediction, we construct '
+                     'a model designed to predict the behavior of the Supreme '
+                     'Court of the United States in a generalized, '
+                     'out-of-sample context. To do so, we develop a '
+                     'time-evolving random forest classifier that leverages '
+                     'unique feature engineering to predict more than 240,000 '
+                     'justice votes and 28,000 cases outcomes over nearly two '
+                     'centuries (1816-2015). Using only data available prior '
+                     'to decision, our model outperforms null (baseline) '
+                     'models at both the justice and case level under both '
+                     'parametric and non-parametric tests. Over nearly two '
+                     'centuries, we achieve 70.2% accuracy at the case outcome '
+                     'level and 71.9% at the justice vote level. More '
+                     'recently, over the past century, we outperform an '
+                     'in-sample optimized null model by nearly 5%. Our '
+                     'performance is consistent with, and improves on the '
+                     'general level of prediction demonstrated by prior work; '
+                     'however, our model is distinctive because it can be '
+                     'applied out-of-sample to the entire past and future of '
+                     'the Court, not a single term. Our results represent an '
+                     'important advance for the science of quantitative legal '
+                     'prediction and portend a range of other potential '
+                     'applications.',
+         'author': 'Daniel Martin Katz and Michael J Bommarito and Josh '
+                   'Blackman',
+         'cites': '152',
+         'cites_id': '16002603050010729610',
+         'eprint': 'https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0174698',
+         'journal': 'PloS one',
+         'number': '4',
+         'pages': 'e0174698',
+         'publisher': 'Public Library of Science',
+         'title': 'A general approach for predicting the behavior of the '
+                  'Supreme Court of the United States',
+         'url': 'https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0174698',
+         'volume': '12',
+         'year': '2017'},
+ 'citations_link': '/scholar?cites=16002603050010729610',
+ 'cites_per_year': {2016: 1, 2017: 17, 2018: 37, 2019: 63, 2020: 31},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:R3hNpaxXUhUC',
+ 'source': 'citations'}
+#+end_example
+| 2017 | A general approach for predicting the behavior of the Supreme Court of the United States | PloS one |
+*** 2015 Measuring, monitoring, and managing legal complexity :filled:
+#+begin_example
+{'bib': {'abstract': 'The American legal system is often accused of being" too '
+                     'complex." For example, most Americans believe the Tax '
+                     'Code is too complex. But what does that mean, and how '
+                     'would one prove the Tax Code is too complex? Both the '
+                     'descriptive claim that an element of law is complex and '
+                     'the normative claim that it is too complex should be '
+                     'empirically testable hypotheses. Yet, in fact, very '
+                     'little is known about how to measure legal complexity, '
+                     'much less how to monitor and manage it.',
+         'author': 'JB Ruhl and Daniel Martin Katz',
+         'cites': '84',
+         'cites_id': '1324088728732560443',
+         'eprint': 'https://scholarship.kentlaw.iit.edu/cgi/viewcontent.cgi?article=3425&context=fac_schol',
+         'journal': 'Iowa L. Rev.',
+         'pages': '191',
+         'title': 'Measuring, monitoring, and managing legal complexity',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/ilr101&section=8',
+         'volume': '101',
+         'year': '2015'},
+ 'citations_link': '/scholar?cites=1324088728732560443',
+ 'cites_per_year': {2015: 4, 2016: 6, 2017: 15, 2018: 13, 2019: 19, 2020: 10},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:YOwf2qJgpHMC',
+ 'source': 'citations'}
+#+end_example
+| 2015 | Measuring, monitoring, and managing legal complexity | Iowa L. Rev. |
+*** 2010 Hustle and flow: a social network analysis of the American federal judiciary :filled:
+#+begin_example
+{'bib': {'abstract': 'Scholars have long asserted that social structure is an '
+                     'important feature of a variety of societal institutions. '
+                     'As part of a larger effort to develop a fullyintegrated '
+                     'model ofjudicial decision making, we believe that '
+                     'judicial social structure-operationalized as the '
+                     'professional and social connections between judicial '
+                     'actors-partially directs outcomes in the hierarchical '
+                     'federal judiciary.',
+         'author': 'Daniel M Katz and Derek K Stafford',
+         'cites': '78',
+         'cites_id': '2847883100289320026',
+         'eprint': 'https://digitalcommons.law.msu.edu/cgi/viewcontent.cgi?article=1092&context=facpubs',
+         'journal': 'Ohio St. LJ',
+         'pages': '457',
+         'title': 'Hustle and flow: a social network analysis of the American '
+                  'federal judiciary',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/ohslj71&section=17',
+         'volume': '71',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=2847883100289320026',
+ 'cites_per_year': {2010: 4,
+                    2011: 3,
+                    2012: 9,
+                    2013: 7,
+                    2014: 9,
+                    2015: 5,
+                    2016: 6,
+                    2017: 11,
+                    2018: 7,
+                    2019: 10,
+                    2020: 5},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:u-x6o8ySG0sC',
+ 'source': 'citations'}
+#+end_example
+| 2010 | Hustle and flow: a social network analysis of the American federal judiciary | Ohio St. LJ |
+*** 2014 Measuring the complexity of the law: the United States Code :filled:
+#+begin_example
+{'bib': {'abstract': ' Einstein’s razor, a corollary of Ockham’s razor, is '
+                     'often paraphrased as follows: make everything as simple '
+                     'as possible, but not simpler. This rule of thumb '
+                     'describes the challenge that designers of a legal system '
+                     'face—to craft simple laws that produce desired ends, but '
+                     'not to pursue simplicity so far as to undermine those '
+                     'ends. Complexity, simplicity’s inverse, taxes cognition '
+                     'and increases the likelihood of suboptimal decisions. In '
+                     'addition, unnecessary legal complexity can drive a '
+                     'misallocation of human capital toward comprehending and '
+                     'complying with legal rules and away from other '
+                     'productive ends. While many scholars have offered '
+                     'descriptive accounts or theoretical models of legal '
+                     'complexity, most empirical research to date has been '
+                     'limited to simple measures of size, such as the number '
+                     'of pages in a bill. No extant research rigorously '
+                     'applies a meaningful model to real data. As a '
+                     'consequence, we …',
+         'author': 'Daniel Martin Katz and Michael James Bommarito',
+         'cites': '76',
+         'cites_id': '3104260957027043007',
+         'journal': 'Artificial intelligence and law',
+         'number': '4',
+         'pages': '337-374',
+         'publisher': 'Springer Netherlands',
+         'title': 'Measuring the complexity of the law: the United States Code',
+         'url': 'https://link.springer.com/content/pdf/10.1007/s10506-014-9160-8.pdf',
+         'volume': '22',
+         'year': '2014'},
+ 'citations_link': '/scholar?cites=3104260957027043007',
+ 'cites_per_year': {2014: 1,
+                    2015: 8,
+                    2016: 12,
+                    2017: 16,
+                    2018: 17,
+                    2019: 13,
+                    2020: 9},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:0EnyYjriUFMC',
+ 'source': 'citations'}
+#+end_example
+| 2014 | Measuring the complexity of the law: the United States Code | Artificial intelligence and law |
+*** 2014 Predicting the behavior of the supreme court of the united states: A general approach :filled:
+#+begin_example
+{'bib': {'abstract': 'Building upon developments in theoretical and applied '
+                     'machine learning, as well as the efforts of various '
+                     'scholars including Guimera and Sales-Pardo (2011), Ruger '
+                     'et al.(2004), and Martin et al.(2004), we construct a '
+                     'model designed to predict the voting behavior of the '
+                     'Supreme Court of the United States. Using the extremely '
+                     'randomized tree method first proposed in Geurts, et '
+                     'al.(2006), a method similar to the random forest '
+                     'approach developed in Breiman (2001), as well as novel '
+                     'feature engineering, we predict more than sixty years of '
+                     'decisions by the Supreme Court of the United States '
+                     '(1953-2013). Using only data available prior to the date '
+                     'of decision, our model correctly identifies 69.7% of the '
+                     "Court's overall affirm and reverse decisions and "
+                     'correctly forecasts 70.9% of the votes of individual '
+                     'justices across 7,700 cases and more than 68,000 justice '
+                     'votes. Our performance is consistent with the general '
+                     'level of prediction offered by prior scholars. However, '
+                     'our model is distinctive as it is the first robust, '
+                     'generalized, and fully predictive model of Supreme Court '
+                     'voting behavior offered to date. Our model predicts six '
+                     'decades of behavior of thirty Justices appointed by '
+                     'thirteen Presidents. With a more sound methodological '
+                     'foundation, our results represent a major advance for '
+                     'the science of quantitative legal prediction and portend '
+                     'a range of other potential applications, such as those '
+                     'described in Katz (2013).',
+         'author': 'Daniel Martin Katz and Michael J Bommarito II and Josh '
+                   'Blackman',
+         'cites': '62',
+         'cites_id': '8987187359254512890',
+         'eprint': 'https://arxiv.org/pdf/1407.6333',
+         'journal': 'arXiv preprint arXiv:1407.6333',
+         'title': 'Predicting the behavior of the supreme court of the united '
+                  'states: A general approach',
+         'url': 'https://arxiv.org/abs/1407.6333',
+         'year': '2014'},
+ 'citations_link': '/scholar?cites=8987187359254512890',
+ 'cites_per_year': {2015: 10, 2016: 16, 2017: 11, 2018: 9, 2019: 9, 2020: 7},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:hqOjcs7Dif8C',
+ 'source': 'citations'}
+#+end_example
+| 2014 | Predicting the behavior of the supreme court of the united states: A general approach | arXiv preprint arXiv:1407.6333 |
+*** 2011 Reproduction of Hierarchy-A Social Network Analysis of the American Law Professoriate :filled:
+#+begin_example
+{'bib': {'abstract': 'Which individual has the greater lasting impact upon the '
+                     'path of American law: The median Supreme Court justice '
+                     'or an entrepreneurial law professor at an institution '
+                     'with a high degree of centrality? Given that we are '
+                     'inclined to support the former, we offer this '
+                     'provocative question not to provide a definitive '
+                     'conclusion but rather to encourage greater incorporation '
+                     'of the American legal academy in positive legal theory. '
+                     'A growing body of work demonstrates that the '
+                     'perspectives held by these legal elites, in their '
+                     'position as both repositories and distributors of legal '
+                     'information, has consequences for American common law '
+                     'development. Specifically, while we believe additional '
+                     'empirical and theoretical work is needed, a deep '
+                     'relationship between the American legal academy and the '
+                     'development of American law has been highlighted in a '
+                     'variety of recent historical institutionalist '
+                     'scholarship. For example, leading …',
+         'author': 'Daniel Martin Katz and Joshua R Gubler and Jon Zelner and '
+                   'Michael J Bommarito',
+         'cites': '57',
+         'cites_id': '7978144040359189287',
+         'eprint': 'http://digitalcommons.law.msu.edu/cgi/viewcontent.cgi?article=1095&context=facpubs',
+         'journal': 'J. legal edUC.',
+         'pages': '76',
+         'title': 'Reproduction of Hierarchy-A Social Network Analysis of the '
+                  'American Law Professoriate',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/jled61&section=9',
+         'volume': '61',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=7978144040359189287',
+ 'cites_per_year': {2011: 5,
+                    2012: 2,
+                    2013: 4,
+                    2014: 6,
+                    2015: 7,
+                    2016: 13,
+                    2017: 1,
+                    2018: 8,
+                    2019: 4,
+                    2020: 5},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:IjCSPb-OGe4C',
+ 'source': 'citations'}
+#+end_example
+| 2011 | Reproduction of Hierarchy-A Social Network Analysis of the American Law Professoriate | J. legal edUC. |
+*** 2010 A mathematical approach to the study of the united states code :filled:
+#+begin_example
+{'bib': {'abstract': 'The United States Code (Code) is a document containing '
+                     'over 22 million words that represents a large and '
+                     'important source of Federal statutory law. Scholars and '
+                     'policy advocates often discuss the direction and '
+                     'magnitude of changes in various aspects of the Code. '
+                     'However, few have mathematically formalized the notions '
+                     'behind these discussions or directly measured the '
+                     'resulting representations. This paper addresses the '
+                     'current state of the literature in two ways. First, we '
+                     'formalize a representation of the United States Code as '
+                     'the union of a hierarchical network and a citation '
+                     'network over vertices containing the language of the '
+                     'Code. This representation reflects the fact that the '
+                     'Code is a hierarchically organized document containing '
+                     'language and explicit citations between provisions. '
+                     'Second, we use this formalization to measure aspects of '
+                     'the Code as codified in October 2008, November 2009, and '
+                     'March …',
+         'author': 'Michael J Bommarito II and Daniel M Katz',
+         'cites': '55',
+         'cites_id': '2999752768323198242',
+         'eprint': 'https://arxiv.org/pdf/1003.4146',
+         'journal': 'Physica A: Statistical Mechanics and its Applications',
+         'number': '19',
+         'pages': '4195-4200',
+         'publisher': 'North-Holland',
+         'title': 'A mathematical approach to the study of the united states '
+                  'code',
+         'url': 'https://www.sciencedirect.com/science/article/pii/S0378437110004875',
+         'volume': '389',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=2999752768323198242',
+ 'cites_per_year': {2009: 1,
+                    2010: 1,
+                    2011: 3,
+                    2012: 4,
+                    2013: 7,
+                    2014: 5,
+                    2015: 7,
+                    2016: 5,
+                    2017: 7,
+                    2018: 5,
+                    2019: 6,
+                    2020: 3},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:UeHWp8X0CEIC',
+ 'source': 'citations'}
+#+end_example
+| 2010 | A mathematical approach to the study of the united states code | Physica A: Statistical Mechanics and its Applications |
+*** 2007 Taking State Constitution Seriously :filled:
+#+begin_example
+{'bib': {'abstract': 'That useful alterations will be suggested by experience, '
+                     'could not but be foreseen. It was requisite, therefore, '
+                     'that a mode for introducing them should be provided. The '
+                     'mode preferred by the convention seems to be stamped '
+                     'with every mark of propriety. It guards equally against '
+                     'that extreme facility, which would render the '
+                     'Constitution too mutable; and that extreme difficulty, '
+                     "which might perpetuate its discovered faults.'",
+         'author': 'Marvin Krislov and Daniel M Katz',
+         'cites': '47',
+         'cites_id': '18325532819071294608',
+         'eprint': 'https://digitalcommons.law.msu.edu/cgi/viewcontent.cgi?article=1098&context=facpubs',
+         'journal': "Cornell JL & Pub. Pol'y",
+         'pages': '295',
+         'title': 'Taking State Constitution Seriously',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/cjlpp17&section=14',
+         'volume': '17',
+         'year': '2007'},
+ 'citations_link': '/scholar?cites=18325532819071294608',
+ 'cites_per_year': {2008: 4,
+                    2009: 7,
+                    2010: 7,
+                    2011: 1,
+                    2012: 5,
+                    2013: 3,
+                    2014: 2,
+                    2015: 4,
+                    2016: 5,
+                    2017: 2,
+                    2018: 2,
+                    2019: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:9yKSN-GCB0IC',
+ 'source': 'citations'}
+#+end_example
+| 2007 | Taking State Constitution Seriously | Cornell JL & Pub. Pol'y |
+*** 2010 Distance measures for dynamic citation networks :filled:
+#+begin_example
+{'bib': {'abstract': 'Acyclic digraphs arise in many natural and artificial '
+                     'processes. Among the broader set, dynamic citation '
+                     'networks represent an important type of acyclic digraph. '
+                     'For example, the study of such networks includes the '
+                     'spread of ideas through academic citations, the spread '
+                     'of innovation through patent citations, and the '
+                     'development of precedent in common law systems. The '
+                     'specific dynamics that produce such acyclic digraphs not '
+                     'only differentiate them from other classes of graphs, '
+                     'but also provide guidance for the development of '
+                     'meaningful distance measures. In this article, we '
+                     'develop and apply our sink distance measure together '
+                     'with the single-linkage hierarchical clustering '
+                     'algorithm to both a two-dimensional directed '
+                     'preferential attachment model as well as empirical data '
+                     'drawn from the first quarter-century of decisions of the '
+                     'United States Supreme Court. Despite applying the '
+                     'simplest combination of distance …',
+         'author': 'Michael J Bommarito II and Daniel Martin Katz and Jonathan '
+                   'L Zelner and James H Fowler',
+         'cites': '35',
+         'cites_id': '2653760522952860139',
+         'eprint': 'https://arxiv.org/pdf/0909.1819',
+         'journal': 'Physica A: Statistical Mechanics and its Applications',
+         'number': '19',
+         'pages': '4201-4208',
+         'publisher': 'North-Holland',
+         'title': 'Distance measures for dynamic citation networks',
+         'url': 'https://www.sciencedirect.com/science/article/pii/S0378437110004930',
+         'volume': '389',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=2653760522952860139',
+ 'cites_per_year': {2011: 3,
+                    2012: 5,
+                    2013: 5,
+                    2014: 3,
+                    2015: 2,
+                    2016: 4,
+                    2017: 5,
+                    2018: 2,
+                    2019: 2,
+                    2020: 4},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:qjMakFHDy7sC',
+ 'source': 'citations'}
+#+end_example
+| 2010 | Distance measures for dynamic citation networks | Physica A: Statistical Mechanics and its Applications |
+*** 2007 Social Architecture, Judicial Peer Effects and the Evolution of the Law: Toward a Positive Theory of Judicial Social Structure :filled:
+#+begin_example
+{'bib': {'abstract': 'Building upon the themes of this symposium, as well as a '
+                     'growing extant literature demonstrating the common law '
+                     "displays properties of a complex system,'we believe "
+                     'existing theories of judicial decision-making and legal '
+                     'change would benefit from the concepts and techniques '
+                     'typically reserved for the study of complexity. Among '
+                     'possible approaches, network analysis offers one manner '
+                     'of representing the interactions between various '
+                     'entities across a',
+         'author': 'Daniel M Katz and Derek K Stafford and Eric Provins',
+         'cites': '33',
+         'cites_id': '6780695960875028103',
+         'eprint': 'https://digitalcommons.law.msu.edu/cgi/viewcontent.cgi?article=1099&context=facpubs',
+         'journal': 'Ga. St. UL Rev.',
+         'pages': '977',
+         'title': 'Social Architecture, Judicial Peer Effects and the '
+                  'Evolution of the Law: Toward a Positive Theory of Judicial '
+                  'Social Structure',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/gslr24&section=49',
+         'volume': '24',
+         'year': '2007'},
+ 'citations_link': '/scholar?cites=6780695960875028103',
+ 'cites_per_year': {2007: 2,
+                    2008: 5,
+                    2009: 5,
+                    2010: 3,
+                    2011: 10,
+                    2012: 3,
+                    2013: 3,
+                    2014: 1,
+                    2015: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:d1gkVwhDpl0C',
+ 'source': 'citations'}
+#+end_example
+| 2007 | Social Architecture, Judicial Peer Effects and the Evolution of the Law: Toward a Positive Theory of Judicial Social Structure | Ga. St. UL Rev. |
+*** 2014 The MIT School of Law-A perspective on legal education in the 21st century :filled:
+#+begin_example
+{'bib': {'abstract': 'This is a symposium for the late Larry Ribstein. As the '
+                     'above quote highlights, Larry could be direct. In a '
+                     'similar vein, let me do the same. Despite some of the '
+                     'blustery rhetoric attendant to the ongoing market '
+                     'transition, 2 lawyers and the market for legal services '
+                     "are not going away.'Lawyers serve integral roles in a "
+                     'wide variety of social and political systems. Their work '
+                     'supports the proper functioning of markets and helps '
+                     'individuals and organizations vindicate their respective '
+                     'rights. At the same time, the processes associated with '
+                     'completing their work-as well as the contours of their '
+                     'respective expertise and judgment-are already changing. '
+                     '4 These changes are being driven by a number of economic '
+                     'and',
+         'author': 'Daniel Martin Katz',
+         'cites': '31',
+         'cites_id': '15045852476696376640',
+         'eprint': 'http://www.techshow.com/wp-content/uploads/2020/04/Innovation-Foundation-Forward-Thinking-Law-School-Curriculum.pdf',
+         'journal': 'U. Ill. L. Rev.',
+         'pages': '1431',
+         'title': 'The MIT School of Law-A perspective on legal education in '
+                  'the 21st century',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/unilllr2014&section=45',
+         'year': '2014'},
+ 'citations_link': '/scholar?cites=15045852476696376640',
+ 'cites_per_year': {2014: 3,
+                    2015: 4,
+                    2016: 4,
+                    2017: 2,
+                    2018: 1,
+                    2019: 11,
+                    2020: 5},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:KlAtU1dfN6UC',
+ 'source': 'citations'}
+#+end_example
+| 2014 | The MIT School of Law-A perspective on legal education in the 21st century | U. Ill. L. Rev. |
+*** 2017 Harnessing legal complexity :filled:
+#+begin_example
+{'bib': {'abstract': 'Bring tools of complexity science to bear on improving '
+                     'law',
+         'author': 'JB Ruhl and Daniel Martin Katz and Michael J Bommarito',
+         'cites': '30',
+         'cites_id': '16805308957662392418',
+         'journal': 'Science',
+         'number': '6332',
+         'pages': '1377-1378',
+         'publisher': 'American Association for the Advancement of Science',
+         'title': 'Harnessing legal complexity',
+         'url': 'https://science.sciencemag.org/content/355/6332/1377.summary',
+         'volume': '355',
+         'year': '2017'},
+ 'citations_link': '/scholar?cites=16805308957662392418',
+ 'cites_per_year': {2017: 2, 2018: 10, 2019: 16, 2020: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:r0BpntZqJG4C',
+ 'source': 'citations'}
+#+end_example
+| 2017 | Harnessing legal complexity | Science |
+*** 2010 An empirical survey of the population of us tax court written decisions :filled:
+#+begin_example
+{'bib': {'abstract': 'Despite what Benjamin Franklin may have claimed about '
+                     "the similarities between them,'one of the major "
+                     'differences between 2 death and taxes is that taxes can '
+                     'be contested in a court of law. In the',
+         'author': 'Michael J Bommarito',
+         'cites': '30',
+         'cites_id': '12339604609196268309',
+         'journal': 'Va. Tax Rev.',
+         'pages': '523',
+         'title': 'An empirical survey of the population of us tax court '
+                  'written decisions',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/vrgtr30&section=20',
+         'volume': '30',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=12339604609196268309',
+ 'cites_per_year': {2012: 3,
+                    2013: 5,
+                    2014: 4,
+                    2015: 1,
+                    2016: 2,
+                    2017: 5,
+                    2018: 2,
+                    2019: 6},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:5nxA0vEk-isC',
+ 'source': 'citations'}
+#+end_example
+| 2010 | An empirical survey of the population of us tax court written decisions | Va. Tax Rev. |
+*** 2006 Institutional rules, strategic behavior, and the legacy of Chief Justice William Rehnquist: setting the record straight on Dickerson v. United States :filled:
+#+begin_example
+{'bib': {'abstract': 'Following a decade without change, the past year '
+                     'witnessed significant alteration to the composition of '
+                     'the United States Supreme Court. In the span of several '
+                     'months, the High Court experienced substantial changes '
+                     'in its membership brought about in part by the death of '
+                     'its most prominent member, Chief Justice William '
+                     'Rehnquist. In periods of transition such as this, it is '
+                     'natural to speculate on the future course of this '
+                     'institution, but equally compelling are the reflections '
+                     'concerning the historical significance of the recently '
+                     'completed era. In the most recent iteration, substantial '
+                     'attention centered upon the late Chief Justice, whose '
+                     'death focused interest not only on the institution which '
+                     'he guided for nearly two decades but also upon his '
+                     'personal jurisprudence. Comments regarding his legacy '
+                     'were wide-ranging and covered the gambit of cases that '
+                     'came before the High Court during his stewardship. 2',
+         'author': 'Daniel M Katz',
+         'cites': '28',
+         'cites_id': '13977200300043426710',
+         'eprint': 'http://digitalcommons.law.msu.edu/cgi/viewcontent.cgi?article=1100&context=facpubs',
+         'journal': 'JL & Pol.',
+         'pages': '303',
+         'title': 'Institutional rules, strategic behavior, and the legacy of '
+                  'Chief Justice William Rehnquist: setting the record '
+                  'straight on Dickerson v. United States',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/jlp22&section=19',
+         'volume': '22',
+         'year': '2006'},
+ 'citations_link': '/scholar?cites=13977200300043426710',
+ 'cites_per_year': {2006: 1,
+                    2007: 2,
+                    2008: 2,
+                    2009: 2,
+                    2010: 4,
+                    2011: 3,
+                    2012: 8,
+                    2013: 3,
+                    2014: 1,
+                    2015: 1,
+                    2016: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:2osOgNQ5qMEC',
+ 'source': 'citations'}
+#+end_example
+| 2006 | Institutional rules, strategic behavior, and the legacy of Chief Justice William Rehnquist: setting the record straight on Dickerson v. United States | JL & Pol. |
+*** 2009 Law as a seamless web? comparison of various network representations of the united states supreme court corpus (1791-2005) :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper, we compare several network '
+                     'representations of the corpus of United States Supreme '
+                     'Court decisions (1791--2005). This corpus is not only of '
+                     'seminal importance, but also represents a highly '
+                     'structured and largely self-contained body of case law. '
+                     'As constructed herein, nodes represent whole cases or '
+                     'individual" opinion units" within cases. Edges represent '
+                     'either citations or semantic connections. As our broader '
+                     'goal is to better understand American common law '
+                     'development, we are particularly interested in the '
+                     'union, intersect and compliment of these various '
+                     'citation networks as they offer potential insight into '
+                     'the time developing structure of the" web of the law."',
+         'author': 'Michael J Bommarito and Daniel Katz and Jon Zelner',
+         'cites': '23',
+         'cites_id': '16017591371017442442',
+         'pages': '234-235',
+         'title': 'Law as a seamless web? comparison of various network '
+                  'representations of the united states supreme court corpus '
+                  '(1791-2005)',
+         'url': 'https://dl.acm.org/doi/abs/10.1145/1568234.1568270',
+         'year': '2009'},
+ 'citations_link': '/scholar?cites=16017591371017442442',
+ 'cites_per_year': {2009: 2,
+                    2010: 3,
+                    2011: 1,
+                    2012: 1,
+                    2013: 3,
+                    2014: 1,
+                    2015: 4,
+                    2016: 1,
+                    2017: 3,
+                    2018: 1,
+                    2019: 3},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:zYLM7Y9cAGgC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 2009 Properties of the United States code citation network :filled:
+#+begin_example
+{'bib': {'abstract': 'The United States Code (Code) is an important source of '
+                     'Federal law that is produced by the interactions of many '
+                     'heterogeneous actors in a complex, dynamic space. The '
+                     'Code can be represented as the union of a hierarchical '
+                     'network and a citation network over the vertices '
+                     'representing the language of the Code. In this paper, we '
+                     'investigate the properties of the Code’s citation '
+                     'network by examining the directed degree distributions '
+                     'of the network. We find that the power-law model is a '
+                     'plausible fit for the outdegree distribution but not for '
+                     'the indegree distribution. In order to better understand '
+                     'this result, we construct a model with the assumption '
+                     'that the probability of citation is a per-word rate. We '
+                     'calculate the adjusted degree of each vertex under this '
+                     'model and study the directed adjusted degree '
+                     'distributions. These adjusted degree distributions '
+                     'indicate that both the adjusted indegree and outdegree '
+                     'distributions seems to follow a log-normal form, not a '
+                     'power-law form. Our findings indicate that the power-law '
+                     'is not generally applicable to degree distributions '
+                     'within the United States Code but that the distribution '
+                     'of degree per word is well-described by a log-normal '
+                     'model.',
+         'author': 'Michael James Bommarito and Daniel Martin Katz',
+         'cites': '18',
+         'cites_id': '6355919052389809490',
+         'eprint': 'https://arxiv.org/pdf/0911.1751',
+         'journal': 'Available at SSRN 1502927',
+         'title': 'Properties of the United States code citation network',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1502927',
+         'year': '2009'},
+ 'citations_link': '/scholar?cites=6355919052389809490',
+ 'cites_per_year': {2009: 1,
+                    2010: 1,
+                    2011: 3,
+                    2012: 3,
+                    2013: 3,
+                    2014: 1,
+                    2015: 2,
+                    2016: 2,
+                    2017: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:Tyk-4Ss8FVUC',
+ 'source': 'citations'}
+#+end_example
+| 2009 | Properties of the United States code citation network | Available at SSRN 1502927 |
+*** 2014 Legal by design: a new paradigm for handling complexity in banking regulation and elsewhere in law :filled:
+#+begin_example
+{'bib': {'abstract': 'Federal Deposit Insurance Corporation (FDIC) criticized '
+                     'shortcomings in the Resolution Plans of the first '
+                     'Systemically Important Financial Institution (SIFI) '
+                     'filers. I In his public statement, FDIC Vice Chairman '
+                     'Thomas M. Hoenig said,"[E] ach plan [submitted by the '
+                     'first eleven filers] is deficient and fails to '
+                     'convincingly demonstrate how, in failure, any one of '
+                     'these firms could overcome obstacles to entering '
+                     'bankruptcy without precipitating a financial crisis.',
+         'author': 'Paul Lippe and Daniel Martin Katz and Dan Jackson',
+         'cites': '17',
+         'cites_id': '15806234027566923281',
+         'eprint': 'https://scholarsbank.uoregon.edu/xmlui/bitstream/handle/1794/18895/Katz.pdf?sequence=1&isAllowed=y',
+         'journal': 'Or. L. Rev.',
+         'pages': '833',
+         'title': 'Legal by design: a new paradigm for handling complexity in '
+                  'banking regulation and elsewhere in law',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/orglr93&section=27',
+         'volume': '93',
+         'year': '2014'},
+ 'citations_link': '/scholar?cites=15806234027566923281',
+ 'cites_per_year': {2015: 2, 2016: 1, 2017: 4, 2018: 3, 2019: 4, 2020: 3},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:kNdYIx-mwKoC',
+ 'source': 'citations'}
+#+end_example
+| 2014 | Legal by design: a new paradigm for handling complexity in banking regulation and elsewhere in law | Or. L. Rev. |
+*** 2010 The electronic world treaty index: Collecting the population of international agreements in the 20th century :filled:
+#+begin_example
+{'bib': {'abstract': 'We set out to create the Electronic World Treaty Index '
+                     '(eWTI), a comprehensive list of both bilateral and '
+                     'multilateral treaties formed during the 20th century. '
+                     "This project augments Rohn's World Treaty Index by "
+                     'integrating several other depositories of treaties, such '
+                     'as the League of Nations Treaty Series and the United '
+                     'Nations Treaty Series. Once complete, this digital '
+                     'dataset will allow scholars to quickly and easily '
+                     'consider the universe of treaty-making over the course '
+                     'of the 20th century. Though other scholars have '
+                     'collected and coded various treaty data, prior projects '
+                     'have focused on a specific treaty topic (alliances for '
+                     'Leeds et al., 2003), a random sub-sample of specific '
+                     'treaty categories (Koremenos, Lipson and Snidal, 2001) '
+                     'or limit their search to multilateral agreements '
+                     '(Hoffman and Denemark, 2008). Our Electronic World '
+                     'Treaty dataset, on the other hand, will contain the '
+                     'state of world and regional relations across all '
+                     'cross-sections of agreements in the 20th century.',
+         'author': 'Paul Poast and Michael James Bommarito and Daniel Martin '
+                   'Katz',
+         'cites': '14',
+         'cites_id': '3768054407810580918',
+         'journal': 'Available at SSRN 2652760',
+         'title': 'The electronic world treaty index: Collecting the '
+                  'population of international agreements in the 20th century',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2652760',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=3768054407810580918',
+ 'cites_per_year': {2016: 2, 2017: 7, 2018: 4, 2019: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:qxL8FJ1GzNcC',
+ 'source': 'citations'}
+#+end_example
+| 2010 | The electronic world treaty index: Collecting the population of international agreements in the 20th century | Available at SSRN 2652760 |
+*** 2010 On the stability of community detection algorithms on longitudinal citation data :filled:
+#+begin_example
+{'bib': {'abstract': 'There are fundamental differences between citation '
+                     'networks and other classes of graphs. In particular, '
+                     'given that citation networks are directed and acyclic, '
+                     'methods developed primarily for use with undirected '
+                     'social network data may face obstacles. This is '
+                     'particularly true for the dynamic development of '
+                     'community structure in citation networks. Namely, it is '
+                     'neither clear when it is appropriate to employ existing '
+                     'community detection approaches nor is it clear how to '
+                     'choose among existing approaches. Using simulated '
+                     'citation data, we highlight the tradeoff inherent in '
+                     'algorithm selection thereby clarifying the conditions '
+                     'under which one should use existing methods. We hope '
+                     'this paper will serve as encouragement for those '
+                     'interested in the development of more targeted '
+                     'approaches for use with longitudinal citation data.',
+         'author': 'Michael J Bommarito II and Daniel M Katz and Jonathen L '
+                   'Zelner',
+         'cites': '13',
+         'cites_id': '448031617975234325',
+         'eprint': 'https://www.sciencedirect.com/science/article/pii/S1877042810018549/pdf?md5=664720191368b078fcc766c5d6c6e0d7&pid=1-s2.0-S1877042810018549-main.pdf&_valck=1',
+         'journal': 'Procedia-Social and Behavioral Sciences',
+         'pages': '26-37',
+         'publisher': 'Elsevier',
+         'title': 'On the stability of community detection algorithms on '
+                  'longitudinal citation data',
+         'url': 'https://www.sciencedirect.com/science/article/pii/S1877042810018549',
+         'volume': '4',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=448031617975234325',
+ 'cites_per_year': {2010: 2,
+                    2011: 2,
+                    2012: 3,
+                    2013: 1,
+                    2014: 2,
+                    2015: 1,
+                    2016: 1,
+                    2017: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:Y0pCki6q_DkC',
+ 'source': 'citations'}
+#+end_example
+| 2010 | On the stability of community detection algorithms on longitudinal citation data | Procedia-Social and Behavioral Sciences |
+*** 2017 Measuring and modeling the US Regulatory Ecosystem :filled:
+#+begin_example
+{'bib': {'abstract': 'Over the last 23 years, the U.S. Securities and Exchange '
+                     'Commission has required over 34,000 companies to file '
+                     'over 165,000 annual reports. These reports, the '
+                     'so-called “Form 10-Ks,” contain a characterization of a '
+                     'company’s financial performance and its risks, including '
+                     'the regulatory environment in which a company operates. '
+                     'In this paper, we analyze over 4.5 million references to '
+                     'U.S. Federal Acts and Agencies contained within these '
+                     'reports to measure the regulatory ecosystem, in which '
+                     'companies are organisms inhabiting a regulatory '
+                     'environment. While individuals across the political, '
+                     'economic, and academic world frequently refer to trends '
+                     'in this regulatory ecosystem, far less attention has '
+                     'been paid to supporting such claims with large-scale, '
+                     'longitudinal data. In this paper, in addition to '
+                     'positing a model of regulatory ecosystems, we document '
+                     'an increase in the regulatory energy per filing, i.e., a '
+                     '…',
+         'author': 'Michael J Bommarito II and Daniel Martin Katz',
+         'cites': '9',
+         'cites_id': '8149002956667675777',
+         'eprint': 'https://link.springer.com/article/10.1007/s10955-017-1846-3',
+         'journal': 'Journal of Statistical Physics',
+         'number': '5',
+         'pages': '1125-1135',
+         'publisher': 'Springer US',
+         'title': 'Measuring and modeling the US Regulatory Ecosystem',
+         'url': 'https://link.springer.com/article/10.1007/s10955-017-1846-3',
+         'volume': '168',
+         'year': '2017'},
+ 'citations_link': '/scholar?cites=8149002956667675777',
+ 'cites_per_year': {2018: 7, 2019: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:4JMBOYKVnBMC',
+ 'source': 'citations'}
+#+end_example
+| 2017 | Measuring and modeling the US Regulatory Ecosystem | Journal of Statistical Physics |
+*** 2013 A Case Study on Legal Case Annotation. :filled:
+#+begin_example
+{'bib': {'abstract': 'The paper reports the outcomes of a study with law '
+                     'school students to annotate a corpus of legal cases for '
+                     'a variety of annotation types, eg citation indices, '
+                     'legal facts, rationale, judgement, cause of action, and '
+                     'others. An online tool is used by a group of annotators '
+                     'that results in an annotated corpus. Differences amongst '
+                     'the annotations are curated, producing a gold standard '
+                     'corpus of annotated texts. The annotations can be '
+                     'extracted with semantic searches of complex queries. '
+                     'There would be many such uses for the development and '
+                     'analysis of such a corpus for both legal education and '
+                     'legal research.',
+         'author': 'Adam Z Wyner and Wim Peters and Daniel Katz',
+         'cites': '9',
+         'cites_id': '4902561029822205728',
+         'eprint': 'http://wyner.info/research/Papers/2013/WynerPetersKatzJURIX2013.pdf',
+         'pages': '165-174',
+         'title': 'A Case Study on Legal Case Annotation.',
+         'url': 'http://books.google.com/books?hl=en&lr=&id=k2vnAgAAQBAJ&oi=fnd&pg=PA165&dq=info:IM85IEhlCUQJ:scholar.google.com&ots=qgyKpbXciV&sig=VVlIMpJaGYewMdRfHiHyrPMe6tQ',
+         'year': '2013'},
+ 'citations_link': '/scholar?cites=4902561029822205728',
+ 'cites_per_year': {2015: 1, 2016: 2, 2017: 1, 2018: 2, 2019: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:roLk4NBRz8UC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 2018 LexNLP: Natural language processing and information extraction for legal and regulatory texts :filled:
+#+begin_example
+{'bib': {'abstract': 'LexNLP is an open source Python package focused on '
+                     'natural language processing and machine learning for '
+                     'legal and regulatory text. The package includes '
+                     'functionality to (i) segment documents,(ii) identify key '
+                     'text such as titles and section headings,(iii) extract '
+                     'over eighteen types of structured information like '
+                     'distances and dates,(iv) extract named entities such as '
+                     'companies and geopolitical entities,(v) transform text '
+                     'into features for model training, and (vi) build '
+                     'unsupervised and supervised models such as word '
+                     'embedding or tagging models. LexNLP includes pre-trained '
+                     'models based on thousands of unit tests drawn from real '
+                     'documents available from the SEC EDGAR database as well '
+                     'as various judicial and regulatory proceedings. LexNLP '
+                     'is designed for use in both academic research and '
+                     'industrial applications, and is distributed at this '
+                     'https URL.',
+         'author': 'Michael J Bommarito II and Daniel Martin Katz and Eric M '
+                   'Detterman',
+         'cites': '6',
+         'cites_id': '1355078482775717500',
+         'eprint': 'https://arxiv.org/pdf/1806.03688',
+         'journal': 'arXiv preprint arXiv:1806.03688',
+         'title': 'LexNLP: Natural language processing and information '
+                  'extraction for legal and regulatory texts',
+         'url': 'https://arxiv.org/abs/1806.03688',
+         'year': '2018'},
+ 'citations_link': '/scholar?cites=1355078482775717500',
+ 'cites_per_year': {2019: 5, 2020: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:M3NEmzRMIkIC',
+ 'source': 'citations'}
+#+end_example
+| 2018 | LexNLP: Natural language processing and information extraction for legal and regulatory texts | arXiv preprint arXiv:1806.03688 |
+*** 2011 Legal n-grams? a simple approach to track the ‘evolution’of legal language :filled:
+#+begin_example
+{'bib': {'abstract': 'In this paper, we highlight the potential of n-grams as '
+                     'a vehicle to explore the ‘evolution’of the law and legal '
+                     'language. Using the full text corpus of decisions of the '
+                     'United States Supreme Court (1791-2005), we explore the '
+                     'n-gram space, offer some initial results based upon our '
+                     'calculations and highlight the beta version of our '
+                     'n-gram search interface.',
+         'author': 'Daniel Martin Katz and Michael James Bommarito and Julie '
+                   'Seaman and Adam Candeub and Eugene Agichtein',
+         'cites': '6',
+         'cites_id': '7373356471522096523',
+         'journal': 'Proceedings of JURIX',
+         'title': 'Legal n-grams? a simple approach to track the ‘evolution’of '
+                  'legal language',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1971953',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=7373356471522096523',
+ 'cites_per_year': {2014: 1, 2015: 1, 2016: 2, 2017: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:YsMSGLbcyi4C',
+ 'source': 'citations'}
+#+end_example
+| 2011 | Legal n-grams? a simple approach to track the ‘evolution’of legal language | Proceedings of JURIX |
+*** 2010 World Treaty Index: An electronic treaty database spanning the 20th century :filled:
+#+begin_example
+{'bib': {'author': 'Michael J Bommarito and Daniel Martin Katz and Paul Poast',
+         'cites': '6',
+         'cites_id': '14116888024494211280',
+         'publisher': 'University of Michigan',
+         'title': 'World Treaty Index: An electronic treaty database spanning '
+                  'the 20th century',
+         'url': 'http://scholar.google.com/scholar?cluster=14116888024494211280&hl=en&oi=scholarr',
+         'year': '2010'},
+ 'citations_link': '/scholar?cites=14116888024494211280',
+ 'cites_per_year': {2013: 1, 2014: 1, 2015: 2, 2016: 1, 2017: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:WF5omc3nYNoC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 2017 Crowdsourcing accurately and robustly predicts Supreme Court decisions :filled:
+#+begin_example
+{'bib': {'abstract': 'Scholars have increasingly investigated “crowdsourcing” '
+                     'as an alternative to expert-based judgment or purely '
+                     'data-driven approaches to predicting the future. Under '
+                     'certain conditions, scholars have found that '
+                     'crowd-sourcing can outperform these other approaches. '
+                     'However, despite interest in the topic and a series of '
+                     'successful use cases, relatively few studies have '
+                     'applied empirical model thinking to evaluate the '
+                     'accuracy and robustness of crowdsourcing in real-world '
+                     'contexts. In this paper, we offer three novel '
+                     'contributions. First, we explore a dataset of over '
+                     '600,000 predictions from over 7,000 participants in a '
+                     'multi-year tournament to predict the decisions of the '
+                     'Supreme Court of the United States. Second, we develop a '
+                     'comprehensive crowd construction framework that allows '
+                     'for the formal description and application of '
+                     'crowdsourcing to real-world data. Third, we apply this '
+                     'framework to our data to construct more than 275,000 '
+                     'crowd models. We find that in out-of-sample historical '
+                     'simulations, crowdsourcing robustly outperforms the '
+                     'commonly-accepted null model, yielding the highest-known '
+                     'performance for this context at 80.8% case level '
+                     'accuracy. To our knowledge, this dataset and analysis '
+                     'represent one of the largest explorations of recurring '
+                     'human prediction to date, and our results provide '
+                     'additional empirical support for the use of '
+                     'crowdsourcing as a prediction method.',
+         'author': 'Daniel Martin Katz and Michael James Bommarito and Josh '
+                   'Blackman',
+         'cites': '5',
+         'cites_id': '8808054720882390780',
+         'eprint': 'https://arxiv.org/pdf/1712.03846',
+         'journal': 'Available at SSRN 3085710',
+         'title': 'Crowdsourcing accurately and robustly predicts Supreme '
+                  'Court decisions',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3085710',
+         'year': '2017'},
+ 'citations_link': '/scholar?cites=8808054720882390780',
+ 'cites_per_year': {2018: 1, 2019: 4},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:isC4tDSrTZIC',
+ 'source': 'citations'}
+#+end_example
+| 2017 | Crowdsourcing accurately and robustly predicts Supreme Court decisions | Available at SSRN 3085710 |
+*** 2015 Law on the market? evaluating the securities market impact of supreme court decisions :filled:
+#+begin_example
+{'bib': {'abstract': 'Do judicial decisions affect the securities markets in '
+                     'discernible and perhaps predictable ways? In other '
+                     'words, is there “law on the market”(LOTM)? This is a '
+                     'question that has been raised by commentators, but '
+                     'answered by very few in a systematic and financially '
+                     'rigorous manner. Using intraday data and a multiday '
+                     'event window, this large scale event study seeks to '
+                     'determine the existence, frequency and magnitude of '
+                     'equity market impacts flowing from Supreme Court '
+                     'decisions.',
+         'author': 'Daniel Martin Katz and Michael James Bommarito and Tyler '
+                   'Soellinger and James Ming Chen',
+         'cites': '5',
+         'cites_id': '17042982495504028176',
+         'eprint': 'https://pdfs.semanticscholar.org/a1c4/3be542af13c8a0e6ef4c855d3d6631713e19.pdf',
+         'journal': 'Evaluating the Securities Market Impact of Supreme Court '
+                    'Decisions (August 24, 2015)',
+         'title': 'Law on the market? evaluating the securities market impact '
+                  'of supreme court decisions',
+         'url': 'https://pdfs.semanticscholar.org/a1c4/3be542af13c8a0e6ef4c855d3d6631713e19.pdf',
+         'year': '2015'},
+ 'citations_link': '/scholar?cites=17042982495504028176',
+ 'cites_per_year': {2016: 2, 2017: 1, 2018: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:M3ejUd6NZC8C',
+ 'source': 'citations'}
+#+end_example
+| 2015 | Law on the market? evaluating the securities market impact of supreme court decisions | Evaluating the Securities Market Impact of Supreme Court Decisions (August 24, 2015) |
+*** 2005 An Rx for the Modification of the Medicare Prescription Drug, Improvement, and Modernization Act of 2003: Toward a Reform with Results :filled:
+#+begin_example
+{'bib': {'abstract': 'The advent of modern medicine has increased the quality '
+                     'of available health care services dramatically. The use '
+                     "of outpatient prescription drugs has allowed today's "
+                     'patients to live longer, more productive lives. However, '
+                     'the shift from invasive inpatient procedures to '
+                     'outpatient pharmaceuticals has come at a price. There '
+                     'has been a significant increase in demand, 1 prices, 2 '
+                     'per capita expenses, 3 and total expenditures4 for these '
+                     'prescription drugs.',
+         'author': 'Daniel Katz and Monica Deshpande',
+         'cites': '5',
+         'cites_id': '15065924126601182062',
+         'eprint': 'https://lawecommons.luc.edu/cgi/viewcontent.cgi?article=1206&context=annals',
+         'journal': 'Annals Health L.',
+         'pages': '183',
+         'title': 'An Rx for the Modification of the Medicare Prescription '
+                  'Drug, Improvement, and Modernization Act of 2003: Toward a '
+                  'Reform with Results',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/anohl14&section=11',
+         'volume': '14',
+         'year': '2005'},
+ 'citations_link': '/scholar?cites=15065924126601182062',
+ 'cites_per_year': {2004: 1, 2005: 2, 2006: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:W7OEmFMy1HYC',
+ 'source': 'citations'}
+#+end_example
+| 2005 | An Rx for the Modification of the Medicare Prescription Drug, Improvement, and Modernization Act of 2003: Toward a Reform with Results | Annals Health L. |
+*** 2017 Law on the market? abnormal stock returns and supreme court decision-making :filled:
+#+begin_example
+{'bib': {'abstract': 'What happens when the Supreme Court of the United States '
+                     'decides a case impacting one or more publicly-traded '
+                     'firms? While many have observed anecdotal evidence '
+                     'linking decisions or oral arguments to abnormal stock '
+                     'returns, few have rigorously or systematically '
+                     'investigated the behavior of equities around Supreme '
+                     'Court actions. In this research, we present the first '
+                     'comprehensive, longitudinal study on the topic, spanning '
+                     'over 15 years and hundreds of cases and firms. Using '
+                     'both intra-and interday data around decisions and oral '
+                     'arguments, we evaluate the frequency and magnitude of '
+                     'statistically-significant abnormal return events after '
+                     'Supreme Court action. On a per-term basis, we find 5.3 '
+                     'cases and 7.8 stocks that exhibit abnormal returns after '
+                     'decision. In total, across the cases we examined, we '
+                     'find 79 out of the 211 cases (37%) exhibit an average '
+                     'abnormal return of 4.4% over a two-session window with '
+                     'an average| t|-statistic of 2.9. Finally, we observe '
+                     'that abnormal returns following Supreme Court decisions '
+                     'materialize over the span of hours and days, not '
+                     'minutes, yielding strong implications for market '
+                     'efficiency in this context. While we cannot causally '
+                     'separate substantive legal impact from mere revision of '
+                     'beliefs, we do find strong evidence that there is indeed '
+                     'a" law on the market" effect as measured by the '
+                     'frequency of abnormal return events, and that these '
+                     'abnormal returns are not immediately incorporated into '
+                     'prices.',
+         'author': 'Daniel Martin Katz and Michael James Bommarito and Tyler '
+                   'Soellinger and James Ming Chen',
+         'cites': '4',
+         'cites_id': '11769042595205123354',
+         'eprint': 'https://arxiv.org/pdf/1508.05751',
+         'journal': 'Abnormal Stock Returns and Supreme Court Decision-Making '
+                    '(May 14, 2017)',
+         'title': 'Law on the market? abnormal stock returns and supreme court '
+                  'decision-making',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2649726',
+         'year': '2017'},
+ 'citations_link': '/scholar?cites=11769042595205123354',
+ 'cites_per_year': {2016: 1, 2017: 1, 2018: 1, 2019: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:k_IJM867U9cC',
+ 'source': 'citations'}
+#+end_example
+| 2017 | Law on the market? abnormal stock returns and supreme court decision-making | Abnormal Stock Returns and Supreme Court Decision-Making (May 14, 2017) |
+*** 2007 Article I, Section 4 of the Constitution, the Voting Rights Act, and Restoration of the Congressional Portion of the Election Ballot: The Final Frontier of Felon … :filled:
+#+begin_example
+{'bib': {'abstract': 'The United States enjoys a peaceful, constitutional and '
+                     'democratic government. However, for some Americans, '
+                     'there is a predicament: they are subject to the laws '
+                     "enacted by the peoples' Representatives, yet are "
+                     'excluded from the electoral process. Due to a felony '
+                     'conviction, many citizens are barred from the ballot '
+                     'box, sometimes for life. This process of withdrawing an '
+                     "individual's voting privileges as a collateral "
+                     'consequence of a criminal conviction is known as '
+                     'disenfranchisement. 2 A single criminal transgression by '
+                     'a teenager can permit disenfranchisement, even into his '
+                     'or her senior years. In some cases, a felony conviction '
+                     'eliminates the right to vote in one state, while a '
+                     'neighboring state does not even designate the offense as '
+                     'particularly grave. The',
+         'author': 'Daniel M Katz',
+         'cites': '4',
+         'cites_id': '11887636476439604259',
+         'eprint': 'http://digitalcommons.law.msu.edu/cgi/viewcontent.cgi?article=1093&context=facpubs',
+         'journal': 'JL & Soc. Change',
+         'pages': '47',
+         'title': 'Article I, Section 4 of the Constitution, the Voting Rights '
+                  'Act, and Restoration of the Congressional Portion of the '
+                  'Election Ballot: The Final Frontier of Felon …',
+         'url': 'https://heinonline.org/hol-cgi-bin/get_pdf.cgi?handle=hein.journals/hybrid10&section=4',
+         'volume': '10',
+         'year': '2007'},
+ 'citations_link': '/scholar?cites=11887636476439604259',
+ 'cites_per_year': {2009: 1, 2010: 1, 2011: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:eQOLeE2rZwMC',
+ 'source': 'citations'}
+#+end_example
+| 2007 | Article I, Section 4 of the Constitution, the Voting Rights Act, and Restoration of the Congressional Portion of the Election Ballot: The Final Frontier of Felon … | JL & Soc. Change |
+WARNING: caught exception: <class 'KeyError'>
+*** 2018 OpenEDGAR: Open Source Software for SEC EDGAR Analysis :filled:
+#+begin_example
+{'bib': {'abstract': 'OpenEDGAR is an open source Python framework designed to '
+                     'rapidly construct research databases based on the '
+                     'Electronic Data Gathering, Analysis, and Retrieval '
+                     '(EDGAR) system operated by the US Securities and '
+                     'Exchange Commission (SEC). OpenEDGAR is built on the '
+                     'Django application framework, supports distributed '
+                     'compute across one or more servers, and includes '
+                     'functionality to (i) retrieve and parse index and filing '
+                     'data from EDGAR,(ii) build tables for key metadata like '
+                     'form type and filer,(iii) retrieve, parse, and update '
+                     'CIK to ticker and industry mappings,(iv) extract content '
+                     'and metadata from filing documents, and (v) search '
+                     'filing document contents. OpenEDGAR is designed for use '
+                     'in both academic research and industrial applications, '
+                     'and is distributed under MIT License.',
+         'author': 'Michael James Bommarito and Daniel Martin Katz and Eric '
+                   'Detterman',
+         'cites': '2',
+         'cites_id': '2142468548418278307',
+         'eprint': 'https://arxiv.org/pdf/1806.04973',
+         'journal': 'Available at SSRN 3194754',
+         'title': 'OpenEDGAR: Open Source Software for SEC EDGAR Analysis',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3194754',
+         'year': '2018'},
+ 'citations_link': '/scholar?cites=2142468548418278307',
+ 'cites_per_year': {2020: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:JV2RwH3_ST0C',
+ 'source': 'citations'}
+#+end_example
+| 2018 | OpenEDGAR: Open Source Software for SEC EDGAR Analysis | Available at SSRN 3194754 |
+*** 2018 Algorithmic Trading and Mutual Fund Performance :filled:
+#+begin_example
+{'bib': {'abstract': 'We examine the effects of algorithmic trading (AT) on '
+                     'the US mutual fund industry and find that funds holding '
+                     'stocks with higher AT intensity have lower holdings '
+                     'returns and higher interim trading profits (return gap). '
+                     'This effect survives controls of effective spread and '
+                     'execution shortfall. Our results suggest that AT’s '
+                     'effect on funds is via the trading channel rather than '
+                     'funds’ stock selection abilities. AT’s positive effects '
+                     'of enhanced market quality on fund performance dominates '
+                     'its negative predatory trading influence. Using exchange '
+                     'automation as an instrument, we find evidence suggesting '
+                     'the effect of AT on the return gap is causal.',
+         'author': 'Kingsley YL Fong and Jerry T Parwada and Joey Wenling Yang',
+         'cites': '2',
+         'cites_id': '1022963175343366157',
+         'eprint': 'https://www.researchgate.net/profile/Joey_Yang7/publication/317395879_Algorithmic_Trading_and_Mutual_Fund_Performance/links/5a6809290f7e9b76ea8f1304/Algorithmic-Trading-and-Mutual-Fund-Performance.pdf',
+         'journal': 'Available at SSRN 3111598',
+         'title': 'Algorithmic Trading and Mutual Fund Performance',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3111598',
+         'year': '2018'},
+ 'citations_link': '/scholar?cites=1022963175343366157',
+ 'cites_per_year': {2017: 1, 2018: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:qUcmZB5y_30C',
+ 'source': 'citations'}
+#+end_example
+| 2018 | Algorithmic Trading and Mutual Fund Performance | Available at SSRN 3111598 |
+*** 2011 Projects of Humanitarianism: Sex Trafficking and Migration in the Twenty-First Century United States. :filled:
+#+begin_example
+{'bib': {'abstract': 'Projects of Humanitarianism examines the contemporary '
+                     'mobilization of cultural forms to alert the public about '
+                     'the traffic of women into the sex industry.  By way of '
+                     'critical readings of a contemporary archive of cultural '
+                     'texts used for anti-trafficking activism -- including '
+                     'testimonies, photographs, documentary and narrative '
+                     'films, training manuals, and anti-trafficking events -- '
+                     'I investigate the multi-institutional formation of U.S. '
+                     'anti-trafficking activism and its transnational '
+                     'circulation to Romania and Moldova. Feminist scholars '
+                     'have critiqued U.S. anti-trafficking campaigns for their '
+                     'misleading emphasis on sexual exploitation and '
+                     'conflation of trafficking and prostitution. My project '
+                     'takes these important studies a step further by tracing '
+                     'the emergence in the culture industry of a humanitarian '
+                     'approach to gender justice that reinforces neoliberal '
+                     'formations of power.   This dissertation proposes the '
+                     'concept of humanitarian entertainment to theorize the '
+                     'intersection of the culture industry and the ethics of '
+                     'humanitarianism. Humanitarian entertainment is a '
+                     'cultural and economic practice that draws on historical '
+                     'discourses of gender vulnerability and takes '
+                     'entertainment as a resource for humanitarian '
+                     'interventions. The testimonial genre is central to the '
+                     'articulation of a humanitarian approach to women’s '
+                     'trafficking premised on notions of suffering and trauma '
+                     '-- an aspect addressed in Chapter I in my analysis of '
+                     'photographic and video testimonies featured in the work '
+                     'of photojournalist Mimi Chakarova. Chapter II focuses on '
+                     'Marco Kreuzpainter’s narrative film Trade (2007) and '
+                     'Christian Duguay’s television docudrama Human '
+                     'Trafficking (2005), tracing the filmic …',
+         'author': 'Roxana Galusca',
+         'cites': '2',
+         'cites_id': '9212573710117990883',
+         'eprint': 'https://deepblue.lib.umich.edu/bitstream/handle/2027.42/89633/rgal?sequence=1',
+         'title': 'Projects of Humanitarianism: Sex Trafficking and Migration '
+                  'in the Twenty-First Century United States.',
+         'url': 'https://deepblue.lib.umich.edu/handle/2027.42/89633',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=9212573710117990883',
+ 'cites_per_year': {2016: 2},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:QIV2ME_5wuYC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 2020 Sensitivity of collective outcomes identifies pivotal components :filled:
+#+begin_example
+{'bib': {'abstract': 'A social system is susceptible to perturbation when its '
+                     'collective properties depend sensitively on a few '
+                     'pivotal components. Using the information geometry of '
+                     'minimal models from statistical physics, we develop an '
+                     'approach to identify pivotal components to which '
+                     'coarse-grained, or aggregate, properties are sensitive. '
+                     'As an example, we introduce our approach on a reduced '
+                     'toy model with a median voter who always votes in the '
+                     'majority. The sensitivity of majority–minority divisions '
+                     'to changing voter behaviour pinpoints the unique role of '
+                     'the median. More generally, the sensitivity identifies '
+                     'pivotal components that precisely determine collective '
+                     'outcomes generated by a complex network of interactions. '
+                     'Using perturbations to target pivotal components in the '
+                     'models, we analyse datasets from political voting, '
+                     'finance and Twitter. Across these systems, we find '
+                     'remarkable variety, from systems dominated by a median …',
+         'author': 'Edward D Lee and Daniel M Katz and Michael J Bommarito and '
+                   'Paul H Ginsparg',
+         'cites': '1',
+         'cites_id': '6808034726125056612',
+         'eprint': 'https://royalsocietypublishing.org/doi/pdf/10.1098/rsif.2019.0873',
+         'journal': 'Journal of the Royal Society Interface',
+         'number': '167',
+         'pages': '20190873',
+         'publisher': 'The Royal Society',
+         'title': 'Sensitivity of collective outcomes identifies pivotal '
+                  'components',
+         'url': 'https://royalsocietypublishing.org/doi/abs/10.1098/rsif.2019.0873',
+         'volume': '17',
+         'year': '2020'},
+ 'citations_link': '/scholar?cites=6808034726125056612',
+ 'cites_per_year': {2019: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:BqipwSGYUEgC',
+ 'source': 'citations'}
+#+end_example
+| 2020 | Sensitivity of collective outcomes identifies pivotal components | Journal of the Royal Society Interface |
+*** 2019 Harnessing the complexity of legal systems for governing global challenges :filled:
+#+begin_example
+{'bib': {'abstract': 'There is a growing consensus that the governance '
+                     'challenges of our future–adaptation to climate change, '
+                     'financial system instability, extreme wealth disparity, '
+                     'global biodiversity loss, and the list goes on–are '
+                     'massive in scale and ‘wicked’in behavior. They defy '
+                     'conventional governance approaches and persist despite '
+                     'best efforts from governance institutions around the '
+                     'globe. They are difficult to predict, volatile, and full '
+                     'of surprises. They are, in other words, complex adaptive '
+                     'systems (CAS)–systems ‘in which large networks of '
+                     'components with no central control and simple rules of '
+                     'operation give rise to complex collective behavior, '
+                     'sophisticated information processing, and adaptation via '
+                     'learning or evolution’(M. Mitchell, 2009, p. 13). '
+                     'Designing legal systems to make progress on the massive '
+                     'problems of the future must take these properties into '
+                     'account, and that will require new ways of thinking '
+                     'about legal …',
+         'author': 'JB Ruhl and Daniel M Katz',
+         'cites': '1',
+         'cites_id': '18403401502934330369',
+         'publisher': 'Edward Elgar Publishing',
+         'title': 'Harnessing the complexity of legal systems for governing '
+                  'global challenges',
+         'url': 'https://www.elgaronline.com/view/edcoll/9781788115414/9781788115414.00018.xml',
+         'year': '2019'},
+ 'citations_link': '/scholar?cites=18403401502934330369',
+ 'cites_per_year': {2020: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:GnPB-g6toBAC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 2014 System and Method for Resolving Warrants :filled:
+#+begin_example
+{'bib': {'abstract': 'Systems and methods automatically resolve outstanding '
+                     'arrest warrants. Users may login to an automated system '
+                     'and answer a series of questions from an adaptive '
+                     "questionnaire module. Based on the user's answers, a "
+                     'bargained for deal may be selected from a payout matrix '
+                     'module and presented to the user. The user may have the '
+                     'option of accepting or rejecting the proposed deal, and '
+                     'if the user accepts the proposed deal, the deal and '
+                     'other relevant information may be sent to a government '
+                     'official for further processing if necessary.',
+         'cites': '1',
+         'cites_id': '16325651787936241090',
+         'eprint': 'https://patentimages.storage.googleapis.com/64/6a/52/d65d82afa33d62/US20140032431A1.pdf',
+         'title': 'System and Method for Resolving Warrants',
+         'url': 'https://patents.google.com/patent/US20140032431A1/en',
+         'year': '2014'},
+ 'citations_link': '/scholar?cites=16325651787936241090',
+ 'cites_per_year': {2020: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:IWHjjKOFINEC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 2011 Perspectives on Law and Legal Institutions as Complex Adaptive Systems. :filled:
+#+begin_example
+{'bib': {'abstract': 'This dissertation employs various theoretical and '
+                     'methodological perspectives to consider the “evolution” '
+                     'of the law and “law as a complex adaptive system.”  '
+                     'Chapter 2 addresses the strategic institutional '
+                     'conditions that produced Chief Justice Rehnquist’s '
+                     'majority opinion in Dickerson v. United States. In the '
+                     'wake of the Chief Justice’s ruling, legal scholars '
+                     'grappled to interpret this apparently anomalous '
+                     'decision.  This process produced a litany of deeply '
+                     'unsatisfactory explanations for the Chief’s behavior. '
+                     'Chapter 2 rejects all of these existing explanations and '
+                     'instead outlines a game theoretic account for the '
+                     'Chief’s decision in this very important Miranda related '
+                     'case.  Applying network theory, Chapter 3 considers the '
+                     'social topology of the American federal judiciary.  '
+                     'Scholars have long asserted that social structure is an '
+                     'important feature of a variety of societal institutions. '
+                     'However, to date, such social considerations have not '
+                     'been formally integrated in positive legal theory. Using '
+                     'the flow of law clerks as a proxy for social and '
+                     'professional linkages between jurists, Chapter 3 offers '
+                     'a variety of visualizations and analytics useful for '
+                     'considering the physical properties of the judicial '
+                     'social network.   Chapter 4 considers the ‘evolution’ of '
+                     'the law in the early jurisprudence of the United States '
+                     'Supreme Court. Relevant dynamics include but are not '
+                     'limited to doctrinal importation, path dependence, '
+                     'cross-fertilization, mutation, fitness and selection. '
+                     'Chapter 4 explores a subset of these dynamics in the '
+                     'applied context of the early United States Supreme Court '
+                     '(1791-1835). Justices on the early United States Supreme '
+                     'Court relied upon a wide variety of …',
+         'author': 'Daniel Martin Katz',
+         'cites': '1',
+         'cites_id': '17825936645877369598',
+         'eprint': 'https://deepblue.lib.umich.edu/bitstream/handle/2027.42/89688/dmartink_1.pdf?sequ',
+         'title': 'Perspectives on Law and Legal Institutions as Complex '
+                  'Adaptive Systems.',
+         'url': 'https://deepblue.lib.umich.edu/handle/2027.42/89688',
+         'year': '2011'},
+ 'citations_link': '/scholar?cites=17825936645877369598',
+ 'cites_per_year': {2015: 1},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:8k81kl-MbHgC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 2020 Complex Societies and the Growth of the Law :filled:
+#+begin_example
+{'bib': {'abstract': 'While a large number of informal factors influence how '
+                     'people interact, modern societies rely upon law as the '
+                     'primary mechanism to formally control human behaviour. '
+                     'In contrast to social norms and customs, legal rules are '
+                     'enforced by the state through its monopoly on legitimate '
+                     'force. Where the rule of law prevails, due process '
+                     'allows humans to engage in increasingly complex economic '
+                     'activities. Therefore, law is a critical determinant of '
+                     'human behaviour at the macro level. At the same time, '
+                     'law is determined by human behaviour at the micro level: '
+                     'In centralized procedures, lawmakers create, modify and '
+                     'delete existing rules to achieve particular behavioural '
+                     'outcomes, often in an effort to respond to changing '
+                     'societal needs.',
+         'author': 'Daniel Martin Katz and Corinna Coupette and Janis '
+                   'Beckedorf and Dirk Hartung',
+         'cites': '0',
+         'eprint': 'https://arxiv.org/pdf/2005.07646',
+         'journal': 'Available at SSRN',
+         'title': 'Complex Societies and the Growth of the Law',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3602098',
+         'year': '2020'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:O3NaXMp0MMsC',
+ 'source': 'citations'}
+#+end_example
+| 2020 | Complex Societies and the Growth of the Law | Available at SSRN |
+*** 2019 Microsurgical vasectomy reversal-experience from a single Australian surgeon :filled:
+#+begin_example
+{'bib': {'author': 'E Lee and D Katz',
+         'cites': '0',
+         'pages': '32-33',
+         'publisher': 'WILEY',
+         'title': 'Microsurgical vasectomy reversal-experience from a single '
+                  'Australian surgeon',
+         'url': 'http://scholar.google.com/scholar?cluster=16840113430490543888&hl=en&oi=scholarr',
+         'volume': '123',
+         'year': '2019'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:ns9cj8rnVeAC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 2018 2 Mapping law’s complexity with “Legal Maps” :filled:
+#+begin_example
+{'bib': {'abstract': 'As intuitive as it is to any lawyer that the law and the '
+                     'legal systems administering it are complex, getting a '
+                     'handle on exactly what that means and what to do about '
+                     'it is no simple matter. First, one needs a theoretical '
+                     'foundation to describe complexity in terms relevant to '
+                     'law and legal systems, however we define them. What is '
+                     'legal complexity, and what attributes go into making '
+                     'legal systems complex? Then one must develop metrics and '
+                     'methods to measure and monitor those attributes in the '
+                     'legal system, to determine how complex the legal system '
+                     'is. Armed with such data and findings, legal theorists, '
+                     'politicians, and citizens can begin an evidence-based '
+                     'debate regarding how complex the law ought to be. And, '
+                     'if it were determined that the law is too complex or not '
+                     'complex enough, it would be useful to have the means to '
+                     'adjust and manage the law’s complexity. Of course, none '
+                     'of these undertakings is a small task.',
+         'author': 'JB Ruhl and Daniel M Katz',
+         'cites': '0',
+         'journal': 'Complexity Theory and Law: Mapping an Emergent '
+                    'Jurisprudence',
+         'publisher': 'Routledge',
+         'title': '2 Mapping law’s complexity with “Legal Maps”',
+         'url': 'http://books.google.com/books?hl=en&lr=&id=EjZlDwAAQBAJ&oi=fnd&pg=PT30&dq=info:QoDl4nyqS58J:scholar.google.com&ots=NzQ9bqXlgo&sig=zGVEX5JD1Vc7_Oz9vtyQFGz_9gs',
+         'year': '2018'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:hMod-77fHWUC',
+ 'source': 'citations'}
+#+end_example
+| 2018 | 2 Mapping law’s complexity with “Legal Maps” | Complexity Theory and Law: Mapping an Emergent Jurisprudence |
+*** 2015 How Smart Resolution Planning Can Help Banks Improve Transparency, Increase Profitability and Reduce Risk :filled:
+#+begin_example
+{'bib': {'abstract': 'Resolution and Recovery Planning (RRP or “living wills”) '
+                     'is a new regulatory model, requiring new data, new '
+                     'processes, new tools, and new thinking, just as the '
+                     'Securities Exchange Act back in 1934 helped create '
+                     'modern accounting standards and reporting models. A '
+                     'living will is effectively a roadmap and simulation of '
+                     'the largest possible series of transactions in a bank’s '
+                     'lifetime. This type of analytical exercise is common in '
+                     'electronic systems design or software testing, but '
+                     'unprecedented in law and finance. It is axiomatic across '
+                     'the technology industry that to manage complexity '
+                     'requires standardization, modularization, and '
+                     'simplification.',
+         'author': 'Paul Lippe and Jan Putnis and Daniel Martin Katz and Ian '
+                   'Hurst',
+         'cites': '0',
+         'journal': 'Banking Perspective-The Quarterly Journal of the Clearing '
+                    'House (Q2-2015)',
+         'title': 'How Smart Resolution Planning Can Help Banks Improve '
+                  'Transparency, Increase Profitability and Reduce Risk',
+         'url': 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2623027',
+         'year': '2015'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:4TOpqqG69KYC',
+ 'source': 'citations'}
+#+end_example
+| 2015 | How Smart Resolution Planning Can Help Banks Improve Transparency, Increase Profitability and Reduce Risk | Banking Perspective-The Quarterly Journal of the Clearing House (Q2-2015) |
+WARNING: caught exception: <class 'AttributeError'>
+*** 2014 Portfolio Theory as a Pattern of Timeless Moments :filled:
+#+begin_example
+{'bib': {'abstract': 'Quantitative finance traces its roots to modern '
+                     'portfolio theory. Despite the deficiencies of modern '
+                     'portfolio theory, mean-variance optimization '
+                     'nevertheless continues to form the basis for '
+                     'contemporary finance. The term postmodern portfolio '
+                     'theory expresses many of the theoretical advances in '
+                     'financial learning since the original articulation of '
+                     'modern portfolio theory. Any complete overview of '
+                     'financial risk management must address all aspects of '
+                     'portfolio theory, from the beautiful symmetries of '
+                     'modern portfolio theory to the disturbing behavioral '
+                     'insights and the vastly expanded mathematical arsenal of '
+                     'the postmodern critique. This article surveys portfolio '
+                     'theory, from its modern origins through more '
+                     'sophisticated,“postmodern” incarnations, according to '
+                     'the first four moments of any statistical distribution: '
+                     'mean, variance, skewness, and excess kurtosis. Mastery '
+                     'of these quantitative tools and associated behavioral '
+                     'insights holds the key to the efficientfrontier of risk '
+                     'management.',
+         'author': 'James Ming Chen and K Ganguli and Gil Grantmore and Daniel '
+                   'Martin Katz and Yuri Katz and Carolina Laureti and Othmar '
+                   'Lehner and Merav Ozair and Elizabeth Porter and Carol '
+                   'Royal and Jeffrey Sexton and Robert Sonora and Gal Zahavi',
+         'cites': '0',
+         'eprint': 'http://books.google.com/books?hl=en&lr=&id=4e4KAwAAQBAJ&oi=fnd&pg=PA245&dq=info:cuXlzDFqIn0J:scholar.google.com&ots=qWqfLvAtdj&sig=ys6X58YyeqPKrFngQSDSzfxYP18',
+         'journal': 'ACRN Proceedings in Finance and Risk Series ‘13: '
+                    'Proceedings of the 13th FRAP Conference in Cambridge',
+         'pages': '245',
+         'publisher': 'ACRN Publishing House',
+         'title': 'Portfolio Theory as a Pattern of Timeless Moments',
+         'url': 'http://books.google.com/books?hl=en&lr=&id=4e4KAwAAQBAJ&oi=fnd&pg=PA245&dq=info:cuXlzDFqIn0J:scholar.google.com&ots=qWqfLvAtdj&sig=ys6X58YyeqPKrFngQSDSzfxYP18',
+         'volume': '2',
+         'year': '2014'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:maZDTaKrznsC',
+ 'source': 'citations'}
+#+end_example
+| 2014 | Portfolio Theory as a Pattern of Timeless Moments | ACRN Proceedings in Finance and Risk Series ‘13: Proceedings of the 13th FRAP Conference in Cambridge |
+*** 2010 Building the United States Supreme Court Disposition Corpus 1791-2009 :filled:
+#+begin_example
+{'bib': {'abstract': 'Justice Breyer, dissenting. Petitioner is 76 years old, '
+                     'is blind, suffers from diabetes, is confined to a '
+                     'wheelchair, and has been on death row for 23 years. I '
+                     'believe that in the circumstances he raises a '
+                     'significant question as to whether his execution would '
+                     'constitute" cruel and unusual punishmen [t]." US Const., '
+                     'Amdt. 8. See Knight v. Florida, 528 US 990, 993, 120 S. '
+                     'Ct. 459, 145 L. Ed. 2d 370 (1999)(Breyer, J., dissenting '
+                     'from denial of certiorari); Elledge v. Florida, 525 US '
+                     '944, 119 S. Ct. 366, 142 L. Ed. 2d 303 (1998)(same); '
+                     'Lackey v. Texas, 514 US 1045, 115 S. Ct. 1421, 131 L. '
+                     'Ed. 2d 304 (1995)(Stevens, J., respecting denial of '
+                     'certiorari). I would grant the application for stay of '
+                     'execution.',
+         'author': 'MICHAEL JAMES BOMMARITO II and DANIEL MARTIN KATZ',
+         'cites': '0',
+         'eprint': 'http://projects.ldc.upenn.edu/Projects/LDC_Institute/Visitors/SCOTUS.pdf',
+         'title': 'Building the United States Supreme Court Disposition Corpus '
+                  '1791-2009',
+         'url': 'http://projects.ldc.upenn.edu/Projects/LDC_Institute/Visitors/SCOTUS.pdf',
+         'year': '2010'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:_FxGoFyzp5QC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+*** 1995 RIMS LOBBYING FOR WORKER-EDUCATION TAX BREAKS. :filled:
+#+begin_example
+{'bib': {'author': 'DM Katz',
+         'cites': '0',
+         'journal': 'National Underwriter/Property & Casualty Risk & Benefits',
+         'number': '25',
+         'pages': '9',
+         'publisher': 'National Underwriter Company',
+         'title': 'RIMS LOBBYING FOR WORKER-EDUCATION TAX BREAKS.',
+         'url': 'http://scholar.google.com/scholar?cluster=15938546148853658394&hl=en&oi=scholarr',
+         'volume': '99',
+         'year': '1995'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:e5wmG9Sq2KIC',
+ 'source': 'citations'}
+#+end_example
+| 1995 | RIMS LOBBYING FOR WORKER-EDUCATION TAX BREAKS. | National Underwriter/Property & Casualty Risk & Benefits |
+WARNING: caught exception: <class 'AttributeError'>
+WARNING: caught exception: <class 'AttributeError'>
+WARNING: caught exception: <class 'AttributeError'>
+*** 1979 Hierarchy in Organizations :filled:
+#+begin_example
+{'bib': {'abstract': 'Fifty plants, ten each in Austria, Israel, Italy, United '
+                     'States and Yugoslavia, were investigated. With the '
+                     'exception of Israel, where ten plants had less than 100 '
+                     'employees, 20 plants had on the average less than 100 '
+                     'persons employed, and 20 plants had more than 500 '
+                     'persons employed. The plants in all five countries were '
+                     'producing plastics, foundry, canning, metal works, and '
+                     'furniture. Let me say, at the very beginning, that the '
+                     'scope and number of factories investigated is '
+                     'impressive. How was the hierarchy studied? A perusal of '
+                     'the book brings to our attention the major difference '
+                     'between cooperative-socialist enterprises represented by '
+                     'the Kibbutz in Israel and by the workers council '
+                     'management in Yugoslavia and different types of '
+                     'capitalistic managements in the United States, Italy, '
+                     'and Austria. Moreover, the first reading indicates that '
+                     'the most polar on several dimensions was either the '
+                     'Kibbutz or an Italian …',
+         'author': 'Jiri Kolaja',
+         'cites': '0',
+         'number': '1',
+         'pages': '128-129',
+         'publisher': 'International Journals',
+         'title': 'Hierarchy in Organizations',
+         'url': 'http://scholar.google.com/scholar?cluster=15526094323828628947&hl=en&oi=scholarr',
+         'volume': '9',
+         'year': '1979'},
+ 'cites_per_year': {},
+ 'filled': True,
+ 'id_citations': 'QmmExesAAAAJ:L8Ckcad2t8MC',
+ 'source': 'citations'}
+#+end_example
+WARNING: caught exception: <class 'KeyError'>
+WARNING: caught exception: <class 'KeyError'>
+WARNING: caught exception: <class 'AttributeError'>
+WARNING: caught exception: <class 'AttributeError'>
+WARNING: caught exception: <class 'KeyError'>
+WARNING: caught exception: <class 'KeyError'>
+WARNING: caught exception: <class 'KeyError'>

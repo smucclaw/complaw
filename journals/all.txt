@@ -1,0 +1,287 @@
+   1  13 International Workshop on Non-Monotonic Reasoning (NMR 2010)
+   1  13th European Conference on e-Government ECEG
+   1  13th International Workshop on Multi-Agent Based Simulation
+   1  1st International Workshop on Governance, Risk and Compliance-Applications in Information Systems (GRCIS’08)
+   1  7th International Conference on Concurrent Enterprising, Bermen, Germany
+   1  A Multi-Disciplinary Survey (April 20, 2020)
+   1  AAAI 2006 Fall Symposium on Integrating Reasoning into Everyday Applications
+   1  ACM Transactions on Management Information Systems (TMIS)
+   1  ACRN Proceedings in Finance and Risk Series ‘13: Proceedings of the 13th FRAP Conference in Cambridge
+   1  AI 2007: Advances in Artificial Intelligence
+   1  AI Matters
+   1  Abnormal Stock Returns and Supreme Court Decision-Making (May 14, 2017)
+   1  Advances in Modal Logic
+   1  Ai and Society
+   1  AiML-2004: Advances in Modal Logic
+   1  American Business Law Journal
+   1  Analysis and Applications
+   1  Annals Health L.
+   1  Appendice C-Listati delle DTD
+   1  Architectures for Intelligence: The 22nd Carnegie Mellon Symposium on Cognition
+   1  Argumentation in Multi-Agent Systems
+   1  Artificial Intelligence Review
+   1  Artificial Intelligence in Medicine
+   1  Artificial Life Conference Proceedings 14
+   1  Available at SSRN
+   1  Available at SSRN 1502927
+   1  Available at SSRN 2652760
+   1  Available at SSRN 3085710
+   1  Available at SSRN 3088495
+   1  Available at SSRN 3111598
+   1  Available at SSRN 3194754
+   1  Banking Perspective-The Quarterly Journal of the Clearing House (Q2-2015)
+   1  Big Data and Society
+   1  Bollettino della Comunità Scientifica in Australasia
+   1  Business Information Systems–9th International Conference on Business Information Systems (BIS 2006)
+   1  Business Process Management Workshops
+   1  CEN workshop agreement
+   1  CEUR workshop proceedings
+   1  CIN: Computers, Informatics, Nursing
+   1  CREATe Working Paper
+   1  Cap. 1-Ambito di riferimento
+   1  Cap. 2-Norma-system: quadro d'insieme
+   1  Cap. 3-L'editor in dettaglio
+   1  Cap. 4-Complessità del software redazionale
+   1  Cap. 5-Originalità del software di consolidamento
+   1  Cap. 6-La diffusione in internet e le modalità di ricerca
+   1  Cognition and conditionals: Probability and logic in human thinking
+   1  Cognitive Processing
+   1  Complexity Theory and Law: Mapping an Emergent Jurisprudence
+   1  Computational Logic in Multi-Agent Systems
+   1  Computational Representation of Persuasive Argument in Practical Reasoning. Department of Computer Science, University of Liverpool, Liverpool, United Kingdom
+   1  Computer Science Department, Stanford University, Stanford, CA, USA, Tech. Rep
+   1  Connection Science
+   1  Cornell JL and Pub. Pol'y
+   1  Culture and Identity in Knowledge Organization
+   1  DEON
+   1  Dagstuhl Reports
+   1  Data
+   1  Data Protection/LegalTech Proceedings of the 21st International Legal Informatics Symposium IRIS
+   1  Data Protection/LegalTech Proceedings of the 21st International Legal Informatics Symposium IRIS 2018
+   1  Declarative Agent Languages and Technologies IV
+   1  Department of Computer Sciensce, The University of Liverpool, Liverpool
+   1  Department of Computing, Imperial College
+   1  Department of Computing, Imperial College London
+   1  Design Issues
+   1  Dialectics, dialogue and argumentation: An examination of Douglas Walton’s theories of reasoning and argument
+   1  Digital Evidence and Elec. Signature L. Rev.
+   1  EDEM
+   1  EMBO reports
+   1  Electronic Commerce Research
+   1  Electronic Commerce Research and Applications
+   1  Electronic Notes in Theoretical Computer Science
+   1  Emory LJ
+   1  Enterprise Information Systems
+   1  European Conference on Digital Government
+   1  European Intellectual Property Review
+   1  European Journal of Law and Technology
+   1  Evaluating the Securities Market Impact of Supreme Court Decisions (August 24, 2015)
+   1  Fourth International Workshop on Juris-informatics (JURISIN 2010)
+   1  From knowledge representation to argumentation in AI, law and policy making. A festschrift in honour of Trevor Bench-Capon on the occasion of his 60th birthday. College Publications, London
+   1  From knowledge representation to argumentation in AI, law and policy making: A Festschrift in honour of Trevor Bench-Capon on the occasion of his 60th birthday
+   1  Frontiers of computer Science
+   1  Fundamenta Informaticae
+   1  Future Generation Computer Systems
+   1  Ga. St. UL Rev.
+   1  Global Center for ICT in Parliament Working Paper
+   1  Guido Governatori. A short Note on the Chisholm Paradox. Presented at MIREL-19. 4th International Workshop on Mining and REasoning with Legal texts, Madrid December
+   1  I Quaderni
+   1  IEEE Intelligent Systems
+   1  IEEE Internet Computing
+   1  IEEE Transactions on Knowledge and Data Engineering
+   1  INFORMATIK 2013–Informatik angepasst an Mensch, Organisation und Umwelt
+   1  INTERNATIONAL JOINT CONFERENCE ON ARTIFICIAL INTELLIGENCE
+   1  IOS Press
+   1  IT-Information Technology
+   1  Information Systems Management
+   1  Inter-American Development Bank
+   1  International Commentary on Evidence
+   1  International Journal of Business Process Integration and Management
+   1  International Journal of Design, Analysis and Tools for Integrated Circuits and Systems
+   1  International Journal of Electronic Commerce
+   1  International Journal of Semantic Computing
+   1  International Review of Law Computers and Technology
+   1  Internet of Things. Proceedings of the 22nd International Legal Infomatics Symposium IRIS. Editions Weblaw
+   1  Iowa L. Rev.
+   1  J. Int'l Com. L. and Tech.
+   1  J. UCS
+   1  J. legal edUC.
+   1  JL and Pol.
+   1  JL and Soc. Change
+   1  Jaap 60 Jaar Symposium
+   1  Journal of Applied Social Psychology
+   1  Journal of Artificial Intelligence Research
+   1  Journal of Big Data
+   1  Journal of Information Law and Technology
+   1  Journal of Information, Law and Technology
+   1  Journal of Logic, Language and Information
+   1  Journal of Statistical Physics
+   1  Journal of the Royal Society Interface
+   1  KR 2010
+   1  Knowledge and Information Systems
+   1  Knowledge of the Law in the Big Data Age. Frontiers
+   1  Law and Technology
+   1  Learning Disability Practice
+   1  Lecture Notes in Computer Science
+   1  Legal Information Management
+   1  Legal Knowledge and Inforamtion Systems
+   1  Legal Knowledge and Information Systems
+   1  Legal Reasoning and Big Data: Opportunities and Challenges
+   1  Legal knowledge and information systems [Frontiers in Artificial Intelligence and Applications, Volume 279]
+   1  Legisprudence
+   1  Logic for Programming, Artificial Intelligence, and Reasoning
+   1  MEDINFO 2010-Proceedings of the 13th World Congress on Medical Informatics
+   1  Management Center, Akon
+   1  Metadata Australia 2010
+   1  Multimodal Technologies and Interaction
+   1  New Generation Computing
+   1  Non-Monotonic Reasoning
+   1  Norma-system
+   1  Ohio St. LJ
+   1  Or. L. Rev.
+   1  PRICAI 2006: Trends in Artificial Intelligence
+   1  Part I
+   1  Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences
+   1  Poster and Demonstration. 5th International Gesture Workshop (GW 2003)}}
+   1  Preprint, Department of Computing, Imperial College London
+   1  Problema: Anuario de Filosofía y Teoría del Derecho
+   1  Proc. 18th Eur. Conf. Digital Government (ECDG)
+   1  Procedia Computer Science
+   1  Procedia-Social and Behavioral Sciences
+   1  Proceedings of ALA Workshop
+   1  Proceedings of Balisage: The markup conference
+   1  Proceedings of Eleventh International Conference on Artificial Intelligence and Law
+   1  Proceedings of NRAC'07
+   1  Proceedings of the 13th International Workshop on Non-Monotonic Reasoning, NMR
+   1  Proceedings of the 16th European Conference on e-Government
+   1  Proceedings of the 2nd Australasian Workshop on Computational Logic
+   1  Proceedings of the IJCAI Workshop on General Intelligence in Game-Playing Agents (GIGA)
+   1  Proceedings of the IVR 21st world congress special workshop on artificial intelligence in the law: Creativity in legal problem solving
+   1  Proceedings of the Joint Conference on Computing in Construction (JC3)
+   1  Proceedings of the KI2003 Workshop on Reference Ontologies and Application Ontologies, Hamburg, Germany
+   1  Proceedings of the Law and Electronic Agents workshop (LEA’03)
+   1  Proceedings of the V Legislative XML Workshop, FLORENCE, European Press Academic Publishing,(atti di: V Legislative XML Workshop, San Domenico di Fiesole, Florence, Italy, 14–16 June 2006)
+   1  Proceedings of the V legislative XML workshop
+   1  Proceedings of the workshop on the Law of Electronic Agents (LEA04)
+   1  Prospettive
+   1  Ratio Juris
+   1  Report Department of Computing, Imperial College London
+   1  Report, Department of Computing, Imperial College
+   1  Research and Development in Intelligent Systems XVI: Proceedings of ES99, the Nineteenth SGES International Conference on Knowledge-Based Systems and Applied Artificial Intelligence, Cambridge, December 1999
+   1  Rivista di filosofia del diritto
+   1  Rule Interchange and Applications
+   1  Rule-Based Modeling and Computing on the Semantic Web
+   1  SAcLJ
+   1  STAIRS
+   1  STUDIES IN INFORMATICS AND CONTROL
+   1  Scalable Computing: Practice and Experience
+   1  Schweighofer E and others Zeichen und Zauber des Rechts–Festschrift fuer Friedrcih Lachmayer
+   1  Science
+   1  Semantic Web
+   1  Sing. Comp. L. Rev.
+   1  Singapore Academy of Law Journal (Forthcoming)
+   1  Stanford Center for Legal Informatics
+   1  Statute Law Review
+   1  Studies in Logic, Grammar and Rhetoric
+   1  Summer School Student Session
+   1  Symposium on Markup Vocabulary Customization
+   1  Synthese, special section Knowledge, Rationality and Action
+   1  Systems Thinking in Europe
+   1  The 13th International Semantic Web Conference (ISWC)-Posters and Demos Track
+   1  The Anxiety of the Jurist: Legality, Exchange and Judgement
+   1  The Arts and the Legal Academy: Beyond Text in Legal Education
+   1  The Computer Journal
+   1  The Harmonisation of European Private Law
+   1  The Journal of Logic Programming
+   1  The Law Teacher
+   1  Transnational Environmental Law
+   1  U. Ill. L. Rev.
+   1  URL: http://logic. stanford. edu/papers/kqml. ps
+   1  Under submission
+   1  University of Liverpool Department of Computer Science Technical Report ULCS-15-004
+   1  Va. Tax Rev.
+   1  Workshop on Automated Detection, Extraction and Analysis of Semantic Information in Legal Texts
+   1  Workshop on E-government: Legal, technical and pedagogical aspects. University of Saragoza:[sn]
+   1  arXiv preprint arXiv:1301.6905
+   1  arXiv preprint arXiv:1403.6865
+   1  arXiv preprint arXiv:1407.6333
+   1  arXiv preprint arXiv:1601.00529
+   1  arXiv preprint arXiv:1806.03688
+   1  arXiv preprint arXiv:1808.08042
+   1  arXiv preprint arXiv:1811.00845
+   1  arXiv preprint arXiv:1904.06470
+   1  arXiv preprint arXiv:1905.07696
+   1  arXiv preprint arXiv:1908.05737
+   1  arXiv preprint arXiv:2004.03455
+   1  arXiv preprint cs/0003050
+   1  arXiv preprint cs/0506026
+   1  cortex
+   2  AAAI fall symposium: computational models of narrative
+   2  ACM Transactions on Computational Logic (TOCL)
+   2  AI and Law
+   2  AI and Law Workshop at BCS SGAI AI’17
+   2  Annals of Mathematics and Artificial Intelligence
+   2  Argumentation Machines: New Frontiers in Argument and Computation
+   2  Artificial Life Conference Proceedings
+   2  Data Protection and Privacy: Data Protection and Democracy
+   2  Deontic Logic in Computer Science
+   2  European Coordination Action for Agent-based Computing
+   2  Expert Systems with Applications
+   2  FLAP
+   2  IEEE Transactions on Services Computing
+   2  IJCAI 2005 tutorial notes
+   2  Information Systems Frontiers
+   2  International Journal of Approximate Reasoning
+   2  Knowledge Engineering and Knowledge Management: Ontologies and the Semantic Web
+   2  Knowledge of the Law in the Big Data Age
+   2  Law, Prob. and Risk
+   2  Law, Probability and Risk
+   2  Logic Journal of IGPL
+   2  Minds and Machines
+   2  Modelling Policy-Making (MPM)
+   2  Ontologies and Semantic Interoperability
+   2  PROCEEDINGS OF THE NATIONAL CONFERENCE ON ARTIFICIAL INTELLIGENCE
+   2  Physica A: Statistical Mechanics and its Applications
+   2  Proceedings of the OAS
+   2  Synthesis Lectures on Computer Science
+   2  Technical Report UCLS-15-005
+   2  The International Review of Information Ethics
+   2  The Journal of Logic and Algebraic Programming
+   2  University of Liverpool, Department of Computer Science (ULCS), Technical report
+   2  arXiv
+   2  arXiv preprint cs/0207059
+   3  AAAI
+   3  Arguing Global Governance: Agency, Lifeworld and Shared Reasoning
+   3  Department of Computer Science, University of Liverpool, UK, Tech. Rep
+   3  International Review of Law, Computers and Technology
+   3  Journal of Philosophical Logic
+   3  Journal of cognition and culture
+   3  Literary and Linguistic Computing
+   3  PLoS One
+   3  Proceedings of the Fourth Multidisciplinary Workshop on Advances in Preference Handling (M-PREF 2008)
+   3  Synthese
+   3  Synthesis Lectures on Artificial Intelligence and Machine Learning
+   3  Theory and Practice of Logic Programming
+   4  Informal Logic
+   5  ARGMAS
+   5  Data and Knowledge Engineering
+   5  International Journal of Cooperative Information Systems
+   5  SCRIPTed
+   5  The Knowledge Engineering Review
+   6  ECAI
+   6  ICAIL
+   6  Information and Communications Technology Law
+   6  Journal of Applied Logic
+   7  AI Magazine
+   7  Modelling Legal Cases
+   8  Datenschutz und Datensicherheit-DuD
+  11  CMNA
+  11  FRONTIERS IN ARTIFICIAL INTELLIGENCE AND APPLICATIONS
+  13  Autonomous Agents and Multi-Agent Systems
+  18  Artificial Intelligence
+  21  Journal of Logic and Computation
+  23  Argument and Computation
+  26  COMMA
+  40  JURIX
+  68  Artificial Intelligence and Law
+ 170  NilJournal

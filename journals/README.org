@@ -1,0 +1,223 @@
+#+TITLE: Where do Computational Law researchers publish?
+
+Given a list of author names
+
+#+begin_src text :tangle authors.txt
+Guido Governatori
+Michael Genesereth
+Harold Boley
+Daniel Martin Katz
+Katie Atkinson
+Trevor JBench-Capon
+Burkhard Schafer
+Monica Palmirani
+Bob Kowalski = Robert Kowalski
+#+end_src
+
+We write a simple Python program using the [[https://pypi.org/project/scholarly/][Scholarly]] library to grope Google Scholar:
+
+#+begin_src python :tangle scholars.py
+  #!python3.8
+
+  from scholarly import scholarly
+  import sys, re, json, time
+
+  yearCutoff = 2010
+
+  def orgprint (stars, title, text):
+      print(stars, title)
+      print("#+begin_example")
+      print(text)
+      print("#+end_example")
+
+  def enpipe (x):
+      return ("| " + " | ".join(x) + " |")
+
+  for line in sys.stdin:
+      names = re.split('\s*=\s*', line)
+      for name in names:
+        for author in scholarly.search_author(name):
+          orgprint("*", name, author)
+
+          print("filling author...")
+          filled_author = author.fill(sections=['publications'])
+
+          try:
+              orgprint("**", "filled", filled_author)
+          except:
+              print("WARNING: caught exception:", sys.exc_info()[0])
+
+          print("**", len(filled_author.publications),"publications");
+
+          for pub in filled_author.publications:
+            bibYear    = pub.bib.get('year','NilYear')
+            bibTitle   = pub.bib.get('title','NilTitle')
+            if pub.bib.get('year',0) < yearCutoff:
+              print("***",bibYear +" " + bibTitle + " :skipped:")
+            else:
+              try:
+                  # need to fill to get the journal details
+                  pub.fill()
+                  bibJournal = pub.bib.get('journal','NilJournal')
+
+                  orgprint("***",bibYear+ " "+bibTitle+" :filled:", pub)
+
+                  print(enpipe([bibYear, bibTitle, bibJournal]))
+                  time.sleep(1) # self-throttling
+
+              except:
+                  # print("***",pub.bib.get('year','NilYear') + " "+pub.bib.  get('title','NilTitle')+" :error:")
+                  print("WARNING: caught exception:", sys.exc_info()[0])
+
+#+end_src
+
+To run the program,
+
+#+begin_example
+journals $ parallel 'echo {}; echo {} | python3.8 scholars.py > "out-{}"-`date +%Y%m%d-%H%M%S`.org 2>&1' < authors.txt
+#+end_example
+
+* Analysis
+
+We can start gathering useful stats at this point:
+
+#+begin_src bash
+egrep '^\|' *.org | grep '\| 20' | cut -d'|' -f4 | perl -ple 's/ & / and /g; for my $conf (qw(JURIX CMNA ICAIL ARGMAS EDEM STAIRS ECAI DEON)) { s/.*\b$conf\b.*/ $conf/i; s/.*(comma|computational models of argument).*/ COMMA/i; }' | sort -f | uniq -c -i | sort -n | perl -ple 's/\s+$//' > all.txt
+#+end_src
+
+The result:
+
+** First set of outputs
+#+begin_example
+┌─[20200825-20:17:07]   [mengwong@cclaw:~/src/smucclaw/complaw/journals]
+└─[0] <git:(journals 5eedf11✈) > tail -24 all.txt > top24.txt
+      4  The Journal of logic programming 
+      4  The Knowledge Engineering Review 
+      5  arXiv 
+      5  Computing in Science and Engineering 
+      5  Concurrency and Computation: Practice and Experience 
+      5  Data and Knowledge Engineering 
+      5  Expert Systems with Applications 
+      5  ICAIL
+      5  International journal of cooperative information systems 
+      5  Journal of Applied Logic 
+      6  Journal of Open Research Software 
+      7  Information and Communications Technology Law 
+      8  Ai Magazine 
+      8  CMNA
+      8  Frontiers in Artificial Intelligence and Applications 
+      9  Communications of the ACM 
+     10  Autonomous Agents and Multi-Agent Systems 
+     10  Future Generation Computer Systems 
+     14  Journal of logic and computation 
+     16  Argument and Computation 
+     18  COMMA
+     19  Artificial intelligence 
+     33  JURIX
+     51  Artificial intelligence and law 
+#+end_example
+
+Are any of these journals already listed in the top 10%?
+
+#+begin_example
+journals $ tail -25 all.txt | cut -c7- > top24.txt
+
+journals $ fgrep --color=auto -i -f top24.txt List\ of\ Top\ 10percent\ JCR\ Journals\ by\ Subject\ Category.csv
+#+end_example
+
+The Artificial Intelligence that shows up here is https://www.sciencedirect.com/journal/artificial-intelligence
+
+But CACM is listed.
+
+** Second set of outputs
+
+with slightly revised input data
+
+#+begin_example
+Synthesis Lectures on Artificial Intelligence and Machine Learning
+Theory and Practice of Logic Programming
+Informal Logic
+ARGMAS
+Data and Knowledge Engineering
+International Journal of Cooperative Information Systems
+SCRIPTed
+The Knowledge Engineering Review
+ECAI
+ICAIL
+Information and Communications Technology Law
+Journal of Applied Logic
+AI Magazine
+Modelling Legal Cases
+Datenschutz und Datensicherheit-DuD
+CMNA
+FRONTIERS IN ARTIFICIAL INTELLIGENCE AND APPLICATIONS
+Autonomous Agents and Multi-Agent Systems
+Artificial Intelligence
+Journal of Logic and Computation
+Argument and Computation
+COMMA
+JURIX
+Artificial Intelligence and Law
+NilJournal
+#+end_example
+
+** Only looking at 2015 and newer
+
+#+begin_example
+mengwong@solo-wmw ~/src/smucclaw/complaw/journals $ grep -h '^|' *.org | perl -nale ' print if $F[1] >= 2015' | cut -d'|' -f4 | perl -ple 's/ & / and /g; for my $conf (qw(arxiv JURIX CMNA ICAIL ARGMAS EDEM STAIRS ECAI DEON)) { s/.*\b$conf\b.*/ $conf/i; s/.*(comma|computational models of argument).*/ COMMA/i; }' | sort -f | uniq -c -i | sort -n | perl -ple 's/\s+$//' | tail -24
+   1  Under submission
+   1  University of Liverpool Department of Computer Science Technical Report ULCS-15-004
+   1  Workshop on Automated Detection, Extraction and Analysis of Semantic Information in Legal Texts
+   2  AI and Law Workshop at BCS SGAI AI’17
+   2  Artificial Life Conference Proceedings
+   2  Data Protection and Privacy: Data Protection and Democracy
+   2  FLAP
+   2  ICAIL
+   2  IEEE Transactions on Services Computing
+   2  International Journal of Approximate Reasoning
+   2  Knowledge of the Law in the Big Data Age
+   2  Minds and Machines
+   2  Technical Report UCLS-15-005
+   2  Theory and Practice of Logic Programming
+   3  AI Magazine
+   3  Datenschutz und Datensicherheit-DuD
+   3  ECAI
+   3  JURIX
+   6  Artificial Intelligence
+   7  Journal of Logic and Computation
+  10  arxiv
+  19  Argument and Computation
+  31  Artificial Intelligence and Law
+  61  NilJournal
+#+end_example
+
+** Only looking at 2010 and newer
+
+#+begin_example
+mengwong@solo-wmw ~/src/smucclaw/complaw/journals $ grep -h '^|' *.org | perl -nale ' print if $F[1] >= 2010' | cut -d'|' -f4 | perl -ple 's/ & / and /g; for my $conf (qw(arxiv JURIX CMNA ICAIL ARGMAS EDEM STAIRS ECAI DEON)) { s/.*\b$conf\b.*/ $conf/i; s/.*(comma|computational models of argument).*/ COMMA/i; }' | sort -f | uniq -c -i | sort -n | perl -ple 's/\s+$//' | tail -24
+   2  Knowledge of the Law in the Big Data Age
+   2  Literary and Linguistic Computing
+   2  Minds and Machines
+   2  Modelling Policy-Making (MPM)
+   2  Physica A: Statistical Mechanics and its Applications
+   2  Synthesis Lectures on Computer Science
+   2  The International Review of Information Ethics
+   2  Theory and Practice of Logic Programming
+   3  Journal of Applied Logic
+   3  PLoS One
+   3  SCRIPTed
+   3  Synthesis Lectures on Artificial Intelligence and Machine Learning
+   4  Artificial Intelligence
+   4  CMNA
+   6  AI Magazine
+   6  Autonomous Agents and Multi-Agent Systems
+   6  Journal of Logic and Computation
+   7  Datenschutz und Datensicherheit-DuD
+   8  COMMA
+  13  arxiv
+  16  Argument and Computation
+  16  JURIX
+  26  Artificial Intelligence and Law
+ 107  NilJournal
+mengwong@solo-wmw ~/src/smucclaw/complaw/journals $  
+#+end_example
