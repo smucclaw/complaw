@@ -6,7 +6,7 @@ function nextAvailableDates (date: Date, asOf: Date, limit: number) : Date[] {
 
 function legalDates(asOf: Date) : Date[] { // rule 4
   return fullMoonDates(asOf)
-    .flatMap(x => [x, addDays(x,1)])
+    .flatMap(x => [x, addDays(x,1)]) // \x -> [x, dateAdd x 1]
 }
 
 function fullMoonDates(asOf: Date) : Date[] { // rule 5
@@ -60,7 +60,7 @@ function rule1(world : World, party : Party, action: Action, actionSpec: ActionS
     return Deontic.shant
   }
 }
-
+// functional-style method-at-large
 function isPotato(item : Farmed) : boolean { // rule 2
   return item.hasOwnProperty("species") && item.species === "Solanum tuberosum"
 }

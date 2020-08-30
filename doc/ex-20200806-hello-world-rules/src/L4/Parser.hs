@@ -34,8 +34,8 @@ l4statement = do
 
 stmDeem :: StmCommon -> Parser Statement
 stmDeem stmc = do
-  oa <- (lexeme "DEEM" *> lexeme objectAttribute) <?> "deem line"
-  ce <- conditionExpr <?> "condition expression"
+  oa <- (lexeme "DEEM" *> lexeme objectAttribute) <?> "deem line"   -- DEEM Item.isLegalPotato
+  ce <- conditionExpr <?> "condition expression"                    -- WHEN Item.isPotato AND Item.species ~ ["Solanum tuberosum"]
   return $ Deem (HHOP oa) ce stmc
 
 objectAttribute :: Parser ObjectAttribute

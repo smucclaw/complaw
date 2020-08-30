@@ -125,7 +125,7 @@ The rule base encodes the original decree in a semantically lossless, machine-re
    SHANT  trade Item
    WHEN   Item.isPotato
    UNLESS Item.isLegalPotato
-       OR UNLIKELY P.hasExemption(FROM DirectorOfAgriculture) // implicitly "THAT P MAY trade Item"
+       OR UNLIKELY P.hasExemption({FROM:DirectorOfAgriculture}) // implicitly "THAT P MAY trade Item"
  
    RULE 2
    DEEM Item.isPotato

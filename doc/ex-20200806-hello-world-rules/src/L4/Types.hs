@@ -30,7 +30,7 @@ data Statement = Deem { hornHead :: HornHead
                       , hornBody :: HornBody
                       , raw :: StmCommon }
                  | Define { raw :: StmCommon }
-                 | Reg { preconditions :: ConditionExpr
+                 | Reg { preconditions :: ConditionExpr -- a Regulative rule, as seen in Hvitved chapter 2
                        , conditions    :: ConditionExpr
                        , parties       :: NonEmpty Party
                        , deontic       :: Deontic
@@ -60,7 +60,7 @@ type Party      = String
 type Action     = String
 type ActionSpec = String
 type Temporal   = String
-data Deontic    = MUST | MAY | SHANT deriving (Show, Eq)
+data Deontic    = MUST | MAY | SHANT deriving (Show, Eq) -- "must not" do something, "may not" ... which is ... must (not x)?
 data ConditionExpr = MkCE  Probability LeafCE
                    | CEOr  ConditionExpr ConditionExpr
                    | CEAnd ConditionExpr ConditionExpr
