@@ -43,7 +43,7 @@ As an academic research programme, we have the luxury of looking a decade into t
 
 "Rules as code" is an international movement in legal drafting and policy-making. The idea is that some rules and regulations could be formulated with "digital twinning" in mind: the English-language version and the machine-readable version of the rules could be constructed in parallel. Low-hanging fruit for this approach can be found in domains like tax, finance, and corporate law, where many laws already read like the word problems we remember from mathematics class.
 
-Encoding rules in machine-readable form is a necessary step toward the vision of computational law. With those rules encoded, it is possible that the task of interpreting and implementing such regulations will shift from the in-house counsel's office to the CTO's IT department.
+Encoding rules in machine-readable form is a necessary step toward the vision of computational law. With those rules encoded, it is possible that the task of interpreting and implementing such regulations will shift from the in-house counsel's office to the CIO's IT department.
 
 Earlier this year, the EU announced a 500,000 Euro tender for exactly such a project: they commissioned a machine-readable language for regulators to disseminate reporting requirements to financial institutions. One requirement was isomorphic representation -- in other words, fidelity to the English regulations -- while being open-source and readable by any bank needing to do report OTC derivative trading activity. Currently those regulations go out as several pages of PDF text and Excel spreadsehets, and compliance implementation takes several months. If they were in a Rules-As-Code form, they could be integrated directly against trading software, potentially increasing the speed and quality of compliance while saving millions in implementation costs. So "RegTech" is one domain of application for computational law.
 
@@ -73,7 +73,7 @@ What does this mean for students and practising lawyers? One strategic goal of t
 
 Today, lawyers who receive a PDF will often write back and say, "would you mind sending a Word doc that I can edit?" Tomorrow, we believe lawyers receiving a Word doc will ask for a contract written in code; they will still engage in contract review and drafting and negotation, and they will still do legislative interpretation, but the way they do these things will be supercharged by the tools we will offer them, so there will be less drudgery and tedium.
 
-And, as William Gibson said, "the street finds its own uses for things." If tools originally developed for lawyers are embraced by non-lawyers, we certainly can't stop them.
+And, as William Gibson said, "the street finds its own uses for things." If tools originally developed for lawyers are embraced by non-lawyers, we certainly can't stop them!
 
 We hope that a few years from now, when our language is ready, we will have opportunities to teach computational law in schools, and empower graduates to deliver legal services with the assistance of our tools, in ways that (to borrow Clayton Christensen's term) disruptively innovate for currently un-served segments of the market.
 

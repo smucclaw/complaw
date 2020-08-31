@@ -570,6 +570,8 @@ Work through the New Zealand Benefits RaC exercise (link to be provided).
 
 *** Haskell online resources
 
+When the University of Texas tried to replace Haskell with Java, Dijkstra himself [[https://www.cs.utexas.edu/users/EWD/OtherDocs/To%20the%20Budget%20Council%20concerning%20Haskell.pdf][objected in the strongest terms]].
+
 Matt Might says: "Haskell is the crown jewel of the Hindley-Milner family of languages. Fully exploiting laziness, Haskell comes closest to programming in pure mathematics of any major programming language."
 
 Sounds nice in theory! But you deserve to know what you're getting into: it would be unfair to downplay the cons. Read [[https://pchiusano.github.io/2017-01-20/why-not-haskell.html][Why Not Haskell]]; [[https://web.archive.org/web/20200608072453/https://dixonary.co.uk/blog/haskell/pain][The Pain Points of Haskell]]; [[https://www.stephendiehl.com/posts/marketing.html][On Marketing Haskell]] for some straight talk.
