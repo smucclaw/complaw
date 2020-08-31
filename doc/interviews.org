@@ -13,7 +13,7 @@ The aim of the interview is to gain a better understanding on how computational 
 
 ** The SMU School of Law recently opened its Centre for Computation Law and Legal Technology. For the uninitiated amongst us, what is computational law?
 
-When people need help thinking through a quantitative situation, what do they use? A spreadsheet. If they need help thinking through a legal situation, what do they use? Not what -- who. People trust lawyers to know the law, deal with contracts, and help them work through possible scenarios. But lawyers are a valuable and expensive resource. Many people want to get the answers they need without bothering a lawyer. Computational law seeks to develop software to make that possible.
+When people need help thinking through a quantitative situation, what do they use? A spreadsheet. If they need help thinking through a legal situation, what do they use? Not what -- who. People trust lawyers to know the law, deal with contracts, and help them work through possible scenarios. But lawyers are a valuable and expensive resource. Many people want to get the answers they need without bothering a lawyer. Computational law seeks to develop software to make that possible -- "spreadsheets for law".
 
 How could computers answer legal questions?
 
@@ -75,5 +75,5 @@ Today, lawyers who receive a PDF will often write back and say, "would you mind 
 
 And, as William Gibson said, "the street finds its own uses for things." If tools originally developed for lawyers are embraced by non-lawyers, we certainly can't stop them.
 
-We hope that a few years from now, when our language is ready, we will have opportunities to teach computational law in schools, and empower graduates to deliver legal services with the assistance of our tools, in ways that (to borrow Clayton Christensen's term) disruptively efficient for currently un-served segments of the market.
+We hope that a few years from now, when our language is ready, we will have opportunities to teach computational law in schools, and empower graduates to deliver legal services with the assistance of our tools, in ways that (to borrow Clayton Christensen's term) disruptively innovate for currently un-served segments of the market.
 
