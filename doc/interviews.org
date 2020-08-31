@@ -1,0 +1,79 @@
+#+TITLE: email interviews
+
+* TechLaw.Fest 2020 [2020-08-30 Sun]
+
+The aim of the interview is to gain a better understanding on how computational law is different from other current approaches to legal technology. With that in mind, we would like to hear you thoughts on the following:
+
+1. The SMU School of Law recently opened its Centre for Computation Law and Legal Technology. For the uninitiated amongst us, what is computational law?
+2. You also operate a start-up, Legalese. In its website, Legalese talks about the notion of “rule as code”. Do you foresee that when this notion becomes a reality, it will be seen as an evolution from current legal technology solutions or a quantum leap in capabilities (and thus a form of disruption)?
+3. When computational law becomes reality, what are the implications on legal education and training for present and future generations of lawyers? Does this make it necessary for students to pick up some rudimentary knowledge of coding or computational thinking? What are the necessary skills for the next generation of lawyers?
+4. What made you get involved in computational law and what would you say to law students / practicing lawyers who are interested to take a deeper dive into this space?
+
+/The full-length version of this interview may be found at https://github.com/smucclaw/complaw/blob/master/doc/interviews.org/
+
+** The SMU School of Law recently opened its Centre for Computation Law and Legal Technology. For the uninitiated amongst us, what is computational law?
+
+When people need help thinking through a quantitative situation, what do they use? A spreadsheet. If they need help thinking through a legal situation, what do they use? Not what -- who. People trust lawyers to know the law, deal with contracts, and help them work through possible scenarios. But lawyers are a valuable and expensive resource. Many people want to get the answers they need without having to bother a lawyer. Compuational law seeks to develop software to make that possible.
+
+How could computers answer legal questions?
+
+Let me offer some analogies. In computational games, we say to a computer: "here's a chessboard; what's the best move?" Now computers play chess and Go better than any human.
+
+In computational driving, we say: "help me stay in my lane, at the right speed." Mercedes-Benz, Volvo, Audi, and Tesla sell thousands of cars every day with level 2 autonomy.
+
+Computational law is similar. Questions like these come up every day:
+
+"I want to achieve some outcome; what paperwork do I need to file?"
+
+"I want to perform some action. Given all the contracts and laws that govern my day-to-day life, may I?"
+
+"Some event has occurred; now who has to do what?"
+
+For centuries, clients have brought these questions to lawyers. Contracts and laws are complex. Most people sensibly outsource to trusted advisors the work of knowing the rules, keeping up with new developments, and applying them to specific situations.
+
+Computational law observes that the complexity of laws and contracts is similar to the complexity of computer programs. We explore the possibility that, if our contracts and rules could be encoded in a form which a machine can understand, these kinds of legal questions could be answered by machine.
+
+Our approach differs from much of what is on offer in LegalTech today. Some LegalTech solutions are legal marketplaces or practice management tools; they are Grab and Asana for law. Some LegalTech solutions are Google for law: legal analytics and contract analytics software fundamentally analyze reams of input text and offer prioritized search results. NLP (natural language processing) and (ML) Machine Learning methods power the engines behind GPT-3, recently released by OpenAI. So far, GPT-3 has produced entertaining speeches and literary fragments. I wouldn't mind reading a poem written by GPT-3 -- but would you be comfortable signing a contract written by GPT-3?
+
+We draw inspiration from one of the giants in this field -- Michael Genesereth -- who set a vision for the legal equivalent of the spreadsheet. Just as spreadsheets are widely used by people from all walks of life, we expect that our software -- if we are successful -- will benefit both lawyers and non-lawyers alike. We hope it will be a democratizing and empowering "digital transformation."
+
+As an academic research programme, we have the luxury of looking a decade into the future and taking a somewhat contrarian position anticipating the next swing of the pendulum. Where much of LegalTech today uses NLP to decipher English into some kind of structured representation, we rely on NLG (natural language generation) to turn code -- the ultimate structured representation -- into English. We also borrow from an arcane discipline within computer science called "formal methods", which offer powerful ways to detect bugs in programs before they are run. We adapt those methods to attempt to find loopholes in contracts and laws before they are signed.
+
+** You also operate a start-up, Legalese. In its website, Legalese talks about the notion of “rule as code”. Do you foresee that when this notion becomes a reality, it will be seen as an evolution from current legal technology solutions or a quantum leap in capabilities (and thus a form of disruption)?
+
+"Rules as code" is an international movement in legal drafting and policy-making. The idea is that some rules and regulations could be formulated with "digital twinning" in mind: the English-language version and the machine-readable version of the rules could be constructed in parallel. Low-hanging fruit for this approach can be found in domains like tax, finance, and corporate law, where many laws already read like the word problems we remember from mathematics class.
+
+Encoding rules in machine-readable form is a necessary step toward the vision of computational law. With those rules encoded, it is possible that the task of interpreting and implementing such regulations will shift from the in-house counsel's office to the CTO's IT department.
+
+Earlier this year, the EU announced a 500,000 Euro tender for exactly such a project: they commissioned a machine-readable language for regulators to disseminate reporting requirements to financial institutions. One requirement was isomorphic representation -- in other words, fidelity to the English regulations -- while being open-source and readable by any bank needing to do report OTC derivative trading activity. Currently those regulations go out as several pages of PDF text and Excel spreadsehets, and compliance implementation takes several months. If they were in a Rules-As-Code form, they could be integrated directly against trading software, potentially increasing the speed and quality of compliance while saving millions in implementation costs. So "RegTech" is one domain of application for computational law.
+
+Speaking with my startup hat on, we believe that there is room for a company to be built the size and shape of Adobe. Excel for numbers; Adobe for graphic design; AutoCad for architecture; and Legalese for law.
+
+We believe that the software stack we are building will one day serve as the foundation for a suite of tools and applications that will help solve the access-to-justice, and access-to-law, problem in ways that are fundamentally digital. While others seek to solve A2J by throwing more /pro bono/ hours at legal clinics, we want to put a legal clinic on your phone or your web browser -- no need to trouble a lawyer at all. Already we are already building integrations with "self-help" tools like DocAssemble. And we are designing scenario exploration tools, contract visualization tools, and expert system explainer tools which help end-users deal with the simple "20%" scenarios that come up 80% of the time.
+
+Frederk Pohl said: "A good science fiction story should be able to predict not the automobile but the traffic jam." We look beyond the technology to the changing social institutions of 21st-century legal practice. Openness is a hallmark of the computing profession. A beginner programmer is confronted with a wealth of resources which is simply unmatched in any other field: that's why there are so many self-taught programmers and so few self-taught doctors. Many people have called for a "Github for contracts", and we believe that such a resource will naturally arise once we create the enabling conditions for it. That's why our research programme at SMU is focused on developing a domain-specific language and libraries for computational law, which will let us express the syntax, semantics, and pragmatics of laws in code.
+
+** When computational law becomes reality, what are the implications on legal education and training for present and future generations of lawyers? Does this make it necessary for students to pick up some rudimentary knowledge of coding or computational thinking? What are the necessary skills for the next generation of lawyers?
+
+Richard Susskind has written entire books on this subject. I found his [[https://www.amazon.com/Tomorrows-Lawyers-Introduction-Your-Future-ebook/dp/B072JC98RX][Tomorrow's Lawyers]] very inspiring. It forecast a number of technology-driven innovations; I thought to myself, "I know programmers who could do all this; we just need to come together and make it happen."
+
+One of the first applications of computational law is already widespread: accounting software which people use to help file taxes. In Singapore that software lives deep inside IRAS's computers. In the U.S. that software is retailed to consumers in the form of applications like TurboTax. In both cases, the computer understands tax law as well as any human: it knows the rules, it knows the exceptions, it knows how to optimize.
+
+We envision a future in which such tools are available not just for taxes but for every genre of laws and contracts. The implications for the "customers" of the legal industry are exciting. In that future, consumers of legal services are empowered to deal with mundane matters themselves, saving their engagements with law firms for higher-value, more complex problems that challenge lawyers to operate "at the top of their license."
+
+Ask a professional: "what software could you not live without?" A photographer might answer "Photoshop." An architect would say "AutoCAD." A business executive would say: "Excel." Each of these software packages is a tool for thinking, a device for intelligence augmentation. But what is the corresponding tool for lawyers? Word doesn't help a lawyer think, not the way Excel helps an accountant think. So the gap is obvious if you look at it this way.
+
+** What made you get involved in computational law and what would you say to law students / practicing lawyers who are interested to take a deeper dive into this space?
+
+As a customer of legal services I have paid six figures to law firms over the years. I see these fees as friction in business and a burden to individual citizens and consumers. My background is in Internet infrastructure innovation, developing and deploying protocol and software standards at Internet scale. I see legal as a problem in Internet infrastructure (they call this the "Law of the Instrument": I'm holding a hammer, everything is a nail.) The rituals of wet-ink signatures are being displaced by e-signatures; paper is being replaced by PDF; and that is only the beginning!
+
+My lawyer friends tell stories of tremendous waste and inefficiency in legal services. The labour-intensive law firm was an unavoidable business structure at a time when all knowlege work was performed by humans. But we have already entered an era when knowledge work is routinely performed with the assistance of software. As Andreessen Horowitz say, "Software is eating the world." The legal profession is one of the last holdouts. As an entrepreneur I find it fascinating to encounter an industry which actively resists productivity tooling. In presentations, many people laugh and nod when I bring up Upton Sinclair's quote "It is difficult to get a man to understand something when his salary depends upon his not understanding it." But this just means the industry is ripe for disruption: sooner or later some product is going to appear that is complete enough to sell not /to/ law firms, but /past/ them.
+
+What does this mean for students and practising lawyers? One strategic goal of the Centre for Computational Law at SMU is to provide support for a nascent cluster of the next-generation LegalTech industry, right here in Singapore. We believe that for Singapore to maintain its position as an international hub for financial and legal services, it is necessary to get ahead of the curve in LegalTech innovation. The continued shrinking of the pool of positions available to law-school graduates may be an irreversible sign of the future of the traditional law firm. The encroachment of accounting and consulting firms into areas previously thought exclusive to law firms is another such sign. We believe that the latest generations of law students, who have had some exposure to computational thinking as part of their schooling, may find alternative careers in legal engineering, careers that look more like software development and IT "devops", than the traditional progression through a law firm, as associate, partner, or in-house.
+
+Today, lawyers who receive a PDF will often write back and say, "would you mind sending a Word doc that I can edit?" Tomorrow, we believe lawyers receiving a Word doc will ask for a contract written in code; they will still engage in contract review and drafting and negotation, and they will still do legislative interpretation, but the way they do these things will be supercharged by the tools we will offer them, so there will be less drudgery and tedium.
+
+And, as William Gibson said, "the street finds its own uses for things." If tools originally developed for lawyers are embraced by non-lawyers, we certainly can't stop them.
+
+We hope that a few years from now, when our language is ready, we will have opportunities to teach computational law in schools, and empower graduates to deliver legal services with the assistance of our tools, in ways that (to borrow Clayton Christensen's term) disruptively efficient for currently un-served segments of the market.
+
