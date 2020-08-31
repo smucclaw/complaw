@@ -221,3 +221,8 @@ mengwong@solo-wmw ~/src/smucclaw/complaw/journals $ grep -h '^|' *.org | perl -n
  107  NilJournal
 mengwong@solo-wmw ~/src/smucclaw/complaw/journals $  
 #+end_example
+
+* Addendum
+
+How I scraped data from Google Scholar
+https://www.nature.com/articles/d41586-018-04190-5
