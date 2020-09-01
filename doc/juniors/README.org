@@ -690,6 +690,15 @@ Content addressing. [[https://en.wikipedia.org/wiki/Distributed_hash_table][DHTs
 
 https://missing.csail.mit.edu/
 
+We make heavy use of the Unix shell.
+
+** Git
+You may need to work through [[https://docs.github.com/en/github][an introduction to Git and Github]] to get comfortable with cloning things to your local workstation.
+
+By default, when people pass around Github URLs or talk about such-and-such a repository, you are expected to clone that repository locally, the better to explore it using your own editor environment.
+
+Hint: you want to set up ssh access to your Git account. If your ~git remote -v~ shows ~https~ rather than ~git@github~ you will have trouble pushing.
+
 * Other Things An Educated Technologist Should Know
 
 In conversations among experienced technologists, many of the following references are expected to be common knowledge "within the tribe".
