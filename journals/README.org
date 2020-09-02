@@ -1,5 +1,11 @@
 #+TITLE: Where do Computational Law researchers publish?
 
+We were given [[https://inet.smu.edu.sg/sites/or/grants/_layouts/15/WopiFrame.aspx?sourcedoc=/sites/or/grants/Documents/External/Publication%20Reporting/List%20of%20Top%2010percent%20JCR%20Journals%20by%20Subject%20Category.xlsx&action=default][a list of journals considered top 10%]], and asked to publish there.
+
+However, those journals don't seem to be popular venues for computational law.
+
+What are some better venues?
+
 Given a list of author names
 
 #+begin_src text :tangle authors.txt
