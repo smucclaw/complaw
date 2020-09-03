@@ -226,6 +226,10 @@ It's okay to document your learning journey out loud, by the way. On our shared 
 
 At that point someone else may feel the urge to jump in and help. This is better. Everybody likes to be helpful. Nobody likes to be interrupted.
 
+You may also have had the opposite experience: you ask somebody to do something. If you did it, it would only take you ten minutes; but you decide to delegate. Two days later, you ask if they're done; they say, "no, I've been trying for the last two days, and I just don't get it." Digging deeper, you discover that they were lacking some crucial piece of information: a password, maybe, or maybe their computer is weirdly misconfigured. "Why didn't you tell me sooner?"
+
+Don't be that person either.
+
 I wrote this section with the hopes of pre-empting such a situation; if I were to write it after an incident occurred, the people involved in that incident might feel unfairly singled out, as the victims of passive-aggressive policy-making. So, better safe than sorry.
 
 See also:
@@ -233,6 +237,18 @@ See also:
 - [[https://jvns.ca/blog/good-questions][How to ask good questions]]
 - [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
 - [[http://xyproblem.info/][XY Problem]]
+
+**** How To File A Bug Report
+
+When you do ask for help, by default, you can frame your question in this way:
+- I'm using version VVV of this software (and I'm running on OS version XXX).
+- I'm trying to achieve this goal:
+- I did this action:
+- I expected this to happen:
+- But something else happened instead:
+- Here is a screenshot or a copy-and-paste of the error message I got:
+
+Meng sometimes goes a bit overboard and submits an entire YouTube video of his session, but he only does that when he is feeling extra frustrated.
 
 **** Tracking Your Progress
 
