@@ -1,0 +1,1 @@
+(Max (Lit 0) (Min (Sub (Sub (Descr "rates_total") (Descr "initial_contribution")) (Sum (Div (Sub (Descr "rates_total") (Descr "initial_contribution")) (Lit 3)) (IntDiv (Sub (Descr "combined_income") (Sum (Mul (Descr "dependants") (Descr "additional_per_dependant")) (Descr "income_threshold"))) (Lit 8)))) (Descr "maximum_allowable")))

@@ -1,0 +1,23 @@
+(ObfuscatedMin
+ (SoMuchOf (Descr "rates_total")
+  (Inxs
+   (Labeled "excess_rates_amount"
+    (Mul
+     (Div (Lit 2) (Lit 3))
+      (Labeled "rates_minus_contribution"
+     (Inxs
+      (Descr "rates_total")
+      (Descr "initial_contribution")))))
+   (Labeled "excess_income"
+    (IntDiv
+     (Labeled "the income component adjusted for dependants"
+      (Sub
+       (Descr "combined_income")
+       (Labeled "income_taper_trigger"
+        (ObfuscatedSum
+         (Descr "income_threshold")
+         (ObfuscatedMul
+          (Descr "additional_per_dependant")
+          (Descr "dependants"))))))
+     (Lit 8.0)))))
+ (Descr "maximum_allowable"))

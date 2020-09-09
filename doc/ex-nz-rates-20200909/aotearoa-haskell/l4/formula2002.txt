@@ -1,0 +1,15 @@
+(PRINCIPAL_CAREGIVER
+ &&
+ ((is_the_biological_mother
+   ||
+   (is_spouse_or_partner_of_the_biological_mother
+    &&
+    has_spouse_who_transferred_her_entitlement
+    )
+   )
+  ||
+  (a_person_other_than_biological_mother_or_her_spouse
+   &&
+   taking_permanent_primary_responsibility_for_child)
+  )
+ )
