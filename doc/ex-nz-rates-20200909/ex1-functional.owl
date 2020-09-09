@@ -1,0 +1,86 @@
+Prefix(:=<http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4>
+
+Declaration(Class(:Animal))
+Declaration(Class(:Food))
+Declaration(Class(:PermittedAction))
+Declaration(Class(:Person))
+Declaration(ObjectProperty(:edibleFood))
+Declaration(ObjectProperty(:permittedEater))
+Declaration(DataProperty(:age))
+Declaration(DataProperty(:birthDate))
+Declaration(DataProperty(:minimumAge))
+Declaration(NamedIndividual(:Alice))
+Declaration(NamedIndividual(:Bob))
+Declaration(NamedIndividual(:MashedPotatoes))
+Declaration(NamedIndividual(:Ribeye))
+############################
+#   Object Properties
+############################
+
+# Object Property: :edibleFood (:edibleFood)
+
+InverseObjectProperties(:edibleFood :permittedEater)
+FunctionalObjectProperty(:edibleFood)
+ObjectPropertyDomain(:edibleFood :Person)
+ObjectPropertyRange(:edibleFood :Food)
+
+# Object Property: :permittedEater (:permittedEater)
+
+InverseFunctionalObjectProperty(:permittedEater)
+
+
+############################
+#   Data Properties
+############################
+
+# Data Property: :age (:age)
+
+FunctionalDataProperty(:age)
+DataPropertyDomain(:age :Person)
+DataPropertyRange(:age xsd:int)
+
+# Data Property: :birthDate (:birthDate)
+
+DataPropertyDomain(:birthDate :Person)
+DataPropertyRange(:birthDate xsd:dateTime)
+
+# Data Property: :minimumAge (:minimumAge)
+
+DataPropertyDomain(:minimumAge :Food)
+DataPropertyRange(:minimumAge xsd:int)
+
+
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :Alice (:Alice)
+
+ClassAssertion(:Person :Alice)
+
+# Individual: :Bob (:Bob)
+
+ClassAssertion(:Person :Bob)
+
+# Individual: :MashedPotatoes (:MashedPotatoes)
+
+ClassAssertion(:Food :MashedPotatoes)
+
+# Individual: :Ribeye (:Ribeye)
+
+ClassAssertion(:Food :Ribeye)
+
+
+DifferentIndividuals(:Alice :Bob)
+DifferentIndividuals(:MashedPotatoes :Ribeye)
+)

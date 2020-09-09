@@ -1,0 +1,54 @@
+// an action generally has the form Subject Do Something.
+// This may make you think of:
+// - Subject Verb Object (grammar)
+// - Subject Predicate Object (RDF)
+
+// let's implement the Wellington case by automatically extracting the DMN into Flora-2.
+
+// a _permitted_ action has the form Subject May Do Something.
+// that suggests a more general form of a _deontic_ action, which has the form Subject May/Must/Shant Do Something: Person May Eat Ribeye.
+//
+// let's express the permittedAction in a Computational Linguistics kind of way: we treat the "Do Something" as a verb phrase.
+permittedAction(?Subject,?VerbPhrase) :-
+// The Verbphrase "May Do Something" breaks down into "May Verb Noun". We use mkVP to destructure it.
+        mkVP(?VerbPhrase,?Verb,?Noun),
+// that leaves us with the general form of a deontic modal; we fix the deontic to "may":
+        deonticAction(?Subject,may,?Verb,?Noun).
+
+// explicit regulative rules. The "Do" in our example is "build". In this case study, the logic of the case turns on the specifics of the building.
+deonticAction(?P,may,build,?Building)    :- isConformant(?Building).
+
+// extract the high level boxes and arrows into rules
+
+// extract the decision tables
+
+// you can get a verb phrase by tacking a verb on to a noun. this destructuring goes both ways.
+mkVP(?VerbPhrase,?Verb,?Noun) :- ?VerbPhrase = ?Verb(?Noun).
+// in more sophisticaed examples we will see how DCGs are used do this
+
+// facts about individuals
+alice:person[birthDate->2019].
+bob:person[birthDate->1960].
+
+// world knowledge: constitutive rules about babyhood and adulthood
+isAdult(?P) :- thisYear(?TY), ?P[ageAsOf(?TY)->?Age], ?Age >= 21.
+isBaby(?P)  :- thisYear(?TY), ?P[ageAsOf(?TY)->?Age], ?Age <  4.
+
+// inferred regulative rules:
+// - by default, adults can eat anything, as long as it's a food.
+permittedAction(?P,eat(?O)) :- ?P:adultPerson, ?O:food.
+// - but babies can't eat anything explicitly denied to them.
+permittedAction(?P,eat(?_)) :- isBaby(?P), no.
+
+// general facts about time
+thisYear(2020).
+
+// "ontology" and additional world knowledge. we define things this way because Flora-2 doesn't support code inheritance yet: see p.111 of the user's manual.
+{mashedPotatoes,ribeye}:food.
+?Person[ageAsOf(?Year) -> ?Age] :-
+        ?Person:person, ?Person[birthDate -> ?BY],
+        ?Age \is ?Year - ?BY.
+
+// There are lots of other ways to conceive this: we could have Adults and Babies be subclasses of Persons, automatically predicated on age.
+?Person:adultPerson :- ?Person:person, isAdult(?Person).
+?Person:babyPerson  :- ?Person:person, isBaby(?Person).

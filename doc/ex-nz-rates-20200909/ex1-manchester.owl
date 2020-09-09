@@ -1,0 +1,122 @@
+Prefix: : <http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#>
+Prefix: dc: <http://purl.org/dc/elements/1.1/>
+Prefix: obda: <https://w3id.org/obda/vocabulary#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+
+
+
+Ontology: <http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4>
+
+
+Datatype: xsd:dateTime
+
+    
+Datatype: xsd:int
+
+    
+ObjectProperty: mayEat
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Person
+    
+    Range: 
+        Food
+    
+    InverseOf: 
+        suitableFor
+    
+    
+ObjectProperty: suitableFor
+
+    Characteristics: 
+        InverseFunctional
+    
+    InverseOf: 
+        mayEat
+    
+    
+DataProperty: age
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Person
+    
+    Range: 
+        xsd:int
+    
+    
+DataProperty: birthDate
+
+    Domain: 
+        Person
+    
+    Range: 
+        xsd:dateTime
+    
+    
+DataProperty: minimumAge
+
+    Domain: 
+        Food
+    
+    Range: 
+        xsd:int
+    
+    
+Class: Animal
+
+    
+Class: Food
+
+    
+Class: PermittedAction
+
+    
+Class: Person
+
+    
+Individual: Alice
+
+    Types: 
+        Person
+    
+    DifferentFrom: 
+        Bob
+    
+    
+Individual: Bob
+
+    Types: 
+        Person
+    
+    DifferentFrom: 
+        Alice
+    
+    
+Individual: MashedPotatoes
+
+    Types: 
+        Food
+    
+    DifferentFrom: 
+        Ribeye
+    
+    
+Individual: Ribeye
+
+    Types: 
+        Food
+    
+    DifferentFrom: 
+        MashedPotatoes
+    
+    

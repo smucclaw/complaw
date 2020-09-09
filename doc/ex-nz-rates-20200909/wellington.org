@@ -1,0 +1,3406 @@
+#+TITLE: test case for wellington building rules
+* Meeting Notes [2020-04-16 Thu]
+
+district plan is 20 years old; is being revised for the first time in 20 years. Want to take a RaC approach on this. Currently the Word docs are authoritative. Want to do digital rules from the start.
+
+That would allow people to do "what if" type apps and thinking.
+
+W the rules and rule logic to the actual text parts of the plan that they refer to; can't do that when it's a word document.
+
+Non DMN related challenges we're battling.
+
+lack of any data structure.
+
+the plans were drafted by planners not drafters. the legislative drafter specialists were very critical. the logic is not clear; there are a number of interpretations. and at that point you have to rely on convention -- how it's been interpreted.
+
+during the 18 days we did our proof of concept we spent much of our time grappling with nomenclature. [meng: taxonomy; ontology.]
+
+nadia: when interpreting certain elements, one of the planners will say, oh, this thing means that because of a particular court case; let me check my email. and they'll dig it out. and it's only because the planners have long memories that we even have this. so there is some aspect of common law even to district planning.
+
+DMN slide; decision model and notation. chapter 30: "earthworks".
+
+the planners are using Google tools for the first time so a lot of this is new to them.
+
+questions: have you been through a software requirements elicitation process before in which business users emit requirements into pseudocode
+
+the ruleset is complicated; if the legislation had been properly drafted it would be a whole different ball game.
+
+the hope was that once this is set up you would be able to train the planners 
+
+3|4:  a consistent project-wide style guide would be really desirable.
+
+planners know each rule by number so it's more recognizable to lay things out simply (with FEEL) rather than with decsion tables, because those tend to hide.
+
+meng thought: can we tier the elements in the decision diagram by significance, so we can do a semantic zoom and hide/show important things first and unimportant things second.
+
+would it be valuable to have alternative projections:
+- better drawing tools with urved lines and colours and styling
+- natural langauge extraction tools that show what revised legislation would be
+
+singapore point of comparison:
+https://www.corenet.gov.sg/media/2032998/circular-on-bim-e-submission-for-plan-submission-to-bca.pdf
+
+quick view of the web app. each interactive question links back to the controlling regulation.
+
+the web app MVP is mocked up in invisionapp.com
+
+subsequently somebody else is going to actually build this out.
+
+requirements: annotation. discussion. comments. collaboration. which is the strength of google draw.
+
+a simple execution engine, lightweight. don't have to do everything in drools.
+there is a dmn-js project.
+
+
+
+
+
+
+* Immediate TODO
+
+** DONE pretty-printer for L4 rules
+
+** TODO parser for L4 rules
+
+** TODO finish formalizing the bits of the companies act and constitution that are relevant to the computation of AGM notice requirements and resolution content.
+
+** TODO connect to GF for NLG output
+
+** TODO parser for DMN and BPMN XML for 
+
+** TODO finish up the other types of rules
+
+** TODO connection to planner written in CHR
+
+** TODO autogeneration of typescript
+
+* background reading on Rules As Code and the convergence of software specification and legal language
+- https://www.youtube.com/watch?v=0XL-LM0fpN4 -- Kowalski's keynote from Research Meets Practice 2019 presents a CNL for Logical, Legal English
+
+* background reading on Semantic Web
+- https://twobithistory.org/2018/05/27/semantic-web.html
+- https://bibwild.wordpress.com/2014/10/28/is-the-semantic-web-still-a-thing/
+- https://doriantaylor.com/the-symbol-management-problem
+
+* HOWTO Become a RaC Developer (and Motivate the Design of a New Language, Legalese's L4)
+
+This tutorial is inspired by [[https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours][Write Yourself a Scheme in 48 Hours]], in which one learns not one, but two, programming languages, by implementing one (Scheme) in the other (Haskell).
+
+** Aside                                                                                      :box:
+
+This sort of mind-bending tomfoolery will be familiar to readers of [[https://en.wikipedia.org/wiki/G%25C3%25B6del,_Escher,_Bach][Gödel, Escher, Bach]] (GEB), which won the 1980 Pulitzer, and holds the same place in the hearts of a generation of computer scientists, that the Lord of the Rings, or Harry Potter, or His Dark Materials, might for a generation of fantasy readers.
+
+Lawyers who have not read GEB may nonetheless be put in the appropriate frame of mind by considering this fragment of the [[https://en.wikipedia.org/wiki/Interpretation_Act][Interpretation Act]], which is so fundamental that (in Singapore, at least) it is numbered first among all the chapters of law:
+
+#+BEGIN_QUOTE
+Where any written law repealing in whole or in part any former written law is itself repealed, the last repeal shall not revive the written law or the provisions previously repealed, unless words be added reviving that written law or those provisions. ([[https://sso.agc.gov.sg/Act/IA1965?ProvIds=pr12-#pr12-][Cap. 1 Section 12]])
+#+END_QUOTE
+
+If, upon reading that, you asked yourself: /what if that part of the Interpretation Act is itself repealed?/, you should enjoy the rest of this tutorial.[fn:1]
+
+** Two Tracks
+
+Similarly, this tutorial has two tracks.
+
+The surface layer offers a walkthrough of a Rules As Code exercise; you can apply what you learn to your own RaC project, and implement whatever legislation or regulation your Proof-Of-Concept cares about. This is called the "walkthrough" track.
+
+A walkthrough would not be possible without a whole bunch of underlying infrastructure, which was motivated by the needs of the walkthrough. This infrastructure goes by the name L4. L4 is what makes it possible to do your RaC exercise, in the same way that the Unity game engine made it possible to create Pokémon Go.
+
+The "developer" track invites you to go behind the curtain, to take the red pill, and see how the sausage is made. It is written for computer scientists and programmers who have a smattering of [[http://matt.might.net/articles/what-cs-majors-should-know/][Matt Might's Knowledge]] under their belts: a bit of Javascript, a bit of SQL, a bit of Prolog. You will develop L4 for yourself, from first principles. If you just want to implement a RaC PoC, you do not need to read the developer track. On this track, you will encounter the history of knowledge representation and reasoning, rule languages, modal logics, and Montague semantics in computational linguistics. But let's not get ahead of ourselves.
+
+If you are only here for the walkthrough and your own RaC PoC, you can skip the sections labeled "developer". (In a colour printing of this text, the developer sections should appear in red, and the walkthrough text should appear in blue/green, following the convention from [[https://scifi.stackexchange.com/questions/160425/which-in-print-editions-of-neverending-story-have-red-green-text][The Neverending Story]].)
+
+** Read the examples below.
+
+Example 1 feeds mashed potatoes to a baby and a ribeye to a grownup.
+
+Example 2 decides if a new building may have a roof that is 8.5 metres high, based on where the building is, and how steep the roof is.
+
+Future: Example 3 deals with the Beard Act, a hypothetical case.
+
+** Show your own way: talk & theory                                                     :developer:
+
+Welcome to the developer track! As developers, we use the walkthrough to motivate the development of new technologies. And we do it in a first-principles kind of way, recreating the process by which L4 was itself developed.
+
+Before learning anything new, using skills you already have, write up to two pages of text and diagrams to show how you would express and implement the rules in whatever languages or systems you are already familiar with.
+
+For example, if you are a database nerd, show how you might express the rules, facts, and queries in SQL.
+
+If you are a web developer, show how you would express the rules, facts, and queries in an interactive web app or API.
+
+If you come from a highly OOP background, show your class hierarchy and methods.
+
+If you're a functional programmer, just write the code and run it once for each query.
+
+If you come from a unit-testing background, create some test cases.
+
+If you're a mathematician, you might give some comments about which families of logics have the correct degree of expressiveness, and provide illustrations showing how the queries actually get resolved in your algebra.
+
+*** Do the implementation                                                              :developer:
+
+After planning out your approach, write actual running code. Show the queries getting answered, for both examples.
+
+** A Self-Guided Tour of the Prior Art                                                  :developer:
+
+Do minimal implementation of the examples across a given set of languages/engines/reasoners/logics.
+
+This will require learning a variety of these tools. It may take some time to do so. In the future this section will list out a handful of the most important ones. You can skip the rest.
+
+See what all of those implementations have in common.
+
+Decide that some of them just suck and don't deserve any further attention.
+
+Call the remainder the Surviving Representations.
+
+** Subsume, subsume, subsume. Go higher. Go abstract. Go meta.                          :developer:
+
+Go upstream from the implementations.
+
+At the explicit risk of xkcd.com/927, devise a new higher-level representation that is exportable to all the others, plus one. Write the examples again.
+
+(Though if one of the existing representations is clearly a superior superset of all the others, just choose that.)
+
+** Write translators that convert your higher-level language to each of the existing Surviving Representations. :developer:
+
+** Add NLG Support.                                                                     :developer:
+
+Plus one what? The higher-level representation should also output to NLG, using Grammatical Framework.
+
+** Add Formal Verification Support.                                                     :developer:
+
+** Show how you're reusing as much available code as possible.                          :developer:
+
+In particular, reuse an existing ontology. Most academic papers about ontologies try to give a language or meta-language for expressing ontologies. We want to look for resources lying in the other direction: we want to import libraries that we can use right away, we don't want to do the heavy lifting of writing a library from scratch using somebody else's framework.
+
+* Requirements and Features
+
+** User can express some rule details in a decision table spreadsheet
+
+*** Example: Constitutive Rules
+
+**** age of majority: >= 21
+
+**** age of babyhood: < 4
+
+*** Example: Ontology
+
+ideally these ontologies would be inherited from some third party like kbpedia
+
+**** ontology for food
+
+**** ontology for geographies
+
+**** ontology for persons
+
+**** ontology for times?
+
+*** Example: Activity Sequence Diagram
+
+** User can express some rule logic in a controlled natural language
+
+See for example:
+- https://www.immuta.com/policy-enforcement/
+
+*** CNL is convertible to textual rulelog
+
+*** CNL is convertible to plain Flora-2 rulelog
+
+*** CNL is convertible to LegalRuleML
+
+*** CNL is convertible to Flora-2
+
+*** CNL is convertible to legislative natural language
+
+** Rule details and logic
+
+** User can query the knowledgebase via an interactive expert system "shell"
+
+** User can drill down into explanations and definitions
+
+** System automatically adds a defeasibility conjunction to all evaluated predicates
+
+* Example 1: Mashed Potatoes
+
+Suppose we have a simple set of rules:
+
+1. Adults are permitted to eat ribeye.
+2. Babies are only permitted to eat mashed potatoes.
+
+Given those two rules, assuming it's the year 2020, most people would be able to answer these questions:
+
+1. If Alice was born in 2019, may she eat ribeye?
+2. If Bob was born in 1960, may he eat mashed potatoes?
+
+Most people would answer the first question "no", and the second "yes".
+
+But why? How?
+
+** Abstract Formalisation
+
+It is reasonable to construct the following rules:
+
+*** Explicit Regulative Rules
+
+**** Examples
+1. Any person, who is an adult, is allowed to eat Ribeye.
+2. Any person, who is a baby, is allowed to eat Mashed Potatoes.
+3. Any person, who is a baby, is not allowed to eat anything besides Mashed Potatoes.
+
+**** Discussion
+
+From the perspective of Coode we analyze rules into the following /normal form/ ~Coode_X~:
+- Any person ~P~
+- who meets the definition given in constitutive ruleset ~PCR_X~
+- (and is for the purposes of section list ~SL_X~ known as a ~P_alias_X~)
+- (upon the occurrence of an event ~E_X~)
+- when conditions ~CL_X~ hold
+- deontic ~D_X~: may / must / shant
+- do action ~A_X~
+- (within ~TW_X~ time, starting ~TA_X~ time after event ~E_X~ ~TL_X~ (time-alignment) starts/ends)
+
+From the perspective of Hohfeld, we observe *Hohfeld_X*:
+- the Right or Power granted to person P under /Coode_X/
+- implies that some other person P' now has a Duty or Liability or No-Right or whatever
+- which may just as well be phrased as ~Coode_X'~
+
+*** World Knowledge: Constitutive Rules
+
+Without being given the definition of "adult" and "baby", you might have relied on some knowledge you already had about the world:
+
+1. An adult is a person who was born more than 21 years ago. Maybe 16, maybe 18, maybe 25. But someone born in 1960 is older than all of those.
+2. A baby is a person who was born less than 4 years ago. Or, for the purposes of the question, is capable of eating ribeye steak. Which someone at age 1 probably is not.
+
+If we need to, we can formalize those rules somewhere in the background, taking 3 as the age of non-babyhood, and 21 as the age of adulthood.
+
+*** Inferred Regulative Rules
+
+Our world knowledge includes default rules; those rules include a rebuttable presumption that: *adults are permitted to do things unless specifically prohibited.*
+
+1. Any person, who is an adult, is allowed to eat any food.
+
+We know from the regulative rules that: *Mashed Potatoes exist in our domain of discourse.*
+
+From which we conclude: *Any adult is allowed to eat Mashed Potatoes.*
+
+And we know that *Ribeyes exist in our domain of discourse; they, like mashed potatoes, are a food*.
+
+We also know that ribeyes and mashed potatoes are not the same thing. This may sound like belabouring the obvious, but rule systems sometimes need this level of detail.
+
+From which we conclude: *Any baby is not allowed allowed to eat ribeye.*
+
+*** Facts
+
+We are given:
+- Alice was born in 2019.
+- Bob was born in 1960.
+
+*** World Knowledge
+mashed potatoes and ribeyes are both subclasses of food.
+
+*** Questions Answered
+
+**** Is Alice allowed to eat Mashed Potatoes?
+Yes.
+
+**** Is Alice allowed to eat Ribeye?
+No.
+
+**** Is Bob allowed to eat Mashed Potatoes?
+Yes.
+
+**** Is Bob allowed to eat Ribeye?
+Yes.
+
+*** In terms of Coode                                                              :jurisprudence:
+
+*** In terms of Hohfeld                                                            :jurisprudence:
+
+** Ontological Formalisation
+
+Software projects often begin by asking "what are the entities?" and "what are the relations between them?"
+
+This is called [[https://en.wikipedia.org/wiki/Entity%25E2%2580%2593relationship_model][Entity-Relationship Modelling]]. It can happen at various levels of formality:
+- as a vague fog of unspoken assumptions in the solo programmer's head
+- as a type system in a programming language
+- as a JSON or XML schema
+- as an SQL database schema
+- as a [[https://en.wikipedia.org/wiki/Class_diagram][UML class diagram]]
+- as an OWL Ontology -- the choice of Semantic Web proponents. ([[https://twobithistory.org/2018/05/27/semantic-web.html][Remember Semantic Web? Yeah.]])
+- as an exercise in [[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.54.3656&rep=rep1&type=pdf][applied category theory]]
+
+A variety of [[https://en.wikipedia.org/wiki/Computer-aided_software_engineering][CASE]] software exists to help people express their ER diagrams. For example, [[https://www.lucidchart.com/pages/examples/er-diagram-tool][LucidChart]]'s editor outputs to an SQL schema.
+
+Suppose you're in the Javascript ecosystem, coding with React and TypeScript. You can export your TypeScript types to JSON schema, using https://github.com/YousefED/typescript-json-schema. Once you have JSON schema, you can then automatically generate a web form in React: https://github.com/rjsf-team/react-jsonschema-form. That form automatically does validation according to the schema. That's a lot of code you didn't have to write.
+
+So that's cool. Later we'll see if the same is true of rules.
+
+Let's express our entity ontology in the abstract. If you are familiar with one of the above systems, you can imagine how it would look in your favourite system.
+
+*** There exist one or more Persons (singular: Person).
+
+**** A Person has a Name.
+
+**** A Person has a Birthdate.
+
+**** Bob is a Person.
+
+*** There exist one or more Activities (singular: Activity).
+
+An Activity has a Name.
+
+A unary Activity is either Permitted or Forbidden to a given Person.
+
+**** Blinking is an Activity
+
+**** Bob is allowed to do Blinking.
+
+** There exist one or more Foods (singular: Food).
+
+A Food has a Name.
+
+Steak is a Food.
+
+Ribeye is a Steak.
+
+From this we see that entities may subclass other entities.
+
+** Eating is a binary relation -- involving a Person and a Food.
+
+In the context of Eating, an Person is known as an Eater.
+
+Eating is a Permitted Activity provided the Eater is a Baby and the Food is Mashed Potatoes.
+
+** Eating is an Activity.
+
+The binary relation "eating" is a subclass of other activities of arity 2.
+
+** Modals add a Deontic element to an existing Activity.
+
+Saying that something is a Permitted Activity implies that there must be other kinds of activities, such as Forbidden Activities, or Mandatory Activities.
+
+We use the language of modal logic to describe these activities: there are three key /deontic modals/: a thing can be Obligatory, Permitted, or Prohibited.
+
+** Example 1 Implementation Illustrations
+
+For the sake of properly learning the prior art, we implement these rules, and answer the four key questions, in a variety of languages. The result is a sort of programming chrestomathy for logical languages.
+
+*** DONE Prolog
+
+If you download SWI-Prolog, you should be able to run this. If not, just eyeball it; you should see how logic programming's backward-chaining inference engines use Horn clauses, which are phrased "head IF body". This may seem backward to you at first; if you come from from an imperative programming background, as most people do, you will be used to "if/then" statements. Logic programming uses "then/if" statements. This turns out to be the natural form of the "it depends" mode of speech.
+
+#+BEGIN_SRC prolog :tangle ex1.pl
+  :- discontiguous permittedAction/3.
+  :- set_prolog_flag(verbose,silent).
+
+  %% explicit regulative rules.
+  %% it is permitted for a person to eat ribeye IF the person is an adult.
+  permittedAction(Person,eat,ribeye)         :- isAdult(Person).
+  %% if you come from a mathematical logic background, you can read ":-" as the left-implication arrow "<-".
+  %% if you come from a functional background, you can think of the Horn clause as meaning:
+  %% permittedAction is a ternary relation of type Person -> Verb -> Noun -> Maybe Boolean.
+  %% this three-valued logic arises from the Well-Founded Semantics: https://en.wikipedia.org/wiki/Well-founded_semantics
+  %% Logic Programming basically tries to please you by looking for ways to return Just True.
+  %% here, for the permittedAction(Person,...) function to return a Just True, isAdult(Person) has to return Just True.
+  %% isAdult is a unary function of type Person -> Maybe Boolean.
+  %% You can think of the fact that "eat" and "ribeye" appear in the function parameters, as an example of destructuring.
+
+  %% it is permitted for a person to eat mashed potatoes if the person is a baby.
+  permittedAction(Person,eat,mashedPotatoes) :- isBaby(Person).
+
+  %% facts about individuals
+  birthDate(alice, 2019).
+  birthDate(  bob, 1960).
+
+  %% In a normal language, you'd expect a function to return a value: calling thisYear() would return 2020.
+  %% But in Prolog, all Prolog expressions are ultimately typed Maybe Boolean. So we need to find a different way
+  %% to set return values. We know that call-by-reference allows a language to park return values inside "function parameters".
+  %% For the purposes of this example, we can pretend that this is what is going on.
+  %% The question specified that we're evaluating our rules as of the year 2020.
+  %% So calls elsewhere to thisYear(TY) will set TY to 2020.
+  thisYear(2020).
+
+  %% world knowledge: constitutive rules about babyhood and adulthood
+  %% calling birthDate(alice,BY) sets BY to 2019. This is called "term unification".
+  %% a person is an adult if, letting TY be 2020, and letting BY be the person's birthdate, their current age (TY-BY) is >= 21 years.
+  isAdult(Person) :- thisYear(TY), birthDate(Person,BY), TY-BY >= 21.
+  isBaby(Person)  :- thisYear(TY), birthDate(Person,BY), TY-BY <  4.
+
+  %% inferred regulative rules from "common-sense world knowledge":
+  %% - adults can do whatever they want by default; so they can eat anything, so long that thing is a member of the class of foods
+  permittedAction(Person,eat,O) :- isAdult(Person), isMember(O,food).
+  %% - but babies can't eat anything explicitly denied to them.
+  permittedAction(Person,eat,_) :- isBaby(Person), false.
+
+  %% "ontology" and world knowledge. we contrive an ad-hoc class model because plain Prolog doesn't have one.
+  isMember(mashedPotatoes,food).
+  isMember(ribeye,food).
+  %% we shall neglect to say that ailce and bob are persons.
+
+  %% queries
+  run(permittedAction(alice,eat,mashedPotatoes)).
+  run(permittedAction(alice,eat,ribeye)).
+  run(permittedAction(bob,eat,mashedPotatoes)).
+  run(permittedAction(bob,eat,ribeye)).
+
+  :- forall(run(PA), (write(PA), write("   "), (once(PA) -> write("true") ; write("false")), nl)).
+
+#+END_SRC
+
+Now to answer the question: Who can eat what? 
+
+#+RESULTS: ex1-swipl-1
+:  % swipl ex1.pl
+:  permittedAction(alice,eat,mashedPotatoes)   true
+:  permittedAction(alice,eat,ribeye)   false
+:  permittedAction(bob,eat,mashedPotatoes)   true
+:  permittedAction(bob,eat,ribeye)   true
+
+Grouping eaters by foods:
+
+#+RESULTS: Eaters
+:  ?- setof(Eater, permittedAction(Eater,eat,Food), Eaters).
+:  Food = mashedPotatoes,
+:  Eaters = [alice, bob] ;
+:  Food = ribeye,
+:  Eaters = [bob].
+
+Grouping foods by eaters:
+
+#+RESULTS: Foods
+:  ?- setof(Food, permittedAction(Eater,eat,Food), Foods).
+:  Eater = alice,
+:  Foods = [mashedPotatoes] ;
+:  Eater = bob,
+:  Foods = [mashedPotatoes, ribeye].
+
+*** DONE Flora-2
+
+Flora-2 extends Prolog with objects and higher-order logic. If you come from an OOPy background, you might find the syntax a little odd. We will explain by analogy:
+
+- in regular Prolog, variables are Capitalized. in Flora-2, variables are prefixed with a ~?~ sign, hence ~?P~ to represent a person. This is no weirder than Perl's use of ~$~ as a variable prefix.
+- Typescript declares class membership as ~alice : person~. Flora-2 declares class membership as ~alice:person~. Same thing.
+- Typescript might define an attribute by saying ~alice.birthDate = 2019~. In Flora-2, it would be ~alice[birthDate->2019]~. An arrow instead of an equals sign? Fine.
+- Typescript might define a method as ~class person { ageAsOf = (ThisYear) => ThisYear - self.birthDate }~. In Flora-2, well, see below.
+
+We take advantage of some of these ideas to generalize our program: a permitted action is one type of deontic action, where the deontic can be "must", "may", or "shant". The object of the action is a verb phrase, which looks like a function: for example, ~eat(ribeye)~.
+
+#+BEGIN_SRC flora :tangle ex1.flr
+
+  // an action generally has the form Subject Do Something.
+  // This may make you think of:
+  // - Subject Verb Object (grammar)
+  // - Subject Predicate Object (RDF)
+
+  // a _permitted_ action has the form Subject May Do Something.
+  // that suggests a more general form of a _deontic_ action, which has the form Subject May/Must/Shant Do Something: Person May Eat Ribeye.
+  //
+  // let's express the permittedAction in a Computational Linguistics kind of way: we treat the "Do Something" as a verb phrase.
+  permittedAction(?Subject,?VerbPhrase) :-
+  // The Verbphrase "May Do Something" breaks down into "May Verb Noun". We use mkVP to destructure it.
+          mkVP(?VerbPhrase,?Verb,?Noun),
+  // that leaves us with the general form of a deontic modal; we fix the deontic to "may":
+          deonticAction(?Subject,may,?Verb,?Noun).
+
+  // explicit regulative rules. The "Do" in our example is "eat".
+  deonticAction(?P,may,eat,ribeye)         :- isAdult(?P).
+  deonticAction(?P,may,eat,mashedPotatoes) :- isBaby(?P).
+
+  // you can get a verb phrase by tacking a verb on to a noun. this destructuring goes both ways.
+  mkVP(?VerbPhrase,?Verb,?Noun) :- ?VerbPhrase = ?Verb(?Noun).
+  // in more sophisticaed examples we will see how DCGs are used do this
+
+  // facts about individuals
+  alice:person[birthDate->2019].
+  bob:person[birthDate->1960].
+
+  // world knowledge: constitutive rules about babyhood and adulthood
+  isAdult(?P) :- thisYear(?TY), ?P[ageAsOf(?TY)->?Age], ?Age >= 21.
+  isBaby(?P)  :- thisYear(?TY), ?P[ageAsOf(?TY)->?Age], ?Age <  4.
+
+  // inferred regulative rules:
+  // - by default, adults can eat anything, as long as it's a food.
+  permittedAction(?P,eat(?O)) :- ?P:adultPerson, ?O:food.
+  // - but babies can't eat anything explicitly denied to them.
+  permittedAction(?P,eat(?_)) :- isBaby(?P), no.
+
+  // general facts about time
+  thisYear(2020).
+
+  // "ontology" and additional world knowledge. we define things this way because Flora-2 doesn't support code inheritance yet: see p.111 of the user's manual.
+  {mashedPotatoes,ribeye}:food.
+  ?Person[ageAsOf(?Year) -> ?Age] :-
+          ?Person:person, ?Person[birthDate -> ?BY],
+          ?Age \is ?Year - ?BY.
+
+  // There are lots of other ways to conceive this: we could have Adults and Babies be subclasses of Persons, automatically predicated on age.
+  ?Person:adultPerson :- ?Person:person, isAdult(?Person).
+  ?Person:babyPerson  :- ?Person:person, isBaby(?Person).
+
+#+END_SRC
+
+And we see:
+
+#+RESULTS: Foods
+:  flora2 ?- [ex1].
+:  flora2 ?- permittedAction(?Person,eat,?Food).
+:  
+:  ?Person = alice
+:  ?Food = mashedPotatoes
+:  
+:  ?Person = bob
+:  ?Food = mashedPotatoes
+:  
+:  ?Person = bob
+:  ?Food = ribeye
+
+
+*** DONE TypeScript
+
+Typescript equips Javascript with a type system. Popular frameworks like Angular eschew regular JS in favour of TS.
+
+Implementing the example in Typescript is surprisingly verbose, due to the need to spell out the machinery which would normally be implicit in a declarative logic program.
+
+#+BEGIN_SRC typescript :tangle ex1.ts
+  class Person {
+      constructor( readonly name: String, readonly birthdate: Date ) { }
+      isAdult(asOf:Date) { return (asOf.getFullYear() - this.birthdate.getFullYear() >= 21) }
+      isBaby (asOf:Date) { return (asOf.getFullYear() - this.birthdate.getFullYear() < 4)  }
+  }
+  enum Action { "eat" }
+  let Foods = ["ribeye", "mashedPotatoes"]
+  class Activity {
+      constructor( readonly verb: Action, readonly noun: String ) { }
+      permitted(p:Person): Boolean {
+          if (this.verb == Action.eat) {
+              switch (this.noun) {
+                  case "ribeye":         if    (p.isAdult(new Date("2020-01-01"))) { return true }; break;
+                  case "mashedPotatoes": if    (p.isBaby (new Date("2020-01-01"))) { return true };
+                  default:               return p.isAdult(new Date("2020-01-01"));
+              }
+          }
+          return false;
+      }
+  }
+  let alice = new Person ("Alice", new Date("2019-01-01") )
+  let bob   = new Person ("Bob",   new Date("1970-01-01") )
+  for (var food of ["ribeye","mashedPotatoes"]) {
+      for (var person of [alice,bob]) {
+          const activity = new Activity(Action.eat, food);
+          console.log(`is ${person.name} allowed to eat ${food}? ${activity.permitted(person)}`);
+      }
+  }
+#+END_SRC
+
+#+RESULTS ex1.js
+: % node ex1.js
+: is Alice allowed to eat ribeye? false
+: is Bob allowed to eat ribeye? true
+: is Alice allowed to eat mashedPotatoes? true
+: is Bob allowed to eat mashedPotatoes? true
+
+*** DONE JSON-Rules-Engine
+
+JRE is a forward-chaining, production-rule system designed for [[https://en.wikipedia.org/wiki/Event_condition_action][ECA rules]]. Shoehorning a backward-chaining logic system into it is an example of [[https://en.wikipedia.org/wiki/Worse_is_better][worse is better]]. We bravely soldier on, paying close attention to the priorities so that we contrive for the engine to execute the rules in just the right sequence to come to the right conclusions. In other words, we manually perform SLD resolution. But wouldn't it be better to just do all this in some sort of client-side Javascript engine, like http://tau-prolog.org/?
+
+#+BEGIN_SRC typescript :tangle ex1-jre.ts
+  import { Engine } from 'json-rules-engine'
+
+  let engine = new Engine()
+
+  engine.addRule({
+      conditions: { all: [{ fact: 'thisYear',  operator: 'greaterThan', value: 0 },
+                          { fact: 'birthDate', operator: 'greaterThan', value: 0 },
+                         ] },
+      event: { type: 'age-computation' },
+      priority: 20, // IMPORTANT!  Set a higher priority for the age-computation, so it runs first
+      onSuccess: function (event, almanac) {
+          almanac.addRuntimeFact('age', almanac.factValue('thisYear') - almanac.factValue('birthDate'))
+      },
+  })
+  engine.addRule({
+      conditions: { all: [{ fact: 'age', operator: 'greaterThanInclusive', value: 21 }] },
+      event: { type: 'majority-computation' },
+      priority: 10, // IMPORTANT!  Set a higher priority for the MajorityRule, so it runs first
+      onSuccess: function (event, almanac) {
+          almanac.addRuntimeFact('isAdult', true)
+      },
+      onFailure: function (event, almanac) {
+          almanac.addRuntimeFact('isNotAdult', false)
+      }
+  })
+  engine.addRule({
+      conditions: { all: [{ fact: 'age', operator: 'lessThan', value: 4 }] },
+      event: { type: 'minority-computation' },
+      priority: 10, // IMPORTANT!  Set a higher priority for the MajorityRule, so it runs first
+      onSuccess: function (event, almanac) {
+          almanac.addRuntimeFact('isBaby', true)
+      },
+      onFailure: function (event, almanac) {
+          almanac.addRuntimeFact('isNotBaby', false)
+      }
+  })
+  engine.addRule({
+      conditions: {
+          any: [
+              { all: [{ fact: 'food', operator: 'equal', value: "ribeye" },
+                      { fact: 'isAdult', operator: 'equal', value: true }]},
+              { all: [{ fact: 'food', operator: 'equal', value: "mashedPotatoes" },
+                      { fact: 'isBaby', operator: 'equal', value: true }]},
+              { all: [{ fact: 'isAdult', operator: 'equal', value: true }]}
+          ]
+      },
+      event: {  // define the event to fire when the conditions evaluate truthy
+          type: 'permitted',
+          params: {
+              message: 'permittedAction!'
+          }
+      }
+  })
+
+  /**
+   ,* Define facts the engine will use to evaluate the conditions above.
+   ,* Facts may also be loaded asynchronously at runtime; see the advanced example below
+   ,*/
+  let factset = [
+      { name:"alice", thisYear: 2020, birthDate: 2019, food: "mashedPotatoes" },
+      { name:"alice", thisYear: 2020, birthDate: 2019, food: "ribeye" },
+      { name:"bob", thisYear: 2020, birthDate: 1970, food: "mashedPotatoes" },
+      { name:"bob", thisYear: 2020, birthDate: 1970, food: "ribeye" }
+  ]
+
+  for (var facts of factset) {
+  engine
+    .run(facts)
+    .then(results => {
+      // 'results' is an object containing successful events, and an Almanac instance containing facts
+      results.events.map(event => console.log(event.params.message))
+    })
+  }
+
+#+END_SRC
+
+*** DONE DMN
+
+DMN lays bare the decision-making algorithm in a functional, graph-oriented, decision-table-oriented style.
+
+See the file [[file:ex1%20foods.dmn][ex1 foods.dmn]] in this directory; you can open it in Drools.
+
+See also the "ex1 dmn *.png" files.
+
+[[file:ex1%20dmn%20age%20class.png][file:~/src/l/complaw-deeptech/L4/rules/nz-201910/ex1 dmn age class.png]]
+
+*** Drools
+
+Drools, at its core, is a Java rules engine; a business transformation suite has been engineered around it by Red Hat.
+
+Drools automatically imports DMN files (and also has its own editor for DMN) and automatically brings up a set of REST API endpoints using KIE.
+
+https://developers.redhat.com/products/red-hat-decision-manager/hello-world
+
+
+
+*** TODO Semantic Web: OWL and Protege
+
+We define an OWL ontology for foods, using Protege.
+
+And we use OWL expressions to define adult and baby classes as a function of the birthdate property.
+
+then we use OWL expressions to define classes of allowed and prohibited relationships between persons and foods.
+
+**** Formats
+
+***** Manchester
+
+#+BEGIN_SRC manchester
+
+  Prefix: : <http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#>
+  Prefix: dc: <http://purl.org/dc/elements/1.1/>
+  Prefix: obda: <https://w3id.org/obda/vocabulary#>
+  Prefix: owl: <http://www.w3.org/2002/07/owl#>
+  Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+  Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+
+  Ontology: <http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4>
+  Datatype: xsd:dateTime
+  Datatype: xsd:int
+
+  ObjectProperty: mayEat
+
+      Characteristics: 
+          Functional
+
+      Domain: 
+          Person
+
+      Range: 
+          Food
+
+      InverseOf: 
+          suitableFor
+
+
+  ObjectProperty: suitableFor
+
+      Characteristics: 
+          InverseFunctional
+
+      InverseOf: 
+          mayEat
+
+
+  DataProperty: age
+
+      Characteristics: 
+          Functional
+
+      Domain: 
+          Person
+
+      Range: 
+          xsd:int
+
+
+  DataProperty: birthDate
+
+      Domain: 
+          Person
+
+      Range: 
+          xsd:dateTime
+
+
+  DataProperty: minimumAge
+
+      Domain: 
+          Food
+
+      Range: 
+          xsd:int
+
+
+  Class: Animal
+
+
+  Class: Food
+
+
+  Class: PermittedAction
+
+
+  Class: Person
+
+
+  Individual: Alice
+
+      Types: 
+          Person
+
+      DifferentFrom: 
+          Bob
+
+
+  Individual: Bob
+
+      Types: 
+          Person
+
+      DifferentFrom: 
+          Alice
+
+
+  Individual: MashedPotatoes
+
+      Types: 
+          Food
+
+      DifferentFrom: 
+          Ribeye
+
+
+  Individual: Ribeye
+
+      Types: 
+          Food
+
+      DifferentFrom: 
+          MashedPotatoes
+
+
+#+END_SRC
+
+**** Other
+
+Suppose we feel the desire to allow Google's Knowledge Graph to give advice based on the above rules.
+
+How would this schema work in Semantic Web / Linked Data?
+
+Software such as Protege could manage the ontology, and export to a JSON-LD OWL file.
+
+http://xmlns.com/foaf/spec/#term_Person
+
+Apparently SemWeb relations are all unary!
+
+*** TODO GF
+
+See 201912-dmn-owl-en/Companies.gf
+
+We develop a very simple GF grammar, with support for notions of:
+- Party    (Alice and Bob)
+- Deontics (Obligation, Permission, Prohibition, aka Must, May, Shant)
+- Verb     (Eat)
+- Object   (Food, being either Ribeye or MashedPotatoes)
+
+The abstract grammer looks like this:
+
+#+BEGIN_EXAMPLE
+  Companies> gt
+  mkStatement Alice May Eat MashedPotatoes
+  mkStatement Alice May Eat Ribeye
+  mkStatement Alice Must Eat MashedPotatoes
+  mkStatement Alice Must Eat Ribeye
+  mkStatement Alice Shant Eat MashedPotatoes
+  mkStatement Alice Shant Eat Ribeye
+  mkStatement Bob May Eat MashedPotatoes
+  mkStatement Bob May Eat Ribeye
+  mkStatement Bob Must Eat MashedPotatoes
+  mkStatement Bob Must Eat Ribeye
+  mkStatement Bob Shant Eat MashedPotatoes
+  mkStatement Bob Shant Eat Ribeye
+#+END_EXAMPLE
+
+And the linearizations look like this:
+
+#+begin_example
+  Companies> gt | l -unlextext
+  Alice may eat mashed potatoes.
+  Alice may eat ribeye.
+  Alice must eat mashed potatoes.
+  Alice must eat ribeye.
+  Alice shan't eat mashed potatoes.
+  Alice shan't eat ribeye.
+  Bob may eat mashed potatoes.
+  Bob may eat ribeye.
+  Bob must eat mashed potatoes.
+  Bob must eat ribeye.
+  Bob shan't eat mashed potatoes.
+  Bob shan't eat ribeye.
+#+end_example
+
+So, we've got a nice bidirectional parser and surface realizer. But what of the semantics? The decision that Alice is a baby, and that Bob is an adult, lies beyond the jurisdiction of GF. Or does it?
+
+Let's pump up the Party cats with more attributes.
+
+*** L4
+
+Here's what the foods case looks like in L4's controlled natural rules language. This syntax is our moral equivalent to AceRules:
+
+**** A working BNF and parser is being developed for this language in the following tools:
+
+***** TODO BNFC
+abandoned due to apparent duplication error -- once a Term is matched in a BNF RHS, that Term is bound over the rest of the RHS and requires the exact match again
+
+The work is in L.cf somewhere
+
+***** TODO Elm Parser
+
+***** TODO Haskell Megaparsec
+
+***** TODO GF
+
+**** Rules
+# this is a syntactic comment ignored by the parser
+# example 1, foods, in L4
+
+(Lex specialis derogat legi generali. These rules are ordered from general (top) to specific (bottom). In practice, they are evaluated from bottom to top.)
+
+A NaturalPerson shall not eat anything that is not a Food.
+
+A Baby shall not eat any Food that is not explicitly permitted.
+
+A Baby may eat any of the following:
+- MashedPotatoes
+- Colostrum
+
+An Adult may eat any Food that is not explicity forbidden.
+
+An Adult shall not eat Colostrum.
+
+For the avoidance of doubt, an Adult may eat RibEye.
+
+**** Definition: Foods
+The class of edible items ("Foods") contains the following distinct members:
+- rib eye steak ("RibEye")
+- mashed potatoes ("MashedPotatoes")
+- mother's milk ("Colostrum")
+
+**** (Definition: Eating)
+"Eat" is an activity relationship between a NaturalPerson and a Food. Lower case is acceptable.
+
+**** Definition: Natural Persons
+A natural person ("NaturalPerson") may have the following attributes:
+- date of birth ("BirthDate"), a Date object
+- street address ("Address"), an Address object
+- citizenship ("Nationality"), one or more CountryCode objects
+
+**** Definition: Adulthood
+A NaturalPerson is an Adult on a given Date ("As-Of-Date") if their BirthDate is no less than 21 years before the As-Of-Date.
+
+**** Definition: Babyhood
+A NaturalPerson is a Baby on a given Date ("As-Of-Date") if their BirthDate is no more than 4 years before the As-Of-Date.
+
+(And their BirthDate is not after the As-Of-Date.)
+
+# There is an important semantic difference between
+# "no more than X years before" and
+# "not more than X years before".
+# The former is before, but < X years before.
+# The latter is < X years before, or after.
+
+**** Parties
+The class of NaturalPersons contains the following distinct members:
+- Alice Apple ("Alice"), whose BirthDate is 2018-01-01.
+- Bob Banana ("Bob"), whose BirthDate is 1950-02-03.
+
+**** ut nos praesumpseram
+
+# Semantic comments are consumed by the interpreter but considered marked for omission from the natural language output.
+
+# Paragraphs wholly enclosed in single parentheses are semantic comments.
+
+# Paragraphs under an "ut nos praesumpseram" section are also treated as semantic comments.
+
+Date, Address, and CountryCode objects are defined in the Standard Legal Library v1.0, available at http://l4.example.com/lib/legal/standard/
+
+We take for granted that members of all classes also have the attributes Name and ID.
+
+# For humour, we define "taken" as the moral inverse of the mathematical "given", in the sense that "given X=1" is explicitly spelled out; "taken X=1" is part of the T- and A-boxes but is omitted from natural language concretizations. "We take it for granted."
+
+
+*** SparQL
+
+*** KBpedia
+
+http://kbpedia.org/knowledge-graph/reference-concept/?uri=Person
+
+** Representing Time
+
+RDF doesn't have a good way to indicate when a relation starts or stops. See RDFt which shoehorns start/stop intervals into the predicate. But it may be more freeing to just use an unencumbered ER system like an SQL DB or pure OWL.
+
+https://www.w3.org/TR/owl-time/
+
+Or we could extend RDF triple notation, as quad notationa already has, to penta or sexa notation.
+
+* Example 2: Building Height
+:PROPERTIES:
+:lrml:LegalSource: https://wellington.govt.nz/~/media/your-council/plans-policies-and-bylaws/district-plan/volume01/files/v1chap05rules.pdf?la=en
+:END:
+
+We take a subset of the rules to say:
+1. the construction of a building is a Permitted Activity,
+2. if the building's height does not exceed the Adjusted Maximum Height,
+3. and the building's site coverage does not exceed the Maximum Site Coverage,
+4. and the building's adjusted form does not exceed the Building Recession Envelope
+
+The Adjusted Maximum Height is the Maximum Height, conditionally increased by 1m if:
+1. the building is in a residential area excluding the Oriental Bay Height Area
+2. and the roof slope is 15 degrees or greater.
+
+The Maximum Height is given by this lookup table:
+1. in Johnsonville, the Maximum Height is 8 meters
+2. in the Outer Residential Area except OR3 Roseneath, the Maximum Height is 8 meters
+3. in OR3 Roseneath, the Maximum Height is 10 meters
+4. ...
+
+The Maximum Site Coverage is given by this lookup table:
+1. In Medium Density Residential Areas, the Maximum Site Coverage is 50%
+2. In IR 3 - Aro Valley, the Maximum Site Coverage is 40%
+3. ...
+
+The 
+
+** source texts
+
+rules are indexed at 
+https://wellington.govt.nz/your-council/plans-policies-and-bylaws/district-plan/volume-1-objectives-policies-and-rules
+
+5 rules: https://wellington.govt.nz/~/media/your-council/plans-policies-and-bylaws/district-plan/volume01/files/v1chap05rules.pdf?la=en
+
+5 standards:
+https://wellington.govt.nz/~/media/your-council/plans-policies-and-bylaws/district-plan/volume01/files/v1chap05standards.pdf?la=en
+
+5 appendices
+https://wellington.govt.nz/~/media/your-council/plans-policies-and-bylaws/district-plan/volume01/files/v1chap05app.pdf?la=en
+
+
+*** R 5.1 Permitted Activities
+
+The following activities are permitted in Residential Areas (which includes the Inner and Outer
+Residential Areas and the identified Medium Density Residential Areas as shown on the planning
+maps) provided that they comply with any specified conditions.
+
+*** R 5.1.7
+
+Residential buildings, accessory buildings and residential structures
+subject to standards 5.6.2
+
+The construction, alteration of, and addition to, residential buildings,
+accessory buildings, and residential structures, except those listed below,
+is a Permitted Activity provided the new building or structure, or the new
+part of the building or structure, complies with the standards specified in
+section 5.6.2 (buildings and structures).
+
+*** R 5.3 Discretionary Activities (Restricted)
+
+Section 5.3 describes which activities are Discretionary Activities (Restricted) in Residential Areas.
+Consent may be refused or granted subject to conditions. Grounds for refusal and conditions will be
+restricted to the matters specified in rules 5.3.1 to 5.3.13. The decision on whether or not a resource
+consent application will be notified will be made in accordance with the provisions on notification in
+the Act.
+
+*** R 5.3.4
+
+The construction, alteration of, and addition to residential buildings,
+accessory buildings and residential structures which would be Permitted,
+Controlled or Discretionary (Restricted) Activities but which do not comply
+with one or more of the standards outlined in section 5.6.2 (Buildings and
+Structures) are Discretionary Activities (Restricted). Unless otherwise
+noted below, discretion is limited to the effects generated by the
+standard(s) not met:
+
+*** R 5.3.4.4
+
+site coverage (standard 5.6.2.4)
+
+*** R 5.3.4.5
+
+maximum height (standards 5.6.2.5, 5.6.2.6, and 5.6.2.7) and additions and
+alterations to buildings with an existing non-compliance (standard 5.6.2.9),
+discretion is limited to the effect of building height on:
+- the amenity values of adjoining properties
+- the character of the surrounding neighbourhood, including the form and scale of neighbouring buildings
+- the visual character of the coastal escarpment (for any site in the Residential Coastal Edge)
+
+*** R 5.3.4.7
+
+building recession plane (standard 5.6.2.8)
+
+*** R 5.5 Non-complying Activities
+
+Activities that contravene a rule in the Plan, and which have not been provided for as Discretionary
+Activities (Restricted) or Discretionary Activities (Unrestricted) are Non-Complying Activities.
+
+*** S 5.6.2 Buildings and Structure Standards
+
+These standards apply to the construction of buildings and structures in the Residential Area.
+
+*** S 5.6.2.4.1
+
+Site coverage must comply with the maximum standards listed in Table 5 below.
+
+| Medium Density Residential Areas                    | 50%                                                                                   |
+| Inner Residential Area (exceptions listed below)    | 50%                                                                                   |
+| IR 3 – Aro Valley                                   | 40%                                                                                   |
+| IR 5 – Oriental Bay Height Area                     | No requirement                                                                        |
+| Outer Residential Area (exceptions listed below)    | 35% (this may be increased to                                                         |
+|                                                     | 40% if the extra site coverage comprises only uncovered decks over 1 metre in height) |
+| OR 3 – Roseneath                                    | 45%                                                                                   |
+| OR 4 – Mitchell Town/Holloway Road (see Appendix 5) | Area 1 = 40%                                                                          |
+|                                                     | Area 2 = 30%                                                                          |
+|                                                     | Area 3 = 20%                                                                          |
+
+*** S 5.6.2.5 Maximum Height
+
+*** S 5.6.2.5.1 Maximum Height
+
+Subject to standards 5.6.2.6, 5.6.2.7 and 5.6.2.8, the maximum height standards
+for buildings and structures are listed in Table 6 below.
+
+Table 6 – Maximum Height of Buildings and Structures
+
+| Medium Density Residential - Kilbirnie           | 10 metres                                              |
+| Medium Density Residential - Johnsonville        | 8 metres                                               |
+| Inner Residential Area (exceptions listed below) | 10 metres                                              |
+| IR 3 – Aro Valley                                | 7.5 metres                                             |
+| IR 4 – Mt Cook, Newtown, Berhampore              | 9 metres                                               |
+| IR 5 – Oriental Bay Height Area                  | 13 – 34 metres above mean sea level (refer Appendix 4) |
+| IR 6 – North Kelburn/Bolton Street               | 10 - 16 metres (refer Appendix 3)                      |
+| Outer Residential Area (exception listed below)  | 8 metres                                               |
+| OR 3 – Roseneath                                 | 10 metres                                              |
+
+*** S 5.6.2.5.2 Hazard Area (Fault Line)
+
+For properties located within the Hazard (Fault Line) Area the maximum height is 8m.
+
+*** S 5.6.2.5.5 Roof Slope
+
+In Residential Areas (excluding the Oriental Bay Height Area) an additional 1m can
+be added to the maximum height (stated in standards 5.6.2.5.1, 5.6.2.5.4 and
+5.6.2.7) of any building with a roof slope of 15 degrees or greater (rising to a
+central ridge) as illustrated on the following diagram:
+
+Adds 1m to S5_6_2_5_1
+
+*** S 5.6.2.8 Building Recession Planes
+
+*** S 5.6.2.8.1 Envelope
+
+All buildings and structures, including fences and walls, shall be contained within a
+building recession envelope (in the form of a “tent” constructed by drawing
+recession control lines over the site from all parts of all boundaries), provided that:
+• no account shall be taken of aerials, satellite dishes, light tubes, skylights,
+chimneys or decorative features, provided none of the above may exceed 1 metre
+in any horizontal direction
+• no account shall be taken of solar panels or solar hot water systems (and
+associated hardware) provided that the panels do not protrude more than 500mm
+from the surface of the roof and the total area of solar panels does not exceed 10
+square metres.
+• gable end roofs may penetrate the building recession plane by no more than one
+third of the gable height.
+• building recession planes do not apply to site boundaries fronting the street.
+
+*** 5.6.2.8.2
+
+Each recession control line shall rise vertically for 2.5m from ground level at the
+boundary and then incline inwards, at 90° to the boundary in plan. For each
+boundary the angle of inclination to the horizontal is determined by the direction in
+which the boundary faces (i.e. its compass bearing) which is ascertained by the
+bearing of a line drawn outwards from the site perpendicular to that boundary line.
+
+MDRA A&B 1.5 : 1
+
+*** S 5.6.2.10 Maximum Fence Height
+
+*** S 5.6.2.10.1
+
+On a street frontage or in a front yard, a fence or wall, or combination of these
+structures (whether separate or joined together), shall have a maximum height of 2
+metres measured from the ground level at the boundary.
+
+
+
+** current app implementation
+https://master.d1tzk6j3aia451.amplifyapp.com/
+
+** Motivations for an Ontology
+
+*** How do Locations work?
+
+At first we might be tempted to treat locations as an enum: the possible locations are a disjoint set, all at the same conceptual level.
+
+Then we observe that a tree-like hierarchy may be more appropriate, because the Outer Residential Area contains OR1, OR2, OR3 Roseneath.
+
+Then we wonder if there are actually multiple categorical dimensions: can a building be in a Medium Density Residential Area at the same time it is in a Hazard (Fault Line) Area?
+
+Then we think, "do we really need to reinvent this wheel? Isn't there some library we can just download, written by someone who's already thought about all this?"
+
+And if there isn't, there is a hierarchy of infrastructure to write:
+- core ontology, allowing one concept to contain another
+- ontology for places, allowing one place to contain another
+- class library to represent address/location information generically
+- jurisdiction-specific library for validation of local addresses
+
+One of the requirements of RaC is that we can't expect to ask domain experts to learn to program. This is a significant requirement because most programmers, at this point, would say, "This sounds easily implemented in my favourite programming language -- Python / Javascript / Ruby / Haskell / Ocaml -- and it's time to just roll up our sleeves! It should take just a few hours to get a basic class hierarchy up and running, and we'll make that library available, and we can write a simple rules engine around that, and then we'll bring up an API, and voila!"
+
+This is unwise for a number of reasons, including the fact that implementing the entity-relationship model directly in code means that you're locked in to that programming language, and furthermore, when the underlying law changes, it will be necessary to find someone comfortable with editing the code. This is not what RaC is about. RaC is closer to a model-driven approach: any executable code should just flow out of the entities and rules that are expressed at a higher level.
+
+We've seen with DMN how decision tables can be expressed in a platform-independent way.
+
+Can the entities and relations be expressed in a platform-independent way? Yes: there are at least two contenders: UML and OWL.
+
+In theory, once the entities are described in an ontology or modelling language, everything else can follow.
+
+*** Existing Ontologies
+
+The Semantic Web people have thought about space:
+
+- https://www.academia.edu/14260034/Spatial_planning_on_the_semantic_web
+- [[https://drive.google.com/file/d/1klnqxklFjsEaOHqzcVFlRIpYgJhCa0wZ/view?usp=sharing][2009 Reasoning with Spatial Plans on the Semantic Web]]
+
+LKIF-Core has thought about places -- if you open relative-places.owl in Protege, you will see that they talk about
+- Absolute_Place
+- Relative_Place
+- Location_Complex
+
+There's an international standard for geolocation: https://en.wikipedia.org/wiki/DE-9IM
+
+And that standard shows up in Schema.org's schema for Places: https://schema.org/Place
+
+Dbpedia also has a schema for Places: http://mappings.dbpedia.org/server/ontology/classes/Place
+
+Schema.org and Dbpedia are different: https://stackoverflow.com/questions/20800232/dbpedia-org-ontology-versus-schema-org-ontology
+
+But where's the actual usable code in all this? Where is the library that says, an address is made of a list of lines, plus an optional postcode, plus an optional city, state/province/region, country etc? Well, there are so many countries, and so many different addressing standards that maybe the only thing they have in common is the idea of a list of strings.
+
+https://www.mjt.me.uk/posts/falsehoods-programmers-believe-about-addresses/
+
+Both Schema.org and DBpedia define Person.
+
+[[https://protegewiki.stanford.edu/wiki/Protege_Ontology_Library][Protege's Ontology Library]] is a random collection of different packages, about the level of organization of NPM.
+
+There appear to be random ontologies scattered about the web. http://www.cs.man.ac.uk/~stevensr/ontology/ contains a good one for families, with logic to describe family relationships.
+
+Governments should be issuing these things.
+
+*** Legal ontologies
+
+**** If you look at the German civil code (hat tip to @mattwadd
+https://twitter.com/mattwadd/status/1195976340719198208)
+
+https://www.gesetze-im-internet.de/englisch_bgb/
+
+you will see that they start out with what is basically an ontology! So we are pretty well aligned.
+
+**** https://github.com/OntoUML/Normative_Acts_Ontology
+
+**** https://www.springer.com/gp/book/9789400714960
+
+**** UFO-L https://www.researchgate.net/publication/325999781_Conceptual_Modeling_of_Legal_Relations
+is available at ... ?
+
+https://www.researchgate.net/profile/Cristine_Griffo2/publication/313108971_A_Pattern_for_the_Representation_of_Legal_Relations_in_a_Legal_Core_Ontologies/links/58d2b295458515e6d900bf42/A-Pattern-for-the-Representation-of-Legal-Relations-in-a-Legal-Core-Ontologies.pdf?origin=publication_detail
+
+good background of other legal ontologies in: https://www.academia.edu/34166913/UFO-L_A_Core_Ontology_of_Legal_Concepts_Built_from_a_Legal_Relations_Perspective_Preparation_of_Doctoral_Consortium_Contributions?auto=download
+
+**** https://pdfs.semanticscholar.org/5591/d12dda5c0b91772be0f216b981762b66d7b6.pdf
+
+**** mirel: http://www.mirelproject.eu/publications/D2.2.pdf
+*** So let's pretend that there are already things out that which we can import.
+
+#+BEGIN_SRC text
+  // gives us classes and core rules for places, regions, buildings
+  import lkif/relative-places.l4
+#+END_SRC
+*** interoperability between standard formats
+https://essay.utwente.nl/79481/1/Haasjes_MA_EEMCS.pdf bidirectional UML and OWL
+
+*** Natural Language Generation
+
+"ontology verbalisation"
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3102894/
+
+https://eprints.soton.ac.uk/265735/
+
+see the attempto-related publications at http://rewerse.eu/publications/rewerse-publications.html
+
+GF/lemon: https://pdfs.semanticscholar.org/7907/507cec8663e531d7cae924f01d71b546d3e5.pdf
+https://www.w3.org/2019/09/lexicog/
+
+ACE, GF, OWL:
+https://arxiv.org/pdf/1406.2903.pdf
+
+** Implementation Illustrations
+
+*** current json-rules-engine implementation
+https://github.com/verbman/rubric/tree/master/app/district_plan/residential_rules/permitted
+
+https://github.com/verbman/rubric/blob/master/app/district_plan/residential_rules/permitted/maximum_height.js
+
+*** generic decision table
+
+meant to be compatible with Drools format
+
+https://docs.google.com/spreadsheets/d/1uGadez2cNBxyMh1hIbGnZQnNdyvPti9RkpO6cY6r3X8/edit?usp=drive_web&ouid=113686692949456863967
+
+*** DMN
+
+see files in current folder:
+- NZ Wellington DMN by mengwong 20191115.png
+- NZ Wellington DMN by mengwong 20191115.dmn
+
+This was built using Trisotech.com's DMN modeler.
+
+*** automatic translation from DMN to RuleML
+
+http://ceur-ws.org/Vol-1620/paper4.pdf
+
+http://stark-cove-78485.herokuapp.com/
+
+*** isomorphism with L4
+
+Here's what the Wellington case looks like in L4:
+
+# this is a syntactic comment ignored by the parser
+# example 2, wellington, in L4
+
+**** Rules
+
+A Building is Permitted if all of the following conditions are met:
+- the Building's Height Status is Permitted
+- the Building's Site Coverage Status is Permitted
+- the Building's Envelope Status is Permitted
+
+***** Permitted Height
+
+The Building's Height Status is Permitted if the Building's Height is less than or equal to the Building's Adjusted Maximum Height.
+
+The Building's Adjusted Maximum Height is given by the following decision table:
+
+| location                       | roofSlope | Adjusted Maximum Height |
+|--------------------------------+-----------+-------------------------|
+| IR5 - Oriental Bay Height Area | -         | Maximum Height          |
+| -                              | < 15      | Maximum Height          |
+| -                              | >= 15     | Maximum Height + 1      |
+
+# alternative phrasing:
+The Building's Adjusted Maximum Height is:
+- the Building's Maximum Height, if:
+  - the Building's Location is in "IR 5 - Oriental Bay Height Area", or
+  - the Building's Roof Slope is less than 15 degrees;
+- otherwise, the Building's Maximum Height, plus one.
+
+The Building's Maximum Height is given by the following decision table:
+
+| Location is In                            | Maximum Height |
+|-------------------------------------------+----------------|
+| Hazard (Fault Line) Area                  |              8 |
+| Medium Density Residential - Kilbirnie    |             10 |
+| Medium Density Residential - Johnsonville |              8 |
+| IR 3 - Aro Valley                         |            7.5 |
+| IR 4 - Mt Cook, Newtown, Berhampore       |              9 |
+| IR 5 - Oriental Bay Height Area           |             13 |
+| IR 6 - North Kelburn / Bolton Street      |             10 |
+| Inner Residential Area                    |             10 |
+| OR 3 - Roseneath                          |             10 |
+| Outer Residential Area                    |              8 |
+
+***** Permitted Site Coverage
+
+The Building's Site Coverage Status is Permitted if the Building's Site Coverage Percentage is less than or equal to the Building's Maximum Site Coverage.
+
+The Building's Maximum Site Coverage is given by the following decision table:
+
+| Location                                    | Uncovered Decks | Maximum Site Coverage |
+|---------------------------------------------+-----------------+-----------------------|
+| Medium Density Residential Areas            | -               |                   50% |
+| IR 3 - Aro Valley                           | -               |                   40% |
+| IR 5 - Oriental Bay Height Area             | -               |                  100% |
+| Inner Residential Areas                     | -               |                   50% |
+| OR 3 - Roseneath                            | -               |                   45% |
+| OR 4 - Mitchell Town / Hollyway Road Area 1 | -               |                   40% |
+| OR 4 - Mitchell Town / Hollyway Road Area 2 | -               |                   30% |
+| OR 4 - Mitchell Town / Hollyway Road Area 3 | -               |                   20% |
+| Outer Residential Area                      | FALSE           |                   35% |
+| Outer Residential Area                      | TRUE            |                   40% |
+
+***** Permitted Envelope
+
+The Building's Envelope Status is Permitted if all of the following conditions are met:
+- Within Recession Envelope is True
+- General Protrusions is Permitted
+- Solar Panel Protrusion is Permitted
+- Solar Panel Area is Permitted
+
+**** Definition: Town Locations
+
+The class of locations ("Town Locations") contains the following hierarchy:
+- Hazard (Fault Line) Area
+- Medium Density Residential
+  - Medium Density Residential - Kilbirnie
+  - Medium Density Residential - Johnsonville
+- Inner Residential Area
+  - IR 3 - Aro Valley
+  - IR 4 - Mt Cook / Newtown / Berhampore
+  - IR 5 - Oriental Bay Height Area
+  - IR 6 - North Kelburn / Bolton Street
+  - Inner Residential Area - Other
+- Outer Residential Area
+  - OR 3 - Roseneath
+  - OR 4 - Mitchell Town / Hollyway Road Area 1
+  - OR 4 - Mitchell Town / Hollyway Road Area 2
+  - OR 4 - Mitchell Town / Hollyway Road Area 3
+  - Outer Residential Area - Other
+
+(A Building is said to be "In" a Given Town Location if its Location matches the Given Town Location or if its Location is hierarchically subsumed by the Given Town Location.)
+
+# locations may overlap, so we cannot assume cardinality 1
+
+**** Definition: Building
+A building ("Building") may have the following attributes:
+- street address ("Address"), an Address object
+- location ("Location"), one or more Town Locations. The Location is determined by the Address, with reference to Appendix A.
+- (attributes to do with Height Status:)
+  - height ("Height"), a number in metres
+  - maximum height ("Maximum Height"), a number in metres
+  - adjusted maximum height ("Adjusted Maximum Height"), a number in metres
+  - height approval status ("Height Status"), a Boolean
+- (attributes to do with Site Coverage Status:)
+  - "Site Coverage Percentage" :: percentage
+  - "Maximum Site Coverage" :: percentage
+  - "Uncovered Decks" :: Boolean. True if up to 5% of the site coverage comprises only uncovered decks over 1 metre in height.
+  - "Site Coverage Status" :: Boolean
+- (attributes to do with Envelope Status:)
+  - Within Recession Envelope :: Boolean. True if the building's envelope does not exceed the recession envelope given in Appendix B.
+  - General Protrusions :: Boolean. True if any aerials, satellite dishes, light tubes, skylights, chimneys or decorative features do not protrude more than 1 meter from the building.
+  - Solar Panel Protrusion :: Boolean. True if solar panels do not protrude more than 50cm from the building.
+  - Solar Panel Area :: Boolean. True if solar panels do not exceed 10 square metres in area.
+  - envelope recession ("Envelope Status") :: Boolean
+- overall status ("Permitted"), a Boolean
+
+(With Booleans, Permitted means True.)
+
+**** ut nos praesumpseram
+
+Address objects are defined in the Standard Legal Library v1.0, available at http://l4.example.com/lib/legal/standard/
+
+We take for granted that members of all classes also have the attributes Name and InternalID.
+
+Appendices A and B are omitted for brevity.
+
+*** reasoning with OWL directly
+
+http://www.semanticweb.gr/thea/index.html
+
+And of course Protege has FACT++ and a whole bunch of others
+
+*** automatic translation from DMN to L4's rules language and then to Flora-2
+
+Here's what a CNL isomorphism could look like
+
+**** type declarations and value definitions of ontology, class, object, variables
+
+A Building is a Thing.
+
+A Building has the following independent attributes:
+- height, which is a number in metres.
+- address, which is an address in New Zealand.
+- site coverage, which is a percentage.
+- roof slope, which is a number in degrees.
+- uncovered deck area, which is a percentage.
+- within building recession envelope, which is a Boolean.
+- protrusions within 1m, which is a Boolean.
+- solar panel protrusion within 500mm, which is a Boolean.
+- solar panel area within 10sqm, which is a Boolean.
+
+
+A Building has the following dependent attributes:
+- location, which is exactly one element in the Location hierarchy.
+- maximum height
+- adjusted maximum height
+- maximum site coverage
+- sea level, which is a function of the address
+
+uncovered decks
+within building recession envelope
+protrusions within 1m
+solar panel protrusion within 500mm
+solar panel area within 10 sqm
+
+The Location hierarchy is as follows:
+- Hazard (Fault Line) Area
+- Medium Density Residential
+  - Medium Density Residential - Kilbirnie
+  - Medium Density Residential - Johnsonville
+  - Medium Density Residential - Other
+- Inner Residential Area
+  - IR 3 - Aro Valley
+  - IR 4 - Mt Cook / Newtown / Berhampore
+  - IR 5 - Oriental Bay Height Area
+  - IR 6 - North Kelburn / Bolton Street
+  - Inner Residential Area - Other
+- Outer Residential Area
+  - OR 3 - Roseneath
+  - OR 4 - Mitchell Town / Hollyway Road Area 1
+  - OR 4 - Mitchell Town / Hollyway Road Area 2
+  - OR 4 - Mitchell Town / Hollyway Road Area 3
+  - Outer Residential Area - Other
+
+
+
+*** automatic translation from DMN to a web app
+
+via a tool like https://github.com/EcoStruxure/OLGA
+
+* Example 3: AGM, Companies Act, Company Constitution
+
+the following syntax is intended to be consistent with the [[id:318C95F4-6B8E-4C55-B9F7-5137E1553626][GF sandbox for ontology, data modelling, and legal expressions generally]]
+
+** Desired Operational Codebases
+
+*** TypeScript
+
+**** a workflow planner that determines the sequence of prerequisites in the form of a DAG.
+
+**** example of desired data structure
+
+We start by hard-coding three workflows' dependencies.
+
+#+begin_src typescript
+  // the desired outcome:
+
+  // dictionary of workflow name to ordered list of stage-codes
+  const agOrderForSchema = {
+    "amend-constitution-written-v1.0": ['DR', 'MR'],
+    "amend-constitution-egm-normalnotice-v1.0": ['DR', 'EGMNotice', 'EGMSR'],
+    "amend-constitution-egm-shortnotice-v1.0": ['DR', 'EGMNotice', 'EGMConsent', 'EGMSR'],
+
+  }
+
+  // document-to-stage mapping is a dictionary of workflow name to set of tuples of document-name to stage-code
+  // of course this being typescript, arrays are used to model everything from tuples to sets
+  const agMatchForSchema = {
+
+  "amend-constitution-written-v1.0": [
+      ["^dr-amco", 'DR'],
+      ["^wr-amco", 'MR'],
+    ],
+
+    "amend-constitution-egm-normalnotice-v1.0": [
+      ["^dr-amco", 'DR'],
+      ["^notice-amco", 'EGMNotice'],
+      ["^egm-amco", 'EGMSR'],
+    ],
+
+    "amend-constitution-egm-shortnotice-v1.0": [
+      ["^dr-amco", 'DR'],
+      ["^notice-amco", 'EGMNotice'],
+      ["^shortnoticeconsent-amco", 'EGMConsent'],
+      ["^egm-amco", 'EGMSR'],
+    ],
+  }
+
+#+end_src
+
+**** semantics of the data structure
+
+in the above three workflows, we observe that:
+
+***** members resolutions in writing require directors resolutions to put those resolutions before the members
+- cap 50. 184C
+
+***** an extraordinary general meeting requires notice to be given.
+- model consti 47.2 :: All general meetings other than the annual general meetings are called extraordinary general meetings.
+- model consti 49.1 :: Subject to the provisions of the Act relating to special resolutions and any agreement amongst persons who are entitled to receive notices of general meetings from a company, at least 14 days’ notice (exclusive of the day on which the notice is served or treated to be served, but inclusive of the day for which notice is given) of any general meeting must be given to persons entitled to receive notices of general meetings from the company.
+- model consti 50.1 :: All business that is transacted at an extraordinary general meeting is special business.
+- model consti 50.2 :: All business that is transacted at an annual general meeting is special business, except — x,y,z.
+
+
+***** sending that notice requires a directors resolution.
+
+***** if the notice is not sufficient, we also need a consent to shorter notice. that consent has to happen after the notice and before the egm.
+
+**** where these dependencies may be found in the legal sources
+
+***** cap 50. 176.(5) -- directors must give proper notice for meetings involving special resolutions if those meetings are to be deemed duly convened
+A meeting at which a special resolution is to be proposed shall be deemed not to be duly convened by the directors if they do not give such notice thereof as is required by this Act in the case of special resolutions.
+***** cap 50. 177.(2) -- the notice period for an GM not involving special resolutions is 14 days or longer (given in constitution)
+A meeting of a company or of a class of members, other than a meeting for the passing of a special resolution, shall be called by notice in writing of not less than 14 days or such longer period as is provided in the constitution.
+***** cap 50. 177.(3) -- short notice may be approved
+A meeting shall, notwithstanding that it is called by notice shorter than is required by subsection (2), be deemed to be duly called if it is so agreed — (a)	in the case of a meeting called as the annual general meeting, by all the members entitled to attend and vote thereat; or...
+***** cap 50. 177.(4) -- notices to be served to qualified individuals, using approved means
+So far as the constitution does not make other provision in that behalf, notice of every meeting shall be served on every member having a right to attend thereat in the manner in which notices are required to be served by the model constitution prescribed under section 36(1) for the type of company to which the company belongs, if any.
+***** cap 50. 184 defines special resolutions
+****** 184.1 special resolutions require a three-quarters vote and 14 or 21 days notice specifying the intention to propose the resolution as special
+****** 184.2 with 95% approval an unannounced special resolution is legit
+****** 184.3 chairman may record the resolution without recording the votes, unless a poll is demanded
+****** 184.4 a poll may be demanded; mechanics
+***** cap 50. 184C require directors to send the text of the resolution to each member first
+***** model constitution 49
+(1)  Subject to the provisions of the Act relating to special resolutions and any agreement amongst persons who are entitled to receive notices of general meetings from a company, at least 14 days’ notice (exclusive of the day on which the notice is served or treated to be served, but inclusive of the day for which notice is given) of any general meeting must be given to persons entitled to receive notices of general meetings from the company.
+(2)  A notice of a general meeting must specify the following:
+(a)	the place at which the general meeting is held;
+(b)	the date and time of the general meeting;
+(c)	in case of special business to be transacted at the general meeting, the general nature of that business.
+***** model constitution 63
+63.—(1)  A notice may also be sent or supplied by the company by electronic means to a member who has agreed generally or specifically that the notice may be given by electronic means and who has not revoked that agreement.
+(2)  Where the notice is given by electronic means, service of the notice is treated as effected properly by sending or supplying it to an address specified for the purpose by the member generally or specifically.
+***** model constitution 64
+
+64.—(1)  Notice of every general meeting must be given in any manner authorised in regulations 62 and 63 to —
+(a)	every member; and
+(b)	the auditor for the time being of the company.
+(2)  No other person is entitled to receive notices of general meetings.
+
+**** Do votes go by one-member-one-vote, or one-share-one-vote?
+
+model constitution:
+20.—(1)  Subject to any rights or restrictions conferred by this Constitution, at meetings of members or classes of members, each member entitled to vote may vote in person or by proxy or by attorney.
+(2)  On a show of hands, every member or representative of a member present in person has one vote.
+(3)  On a poll, every member present in person or by proxy or by attorney or other duly authorised representative has one vote.
+
+companies act:
+179.—(1)  So far as the constitution does not make other provision in that behalf and subject to sections 64 and 64A —
+(a)	2 members of the company personally present shall form a quorum;
+(b)	any member elected by the members present at a meeting may be chairman thereof;
+(c)	in the case of a company having a share capital —
+(i)	on a show of hands, each member who is personally present and entitled to vote shall have one vote; and
+(ii)	on a poll, each member shall have one vote in respect of each share held by him and where all or part of the share capital consists of stock or units of stock each member shall have one vote in respect of the stock or units of stock held by him which is or are or were originally equivalent to one share; and
+
+whoa!
+
+
+
+***** Cap50.184A. Passing of resolutions by written means
+
+****** (7)  Any reference in this Act or any other law to the passing or making of a resolution, or the passing or making of a resolution at a meeting, includes a reference to the passing of the resolution by written means in accordance with this section.
+
+****** (8)  Any reference in this Act or any other law to the doing of anything at a general meeting of a company includes a reference to the passing of a resolution authorising the doing of that thing by written means in accordance with this section.
+
+***** 183. Circulation of members’ resolutions, etc.
+
+****** (1)  Subject to this section, a company shall on the requisition of such number of members of the company as is specified in subsection (2) and, unless the company otherwise resolves, at the expense of the requisitionists —
+(a)	give to members of the company entitled to receive notice of the next annual general meeting notice of any resolution which may properly be moved and is intended to be moved at that meeting or (if the resolution is proposed to be passed by written means under section 184A) for which agreement is sought; and
+(b)	circulate to members entitled to have notice of any general meeting sent to them any statement of not more than 1,000 words with respect to the matter referred to in any proposed resolution or the business to be dealt with at that meeting.
+[8/2003]
+
+****** (2)  The number of members necessary for a requisition under subsection (1) shall be —
+(a)	any number of members representing not less than 5% of the total voting rights of all the members having at the date of the requisition a right to vote at the meeting to which the requisition relates; or
+(b)	not less than 100 members holding shares in the company on which there has been paid up an average sum, per member, of not less than $500.
+
+****** (3)  Subject to subsection (3A), notice of a resolution referred to in subsection (1) shall be given, and any statement so referred to shall be circulated, to members of the company entitled to have notice of the meeting sent to them by serving on each member, in any manner permitted for service of the notice of the meeting, a copy of the resolution and statement.
+[8/2003]
+
+****** (3A)  Where the resolution is proposed to be passed by written means under section 184A, the notice of the resolution and statement shall be given and circulated to members of the company entitled to have notice of the meeting sent to them by serving on each member —
+(a)	a copy of the resolution and statement; and
+(b)	a notification that formal agreement to the resolution is being sought under section 184A.
+[8/2003; 5/2004]
+
+****** (3B)  Notice of the resolution shall be given to any other member of the company by serving on him notice of the general effect of the resolution in any manner permitted for giving him notice of meetings of the company.
+[8/2003]
+
+****** (3C)  Except where the resolution is proposed to be passed by written means under section 184A, the copy of the resolution referred to in subsection (3) shall be served, or notice of the general effect of the resolution referred to in subsection (3B) shall be given, as the case may be, in the same manner and, so far as practicable, at the same time as notice of the meeting and, where it is not practicable for it to be served or given at that time, it shall be served or given as soon as practicable thereafter.
+[8/2003]
+
+****** (4)  Subject to subsection (4A), a company shall not be bound under this section to give notice of any resolution or to circulate any statement unless —
+(a)	a copy of the requisition signed by the requisitionists, or 2 or more copies which between them contain the signatures of all the requisitionists, is deposited at the registered office of the company —
+(i)	in the case of a requisition requiring notice of a resolution, not less than 6 weeks before the meeting; and
+(ii)	in the case of any other requisition, not less than one week before the meeting; and
+(b)	there is deposited or tendered with the requisition a sum reasonably sufficient to meet the company’s expenses in giving effect thereto,
+but if, after a copy of a requisition requiring notice of a resolution has been deposited at the registered office of the company, an annual general meeting is called for a date 6 weeks or less after the copy has been deposited, the copy though not deposited within the time required by this subsection shall be deemed to have been properly deposited for the purposes thereof.
+[8/2003]
+
+****** (4A)  A company shall not be bound under this section to give notice of any resolution which is proposed to be passed by written means under section 184A, or to circulate any statement relating thereto, unless —
+(a)	the requisition setting out the text of the resolution and the statement is received by a director of the company in legible form or a permitted alternative form; and
+(b)	the notice states that formal agreement to the resolution is sought under section 184A.
+[8/2003]
+
+****** (4B)  Where the requisition under subsection (4A)(a) requests that the date of its receipt by a company be notified to a specified person, the directors shall, without delay after it is first received by a director in legible form or a permitted alternative form, notify that person of the date when it was first so received.
+[8/2003]
+
+****** (5)  The company shall not be bound under this section to circulate any statement if, on the application either of the company or of any other person who claims to be aggrieved, the Court is satisfied that the rights conferred by this section are being abused to secure needless publicity for defamatory matter and the Court may order the company’s costs on an application under this section to be paid in whole or in part by the requisitionists, notwithstanding that they are not parties to the application.
+
+****** (6)  Notwithstanding anything in the company’s constitution, the business which may be dealt with at an annual general meeting shall include any resolution of which notice is given in accordance with this section, and for the purposes of this subsection notice shall be deemed to have been so given notwithstanding the accidental omission, in giving it, of one or more members.
+[Act 36 of 2014 wef 03/01/2016]
+
+****** (7)  In the event of any default in complying with this section, the company and every officer of the company who is in default shall be guilty of an offence and shall be liable on conviction to a fine not exceeding $5,000.
+[15/84]
+
+****** (8)  For the purposes of this section, something is “in legible form or a permitted alternative form” if, and only if, it is sent or otherwise supplied —
+(a)	in a form (such as a paper document) that is legible before being sent or otherwise supplied and does not change form during that process; or
+(b)	in another form that —
+(i)	is currently agreed between the company and the person as a form in which the thing may be sent or otherwise supplied to the company; and
+(ii)	is such that documents sent or supplied in that form can (where particular conditions are met) be received in legible form or be made legible following receipt in non-legible form.
+[5/2004]
+[UK, 1948, s. 140; Aust., 1961, s. 143]
+
+***** 184. Special resolutions
+
+****** (1)  A resolution shall be a special resolution when it has been passed by a majority of not less than three-fourths of such members as, being entitled to do so, vote in person or, where proxies are allowed, by proxy present at a general meeting of which —
+(a)	in the case of a private company, not less than 14 days’ written notice; or
+(b)	in the case of a public company, not less than 21 days’ written notice,
+specifying the intention to propose the resolution as a special resolution has been duly given.
+[8/2003]
+
+****** (2)  Notwithstanding subsection (1), if it so agreed by a majority in number of the members having the right to attend and vote at the meeting, being a majority which together holds not less than 95% of the total voting rights of all the members having a right to vote at that meeting, a resolution may be proposed and passed as a special resolution at a meeting of which written notice of a period less than that required under subsection (1) has been given.
+[8/2003; 21/2005]
+
+****** (3)  At any meeting at which a special resolution is submitted a declaration of the chairman that the resolution is carried shall unless a poll is demanded be conclusive evidence of the fact without proof of the number or proportion of the votes recorded in favour of or against the resolution.
+
+****** (4)  At any meeting at which a special resolution is submitted a poll shall be deemed to be effectively demanded if demanded —
+(a)	by such number of members for the time being entitled under the constitution to vote at the meeting as is specified in the constitution, but it shall not in any case be necessary for more than 5 members to make the demand;
+[Act 36 of 2014 wef 03/01/2016]
+(b)	if no such provision is made by the constitution, by 3 members so entitled, or by one or 2 members so entitled, if —
+(i)	that member holds or those 2 members together hold not less than 10% of the total number of paid-up shares of the company (excluding treasury shares); or
+(ii)	that member represents or those 2 members together represent not less than 10% of the total voting rights of all the members having a right to vote at that meeting.
+[21/2005]
+[Act 36 of 2014 wef 03/01/2016]
+
+****** (4A)  For the purposes of subsection (4), any reference to a member does not include a reference to a company itself where it is registered as a member.
+[21/2005]
+
+****** (5)  In computing the majority on a poll demanded on the question that a special resolution be passed reference shall be had to the number of votes cast for and against the resolution and to the number of votes to which each member is entitled by this Act or the constitution of the company.
+[Act 36 of 2014 wef 03/01/2016]
+
+****** (6)  For the purposes of this section, notice of a meeting shall be deemed to be duly given and the meeting shall be deemed to be duly held when the notice is given and the meeting held in the manner provided by this Act or by the constitution.
+[Act 36 of 2014 wef 03/01/2016]
+
+****** (7)  Any extraordinary resolution, duly and appropriately passed before 29th December 1967 shall for the purposes of this Act be treated as a special resolution.
+[S 258/67]
+
+***** (8)  Where in the case of a company incorporated before 29th December 1967 any matter is required or permitted to be done by extraordinary resolution that matter may be done by special resolution.
+
+*
+**** Cap50.184B. Requirements for passing of resolutions by written means
+
+****** (1)  A resolution of a private company or an unlisted public company may only be passed by written means if —
+(a)	either —
+(i)	agreement to the resolution was first sought by the directors of the company in accordance with section 184C; or
+(ii)	a requisition for that resolution was first given to the company in accordance with section 183 and, by reason of that notice, the documents referred to in section 183(3A) in respect of the resolution were served on members of the company in accordance with section 183(3A);
+(b)	the constitution of the company does not prohibit the passing of resolutions (either generally or for the purpose in question) by written means; and
+[Act 36 of 2014 wef 03/01/2016]
+(c)	all conditions in the company’s constitution relating to the passing of the resolution by written means are met.
+[8/2003; 5/2004]
+[Act 36 of 2014 wef 03/01/2016]
+(2)  Any resolution that is passed in contravention of subsection (1) shall be invalid.
+
+***** Cap50.184C. Where directors seek agreement to resolution by written means
+
+(1)  The directors of a private company or an unlisted public company who wish to seek agreement to a resolution of the company and for it to be passed by written means shall send to each member, having the right to vote on that resolution at a general meeting, a copy of the text of the resolution.
+[5/2004]
+[Act 36 of 2014 wef 03/01/2016]
+(2)  As far as practicable, the directors shall comply with subsection (1) as respects every member at the same time and without delay.
+[8/2003]
+(3)  Without prejudice to any other means of complying with subsections (1) and (2), the directors shall have complied with those subsections if they secure that the same paper document containing the text of the resolution is sent without delay to each member in turn.
+[8/2003]
+(4)  Subject to section 184D, if the resolution is passed before the directors have complied with subsection (1) as respects every member, that fact shall not affect the validity of the resolution or any obligation already incurred by the directors under subsections (1) and (2).
+[8/2003]
+
+Members may require general meeting for resolution
+184D.—(1)  Any member or members of a private company or an unlisted public company representing at least 5% of the total voting rights of all the members having the right to vote on a resolution at a general meeting of the company may, within 7 days after —
+(a)	the text of the resolution has been sent to him or them in accordance with section 184C; or
+(b)	the documents referred to in section 183(3A) in respect of the resolution have been served on him or them,
+as the case may be, give notice to the company requiring that a general meeting be convened for that resolution.
+[8/2003; 5/2004]
+[Act 36 of 2014 wef 03/01/2016]
+(2)  Where notice is given under subsection (1) —
+(a)	the resolution is invalid even though it may have in the meantime been passed in accordance with section 184A; and
+(b)	the directors shall proceed to convene a general meeting for the resolution.
+[8/2003]
+Period for agreeing to written resolution
+184DA.—(1)  Unless the constitution of a company otherwise provides, a resolution proposed to be passed by written means lapses if it is not passed before the end of the period of 28 days beginning with the date on which the written resolution is circulated to the members of the company.
+(2)  The agreement to a resolution is ineffective if indicated after the expiry of that period.
+[Act 36 of 2014 wef 03/01/2016]
+Company’s duty to notify members that resolution passed by written means
+184E.—(1)  Where a resolution of a private company or an unlisted public company is passed by written means, the company shall —
+(a)	notify every member that it has been passed; and
+(b)	do so within 15 days from the earliest date on which a director or secretary of the company is aware that it has been passed.
+[8/2003]
+[Act 36 of 2014 wef 03/01/2016]
+(2)  Non-compliance with this section shall not render the resolution invalid.
+[8/2003]
+[UK, Bill, 2002, Clause 173]
+Recording of resolutions passed by written means
+184F.—(1)  Where a resolution of a private company or an unlisted public company is passed by written means, the company shall cause a record of the resolution, and the indication of each member’s agreement (or agreement on his behalf) to it, to be entered in a book in the same way as minutes of proceedings of a general meeting of the company.
+[8/2003]
+[Act 36 of 2014 wef 03/01/2016]
+(2)  Non-compliance with subsection (1) shall not render the resolution invalid.
+[8/2003]
+(3)  Any such record, if purporting to be signed by a director or the secretary of the company, is evidence of the proceedings in passing the resolution.
+[8/2003]
+(4)  Where a record is made in accordance with this section, then, until the contrary is proved, the requirements of this Act with respect to those proceedings shall be deemed to have been complied with.
+[8/2003]
+(5)  Section 189 applies in relation to a record made in accordance with this section as it applies in relation to minutes of proceedings of a general meeting.
+[8/2003]
+
+Resolutions of one member companies
+184G.—(1)  Notwithstanding anything in this Act, a company that has only one member may pass a resolution by the member recording the resolution and signing the record.
+[5/2004]
+(2)  If this Act requires information or a document relating to the resolution to be lodged with the Registrar, that requirement is satisfied by lodging the information or document with the resolution that is passed.
+[5/2004]
+[Aust., 2001, s. 249B]
+Resolution requiring special notice
+185.  Where by this Act special notice is required of a resolution, the resolution shall not be effective unless notice of the intention to move it has been given to the company not less than 28 days before the meeting at which it is moved, and the company shall give its members notice of any such resolution at the same time and in the same manner as it gives notice of the meeting or, if that is not practicable, shall give them notice thereof, in any manner allowed by the constitution, not less than 14 days before the meeting, but if after notice of the intention to move such a resolution has been given to the company, a meeting is called for a date 28 days or less after the notice has been given, the notice, although not given to the company within the time required by this section, shall be deemed to be properly given.
+
+
+**** how the data structure is computed
+
+Let's do a little bit in Prolog.
+
+#+begin_src prolog :noweb yes :tangle ex3.pl
+  :- use_module(library(ugraphs)).
+  :- use_module(library(julian)).
+  :- use_module(library(clpfd)).
+  %% http://mndrix.github.io/julian/
+  %% https://swi-prolog.discourse.group/t/www-swi-prolog-org-goes-https/811/1
+
+  %% directors resolutions are needed before holding a meeting
+
+  %% what we want is for, if the EGM meeting date is less than 14 days from the directors resolutions,
+  %% issue an EGM with short notice
+
+  %% https://www.researchgate.net/publication/220218194_PROTON_A_prolog_reasoner_for_temporal_ontologies_in_OWL
+
+  %% this is really a planning problem. We could use PDDL for this, or we could do a crude hack.
+  %% crude hack follows.
+  %% we set up the preconditions and the constraints.
+  %% then we solve the constraints to produce a graph of dependencies.
+  %% we toposort the dependency graph to obtain a valid event log.
+  %% this event log is the plan.
+
+
+  eventDate("directors resolutions", MJD) :- YMD = 2020-05-01, form_time(YMD, datetime(MJD,_)).
+  eventDate("general meeting",       MJD) :- form_time(Y-M-D, datetime(MJD,_)).
+
+  eventDate("notice of general meeting", MJD) :- normalNoticeDeadline(ND),                                 MJD #=< ND,
+                                                 eventDate("directors resolutions", DR_YMD),    DR_YMD #=< MJD.
+
+  eventDate("consent to short notice",   MJD) :- normalNoticeDeadline(ND),
+                                                 eventDate("general meeting", GMDate),
+                                                 eventDate("directors resolutions", DR_MJD),
+                                                    ND #=< MJD,
+                                                           MJD #=< GMDate,
+                                                        DR_MJD #=< MJD,
+                                                 DR_MJD #> ND.
+
+  eventText(E, Commentary) :- eventDate(E, MJD),
+                              fd_inf(MJD, Earliest),
+                              fd_sup(MJD, Latest),
+                              form_time(Y1-M1-D1, datetime(Earliest,_)),
+                              form_time(Y2-M2-D2, datetime(Latest,_)),
+                              ( Earliest == Latest
+                              -> atomics_to_string([E, " happens on ", Y1, "-", M1, "-", D1], Commentary)
+                              ;  atomics_to_string([E, " could happen anytime between ",
+                                                    Y1, "-", M1, "-", D1, " and ",
+                                                    Y2, "-", M2, "-", D2], Commentary) ).
+
+
+  normalNoticeDeadline(ND) :- eventDate("general meeting", GMDate),
+                              delta_time(datetime(ND,_), days(14), datetime(GMDate,_)).
+
+  before(E1, E2) :- dif(E1, E2), eventDate(E1, D1), eventDate(E2, D2), D1 #< D2.
+
+  % infrastructure
+
+  daysBetween(E1, E2, Interval) :-
+      eventDate(E1, D1),
+      eventDate(E2, D2),
+      delta_time(D1, days(Interval), D2).
+
+  % for a general meeting, the two solutions are:
+  % normal notice if the interval is 14 days or more
+  % consent to shorter notice otherwise
+
+  basicEdges(E) :- bagof(X-Y, before(X,Y), E).
+
+  mkGraph(L) :- basicEdges(E),
+                vertices_edges_to_ugraph([], E, L).
+
+  myshow(N,Out) :- mkGraph(L), neighbours(N, L, Out).
+
+  print_sequence :-
+      % obtain the explanation
+      explain_sequence(Out),
+      % print the explanation
+      maplist(format("~s\n"),Out),
+      !.
+
+  explain_sequence(Out) :-
+      mkGraph(L),
+      % the topological sort of a graph is the ordered linearization that gets you from start to end
+      top_sort(L, TopSort0),
+      % verbosify each event
+      maplist(eventText, TopSort0, TopSort1),
+      % prefix each element in the toposort list with a dash <li>
+      maplist(string_concat("- "),TopSort1,TopSort2),
+      % construct the commentary
+      append(["the sequence is as follows:"], TopSort2, Out).
+
+
+
+#+end_src
+
+
+**** the inputs to the toposort
+
+**** how the dependency logic could be transferred in from an external source
+
+**** questions that the software should be able to answer
+
+***** given this resolution, what are the pathways by which it maybe passed?
+
+
+
+
+** directors and the AGM
+
+*** LegalSources
+:PROPERTIES:
+:xmltag:   lrml:LegalSources
+:END:
+
+**** Model Company Constitution
+:PROPERTIES:
+:lrml:LegalSource: https://sso.agc.gov.sg/SL/CoA1967-S833-2015?DocDate=20151231&ProvIds=Sc1-#Sc1-
+:key:      mc.1
+:END:
+
+**** Companies Act
+:PROPERTIES:
+:lrml:LegalSource: https://sso.agc.gov.sg/Act/CoA1967#P1V-P23-
+:key:      Cap.50.Div.3.175
+:END:
+Division 3 -- Meetings and Proceedings
+https://sso.agc.gov.sg/Act/CoA1967#P1V-P23-
+
+
+*** Companies ActDivision 3 -- Meetings and proceedings.
+
+**** 174. Statutory Meeting -- omitted
+
+not relevant to private companies, so omitted for now
+
+**** 175. Companies must hold AGM
+:PROPERTIES:
+:lrml:LegalSource: 175.1
+:END:
+
+#+begin_src haskell
+LEGALSOURCE 175.1
+REGULATIVE RULE "Companies Must Hold AGM" @ cmhagm
+SUBJECT TO [ this§ & §175A ]
+PARTY every Company
+PMUST hold (a general meeting called@ "annual general meeting") @ AGM
+      WHERE AGM.labels == 1 [ ( text_en= "in addition to any other meeting" ) ]
+REPEATEDLY
+     AFTER Company.financialYearEnd
+    WITHIN (Company.isListedPublicCo? then 4 months else 6 months) @ AgmPeriod
+#+end_src
+
+Subject to this section and section 175A, a general meeting of every company to be called the “annual general meeting” must, in addition to any other meeting, be held after the end of each financial year within —
+(a)	4 months in the case of a public company that is listed; or
+(b)	6 months in the case of any other company.
+
+
+
+Notes: how to formalize semantics of "in addition to any other meeting"? this basically means we can't consider some other meeting the Company held, to be the AGM.
+
+#+begin_src haskell
+UNSPOKEN CONSTITUTIVE RULE
+FORALL Company {
+  .isListedPublicCo? :- .isPublic?, .isListed?.
+}
+#+end_src
+
+**** Registrar may extend deadline
+:PROPERTIES:
+:lrml:LegalSource: 175.2
+:END:
+
+#+begin_src haskell
+REGULATIVE RULE "Registrar May Extend Deadline" @ "RMED"
+PARTY Registrar
+MAY ( extend cmhagm.temporal.case.period ) @ "extension"
+UPON ( or [ and [ Company.appliesFor extension @ "application"
+                , Registrar.approves application @ "approval" [ text_en= "thinks there are special reasons to do so" ] ] ]
+          ( Company `isListedIn` Registrar."RMED" { text_en= "prescribed"} ) )
+#+end_src
+
+**** AGM may be held any time
+:PROPERTIES:
+:lrml:LegalSource: 175.3
+:END:
+
+#+begin_src haskell
+COMPOUND RULE "AGM anytime"
+[ ( CONSTITUTIVE RULE "GM anytime"
+    PROVIDED satisfied "Notice Requirements" [ text_en= "Subject to notice being given to all persons entitled to receive notice of the meeting" ]
+    FOR generalMeeting IN Company.generalMeetings
+    PROPERTY (isValidMeetingTime = const true) [ text_en= "a general meeting may be held at any time" ]
+    -- should there be a constraint that the annual meeting for a given year occur during that year? in other words the maxYearlyAGM rule
+    -- We can't take this literally. Surely a general meeting cannot be held while another general meeting is also being held.
+  )
+, ( REGULATIVE RULE "GM deemed AGM"
+    PARTY Company
+      MAY ( resolve ( deem ( oneOf Company.generalMeetings )@gm gm.isAnnual = true )
+                    [ text_en= "the company may resolve that any meeting held or summoned to be held shall be the annual general meeting of the company" ] ) ) ]
+#+END_SRC
+
+**** Penalties
+
+**** From the Model Constitution
+
+***** General Meeting
+
+# This section exists to match the hierarchical structure of the legal source.
+
+****** Refer To Act
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.47.1
+:END:
+#+begin_src haskell
+REGULATIVE RULE "must hold agm"
+PARTY Company
+PMUST ( hold an (annual general meeting @ "AGM")
+               [ in_accordance_with Cap.50 ] )
+REPEATEDLY
+#+end_src
+
+47.—(1)  An annual general meeting of the company must be held in accordance with the provisions of the Act.
+
+****** EGM by default
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.47.2
+:END:
+
+#+begin_src haskell
+CONSTITUTIVE RULE "non-AGMs called EGM"
+FOR generalMeeting IN Company.generalMeetings
+PROPERTY isExtraordinary = .isAnnual === Just False [ en_predicate= "called", en_noun= "extraordinary general meeting" ]
+#+end_src
+
+(2)  All general meetings other than the annual general meetings are called extraordinary general meetings.
+
+***** General Meeting - Requisitioning and Convening EGMss
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.48
+:END:
+
+# This section exists to match the hierarchical structure of the legal source.
+
+****** Requisitioning EGM
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.48.1
+:END:
+
+#+begin_src haskell
+REGULATIVE RULE "requisitioning EGM"
+PARTIES (or (any Company.director)
+            (any requisitionist [ provided_for_by Act ]))
+PMAY requisition (extraordinary general meeting)
+
+#+end_src
+
+48.—(1)  An extraordinary general meeting may be requisitioned by —
+(a)	any director, whenever the director thinks fit; or
+(b)	any requisitionist as provided for by the Act.
+
+****** Convening EGM
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.48.2
+:END:
+
+#+begin_src haskell
+REGULATIVE RULE "convening EGM"
+UPON "requisitioning EGM"
+PARTY Company
+PMUST convene an extraordinary general meeting @ "EGM"
+#+end_src
+
+(2)  Upon a requisition being made under paragraph (1), an extraordinary general meeting must be convened.
+
+***** General Meeting - Notices
+
+# This section exists to match the hierarchical structure of the legal source.
+
+****** Required
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.49.1
+:END:
+
+#+begin_src haskell
+CONSTITUTIVE AS REGULATIVE RULE "notices of general meetings are required"
+SUBJECT TO provisionsOf Act (relating to [ special resolutions
+                                         , any (agreement amongst (persons who are entitled to receive notices of general meetings from a company @ "EntP")) ] )
+WHEN     convening a (general meeting @ "GM")
+PARTY    Company
+PMUST    give notice to (all EntP % text Det = the_Det )
+AT LEAST (14 days)
+BEFORE   GM.date
+LEST     GM is improper
+#+end_src
+
+49.—(1)  Subject to the provisions of the Act relating to special resolutions and any agreement amongst persons who are entitled to receive notices of general meetings from a company, at least 14 days’ notice (exclusive of the day on which the notice is served or treated to be served, but inclusive of the day for which notice is given) of any general meeting must be given to persons entitled to receive notices of general meetings from the company.
+
+comment: "to persons entitled" or "to all persons entitled"? quantification bug.
+
+****** Contents of Notice
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.49.2
+:END:
+
+#+begin_src haskell
+CONSTITUTIVE RULE "GM notice spec"
+ENTITY notice of a (general meeting @ "GM")
+MUST specify [ place [ text_en= "the place at which the general meeting is held" ]
+             , date  [ text_en= "the date and time of the general meeting" ]
+             , if filter special GM.business _@ "business" then general_nature(business) else () ]
+#+end_src
+
+(2) A notice of a general meeting must specify the following:
+(a)	the place at which the general meeting is held;
+(b)	the date and time of the general meeting;
+(c)	in case of special business to be transacted at the general meeting, the general nature of that business.
+
+***** General Meeting - Business
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.50
+:END:
+
+# This section exists to match the hierarchical structure of the legal source.
+
+****** egm special
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.50.1
+:END:
+
+#+begin_src haskell
+  ALETHIC RULE "egm business"
+  FORALL Company.generalMeetings.isExtraordinary?.business { .level == Special }
+#+end_src
+
+50.—(1)  All business that is transacted at an extraordinary general meeting is special business.
+
+****** agm special
+:PROPERTIES:
+:lrml:LegalSource: CompanyConstitution.50.2
+:END:
+
+#+begin_src haskell
+  ALETHIC RULE "agm business"
+  FORALL Company.generalMeetings.isAnnual?.business {
+    .level == (Ordinary if b.matter =~ [ "the declaration of a dividend"
+                                       , "consideration" of_ [ "the financial statements"
+                                                             , "the reports of the auditors"
+                                                             && "the statements of the directors" ]
+                                       , "the election of directors in the place of retiring directors"
+                                       && [ "the appointment"
+                                          & "fixing of the remuneration" ] of_
+                                            "the auditors" ) ] topdown;
+               Special otherwise ) bottomup
+  }
+
+#+end_src
+
+(2)  All business that is transacted at an annual general meeting is special business, except —
+(a)	the declaration of a dividend;
+(b)	the consideration of the financial statements, the reports of the auditors and the statements of the directors;
+(c)	the election of directors in the place of retiring directors; and
+(d)	the appointment and fixing of the remuneration of the auditors.
+
+
+**** Unspoken Rules
+
+from English, what it means for something to be Annual.
+
+#+begin_src haskell
+  UNSPOKEN ALETHIC RULE "maximum of one AGM per year" @ "maxYearlyAGM"
+  ASSERT zeroOrOneXPerY (== isAnnualGM) year Company.generalMeetings
+
+  UNSPOKEN MODELLING RULE "companies have general meetings"
+  DEFINE Company
+  ATTRIBUTE generalMeetings :: [generalMeeting]; -- array of general meetings
+
+  #+end_src
+
+  #+begin_src haskell
+    module L4Util where
+
+    import Data.Map.Lazy as Map
+
+    zeroOrOneXperY :: Ord k => (a -> Bool) -> (a -> k) -> [a] -> Bool
+    zeroOrOneXperY f g as =
+      (== 0) $ length
+       $ Prelude.filter (> 1)
+       $ (length . Prelude.filter f <$>)
+      <$> elems
+      <$> Map.fromListWith (++) $ (\a -> (g a, [a]))
+      <$> as
+
+#+end_src
+
+**** Unspoken Ontology
+
+This operational version is given in Haskell. Subsequently we will have an OWL / UML version of this ontology, and a converter to Haskell.
+
+#+NAME: datatypes
+#+begin_src haskell :noweb yes :tangle hs/src/L4OntologyForCompanies.hs
+  module L4OntologyForCompanies where
+
+  import L4Rules
+  import Data.List
+
+  data Co = Co { generalMeetings :: [GM] }
+      deriving (Show)
+
+  -- special business doesn't imply it is a special resolution.
+
+  data GM = AGM { ordinaryBusiness :: [Members_Resolution]
+                , specialBusiness  :: [Members_Resolution] }
+          | EGM { specialBusiness  :: [Members_Resolution] }
+          deriving (Show, Eq)
+
+  all_resolutions gm@(AGM _ _) = ordinaryBusiness gm ++ specialBusiness gm
+  all_resolutions gm@(EGM _)   =                        specialBusiness gm
+
+  data Members_Resolution = Members_Resolution
+                            { level :: BusinessLevel
+                            , matter :: String
+                            }
+                          deriving (Show, Eq)
+
+  data BusinessLevel = Ordinary | Special
+                     deriving (Show, Eq)
+
+  data Notice = Notice { date :: Date
+                       , place :: String
+                       , meeting :: GM
+                       , sender :: Party
+                       } deriving (Show, Eq)
+
+  data Date = YMD { yyyy :: Int
+                  , mm   :: Int
+                  , dd   :: Int } deriving (Show, Ord, Eq)
+
+  type Duration = Int -- days
+
+  data Company = Company { knownPublic :: Bool
+                         , constitution :: Constitution
+                         , shareholdings :: CompanyShareHoldings
+                         , directors :: [Party]
+                         , secretary :: Party
+                         , auditor :: Party
+                         }
+
+  data Constitution = Constitution { ordinaryNoticePeriod :: Duration
+                                   , specialNoticePeriod :: Duration
+                                   , minDirectors :: Maybe Int
+                                   , maxDirectors :: Maybe Int
+                                   , shareClasses :: [ShareClass]
+                                   , meetingQuorum :: Maybe Int
+                                   }
+                    deriving (Show, Eq)
+
+  modelConstitution = Constitution 14 14 Nothing Nothing [OrdinaryShare Nothing] (Just 2)
+
+  data ShareClass = OrdinaryShare (Maybe String) | PreferredShare String -- could be ordinary voting or nonvoting
+                  deriving (Show, Eq)
+
+  type CompanyShareHoldings = [ CompanyShareHolding ]
+
+  data CompanyShareHolding = CompanyShareHolding { party :: Party
+                                                 , shareClass :: ShareClass
+                                                 , quantity :: Int }
+                           deriving (Show, Eq)
+
+  data MeetingScenario = MS { notice :: Notice
+                            , gm :: GM
+                            }
+                       deriving (Show, Eq)
+
+  isDulyCalled :: MeetingScenario -> Bool
+  isDulyCalled = const True
+
+    -- 176.(5)  A meeting at which a special resolution is to be proposed shall be deemed not to be duly convened by the directors if they do not give such notice thereof as is required by this Act in the case of special resolutions.
+
+  -- how much notice needs to be given
+  specialNoticeRequired :: MeetingScenario -> Bool
+  specialNoticeRequired ms =
+    any (\mr -> "removal of director" `isInfixOf` (matter mr)) $ all_resolutions (gm ms)
+
+  -- 49.—(1)  Subject to the provisions of the Act relating to special resolutions and any agreement amongst persons who are entitled to receive notices of general meetings from a company, at least 14 days’ notice (exclusive of the day on which the notice is served or treated to be served, but inclusive of the day for which notice is given) of any general meeting must be given to persons entitled to receive notices of general meetings from the company.
+  noticeRequired :: MeetingScenario -> Company -> Int
+  noticeRequired ms =
+    if specialNoticeRequired ms
+    then  specialNoticePeriod . constitution
+    else ordinaryNoticePeriod . constitution
+
+  -- if a director is being deposed then they too are entitled to receive notices
+
+#+end_src
+
+*** Alternative Versions
+See Jersey's version of this law https://www.jerseylaw.je/laws/unofficialconsolidated/Pages/13.125.aspx#_Toc10705253 section 87
+
+*** Test Case regarding AGM
+
+Consider this sequence of events:
+
+1. A Company's Financial Year ends 31 Dec 2019.
+2. On 1 May 2020, the directors give notice to all members that a general meeting will be held on 1 Oct 2020.
+3. The members convene in general meeting on 1 Oct 2020.
+4. During the general meeting, the members resolve that that meeting is the annual general meeting.
+
+Model checker should automatically come up with this scenario, because it leads to a deontic conflict.
+
+Does that sequence of events violate rule 175.1?
+
+Initially, yes, because an AGM is supposed to happen within 6 months of the end of the financial year, according to 175.1.b.
+
+But upon second reading, no, because 175.1 says it is subject to "this section"
+
+this section includes 175.3
+
+175.3 says a general meeting may be held at any time
+
+and the members may deem any meeting to be the AGM
+
+lol
+
+therefore 175.2 is pointless
+
+**** Analogous deontic conflict
+
+You may order any flavour of ice cream.
+
+You must order chocolate within 3 hours of the store opening.
+
+If you do not order chocolate, you will be fined.
+
+
+
+
+Is the chocolate rule a deontic or constitutive rule?
+
+As a constitutive rule, we would interpret it as saying "a valid order for chocolate must be submitted within 3 hours of the store opening. If an order for chocolate is submitted after 3 hours of store opening, it is not valid, and may not be honoured."
+
+As an alethic rule, we would it interpret it as "if you want chocolate, then to get what you want, you must submit a valid order for chocolate. If you do not, then you cannot expect to get chocolate."
+
+The third rule, which introduces a penalty, clarifies that the chocolate rule is a hard deontic, and noncompliance will be punished.
+
+
+*** Rules regarding Appointment of Directors:
+:PROPERTIES:
+:SectionName: Appointment of Directors
+:END:
+
+A Director is a Natural Person. They may have the following attributes:
+- Ordinarily Resident in Singapore :: boolean.
+
+A Company's Board of Directors ("Board") is an Aggregate Entity comprising one or more Directors.
+
+# when an aggregate entity "may have" certain attributes, it means those attributes are of type Maybe attr
+The Board may have the following attributes:
+- Maximum Size :: an Integer. Alethic Rule: The size of the Board can not exceed the Maximum Size at any given time.
+
+# when an aggregate entity "must have" certain attributes, it means those attributes are of type attr; they must be defined.
+The Board must have the following attributes:
+- Minimum Size :: an Integer, default 1. Alethic Rule: The size of the Board can not fall short of the Minimum Size at any given time.
+
+The Company may appoint a Director to the Board by Ordinary Resolution or Extraordinary Resolution.
+
+A Director may attempt to resign from the Board by communicating a Resignation to the Board. The Resignation automatically succeeds if it does not violate any of the alethic rules in this section.
+
+Rule: Unless at least one member of the Board is Ordinarily Resident in Singapore, the Company is in a state of Non-Compliance.
+
+A Company's "Casual Vacancy" holds whenever the size of the Board is less than the Maximum Size.
+
+When a Company's Casual Vacancy holds, the Board may appoint a Director to the Board.
+
+*** ut nos praesumpseram
+
+(The following definitions describe the domain of discourse at a given point in time. To model changes over time, a bitemporal model is recommended.)
+
+*** Entity Relationship Model / Ontology
+
+An Entity has the following attributes (in addition to Name and InternalID):
+- Notice Address :: a List of Notice Address objects
+
+A Notice Address has the following attributes:
+- Medium :: one of Fax, Email, Phone, Address, InPerson.
+- Address :: a List of Strings.
+
+An Aggregate Entity is an Entity that also has the following attributes:
+- Member Type :: a List of Entity Types
+- Methods of Acting :: a List of Action Methods specific to the Aggregate Entity
+# this is a dependent type:
+#   ActionMethod Board = BoardResolution
+#   ActionMethod Company = Ordinary Resolution | Extraordinary Resolution | Resolution In Writing
+
+A Person is an Entity with the following attributes:
+- Names :: a List of Name objects
+- IDs :: a List of ID objects
+
+ID objects have the following attributes:
+- ID type :: a String
+- ID value :: a String
+- (optional) Country :: a String
+
+A Natural Person is a Person with the following attributes:
+- BirthDate :: a Date.
+- Nationality :: a List of Countries.
+- Preferred Pronoun :: a tuple of (Nominative_Pronoun, Objective_Pronoun)
+
+Nominative_Pronoun is one of the following:
+- He
+- She
+- It
+- They
+- Other String
+
+Objective_Pronoun is one of the following:
+- His
+- Her
+- Their
+- Other String
+
+A Company is a Person with the following attributes:
+- Nationality :: a Country.
+- Public :: boolean.
+- Exempt :: boolean.
+- Shareholders :: a List of Entity objects, where none can be the Company.
+- Non-Compliance :: a List of Non-Compliance Factors.
+- Meetings :: a List of Meeting objects
+- Contracts :: a List of Contract objects
+- Board :: defined below.
+- Officers :: a Dictionary of { Role : List of Natural Person }
+- Casual Vacancy :: boolean.
+
+A Non-Compliance Factor is a String.
+# to later expand to actual enum values
+
+A Shareholder is an Entity.
+
+A Country is an Entity, defined with reference to ISO 3166-1, with the following attributes:
+- Two Digit Country Code :: a String with two characters.
+- Three Digit Country Code :: a String with three characters.
+
+A Company's Methods of Acting are:
+- Ordinary Resolution :: Voting; where Required is 50/100; and Count Style is One Per Share Count.
+- Extraordinary Resolution :: Voting; where Required is 75/100; and Count Style is One Per Share Count.
+- Specially Majority Resolution :: Voting; where Required is dependent on the content of the resolution; and Count Style is One Per Share Count.
+- Resolution in Writing :: Voting; where Required is 50/100, and Count Style is One Per Share Count.
+
+A Meeting is an Event with the following attributes:
+- Subject :: an Aggregate Entity. This describes who is holding the meeting.
+- Date :: a Date object
+- Quorum :: a Fractional
+- Method of Meeting :: a Meeting Type
+- Notice Requirements :: a Notice Requirements object
+- Resolutions :: a List of Resolution objects
+
+A Physical Meeting is a Meeting with the following attributes:
+- Place :: a Location
+
+An Annual General Meeting is a Physical Meeting where:
+- the Aggregate Entity is a Company.
+- every element of the List of Resolution objects is either an Ordinary Resolution or an Extraordinary Resolution.
+
+An Extraordinary General Meeting is a Physical Meeting where:
+- the Aggregate Entity is a Company.
+- every element of the List of Resolution objects is an Extraordinary Resolution.
+
+A Virtual Meeting is a Meeting where:
+- every element of the List of Resolution objects is a Resolution In Writing.
+
+A Resolution has the following attributes:
+- Content
+- Action Method
+
+A Resolution's Content has the following attributes:
+- Record a Decision
+- Perform a State Change
+- Instruct an Entity to Perform a State Change
+- Grant a Power to Objects for Term
+
+An Action Method has the following attributes:
+- Actor :: Person or Aggregate Entity
+
+Voting is an Action Method with the following additional attributes:
+- Required :: a Fractional.
+- Count Style :: either One Per Voter or One Per Share Count
+
+Acclamation is an Action method with the following additional attributes:
+- Deciders :: a List of Natural Persons, who are present at the relevant Meeting.
+
+
+* Technologies Surveyed
+
+We give each rule system a shot at implementing the above two examples.
+
+We evaluate based on:
+- tooling
+- interoperability via import and export with runtimes
+- existing knowledge base allowing us to import existing Generally Accepted ontologies as class hierarchies
+- usability by non-technicals -- GUI IDE
+- reasoning -- support for forward and backward chaining
+- web-friendliness -- availability of packages and libraries to build web applications
+
+** plain Prolog
+
+** Flora-2
+powerful and expressive. lacks JS runtime.
+
+ 
+** Coode and beyond
+
+https://www.gov.scot/publications/guidance-instructing-counsel-common-legislative-solutions/
+
+** ASP answer set programming
+http://www.cs.utexas.edu/users/vl/papers/wiasp.pdf
+** RIF
+https://en.wikipedia.org/wiki/Rule_Interchange_Format
+
+https://books.google.com.sg/books?id=zs3qAX3ZZG0C&pg=PA228&lpg=PA228&dq=%22rule+engine%22+import+rif&source=bl&ots=NQip0r9R1J&sig=ACfU3U0zRhhaFjUJRSfR3wokDt4IH7Xw0g&hl=en&sa=X&ved=2ahUKEwjZ8fmoosblAhUJWysKHYawBfoQ6AEwBHoECAcQAQ#v=onepage&q=%22rule%20engine%22%20import%20rif&f=false
+
+read all the RIF documentation -- i think there is a six-part series including RIF/RDF/OWL.
+
+https://www.researchgate.net/publication/221343042_Please_Pass_the_Rules_A_Rule_Interchange_Demonstration
+
+https://www.sti-innsbruck.at/sites/default/files/courses/fileadmin/documents/semweb09-10/08_SW-RIF.pdf
+
+** DMN
+
+decision tables can be composed in https://demo.bpmn.io/dmn/new or in https://www.trisotech.com/
+
+see screenshots in current folder named "ex1 dmn *.png"
+
+** RuleML
+** RuleLog
+** Blawx / DocAssemble
+** Drools
+
+Drools has its own Rule Language, and on top of that can import a number of other formats, including DMN Decision Tables.
+
+see the declarative nature of the system:
+https://docs.jboss.org/drools/release/latest/drools-docs/html_single/#_government_id_example
+
+demo: https://developers.redhat.com/products/red-hat-decision-manager/hello-world
+
+Install and run:
+
+#+BEGIN_SRC text
+  20191127-12:09:19 mengwong@venice4:~/src/redhat-decisionmanager/rhdm7-install-demo% ./init.sh
+
+
+  #################################################################
+  ##                                                             ##
+  ##  Setting up the Install Demo       ##
+  ##                                                             ##
+  ##                                                             ##
+  ##     ####  #   # ####    #   #   #####    #   #              ##
+  ##     #   # #   # #   #  # # # #     #      # #               ##
+  ##     ####  ##### #   #  #  #  #   ###       #                ##
+  ##     # #   #   # #   #  #     #   #        # #               ##
+  ##     #  #  #   # ####   #     #  #     #  #   #              ##
+  ##                                                             ##
+  ##  brought to you by,                                         ##
+  ##             Red Hat                                         ##
+  ##                                                             ##
+  ##                                                             ##
+  ##  git@github.com:jbossdemocentral/rhdm7-install-demo.git      ##
+  ##                                                             ##
+  #################################################################
+
+  Product sources are present...
+
+  Product sources are present...
+
+  Product sources are present...
+
+    - removing existing JBoss product...
+
+  Provisioning JBoss EAP now...
+
+
+  Deploying Red Hat Decision Manager: Decision Central now...
+
+
+  Deploying Red Hat Decision Manager: Decision Server now...
+
+
+    - enabling demo accounts setup...
+
+    - setting up standalone.xml configuration adjustments...
+
+    - setup email notification users...
+
+    - making sure standalone.sh for server is executable...
+
+  You can now start the Red Hat Decision Manager with ./target/jboss-eap-7.2/bin/standalone.sh
+
+  Login to http://localhost:8080/decision-central   (u:dmAdmin / p:redhatdm1!)
+
+  Red Hat Decision Manager 7.5 Install Demo Setup Complete.
+
+  20191127-12:09:47 mengwong@venice4:~/src/redhat-decisionmanager/rhdm7-install-demo% ./target/jboss-eap-7.2/bin/standalone.sh
+
+#+END_SRC
+
+** RDF / OWL 2
+much as along the lines of http://ebooks.iospress.nl/volumearticle/53668
+
+** RIF-RuleLog
+
+iLog is convertible to RIF https://hal.inria.fr/hal-00755012/document
+
+F-Logic and Drools!
+http://rewerse.net/I1/oxygen.informatik.tu-cottbus.de/rewerse-i1/@q=node_2f64.htm
+
+But no RIF/Drools conversion:
+- https://lists.jboss.org/pipermail/rules-dev/2011-February/002799.html
+- http://blog.athico.com/2007/06/w3c-rule-interchange-format-for.html
+- https://source.jboss.org/browse/JBossRules/contrib/apocrif/jbossrules/src/main/java/apocrif/engine/jbossrules?r=11928
+
+other interchange discussion from the REWERSE project: http://rewerse.net/I1/oxygen.informatik.tu-cottbus.de/rewerse-i1/@q=node_2f3.htm
+
+controlled english language: http://rewerse.net/deliverables/m12/i1-d2.pdf
+
+
+
+** JSON-Rules-Engine
+** JSON-LD
+** SWRL
+** SBVR
+** DataLex
+http://austlii.community/foswiki/DataLex/
+** Logiak
+logiak.com
+
+** L4
+
+*** The *Section* Keyword: On Rule Sets, Rule Systems, Rule Groups
+
+/No rule is an island entire of itself; every clause is a part of the main./
+
+In any defeasible system, where individual rules can stand in superiority relations with one another, and in any meta-rule system, where a rule can modify the text of another rule directly, it is perhaps better to think of individual rules as rule /fragments/, which together constitute the more complex ruleset-as-a-whole.
+
+Early legal drafting attempted to cram everything into [[http://revisor.mo.gov/main/OneSection.aspx?section=233.285&bid=12522&hl=][a single sentence]]. The "single-sentence" form of a rule system can indeed be produced by L4, in a "normal form"; consider that a compiler's intermediate representation of a program is in fact a "single-sentence" assemblage -- a list of trees of lists of trees etc. Perhaps in allusion to this, many programming languages use the semicolon to separate statements, not the period. (Notably, Prolog combines fragments using commas and periods as well as semi-colons.)
+
+But modern legal drafting tries to keep sentences short. So the unit of communication becomes the section, not the sentence. Even then it may be futile to think of a section as standing alone. Every rule can be modified by another rule; and ultimately new rules can be created to settle the matter at hand. So in a very real sense the law as it applies to a particular case is unknown up to the very moment that case appears before the highest court of appeal which has considered all the legislation and all the previous case law and is ready to make new law.
+
+However, there remains lower-hanging fruit which is amenable to analysis: black-and-white stuff like taxes, benefits, building rules, and procedural corporate law. This is the bread and butter of computational law. And it is relatively self-contained: the bread fits into a breadbox. The butter fits into a butter dish. They relate to one another, but the kitchen counter is ultimately of finite size.
+
+L4 uses the reserved keyword SECTION for grouping purposes. 
+
+*** Normalization and Canonicalization
+
+L4 supports multiple concrete representations of the same underlying abstract syntax and semantics. The semantics are formally specified and reducible to first-order logic! Defeasibility is represented using superiority relations and defeasible inferences.
+
+Representations in *controlled natural language* are provided by GF.
+
+In *code form*, there are multiple *normal forms*. The concept of /normalization/ is most familiar from [[https://en.wikipedia.org/wiki/Database_normalization][database theory]] but also exists [[https://en.wikipedia.org/wiki/Canonical_normal_form][in logic]], e.g. [[https://en.wikipedia.org/wiki/Conjunctive_normal_form][conjunctive normal form]].
+
+L4's transpiler engines (think pandoc) support the following input formats:
+
+- SBVR
+- OWL
+- BPMN
+- DMN
+- LegalRuleML
+- LegalDocML
+
+L4 code normalization passes through the following canonicalization / normalization steps:
+
+- raw natural language :: syntactically structured encoding of the legislation / regulation / rules, such as that found at https://sso.agc.gov.sg/ or Legal*ML
+- isomorphic normal form :: closest to the source natural language as traditionally written; each clause in legislation becomes a clause in L4. This form may import library ontologies. In the context of a Rules As Code development methodology, this may be the natural form in which drafting happens. In the context of a rules-to-code process, the translation team may choose to translate to this form. Note that this form allows references to BPMN, DMN, and OWL resources. Those resources are validated and made available for inspection and integration by the rest of the codebase.
+- automorphic normal form :: any text-on-text edits are applied; this is similar to beta-reduction.
+- defeasible normal form :: the superiority and priority relations between rules as stated in the text are resolved. This is where /lex specialis/ happens.
+- ontological normal form :: ontological inference produces an explicit ontology aka type system aka class model. The ontology is appended to the other forms. Manual ontology construction is to be expected.
+- total normal form :: functions are made explicitly total through deductive reasoning, constraint resolution, and possibly subjective textual inference, similar to Hindley-Milner inference.
+- Coode normal form :: the conditions for each rule and action are made explicit
+- counterparty resolution form :: the implications of rights and powers on counterparties is resolved according to Hohfeld and Alexey
+- discretionary normal form :: every decision is backdoored to allow an override by one or more agreed deciders, unless such a backdoor has already been written in by this point.
+- canonical L4 form :: the most interoperable open-standard version, all uncontroversial transformations have been applied, and all controversial transformations have been computed and briefly included, perhaps using the ~interpretation~ tag. Note that LegalSource origins remain threaded through the text.
+
+Canonical L4 form supports extraction to specific concrete syntaxes:
+
+- terse form :: obvious redundancies are eliminated, trusting that an alert reader will understand the implications. Metonyms are contracted, reducing the expressions of objects to their essences.
+- logical form :: this form is suitable for expression in a Prolog or CHR system, such as Flora-2, which supports F-Logic, from which an expert system can be automatically built.
+- Typescript form :: a Typescript library includes the ontology as a Typescript schema and the logical code as a program auto-generated in the functional/logic paradigms.
+- CNL form :: This form is an extraction to readable natural language.
+- PDF XMPP form :: embeddable into a PDF contract and readable by compatible systems. Standards-oriented.
+- LegalDocML form :: Extracted to a valid LegalDocML document. Variants permit omission of the ontology, leaving deduction of the omitted ontology as an exercise for the reader / courts.
+- LegalRuleML form :: Extracted to a valid LegalRuleML document.
+- L4 multiformat :: a collection of the other normal forms in a zip package file. Borrowing a page from .docx.
+
+In a Rules-as-Code exercise, informal requirements can be sketched in isomorphic normal form and then detailed in any of the subsequent forms. The transpiler makes heavy use of inference to fill in the gaps.
+
+*** Syntax
+
+**** lists
+
+See also https://drive.google.com/file/d/0BxOaYa8pqqSwdUt5VWdDOWdlREE/view?usp=sharing
+and  https://en.wikipedia.org/wiki/Exclusive_or#Exclusive_%22or%22_in_English
+
+syntax for lists:
+
+- [ y & z ]   [ x, y & z ]  :: you may order [ espresso  & vanilla ] => you may order espresso. you may order vanilla. if you want an affogato you have to make two orders and combine it yourself. Distributive disjunctive and.
+- [ y && z ]  [ x, y && z ] :: you may order [ espresso && vanilla ] => if you order only espresso, you won't get it. the only valid order is for an affogato. Conjunctive and.
+- [ y &&& z ]  [ x, y &&& z ] :: you may order [ espresso &&& vanilla ] => a single order can contain one, two, or more elements. Collective disjunctive and.
+- [ y | z ]   [ x, y | z ]  :: you may order [ espresso | vanilla ]  => you may order espresso or vanilla, but not both. semantics: xor, max cardinality 1.
+- [ y || z ]  [ x, y || z ] :: you may order [ espresso || vanilla ] => undefined -- is this same as & ?
+
+The above is syntactic sugar.
+
+The single ampersand ~&~ means ~distributiveAnd~. It is rewritten to ~(distributiveAnd [x, y, z])~. It is true if ~order(x) ∨ order(y) ∨ order(z)~ but false for ~order([x,y])~ due to a type error: an ~&~ order can have arity of 1. Some people call this "disjunctive and".
+
+The double ampersand ~&&~ means ~restrictiveAnd~. It is rewritten to ~(restrictiveAnd [x, y, z])~. It is true iff ~x ∧ y ∧ z~. The arity of ~order()~ is precisely the length of ~[x,y,z]~. Some people call this "conjunctive and".
+
+The triple ampersand ~&&&~ means ~compoundAnd~. It is rewritten to ~(compoundAnd [x, y, z])~. It is true iff ~x ∧ y ∧ z~. The arity of ~order()~ may be 1, 2, or 3.
+
+**** dot-methods on lists
+
+The ~.~ operator is powerful, aka heavily overloaded.
+
+***** object attributes
+
+though this is more in the style of Alloy relations
+
+~object.attribute~ has the value of the attribute.
+
+***** list comprehensions
+
+Given
+- ~listA :: [a]~
+- ~a :: { myAttribute :: b, listB :: [b] }~
+
+~listA.attribute~ is a map of ~[ this = myAttribute a, path = a | a <- listA ]~
+
+~listA.listB.~ is a map of ~[ this = b, path = a.b | a <- listA, b <- a.listB ]~
+
+***** filter questions
+
+~list.question?~ is syntactic sugar for ~filter question list :: (a->Bool) -> [a] -> [a]~
+
+***** i might be stealing some of this syntax from Ruby or other languages, I honestly don't remember now.
+
+
+*** Types
+
+
+
+*** types of rules
+
+See also: /Rules and Norms: Requirements for Rule Interchange Languages in the Legal Domain/
+file:///Users/mengwong/Downloads/Rules_and_Norms_Requirements_for_Rule_In.pdf
+
+#+name: l4rules
+#+begin_src haskell :tangle hs/src/L4Rules.hs
+
+  module L4Rules where
+
+  import Data.List (intersperse)
+  import Data.Maybe (fromMaybe, maybe)
+  import Text.PrettyPrint as PP
+
+
+
+
+  class MyPretty a where
+    mypretty :: a -> Doc
+
+  -- have to rework this -- making a mild category error. how do we talk about a party in the abstract, when we don't care about which constructor it is? for now let's use SomeParty
+  data Party = NaturalPerson { name :: String }
+             | Corporation   { name :: String }
+             | Trust         { name :: String }
+             | SomeParty     { name :: String }
+             deriving (Show, Eq)
+
+  instance MyPretty Party where
+    mypretty (NaturalPerson name) = text name PP.<> comma <+> text "a natural person"
+    mypretty (Corporation   name) = text name PP.<> comma <+> text "a corporation"
+    mypretty (Trust         name) = text name PP.<> comma <+> text "a trust"
+
+  -- EDSL / AST
+
+  data RuleSpec = RuleGroupSpec L4RuleGroup
+                | OneRuleSpec L4Rule
+                | RuleSpecExp BlockExp
+    deriving (Show, Eq)
+
+    -- the RuleSpecExp allows us to say "notwithstanding any other rule in this section which would have the effect of reducing the severity of the penalty described herein"
+
+  data L4RuleGroup = RuleGroup { groupTitle :: RuleTitle
+                               , ruleTitles :: [RuleTitle]  }
+    deriving (Show, Eq)
+
+  data L4DefeasibleRelation = L4RuleDefeasible { subjectTo :: [RuleSpec]
+                                               , notwithstanding :: [RuleSpec]
+                                               , rule :: RuleTitle }
+    deriving (Show, Eq)
+
+  -- this will turn into a graph one day
+  data RuleSequenceRelation = RuleHence | RuleLest -- used for violation and reparation
+    deriving (Show, Eq)
+
+  type RuleTitle = String
+
+  -- L4 statement generally, not a rule
+  data L4Stm = Def Keyword DefType StmFormula
+
+  type Keyword = String -- should make this a NonSpaceString
+
+  data DefType = DeonticKeyword
+               | ConstitutiveKeyword
+
+  type StmFormula = BlockExp
+
+  -- this allows us to, e.g., define strong and weak permission, and define SHANT in terms of NOT MAY
+
+  -- for types of rules, see 
+  data L4Rule = DefinitionRule { title :: RuleTitle
+                               , annotations :: [RuleAnnotations]
+                               , aliases     :: Maybe [String]
+                               , forall :: Object
+                               , block :: BlockExp
+                               }
+              | ConstitutiveRule { title      :: RuleTitle
+                                 , annotations :: [RuleAnnotations]
+                                 , aliases     :: Maybe [String]
+                                 , scope       :: Maybe [RuleSpec]
+                                 , forall      :: Object -- context / scope / with
+                                 , x          :: Object
+                                 , y          :: Object
+                                 , conditions :: BoolExp
+                                 }
+              | RegulativeRule { title       :: RuleTitle
+                               , annotations :: [RuleAnnotations]
+                               , aliases     :: Maybe [String]
+                               , conditions  :: BoolExp
+                               , party       :: Party
+                               , deontic     :: Deontic
+                               , action      :: Action
+                               , temporal    :: Temporal
+                               , hence       :: RuleFollowsHence -- sub-state-machine
+                               , lest        :: RuleFollowsLest
+                            }
+              | MetaRule
+              | CompoundRule [L4Rule]
+              | ConstraintRule
+    deriving (Show, Eq)
+
+  data RuleFollowsHence = HenceFulfilled | Hence RuleTitle | NoHence
+    deriving (Show, Eq)
+
+  data RuleFollowsLest = LestBreach | Lest RuleTitle | NoLest
+    deriving (Show, Eq)
+
+  data Deontic = Must | Should | May | Shant
+    deriving (Show, Eq)
+
+  instance MyPretty Deontic where
+    mypretty Must   = text "MUST"
+    mypretty Should = text "SHOULD"
+    mypretty May    = text "MAY"
+    mypretty Shant  = text "SHANT"
+
+  instance MyPretty L4Rule where
+
+    mypretty l4r@(DefinitionRule t annotations aliases f blexp) =
+      rulePrefix l4r <+> text "DEFINITION RULE" <+> doubleQuotes (text t) $+$
+      text "FORALL" <+> mypretty f <+>
+      lbrace $+$ nest 2 ( mypretty blexp ) $+$ rbrace
+
+    mypretty l4r@(RegulativeRule title annotations aliases conditions party deontic action temporal hence lest) =
+      vcat [ rulePrefix l4r <+> text "REGULATIVE RULE" <+> doubleQuotes (text title)
+           , (if conditions /= (BBool True) then text "under certain conditions" <+> lbrack <+> nest 2 (mypretty conditions) <+> rbrack else empty)
+           , text "PARTY" <+> mypretty party
+           , hsep [ (if PassiveVoice `elem` annotations then text "P" else empty) PP.<> mypretty deontic,
+                    mypretty action ]
+           , mypretty temporal
+           ]
+
+    mypretty l4r@(ConstitutiveRule title annotations aliases scope forall x y conditions) =
+      vcat [ rulePrefix l4r <+> text "CONSTITUTIVE RULE" <+> doubleQuotes (text title)
+           , text "FORALL" <+> mypretty forall <+> lbrace
+           , nest 2 $ vcat [ mypretty x <+> text ":-" <+> myprolog conditions ]
+           , rbrace
+           ]
+    
+
+  rulePrefix l4rule = hcat [ if Unspoken `elem` (annotations l4rule) then text "UNSPOKEN" else empty ]
+
+  -- wouldn't it be cool if we could do some CTL here.
+  -- also, wouldn't it be cool if there were some time library we could reuse
+
+  data Temporal = Temporal (Maybe TemporalInt) (Maybe TemporalBase) Repetition
+                | TemporalSpec BlockExp
+    deriving (Show, Eq)
+
+  instance MyPretty Temporal where
+    mypretty (TemporalSpec ble) = text "according to the temporal specification" <+> mypretty ble
+    mypretty (Temporal (Just interval) (Just base) repetition) =
+      let base_interval = mypretty base $+$ mypretty interval
+      in base_interval <+> mypretty repetition
+    mypretty (Temporal Nothing Nothing repetition) = mypretty repetition
+
+
+  data TemporalBase = After     DateSpec -- >
+                    | Before    DateSpec -- <
+                    | On        DateSpec -- =
+                    | OnOrAbout DateSpec -- ~=
+    deriving (Show, Eq)
+
+  instance MyPretty TemporalBase where
+    mypretty (After     datespec) = text "AFTER"  <+> mypretty datespec
+    mypretty (Before    datespec) = text "BEFORE" <+> mypretty datespec
+    mypretty (On        datespec) = text "ON"     <+> mypretty datespec
+    mypretty (OnOrAbout datespec) = text "ABOUT"  <+> mypretty datespec
+
+
+
+  data TemporalInt = Within Interval
+                   | IntervalSpec BlockExp
+    deriving (Show, Eq)
+
+  instance MyPretty TemporalInt where
+    mypretty (Within interval) = text "WITHIN" <+> mypretty interval
+    mypretty (IntervalSpec ble) = text "WITHIN" <+> mypretty ble
+
+  data Repetition = Repeating (Maybe Interval)
+                  | Once
+                  | Times NumExp
+    deriving (Show, Eq)
+
+  instance MyPretty Repetition where
+    mypretty (Repeating Nothing) = text "REPEATEDLY every so often"
+    mypretty (Repeating (Just interval)) = text "REPEATEDLY" <+> text "every" <+> mypretty interval
+    mypretty Once                 = empty
+    mypretty (Times numexp)       = mypretty numexp
+
+  data Interval = Interval (Maybe IYear) (Maybe IMonth) (Maybe IDay)
+    deriving (Show, Eq)
+
+
+  instance MyPretty Interval where
+    mypretty (Interval Nothing Nothing Nothing) = text "some time period not properly specified -- this is an error"
+    mypretty (Interval y m d) = (sayperiod y "year") <+> (sayperiod m "month") <+> (sayperiod d "day")
+      where
+        sayperiod Nothing  str = empty
+        sayperiod (Just n) str | n > 1  = text (show n) <+> text (str ++ "s")
+                               | n == 1 = text (show n) <+> text (str)
+
+  type IYear  = Int
+  type IMonth = Int
+  type IDay   = Int
+
+  data NumExp = Fixed Int
+              | NumSpec BlockExp
+    deriving (Show, Eq)
+
+  instance MyPretty NumExp where
+    mypretty (Fixed n) = text $ show n
+    mypretty (NumSpec blexp) = text "according to the numerical specification" <+> mypretty blexp
+
+  data DateSpec = Gregorian Int Int Int -- Y M D
+                | DateSpec BlockExp
+    deriving (Show, Eq) -- would be nice to Ord the Gregorian
+
+  instance MyPretty DateSpec where
+    mypretty (Gregorian y m d) = text "in the year of our lord" <+> text (show y) <+>
+                                 text "on the" <+> text (show d) <+> text "day of the " <+>
+                                 text (show m) <+> text "month"
+
+  data RuleAnnotations = Unspoken
+                       | LegalSource String
+                       | PassiveVoice
+                       | SubjectTo [RuleSpec]
+                       | Notwithstanding [RuleSpec]
+    deriving (Show, Eq)
+
+  instance MyPretty RuleAnnotations where
+    mypretty (Unspoken)           = text "UNSPOKEN"
+    mypretty (LegalSource string) = text ("lrml:LegalSource" ++ string)
+    mypretty (PassiveVoice)       = text ("passive voice")
+
+  type SymbolName = String
+
+  data Object = Object { objType :: ObjType
+                       , objName :: SymbolName
+                       }
+    deriving (Show, Eq)
+
+  -- refactor data Object = ArrayObj [Object] | StringObj | EnumObj String String | SelectorObj String
+
+  data ObjType = TypeArray ObjType
+               | TypeString
+               | TypeEnum String
+               | TypeSelector
+               | TypeBool
+    deriving (Show, Eq)
+
+  type Lang = String
+
+  type LangString = (Lang, String)
+
+  prettylangstring :: LangString -> Doc
+  prettylangstring (lang, string) = text (":" ++ lang ++ ":") <+> text string
+
+  -- to be expanded. perhaps we do event-calculus start/finish in the trace
+  data Action = Action Object [LangString] (Maybe BoolExp)
+    deriving (Show, Eq)
+
+  instance MyPretty Action where
+    mypretty (Action (Object otype oname) langstrings blexp) =
+      vcat (text oname : (prettylangstring <$> langstrings)
+            ++ [maybe empty (\bl -> text "WHERE" <+> mypretty bl) blexp]
+           )
+
+  instance MyPretty Object where
+    mypretty (Object otype oname) = text oname <+> (vpretty $ colon PP.<> colon PP.<> space PP.<> mypretty otype)
+
+  verbosity = 0
+  vpretty x = if verbosity > 0 then x else empty
+
+  instance MyPretty ObjType where
+    mypretty (TypeArray otype) = lbrack PP.<> mypretty otype PP.<> rbrack
+    mypretty (TypeBool)        = text "Bool"
+    mypretty (TypeString)      = text "String"
+    mypretty (TypeEnum str)    = text ("Enum of " ++ str)
+    mypretty (TypeSelector)    = text "ObjectSelector"
+
+  -- block expressions which evaluate to Boolean
+  data BoolExp = BEquals BoolExp BoolExp
+                | BlEq BlockExp BlockExp
+                | BNot BoolExp
+                | BAnd [BoolExp]
+                | BAny [BoolExp]
+                | BAll [BoolExp]
+                | BMatch BlockExp BlockExp
+                | BBool Bool
+                | BlAsBool BlockExp
+    deriving (Show, Eq)
+  -- need a monad transformer to equip BlockExp with a Reader context
+
+  data L4List a = L4List ListType [a]
+    deriving (Show, Eq)
+
+  data BlockExp = BlockExp Object -- with explicit braces
+                | BlUnify BlockExp BlockExp
+                | BIfThenElse    BoolExp (Maybe BlockExp) (Maybe BlockExp)  -- explicit "if x then y else z" -- note the order of arguments is always x y z
+                | BIfElse1       BoolExp (Maybe BlockExp) (Maybe BlockExp)  -- implicit "y if x; z otherwise"
+                | BZunlessXthenY BoolExp (Maybe BlockExp) (Maybe BlockExp)  -- implicit "z unless x in which case y"
+                | BlOf BlockExp BlockExp -- X of Y
+                | BlObj Object
+                | BlStr String
+                | BlList (L4List BlockExp)
+  --            | BCase1 Object -- explicit "case x of y1 -> z1; y2 -> z2; y3 -> z3"
+    deriving (Show, Eq)
+
+  data ListType = ConjAnd | DisjAnd | Xor | ConjOr | DisjOr
+    deriving (Show, Eq)
+
+  data Direction = TopDown | BottomUp
+    deriving (Show, Eq)
+
+
+  instance MyPretty BoolExp where
+    mypretty (BEquals be1 be2)  = mypretty be1 <+> equals PP.<> equals <+> mypretty be2
+    mypretty (BlEq ble1 ble2)   = mypretty ble1 <+> text "=~=" <+> mypretty ble2
+    mypretty (BNot be)          = text "NOT" <+> lparen PP.<> mypretty be PP.<> rparen
+    mypretty (BAnd bes)         = text "AND" <+> lbrack <+> hsep (punctuate comma (mypretty <$> bes)) <+> rbrack
+    mypretty (BAny bes)         = text "ANY" <+> lbrack <+> hsep (punctuate comma (mypretty <$> bes)) <+> rbrack
+    mypretty (BAll bes)         = text "ALL" <+> lbrack <+> hsep (punctuate comma (mypretty <$> bes)) <+> rbrack
+    mypretty (BMatch ble1 ble2) = mypretty ble1 <+> text "~~" <+> mypretty ble2
+    mypretty (BBool bool)       = text $ show bool
+    mypretty (BlAsBool obj)     = mypretty obj
+
+  -- sometimes "any" means "all", as in "to be read with any subsequent amendment"
+
+  myprolog (BAnd bes)         = hsep (punctuate comma (mypretty <$> bes)) PP.<> text "."
+
+  instance MyPretty BlockExp where
+    mypretty (BlObj    obj) = mypretty obj
+    mypretty (BlockExp obj) = vcat [ lbrace, nest 2 (mypretty obj), rbrace ]
+    mypretty (BlUnify   ble1 ble2) = mypretty ble1 <+> equals <+> mypretty ble2
+    mypretty (BIfThenElse be1 ble2 ble3) = text "IF" <+> mypretty be1 $+$
+                                           maybeBranch "THEN" ble2 $+$
+                                           maybeBranch "ELSE" ble3
+    mypretty (BIfElse1 be1 ble2 ble3) = mypretty ble2 <+>
+                                        text "PROVIDED" <+> mypretty be1 $+$
+                                        maybeBranch "OTHERWISE" ble3
+    mypretty (BZunlessXthenY be1 ble2 Nothing) = mypretty (BIfElse1 be1 ble2 Nothing)
+    mypretty (BZunlessXthenY be1 ble2 (Just ble3)) = mypretty ble3 $+$
+                                                     text "UNLESS" <+> mypretty be1 $+$
+                                                     maybeBranch "IN WHICH CASE" ble2
+    mypretty (BlOf     ble1 ble2)     = mypretty ble1 <+> text "OF" <+> mypretty ble2
+    mypretty (BlStr    s)   = doubleQuotes $ text s
+    mypretty (BlList l4list) = mypretty l4list
+
+  instance (MyPretty a) => MyPretty (L4List a) where
+    mypretty (L4List listtype as) = lbrack <+> oxford listtype (mypretty <$> as) <+> rbrack
+      where
+        oxford lt prettys = nest 2 (vcat $ punctuate comma (listbody prettys) ++ [text $ listsym lt] ++ [last prettys])
+        listbody xs = take (length xs - 1) xs
+        listsym DisjAnd = "&"
+        listsym ConjAnd = "&&"
+        listsym Xor     = "|"
+        listsym DisjOr  = "||"
+        listsym ConjOr  = "|||"
+      
+  indent num ss = ((replicate num ' ') ++) <$> ss
+
+  maybeBranch str Nothing = empty
+  maybeBranch str justx   = text str <+> mypretty justx
+
+  instance (MyPretty x) => MyPretty (Maybe x) where
+    mypretty Nothing = empty
+    mypretty (Just a) = mypretty a
+
+#+end_src
+
+**** constitutive rules
+
+#+begin_src haskell :tangle hs/app/Main.hs
+g
+  module Main where
+
+  import Lib
+  import L4Rules
+  import Text.PrettyPrint (render, vcat, text)
+  import Data.List (intersperse)
+
+  main = do
+    let myrules = [ exampleRule1
+                  , exampleRule2, exampleRule2a
+                  , exampleRule3
+                  , exampleRule4, exampleRule4b
+                  ]
+    putStrLn $ render (vcat (intersperse (text "") $ mypretty <$> myrules))
+
+  -- need a set of ontology definition or inference statements; similar to a type system; similar to TS's interface{} declaration
+
+  exampleRule1 :: L4Rule
+  exampleRule1 =
+    DefinitionRule "egm business"
+    [] -- annotations
+    (Nothing) -- aliases
+    (Object TypeSelector "Company.generalMeetings.isExtraordinary?.business")
+    (BlUnify
+      (BlObj (Object TypeSelector ".level"))
+      (BlObj (Object (TypeEnum "Specialness") "Special"))) -- insert Hindley-Milner here
+
+  exampleRule2 :: L4Rule
+  exampleRule2 =
+    DefinitionRule "agm business"
+    [] -- annotations
+    (Nothing) -- aliases
+    (Object TypeSelector "Company.generalMeetings.isAnnual?.business")
+    (BlUnify
+     (BlObj (Object TypeSelector ".level"))
+     (BZunlessXthenY
+      (BMatch
+       (BlObj (Object TypeSelector ".matter"))
+       (BlList (L4List DisjOr [ BlStr "the declaration of a dividend"
+                              , BlOf (BlStr "consideration") (BlList (L4List ConjAnd [ BlStr "the financial statements"
+                                                                                     , BlStr "the reports of the auditors"
+                                                                                     , BlStr "the statements of the directors"
+                                                                                     ]))
+                              , BlStr "the election of directors in the place of retiring directors"
+                              , BlOf (BlList (L4List DisjAnd [ BlStr "the appointment"
+                                                             , BlStr "fixing of the remuneration" ]))
+                                (BlStr "the auditors")
+                              ])))
+       -- the constraint solver should apply the unspoken rule that all business is either ordinary or special, to deduce the following alternative branch.
+      -- (Just $ BlObj (Object (TypeEnum "Specialness") "Ordinary")) -- then
+      Nothing
+      (Just $ BlObj (Object (TypeEnum "Specialness") "Special")))) -- else
+
+  exampleRule2a :: L4Rule
+  exampleRule2a = DefinitionRule "metonym: the ontological essence of a meeting's business is its matter attribute"
+    [Unspoken] -- annotations
+    (Nothing) -- aliases
+    (Object TypeSelector "Company.generalMeetings.business")
+    (BlUnify (BlObj $ Object TypeSelector ":metonym") (BlObj $ Object TypeSelector ".matter"))
+    -- this allows us to refer to a business's matter as the business itself.
+    -- metonyms are resolved during canonicalization to terse form.
+
+  exampleRule3 :: L4Rule
+  exampleRule3 = RegulativeRule "must hold agm"
+                 [] -- annotations
+                 (Nothing) -- aliases
+                 (BBool True)
+                 (Corporation "Company")
+                 Must
+                 (Action (Object TypeString "hold an AGM") [("en", "hold an AGM")] Nothing)
+                 (Temporal Nothing Nothing (Repeating (Just (Interval (Just 1) Nothing Nothing))))
+                 NoHence -- hence
+                 LestBreach -- lest
+
+
+  -- REGULATIVE RULE "Companies Must Hold AGM" @ "CMHAGM"
+  -- SUBJECT TO ( [ this section, section 175A ] )
+  -- PARTY every Company
+  -- PMUST ( hold a ( general meeting called@ "annual general meeting" @ "AGM" )
+  --             [ ( text_en= "in addition to any other meeting" ) ] )
+  -- REPEATEDLY
+  --      AFTER ( end of each financial year )
+  --     WITHIN (CASE isListedPublicCo Company of
+  --                  true -> 4 months;
+  --                  _    -> 6 months) [ ( @ "period" ) ]
+
+  relationStore = [ L4RuleDefeasible 
+                    [RuleGroupSpec (RuleGroup "_" ["this section", "section 175A"])]
+                    [] -- notwithstanding
+                    "Companies Must Hold AGM"
+                  ]
+
+  exampleRule4 = RegulativeRule "Companies Must Hold AGM"
+                 [PassiveVoice]
+                 (Just ["CMHAGM"])
+                 (BBool True)
+                 (Corporation "Company")
+                 Must
+                 (Action (Object (TypeArray TypeString) "hold an AGM")
+                          [ ("en", "hold a general meeting called \"annual general meeting\"")
+                          , ("en", "in addition to any other meeting") ]
+                   (Just (BNot (BMatch
+                                (BlObj (Object TypeString "CHMAGM"))
+                                 (BlObj (Object TypeString "unique constraint excludes any other label on this meeting")))
+                         )))
+                 (Temporal Nothing Nothing (Repeating (Just (Interval (Just 1) Nothing Nothing))))
+                 NoHence
+                 NoLest
+
+  exampleRule4b = ConstitutiveRule "a listed public company"
+                  [Unspoken]  -- annotations
+                  Nothing     -- aliases
+                  Nothing     -- no § scope restriction means global
+                  (Object TypeSelector "Company")
+                  (Object TypeSelector ".isListedPublicCo?")
+                  (Object TypeBool "True")
+                  (BAnd [ BlAsBool (BlObj (Object TypeSelector ".isPublic?"))
+                        , BlAsBool (BlObj (Object TypeSelector ".isListed?")) ])
+                
+#+end_src
+
+**** alethic constraint rules
+
+under conditions C, X counts as Y if Z.
+
+**** regulative rules
+
+under conditions C, party P must/may/shant (deontic D) do A by deadline T.
+
+**** ontological expression
+
+**** automorphic metarule
+
+cause the normal form of the text to be modified, based on various criteria, as part of the normalization process
+
+see for example:
+- companies act 178.1
+- companies act 184a.7 and .8
+
+do we call this an editorial rule? an interpretation rule?
+
+**** analogical rule
+
+which handwaves a variant on an existing rule, module X, ceteris paribus Y
+
+
+
+**** compound rules
+
+multiple other rules phrased in a single sentence
+
+**** defeasibility rule
+
+sets a priority ordering among other rules in case of conflict. this rule may in turn be phrased intensionally or extensionally.
+
+*** Exports
+
+An L4 AST should support extraction to:
+
+**** Event Calculus
+https://pdfs.semanticscholar.org/180f/64c82ca34be6ec016ccaf09cd1b3ccb74248.pdf
+
+**** BPMN
+
+**** Natural Language
+
+See also http://pco.govt.nz/clear-drafting for synonyms
+
+
+** LegalRuleML
+
+** N3
+
+** using RIF/RDF/OWL and Protege
+
+https://www.w3.org/TR/rif-rdf-owl/
+
+*** reasoners
+
+Protege can plug in different OWL reasoners.
+
+**** FACT++
+
+
+*** ontologies
+- https://www.w3.org/TR/owl-time/#dcat-example
+
+** using L4
+
+** using KBpedia
+
+** using DocAssemble
+
+** using Prolog
+
+*** using LPS
+
+*** using worksheets.stanford.edu
+
+*** using Flora-2
+
+https://sites.google.com/a/coherentknowledge.com/tutorial-capturing-real-world-knowledge/home
+
+*** in DataLog
+
+** using microsoft powerapps
+
+** explanations
+- GREBE: https://link.springer.com/chapter/10.1007/978-94-017-2848-5_4
+
+* How We Do It in L4
+
+** architecture
+https://ieeexplore.ieee.org/document/6596408
+
+*** abstract entity/relationship data model
+*** concrete data model in an open "ontology" format
+*** abstract rules
+*** concrete rules in an open rule format
+*** reasoner imports rules
+*** reasoner imports ontology
+*** ontology exports into JSON schema
+*** TODO some front-end (react?) code interfaces with the rule API
+**** to retrieve the ontology
+**** and constructs a form front-end, perhaps via react-json-schema
+**** and orders the decision tree of the front-end
+**** and submits inputs to the reasoner
+**** and displays responses
+**** and displays explanations
+*** reasoner (interactively) imports facts and asks questions of the user
+*** reasoner gives answers
+
+* Dialects for Natural Language Generation
+
+imagine a flag ~--ambiguity=9~ which allows us to produce lossy encodings to English, which are provably ambiguous. Meng believes strongly that future users will actively want to be able to turn up the ambiguity because the parties don't actually agree; they need plausible deniability. https://twitter.com/mengwong/status/1191170468637659136
+
+Beard Act: https://twitter.com/mattwadd/status/1191116062332465153
+
+* Rule Languages                                                                        :commentary:
+
+| name        | chaining                     | actively supported | opensource | web-friendly | reasoner | meta-rules |
+|-------------+------------------------------+--------------------+------------+--------------+----------+------------|
+| LPS         | both                         | yes                | yes        | yes (JS)     |          |            |
+| RIF / RDF   | both: PRD, BLD               |                    |            |              |          |            |
+| LegalRuleML | both: deliberation, reaction | yes                | yes        |              | no       |            |
+| DataLog     | both                         |                    |            |              |          |            |
+
+* Rule Engines                                                                          :commentary:
+
+See also https://books.google.com.sg/books?id=mj0z27T1IigC&pg=PA92&lpg=PA92&dq=flora-2+backward+chaining&source=bl&ots=cESlcIjTSR&sig=ACfU3U03RprfMRuWNBRf_iK8FCVXm9zXrQ&hl=en&sa=X&ved=2ahUKEwiZuZ6WyMPlAhUMAXIKHQvmAY0Q6AEwCnoECAYQAQ#v=onepage&q=flora-2%20backward%20chaining&f=false
+
+| name                | chaining | actively supported | languages supported | object oriented | runnable in browser  |
+|---------------------+----------+--------------------+---------------------+-----------------+----------------------|
+| LPS                 |          |                    |                     |                 | yes, JS              |
+| ErgoSuite           | backward |                    |                     |                 |                      |
+| Flora-2             | backward |                    |                     |                 |                      |
+| DocAssemble         | backward |                    |                     |                 |                      |
+| SweetRules          |          |                    |                     |                 |                      |
+| Java Theorem Prover |          |                    |                     |                 |                      |
+| [[http://fowl.sourceforge.net/][F-OWL]]               |          | no                 |                     |                 |                      |
+| Drools              |          |                    |                     |                 |                      |
+| iLog                |          |                    |                     |                 |                      |
+| OPA                 |          |                    |                     |                 |                      |
+| Curry               |          |                    |                     |                 | Spicey web framework |
+|                     |          |                    |                     |                 |                      |
+
+and then there are the OWL reasoners.
+
+* Systems
+
+| Name        | Description     |
+|-------------+-----------------|
+| Protege     | Ontology Editor |
+| AI3 KBpedia |                 |
+|             |                 |
+
+* Footnotes
+
+[fn:1] Lovecraft said: "And with strange aeons even death may die." Are we being morbid? No more so than the Interpretation Act, which puts death front and center in [[https://sso.agc.gov.sg/Act/IA1965?ProvIds=pr2A-#pr2A-][Section 2A]]. Which supports the idiom about "death and taxes" -- much of the law seems concerned with these two ideas; perhaps all else is commentary!

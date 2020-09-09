@@ -1,0 +1,64 @@
+/* Built-in prefixes used:
+xsd 'http://www.w3.org/2001/XMLSchema#'
+rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+rdfs 'http://www.w3.org/2000/01/rdf-schema#'
+owl 'http://www.w3.org/2002/07/owl#'
+*/
+
+/* Other prefixes used:  */
+
+/* imported OWL axioms -- these are in the form of fact triples*/
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#age'[rdfs#range -> xsd#int].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#age'[rdfs#domain -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#age'[rdf#type -> owl#FunctionalProperty].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#age'[rdf#type -> owl#DatatypeProperty].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Bob'[rdf#type -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Bob'[rdf#type -> owl#NamedIndividual].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffc'[owl#distinctMembers -> '_:B788ba049X3A16ea31b8489X3AX2D7ffb'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffc'[rdf#type -> owl#AllDifferent].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff8'[rdf#rest -> '_:B788ba049X3A16ea31b8489X3AX2D7ff7'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff8'[rdf#first -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Alice'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Animal'[rdf#type -> owl#Class].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food'[rdf#type -> owl#Class].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffb'[rdf#rest -> '_:B788ba049X3A16ea31b8489X3AX2D7ffa'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffb'[rdf#first -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#MashedPotatoes'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Alice'[rdf#type -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Alice'[rdf#type -> owl#NamedIndividual].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#MashedPotatoes'[rdf#type -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#MashedPotatoes'[rdf#type -> owl#NamedIndividual].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff7'[rdf#rest -> rdf#nil].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff7'[rdf#first -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Bob'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#permittedEater'[rdf#type -> owl#InverseFunctionalProperty].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#permittedEater'[rdf#type -> owl#ObjectProperty].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffa'[rdf#rest -> rdf#nil].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffa'[rdf#first -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Ribeye'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4'[rdf#type -> owl#Ontology].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#birthDate'[rdfs#range -> xsd#dateTime].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#birthDate'[rdfs#domain -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#birthDate'[rdf#type -> owl#DatatypeProperty].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff6'[owl#distinctMembers -> '_:B788ba049X3A16ea31b8489X3AX2D7ff5'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff6'[rdf#type -> owl#AllDifferent].
+'_:B788ba049X3A16ea31b8489X3AX2D7fff'[owl#distinctMembers -> '_:B788ba049X3A16ea31b8489X3AX2D7ffe'].
+'_:B788ba049X3A16ea31b8489X3AX2D7fff'[rdf#type -> owl#AllDifferent].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Ribeye'[rdf#type -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Ribeye'[rdf#type -> owl#NamedIndividual].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff5'[rdf#rest -> '_:B788ba049X3A16ea31b8489X3AX2D7ff4'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff5'[rdf#first -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#MashedPotatoes'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#PermittedAction'[rdf#type -> owl#Class].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#edibleFood'[rdfs#range -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#edibleFood'[rdfs#domain -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#edibleFood'[rdf#type -> owl#FunctionalProperty].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#edibleFood'[owl#inverseOf -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#permittedEater'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#edibleFood'[rdf#type -> owl#ObjectProperty].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person'[rdf#type -> owl#Class].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffe'[rdf#rest -> '_:B788ba049X3A16ea31b8489X3AX2D7ffd'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffe'[rdf#first -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Alice'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff4'[rdf#rest -> rdf#nil].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff4'[rdf#first -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Ribeye'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#minimumAge'[rdfs#range -> xsd#int].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#minimumAge'[rdfs#domain -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food'].
+'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#minimumAge'[rdf#type -> owl#DatatypeProperty].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffd'[rdf#rest -> rdf#nil].
+'_:B788ba049X3A16ea31b8489X3AX2D7ffd'[rdf#first -> 'http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Bob'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff9'[owl#distinctMembers -> '_:B788ba049X3A16ea31b8489X3AX2D7ff8'].
+'_:B788ba049X3A16ea31b8489X3AX2D7ff9'[rdf#type -> owl#AllDifferent].

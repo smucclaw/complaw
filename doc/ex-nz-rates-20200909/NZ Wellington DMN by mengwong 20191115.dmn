@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"  xmlns:triso="http://www.trisotech.com/2015/triso/modeling"  xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"  xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"  xmlns:trisodmn="http://www.trisotech.com/2016/triso/dmn"  xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/"  xmlns:tc="http://www.omg.org/spec/DMN/20160719/testcase"  xmlns:drools="http://www.drools.org/kie/dmn/1.1"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:rss="http://purl.org/rss/2.0/"  xmlns:openapi="https://openapis.org/omg/extension/1.0"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"  xmlns="http://www.trisotech.com/definitions/_bfc6e4f5-ec2e-4254-b92a-8616965d60ab" id="_bfc6e4f5-ec2e-4254-b92a-8616965d60ab" name="Drawing 1" namespace="http://www.trisotech.com/definitions/_bfc6e4f5-ec2e-4254-b92a-8616965d60ab" exporter="DMN Modeler" exporterVersion="6.3.1" triso:logoChoice="Default">
+    <semantic:extensionElements>
+        <tc:testCases>
+            <tc:testCase id="_aeea9c08-128c-4a1a-b7b2-3225cd0b8d26" name="aro 8.5 slope 16">
+                <tc:inputNode triso:label="location" name="location">
+                    <tc:value xsi:type="xsd:string">IR 3 - Aro Valley</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="sea level" name="sea level">
+                    <tc:value xsi:type="xsd:double" xsi:nil="true"/>
+                </tc:inputNode>
+                <tc:inputNode triso:label="roofSlope" name="roofSlope">
+                    <tc:value xsi:type="xsd:double">16</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="height" name="height">
+                    <tc:value xsi:type="xsd:double">8.5</tc:value>
+                </tc:inputNode>
+                <tc:resultNode name="adjustedMaximumHeight" triso:label="adjustedMaximumHeight">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:string">8.5</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="height ok" triso:label="height ok">
+                    <tc:expected>
+                        <tc:value>true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="maximumHeight" triso:label="maximumHeight">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:double">7.5</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+            </tc:testCase>
+            <tc:testCase id="_85fb5800-434e-4370-ba01-99bf0535b19c" name="site coverage fail">
+                <tc:inputNode triso:label="location" name="location">
+                    <tc:value xsi:type="xsd:string">IR 3 - Aro Valley</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="sea level" name="sea level">
+                    <tc:value xsi:type="xsd:double" xsi:nil="true"/>
+                </tc:inputNode>
+                <tc:inputNode triso:label="roofSlope" name="roofSlope">
+                    <tc:value xsi:type="xsd:double">16</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="height" name="height">
+                    <tc:value xsi:type="xsd:double">8.5</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="uncovered decks" name="uncovered decks">
+                    <tc:value xsi:type="xsd:boolean">false</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="site coverage" name="site coverage">
+                    <tc:value xsi:type="xsd:double">41</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="within building recession envelope" name="within building recession envelope">
+                    <tc:value xsi:type="xsd:boolean">true</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="protrusions within 1m" name="protrusions within 1m">
+                    <tc:value xsi:type="xsd:boolean">true</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="solar panel protrusion within 500mm" name="solar panel protrusion within 500mm">
+                    <tc:value xsi:type="xsd:boolean">true</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="solar panel area within 10 sqm" name="solar panel area within 10 sqm">
+                    <tc:value xsi:type="xsd:boolean">true</tc:value>
+                </tc:inputNode>
+                <tc:resultNode name="adjustedMaximumHeight" triso:label="adjustedMaximumHeight">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:string">8.5</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="height ok" triso:label="height ok">
+                    <tc:expected>
+                        <tc:value>true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="envelope ok" triso:label="envelope ok">
+                    <tc:expected>
+                        <tc:value>true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="site coverage ok" triso:label="site coverage ok">
+                    <tc:expected>
+                        <tc:value>false</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="maximum site coverage" triso:label="maximum site coverage">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:double">40</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="building is permitted" triso:label="building is permitted">
+                    <tc:expected>
+                        <tc:value>false</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="maximumHeight" triso:label="maximumHeight">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:double">7.5</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+            </tc:testCase>
+            <tc:testCase id="_4133fd60-c3c5-4344-8bb2-e99c18c176a2" name="expected pass">
+                <tc:inputNode triso:label="location" name="location">
+                    <tc:value xsi:type="xsd:string">IR 3 - Aro Valley</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="sea level" name="sea level">
+                    <tc:value xsi:type="xsd:double" xsi:nil="true"/>
+                </tc:inputNode>
+                <tc:inputNode triso:label="roofSlope" name="roofSlope">
+                    <tc:value xsi:type="xsd:double">16</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="height" name="height">
+                    <tc:value xsi:type="xsd:double">8.5</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="uncovered decks" name="uncovered decks">
+                    <tc:value xsi:type="xsd:boolean">false</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="site coverage" name="site coverage">
+                    <tc:value xsi:type="xsd:double">35</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="within building recession envelope" name="within building recession envelope">
+                    <tc:value xsi:type="xsd:boolean">true</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="protrusions within 1m" name="protrusions within 1m">
+                    <tc:value xsi:type="xsd:boolean">true</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="solar panel protrusion within 500mm" name="solar panel protrusion within 500mm">
+                    <tc:value xsi:type="xsd:boolean">true</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="solar panel area within 10 sqm" name="solar panel area within 10 sqm">
+                    <tc:value xsi:type="xsd:boolean">true</tc:value>
+                </tc:inputNode>
+                <tc:resultNode name="adjustedMaximumHeight" triso:label="adjustedMaximumHeight">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:string">8.5</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="height ok" triso:label="height ok">
+                    <tc:expected>
+                        <tc:value>true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="envelope ok" triso:label="envelope ok">
+                    <tc:expected>
+                        <tc:value>true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="site coverage ok" triso:label="site coverage ok">
+                    <tc:expected>
+                        <tc:value>true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="maximum site coverage" triso:label="maximum site coverage">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:double">40</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="building is permitted" triso:label="building is permitted">
+                    <tc:expected>
+                        <tc:value>true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="maximumHeight" triso:label="maximumHeight">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:double">7.5</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+            </tc:testCase>
+        </tc:testCases>
+    </semantic:extensionElements>
+    <semantic:itemDefinition name="location" label="location">
+        <semantic:typeRef>string</semantic:typeRef>
+        <semantic:allowedValues triso:constraintsType="enumeration">
+            <semantic:text>"Hazard (Fault Line) Area","Medium Density Residential - Kilbirnie","Medium Density Residential - Johnsonville","Medium Density Residential - Other","IR 3 - Aro Valley","IR4 - Mt Cook / Newtown / Berhampore","IR5 - Oriental Bay Height Area","IR 6 - North Kelburn / Bolton Street","Inner Residential Area - Other","OR 3 - Roseneath","OR4 - Mitchell Town / Hollyway Road Area 1","OR4 - Mitchell Town / Hollyway Road Area 2","OR4 - Mitchell Town / Hollyway Road Area 3","Outer Residential Area - Other"</semantic:text>
+        </semantic:allowedValues>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="height" label="height">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="maximumHeight" label="maximumHeight">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="adjustedMaximumHeight" label="adjustedMaximumHeight">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="site_coverage" label="site_coverage">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="within_recession_envelope" label="within_recession_envelope">
+        <semantic:typeRef>boolean</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="roofSlope" label="roofSlope">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="uncovered_decks" label="uncovered_decks">
+        <semantic:typeRef>boolean</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="protrusions" label="protrusions">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="solar_panel_protrusion" label="solar_panel_protrusion">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="solar_panel_area" label="solar_panel_area">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:decisionService id="_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_DS" name="Whole Model Decision Service" triso:dynamicDecisionService="true">
+        <semantic:variable name="Whole Model Decision Service" id="_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_DS_VAR" typeRef="Any"/>
+        <semantic:outputDecision href="#_2fca9f91-4b3d-46a8-ab8f-60ae432f5800"/>
+        <semantic:encapsulatedDecision href="#_5957764e-7610-46c6-9f04-288c1efb0e0b"/>
+        <semantic:encapsulatedDecision href="#_1f1ddb2a-b696-4cf8-8574-94be07170c05"/>
+        <semantic:encapsulatedDecision href="#_17f3a1ed-578d-46c9-aa48-1099a149d3cf"/>
+        <semantic:encapsulatedDecision href="#_fccc5cb1-7b53-4e67-9334-4ea56682cf47"/>
+        <semantic:encapsulatedDecision href="#_a92f54ed-1be8-4eea-808c-177d428653b0"/>
+        <semantic:encapsulatedDecision href="#_084b7175-b181-4721-8d19-7574d0eaab46"/>
+        <semantic:inputData href="#_ba1f426b-73fc-4abd-9ad2-b3927e3965f3"/>
+        <semantic:inputData href="#_ef3a0ce4-202a-4b6f-be0a-696c30941aa5"/>
+        <semantic:inputData href="#_3abb491c-1a46-4131-942c-4d65a2b544ef"/>
+        <semantic:inputData href="#_00c39972-1ce4-4381-9218-cf94c7a20648"/>
+        <semantic:inputData href="#_85f82b67-edc7-4654-8eab-d0dc9efca2d8"/>
+        <semantic:inputData href="#_1450fef6-2721-49d9-9469-1dc817f56ce8"/>
+        <semantic:inputData href="#_4831bda1-a86e-49f8-8393-ac1acc7c512b"/>
+        <semantic:inputData href="#_8c39bfba-c19f-4b38-9932-928fe04f65e2"/>
+        <semantic:inputData href="#_331c8bd4-220a-4252-9dcb-687df72c269b"/>
+        <semantic:inputData href="#_488e03f5-5898-4a33-8e6a-c21a9feb093c"/>
+    </semantic:decisionService>
+    <semantic:decisionService id="_dac9bc9a-307b-411c-aa74-3048b8ffc6a2_DS" name="Diagram Page 1" triso:dynamicDecisionService="true">
+        <semantic:variable name="Diagram Page 1" id="_dac9bc9a-307b-411c-aa74-3048b8ffc6a2_DS_VAR" typeRef="Any"/>
+        <semantic:outputDecision href="#_2fca9f91-4b3d-46a8-ab8f-60ae432f5800"/>
+        <semantic:encapsulatedDecision href="#_5957764e-7610-46c6-9f04-288c1efb0e0b"/>
+        <semantic:encapsulatedDecision href="#_1f1ddb2a-b696-4cf8-8574-94be07170c05"/>
+        <semantic:encapsulatedDecision href="#_17f3a1ed-578d-46c9-aa48-1099a149d3cf"/>
+        <semantic:encapsulatedDecision href="#_fccc5cb1-7b53-4e67-9334-4ea56682cf47"/>
+        <semantic:encapsulatedDecision href="#_a92f54ed-1be8-4eea-808c-177d428653b0"/>
+        <semantic:encapsulatedDecision href="#_084b7175-b181-4721-8d19-7574d0eaab46"/>
+        <semantic:inputData href="#_ba1f426b-73fc-4abd-9ad2-b3927e3965f3"/>
+        <semantic:inputData href="#_ef3a0ce4-202a-4b6f-be0a-696c30941aa5"/>
+        <semantic:inputData href="#_3abb491c-1a46-4131-942c-4d65a2b544ef"/>
+        <semantic:inputData href="#_00c39972-1ce4-4381-9218-cf94c7a20648"/>
+        <semantic:inputData href="#_85f82b67-edc7-4654-8eab-d0dc9efca2d8"/>
+        <semantic:inputData href="#_1450fef6-2721-49d9-9469-1dc817f56ce8"/>
+        <semantic:inputData href="#_4831bda1-a86e-49f8-8393-ac1acc7c512b"/>
+        <semantic:inputData href="#_8c39bfba-c19f-4b38-9932-928fe04f65e2"/>
+        <semantic:inputData href="#_331c8bd4-220a-4252-9dcb-687df72c269b"/>
+        <semantic:inputData href="#_488e03f5-5898-4a33-8e6a-c21a9feb093c"/>
+    </semantic:decisionService>
+    <semantic:inputData id="_ba1f426b-73fc-4abd-9ad2-b3927e3965f3" name="location">
+        <semantic:variable name="location" id="_cf1bea6b-838a-43e6-b2c2-a9864246b8b1" typeRef="location"/>
+    </semantic:inputData>
+    <semantic:inputData id="_00c39972-1ce4-4381-9218-cf94c7a20648" name="height">
+        <semantic:variable name="height" id="_c92fe9d0-8a96-466d-b253-af0b5e419e00" typeRef="height"/>
+    </semantic:inputData>
+    <semantic:decision id="_5957764e-7610-46c6-9f04-288c1efb0e0b" name="maximumHeight">
+        <semantic:variable name="maximumHeight" id="_fb6bdacb-03d1-4165-a487-662d6d5fbdc1" typeRef="maximumHeight"/>
+        <semantic:informationRequirement id="_5c8c0086-485f-4463-baa1-fdf3116b7441">
+            <semantic:requiredInput href="#_ba1f426b-73fc-4abd-9ad2-b3927e3965f3"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_c59c4b60-f338-4864-b090-55a8466f5059">
+            <semantic:requiredInput href="#_ef3a0ce4-202a-4b6f-be0a-696c30941aa5"/>
+        </semantic:informationRequirement>
+        <semantic:decisionTable id="_b2664b85-35ad-4946-a753-89e879ce843a" hitPolicy="UNIQUE" outputLabel="maximumHeight" typeRef="maximumHeight" triso:expressionId="_1e052eb7-4cb1-499d-8599-adfb24771422">
+            <semantic:input id="_085648e1-ec82-4c8f-8712-d856a4d01c03" label="location">
+                <semantic:inputExpression typeRef="location">
+                    <semantic:text>location</semantic:text>
+                </semantic:inputExpression>
+                <semantic:inputValues triso:constraintsType="enumeration">
+                    <semantic:text>"Hazard (Fault Line) Area","Medium Density Residential - Kilbirnie","Medium Density Residential - Johnsonville","Medium Density Residential - Other","IR 3 - Aro Valley","IR4 - Mt Cook / Newtown / Berhampore","IR5 - Oriental Bay Height Area","IR 6 - North Kelburn / Bolton Street","Inner Residential Area - Other","OR 3 - Roseneath","OR4 - Mitchell Town / Hollyway Road Area 1","OR4 - Mitchell Town / Hollyway Road Area 2","OR4 - Mitchell Town / Hollyway Road Area 3","Outer Residential Area - Other"</semantic:text>
+                </semantic:inputValues>
+            </semantic:input>
+            <semantic:input id="_7817d1d7-70a6-4995-9715-279ec2ec6f98" triso:allowNull="true" label="sea level">
+                <semantic:inputExpression typeRef="number">
+                    <semantic:text>sea level</semantic:text>
+                </semantic:inputExpression>
+            </semantic:input>
+            <semantic:output id="_3cd56568-2304-44ce-b452-55596c8816d1" triso:allowNull="true"/>
+            <semantic:annotation name="Description"/>
+            <semantic:rule id="_dfc491b3-fc0f-4009-ba4d-a6f85f989059">
+                <semantic:inputEntry id="_45a7ad17-5d00-4b62-877d-9f49feda8428">
+                    <semantic:text>"Hazard (Fault Line) Area"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_84b2b15f-beb8-4a99-a0af-6b64ec1f21da">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_bfba43a3-6cc9-4030-8bf3-521028820be7">
+                    <semantic:text>8</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_2bae767f-1b17-4bb9-b9b0-ddf28c3e82ff">
+                <semantic:inputEntry id="_a85ee776-6ded-4582-857c-0d86bc3f7791">
+                    <semantic:text>"Medium Density Residential - Kilbirnie"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_f985b3e1-997f-4f77-a909-e2a9719078a0">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_49dcdaf9-461d-4464-bded-6b130f215b46">
+                    <semantic:text>10</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_ec7f8f2a-eda2-460e-9fb1-b4f8bdefbff8">
+                <semantic:inputEntry id="_a9183ad5-ce77-4e98-a70f-11906c3e403b">
+                    <semantic:text>"Medium Density Residential - Johnsonville"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_f33e7da1-64a1-4987-be22-7e756dea66b0">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_49c9dc87-0189-4fbc-b817-2c318a32dbd5">
+                    <semantic:text>8</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_4f216c61-936b-48ec-a538-dc323b76288f">
+                <semantic:inputEntry id="_1b5b0035-55ef-4974-b7d9-c8ca28a31f86">
+                    <semantic:text>"IR 3 - Aro Valley"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_604b6b29-3a4c-4e09-a506-e4a5bbc29781">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_c061d74f-b105-4188-90be-f646aa739f89">
+                    <semantic:text>7.5</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_711e2e13-939d-4630-b75c-1cfdb0d725c8">
+                <semantic:inputEntry id="_9edd8cbc-73c9-4688-bd63-2eecc495e372">
+                    <semantic:text>"IR4 - Mt Cook / Newtown / Berhampore"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_f4b568e6-8c1d-4a9d-9928-bff3f6a4e23b">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_87d0811a-316d-44bd-b1fd-0e88cb3afb1e">
+                    <semantic:text>9</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_ee4e8913-ce23-4a11-83f9-36eaa960c4e6">
+                <semantic:inputEntry id="_fec324ba-84e0-4465-ba8d-e1a0cbaa3093">
+                    <semantic:text>"IR5 - Oriental Bay Height Area"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_550663a2-84a2-4f77-97aa-afa4d15036ea">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_5554a498-b678-4c34-81ec-97c632485781">
+                    <semantic:text>34 + sea level</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text>13 to 34m above mean sea level</semantic:text>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_9a0e3ab9-9f18-47a4-bb82-9ed1035725a7">
+                <semantic:inputEntry id="_4d130640-8e69-4b41-a0a0-43ea318ab24d">
+                    <semantic:text>"IR 6 - North Kelburn / Bolton Street"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_a57c04f6-7f9e-4363-bc4c-785dcc9282fd">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_4ad1f77b-aa85-4eea-9145-348fdd24de61">
+                    <semantic:text>10</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text>10 to 16m ???</semantic:text>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_a18b8951-f01d-44ee-ba77-613fc6c22c47">
+                <semantic:inputEntry id="_6743211d-4794-460c-9438-85a0665415c2">
+                    <semantic:text>"Inner Residential Area - Other"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_ded9d153-6ffb-4252-b69c-ee79e023dfc5">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_7c8d9a6b-8a00-4135-9db9-743a41082e76">
+                    <semantic:text>10</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_8c55042f-d557-439e-a617-3bba2f6c1cc4">
+                <semantic:inputEntry id="_3f561ac2-06e4-4dc3-b6e5-0481e59871de">
+                    <semantic:text>"OR 3 - Roseneath"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_0ba0f991-f509-4eca-97f2-6430bae43b65">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_5128562d-7858-43d0-848e-a8803f9d9af1">
+                    <semantic:text>10</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_8fe88640-a33c-435e-9d98-4ef67f3a12f7">
+                <semantic:inputEntry id="_c0259528-199e-4d59-8045-67f7ab9af0ad">
+                    <semantic:text>"Outer Residential Area - Other"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_132e4730-283c-4d2f-aa7a-9cae09da1fea">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_cf9bc15a-a672-4742-a84a-dcfe215cc8b2">
+                    <semantic:text>8</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+        </semantic:decisionTable>
+    </semantic:decision>
+    <semantic:decision id="_1f1ddb2a-b696-4cf8-8574-94be07170c05" name="adjustedMaximumHeight">
+        <semantic:variable name="adjustedMaximumHeight" id="_a57e7b97-5107-4f4a-986f-f4a0bc403e38" typeRef="Any"/>
+        <semantic:informationRequirement id="_3b3c8d87-2ffd-41d2-bf37-5671bc2e9dd7">
+            <semantic:requiredInput href="#_ba1f426b-73fc-4abd-9ad2-b3927e3965f3"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_682311ec-93a0-4f9f-ba6b-94f0a0ac6547">
+            <semantic:requiredDecision href="#_5957764e-7610-46c6-9f04-288c1efb0e0b"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_2b934fc9-8f64-44ce-85b7-29d4aca6200e">
+            <semantic:requiredInput href="#_3abb491c-1a46-4131-942c-4d65a2b544ef"/>
+        </semantic:informationRequirement>
+        <semantic:decisionTable id="_9d8c884a-57b5-40c1-bd1e-cf6be5354c07" hitPolicy="UNIQUE" outputLabel="adjustedMaximumHeight" typeRef="Any" triso:expressionId="_aaba8cc4-ebec-4b75-9ee2-082bb3e0b00b">
+            <semantic:input id="_d09cf95a-4edb-4514-a458-5aca5ff02c81" label="location">
+                <semantic:inputExpression typeRef="location">
+                    <semantic:text>location</semantic:text>
+                </semantic:inputExpression>
+                <semantic:inputValues triso:constraintsType="enumeration">
+                    <semantic:text>"Hazard (Fault Line) Area","Medium Density Residential - Kilbirnie","Medium Density Residential - Johnsonville","Medium Density Residential - Other","IR 3 - Aro Valley","IR4 - Mt Cook / Newtown / Berhampore","IR5 - Oriental Bay Height Area","IR 6 - North Kelburn / Bolton Street","Inner Residential Area - Other","OR 3 - Roseneath","OR4 - Mitchell Town / Hollyway Road Area 1","OR4 - Mitchell Town / Hollyway Road Area 2","OR4 - Mitchell Town / Hollyway Road Area 3","Outer Residential Area - Other"</semantic:text>
+                </semantic:inputValues>
+            </semantic:input>
+            <semantic:input id="_535b5dd7-7424-449d-bd5a-7de708552708" label="roofSlope">
+                <semantic:inputExpression typeRef="roofSlope">
+                    <semantic:text>roofSlope</semantic:text>
+                </semantic:inputExpression>
+            </semantic:input>
+            <semantic:output id="_3301b67e-79a2-4ee5-8e53-9f2d8a2f56f8" triso:allowNull="true"/>
+            <semantic:annotation name="Description"/>
+            <semantic:rule id="_0cfe2357-59c7-45a5-9741-f1a25b8b46e3">
+                <semantic:inputEntry id="_3f701c6a-0684-4d8c-84f3-a3b6d469d767">
+                    <semantic:text>"IR5 - Oriental Bay Height Area"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_3527ae94-0b0d-4be2-a9d3-4e2e09d19f96">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_a342a92c-ba1e-4ff9-906d-e18af8260b6a">
+                    <semantic:text>maximumHeight</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_165302de-b1fb-4f0e-afc7-427a68f05444">
+                <semantic:inputEntry id="_e0b30cfe-8582-449d-b52f-cc8e570fbf20">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_891862d2-da0d-464f-a870-e63a1d067683">
+                    <semantic:text>&lt; 15</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_e32be533-f010-4eb5-add6-2675c0835b05">
+                    <semantic:text>maximumHeight</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_39bb9944-447c-4dbe-a08e-d7cc9222e9a2">
+                <semantic:inputEntry id="_0dca8c1e-7d22-4d29-8c70-86a0f3ab241c">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_55e2990a-6699-42cd-ab80-1ed22106c38e">
+                    <semantic:text>&gt;= 15</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_d63ff439-fa08-4ab0-b4b4-6479f5d613f5">
+                    <semantic:text>maximumHeight + 1</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+        </semantic:decisionTable>
+    </semantic:decision>
+    <semantic:inputData id="_3abb491c-1a46-4131-942c-4d65a2b544ef" name="roofSlope">
+        <semantic:variable name="roofSlope" id="_db85609d-15ea-4213-8377-ea0c3cb47620" typeRef="roofSlope"/>
+    </semantic:inputData>
+    <semantic:inputData id="_ef3a0ce4-202a-4b6f-be0a-696c30941aa5" name="sea level">
+        <semantic:variable name="sea level" id="_8d8f9c24-496e-4106-985d-3a85432e35b1" typeRef="number"/>
+    </semantic:inputData>
+    <semantic:decision id="_17f3a1ed-578d-46c9-aa48-1099a149d3cf" name="height ok">
+        <semantic:variable name="height ok" id="_086e508d-2d31-4763-b996-42a9a9fd6735" typeRef="Any"/>
+        <semantic:informationRequirement id="_bcd8c193-419d-4c06-b3fa-cc8dea09a2d8">
+            <semantic:requiredDecision href="#_1f1ddb2a-b696-4cf8-8574-94be07170c05"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_8a1ef9ae-aefd-47f8-a467-5a813b767bea">
+            <semantic:requiredInput href="#_00c39972-1ce4-4381-9218-cf94c7a20648"/>
+        </semantic:informationRequirement>
+        <semantic:literalExpression id="_3325cf2d-047c-4216-b274-5bcde94d983e" typeRef="Any" triso:expressionId="_1fecfc1f-424c-4367-89ea-d02d534d9679">
+            <semantic:text>height &lt;= adjustedMaximumHeight</semantic:text>
+        </semantic:literalExpression>
+    </semantic:decision>
+    <semantic:inputData id="_1450fef6-2721-49d9-9469-1dc817f56ce8" name="site coverage">
+        <semantic:variable name="site coverage" id="_a48575d6-a916-4326-96d9-0a560592bd12" typeRef="number"/>
+    </semantic:inputData>
+    <semantic:decision id="_fccc5cb1-7b53-4e67-9334-4ea56682cf47" name="maximum site coverage">
+        <semantic:variable name="maximum site coverage" id="_530a1614-1b61-4922-9cb9-b9d0ae676ed4" typeRef="number"/>
+        <semantic:informationRequirement id="_7294b509-9d8b-4cbd-a683-f2877c23527b">
+            <semantic:requiredInput href="#_ba1f426b-73fc-4abd-9ad2-b3927e3965f3"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_aba133fa-0e36-44d3-ae67-52bfc8e577bf">
+            <semantic:requiredInput href="#_85f82b67-edc7-4654-8eab-d0dc9efca2d8"/>
+        </semantic:informationRequirement>
+        <semantic:decisionTable id="_82c7e660-3afa-4fb6-b9e6-2736b70f5d7f" hitPolicy="UNIQUE" outputLabel="maximum site coverage" typeRef="number" triso:expressionId="_4ce9c314-8d80-47e0-a0e9-6f30f83e56ac">
+            <semantic:input id="_cc8de611-5763-4b11-a544-7bad5cbcd931" label="location">
+                <semantic:inputExpression typeRef="location">
+                    <semantic:text>location</semantic:text>
+                </semantic:inputExpression>
+                <semantic:inputValues triso:constraintsType="enumeration">
+                    <semantic:text>"Hazard (Fault Line) Area","Medium Density Residential - Kilbirnie","Medium Density Residential - Johnsonville","Medium Density Residential - Other","IR 3 - Aro Valley","IR4 - Mt Cook / Newtown / Berhampore","IR5 - Oriental Bay Height Area","IR 6 - North Kelburn / Bolton Street","Inner Residential Area - Other","OR 3 - Roseneath","OR4 - Mitchell Town / Hollyway Road Area 1","OR4 - Mitchell Town / Hollyway Road Area 2","OR4 - Mitchell Town / Hollyway Road Area 3","Outer Residential Area - Other"</semantic:text>
+                </semantic:inputValues>
+            </semantic:input>
+            <semantic:input id="_6b784b12-c6f5-44ca-8dc0-b8c9dda1fffb" triso:allowNull="true" label="uncovered decks">
+                <semantic:inputExpression typeRef="uncovered_decks">
+                    <semantic:text>uncovered decks</semantic:text>
+                </semantic:inputExpression>
+            </semantic:input>
+            <semantic:output id="_6e045613-0617-42cd-9e7a-9a720d7ed1e4" triso:allowNull="true"/>
+            <semantic:annotation name="Description"/>
+            <semantic:rule id="_70fca485-5e44-416b-afb7-bb8d7545536d">
+                <semantic:inputEntry id="_438e0d3e-35a4-48b9-b9a7-4c18eab57f93">
+                    <semantic:text>"Medium Density Residential - Kilbirnie"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_4ba0a3f0-3967-4717-bc87-1a9c56919b92">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_4ae24fad-5a6d-4fcf-a895-1dfbe87540ba">
+                    <semantic:text>50</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_c38b34ce-c422-41f5-9d20-61c1b1af1c54">
+                <semantic:inputEntry id="_ad91a146-e258-46bb-8720-424b7b1a00de">
+                    <semantic:text>"Medium Density Residential - Johnsonville"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_fa62a75f-1e34-40d7-b0cc-aad63bcfc65f">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_22cfde20-fd25-4511-ae37-f645fc6566e6">
+                    <semantic:text>50</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_25a71a89-1172-42a2-b012-d3addcc2cf87">
+                <semantic:inputEntry id="_5f1d3c97-5519-40c4-ac75-83e14c263856">
+                    <semantic:text>"Medium Density Residential - Other"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_21a5c4af-ddc2-444a-a645-c61addf498ac">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_7215cfb6-57af-4e95-9962-0ef9d56f390b">
+                    <semantic:text>50</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_043f38b6-6c2c-423f-993a-09cae20b4568">
+                <semantic:inputEntry id="_0c317816-a750-40b3-90e4-e06c71eea21f">
+                    <semantic:text>"IR 3 - Aro Valley"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_cf492215-6358-456e-8e4f-9317c238916b">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_2286be65-87b4-498f-888c-550c65421e6b">
+                    <semantic:text>40</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_34fc6c75-b229-498f-afea-a2bd4b920f2c">
+                <semantic:inputEntry id="_b7855114-5ed8-4aca-b394-0ebc13e37e42">
+                    <semantic:text>"IR5 - Oriental Bay Height Area"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_ab9db08b-78e9-45db-8a5c-5011e01b30da">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_0efd00bb-7160-430c-bf74-8df3a3539ec9">
+                    <semantic:text>100</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_48e7d99c-ad6e-4a22-b540-236774f177e5">
+                <semantic:inputEntry id="_0ff8ba3c-5b2f-4230-98ff-f0578935d645">
+                    <semantic:text>"IR4 - Mt Cook / Newtown / Berhampore"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_5a49a1c3-47b0-4430-9456-0fe812d792a3">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_2f68e3f6-727a-4135-8c84-1db8cfd20273">
+                    <semantic:text>50</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_3674b750-58cc-46b6-b5fd-8967f3c37e78">
+                <semantic:inputEntry id="_743c5680-6c87-46a6-b907-797e6d1df37b">
+                    <semantic:text>"IR 6 - North Kelburn / Bolton Street"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_02cb03e3-f45a-4554-9c7d-9de499b3f5f0">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_232cbaff-93e2-46a7-baef-c3a5436041f6">
+                    <semantic:text>50</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_2d38d882-9633-482a-8657-597c08be4b1a">
+                <semantic:inputEntry id="_7d8dfae9-8192-4e4a-b240-5e2ba937f7db">
+                    <semantic:text>"Inner Residential Area - Other"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_a40ec023-c9f0-4c1b-bdde-648107d5d4de">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_15b88623-bcb0-4707-8c98-f2c8bad81593">
+                    <semantic:text>50</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_9271c105-2a95-4e8f-b11d-726946304607">
+                <semantic:inputEntry id="_9e659acd-ec1e-4dab-befb-81be933704ad">
+                    <semantic:text>"OR 3 - Roseneath"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_70b77357-84fd-415a-aa1f-ce28b4c93a20">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_bc2e5b14-dae4-4f38-b2b9-417a10d0895f">
+                    <semantic:text>45</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_1d2fffee-5752-4c1e-9067-7dddc8acf562">
+                <semantic:inputEntry id="_176c0394-df0a-4639-b112-4b5c5231bcdb">
+                    <semantic:text>"OR4 - Mitchell Town / Hollyway Road Area 1"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_b9cd4d1c-254f-403d-b4a9-ce06b254bef6">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_8b654995-f8a6-4efa-a2ab-fb0a78ab51dc">
+                    <semantic:text>40</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_a2e5ae65-f28e-4d6e-b84c-de204a94c90c">
+                <semantic:inputEntry id="_3a53c9cb-86aa-4b86-9c0e-451e69faaeb8">
+                    <semantic:text>"OR4 - Mitchell Town / Hollyway Road Area 2"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_c3715abe-84df-4c4f-9d0f-d7614708e960">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_15973905-9242-48dc-8ee0-952a446d3441">
+                    <semantic:text>30</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_f51d5375-2c23-4766-b984-276886cfa127">
+                <semantic:inputEntry id="_514e8522-7fe4-4e29-9f9d-bd8805defbd2">
+                    <semantic:text>"OR4 - Mitchell Town / Hollyway Road Area 3"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_d42755ac-895c-49a1-85f6-b54dcfd05eb6">
+                    <semantic:text>-</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_50026b16-fa19-44e1-bea3-11e0667b78fe">
+                    <semantic:text>20</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_db6875da-07f5-4186-9446-09ec4e13e763">
+                <semantic:inputEntry id="_651bcfd3-4735-45e2-a686-b6219bf329e2">
+                    <semantic:text>"Outer Residential Area - Other"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_4502b038-ecaa-4a4e-bef4-04ccd4c4aae5">
+                    <semantic:text>true</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_f1c222c6-175b-48a4-ac17-11bb7c9b2da5">
+                    <semantic:text>40</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text>up to 5% of site coverage comprises only uncovered decks over 1 metre in height</semantic:text>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_4bab8136-a6aa-4a2b-ba91-1b70289aee33">
+                <semantic:inputEntry id="_8ceed1fa-60fe-4107-aeaf-378dbd762924">
+                    <semantic:text>"Outer Residential Area - Other"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_0ebb3fd3-35b4-424b-a497-ba7f30debb86">
+                    <semantic:text>false</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_80b72cb1-fdec-4f7f-b21f-e908144adbf1">
+                    <semantic:text>35</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+        </semantic:decisionTable>
+    </semantic:decision>
+    <semantic:decision id="_a92f54ed-1be8-4eea-808c-177d428653b0" name="site coverage ok">
+        <semantic:variable name="site coverage ok" id="_6d0be398-162a-48d8-aeb3-f68781b9f0bd" typeRef="Any"/>
+        <semantic:informationRequirement id="_a4c40afd-d448-438f-9bba-53187154b9c4">
+            <semantic:requiredInput href="#_1450fef6-2721-49d9-9469-1dc817f56ce8"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_55095160-db99-467e-9df4-3033445f36f1">
+            <semantic:requiredDecision href="#_fccc5cb1-7b53-4e67-9334-4ea56682cf47"/>
+        </semantic:informationRequirement>
+        <semantic:literalExpression id="_0de7b25b-6193-4b3b-9e85-01b583642c3d" typeRef="Any" triso:expressionId="_88c7603d-64aa-4ac8-8fd5-c96b1c8f96e2">
+            <semantic:text>site coverage &lt; maximum site coverage</semantic:text>
+        </semantic:literalExpression>
+    </semantic:decision>
+    <semantic:inputData id="_85f82b67-edc7-4654-8eab-d0dc9efca2d8" name="uncovered decks">
+        <semantic:variable name="uncovered decks" id="_79f5dfb1-393e-4900-9818-3fa60c023e44" typeRef="uncovered_decks"/>
+    </semantic:inputData>
+    <semantic:inputData id="_4831bda1-a86e-49f8-8393-ac1acc7c512b" name="within building recession envelope">
+        <semantic:variable name="within building recession envelope" id="_cc8c3315-3fc4-487d-b5e7-390f882a5d9a" typeRef="boolean"/>
+    </semantic:inputData>
+    <semantic:decision id="_084b7175-b181-4721-8d19-7574d0eaab46" name="envelope ok">
+        <semantic:variable name="envelope ok" id="_4bb6f17e-b9e4-440a-91f8-2850acd8436b" typeRef="Any"/>
+        <semantic:informationRequirement id="_d74c5e16-d460-4359-9a9b-ff81ef10eb39">
+            <semantic:requiredInput href="#_4831bda1-a86e-49f8-8393-ac1acc7c512b"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_ba2f7652-c265-4a1d-9afa-25804aa08b3a">
+            <semantic:requiredInput href="#_8c39bfba-c19f-4b38-9932-928fe04f65e2"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_4cb298c8-9cef-4b68-ae59-1567fa0d9ac3">
+            <semantic:requiredInput href="#_331c8bd4-220a-4252-9dcb-687df72c269b"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_da9fa728-cd29-4c5b-8f39-0ce9e91bd970">
+            <semantic:requiredInput href="#_488e03f5-5898-4a33-8e6a-c21a9feb093c"/>
+        </semantic:informationRequirement>
+        <semantic:literalExpression id="_30c6f853-f015-46e6-aa80-a701b134f732" typeRef="Any" triso:expressionId="_bf5e7afb-c6b4-4508-8140-5dc348b5c11e">
+            <semantic:text>within building recession envelope
+and protrusions within 1m
+and solar panel area within 10 sqm
+and solar panel protrusion within 500mm</semantic:text>
+        </semantic:literalExpression>
+    </semantic:decision>
+    <semantic:inputData id="_8c39bfba-c19f-4b38-9932-928fe04f65e2" name="protrusions within 1m">
+        <semantic:variable name="protrusions within 1m" id="_0b82313e-27df-4020-93e3-d3723ff48fd9" typeRef="boolean"/>
+    </semantic:inputData>
+    <semantic:inputData id="_331c8bd4-220a-4252-9dcb-687df72c269b" name="solar panel protrusion within 500mm">
+        <semantic:variable name="solar panel protrusion within 500mm" id="_19cc9186-d03b-4197-9c7a-29fa6de6817e" typeRef="boolean"/>
+    </semantic:inputData>
+    <semantic:inputData id="_488e03f5-5898-4a33-8e6a-c21a9feb093c" name="solar panel area within 10 sqm">
+        <semantic:variable name="solar panel area within 10 sqm" id="_c5052e04-f66a-4cd8-8607-269f05b23086" typeRef="boolean"/>
+    </semantic:inputData>
+    <semantic:decision id="_2fca9f91-4b3d-46a8-ab8f-60ae432f5800" name="building is permitted">
+        <semantic:variable name="building is permitted" id="_55a172dd-606f-4cb7-ab7d-b5bcf67e86cc" typeRef="Any"/>
+        <semantic:informationRequirement id="_076ef9e6-f261-4369-aac2-af82791a8378">
+            <semantic:requiredDecision href="#_17f3a1ed-578d-46c9-aa48-1099a149d3cf"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_9d8a935d-cfef-403e-ab9c-366ba4a5fafa">
+            <semantic:requiredDecision href="#_a92f54ed-1be8-4eea-808c-177d428653b0"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_16a2960b-24d0-45ca-9792-37201cb32cb5">
+            <semantic:requiredDecision href="#_084b7175-b181-4721-8d19-7574d0eaab46"/>
+        </semantic:informationRequirement>
+        <semantic:literalExpression id="_220f313a-6ef8-46de-9bae-56f31c5a2012" typeRef="Any" triso:expressionId="_d9d6588f-3900-42e7-84cb-74ab49ae58fd">
+            <semantic:text>height ok
+and site coverage ok
+and envelope ok</semantic:text>
+        </semantic:literalExpression>
+    </semantic:decision>
+    <dmndi:DMNDI>
+        <dmndi:DMNDiagram id="_dac9bc9a-307b-411c-aa74-3048b8ffc6a2" triso:modelElementRef="_36c1bc12-d351-4156-9e0e-c6ebaaf4fa68" name="Page 1">
+            <di:extension/>
+            <dmndi:Size height="1069" width="1485"/>
+            <dmndi:DMNShape id="_75b30017-42d8-4d7e-a213-68b12f562e7a" dmnElementRef="_ba1f426b-73fc-4abd-9ad2-b3927e3965f3">
+                <dc:Bounds x="135.2588291168213" y="140" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_ed4aeb02-d25a-4fb4-95ab-63f148bbc202" dmnElementRef="_00c39972-1ce4-4381-9218-cf94c7a20648">
+                <dc:Bounds x="135.2588291168213" y="367" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_933c6be1-a10e-4023-b86f-af6269fb0d08" dmnElementRef="_5957764e-7610-46c6-9f04-288c1efb0e0b">
+                <dc:Bounds x="311.5" y="140" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_a0b06cb3-e25c-4258-aa8c-c8405ee00e58" dmnElementRef="_1f1ddb2a-b696-4cf8-8574-94be07170c05">
+                <dc:Bounds x="311.5" y="253" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_387e4783-84bc-4d99-b4de-8434de28312e" dmnElementRef="_3abb491c-1a46-4131-942c-4d65a2b544ef">
+                <dc:Bounds x="135.2588291168213" y="253" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_e1a5ac97-1772-488b-a450-db3324807051" dmnElementRef="_ef3a0ce4-202a-4b6f-be0a-696c30941aa5">
+                <dc:Bounds x="320.2588291168213" y="26" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_3e44d762-472a-441e-ab85-370d6eb5a0c5" dmnElementRef="_17f3a1ed-578d-46c9-aa48-1099a149d3cf">
+                <dc:Bounds x="536.5" y="367" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_1ff2dd4d-d3a7-4c00-8783-f2fbec4f98f6" dmnElementRef="_1450fef6-2721-49d9-9469-1dc817f56ce8">
+                <dc:Bounds x="135.2588291168213" y="619" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_aecc3ccb-820c-4c73-a538-f41c1f9ed1d9" dmnElementRef="_fccc5cb1-7b53-4e67-9334-4ea56682cf47">
+                <dc:Bounds x="325.7411708831787" y="532" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_b6b93cf4-8fa2-4756-97c2-96fd91229851" dmnElementRef="_a92f54ed-1be8-4eea-808c-177d428653b0">
+                <dc:Bounds x="536.5" y="619" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_30b68dd6-35c2-4e88-811d-5168439e6bb0" dmnElementRef="_85f82b67-edc7-4654-8eab-d0dc9efca2d8">
+                <dc:Bounds x="135.2588291168213" y="532" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_5ebacfc7-2cfa-400e-a265-753a77c4fb7b" dmnElementRef="_4831bda1-a86e-49f8-8393-ac1acc7c512b">
+                <dc:Bounds x="135.2588291168213" y="755" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_019aaa82-7088-4b25-8913-e865d7c6f449" dmnElementRef="_084b7175-b181-4721-8d19-7574d0eaab46">
+                <dc:Bounds x="536.5" y="755" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_73762d89-4838-4dd3-85dd-a8cddb3862e0" dmnElementRef="_8c39bfba-c19f-4b38-9932-928fe04f65e2">
+                <dc:Bounds x="135.2588291168213" y="829" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_892c86d8-c372-4427-a8cd-2ff2c2c45c04" dmnElementRef="_331c8bd4-220a-4252-9dcb-687df72c269b">
+                <dc:Bounds x="135.2588291168213" y="905" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_81fbd993-13ac-45b3-92ad-4a2e5e8c7803" dmnElementRef="_488e03f5-5898-4a33-8e6a-c21a9feb093c">
+                <dc:Bounds x="135.2588291168213" y="984" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_3bd11c8c-3144-4ad7-a214-256fb7dfff62" dmnElementRef="_2fca9f91-4b3d-46a8-ab8f-60ae432f5800">
+                <dc:Bounds x="889.5" y="471" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNEdge id="_c1dadb62-5dc1-4c54-bfa9-b9388f662793" dmnElementRef="_5c8c0086-485f-4463-baa1-fdf3116b7441">
+                <di:waypoint x="270.7411708831787" y="170"/>
+                <di:waypoint x="311.5" y="170"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_c34bcc5a-0478-4318-8126-4323d13f8c4d" dmnElementRef="_3b3c8d87-2ffd-41d2-bf37-5671bc2e9dd7">
+                <di:waypoint x="269.4968013763428" y="180"/>
+                <di:waypoint x="368" y="253"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_fe7962fc-62a8-483b-96dc-dde751893f33" dmnElementRef="_682311ec-93a0-4f9f-ba6b-94f0a0ac6547">
+                <di:waypoint x="388" y="200"/>
+                <di:waypoint x="388" y="253"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_5ecc91fe-8b03-4364-b82b-2716ee9c1863" dmnElementRef="_2b934fc9-8f64-44ce-85b7-29d4aca6200e">
+                <di:waypoint x="270.7411708831787" y="283"/>
+                <di:waypoint x="311.5" y="283"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_3a3e596c-9332-4fd1-9b7f-3607b2afb303" dmnElementRef="_bcd8c193-419d-4c06-b3fa-cc8dea09a2d8">
+                <di:waypoint x="464.5" y="293"/>
+                <di:waypoint x="593" y="427"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_00292f07-7106-4ebe-9354-aa5c4c3dbc03" dmnElementRef="_8a1ef9ae-aefd-47f8-a467-5a813b767bea">
+                <di:waypoint x="270.7411708831787" y="397"/>
+                <di:waypoint x="536.5" y="397"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_d3d37170-5235-446c-b5a0-d1fde2cb8da0" dmnElementRef="_c59c4b60-f338-4864-b090-55a8466f5059">
+                <di:waypoint x="387.9968013763428" y="86"/>
+                <di:waypoint x="388" y="140"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_d78c2f78-0839-48aa-b02e-ce4c513a26e4" dmnElementRef="_7294b509-9d8b-4cbd-a683-f2877c23527b">
+                <di:waypoint x="242.99680137634277" y="200"/>
+                <di:waypoint x="402.2411708831787" y="532"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_1e341b0c-68bb-4d97-8640-7e96186c35aa" dmnElementRef="_aba133fa-0e36-44d3-ae67-52bfc8e577bf">
+                <di:waypoint x="270.7411708831787" y="562"/>
+                <di:waypoint x="325.7411708831787" y="562"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_53c6ed17-fc6f-4a20-8d16-a4f36d91b304" dmnElementRef="_a4c40afd-d448-438f-9bba-53187154b9c4">
+                <di:waypoint x="270.7411708831787" y="649"/>
+                <di:waypoint x="536.5" y="649"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_507b33ac-28f4-407b-95ed-a18acb2c357e" dmnElementRef="_55095160-db99-467e-9df4-3033445f36f1">
+                <di:waypoint x="478.7411708831787" y="562"/>
+                <di:waypoint x="543" y="619"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_385348bf-7f60-4a38-b92f-7f3ee96bbf32" dmnElementRef="_d74c5e16-d460-4359-9a9b-ff81ef10eb39">
+                <di:waypoint x="271.4968013763428" y="785"/>
+                <di:waypoint x="536.5" y="785"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_381d65d9-1ec6-4207-b098-577597736617" dmnElementRef="_ba2f7652-c265-4a1d-9afa-25804aa08b3a">
+                <di:waypoint x="264.4968013763428" y="879"/>
+                <di:waypoint x="536.5" y="795"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_a5cfee68-c7e2-4ac8-91f6-de9cfc2485d1" dmnElementRef="_4cb298c8-9cef-4b68-ae59-1567fa0d9ac3">
+                <di:waypoint x="264.4968013763428" y="955"/>
+                <di:waypoint x="536.5" y="805"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_176e290a-581c-41a6-a3df-c1bf76182d64" dmnElementRef="_da9fa728-cd29-4c5b-8f39-0ce9e91bd970">
+                <di:waypoint x="264.4968013763428" y="1034"/>
+                <di:waypoint x="543" y="815"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_3513873d-47f1-425e-948e-80c9bef26947" dmnElementRef="_076ef9e6-f261-4369-aac2-af82791a8378">
+                <di:waypoint x="633" y="367"/>
+                <di:waypoint x="889.5" y="481"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_6eedf6f9-afa3-4580-953e-a41f8a93a8f1" dmnElementRef="_9d8a935d-cfef-403e-ab9c-366ba4a5fafa">
+                <di:waypoint x="689.5" y="649"/>
+                <di:waypoint x="889.5" y="501"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_13d9bb78-3d37-4254-9dcf-117043ccaeae" dmnElementRef="_16a2960b-24d0-45ca-9792-37201cb32cb5">
+                <di:waypoint x="689.5" y="785"/>
+                <di:waypoint x="889.5" y="521"/>
+                <dmndi:DMNLabel sharedStyle="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0"/>
+            </dmndi:DMNEdge>
+        </dmndi:DMNDiagram>
+        <dmndi:DMNStyle id="LS_bfc6e4f5-ec2e-4254-b92a-8616965d60ab_0" fontFamily="arial,helvetica,sans-serif" fontSize="11" fontBold="false" fontItalic="false" fontUnderline="false" fontStrikeThrough="false"/>
+    </dmndi:DMNDI>
+</semantic:definitions>

@@ -1,0 +1,90 @@
+[ {
+  "@id" : "_:genid1",
+  "@type" : [ "http://www.w3.org/2002/07/owl#AllDifferent" ],
+  "http://www.w3.org/2002/07/owl#distinctMembers" : [ {
+    "@list" : [ {
+      "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Alice"
+    }, {
+      "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Bob"
+    } ]
+  } ]
+}, {
+  "@id" : "_:genid4",
+  "@type" : [ "http://www.w3.org/2002/07/owl#AllDifferent" ],
+  "http://www.w3.org/2002/07/owl#distinctMembers" : [ {
+    "@list" : [ {
+      "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#MashedPotatoes"
+    }, {
+      "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Ribeye"
+    } ]
+  } ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4",
+  "@type" : [ "http://www.w3.org/2002/07/owl#Ontology" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Alice",
+  "@type" : [ "http://www.w3.org/2002/07/owl#NamedIndividual", "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Animal",
+  "@type" : [ "http://www.w3.org/2002/07/owl#Class" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Bob",
+  "@type" : [ "http://www.w3.org/2002/07/owl#NamedIndividual", "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food",
+  "@type" : [ "http://www.w3.org/2002/07/owl#Class" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#MashedPotatoes",
+  "@type" : [ "http://www.w3.org/2002/07/owl#NamedIndividual", "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#PermittedAction",
+  "@type" : [ "http://www.w3.org/2002/07/owl#Class" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person",
+  "@type" : [ "http://www.w3.org/2002/07/owl#Class" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Ribeye",
+  "@type" : [ "http://www.w3.org/2002/07/owl#NamedIndividual", "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food" ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#age",
+  "@type" : [ "http://www.w3.org/2002/07/owl#DatatypeProperty", "http://www.w3.org/2002/07/owl#FunctionalProperty" ],
+  "http://www.w3.org/2000/01/rdf-schema#domain" : [ {
+    "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person"
+  } ],
+  "http://www.w3.org/2000/01/rdf-schema#range" : [ {
+    "@id" : "http://www.w3.org/2001/XMLSchema#int"
+  } ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#birthDate",
+  "@type" : [ "http://www.w3.org/2002/07/owl#DatatypeProperty" ],
+  "http://www.w3.org/2000/01/rdf-schema#domain" : [ {
+    "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person"
+  } ],
+  "http://www.w3.org/2000/01/rdf-schema#range" : [ {
+    "@id" : "http://www.w3.org/2001/XMLSchema#dateTime"
+  } ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#edibleFood",
+  "@type" : [ "http://www.w3.org/2002/07/owl#ObjectProperty", "http://www.w3.org/2002/07/owl#FunctionalProperty" ],
+  "http://www.w3.org/2000/01/rdf-schema#domain" : [ {
+    "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Person"
+  } ],
+  "http://www.w3.org/2000/01/rdf-schema#range" : [ {
+    "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food"
+  } ],
+  "http://www.w3.org/2002/07/owl#inverseOf" : [ {
+    "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#permittedEater"
+  } ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#minimumAge",
+  "@type" : [ "http://www.w3.org/2002/07/owl#DatatypeProperty" ],
+  "http://www.w3.org/2000/01/rdf-schema#domain" : [ {
+    "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#Food"
+  } ],
+  "http://www.w3.org/2000/01/rdf-schema#range" : [ {
+    "@id" : "http://www.w3.org/2001/XMLSchema#int"
+  } ]
+}, {
+  "@id" : "http://www.semanticweb.org/mengwong/ontologies/2019/10/untitled-ontology-4#permittedEater",
+  "@type" : [ "http://www.w3.org/2002/07/owl#ObjectProperty", "http://www.w3.org/2002/07/owl#InverseFunctionalProperty" ]
+} ]

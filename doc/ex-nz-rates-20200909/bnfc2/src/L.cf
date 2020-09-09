@@ -1,0 +1,129 @@
+rules          L4StatementMulti ::= BlankLine | L4Statement | L4StatementMulti "." L4Statement;
+
+rules          L4Statement ::= HornRule
+                             | HornFact
+                             | ClassDefinition
+                             | ClassAttributes
+                             | AttributeDeclaration
+                             | AttributeDefinition
+                             | SemanticComment
+                             | L4Statement "."
+                             ;
+
+L4Horn.        HornRule    ::= HornHead HornIf HornBody ;
+L4HornFact.    HornFact    ::= HornHead ;
+rules          HornIf      ::= "whenever" | "if";
+rules          HornHead    ::= DeonticRule | AlethicRule | StateHolds | AttributeHolds ;
+L4HornBody.    HornBody    ::= StateEvaluable ;
+L4StateEval.   StateEvaluable ::= DetailWords;
+L4DeonticRule. DeonticRule ::= Party Deontic Action ;
+
+rules          AlethicRule ::= "Alethic" "Rule" ":" AlethicRule
+                             | SizeOf Det_any DefTerm AlRuleModal Comparator Det_any DefTerm Anytime
+                             | DetailWords
+                             ;
+
+-- when we upgrade to pure GF or EBNF we can just make "given" an [ optional ].
+rules          Anytime     ::= "at" "any" "time" | "at" "any" "given" "time";
+
+rules          AlRuleModal ::= "can" "not" | "must" "not" | "may" "not" | "is" "always" | "need" "not";
+
+rules          Comparator  ::= "exceed" | "exceeds";
+
+rules          SizeOf      ::= Det_the "size" "of";
+rules          SizeOfAnaphora  ::= Det_its "size" ;
+  
+L4StateHolds.  StateHolds  ::= DetailWords "holds" ;
+
+L4AttrHolds.   AttributeHolds  ::= Det_a Class "'s" Attribute "holds" ;
+rules          Deontic     ::= "MUST" | "MAY" | "SHANT" ;
+L4Action.      Action      ::= Verb Object ;
+L4Verb.        Verb        ::= "eat";
+rules          Object      ::= "ribeye" | "mashed potatoes";
+rules          Party       ::= "Bob" | "Alice";
+rules          Det_a       ::= "A" | "An" ;
+rules          Det_it      ::= "It" | "They";
+rules          Det_its     ::= "Its" | "Their";
+rules          Det_the     ::= "The" ;
+rules          Det_any     ::= Det_a | Det_it | Det_the;
+L4Class.       Class       ::= DefTerm ;
+L4Attr.        Attribute   ::= DefTerm ;
+rules          Copula      ::= "is" "a" | "is" "an" | "are" "a" | "are" "an" | "are" | "is";
+
+rules          ClassDefinition ::= Det_a DefTerm Copula ParentClass | ClassDefinition "." ClassAttributes; -- TODO: with restrictions
+rules          ClassAttributes ::= ClassAttributesLHS ClassAttributesHas ClassAttributesRHS ;
+rules          ClassAttributesLHS ::= Det_it
+                                    | Det_the DefTerm
+                                    ;
+rules          ClassAttributesHas ::= "may" "have"
+                                    | "has"
+                                    ;
+rules          ClassAttributesRHS ::= "the" "following" "attributes" ListFollowsPunc
+                                    | "attributes" ListFollows
+                                    ;
+rules          AttributeDeclaration ::= AttributeDeclLHS Copula AttributeDeclRHS ".";
+rules          AttributeDeclLHS     ::= Det_a DefTerm "'s" DetailWords "(" DefTerm ")"
+                                      | Det_a DefTerm "'s" DefTerm;
+rules          AttributeDeclRHS     ::= TypeDefinition
+                                      | ListFollows;
+rules          AttributeDefinition  ::= "-" DetailWords "::" DetailWords | AttributeDefinition ".";
+
+rules          DefTerm     ::= UIdent | DefTerm UIdent | String | DefTerm String;
+
+rules          ParentClass ::= DefTerm ;
+
+rules          TypeDefinition ::= "a" DefTerm | "an" DefTerm | DefTerm | DefTerm DetailWords;
+
+rules          DetailWord ::= Ident | "an";
+
+rules          DetailWords ::= UIdent | UIdent DetailWords
+                             |  DetailWord |  DetailWord DetailWords
+                             | String | String DetailWords;
+
+rules          DetailWords2 ::= UIdent | UIdent DetailWords2
+                              |  DetailWord |  DetailWord DetailWords2
+                              | String | String DetailWords2;
+
+rules          ListFollowsPunc ::= ":-" | ":";
+rules          ListFollows     ::= "as follows" ListFollowsPunc | ListFollowsPunc ;
+
+
+rules          BlankLine   ::= ;
+rules          SemanticComment ::= "(" DetailWords ")";
+
+
+
+{-
+
+A Director is a Natural Person . They may have the following attributes :
+- Ordinarily Resident in Singapore :: boolean .
+
+A Company 's Board of Directors ( "Board" ) is an Aggregate Entity comprising one or more Directors .
+
+# when an aggregate entity "may have" certain attributes, it means those attributes are of type Maybe attr
+The Board may have the following attributes :
+- Maximum Size :: an Integer . Alethic Rule : The size of the Board can not exceed the Maximum Size at any given time .
+
+# when an aggregate entity "must have" certain attributes, it means those attributes are of type attr; they must be defined .
+The Board must have the following attributes :
+- Minimum Size :: an Integer, default 1 . Alethic Rule : The size of the Board can not fall short of the Minimum Size at any given time .
+
+The Company may appoint a Director to the Board by Ordinary Resolution or Extraordinary Resolution .
+
+A Director may attempt to resign from the Board by communicating a Resignation to the Board . The Resignation automatically succeeds if it does not violate any of the alethic rules in this section .
+
+Rule : Unless at least one member of the Board is Ordinarily Resident in Singapore, the Company is in a state of Non-Compliance .
+
+A Company 's "Casual Vacancy" holds whenever the size of the Board is less than the Maximum Size .
+
+When a Company 's Casual Vacancy holds, the Board may appoint a Director to the Board .
+
+  -}
+entrypoints L4StatementMulti;
+
+comment "#";
+comment "//";
+comment "/*" "*/";
+comment "{-" "-}";
+
+token UIdent (upper  (letter | digit | '_')* );

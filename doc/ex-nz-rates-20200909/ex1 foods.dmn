@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/"  xmlns:triso="http://www.trisotech.com/2015/triso/modeling"  xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"  xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"  xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"  xmlns:trisodmn="http://www.trisotech.com/2016/triso/dmn"  xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/"  xmlns:tc="http://www.omg.org/spec/DMN/20160719/testcase"  xmlns:drools="http://www.drools.org/kie/dmn/1.1"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:rss="http://purl.org/rss/2.0/"  xmlns:openapi="https://openapis.org/omg/extension/1.0"  xmlns:xsd="http://www.w3.org/2001/XMLSchema"  xmlns="http://www.trisotech.com/definitions/_764a97d7-d0e7-434e-80f6-b406c83de26a" id="_764a97d7-d0e7-434e-80f6-b406c83de26a" name="example 1 foods" namespace="http://www.trisotech.com/definitions/_764a97d7-d0e7-434e-80f6-b406c83de26a" exporter="DMN Modeler" exporterVersion="6.3.1" triso:logoChoice="Default">
+    <semantic:extensionElements>
+        <tc:testCases>
+            <tc:testCase id="_d662f70d-8d17-4291-b902-69b908473792" name="adult may eat ribeye">
+                <tc:inputNode triso:label="as of date" name="as of date">
+                    <tc:value xsi:type="xsd:date">2020-07-22</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="birth date" name="birth date">
+                    <tc:value xsi:type="xsd:date">1950-01-01</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="food" name="food">
+                    <tc:value xsi:type="xsd:string">ribeye</tc:value>
+                </tc:inputNode>
+                <tc:resultNode name="age" triso:label="age">
+                    <tc:expected>
+                        <tc:value>P70Y6M</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="age class" triso:label="age class">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:string">adult</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="permitted action" triso:label="permitted action">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:boolean">true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+            </tc:testCase>
+            <tc:testCase id="_e68de00a-f611-44b7-947f-8419bc934fe1" name="adult may eat mashed potatoes">
+                <tc:inputNode triso:label="as of date" name="as of date">
+                    <tc:value xsi:type="xsd:date">2020-07-22</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="birth date" name="birth date">
+                    <tc:value xsi:type="xsd:date">1950-01-01</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="food" name="food">
+                    <tc:value xsi:type="xsd:string">mashedPotatoes</tc:value>
+                </tc:inputNode>
+                <tc:resultNode name="age" triso:label="age">
+                    <tc:expected>
+                        <tc:value>P70Y6M</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="age class" triso:label="age class">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:string">adult</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="permitted action" triso:label="permitted action">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:boolean">true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+            </tc:testCase>
+            <tc:testCase id="_25b157d1-a948-45e2-881a-bef23ffb3d4c" name="baby may eat mashed potatoes">
+                <tc:inputNode triso:label="as of date" name="as of date">
+                    <tc:value xsi:type="xsd:date">2020-07-22</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="birth date" name="birth date">
+                    <tc:value xsi:type="xsd:date">2020-01-01</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="food" name="food">
+                    <tc:value xsi:type="xsd:string">mashedPotatoes</tc:value>
+                </tc:inputNode>
+                <tc:resultNode name="age" triso:label="age">
+                    <tc:expected>
+                        <tc:value>P6M</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="age class" triso:label="age class">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:string">baby</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="permitted action" triso:label="permitted action">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:boolean">true</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+            </tc:testCase>
+            <tc:testCase id="_54719bc1-67ed-4443-9363-ce580a770ba4" name="baby may not eat ribeye">
+                <tc:inputNode triso:label="as of date" name="as of date">
+                    <tc:value xsi:type="xsd:date">2020-07-22</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="birth date" name="birth date">
+                    <tc:value xsi:type="xsd:date">2020-01-01</tc:value>
+                </tc:inputNode>
+                <tc:inputNode triso:label="food" name="food">
+                    <tc:value xsi:type="xsd:string">ribeye</tc:value>
+                </tc:inputNode>
+                <tc:resultNode name="age" triso:label="age">
+                    <tc:expected>
+                        <tc:value>P6M</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="age class" triso:label="age class">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:string">baby</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+                <tc:resultNode name="permitted action" triso:label="permitted action">
+                    <tc:expected>
+                        <tc:value xsi:type="xsd:boolean">false</tc:value>
+                    </tc:expected>
+                </tc:resultNode>
+            </tc:testCase>
+        </tc:testCases>
+    </semantic:extensionElements>
+    <semantic:itemDefinition name="birthDate" label="birthDate">
+        <semantic:typeRef>date</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="food" label="food">
+        <semantic:typeRef>string</semantic:typeRef>
+        <semantic:allowedValues triso:constraintsType="enumeration">
+            <semantic:text>"ribeye","mashedPotatoes"</semantic:text>
+        </semantic:allowedValues>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="ageClass" label="ageClass">
+        <semantic:typeRef>string</semantic:typeRef>
+        <semantic:allowedValues triso:constraintsType="enumeration">
+            <semantic:text>"adult","baby"</semantic:text>
+        </semantic:allowedValues>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="age" label="age">
+        <semantic:typeRef>number</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:itemDefinition name="currentDate" label="currentDate">
+        <semantic:typeRef>date</semantic:typeRef>
+    </semantic:itemDefinition>
+    <semantic:decisionService id="_764a97d7-d0e7-434e-80f6-b406c83de26a_DS" name="Whole Model Decision Service" triso:dynamicDecisionService="true">
+        <semantic:variable name="Whole Model Decision Service" id="_764a97d7-d0e7-434e-80f6-b406c83de26a_DS_VAR" typeRef="Any"/>
+        <semantic:outputDecision href="#_3e0e735a-a680-476a-be00-11a5572d9bb0"/>
+        <semantic:encapsulatedDecision href="#_7983384d-0441-4ae6-aae3-6fe766a631dd"/>
+        <semantic:encapsulatedDecision href="#_a19d3fa7-5d8d-4d1d-b1d6-1de5e4edf307"/>
+        <semantic:inputData href="#_874a956a-183d-4817-b562-ad3ebe0aed65"/>
+        <semantic:inputData href="#_a960ab14-6bc0-41cd-9665-17b081995ebb"/>
+        <semantic:inputData href="#_f8361adb-4b6f-4f11-b8c7-dceb6291c7ea"/>
+    </semantic:decisionService>
+    <semantic:decisionService id="_2662fde3-8012-489d-a62a-302711946d39_DS" name="Diagram Page 1" triso:dynamicDecisionService="true">
+        <semantic:variable name="Diagram Page 1" id="_2662fde3-8012-489d-a62a-302711946d39_DS_VAR" typeRef="Any"/>
+        <semantic:outputDecision href="#_3e0e735a-a680-476a-be00-11a5572d9bb0"/>
+        <semantic:encapsulatedDecision href="#_7983384d-0441-4ae6-aae3-6fe766a631dd"/>
+        <semantic:encapsulatedDecision href="#_a19d3fa7-5d8d-4d1d-b1d6-1de5e4edf307"/>
+        <semantic:inputData href="#_874a956a-183d-4817-b562-ad3ebe0aed65"/>
+        <semantic:inputData href="#_a960ab14-6bc0-41cd-9665-17b081995ebb"/>
+        <semantic:inputData href="#_f8361adb-4b6f-4f11-b8c7-dceb6291c7ea"/>
+    </semantic:decisionService>
+    <semantic:decision id="_7983384d-0441-4ae6-aae3-6fe766a631dd" name="age">
+        <semantic:variable name="age" id="_df0696e2-0fa5-4bed-a466-938f8f971b01" typeRef="Any"/>
+        <semantic:informationRequirement id="_5f148b4d-9cd6-49bd-867e-0d5859f3982b">
+            <semantic:requiredInput href="#_a960ab14-6bc0-41cd-9665-17b081995ebb"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_2c61fedf-8a44-4453-a471-4c5d4feeb9bc">
+            <semantic:requiredInput href="#_f8361adb-4b6f-4f11-b8c7-dceb6291c7ea"/>
+        </semantic:informationRequirement>
+        <semantic:literalExpression id="_fea10728-bdd1-4878-93d6-c0128dafdc3c" expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" triso:unparsed="false" typeRef="Any" triso:expressionId="_6d59a862-987b-41e7-87b1-9ca16496ab82">
+            <semantic:text>years and months duration(birth date,as of date)</semantic:text>
+        </semantic:literalExpression>
+    </semantic:decision>
+    <semantic:inputData id="_a960ab14-6bc0-41cd-9665-17b081995ebb" name="as of date">
+        <semantic:variable name="as of date" id="_55d5a21d-7368-4ef8-9091-354aba6c7ac7" typeRef="currentDate"/>
+    </semantic:inputData>
+    <semantic:inputData id="_f8361adb-4b6f-4f11-b8c7-dceb6291c7ea" name="birth date">
+        <semantic:variable name="birth date" id="_840e0546-983c-4fed-a9dc-b197f453a791" typeRef="birthDate"/>
+    </semantic:inputData>
+    <semantic:decision id="_a19d3fa7-5d8d-4d1d-b1d6-1de5e4edf307" name="age class">
+        <semantic:variable name="age class" id="_ab36fb20-e827-463d-a9cf-4c34048abb2d" typeRef="ageClass"/>
+        <semantic:informationRequirement id="_0dc5cf7b-1077-422f-a43d-4fab9a62e19a">
+            <semantic:requiredDecision href="#_7983384d-0441-4ae6-aae3-6fe766a631dd"/>
+        </semantic:informationRequirement>
+        <semantic:decisionTable id="_3ed6985e-4879-4fe6-8e90-6112fdee18d5" hitPolicy="UNIQUE" outputLabel="age class" typeRef="ageClass" triso:expressionId="_80dfbb20-0080-4f8e-b74a-a2b35dd5f960">
+            <semantic:input id="_3534d957-c0ac-4413-8e0b-93971ea5786e" triso:allowNull="true" label="age">
+                <semantic:inputExpression typeRef="age">
+                    <semantic:text>age</semantic:text>
+                </semantic:inputExpression>
+            </semantic:input>
+            <semantic:output id="_39a6aaf7-36f2-4c6e-967b-8a4f705385d0" triso:allowNull="true">
+                <semantic:outputValues triso:constraintsType="enumeration">
+                    <semantic:text>"adult","baby",null</semantic:text>
+                </semantic:outputValues>
+            </semantic:output>
+            <semantic:annotation name="Description"/>
+            <semantic:rule id="_be8c5c51-75d5-4825-aba1-5bcee9661a25">
+                <semantic:inputEntry id="_8fee380a-6517-41d5-bf4a-cf56022ed47c">
+                    <semantic:text>&lt; duration("P4Y0M")</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_04c6cc5a-ecac-4c7d-a208-ad97ce837a28">
+                    <semantic:text>"baby"</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_92f4a2ad-f72a-4a17-b226-aa712ca0ea1b">
+                <semantic:inputEntry id="_4309006b-cfdf-46eb-8fd0-148cdcd77f5a">
+                    <semantic:text>&gt; duration("P21Y0M")</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_e8bbd972-b109-4fb9-8c0c-7c7823854e2a">
+                    <semantic:text>"adult"</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+        </semantic:decisionTable>
+    </semantic:decision>
+    <semantic:inputData id="_874a956a-183d-4817-b562-ad3ebe0aed65" name="food">
+        <semantic:variable name="food" id="_7638d97d-e502-4835-8edd-0f844b752357" typeRef="food"/>
+    </semantic:inputData>
+    <semantic:decision id="_3e0e735a-a680-476a-be00-11a5572d9bb0" name="permitted action">
+        <semantic:variable name="permitted action" id="_f5281865-26a5-4269-89d8-3a940bb85e82" typeRef="boolean"/>
+        <semantic:informationRequirement id="_f32ce2a6-72fb-4ef5-b5f1-c3460de81d80">
+            <semantic:requiredDecision href="#_a19d3fa7-5d8d-4d1d-b1d6-1de5e4edf307"/>
+        </semantic:informationRequirement>
+        <semantic:informationRequirement id="_de73bd5a-c793-4e15-a74d-171f56118867">
+            <semantic:requiredInput href="#_874a956a-183d-4817-b562-ad3ebe0aed65"/>
+        </semantic:informationRequirement>
+        <semantic:decisionTable id="_46fd421d-9d7c-4f76-8230-a29ddb3f0f78" hitPolicy="UNIQUE" outputLabel="permitted action" typeRef="boolean" triso:expressionId="_46705e71-b5a8-47bf-bc6e-397ee384b2d7">
+            <semantic:input id="_85dc4954-2dab-4f09-8ca5-4b6a79b8c5e2" triso:allowNull="true" label="age class">
+                <semantic:inputExpression typeRef="ageClass">
+                    <semantic:text>age class</semantic:text>
+                </semantic:inputExpression>
+                <semantic:inputValues triso:constraintsType="enumeration">
+                    <semantic:text>"adult","baby",null</semantic:text>
+                </semantic:inputValues>
+            </semantic:input>
+            <semantic:input id="_0bad416a-6712-45e6-9431-7998ab3c128d" label="food">
+                <semantic:inputExpression typeRef="food">
+                    <semantic:text>food</semantic:text>
+                </semantic:inputExpression>
+                <semantic:inputValues triso:constraintsType="enumeration">
+                    <semantic:text>"ribeye","mashedPotatoes"</semantic:text>
+                </semantic:inputValues>
+            </semantic:input>
+            <semantic:output id="_2792019f-cb14-421b-852b-8717644b3abd" triso:allowNull="true">
+                <semantic:defaultOutputEntry>
+                    <semantic:text>false</semantic:text>
+                </semantic:defaultOutputEntry>
+            </semantic:output>
+            <semantic:annotation name="Description"/>
+            <semantic:rule id="_8acd0e7c-1c55-4270-a88c-e5dc5f82711f">
+                <semantic:inputEntry id="_d250399d-33d6-406a-b694-79de593c18ab">
+                    <semantic:text>"adult"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_b77b6e44-104f-4eca-af70-b5894ec88d0b">
+                    <semantic:text>"ribeye"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_9b6c77fd-c4d6-4e45-b4f2-e86444ca8259">
+                    <semantic:text>true</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+            <semantic:rule id="_5d6b6576-05e2-4a34-bebb-c2a172de6a82">
+                <semantic:inputEntry id="_e1f349f3-779a-4511-b013-f5ee69d74254">
+                    <semantic:text>"adult","baby"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:inputEntry id="_e0a9ba81-4fba-4516-980d-34f6d9b563da">
+                    <semantic:text>"mashedPotatoes"</semantic:text>
+                </semantic:inputEntry>
+                <semantic:outputEntry id="_fdf3756c-abfd-487c-a8a6-939a6ae0c58f">
+                    <semantic:text>true</semantic:text>
+                </semantic:outputEntry>
+                <semantic:annotationEntry>
+                    <semantic:text/>
+                </semantic:annotationEntry>
+            </semantic:rule>
+        </semantic:decisionTable>
+    </semantic:decision>
+    <dmndi:DMNDI>
+        <dmndi:DMNDiagram id="_2662fde3-8012-489d-a62a-302711946d39" triso:modelElementRef="_ade1a80b-f7fc-4803-ad0f-12467b5f96f1" name="Page 1">
+            <di:extension/>
+            <dmndi:Size height="1050" width="1485"/>
+            <dmndi:DMNShape id="_867e180e-725b-460a-a65c-6e3d51b029a7" dmnElementRef="_7983384d-0441-4ae6-aae3-6fe766a631dd">
+                <dc:Bounds x="180.5" y="224" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_ac08a292-95fa-416f-aeb7-9307a56e3d22" dmnElementRef="_a960ab14-6bc0-41cd-9665-17b081995ebb">
+                <dc:Bounds x="106.25882911682129" y="80" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_e710e6cf-7240-4694-baa5-3e009d052901" dmnElementRef="_f8361adb-4b6f-4f11-b8c7-dceb6291c7ea">
+                <dc:Bounds x="316.2588291168213" y="80" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_dcb272ad-8f17-4b11-9c6b-b04356ac831c" dmnElementRef="_a19d3fa7-5d8d-4d1d-b1d6-1de5e4edf307">
+                <dc:Bounds x="180.5" y="340" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_4850bf7c-5d3f-4d16-b6b8-23fbc420c371" dmnElementRef="_874a956a-183d-4817-b562-ad3ebe0aed65">
+                <dc:Bounds x="404.2588291168213" y="340" width="135.48234176635742" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape id="_32a7bb54-413c-44a3-839c-82110ce7b695" dmnElementRef="_3e0e735a-a680-476a-be00-11a5572d9bb0">
+                <dc:Bounds x="282.5" y="483" width="153" height="60"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0" trisodmn:defaultBounds="true"/>
+            </dmndi:DMNShape>
+            <dmndi:DMNEdge id="_9836c251-63a5-4565-adb0-684710b05290" dmnElementRef="_5f148b4d-9cd6-49bd-867e-0d5859f3982b">
+                <di:waypoint x="173.99680137634277" y="140"/>
+                <di:waypoint x="257" y="224"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_7f995ca9-dde8-4195-8da9-3e779c08f490" dmnElementRef="_2c61fedf-8a44-4453-a471-4c5d4feeb9bc">
+                <di:waypoint x="383.9968013763428" y="140"/>
+                <di:waypoint x="287" y="224"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_a6966c21-1de6-4e8c-bbfc-b99b3c4d1690" dmnElementRef="_0dc5cf7b-1077-422f-a43d-4fab9a62e19a">
+                <di:waypoint x="257" y="284"/>
+                <di:waypoint x="257" y="340"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_f19b513c-4ca1-4d54-809f-cad634d005c0" dmnElementRef="_f32ce2a6-72fb-4ef5-b5f1-c3460de81d80">
+                <di:waypoint x="257" y="400"/>
+                <di:waypoint x="359" y="483"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0"/>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge id="_dc879a10-218d-4b0d-b61e-7368e783a080" dmnElementRef="_de73bd5a-c793-4e15-a74d-171f56118867">
+                <di:waypoint x="471.9968013763428" y="400"/>
+                <di:waypoint x="359" y="483"/>
+                <dmndi:DMNLabel sharedStyle="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0"/>
+            </dmndi:DMNEdge>
+        </dmndi:DMNDiagram>
+        <dmndi:DMNStyle id="LS_764a97d7-d0e7-434e-80f6-b406c83de26a_0" fontFamily="arial,helvetica,sans-serif" fontSize="11" fontBold="false" fontItalic="false" fontUnderline="false" fontStrikeThrough="false"/>
+    </dmndi:DMNDI>
+</semantic:definitions>

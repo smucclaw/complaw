@@ -1,0 +1,98 @@
+
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+# Wikidata Entries
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix p: <http://www.wikidata.org/prop/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+# UC Davis Wine Ontology
+@prefix :  <http://library.ucdavis.edu/wine-ontology#> .
+
+:WineType a rdf:Class.
+
+  :StillWine a :WineType;
+  rdf:label "Still Wine"@en.
+
+  :SparklingWine a :WineType;
+  = wdt:Q321263 ;
+  rdf:label "Sparkling Wine"@en.
+
+  :DessertWine a :WineType;
+  = wdt:Q321263 ;
+  rdf:label :Dessert Wine"@en;
+  rdf:description: "According to the TTB https://www.ttb.gov/wine/wine-labeling.shtml, Table Wine (if no more than 14% alcohol by
+volume) or Dessert Wine (if over 14% alcohol by volume)."@en.
+
+  :FortifiedWine a :WineType;
+  = wdt:Q722338;
+  rdf:label "Fortified Wine"@en.
+
+  :type a rdf:Property;
+  rdfs:domain :Wine;
+  rdfs:range :WineType.
+
+# We also have three Wine Colors
+:WineColor a rdf:Class.
+
+:RedWine a :WineColor;
+rdf:label "Red"@en.
+
+:RoseWine a :WineColor;
+rdf:label "Rose".
+
+:WhiteWine a :WineColor;
+rdf:label "White"@en.
+
+:color a rdf:Property;
+rdfs:domain :Wine;
+rdfs:range :WineColor.
+
+:alcohol a rdf:Property;
+         rdfs:domain :Wine;
+         rdfs:label "Alcohol Content";
+
+:nameAndAddress a rdf:Property;
+         rdfs:domain :Wine;
+         rdf:label "address";
+         = wdt:Q319608.
+
+:US_Wine_1978 a rdf:Class;
+                  owl:subClass :Wine;
+                  rdf:description "TTB regulations can be quite detailed in regard to the production of a wine and the information appearing on the bottle"@en;
+
+# Although this is from US, we are allowing it to be described
+# for other wine types
+:brandName a rdf:Property;
+           rdfs:domain :Wine;
+           rdf:label "Brand Name";
+           rdf:description "The brand name is used to identify and market a wine. A brand name may not mislead the consumer about the age, identity, origin, or other characteristics of the wine."@en.
+
+:otherDesignation a rdf:Property;
+                  rdfs:domain :US_Wine_1978;
+                  rdf:label "Other Desigation";
+
+:varietalDesignation a rdf:Property;
+                  rdfs:domain :US_Wine_1978;
+                  rdf:label "Varietal Desigation";
+                  rdf:description "Varietal designations are the names of the dominant grapes used in the wine. Cabernet Sauvignon, Chardonnay, Zinfandel, and Merlot are examples of grape varieties. A varietal designation on the label requires an appellation of origin and means that at least 75 percent of the grapes used to make the wine are of that variety, and that the entire 75 percent were grown in the labeled appellation (except "Vitis labrusca" grapes, such as Concord, which require at least 51 percent)."@en.
+
+:addressQualification a rdf:Property;
+         rdfs:domain :US_Wine_1978;
+         rdfs:range :AddressQualification;
+         rdf:label "Address Qualification"@en;
+
+:AddressQualication a rdf:Class;
+                    rdf:label "Address Qualifcation"@en;
+                      rdf:description "Domestic wines may have this statement further qualified with terms such as Produced meaning that not less than 75 percent of the wine was fermented at the stated address, or Vinted, which means that the wine was subjected to cellar treatment at the stated address.
+
+:Produced a :AddressQualification;
+          rdf:label "Produced"@en;
+          rdf:description "Not less than 75 percent of the wine was fermented at the stated address"@en.
+
+:ProducedandBottled a :AddressQualification;
+          rdf:label "Produced and Bottled"@en.
+
+:Vinted a :AddressQualification;
+          rdf:label "Vinted"@en;
+          rdf:description "The wine was subjected to cellar treatment at the stated address."@en.

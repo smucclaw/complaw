@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+
+# preprocessor for the L4 BNFC / GF BNF
+#
+# usage: 20191203-16:48:50 mengwong@venice4:~/src/l/complaw-deeptech/L4/rules/nz-201910/bnfc% bnfc -m L.cf && make && (echo "A Company 's Name is a String" | ./lextext| ./TestL)
+#
+#   INPUT               OUTPUT 
+#
+#
+#   Company's Name      Company 's Name
+#
+#
+#   Bob is tot. Yay.    Bob is tot
+#                       Yay
+# 
+#
+
+my $input = join "", (<>);
+
+my @lines = split (/\n/, $input);
+
+sub process_lines {
+  for my $line (@lines) {
+    my @F = split ' ', $line;
+    for (my $i = 0; $i <= $#F; $i++) {
+      local $_ = $F[$i];
+      next if /^::$/;
+      if (/^[(](?=.)/) { splice (@F, $i, 1, $&, $'); $_ = $&; warn "setting \$_ to $_\n" if $ENV{VERBOSE}; }
+      for my $repeat (1..4) { # to handle punctuation like ("Board")
+        if (/(?<=.)(\.|'s|:-*|\))$/) { splice (@F, $i, 1, $`, $&); $_ = $`; warn "setting \$_ to $_\n" if $ENV{VERBOSE}; }
+      }
+    }
+    $line = join " ", @F;
+  }
+}
+
+process_lines();
+
+print join ("\n", @lines), "\n";
