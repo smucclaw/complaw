@@ -1,0 +1,189 @@
+\documentclass{IOS-Book-Article}
+
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{mathptmx}
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true,
+}
+
+%\usepackage{times}
+%\normalfont
+%\usepackage[T1]{fontenc}
+%\usepackage[mtplusscr,mtbold]{mathtime}
+%
+\def\hb{\hbox to 10.7 cm{}}
+
+\begin{document}
+
+\pagestyle{headings}
+\def\thepage{}
+
+\begin{frontmatter}              % The preamble begins here.
+
+%\pretitle{Pretitle}
+\title{L4: A domain-specific language for law [working title]}
+
+\markboth{}{September 2020\hb}
+%\subtitle{Subtitle}
+
+\author[A]{\fnms{Book Production} \snm{Manager}%
+\thanks{Corresponding Author: Book Production Manager, IOS Press, Nieuwe Hemweg 6B,
+1013 BG Amsterdam, The Netherlands; E-mail:
+bookproduction@iospress.nl.}},
+\author[B]{\fnms{Second} \snm{Author}}
+and
+\author[B]{\fnms{Third} \snm{Author}}
+
+\runningauthor{B.P. Manager et al.}
+\address[A]{Book Department, IOS Press, The Netherlands}
+\address[B]{Short Affiliation of Second Author and Third Author}
+
+\begin{abstract}
+We demonstrate an early release of ``L4'', a working, practitioner-oriented, open-source domain-specific language for laws and contracts. Using a simple ``Hello World'' example, we introduce L4's syntax, tool chain, and connections to transpilation, natural language generation, formal verification, and constraint solving. We trace the debt owed by L4 to prior formalisms. Viewing a contract as a specification for a multi-agent, concurrent, rule-based distributed system, L4 builds on LTL/CTL, the modal $\mu$-calculus, and the process $\pi$-calculus. We suggest that the contract drafting, analytics, and lifecycle management industries could benefit from a formal, structured data-interchange standard, and to that end we embed data parameters and the full operational semantics of a contract in a PDF using XMP to encode L4.
+\end{abstract}
+
+\begin{keyword}
+lorum, ipsum
+\end{keyword}
+\end{frontmatter}
+\markboth{September 2020\hb}{September 2020\hb}
+%\thispagestyle{empty}
+%\pagestyle{empty}
+
+\section{Background}
+
+In the past 40 years, numerous legal formalisms have emerged from academia; none are widely used, not the way photographers use Photoshop, architects use AutoCAD, and (just about) everybody uses spreadsheets. While spreadsheets ``amplify human capabilities''\footnote{Douglas Engelbart, 1958} in quantitative reasoning, nothing comes close in the adjacent domain of legal and qualitative reasoning. Accountants use Excel very differently from the way lawyers use Word.
+    
+This paper presents a new DSL for laws and contracts intended for adoption by industry---by those who have to deal with law, whether as a lawyer or not. It borrows ideas from the existing literature in languages and logics for rules and contracts, but is designed with productisation in mind. The concrete syntax of the language is intended to be user-friendly, and invites a new generation of legal engineers to attack the knowledge acquisition bottleneck with open-source methods. The interpreter supports interoperability with an ecosystem of third-party tools. In accordance with ``whole product'' theory, key augmentations include IDE support, intelligent feedback from formal verification engines, extraction to natural language representations, and transpilation to rule-engine runtimes.
+
+\section{A Simple Illustration of the L4 Language}
+
+Suppose: Government regulations decree, \textit{inter alia,}\footnote{\url{https://www.snopes.com/fact-check/cabbage-memo/}} that cabbages may be sold only on the day a full moon occurs -- unless an exemption was granted by the Director of Agriculture. Buyers have the right, within three weeks of purchase, to return their cabbages for a 90\% refund, which the seller must issue within 3 days of the return.
+
+We hand-coded the following interpretation of these rules into our language L4\footnote{No relation to \href{https://dl.acm.org/doi/10.1145/1629575.1629596}{seL4, the secure Linux kernel project}, apart from our common interest in formal verification.} as a basis for further processing. The working source code for this demo is available at \url{https://github.com/smucclaw/complaw/blob/master/doc/ex-jurix-20200814/}
+
+\begin{lstlisting}
+   RULE   "Sale Restricted"
+   PARTY  P
+   SHANT  sell Item
+   WHEN   Item.isCabbage
+   UNLESS sale.onLegalDate
+       OR UNLIKELY P.hasExemption from:DirectorOfAgriculture
+          HENCE Rule "Return Policy"
+   WHERE
+      DEEM Item.isCabbage en:"is a cabbage"
+           WHEN Item.faostat ~ "FCL ITEM 0358"
+             OR (Item.category      ~ "vegetable"
+                 AND Item.species   ~ ["Brassica chinensis", "Brassica oleracea"]
+                 AND Item.cultivar !~ "botrytis")
+      DEEM sale.onLegalDate en:"on the day of a full moon"
+           WHEN sale.date ~ LegalDates
+           WHERE LegalDates = EXTERNAL url
+                              "https://www.almanac.com/astronomy/moon/full/"
+        
+    RULE "Return Policy"
+   GIVEN sale
+   PARTY Buyer
+     MAY return Item
+  BEFORE sale.date + 3W
+   HENCE Rule "Net 3"
+   
+    RULE "Net 3"
+   GIVEN return
+   PARTY Seller
+    MUST refund Amount
+  BEFORE return.date + 3D
+   WHERE Amount = return.sale.cash * 90%
+\end{lstlisting}
+
+\noindent With the rules encoded in a machine-readable form, L4's toolchain is now ready to generate English, extract interactive interviews that ask and answer questions from users, and test the rules for validity.
+
+\section{Natural Language Generation}
+
+Landin (1966) remarked: ``Any pidgin algebra can be dressed up as pidgin English to please the generals.'' In this view, Haskell is the $\lambda$-calculus dressed up as pidgin English; SQL is Codd's relational algebra in fancy dress. A similar transformation of the $\mu$- and $\pi$-calculi from algebra to English produces L4.\footnote{With support for $\lambda$, $\mu$, and $\pi$ calculi, L4 has enough to call itself a LAMP stack for law.}
+
+Going a step further, L4 expressions can themselves be translated to natural language using Grammatical Framework\footnote{Ranta 20xx, \url{https://grammaticalframework.org/}}.
+This approach, which extends research in Controlled Natural Languages,\footnote{ACE and ACErules} is our way of meeting the \textit{isomorphism} goal in computational law.\footnote{See also T. Bench-Capon 2007, \url{https://intranet.csc.liv.ac.uk/~tbc/publications/ICAILTom.pdf}}
+In industry, bilingual contracts are increasingly demanded by international commerce.
+We developed multiple grammars in GF to generate English and Malay versions of the cabbage case:
+
+\begin{verbatim}$ l4 nlg cabbage.l4 --to=en_GB --to=ms_MY\end{verbatim}
+
+\noindent \texttt{No person shall sell a cabbage (an item with FAOSTAT code FCL ITEM 0358, or a vegetable of species Brassica oleracea, cultivar Capitata) except on the day of a full moon, unless an exemption was granted by the Director of Agriculture. A buyer has the right to return their purchase within three weeks for a 90\% refund. The seller must issue the refund within 3 days.}
+
+\medskip
+\noindent \texttt{Tidak ada orang yang boleh menjual kubis (sayu dari spesies Brassica oleracea dan kultivar Capitata) kecuali pada hari bulan purnama, kecuali pengecualian diberikan oleh Pengarah Pertanian. Pembeli mempunyai hak untuk mengembalikan pembelian mereka dalam masa tiga minggu dari pembelian dengan bayaran balik 90\%. Penjual mesti mengeluarkan bayaran balik dalam masa 3 hari.}
+
+\medskip
+\noindent An IDE with realtime NLG would assist L4 coding by allowing coders to check their intuition against a natural language rendering. Some believe that text produced in this fashion could find its way into bills and contracts.
+
+\section{Extraction to Rule Engine Runtimes}
+
+Users are concerned with questions like ``under what scenarios will I have such-and-such an obligation?'' and ``such-and-such an event has occurred; what do I have to do?'' Answering such questions is the job of a runtime user-interface. In support of such runtimes, L4 transpiles to Prolog, Typescript, and Python. As an example, L4's toolchain generates a mix of Python and YAML, to be read by DocAssemble, a modern expert system runtime. The web interface can be demonstrated by installing DocAssemble and loading the file \texttt{interview.yaml} in the playground.
+
+\section{Formal Verification: Cassandras in Code}
+
+What is a sale? One might define a sale as a pattern of events in which two parties participate in an exchange; Party A transfers Item A to Party B with the expectation that in return, Party B will transfer Item B to Party A. Contract theorists call the items ``consideration'' and usually one of the items is cold hard cash.
+
+Formal verification engines excel at detecting such patterns. Here, the L4 model checker automatically detects a pattern which meets the above definition of a sale --- which in turn shows a conflict between the rules given.
+
+\begin{lstlisting}
+$ l4 -Wall -fv cabbage.l4
+Conflict scenario found between
+  - Rule 1 "sale restricted"
+  - Rule 2 "return policy"
+Conflict details:
+  Event trace:
+    - 2020-01-10 Sale of cabbage from Alice to Bob for $10.
+    - 2020-01-12 Return of cabbage from Bob to Alice.
+    - 2020-01-13 Refund tof $9 from Alice to Bob.
+  Analysis:
+    - Rule 2 determines that 2020-01-12 is within 3 weeks of 2020-01-10.
+    - Rule 2 permits return of cabbage within 3 weeks.
+    - The trace PASSES rule 2.
+    - From ContractLaw, a sale is a mutual transfer of consideration.
+    - On 2020-01-12 consideration (cabbage) moves from Buyer to Seller.
+    - On 2020-01-13 consideration ($9) moves from Seller to Buyer.
+    - Therefore a sale of cabbage occurs on 2020-01-12.
+    - Rule 1 determines that on 2020-01-12 the moon is not full.
+    - Rule 1 prohibits sale of cabbage on 2020-01-12.
+    - The trace VIOLATES rule 1.
+  General problem:
+    - Every return counts as a sale.
+  Recommended resolutions:
+    - Add meta-rule adjustment to rule 1:
+      - Rule 1 subject to rule 2 :: "Sale Restricted" does not apply when "Return Policy" applies.
+    - Redefine the concept of a sale in ContractLaw:
+      - Redefine sale to exclude a return following a sale.
+\end{lstlisting}
+
+\noindent Common sense dictates, of course, that a return is not a sale. A sensible reader might object: ``it would take a spectacularly obtuse reading for this `problem' to arise at all.'' We know that a buyer reporting a rotten cabbage is not making an offer to sell it back to the vendor; the vendor is obliged to take it back. Still, when at the start of this section you read the definition of a sale, did a return scenario immediately come to mind as an exception? We could refine our notion of a ``sale'' in the upstream library \texttt{ContractLaw} and eliminate this problem at the root; or we could define \textit{lex specialis} for automatic prioritization.
+
+\section{Embedding in PDFs via XMP}
+
+A contract in L4 ranks higher, Platonically, than a natural language ``serialization'', just as C ranks above machine object code. Computable contracts\footnote{as Surden, among others, point out} afford new ways of understanding one's obligations and rights: interactive visualizations could substitute for asking one's lawyer "what if". Still, natural language contracts are needed for signature and for laying before a judge. We take advantage of PDF's\footnote{Portable Document Format} support for XMP\footnote{Extensible Metadata Protocol} to embed key parameters (names of parties, dollar amounts, deadlines, deal terms) in the contract for convenient extraction by downstream lifecycle management software. Going farther, we embed the L4 source of the contract itself as well, for next-generation contract analytics software to sink their teeth into.
+
+\section{Other Features}
+
+L4 imports and exports to DMN decision models and BPMN process models. L4 exports to LegalRuleML and ContractLog XML. Not shown in the above examples is a novel succinct syntax for disjunctive and conjunctive lists. Also not shown is support for locale-specific legal jurisdiction libraries and dialect specialization of natural language output. The type inference component and underlying logics will be detailed in a future paper.
+
+\section{Prior Formalisms for Contracts and Laws}
+
+L4 stands on the shoulders of giants. The history of computational law is coextensive with the history of artificial intelligence, with roots going back to Leibniz's notion of a \textit{calculus ratiocinator} in the late 17th century. In the modern era, legal theorists have sought to place law on a more formal footing: perhaps inspired by Whitehead \& Russell (1910), Hohfeld (1917) borrowed from Aristotelian logic; Allen (1952, 1978) borrowed from propositional logic; and Darmstadter (2010) sought relief in the practices of software development. Coming from the opposite direction, mathematicians and computer scientists have used defeasible logics, default logics, modal logics, and process calculi to characterize problems in legal formalisation and reasoning. (Governatori, Sartor, Prakken). At Imperial, Kowalski and Sadri continue to champion Prolog for law. (British Nationality Act as a Logic Program 1985, Logic Production Systems 2019.) Others have focused their energies on structuring and standardizing normative text in the form of RulemL, LegalRuleML, LegalDocumentML, ContractLog, eContracts XML; yet others exploit advances in natural language processing to extract meaning from normative text. (Estrella, MIREL) Standards such as SBVR and BPMN offer frameworks for expressing business rules, which are close cousins to legal rules.
+
+This paper follows most closely in the research tradition of domain-specific languages for laws and contracts: FormaLex, Catala, DMN, Drools, eContracts LegalXML, Henglein and Hvitved's CSL, McCarty's LLD, and Schneider's $\mathcal{CL}$ are immediate inspirations for the present formalism. Other inspirations, syntactically, include SQL.
+
+The recent ``Rules as Code'' movement provides a handful of case studies in language design: from the Dutch Tax Code project involving JetBrains MPS, to Python-based OpenFisca used in France and New Zealand among others, to the newly designed Catala language. Future papers will contrast L4 with those other languages and, where useful, demonstrate interoperability.
+
+\section*{Acknowledgements}
+
+This research is supported by ... \citep{hankeknees}
+
+\bibliographystyle{ios1}
+\bibliography{bibliography.bib}
+
+\end{document}
