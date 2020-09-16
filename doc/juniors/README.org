@@ -503,6 +503,8 @@ For a sense of the "last fifty years of our field", take a look at:
 
 [[https://www.iftf.org/our-work/people-technology/technology-horizons/forecasting-the-internet/][Forecasting the Internet, work by Paul Baran]]
 
+[[https://www.amazon.com/Tools-Thought-History-Mind-Expanding-Technology/dp/0262681153][Tools for Thought, by Howard Rheingold]]
+
 I recommend taking up Matt Might's curriculum in the following order:
 
 ** The Unix philosophy
@@ -656,7 +658,7 @@ As https://twitter.com/mcclure111/status/1272727666802786304?s=20 put it: "The o
 
 Coming back down to earth, these resources are recommended for learning Haskell:
 
-- http://haskellbook.com/ and [[https://www.oreilly.com/library/view/Get-programming-with/9781617293764/?ar][Get Programming With Haskell]] are our top recommendations. Using two texts at once is a good way to triangulate; when one doesn't make sense, try the other.
+- http://haskellbook.com/ and [[https://www.oreilly.com/library/view/Get-programming-with/9781617293764/?ar][Get Programming With Haskell]] are our top recommendations. Using two texts at once is a good way to triangulate; when one doesn't make sense, try the other. GPWH is available via the library.
 - And ask for help! You are surrounded by experts who are literally being paid to teach you. You are being paid to learn. This is a rare situation. Make the most of it.
 - https://www.udemy.com/course/learning-path-haskell-functional-programming-and-haskell/ offers 73 lectures. They may be a useful complement to the book, worth watching at mealtimes maybe.
 - https://twitter.com/aymannadeem?lang=en blogs frequently at https://www.aymannadeem.com/
