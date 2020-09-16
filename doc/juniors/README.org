@@ -499,11 +499,11 @@ But the more you learn, the better. Knowledge is power. If you ever find yoursel
 
 For a sense of the "last fifty years of our field", take a look at:
 
-[[http://worrydream.com/dbx/][The Future of Programming, by Bret Victor]]
+- [[http://worrydream.com/dbx/][The Future of Programming, by Bret Victor]]
+- [[https://www.iftf.org/our-work/people-technology/technology-horizons/forecasting-the-internet/][Forecasting the Internet, work by Paul Baran]]
+- [[https://www.amazon.com/Tools-Thought-History-Mind-Expanding-Technology/dp/0262681153][Tools for Thought, by Howard Rheingold]]
 
-[[https://www.iftf.org/our-work/people-technology/technology-horizons/forecasting-the-internet/][Forecasting the Internet, work by Paul Baran]]
-
-[[https://www.amazon.com/Tools-Thought-History-Mind-Expanding-Technology/dp/0262681153][Tools for Thought, by Howard Rheingold]]
+This web page tries to help the self-taught programmer learn CS: https://teachyourselfcs.com/
 
 I recommend taking up Matt Might's curriculum in the following order:
 
