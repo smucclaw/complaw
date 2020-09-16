@@ -433,6 +433,13 @@ I'm impatient to get started! What should I read?
 
 ** [[https://www.amazon.sg/Clean-Coder-Conduct-Professional-Programmers/dp/0137081073][The Clean Coder]], by Robert C. Martin
 
+** Research Meets Practice
+
+Browse the presentations at http://www.remep.net/materials-2020/
+- Michael Genesereth: https://www.remep.net/wp-content/uploads/2020/06/Michael-Genesereth_Computational-Law_The-Cop-in-the-Backseat_ReMeP2020.pdf?x45466
+- Robert Kowalski: https://www.remep.net/wp-content/uploads/2020/06/Bob_Kowalski.png?x45466
+- Marcus Triska: https://www.remep.net/wp-content/uploads/2020/06/Markus-Triska_Logic-Programming-in-modern-e-Government-Services_ReMeP2020.pdf?x45466
+
 ** [[https://www.edx.org/course/cs50s-introduction-to-computer-science][CS50]] from edX
 
 This is a roughly 12 week course.
@@ -445,21 +452,36 @@ There are actually three different courses that are worth checking out, all unde
 - [[https://cs50.harvard.edu/ai/2020/][CS50 AI]] :: seven lectures on different techniques in AI. Do the exercises.
 - [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers. If you've done the above then you can probably skip the exercises and just skim the videos to get a sense of what the lawyer audience cares about.
 
-So, all told, this will probably take most of a year.
+So, all told, the CS50 curriculum will probably take you several months.
 
-** "I think I'm done ... what should I do next?"
+** Learn Haskell
+
+This will probably take you several more months. See Haskell resources below.
+
+** I feel like I'm back in school again.
+
+Well, this research programme /is/ hosted at a university.
+
+"But the CS50 stuff took me three months, and now you're asking me to take another three months to learn Haskell. When am I going to do actual work? Are you paying me for six months to just sit around and be unproductive?"
+
+In short, yes. Most juniors come onboard without a CS degree. You need to spend some time catching up. Most CS degrees take four years. Cramming that into six months is ambitious. But this is our commitment to [[https://www.parsonsmatt.org/2019/12/26/write_junior_code.html][train juniors]]. And even then, staff who join with a CS degree don't have specializations in computational linguistics, formal verification, and programming language design. Most CS master's programmes take two years. We're cramming that into another six months.
+
+"So you're saying, this research programme is doing work at the PhD and post-doc level."
+
+Yes, that's what research programmes do. And we're trying to give you enough training in your first year to be able to catch up to people who have spent ten years in school.
+
+"But I hate school ... I have so many bad memories."
+
+Do you hate school or do you hate learning? Learning new things is hard: it's a cognitive burden that requires lots of naps; and it's an emotional challenge because learning requires you to be wrong, and people don't like to be wrong.
+
+And it's a time challenge: it turns out that the geeks who stayed home on weekends to play with computers instead of going drinking were getting a head start on everyone else, measured in the thousands of hours. It takes time to learn tools, make mistakes, read documentation, write programs, reinstall OSes, explore dead ends, ask for help on forums, and give help on forums.
+
+** "I think I'm done with the curriculum ... what should I do next?"
 
 If you find yourself at a loose end:
 1. review Asana; are there really no tasks assigned to you?
-2. review your learning objectives; are you all caught up on the assigned reading? Are you "done" learning Haskell and Python and Unix?
+2. review your learning objectives; are you all caught up on the assigned reading? Are you "done" learning Haskell and Python and Unix? Have you studied everything on Matt Might's list? Have you asked your colleagues to help you learn the material listed under the Detailed Syllabus below?
 3. look around for where you could help; does some other team need help? Can you help that team move forward?
-
-** Research Meets Practice
-
-Browse the presentations at http://www.remep.net/materials-2020/
-- Michael Genesereth: https://www.remep.net/wp-content/uploads/2020/06/Michael-Genesereth_Computational-Law_The-Cop-in-the-Backseat_ReMeP2020.pdf?x45466
-- Robert Kowalski: https://www.remep.net/wp-content/uploads/2020/06/Bob_Kowalski.png?x45466
-- Marcus Triska: https://www.remep.net/wp-content/uploads/2020/06/Markus-Triska_Logic-Programming-in-modern-e-Government-Services_ReMeP2020.pdf?x45466
 
 * [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
@@ -517,6 +539,8 @@ take you about an hour. See https://gist.github.com/cheapRoc/9670905
 If you're curious about Elder Magics, you might go deeper into Emacs. Sacha Chua has a good Emacs blog: https://sachachua.com/blog/emacs/
 
 Speaking of keybindings, you may enjoy installing [[https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en][Vimium]] for your web browser, so you don't have to reach for the mouse so often.
+
+Other colleagues like to use NeoVim.
 
 ** Languages
 
@@ -584,7 +608,7 @@ You should be able to implement a web scraper in at least one language. Don't wo
 
 Work through the New Zealand Benefits RaC exercise (link to be provided).
 
-*** Haskell online resources
+*** <<<Haskell resources>>>
 
 When the University of Texas tried to replace Haskell with Java, Dijkstra himself [[https://www.cs.utexas.edu/users/EWD/OtherDocs/To%20the%20Budget%20Council%20concerning%20Haskell.pdf][objected in the strongest terms]].
 
@@ -618,7 +642,7 @@ In /Jiro Dreams of Sushi/, it's ten years before you're allowed to cook eggs. Ha
 
 This is Joel's Law of Leaky Abstractions at work: there is a certain amount of complexity in any field, and abstractions can only hide it from you for so long; sooner or later you will have to open up the black box and learn how it works. Haskell wants you to learn CS early, singing in the choir; other languages let you learn CS late, as a sinner born again. (A New Jersey worse-is-better sinner, to be precise. [[https://www.dreamsongs.com/RiseOfWorseIsBetter.html][Essay]], [[https://www.dreamsongs.com/WorseIsBetter.html][Context]])
 
-All that being said, we'll try to make Haskell accessible, so you can climb the learning curve less painfully than most. We'll show you the easier routes up the mountain and how to get unstuck.
+All that being said, we'll try to make Haskell accessible, so you can climb the learning curve less painfully than most. We'll show you the easier routes up the mountain and how to get unstuck. We write [[https://www.parsonsmatt.org/2019/12/26/write_junior_code.html][junior code]].
 
 When Lisp programmers look at code written by less sophisticated programmers in less sophisticated languages, their reaction is often: "dude, 90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. Why don't you all have a library for that? Or language features that make the solution easy?"
 
@@ -632,7 +656,8 @@ As https://twitter.com/mcclure111/status/1272727666802786304?s=20 put it: "The o
 
 Coming back down to earth, these resources are recommended for learning Haskell:
 
-- http://haskellbook.com/ is our top recommendation.
+- http://haskellbook.com/ and [[https://www.oreilly.com/library/view/Get-programming-with/9781617293764/?ar][Get Programming With Haskell]] are our top recommendations. Using two texts at once is a good way to triangulate; when one doesn't make sense, try the other.
+- And ask for help! You are surrounded by experts who are literally being paid to teach you. You are being paid to learn. This is a rare situation. Make the most of it.
 - https://www.udemy.com/course/learning-path-haskell-functional-programming-and-haskell/ offers 73 lectures. They may be a useful complement to the book, worth watching at mealtimes maybe.
 - https://twitter.com/aymannadeem?lang=en blogs frequently at https://www.aymannadeem.com/
 - https://lexi-lambda.github.io/index.html is another blog
@@ -648,6 +673,7 @@ Other Haskell random factlets:
 - See the Haskell data analysis cookbook: http://haskelldata.com/
 
 After you've achieved Beginner Haskell status you can proceed to Intermediate Haskell:
+- https://alpacaaa.net/thoughts-on-haskell-2020/ argues in favour of Boring Haskell
 - https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html starts getting into intermediate Haskell
 - https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
 - https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
@@ -956,13 +982,15 @@ On your phone, consider installing:
 - Google Authenticator, because a lot of the things we do have 2FA set.
 - Slack
 
-* Detailed Syllabus for readings and software
+* <<<Detailed Syllabus>>> for readings and software
 
-The following detailed syllabus is organized by modules lasting an average of 2 weeks. About half of the material listed below is optional and not part of the official Trainee Development Plan for two reasons: one, we needed to make the official plan fit within a year, and two, the plan requested only technical skills and competencies. There's no room in the official TDP for ethics or history or design, which is the sort of thing that one could imagine [[https://twitter.com/Grady_Booch/status/1290550738867740674][Grady Booch getting grumpy about]]. The extended "director's cut" content is here, but it may well take you more than a year to get through. That seems about right, though: many master's in CS take two years. This syllabus assumes you can read very very fast, are very very smart, and have aptitude for both theoretical computer science and real-world programming.
+The following syllabus is organized by modules lasting an average of 2 weeks. About half of the material listed below is optional and not part of the official Trainee Development Plan for two reasons: one, we needed to make the official plan fit within a year, and two, the plan requested only technical skills and competencies. There's no room in the official TDP for ethics or history or design, which is the sort of thing that one could imagine [[https://twitter.com/Grady_Booch/status/1290550738867740674][Grady Booch getting grumpy about]]. The extended "director's cut" content is here, but it may well take you more than a year to get through. That seems about right, though: many master's in CS take two years. This syllabus assumes you can read very very fast, are very very smart, and have aptitude for both theoretical computer science and real-world programming.
 
 While most software packages come with standard tutorials and introductions, other areas involve specific academic readings that will be provided separately.
 
 Specific readings will be assigned according to the trainee's background, interest, and progress. Some of the books are pretty long and probably can't be finished in two weeks; in those cases, you are expected to just skim through and read chapters of particular interest.
+
+You need to take the lead in learning this stuff. Many resources are available through the school [[https://library.smu.edu.sg/][library]] -- in particular, everything by O'Reillly is available, so use that as a starting point. Use Google. Find documentation. Ask your colleagues for help if you feel stuck. But you're not stuck until you've tried.
 
 ** Web Development: Introduction                                                           :module:
 
@@ -1041,7 +1069,7 @@ exercise: does the website https://missing.csail.mit.edu/ contain any mention of
 
 2 weeks
 
-**  to Logic Programming                                                       :module:
+** Intro to Logic Programming                                                              :module:
 
 *** Technical Skills and Competencies
 

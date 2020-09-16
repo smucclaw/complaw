@@ -200,8 +200,9 @@ A company can be modelled as the sum of its contracts.
 
    1. [[http://juro.com][Juro.com]] ([[https://drive.google.com/open?id=1n9uAan9yXKHjmauk2HCNvVSzWxdQYeRw][whitepaper]])
    2. Consider the possibility of embedding machine readable contract
-      parameters (data) and terms (logic) in a contract PDF, in [[https://en.wikipedia.org/wiki/Extensible_Metadata_Platform][XMP]].
+      parameters (data) and terms (logic) in a contract PDF, in [[https://en.wikipedia.org/wiki/Extensible_Metadata_Platform][XMP]]. See also https://github.com/smucclaw/complaw/blob/master/doc/ex-xmp-20200808/
    3. [[https://www.accordproject.org/][Clause's Accord Project]]
+   4. Markus Voelter on Martin Clausen's work: https://www.youtube.com/watch?v=kOBth0iEKFw
 
 2. Background
 
@@ -209,6 +210,7 @@ A company can be modelled as the sum of its contracts.
    2. Flood & Goodenough 2015, [[https://drive.google.com/open?id=0BxOaYa8pqqSwSVdsaHdvYUNjdHM][Contracts as Automaton]]
    3. [[https://www.fpml.org/the_standard/current/][FpML]] just so you know it's out there;
       [[http://web.archive.org/web/20180603085441/https://www.lexifi.com/product/technology/contract-description-language][MLFi by lexifi.com]] ([[https://dl.acm.org/doi/10.1145/351240.351267][functional pearl]]), is perhaps the best-known example of a [[http://www.dslfin.org/resources.html][financial DSL]]
+   4. MICA:  http://www.irisa.fr/s4/tools/mica/Mica__A_Modal_Interface_Compositional_Analysis_Library/Modal_Interfaces.html
 
 3. Relevant academic work and open standards
 
@@ -221,6 +223,9 @@ A company can be modelled as the sum of its contracts.
    7. [[https://en.wikipedia.org/wiki/CTL*][CTL*]], [[https://gist.github.com/simkimsia/cdbbc6279c45a054030ac13730385bd9][verification systems for BPMN]]
    8. discussion of [[https://en.wikipedia.org/wiki/Modal_logic][modal logics]]: deontic, epistemic, temporal logics.
    9. [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]] makes life easier for developers
+   10. deukti https://deducteam.github.io/
+   11. https://justinh.su/files/papers/taxes.pdf Death, Taxes, and Formal Verification: tax avoidance as a problem in graph traversal and transformation.
+   12. https://www.andrew.cmu.edu/user/danupam/bdmn-oakland06.pdf LTL for privacy policies
 
 ** Expert System / Document Assembly Prototypes
 
@@ -239,4 +244,9 @@ A company can be modelled as the sum of its contracts.
    4. [[https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=legaldocml][LegalDocumentML]] and
    5. [[https://en.wikipedia.org/wiki/Akoma_Ntoso][Akoma Ntoso]] are things you might come across
    6. Natural Language Generation could harness [[https://www.grammaticalframework.org/][Grammatical Framework]]
+
+** On Adoption Dynamics
+
+- https://www.youtube.com/watch?v=QyJZzq0v7Z4
+
 
