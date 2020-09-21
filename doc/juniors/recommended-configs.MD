@@ -52,7 +52,9 @@ Nice theme https://marketplace.visualstudio.com/items?itemName=monokai.theme-mon
 
 # SSH
 
-https://support.atlassian.com/bitbucket-cloud/docs/set-up-an-ssh-key/#SetupanSSHkey-ssh1
+Adding a new SSH key to your GitHub account https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account
+
+Set up an SSH key https://support.atlassian.com/bitbucket-cloud/docs/set-up-an-ssh-key/#SetupanSSHkey-ssh1
 
 ---
 
