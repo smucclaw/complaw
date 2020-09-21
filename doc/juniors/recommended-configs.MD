@@ -26,6 +26,7 @@ Linux command line tutorial https://missing.csail.mit.edu/2020/course-shell/
 ---
 
 # VS Code
+
 https://code.visualstudio.com/download
 
 ### Extensions
@@ -95,3 +96,13 @@ Main points to note:
 nix:
   enable: true
 ```
+
+---
+
+# Misc.
+
+#### Microsoft Outlook (SMU email)
+
+To turn off inconvenient default behaviour:
+
+- How To Prevent Outlook From Deleting Meeting Request When Responding? https://www.extendoffice.com/documents/outlook/1948-prevent-outlook-from-deleting-meeting-requests.html
