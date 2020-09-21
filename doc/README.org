@@ -64,6 +64,8 @@ See Meng's 2020 book chapter /Designing for Correctness/ on formal methods in la
 
 See Meng's HOPE2020 conference talk: https://www.youtube.com/watch?v=4FJGb_dDOw0&list=PLmP-Y3XW_cf5sNiuhWJWYb-3TgSYz1gUL&index=3&t=0s
 
+After learning Alloy, move on to [[http://haslab.github.io/Electrum/][Electrum]].
+
 ** Rules As Code
 
 See [[https://govinsider.asia/inclusive-gov/four-things-you-should-know-about-rules-as-code/][GovInsider on Rules As Code]], [[https://docs.google.com/document/d/1DBCGXjLBl31eEKJREDElQY3eqK4BM9IKwnzC37LpKbs/edit#][Seven Levels of Digitisation]], New Zealand's [[https://www.digital.govt.nz/dmsdocument/95-better-rules-for-government-discovery-report/html][Better Rules]] report, and the longer [[https://docs.google.com/document/d/1tcB8WEIZAFN-0Q6qoePDBplPewPX_cU0A1fcryYO8Qc/edit#][OECD/OPSI Primer]].

@@ -676,6 +676,7 @@ Other Haskell random factlets:
 
 After you've achieved Beginner Haskell status you can proceed to Intermediate Haskell:
 - https://alpacaaa.net/thoughts-on-haskell-2020/ argues in favour of Boring Haskell
+- https://github.com/commercialhaskell/rio
 - https://ocharles.org.uk/posts/2014-12-01-24-days-of-ghc-extensions.html starts getting into intermediate Haskell
 - https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
 - https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
