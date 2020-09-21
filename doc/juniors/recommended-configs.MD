@@ -76,6 +76,8 @@ Follow instructions with these headers (ctrl+f):
 - Installing from the latest developer source code
 - Installing the RGL from source
 
+VS Code extension (syntax highlighting) https://marketplace.visualstudio.com/items?itemName=robclouth.gf-vscode
+
 ---
 
 # Nix and NixOS
