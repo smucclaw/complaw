@@ -20,7 +20,7 @@ https://www.microsoft.com/en-sg/p/ubuntu-2004-lts/9n6svws3rx71?rtc=1&activetab=p
 Linux command line tutorial https://missing.csail.mit.edu/2020/course-shell/
 
 #### misc.
-
+- How to Access Your Linux (WSL) Files in Windows 10 https://www.howtogeek.com/426749/how-to-access-your-linux-wsl-files-in-windows-10/
 - SSH Key Generation https://ubuntu.com/tutorials/ssh-keygen-on-windows#3-key-generation-with-ubuntu-on-wsl
 
 ---
