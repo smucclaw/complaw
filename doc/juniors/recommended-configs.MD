@@ -3,6 +3,7 @@
 #### Support on CCLAW slack
 
 \#tools #windows (rip Windows users) #rubberduck (general problem-solving channel)
+
 @2jacobtan for feedback / help.
 
 ---
@@ -39,6 +40,7 @@ These should work out-of-the-box:
   
 ### Cosmetic
 Hasklig font (designed for Haskell) https://github.com/i-tu/Hasklig
+
 Nice theme https://marketplace.visualstudio.com/items?itemName=monokai.theme-monokai-pro-vscode
 
 ---
