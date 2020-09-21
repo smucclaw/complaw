@@ -38,6 +38,11 @@ These should work out-of-the-box:
 - Remote WSL https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
 - Remote SSH https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh
   
+### Useful features
+
+- Tips and Tricks https://code.visualstudio.com/docs/getstarted/tips-and-tricks
+- Code snippets https://code.visualstudio.com/docs/editor/userdefinedsnippets
+
 ### Cosmetic
 Hasklig font (designed for Haskell) https://github.com/i-tu/Hasklig
 
