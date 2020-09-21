@@ -60,9 +60,9 @@ Set up an SSH key https://support.atlassian.com/bitbucket-cloud/docs/set-up-an-s
 
 # Haskell
 
-Haskell Stack (essential) https://docs.haskellstack.org/en/stable/install_and_upgrade/
+Haskell Stack https://docs.haskellstack.org/en/stable/install_and_upgrade/
 
-ghcup (optional; useful) https://www.haskell.org/ghcup/
+ghcup https://www.haskell.org/ghcup/
 
 ---
 
