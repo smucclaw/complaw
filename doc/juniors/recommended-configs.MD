@@ -53,9 +53,20 @@ Nice theme https://marketplace.visualstudio.com/items?itemName=monokai.theme-mon
 
 # SSH
 
+Set up an SSH key https://support.atlassian.com/bitbucket-cloud/docs/set-up-an-ssh-key/#SetupanSSHkey-ssh1
+
 Adding a new SSH key to your GitHub account https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account
 
-Set up an SSH key https://support.atlassian.com/bitbucket-cloud/docs/set-up-an-ssh-key/#SetupanSSHkey-ssh1
+---
+
+# Git
+
+https://cscheng.info/2017/01/26/git-tip-autostash-with-git-pull-rebase.html says to
+
+```
+$ git config --global pull.rebase true
+$ git config --global rebase.autoStash true
+```
 
 ---
 
