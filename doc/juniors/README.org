@@ -14,7 +14,7 @@ Somebody should have given you access to:
 - Google Drive, our file repository, which also contains many readings under the "BlackHole" folder
 - Asana, for task management
 - Github, our code repository
-- Slack, for chatting amongst the team; you should join all the channels which you can.
+- Slack, for chatting amongst the team; you should [[https://twitter.com/SlackHQ/status/1296940627431763969][join all the channels which you can]].
 
 If you don't have access to those resources, say something!
 
