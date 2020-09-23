@@ -76,6 +76,10 @@ Haskell Stack https://docs.haskellstack.org/en/stable/install_and_upgrade/
 
 ghcup https://www.haskell.org/ghcup/
 
+### Useful packages
+- https://hackage.haskell.org/package/pretty-simple
+- https://hackage.haskell.org/package/simple-reflect-0.3.3/docs/Debug-SimpleReflect.html
+
 ---
 
 # Grammatical Framework
