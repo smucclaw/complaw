@@ -737,6 +737,10 @@ https://missing.csail.mit.edu/
 
 We make heavy use of the Unix shell.
 
+** Command Line Interface 
+
+Read [[https://medium.com/@gabygoldberg/the-command-line-comeback-9857b49c7423][the rising comeback of the Command Line]].
+
 ** Git
 You may need to work through [[https://docs.github.com/en/github][an introduction to Git and Github]] to get comfortable with cloning things to your local workstation.
 
