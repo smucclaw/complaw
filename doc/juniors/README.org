@@ -429,6 +429,8 @@ See the Drools suite of systems, like OptaPlanner, for an example. See also ILOG
 
 I'm impatient to get started! What should I read?
 
+** [[https://medium.com/@gabygoldberg/the-command-line-comeback-9857b49c7423][The Command Line Comeback]], Gaby Goldberg
+
 ** [[http://cristal.inria.fr/~weis/info/commandline.html][In the Beginning was the Command Line]], Neal Stephenson
 
 ** [[https://www.amazon.sg/Clean-Coder-Conduct-Professional-Programmers/dp/0137081073][The Clean Coder]], by Robert C. Martin
