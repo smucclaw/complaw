@@ -282,6 +282,7 @@ It's natural to feel shy about sharing your work:
 
 The antidote:
 - https://twitter.com/MariaShen/status/1293025429238853633
+- in more detail, https://twitter.com/ConversationUS/status/1310717635500404737?s=20
 
 Working in public also means having conversations on public channels, by default, rather than private messages. If you save your private messages for truly confidential content, then the discussions you have in public, even if they appear to only be one-on-one, can be read by someone in the future who might be hunting for clues as to why certain "historical" decisions were made.
 
@@ -563,6 +564,8 @@ detail in Appendices A and B. If desired, functional programming could
 be replaced by another sufficiently different paradigm, such as logic
 programming.
 #+end_quote
+
+(See also [[https://www.acm.org/binaries/content/assets/education/cs2013_web_final.pdf][IEEE 2013]].)
 
 In [[https://venturebeat.com/2019/04/24/how-programming-languages-have-evolved-a-2019-primer/][How Programming Languages Have Evolved (2019)]] Rebecca Parsons said: "We use the phrase /polyglot programming/ to capture the idea that we should judiciously expand our language choices to address different problem spaces."
 
