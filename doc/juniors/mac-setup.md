@@ -63,12 +63,9 @@ This should be relatively straightforward with brew, but you might want to test 
 brew install git
 ```
 
-You'll have to set up your git config after. (Hopefully this isn't your first rodeo with git). The following is recommended for amending pull behavior. [2]
+You'll have to set up your git config after. (Hopefully this isn't your first rodeo with git). 
 
-```zsh
-git config --global pull.rebase true
-git config --global rebase.autoStash true
-```
+The specifics of getting your git setup to work with the remote repositiories on CCLAW's github can be found here (under SSH & Git) : https://github.com/smucclaw/complaw/blob/primary/doc/juniors/recommended-configs.MD 
 
 
 
