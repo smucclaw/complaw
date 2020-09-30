@@ -92,16 +92,16 @@ To install the GF Resource Grammar Libraries (RGL) from source code,
 
 1. Clone the  `gf-rgl` repository from https://github.com/GrammaticalFramework
 
-   cd into the `gf-rgl` folder, and run `./Setup.sh`
+2. cd into the `gf-rgl` folder, and run `./Setup.sh`
 
-2. When the installation is complete, run the following command: `
+3. When the installation is complete, run the following command: `
 
    ```zsh
    echo 'export GF_LIB_PATH='"$PWD"/dist:'$GF_LIB_PATH' >> $HOME/.zshrc
    source ~/.zshrc
    ```
 
-3. At this point, RGL should be installed. 
+4. At this point, RGL should be installed.  
 
 
 
