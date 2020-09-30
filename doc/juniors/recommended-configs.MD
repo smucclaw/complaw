@@ -94,7 +94,11 @@ Follow instructions with these headers (ctrl+f):
 - Installing from the latest developer source code
 - Installing the RGL from source
 
-VS Code extension (syntax highlighting) https://marketplace.visualstudio.com/items?itemName=robclouth.gf-vscode
+[deprecated] VS Code extension (syntax highlighting) https://marketplace.visualstudio.com/items?itemName=robclouth.gf-vscode
+
+**Edit: don't use the above extension. Just configure VS Code to treat GF files like Haskell files, and rely on the "Haskell Syntax Highlighting" extension (by Justus Adam) for syntax highlighting.**
+
+Extra VS Code tweaks: https://smucclaw.slack.com/archives/C019NU1EYNP/p1601022562001800
 
 ---
 
