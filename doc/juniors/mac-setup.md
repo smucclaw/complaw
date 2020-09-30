@@ -75,7 +75,7 @@ Where possible, try to download the binaries for macOS off the GF webpage: https
 
 If for some reason, the installation is blocked, these are the instructions for vanilla GF from scratch.
 
-1. Clone the `gf-core` and `gf-rgl` repository from https://github.com/GrammaticalFramework
+1. Clone the `gf-core` repository from https://github.com/GrammaticalFramework
 
 2. `cd` into the `gf-core` folder, and run `stack install` 
 
