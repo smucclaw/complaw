@@ -1022,11 +1022,11 @@ JavaScript
 
 HTML, CSS
 - HTML and CSS: do exercises from freecodecamp's [[https://www.freecodecamp.org/learn/][Responsive Web Design Certification]]
-- More CSS practice: [[https://flukeout.github.io/][CSS Diner]] (CSS selectors), [[https://flexboxfroggy.com/][Flexbox Froggy]]
+- more CSS practice: [[https://flukeout.github.io/][CSS Diner]] (CSS selectors), [[https://flexboxfroggy.com/][Flexbox Froggy]]
 
 Useful tools
-- Detailed prototyping with [[https://www.figma.com/][Figma]]; or [[][wireframe.cc]] for simple wireframing
-- Quickly generate ERDs with [[https://dbdiagram.io/home][dbdiagram]]
+- detailed prototyping with [[https://www.figma.com/][Figma]]; or [[https://wireframe.cc/][wireframe.cc]] for simple wireframing
+- quickly generate ERDs with [[https://dbdiagram.io/home][dbdiagram]]
 - [[https://www.postman.com/][Postman]] for API testing and development
 
 
