@@ -36,6 +36,7 @@ Follow instructions for each Haskell-specific extension to install properly:
 - https://github.com/ndmitchell/hlint
 
 These should work out-of-the-box:
+- Docs View https://marketplace.visualstudio.com/items?itemName=bierner.docs-view
 - Remote WSL https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
 - Remote SSH https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh
   
