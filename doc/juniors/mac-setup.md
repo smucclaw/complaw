@@ -4,7 +4,9 @@ This is a brief guide on setting up the development environment on SMU-issued Ma
 
 Feel free to approach any contributer of this page (listed above on the github page) for help! 
 
------------------
+You're gonna need to be signed into the App Store for this, so open it up and sign in, or <a href="https://support.apple.com/en-sg/HT204316">create an account</a> if you don't have one. 
+
+
 
 ## Prerequisite Installation
 
