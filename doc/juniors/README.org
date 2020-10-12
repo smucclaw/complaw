@@ -1011,6 +1011,25 @@ You need to take the lead in learning this stuff. Many resources are available t
 - introduction to types: Typescript
 - use cases, customer personas, storyboards, mockups
 
+*** Resources
+Full-stack web development
+- [[https://fullstackopen.com/][fullstackopen]] by the University of Helsinki: this is a comprehensive introduction to modern full-stack web development with JavaScript, React, NodeJS and GraphQL. This year's curriculum also includes TypeScript.
+- [[https://theodinproject.com/tracks/full-stack-javascript][The Odin Project]] covers full-stack web development with JavaScript and includes several practice projects.
+
+JavaScript
+- watch Brad Traversy's videos on [[https://www.youtube.com/user/TechGuyWeb][YouTube]] / [[https://www.udemy.com/course/modern-javascript-from-the-beginning/][udemy]]
+- do exercises from freecodecamp's [[https://www.freecodecamp.org/learn/][JavaScript Algorithms and Data Structures Certification]]
+
+HTML, CSS
+- HTML and CSS: do exercises from freecodecamp's [[https://www.freecodecamp.org/learn/][Responsive Web Design Certification]]
+- more CSS practice: [[https://flukeout.github.io/][CSS Diner]] (CSS selectors), [[https://flexboxfroggy.com/][Flexbox Froggy]]
+
+Useful tools
+- detailed prototyping with [[https://www.figma.com/][Figma]]; or [[https://wireframe.cc/][wireframe.cc]] for simple wireframing
+- quickly generate ERDs with [[https://dbdiagram.io/home][dbdiagram]]
+- [[https://www.postman.com/][Postman]] for API testing and development
+
+
 *** Outcomes
 
 - able to conceive and realize a simple single-page web app
