@@ -33,7 +33,7 @@ https://code.visualstudio.com/download
 
 Follow instructions for each Haskell-specific extension to install properly:
 - https://github.com/haskell/vscode-haskell
-- https://github.com/ndmitchell/hlint
+- https://github.com/ndmitchell/hlint (*No longer needed. Included with the vscode-haskell extension.*)
 
 These should work out-of-the-box:
 - Docs View https://marketplace.visualstudio.com/items?itemName=bierner.docs-view
