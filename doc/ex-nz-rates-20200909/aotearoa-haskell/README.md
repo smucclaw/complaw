@@ -4,9 +4,7 @@ In the future, L4 may import OpenFisca format code and, while
 pretending to be Python, perform abstract interpretation to detect
 intermediate negative numbers.
 
-The accompanying presentation for this is at
-https://docs.google.com/presentation/d/1U4pQFXuVAocbwzF1nPtyhxH2SBza_7nEErLPE2lnAAw/edit?usp=drive_web&ouid=113686692949456863967
-
+Associated presentation: [20190514 Multilateral Isomorphism in L4](https://docs.google.com/presentation/d/1U4pQFXuVAocbwzF1nPtyhxH2SBza_7nEErLPE2lnAAw/edit#)
 
 ## Installation
 
