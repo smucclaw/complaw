@@ -1,0 +1,195 @@
+#+TITLE: SMUCCLAW Challenges 2021
+
+* Background and Motivation
+
+** various tweets about legal document management
+
+- https://twitter.com/jackwshepherd/status/1344716081924100097
+- https://twitter.com/jackwshepherd/status/1344716074751844355?s=21
+- https://twitter.com/buchmanster/status/1343743673817829377
+- https://twitter.com/jackwshepherd/status/1343903458626252801
+- https://twitter.com/DanHLawReporter/status/1343982639368306690  
+
+** Sol Irvine
+
+interview Sol about how he thinks things could be improved
+
+* Engineering Goals
+
+By July 2021, our research programme should have working code (and documentation) to answer these challenges:
+
+** A tutorial introduces the theory of L4 contract drafting
+
+Alice is a technically savvy non-lawyer. She is familiar with Python and Javascript. At work, she has been tasked to produce and manage contracts of various kinds. The first set of contracts she is asked to produce, are SAFE investment agreements with half a dozen investors.
+
+Contracting is new to her. Her first instinct is to search Google for a tutorial introduction to contracts and contract law. She finds that there is a library of contracts written in L4 which compile to English. The library includes SAFE instruments. This feels right. She finds a short introduction that promises to help her become a proficient user of L4.
+
+This introduction gives a CS-oriented perspective on what contracts are and how they operate. Contracts are conceived as a specification of a multi-agent distributed system, unfolding over time, involving obligations, discretionary permissions, and prohibitions on actions and communications. They are explained with the help of automatically generated diagrams. Scenario modeling engines help Alice understand how the contract operates under various scenarios. By the time Alice is done reading the tutorial, she has a basic grasp of contract theory and contract drafting equal to that of any first-year law student.
+
+Alice is eventually able to configure and generate signature-ready contract PDFs, which embed the "source" of the contracts, as L4, in the PDFs themselves.
+
+** PDFs carry encoded params and semantics
+
+The JSON parameters and L4 source of a contract are embedded in the PDF, using XMP.
+
+*** Automatically encode data elements into PDF contracts
+
+For background, see https://twitter.com/buchmanster/status/1343743673817829377?s=21
+
+*** Automatically encode control elements into PDF contracts
+
+JSON isn't enough to say things like "if/then/else". For that, we need a real language -- like L4.
+
+
+** A tutorial introduces the theory of L4 legislative / regulatory drafting
+
+Flush from her success with contract management, Alice is asked to develop a web app that guides end-users through a piece of legislation and helps them understand how that legislation affects their lives under different scenarios.
+
+She finds a tutorial that gives a CS-oriented perspective on what laws are and how they operate. The tutorial discusses constitutive and prescriptive rules. It also discusses meta-rules that modify and activate/deactivate other rules. Rules are seen to be embedded in time, and to be able to refer to other rules. Default rules operate when other rules do not suffice.
+
+After working through this tutorial, she uses L4 to automatically generate a web app.
+
+When the underlying legislation changes, she is asked to revise the web app to take those changes into account: now the app has to help the end-user understand how the legislation has changed, and how different answers to the same questions may depend on on which version of the legislation is in effect.
+
+By the time Alice is done reading the tutorial, she has a basic grasp of legislation theory equal to that of any first-year law student.
+
+** Contract lifecycle management: revising contracts
+
+Six months after the SAFEs were initially signed, Alice is asked to assist with the novation of one of the contracts. One of the counterparties has set up a trust, and wants to revise their SAFE so that the trust is now the counterparty in the agreement.
+
+Alice finds a novation agreement in the L4 library and uses that to modify the relevant SAFE.
+
+** Contract lifecycle management: extracting the data parameters of contracts
+
+Twelve months after the SAFEs were initially signed, Alice is asked to provide a summary of the SAFE instruments she helped produce. What contracts did the company sign, when were they signed, who were the counterparties, and what is the current state of affairs?
+
+We assume that all the signed PDFs are sitting under a directory somewhere. There are no SQL databases or other authoritative points of reference besides the PDFs themselves.
+
+Alice learns about bitemporal database theory and writes a simple program to provide a snapshot of the state of affairs at any given time.
+
+** Various Bits of Tooling
+
+In the course of her adventures, Alice has learned to use a variety of tools that help her achieve results with L4:
+
+- IDE :: a VS Code extension performs syntax highlighting for L4
+- warnings and errors :: the L4 interpreter gives meaningful error messages and warnings at various levels -- syntactically, semantically, and pragmatically.
+  - Syntactic errors highlight ambiguities of syntax.
+  - Semantic errors warn of clauses that can never be reached, clauses that contradict each other, and clauses that are incomplete.
+  - Pragmatic errors are raised when Alice defines test cases that fail, and "external" rules that are not explicitly visible in the output contracts, but that the contracts are expected to conform to nonetheless. For example, an external rule may say that the maximum pay-out liablity for Alice's employer, under any possible future of the contract, cannot exceed $1M. If a compile-time model finder can identify a scenario in which that maximum is violated, then an error is generated. However, the contract itself does not explicitly state that rule -- it is an assertion about the contract, but not an assertion within the contract.
+- testing tools :: Just as QuickCheck and HSpec offer Haskell programmers tools to make it easier to test software, L4 offers tools to help with testing.
+- visualization :: the state graph of a contract is represented as a finite automaton, or a Petri net, or a BPMN diagram.
+- DMN :: certain decisions are represented as DMN tables.
+
+
+** Establish interoperability with other contract languages
+
+*** Parse Deon Digital'S CSL
+
+*** Parse OpenFisca
+
+*** Parse Catala
+
+*** Parse Symboleo
+
+** Generate a DocAssemble interview from L4 rules
+
+** Automatically produce good-looking visualization of contract graph
+
+See the bottom of https://github.com/smucclaw/dsl/blob/main/clauseSyntax.pdf
+
+** Automatically produce CNL
+
+for all the categories of contract language found in Manual of Style for Contract Drafting
+
+*** for a mathematical expression grammar
+
+See the examples from https://github.com/smucclaw/complaw/tree/primary/doc/ex-nz-rates-20200909/aotearoa-haskell
+
+*** for a deontic expression grammar (= regulative / prescriptive rules)
+
+- X must Y.
+- X may Y. X has the right to Y.
+- At X's sole discretion.
+- X shan't Y.
+
+*** for a constitutive rule grammar
+
+- X must Y
+
+  an even number must be divisible by 2
+
+- to count as an X, a Y must satisfy Z
+
+- Y is X when Z
+
+*** for a performative grammer
+
+- P hereby A
+
+*** for a conditional expression grammar
+
+The language should support expressions like:
+
+- when X, ...
+- unless Y, ...
+- when X, but unless Y, ...
+
+This includes propositional logic:
+- X and Y.
+- X, provided always that Y.
+
+*** for a temporal expression grammar
+
+all the relations found in the Allen interval logic
+
+- before
+- until
+- on or about
+- during
+- etc
+
+*** for a meta-rule prioritization / defeasibility grammar
+
+- Notwithstanding X, Y... :: Y overrides X.
+- Subject to X, Y... :: X overrides Y.
+- Nothing in this section S shall prevent X from doing Y. :: (X may Y) overrides S.
+
+*** for a lexical scope grammar
+
+- For the purposes of this section
+- For the purposes of section 1, 2, and 3.
+
+*** for an explanation of why a decision was made
+
+See Ciao Prolog.
+
+** Automatically detect a violation of monotonicity.
+
+We need a notion of external rules: assertions that, if the contract violates 'em, we say, the contract fails. But we don't express those assertions inside the contract itself.
+
+** Contract drafting
+
+Using a mix of hardcoded templates and application grammars written in Gf,  L4 contracts can compile to an English-language contract suitable for signature. Intermediate formats may include reST, Markdown, Word Doc, and HTML.
+
+** Multilingual contract drafting
+
+The same tools that produce English-language contracts also produce contracts in at least one other language.
+
+** Legislative Drafting
+
+The same technologies that support the drafting of contracts also support the drafting of legislation and regulations.
+
+
+** Easily represent legal ontologies, logic, and constraints
+
+https://podcasts.google.com/feed/aHR0cHM6Ly9mZWVkcy50cmFuc2lzdG9yLmZtL3RoZS1zZWFyY2gtc3BhY2U/episode/MTc0OWZkYTgtYWM1Yy00NTI1LTgyODYtNzMwOWFlOGI1NTI5?ep=14
+
+** Easily apply SAT/SMT solvers
+
+** formal verification thinks about laws and contracts the way high-paid lawyers do
+
+https://twitter.com/adamdavidlong/status/1346529170466082816
+
+** L4 supports a macro-like syntax that allows us to factor common verbose expressions into idiomatic short expressions
+
+
