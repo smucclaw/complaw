@@ -488,7 +488,7 @@ If you find yourself at a loose end:
 
 * [[http://matt.might.net/articles/what-cs-majors-should-know/][What Every Computer Science Major Should Know]], by Matt Might
 
-Matt Might gathers on a single page what most university curricula incoherently scatter across four years' worth of course descriptions.
+Matt Might gathers on [[http://matt.might.net/articles/what-cs-majors-should-know/][a single page]] what most university curricula incoherently scatter across four years' worth of course descriptions.
 
 Robert Martin's /Clean Coder/ says "Know Your Field":
 
