@@ -163,9 +163,23 @@ all the relations found in the Allen interval logic
 
 See Ciao Prolog.
 
-** Automatically detect a violation of monotonicity.
+*** with composition
+
+"final output" sentences combine multiple sub-grammars:
+- subject to S,
+- under conditions C,
+- assuming E has previously occurred,
+- then party P MAY send a notice N
+- to any other party who meets qualifying criteria Q
+- instructing them to perform action A
+- by deadline D
+- if they want to achieve goal G
+
+** LTL/CTL-like property assertions
 
 We need a notion of external rules: assertions that, if the contract violates 'em, we say, the contract fails. But we don't express those assertions inside the contract itself.
+
+For example, we might want in legislation to automatically detect a violation of monotonicity. See the recent case about drunk driving.
 
 ** Contract drafting
 
