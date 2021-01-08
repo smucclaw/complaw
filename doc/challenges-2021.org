@@ -74,7 +74,8 @@ In the course of her adventures, Alice has learned to use a variety of tools tha
 - IDE :: a VS Code extension performs syntax highlighting for L4
 - warnings and errors :: the L4 interpreter gives meaningful error messages and warnings at various levels -- syntactically, semantically, and pragmatically.
   - Syntactic errors highlight ambiguities of syntax.
-  - Semantic errors warn of clauses that can never be reached, clauses that contradict each other, and clauses that are incomplete.
+  - Type errors would show up somewhere around here. This is [[https://www.cis.upenn.edu/~bcpierce/tapl/][a whole area of compiler research]].
+  - Semantic errors warn of [[https://en.wikipedia.org/wiki/Dead_code_elimination][clauses that can never be reached]], clauses that contradict each other, and clauses that are incomplete.
   - Pragmatic errors are raised when Alice defines test cases that fail, and "external" rules that are not explicitly visible in the output contracts, but that the contracts are expected to conform to nonetheless. For example, an external rule may say that the maximum pay-out liablity for Alice's employer, under any possible future of the contract, cannot exceed $1M. If a compile-time model finder can identify a scenario in which that maximum is violated, then an error is generated. However, the contract itself does not explicitly state that rule -- it is an assertion about the contract, but not an assertion within the contract.
 - testing tools :: Just as QuickCheck and HSpec offer Haskell programmers tools to make it easier to test software, L4 offers tools to help with testing.
 - visualization :: the state graph of a contract is represented as a finite automaton, or a Petri net, or a BPMN diagram.
