@@ -674,6 +674,10 @@ Coming back down to earth, these resources are recommended for learning Haskell:
 
 [[http://learnyouahaskell.com/]["Learn You A Haskell"]] has been popular for some time, perhaps due to stylistic similarities with /[[https://en.wikipedia.org/wiki/Why%27s_(poignant)_Guide_to_Ruby][why's (poignant) Guide to Ruby]]/, but it was written at a time when those other two resources were not available. Now that they are, I no longer recommend LYAH except when you need a third point of triangulation.
 
+Lecture series by Graham Hutton (other lectures to be released after ~Feb 2021)
+- https://twitter.com/haskellhutt/status/1350099737312165889
+- Lecture 5 - applicative functors https://www.youtube.com/watch?v=cefnmjtAolY
+
 Other Haskell random factlets:
 - You may have heard that Haskell is really good for programming language design and compiler development. That's one of the reasons we're using it. You might have heard of Perl 6; you might not have heard that Perl 6 (now Raku) was first implemented in Haskell, [[https://medium.com/a-computer-of-ones-own/audrey-tang-open-government-hacker-d7b80a69c0df][by Audrey Tang, who went on to be digital minister of Taiwan]].
 - Haskell is used for data science (at Target, at least): https://www.forbes.com/sites/quora/2018/01/24/when-is-haskell-more-useful-than-r-or-python-in-data-science/#522db41e69e4
@@ -686,6 +690,17 @@ After you've achieved Beginner Haskell status you can proceed to Intermediate Ha
 - https://ocharles.org.uk/pages/2012-12-01-24-days-of-hackage.html
 - https://ocharles.org.uk/pages/2013-12-01-24-days-of-hackage.html
 - http://felixmulder.com/writing/2020/08/08/Revisiting-application-structure
+
+Haskell pro tips (a sample from https://williamyaoh.com/):
+- Getting Better Type Errors By Typing Literally Everything https://williamyaoh.com/posts/2020-08-09-type-literally-everything.html
+- Permissive, Then Restrictive: Learning How To Design Haskell Programs https://williamyaoh.com/posts/2020-04-19-permissive-vs-restrictive.html
+
+Haskell Lenses (used for navigating deeply nested data structures):
+- https://www.seas.upenn.edu/~cis194/fall16/lectures/14-lenses.html
+- https://hackage.haskell.org/package/lens-tutorial-1.0.4/docs/Control-Lens-Tutorial.html
+- https://williamyaoh.com/posts/2019-04-25-lens-exercises.html
+- Cheat sheet https://gist.github.com/ChrisPenner/1f7b6923448b3396a45d04a2b6b9d066
+- Lenses, Folds, and Traversals https://www.youtube.com/watch?v=cefnmjtAolY
 
 ** Formal Methods
 
