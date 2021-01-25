@@ -145,40 +145,43 @@ solver constraints = do
                                    ]
     putStrLn ""
     where
-      imax = head [ i | (MkDetail (groupName, i, teams)) <- constraints
-                      , groupName == "Groups" ]
-      bxGroup :: Group -> Bx.Box
+      imax = head [ i | (MkDetail ("Groups", i, teams)) <- constraints ]
       bxGroup group = foldl (Bx.<+>) (Bx.text $ "Group " ++ getGroupName group ++ ":") (showTeam <$> getGroupTeams group)
       showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : teamMembers))
-      prefix s ls = unlines $ (s ++) <$> lines ls
 
 solutions :: Int -> [Constraint] -> IO [Solution]
 solutions maxsize constraints = do
-  -- putStrLn $ "size constraint: " ++ show maxsize
   let cteams = [ (t, members) :: Team
                | (MkMember (t, members)) <- constraints ]
       total = length cteams
       perms = permutations cteams
       splits = [ [groupA, groupB]
-               | perm <- perms
+               | perm  <- perms
                , pivot <- [1..total-1]
                , let groupA   = sortOn getTeamName $ take pivot perm
                      groupB   = sortOn getTeamName $ drop pivot perm
-                     groupAms = nub $ concatMap getMembers groupA
-                     groupBms = nub $ concatMap getMembers groupB
-                     hConstraints = [ case c of
-                                        MkRelation("Person","exactly one","Group") -> everyIndividualIsInOnlyOneGroup [groupA, groupB]
-                                        _                                          -> True
-                                    | c <- constraints ]
-               , length groupAms <= maxsize
-               , length groupBms <= maxsize
-               , and $ hConstraints
                ]
+      splits2 = nub $ sort <$> splits
+      splits3 = [ [groupA, groupB]
+                | [groupA, groupB] <- splits2
+                , let groupAms = nub $ concatMap getMembers groupA
+                      groupBms = nub $ concatMap getMembers groupB
+                      hConstraints = [ case c of
+                                         MkRelation("Person","exactly one","Group") -> everyIndividualIsInOnlyOneGroup [groupA, groupB]
+                                         _                                          -> True
+                                     | c <- constraints ]
+                , length groupAms <= maxsize
+                , length groupBms <= maxsize
+                , and $ hConstraints
+                ]
+      splits4 = nub $ sort <$> splits3
 
   -- putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
-  -- putStrLn $ "initially " ++ show (length $ perms) ++ " permutations"
-  -- putStrLn $ "considering " ++ show (length $ splits) ++ " right-sized uniques"
-  return $ nub $ sort <$> splits
+  putStrLn $ "initially " ++ show (length $ perms) ++ " permutations"
+  putStrLn $ "considering " ++ show (length $ splits2) ++ " uniques"
+  putStrLn $ "considering " ++ show (length $ splits3) ++ " right-sized uniques"
+  putStrLn $ "returning " ++ show (length $ splits4) ++ " solutions"
+  return splits4
   where
     everyIndividualIsInOnlyOneGroup gs =
       let gPersons   :: [[Person]] = (nub . concatMap getMembers) <$> gs
