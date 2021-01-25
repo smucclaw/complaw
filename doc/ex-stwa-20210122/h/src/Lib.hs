@@ -25,7 +25,7 @@ someFunc = do
             , bodyline      <- body
             , (not . null . unpack) bodyline
             ]
-  print ast
+  -- print ast
   solver ast
 
 sc :: Parser ()
@@ -116,25 +116,26 @@ persons constraints = nub $ concat [ persons
 
 solver :: [Constraint] -> IO ()
 solver constraints = do
-  putStrLn "solving!"
-  putStrLn $ unwords $ [ "we know about", (show $ length $ persons constraints), "persons:" ]
-                       ++ persons constraints
+  -- putStrLn "solving!"
+  -- putStrLn $ unwords $ [ "we know about", (show $ length $ persons constraints), "persons:" ]
+  --                      ++ persons constraints
   let ms = maxsize constraints imax
-  putStrLn $ "each group should contain at most " ++ show ms ++ " persons"
+  -- putStrLn $ "each group should contain at most " ++ show ms ++ " persons"
   gss <- solutions ms constraints
-  putStrLn $ show (length gss) ++ " solutions found."
+  -- putStrLn $ show (length gss) ++ " solutions found."
   forM_ (zip [1..] gss) $ \(gsi, gs) -> do
-    putStrLn $ unwords [ "solution", show gsi ++ ":", show (length gs), "groups, of size"
-                       , show ((length . nub . concatMap getMembers) <$> gs), "    "
-                       , (intercalate "," (getTeamName <$> gs !! 0))
-                       , "/"
-                       , (intercalate "," (getTeamName <$> gs !! 1))
-                       ]
-    putStrLn $ prefix (replicate 12 ' ') (Bx.render
-                                          (Bx.hsep 5 Bx.top
-                                           [(bxGroup "A" (gs !! 0))
-                                           ,(bxGroup "B" (gs !! 1))])
-                                         ) -- we should get the name out of the constraints
+    -- putStrLn $ unwords [ "solution", show gsi ++ ":", show (length gs), "groups, of size"
+    --                    , show ((length . nub . concatMap getMembers) <$> gs), "    "
+    --                    , (intercalate "," (getTeamName <$> gs !! 0))
+    --                    , "/"
+    --                    , (intercalate "," (getTeamName <$> gs !! 1))
+    --                    ]
+    Bx.printBox $ Bx.hsep 3 Bx.top [ Bx.text ("solution " ++ show gsi ++ ":")
+                                   , (Bx.hsep 5 Bx.top
+                                      [(bxGroup "A:" (gs !! 0))
+                                      ,(bxGroup "B:" (gs !! 1))])
+                                   ] -- we should get the name out of the constraints
+    putStrLn ""
     where
       imax = head [ i | (MkDetail (groupName, i, teams)) <- constraints
                       , groupName == "Groups" ]
@@ -154,7 +155,7 @@ getMembers  = snd
 
 solutions :: Int -> [Constraint] -> IO [Solution]
 solutions maxsize constraints = do
-  putStrLn $ "size constraint: " ++ show maxsize
+  -- putStrLn $ "size constraint: " ++ show maxsize
   let cteams = [ (t, members) :: Team
                | (MkMember (t, members)) <- constraints ]
       total = length cteams
@@ -167,7 +168,15 @@ solutions maxsize constraints = do
                      groupBms = nub $ concatMap getMembers groupB
                , length groupAms <= maxsize
                , length groupBms <= maxsize
+               , everyIndividualIsInOnlyOneGroup [groupA, groupB]
                ]
-  putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
-  putStrLn $ "we have " ++ show (length splits) ++ " solutions"
-  return $ splits
+  -- putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
+  return $ nub $ sort <$> splits
+  where
+    everyIndividualIsInOnlyOneGroup gs =
+      let gPersons   :: [[Person]] = (nub . concatMap getMembers) <$> gs
+          allPersons ::  [Person]  =  nub $ concat gPersons
+      in all (<= 1) [ length $ [ p
+                               | g  <- gPersons -- each group A and B
+                               , p `elem` g ]
+                    | p <- allPersons ]
