@@ -140,22 +140,25 @@ This problem can be solved in:
                          ++ persons constraints
     let ms = maxsize constraints imax
     putStrLn $ "each group should contain at most " ++ show ms ++ " persons"
-    gss <- solutions constraints ms
+    gss <- solutions ms constraints
     putStrLn $ show (length gss) ++ " solutions found."
-    forM_ gss $ \gs -> do
-      putStrLn $ unwords [ "solution:", show (length gs), "groups, of size"
-                         , show ((length . nub . concatMap getMembers) <$> gs)
+    forM_ (zip [1..] gss) $ \(gsi, gs) -> do
+      putStrLn $ unwords [ "solution", show gsi ++ ":", show (length gs), "groups, of size"
+                         , show ((length . nub . concatMap getMembers) <$> gs), "    "
                          , (intercalate "," (getTeamName <$> gs !! 0))
                          , "/"
                          , (intercalate "," (getTeamName <$> gs !! 1))
                          ]
-      putStrLn $ prefix "          " (showGroup "A" (gs !! 0)) -- we should get the name
-      putStrLn $ prefix "          " (showGroup "B" (gs !! 1)) -- out of the definition
+      putStrLn $ prefix (replicate 12 ' ') (Bx.render
+                                            (Bx.hsep 5 Bx.top
+                                             [(bxGroup "A" (gs !! 0))
+                                             ,(bxGroup "B" (gs !! 1))])
+                                           ) -- we should get the name out of the constraints
       where
         imax = head [ i | (MkDetail (groupName, i, teams)) <- constraints
                         , groupName == "Groups" ]
-        showGroup :: String -> Group -> String
-        showGroup gname teams = Bx.render $ foldl (Bx.<+>) (Bx.text $ "Group " ++ gname) (showTeam <$> teams)
+        bxGroup :: String -> Group -> Bx.Box
+        bxGroup gname teams = foldl (Bx.<+>) (Bx.text $ "Group " ++ gname) (showTeam <$> teams)
         showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : teamMembers))
         prefix s ls = unlines $ (s ++) <$> lines ls
 
@@ -168,8 +171,8 @@ This problem can be solved in:
   getMembers  :: Team -> [Person]
   getMembers  = snd
 
-  solutions :: [Constraint] -> Int -> IO [Solution]
-  solutions constraints maxsize = do
+  solutions :: Int -> [Constraint] -> IO [Solution]
+  solutions maxsize constraints = do
     putStrLn $ "size constraint: " ++ show maxsize
     let cteams = [ (t, members) :: Team
                  | (MkMember (t, members)) <- constraints ]
