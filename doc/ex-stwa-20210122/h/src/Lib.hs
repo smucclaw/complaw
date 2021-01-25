@@ -159,18 +159,24 @@ solutions maxsize constraints = do
   let cteams = [ (t, members) :: Team
                | (MkMember (t, members)) <- constraints ]
       total = length cteams
+      perms = permutations cteams
       splits = nub [ [groupA, groupB]
-               | perm <- permutations cteams
+               | perm <- perms
                , pivot <- [1..total-1]
                , let groupA   = sortOn getTeamName $ take pivot perm
                      groupAms = nub $ concatMap getMembers groupA
                      groupB   = sortOn getTeamName $ drop pivot perm
                      groupBms = nub $ concatMap getMembers groupB
+                     hConstraints = [ case c of
+                                        MkRelation("Person","exactly one","Group") -> everyIndividualIsInOnlyOneGroup [groupA, groupB]
+                                        _                                          -> True
+                                    | c <- constraints ]
                , length groupAms <= maxsize
                , length groupBms <= maxsize
-               , everyIndividualIsInOnlyOneGroup [groupA, groupB]
+               , and $ hConstraints
                ]
   -- putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
+  -- putStrLn $ "considering " ++ show (length $ perms) ++ " permutations"
   return $ nub $ sort <$> splits
   where
     everyIndividualIsInOnlyOneGroup gs =

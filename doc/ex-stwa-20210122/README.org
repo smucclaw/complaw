@@ -17,17 +17,17 @@ H. Every Person belongs to exactly one Group
 
 1. Team Visualization contains Meng, JoHsi, WeiShen, Jason
 2. Team IDE contains Ruslan, Asey, Joey
-4. Team Raven contains Raven
-5. Team Alexis contains Alexis
+3. Team Raven contains Raven
+4. Team Alexis contains Alexis
 
-6. Team NLG contains Inari, Maryam, Regina, Liyana
-7. Team FV contains Martin, Andreas, Jacob
-8. Team Runtimes contains Andreas, Alfred, Max
+5. Team NLG contains Inari, Maryam, Regina, Liyana
+6. Team FV contains Martin, Andreas, Jacob
+7. Team Runtimes contains Andreas, Alfred, Max
+8. Team Bencoolen contains Inari, Andreas
 
 * Ignore
 
 1. Team Tembeling contains Meng, Alexis
-2. Team Bencoolen contains Inari, Andreas
 
 * Haskell as Intermediate Representation
 
@@ -178,18 +178,24 @@ This problem can be solved in:
     let cteams = [ (t, members) :: Team
                  | (MkMember (t, members)) <- constraints ]
         total = length cteams
+        perms = permutations cteams
         splits = nub [ [groupA, groupB]
-                 | perm <- permutations cteams
+                 | perm <- perms
                  , pivot <- [1..total-1]
                  , let groupA   = sortOn getTeamName $ take pivot perm
                        groupAms = nub $ concatMap getMembers groupA
                        groupB   = sortOn getTeamName $ drop pivot perm
                        groupBms = nub $ concatMap getMembers groupB
+                       hConstraints = [ case c of
+                                          MkRelation("Person","exactly one","Group") -> everyIndividualIsInOnlyOneGroup [groupA, groupB]
+                                          _                                          -> True
+                                      | c <- constraints ]
                  , length groupAms <= maxsize
                  , length groupBms <= maxsize
-                 , everyIndividualIsInOnlyOneGroup [groupA, groupB]
+                 , and $ hConstraints
                  ]
     -- putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
+    -- putStrLn $ "considering " ++ show (length $ perms) ++ " permutations"
     return $ nub $ sort <$> splits
     where
       everyIndividualIsInOnlyOneGroup gs =
