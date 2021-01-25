@@ -8,7 +8,7 @@ import Text.Megaparsec.Char
 import qualified Text.Megaparsec.Char.Lexer as L
 import Data.Text (Text, pack, unpack)
 import Data.Void
-import Data.List (nub, permutations, sort, sortOn, intercalate)
+import Data.List (nub, permutations, sort, sortOn, intercalate, foldl')
 import Data.Char (toLower)
 import Control.Monad (forM_)
 import qualified Text.PrettyPrint.Boxes as Bx
@@ -40,6 +40,21 @@ data Constraint = MkRelation (String, String, String) -- Person, "one or more", 
                 | MkDefine (String, String)           -- (total population, number of Persons)
                 | MkLimit  (String, String, String)   -- Group, 50/100, Person
                 deriving (Show, Eq)
+
+type Solution = [[Team]]
+type Group  = (GroupName, [Team]);  type GroupName = String
+type Team   = (TeamName, [Person]); type TeamName = String
+type Person = String
+-- yeah, I could've used records, I know
+getGroupName :: Group -> GroupName
+getGroupName = fst
+getGroupTeams :: Group -> [Team]
+getGroupTeams = snd
+getTeamName :: Team -> TeamName
+getTeamName = fst
+getMembers  :: Team -> [Person]
+getMembers  = snd
+
 orgfile :: Parser [(Text, [Text])]
 orgfile = many nonStarLine *> many section <* eof
 
@@ -120,38 +135,22 @@ solver constraints = do
   -- putStrLn $ unwords $ [ "we know about", (show $ length $ persons constraints), "persons:" ]
   --                      ++ persons constraints
   let ms = maxsize constraints imax
+      gnames = head [ ab | (MkDetail ("Groups", _, ab)) <- constraints ]
   -- putStrLn $ "each group should contain at most " ++ show ms ++ " persons"
   gss <- solutions ms constraints
   -- putStrLn $ show (length gss) ++ " solutions found."
   forM_ (zip [1..] gss) $ \(gsi, gs) -> do
-    -- putStrLn $ unwords [ "solution", show gsi ++ ":", show (length gs), "groups, of size"
-    --                    , show ((length . nub . concatMap getMembers) <$> gs), "    "
-    --                    , (intercalate "," (getTeamName <$> gs !! 0))
-    --                    , "/"
-    --                    , (intercalate "," (getTeamName <$> gs !! 1))
-    --                    ]
-    Bx.printBox $ Bx.hsep 3 Bx.top [ Bx.text ("solution " ++ show gsi ++ ":")
-                                   , (Bx.hsep 5 Bx.top
-                                      [(bxGroup "A:" (gs !! 0))
-                                      ,(bxGroup "B:" (gs !! 1))])
-                                   ] -- we should get the name out of the constraints
+    Bx.printBox $ Bx.hsep 3 Bx.top [ Bx.text (show gsi ++ ":")
+                                   , (Bx.hsep 5 Bx.top (bxGroup <$> (zip gnames gs)))
+                                   ]
     putStrLn ""
     where
       imax = head [ i | (MkDetail (groupName, i, teams)) <- constraints
                       , groupName == "Groups" ]
-      bxGroup :: String -> Group -> Bx.Box
-      bxGroup gname teams = foldl (Bx.<+>) (Bx.text $ "Group " ++ gname) (showTeam <$> teams)
+      bxGroup :: Group -> Bx.Box
+      bxGroup group = foldl (Bx.<+>) (Bx.text $ "Group " ++ getGroupName group ++ ":") (showTeam <$> getGroupTeams group)
       showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : teamMembers))
       prefix s ls = unlines $ (s ++) <$> lines ls
-
-type Solution = [Group]
-type Group  = [Team]
-type Team   = (TeamName, [Person]); type TeamName = String
-type Person = String
-getTeamName :: Team -> TeamName
-getTeamName = fst
-getMembers  :: Team -> [Person]
-getMembers  = snd
 
 solutions :: Int -> [Constraint] -> IO [Solution]
 solutions maxsize constraints = do
@@ -160,12 +159,12 @@ solutions maxsize constraints = do
                | (MkMember (t, members)) <- constraints ]
       total = length cteams
       perms = permutations cteams
-      splits = nub [ [groupA, groupB]
+      splits = [ [groupA, groupB]
                | perm <- perms
                , pivot <- [1..total-1]
                , let groupA   = sortOn getTeamName $ take pivot perm
-                     groupAms = nub $ concatMap getMembers groupA
                      groupB   = sortOn getTeamName $ drop pivot perm
+                     groupAms = nub $ concatMap getMembers groupA
                      groupBms = nub $ concatMap getMembers groupB
                      hConstraints = [ case c of
                                         MkRelation("Person","exactly one","Group") -> everyIndividualIsInOnlyOneGroup [groupA, groupB]
@@ -175,8 +174,10 @@ solutions maxsize constraints = do
                , length groupBms <= maxsize
                , and $ hConstraints
                ]
+
   -- putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
-  -- putStrLn $ "considering " ++ show (length $ perms) ++ " permutations"
+  -- putStrLn $ "initially " ++ show (length $ perms) ++ " permutations"
+  -- putStrLn $ "considering " ++ show (length $ splits) ++ " right-sized uniques"
   return $ nub $ sort <$> splits
   where
     everyIndividualIsInOnlyOneGroup gs =
