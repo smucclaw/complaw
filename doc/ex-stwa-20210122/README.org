@@ -1,0 +1,251 @@
+#+TITLE: Split Team Work Arrangements
+
+A case study in constraints, planning, and answer-set programming.
+
+* Constraints
+
+A. Every Person belongs to one or more Teams
+B. Every Team belongs to exactly one Group
+C. There are 2 Groups: A, B
+D. Every Group contains at most half of the total population
+E. The total population is the number of Persons
+F. There are 2 Weeks: Odd, Even
+G. Every Week belongs to exactly one Group
+H. Every Person belongs to exactly one Group
+
+* Setup
+
+1. Team Visualization contains Meng, JoHsi, WeiShen, Jason
+2. Team IDE contains Ruslan, Asey, Joey
+4. Team Raven contains Raven
+5. Team Alexis contains Alexis
+
+6. Team NLG contains Inari, Maryam, Regina, Liyana
+7. Team FV contains Martin, Andreas, Jacob
+8. Team Runtimes contains Andreas, Alfred, Max
+
+* Ignore
+
+1. Team Tembeling contains Meng, Alexis
+2. Team Bencoolen contains Inari, Andreas
+
+* Haskell as Intermediate Representation
+
+** We parse the input file into a bunch of input lines
+
+#+begin_src haskell :noweb-ref h-parser
+orgfile :: Parser [(Text, [Text])]
+orgfile = many nonStarLine *> many section <* eof
+
+section = do
+  lexeme (some "*")
+  title <- nonStarLine
+  body  <- many nonStarLine
+  return (title, body)
+
+nonStarLine :: Parser Text
+nonStarLine = notFollowedBy "*" *> takeWhileP Nothing (/= '\n') <* newline -- anything but "* ..."
+
+sections :: String -> [(Text,[Text])]
+sections inputFile =
+  case parse orgfile "orgFileParser" (pack inputFile) of
+    Left someError -> fail $ errorBundlePretty someError
+    Right rhs      -> rhs
+#+end_src
+
+** We parse the input lines into constraint types
+
+#+begin_src haskell :noweb-ref h-parser
+
+  parseBody = lexeme li
+              >> choice [ try parseRelation
+                        , try parseSetup
+                        , try parseDefine
+                        , try parseCategoryDetail
+                        , try parseLimit ]
+              <* eof
+
+  parseCategoryDetail = do
+    lexeme "There" >> lexeme ("is" <|> "are")
+    cardinality <- lexeme (some digitChar)
+    container <- lexeme (some alphaNumChar) <* lexeme ":"
+    labels <- many (lexeme (some alphaNumChar <* many ","))
+    return $ MkDetail (container, read cardinality, labels)
+
+  parseRelation = do -- Every Person belongs to one or more Teams
+    every <- lexeme "Every" *> lexeme (some alphaNumChar)
+    lexeme ("belongs to")
+    cardinality <- lexeme "one or more" <|> lexeme "exactly one"
+    container <- lexeme (some alphaNumChar)
+    return $ MkRelation (every, unpack cardinality, singular container)
+
+  parseSetup = do
+    teamName <- lexeme "Team" *> lexeme (some alphaNumChar)
+    lexeme "contains"
+    members <- many (lexeme (some alphaNumChar) <* lexeme (many ","))
+    return $ MkMember (teamName, members)
+
+  parseDefine = do
+    subj <- lexeme "The total population"
+    lexeme "is"
+    obj <- lexeme "the number of Persons"
+    return $ MkDefine (toLower <$> unpack subj
+                      ,toLower <$> unpack obj)
+
+  parseLimit = do
+    container <- lexeme "Every" *> lexeme (some alphaNumChar)
+    lexeme "contains"
+    amount <- lexeme "at most half"
+    lexeme "of"
+    denominator <- lexeme "the total population"
+    return $ MkLimit (container, unpack amount, unpack denominator)
+
+  singular word = if last word == 's' then init word else word
+
+  li = some alphaNumChar <* "."
+
+ 
+#+end_src
+
+** The native types represent the semantics of the problem
+
+#+begin_src haskell :noweb-ref h-types
+data Constraint = MkRelation (String, String, String) -- Person, "one or more", Team
+                | MkMember (String, [String])         -- (CLM, [Meng, WeiShen])
+                | MkDetail (String, Int, [String])    -- Groups 2 [A, B]
+                | MkDefine (String, String)           -- (total population, number of Persons)
+                | MkLimit  (String, String, String)   -- Group, 50/100, Person
+                deriving (Show, Eq)
+#+end_src
+
+* Technologies
+
+This problem can be solved in:
+
+** Haskell natively
+
+#+begin_src haskell :noweb-ref h-app
+
+  maxsize :: [Constraint] -> Int -> Int
+  maxsize constraints imax = (ceiling $ fromIntegral numPersons / fromIntegral imax)
+    where numPersons = length $ persons constraints
+
+  persons constraints = nub $ concat [ persons
+                                     | (MkMember (teamName, persons)) <- constraints ]
+
+  solver :: [Constraint] -> IO ()
+  solver constraints = do
+    putStrLn "solving!"
+    putStrLn $ unwords $ [ "we know about", (show $ length $ persons constraints), "persons:" ]
+                         ++ persons constraints
+    let ms = maxsize constraints imax
+    putStrLn $ "each group should contain at most " ++ show ms ++ " persons"
+    gss <- solutions constraints ms
+    putStrLn $ show (length gss) ++ " solutions found."
+    forM_ gss $ \gs -> do
+      putStrLn $ unwords [ "solution:", show (length gs), "groups, of size"
+                         , show ((length . nub . concatMap getMembers) <$> gs)
+                         , (intercalate "," (getTeamName <$> gs !! 0))
+                         , "/"
+                         , (intercalate "," (getTeamName <$> gs !! 1))
+                         ]
+      putStrLn $ prefix "          " (showGroup "A" (gs !! 0)) -- we should get the name
+      putStrLn $ prefix "          " (showGroup "B" (gs !! 1)) -- out of the definition
+      where
+        imax = head [ i | (MkDetail (groupName, i, teams)) <- constraints
+                        , groupName == "Groups" ]
+        showGroup :: String -> Group -> String
+        showGroup gname teams = Bx.render $ foldl (Bx.<+>) (Bx.text $ "Group " ++ gname) (showTeam <$> teams)
+        showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : teamMembers))
+        prefix s ls = unlines $ (s ++) <$> lines ls
+
+  type Solution = [Group]
+  type Group  = [Team]
+  type Team   = (TeamName, [Person]); type TeamName = String
+  type Person = String
+  getTeamName :: Team -> TeamName
+  getTeamName = fst
+  getMembers  :: Team -> [Person]
+  getMembers  = snd
+
+  solutions :: [Constraint] -> Int -> IO [Solution]
+  solutions constraints maxsize = do
+    putStrLn $ "size constraint: " ++ show maxsize
+    let cteams = [ (t, members) :: Team
+                 | (MkMember (t, members)) <- constraints ]
+        total = length cteams
+        splits = nub [ [groupA, groupB]
+                 | perm <- permutations cteams
+                 , pivot <- [1..total-1]
+                 , let groupA   = sortOn getTeamName $ take pivot perm
+                       groupAms = nub $ concatMap getMembers groupA
+                       groupB   = sortOn getTeamName $ drop pivot perm
+                       groupBms = nub $ concatMap getMembers groupB
+                 , length groupAms <= maxsize
+                 , length groupBms <= maxsize
+                 ]
+    putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
+    putStrLn $ "we have " ++ show (length splits) ++ " solutions"
+    return $ splits
+
+#+end_src
+
+** Z3
+
+** CHR
+
+** Ciao Prolog and sCASP
+
+** CLP(x)
+
+** Plain Old Prolog
+
+** Curry
+
+* Infrastructure
+
+for org-mode tangling
+
+#+begin_src haskell :noweb yes :tangle h/src/Lib.hs
+  {-# LANGUAGE OverloadedStrings #-}
+  {-# LANGUAGE ScopedTypeVariables #-}
+
+  module Lib where
+
+  import Text.Megaparsec
+  import Text.Megaparsec.Char
+  import qualified Text.Megaparsec.Char.Lexer as L
+  import Data.Text (Text, pack, unpack)
+  import Data.Void
+  import Data.List (nub, permutations, sort, sortOn, intercalate)
+  import Data.Char (toLower)
+  import Control.Monad (forM_)
+  import qualified Text.PrettyPrint.Boxes as Bx
+  type Parser = Parsec Void Text
+
+  someFunc :: IO ()
+  someFunc = do
+    myinput <- getContents
+    let ast = [ case parse parseBody "parsing section body line" bodyline of
+                  Left  someError  -> error $ errorBundlePretty someError
+                  Right rhs -> rhs
+              | (title, body) <- sections myinput
+              , unpack title `elem` words "Setup Constraints"
+              , bodyline      <- body
+              , (not . null . unpack) bodyline
+              ]
+    print ast
+    solver ast
+
+  sc :: Parser ()
+  sc = L.space space1 Text.Megaparsec.empty Text.Megaparsec.empty
+
+  lexeme :: Parser a -> Parser a
+  lexeme = L.lexeme sc
+
+  <<h-types>>
+  <<h-parser>>
+  <<h-app>>
+
+#+end_src
+

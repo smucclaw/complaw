@@ -1193,6 +1193,8 @@ exercise: does the website https://missing.csail.mit.edu/ contain any mention of
 *** Technical Skills and Competencies
 
 - read pp 6--9 of [[https://doi.org/10.6028/NIST.IR.8151][Dramatically Reducing Software Vulnerabilities (2016)]] on formal methods.
+- read https://fmfun.github.io/Papers-2019/Schlingloff.pdf Teaching Model Checking via Games and Puzzles
+- https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.83.9818&rep=rep1&type=pdf tic-tac-toe
 - Constraint Satisfaction Problems using Z3 and PAT; work through the Z3 tutorial.
 - Prolog: CLP(FD) and CLP(B)
 - A tour of SMTLIB and TPTP: kinds of problems that SAT can solve

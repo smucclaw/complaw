@@ -1,0 +1,74 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 83bb8705aae9e7889b7f8af4f5418b6c15e09aaa480e9f8502f817a409f024c9
+
+name:           h
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/mengwong/h#readme>
+homepage:       https://github.com/mengwong/h#readme
+bug-reports:    https://github.com/mengwong/h/issues
+author:         Wong Meng Weng
+maintainer:     mwwong@smu.edu.sg
+copyright:      2020
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/mengwong/h
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_h
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , boxes
+    , containers
+    , megaparsec
+    , text
+  default-language: Haskell2010
+
+executable h-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_h
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , boxes
+    , containers
+    , h
+    , megaparsec
+    , text
+  default-language: Haskell2010
+
+test-suite h-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_h
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , boxes
+    , containers
+    , h
+    , megaparsec
+    , text
+  default-language: Haskell2010
