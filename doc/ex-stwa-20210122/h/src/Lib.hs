@@ -8,7 +8,7 @@ import Text.Megaparsec.Char
 import qualified Text.Megaparsec.Char.Lexer as L
 import Data.Text (Text, pack, unpack)
 import Data.Void
-import Data.List (nub, permutations, sort, sortOn, intercalate, foldl')
+import Data.List (nub, permutations, sort, sortOn, intercalate)
 import Data.Char (toLower)
 import Control.Monad (forM_)
 import qualified Text.PrettyPrint.Boxes as Bx
@@ -155,33 +155,24 @@ solutions maxsize constraints = do
                | (MkMember (t, members)) <- constraints ]
       total = length cteams
       perms = permutations cteams
-      splits = [ [groupA, groupB]
-               | perm  <- perms
+      splits = nub [ [groupA, groupB]
+               | perm <- perms
                , pivot <- [1..total-1]
                , let groupA   = sortOn getTeamName $ take pivot perm
+                     groupAms = nub $ concatMap getMembers groupA
                      groupB   = sortOn getTeamName $ drop pivot perm
+                     groupBms = nub $ concatMap getMembers groupB
+                     hConstraints = [ case c of
+                                        MkRelation("Person","exactly one","Group") -> everyIndividualIsInOnlyOneGroup [groupA, groupB]
+                                        _                                          -> True
+                                    | c <- constraints ]
+               , length groupAms <= maxsize
+               , length groupBms <= maxsize
+               , and $ hConstraints
                ]
-      splits2 = nub $ sort <$> splits
-      splits3 = [ [groupA, groupB]
-                | [groupA, groupB] <- splits2
-                , let groupAms = nub $ concatMap getMembers groupA
-                      groupBms = nub $ concatMap getMembers groupB
-                      hConstraints = [ case c of
-                                         MkRelation("Person","exactly one","Group") -> everyIndividualIsInOnlyOneGroup [groupA, groupB]
-                                         _                                          -> True
-                                     | c <- constraints ]
-                , length groupAms <= maxsize
-                , length groupBms <= maxsize
-                , and $ hConstraints
-                ]
-      splits4 = nub $ sort <$> splits3
-
   -- putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
-  putStrLn $ "initially " ++ show (length $ perms) ++ " permutations"
-  putStrLn $ "considering " ++ show (length $ splits2) ++ " uniques"
-  putStrLn $ "considering " ++ show (length $ splits3) ++ " right-sized uniques"
-  putStrLn $ "returning " ++ show (length $ splits4) ++ " solutions"
-  return splits4
+  -- putStrLn $ "considering " ++ show (length $ perms) ++ " permutations"
+  return $ nub $ sort <$> splits
   where
     everyIndividualIsInOnlyOneGroup gs =
       let gPersons   :: [[Person]] = (nub . concatMap getMembers) <$> gs
