@@ -25,6 +25,7 @@ dependencies:
 - containers
 - text
 - boxes
+- fgl
 
 library:
   source-dirs: src

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 83bb8705aae9e7889b7f8af4f5418b6c15e09aaa480e9f8502f817a409f024c9
+-- hash: 916abc63bec4f56541696d3912f45862d6086a37af052a23d274fbb54da9e7ec
 
 name:           h
 version:        0.1.0.0
@@ -36,6 +36,7 @@ library
       base >=4.7 && <5
     , boxes
     , containers
+    , fgl
     , megaparsec
     , text
   default-language: Haskell2010
@@ -51,6 +52,7 @@ executable h-exe
       base >=4.7 && <5
     , boxes
     , containers
+    , fgl
     , h
     , megaparsec
     , text
@@ -68,6 +70,7 @@ test-suite h-test
       base >=4.7 && <5
     , boxes
     , containers
+    , fgl
     , h
     , megaparsec
     , text

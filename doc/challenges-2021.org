@@ -176,6 +176,10 @@ See Ciao Prolog.
 - by deadline D
 - if they want to achieve goal G
 
+** What's up with these grammars?
+
+
+
 ** LTL/CTL-like property assertions
 
 We need a notion of external rules: assertions that, if the contract violates 'em, we say, the contract fails. But we don't express those assertions inside the contract itself.

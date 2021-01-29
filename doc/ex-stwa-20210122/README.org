@@ -6,7 +6,7 @@ A case study in constraints, planning, and answer-set programming.
 
 A. Every Person belongs to one or more Teams
 B. Every Team belongs to exactly one Group
-C. There are 2 Groups: Alpha, Bravo
+C. There are 2 Groups: A, B
 D. Every Group contains at most half of the total population
 E. The total population is the number of Persons
 F. There are 2 Weeks: Odd, Even
@@ -15,19 +15,20 @@ H. Every Person belongs to exactly one Group
 
 * Setup
 
-1. Team Visualization contains Meng, JoHsi, WeiShen, Jason
+1. Team Tooling contains Meng, JoHsi, WeiShen, Alfred
 2. Team IDE contains Ruslan, Asey, Joey
 3. Team Raven contains Raven
 4. Team Alexis contains Alexis
 
 5. Team NLG contains Inari, Maryam, Regina, Liyana
 6. Team FV contains Martin, Andreas, Jacob
-7. Team Runtimes contains Andreas, Alfred, Max
-8. Team Bencoolen contains Inari, Andreas
+7. Team DSL contains Inari, Andreas, Jason
+8. Team Haskell contains Andreas, Max
+9. Team Gothenburg contains Inari, Andreas
+1. Team Tembeling contains Meng, Alexis
 
 * Ignore
 
-1. Team Tembeling contains Meng, Alexis
 
 * Haskell as Intermediate Representation
 
@@ -156,7 +157,9 @@ This produces an AST:
 
 * Technologies
 
-This problem can be solved in:
+These learning exercises introduce a range of technologies relevant to constraint satisfaction, SAT solving, and logic programming.
+
+Each learning exercise is basically: from the Haskell intermediate representation, output a program in the given language that solves the constraints.
 
 ** Haskell natively
 
@@ -189,11 +192,13 @@ This problem can be solved in:
         bxGroup group = foldl (Bx.<+>) (Bx.text $ "Group " ++ getGroupName group ++ ":") (showTeam <$> getGroupTeams group)
         showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : teamMembers))
 
+  -- why IO [Solution] and not just [Solution]? because of this post
+  -- https://williamyaoh.com/posts/2020-05-03-permissiveness-solutions.html
   solutions :: Int -> [Constraint] -> IO [Solution]
   solutions maxsize constraints = do
-    let cteams = [ (t, members) :: Team
-                 | (MkMember (t, members)) <- constraints ]
-        total = length cteams
+    cteams <- coalesce [ (t, members) :: Team
+                       | (MkMember (t, members)) <- constraints ]
+    let total = length cteams
         perms = permutations cteams
         splits = nub [ [groupA, groupB]
                  | perm <- perms
@@ -221,8 +226,42 @@ This problem can be solved in:
                                  | g  <- gPersons -- each group A and B
                                  , p `elem` g ]
                       | p <- allPersons ]
+      coalesce :: [Team] -> IO [Team]
+      coalesce teams = do
+        let mynodes = zip [1..] (nub ([ "P " ++ p  | t <- teams,      p <- getMembers t ] ++
+                                      [ "T " ++ tn | t <- teams, let tn = getTeamName t ] ) )
+            nodemap = Map.fromList (swap <$> mynodes)
+            myedges = [ (nodemap ! ("T " ++ tn), nodemap ! ("P " ++ p), ())
+                      | t <- teams
+                      , p <- getMembers t
+                      , let tn = getTeamName t ]
+            mygraph :: Gr (String) ()
+            mygraph = undir $ mkGraph mynodes myedges
+        --- prettyPrint mygraph
+        -- https://www.math.cmu.edu/~af1p/Texfiles/COMPLEXPART.pdf
+        -- partition into connected subgraphs
+        let newteams = Map.toList $
+              Map.fromListWith (++) [ (tn, [m])
+                                    | subgraph <- components mygraph
+                                    , let pnodes = map (drop 2) $ filter (('P' ==) . head) $ catMaybes $ lab mygraph <$> subgraph
+                                          tnodes = map (drop 2) $ filter (('T' ==) . head) $ catMaybes $ lab mygraph <$> subgraph
+                                          tn = intercalate "+" tnodes
+                                    , m <- pnodes ]
+        -- print newteams
+        return newteams
 
 #+end_src
+
+** Plain Old Prolog
+
+#+begin_src haskell :noweb-ref h-toprolog
+
+#+end_src
+
+** Alloy
+
+
+** Nunchaku
 
 ** Z3
 
@@ -231,8 +270,6 @@ This problem can be solved in:
 ** Ciao Prolog and sCASP
 
 ** CLP(x)
-
-** Plain Old Prolog
 
 ** Curry
 
@@ -251,8 +288,16 @@ for org-mode tangling
   import qualified Text.Megaparsec.Char.Lexer as L
   import Data.Text (Text, pack, unpack)
   import Data.Void
+  import Data.Maybe (catMaybes)
+  import qualified Data.Map.Lazy as Map
+  import Data.Map.Lazy ((!))
+  import Data.Graph.Inductive.Graph (mkGraph, prettyPrint, lab)
+  import Data.Graph.Inductive.Basic (undir)
+  import Data.Graph.Inductive.Query.DFS (components)
+  import Data.Graph.Inductive.PatriciaTree (Gr)
   import Data.List (nub, permutations, sort, sortOn, intercalate)
   import Data.Char (toLower)
+  import Data.Tuple (swap)
   import Control.Monad (forM_)
   import qualified Text.PrettyPrint.Boxes as Bx
   type Parser = Parsec Void Text

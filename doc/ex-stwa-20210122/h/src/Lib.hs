@@ -8,8 +8,16 @@ import Text.Megaparsec.Char
 import qualified Text.Megaparsec.Char.Lexer as L
 import Data.Text (Text, pack, unpack)
 import Data.Void
+import Data.Maybe (catMaybes)
+import qualified Data.Map.Lazy as Map
+import Data.Map.Lazy ((!))
+import Data.Graph.Inductive.Graph (mkGraph, prettyPrint, lab)
+import Data.Graph.Inductive.Basic (undir)
+import Data.Graph.Inductive.Query.DFS (components)
+import Data.Graph.Inductive.PatriciaTree (Gr)
 import Data.List (nub, permutations, sort, sortOn, intercalate)
 import Data.Char (toLower)
+import Data.Tuple (swap)
 import Control.Monad (forM_)
 import qualified Text.PrettyPrint.Boxes as Bx
 type Parser = Parsec Void Text
@@ -149,11 +157,13 @@ solver constraints = do
       bxGroup group = foldl (Bx.<+>) (Bx.text $ "Group " ++ getGroupName group ++ ":") (showTeam <$> getGroupTeams group)
       showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : teamMembers))
 
+-- why IO [Solution] and not just [Solution]? because of this post
+-- https://williamyaoh.com/posts/2020-05-03-permissiveness-solutions.html
 solutions :: Int -> [Constraint] -> IO [Solution]
 solutions maxsize constraints = do
-  let cteams = [ (t, members) :: Team
-               | (MkMember (t, members)) <- constraints ]
-      total = length cteams
+  cteams <- coalesce [ (t, members) :: Team
+                     | (MkMember (t, members)) <- constraints ]
+  let total = length cteams
       perms = permutations cteams
       splits = nub [ [groupA, groupB]
                | perm <- perms
@@ -181,3 +191,26 @@ solutions maxsize constraints = do
                                | g  <- gPersons -- each group A and B
                                , p `elem` g ]
                     | p <- allPersons ]
+    coalesce :: [Team] -> IO [Team]
+    coalesce teams = do
+      let mynodes = zip [1..] (nub ([ "P " ++ p  | t <- teams,      p <- getMembers t ] ++
+                                    [ "T " ++ tn | t <- teams, let tn = getTeamName t ] ) )
+          nodemap = Map.fromList (swap <$> mynodes)
+          myedges = [ (nodemap ! ("T " ++ tn), nodemap ! ("P " ++ p), ())
+                    | t <- teams
+                    , p <- getMembers t
+                    , let tn = getTeamName t ]
+          mygraph :: Gr (String) ()
+          mygraph = undir $ mkGraph mynodes myedges
+      --- prettyPrint mygraph
+      -- https://www.math.cmu.edu/~af1p/Texfiles/COMPLEXPART.pdf
+      -- partition into connected subgraphs
+      let newteams = Map.toList $
+            Map.fromListWith (++) [ (tn, [m])
+                                  | subgraph <- components mygraph
+                                  , let pnodes = map (drop 2) $ filter (('P' ==) . head) $ catMaybes $ lab mygraph <$> subgraph
+                                        tnodes = map (drop 2) $ filter (('T' ==) . head) $ catMaybes $ lab mygraph <$> subgraph
+                                        tn = intercalate "+" tnodes
+                                  , m <- pnodes ]
+      -- print newteams
+      return newteams
