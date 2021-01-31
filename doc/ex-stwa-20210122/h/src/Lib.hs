@@ -154,8 +154,11 @@ solver constraints = do
     putStrLn ""
     where
       imax = head [ i | (MkDetail ("Groups", i, teams)) <- constraints ]
-      bxGroup group = foldl (Bx.<+>) (Bx.text $ "Group " ++ getGroupName group ++ ":") (showTeam <$> getGroupTeams group)
-      showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : teamMembers))
+      bxGroup group = foldl (Bx.<+>)
+        ((Bx.text $ "Group " ++ getGroupName group ++ ":") Bx.//
+         (Bx.text $ "(" ++ (show $ length $ nub $ concatMap getMembers (getGroupTeams group)) ++ " pax)"))
+        (showTeam <$> getGroupTeams group)
+      showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : sort teamMembers))
 
 -- why IO [Solution] and not just [Solution]? because of this post
 -- https://williamyaoh.com/posts/2020-05-03-permissiveness-solutions.html
@@ -180,8 +183,8 @@ solutions maxsize constraints = do
                , length groupBms <= maxsize
                , and $ hConstraints
                ]
-  -- putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
-  -- putStrLn $ "considering " ++ show (length $ perms) ++ " permutations"
+  putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
+  putStrLn $ "considering " ++ show (length $ perms) ++ " permutations"
   return $ nub $ sort <$> splits
   where
     everyIndividualIsInOnlyOneGroup gs =

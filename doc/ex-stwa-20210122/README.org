@@ -23,9 +23,9 @@ H. Every Person belongs to exactly one Group
 5. Team NLG contains Inari, Maryam, Regina, Liyana
 6. Team FV contains Martin, Andreas, Jacob
 7. Team DSL contains Inari, Andreas, Jason
-8. Team Haskell contains Andreas, Max
-9. Team Gothenburg contains Inari, Andreas
-1. Team Tembeling contains Meng, Alexis
+8. Team Bencoolen contains Inari, Andreas, Jason
+9. Team Haskell contains Andreas, Max
+10. Team Tembeling contains Meng, Alexis
 
 * Ignore
 
@@ -189,8 +189,11 @@ Each learning exercise is basically: from the Haskell intermediate representatio
       putStrLn ""
       where
         imax = head [ i | (MkDetail ("Groups", i, teams)) <- constraints ]
-        bxGroup group = foldl (Bx.<+>) (Bx.text $ "Group " ++ getGroupName group ++ ":") (showTeam <$> getGroupTeams group)
-        showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : teamMembers))
+        bxGroup group = foldl (Bx.<+>)
+          ((Bx.text $ "Group " ++ getGroupName group ++ ":") Bx.//
+           (Bx.text $ "(" ++ (show $ length $ nub $ concatMap getMembers (getGroupTeams group)) ++ " pax)"))
+          (showTeam <$> getGroupTeams group)
+        showTeam (teamName, teamMembers) = foldl (Bx.//) Bx.nullBox (Bx.text <$> (teamName : sort teamMembers))
 
   -- why IO [Solution] and not just [Solution]? because of this post
   -- https://williamyaoh.com/posts/2020-05-03-permissiveness-solutions.html
@@ -215,8 +218,8 @@ Each learning exercise is basically: from the Haskell intermediate representatio
                  , length groupBms <= maxsize
                  , and $ hConstraints
                  ]
-    -- putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
-    -- putStrLn $ "considering " ++ show (length $ perms) ++ " permutations"
+    putStrLn $ "we have " ++ show total ++ " cteams = " ++ show cteams
+    putStrLn $ "considering " ++ show (length $ perms) ++ " permutations"
     return $ nub $ sort <$> splits
     where
       everyIndividualIsInOnlyOneGroup gs =
