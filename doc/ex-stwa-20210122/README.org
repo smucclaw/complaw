@@ -15,20 +15,72 @@ H. Every Person belongs to exactly one Group
 
 * Setup
 
-1. Team Tooling contains Meng, JoHsi, WeiShen, Alfred
-2. Team IDE contains Ruslan, Asey, Joey
-3. Team Raven contains Raven
-4. Team Alexis contains Alexis
-
-5. Team NLG contains Inari, Maryam, Regina, Liyana
-6. Team FV contains Martin, Andreas, Jacob
-7. Team DSL contains Inari, Andreas, Jason
-8. Team Bencoolen contains Inari, Andreas, Jason
-9. Team Haskell contains Andreas, Max
-10. Team Tembeling contains Meng, Alexis
+1. Team NLG contains Inari, Maryam, Regina, Liyana
+2. Team FV contains Martin, Andreas, Jacob
+3. Team DSL contains Inari, Andreas, Jason
+4. Team IDE contains Ruslan, Asey, Joey
+5. Team Tooling contains Meng, JoHsi, WeiShen, Alfred
+6. Team Alexis contains Alexis
+7. Team Bencoolen contains Inari, Andreas, Jason
+8. Team Tembeling contains Meng, Alexis
+9. Team Usability contains Meng, Max
+10. Team Raven contains Raven
 
 * Ignore
 
+1. Team Drafting contains Meng, Jason
+
+* Team Details
+
+| Work Area   | Team Leads                          | On the team            | Deliverable                                                                                                 |
+|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
+| NLG         | Inari                               | Regina, Maryam, Liyana | Haskell, PGF, and GF code to output fragments of SAFE L4 contracts to English. Jason advising.              |
+|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
+| FV          | Martin, Andreas                     | Jacob                  | Upon each save, run interpreter. Produce warnings & errors, to be reported by IDE.                          |
+|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
+| DSL         | Inari, Andreas, Jason, Martin, Meng | Jacob                  |                                                                                                             |
+|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
+| L4 drafting | Meng & Jason                        | whoever volunteers     | Interpret and convert the legislation and contract inputs into L4 code.                                     |
+|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
+| IDE         | Ruslan                              | Asey, Joey             | Realtime rendering of generated output. NLG visible in a Results window, as PNG or PDF. Errors as usual.    |
+|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
+| Tooling     | Meng                                | Alfred                 | Allow Python and Javascript programmers to automatically transform DMN constructs to Python and JS code     |
+|             |                                     | Wei Shen               | Learn about XMP and exiftool. Shoehorn an L4 contract into a PDF as a CDATA blob of text. Get it back out.  |
+|             |                                     | Jo Hsi                 | Rendering of a contract graph as a Dot->PNG, or equivalent but better-looking SVG->PNG.                     |
+|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
+
+When L4 is more ready, we will add these teams
+
+| Work Area | Team Leads | On the team | Deliverable                                                                                                 |
+|-----------+------------+-------------+-------------------------------------------------------------------------------------------------------------|
+| Usability | Meng       | Max         | Developer usability testing (once L4 is more ready) by translating existing contracts / legislation into L4 |
+| Runtimes  | Andreas    | Alfred, Max | Given one or more L4 contracts, and a JSON containing an event trace, output residual contracts and docs.   |
+|-----------+------------+-------------+-------------------------------------------------------------------------------------------------------------|
+
+In practice, there will be overlap, more than is shown in the table above.
+
+All team leads will be involved in evolving the DSL and the SAFE L4 representations in response to the needs of the work.
+
+Jason will be acting as customer advocate and user representative, giving feedback from the user point of view about how the various components are usable -- or not.
+
+
+* Output
+
+#+begin_example
+┌─[mengwong@solo-wmw-2] - [~/src/smucclaw/complaw/doc/ex-stwa-20210122/h] - [2021-02-17 11:29:46]
+└─[0] <git:(primary 919df2c✱✈) > time stack run h-exe < ../README.org
+we have 4 cteams = [("IDE",["Joey","Asey","Ruslan"]),("NLG+DSL+FV+Bencoolen",["Jason","Jacob","Martin","Andreas","Liyana","Regina","Maryam","Inari"]),("Raven",["Raven"]),("Tooling+Tembeling+Alexis+Usability",["Max","Alexis","Alfred","WeiShen","JoHsi","Meng"])]
+considering 24 permutations
+1:   Group A: IDE    Tooling+Tembeling+Alexis+Usability     Group B: NLG+DSL+FV+Bencoolen Raven
+     (9 pax)  Asey   Alexis                                 (9 pax)  Andreas              Raven
+              Joey   Alfred                                          Inari
+              Ruslan JoHsi                                           Jacob
+                     Max                                             Jason
+                     Meng                                            Liyana
+                     WeiShen                                         Martin
+                                                                     Maryam
+                                                                     Regina
+#+end_example
 
 * Haskell as Intermediate Representation
 
