@@ -15,10 +15,10 @@ H. Every Person belongs to exactly one Group
 
 * Setup
 
-1. Team NLG contains Inari, Maryam, Regina, Liyana
-2. Team FV contains Martin, Andreas, Jacob
-3. Team DSL contains Inari, Andreas, Jason
-4. Team IDE contains Ruslan, Asey, Joey
+1. Team IDE contains Ruslan, Asey, Joey
+2. Team NLG contains Inari, Maryam, Regina, Liyana
+3. Team FV contains Martin, Andreas, Jacob
+4. Team DSL contains Inari, Andreas, Jason
 5. Team Tooling contains Meng, JoHsi, WeiShen, Alfred
 6. Team Alexis contains Alexis
 7. Team Bencoolen contains Inari, Andreas, Jason
@@ -32,22 +32,24 @@ H. Every Person belongs to exactly one Group
 
 * Team Details
 
-| Work Area   | Team Leads                          | On the team            | Deliverable                                                                                                 |
-|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
-| NLG         | Inari                               | Regina, Maryam, Liyana | Haskell, PGF, and GF code to output fragments of SAFE L4 contracts to English. Jason advising.              |
-|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
-| FV          | Martin, Andreas                     | Jacob                  | Upon each save, run interpreter. Produce warnings & errors, to be reported by IDE.                          |
-|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
-| DSL         | Inari, Andreas, Jason, Martin, Meng | Jacob                  |                                                                                                             |
-|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
-| L4 drafting | Meng & Jason                        | whoever volunteers     | Interpret and convert the legislation and contract inputs into L4 code.                                     |
-|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
-| IDE         | Ruslan                              | Asey, Joey             | Realtime rendering of generated output. NLG visible in a Results window, as PNG or PDF. Errors as usual.    |
-|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
-| Tooling     | Meng                                | Alfred                 | Allow Python and Javascript programmers to automatically transform DMN constructs to Python and JS code     |
-|             |                                     | Wei Shen               | Learn about XMP and exiftool. Shoehorn an L4 contract into a PDF as a CDATA blob of text. Get it back out.  |
-|             |                                     | Jo Hsi                 | Rendering of a contract graph as a Dot->PNG, or equivalent but better-looking SVG->PNG.                     |
-|-------------+-------------------------------------+------------------------+-------------------------------------------------------------------------------------------------------------|
+| Work Area   | Team Leads                          | On the team            | Deliverable                                                                                                         |
+|-------------+-------------------------------------+------------------------+---------------------------------------------------------------------------------------------------------------------|
+| IDE         | Ruslan                              | Asey, Joey             | Realtime rendering of generated output. NLG visible in a Results window, as PNG or PDF. Errors as usual.            |
+|             |                                     |                        | Demand language features and compiler functionality from other teams.                                               |
+|-------------+-------------------------------------+------------------------+---------------------------------------------------------------------------------------------------------------------|
+| NLG         | Inari                               | Regina, Maryam, Liyana | Haskell, PGF, and GF code to output fragments of SAFE L4 contracts to English. Jason advising.                      |
+|-------------+-------------------------------------+------------------------+---------------------------------------------------------------------------------------------------------------------|
+| FV          | Martin, Andreas                     | Jacob                  | Think hard about L4's underlying logic and semantics.                                                               |
+|             |                                     |                        | Upon each save, run interpreter. Produce warnings & errors, to be reported by IDE.                                  |
+|-------------+-------------------------------------+------------------------+---------------------------------------------------------------------------------------------------------------------|
+| DSL         | Inari, Andreas, Jason, Martin, Meng | Jacob                  | On a solid semantic foundation, build the compiler toolchain for increasingly sophisticated and sugary forms of L4. |
+|-------------+-------------------------------------+------------------------+---------------------------------------------------------------------------------------------------------------------|
+| L4 drafting | Meng & Jason                        | whoever volunteers     | Interpret and convert the legislation and contract inputs into code in L4 or other (target) languages.              |
+|-------------+-------------------------------------+------------------------+---------------------------------------------------------------------------------------------------------------------|
+| Tooling     | Meng                                | Alfred                 | Allow Python and Javascript programmers to automatically transform DMN constructs to Python and JS code             |
+|             |                                     | Wei Shen               | Learn about XMP and exiftool. Shoehorn an L4 contract into a PDF as a CDATA blob of text. Get it back out.          |
+|             |                                     | Jo Hsi                 | Rendering of a contract graph as a Dot->PNG, or equivalent but better-looking SVG->PNG.                             |
+|-------------+-------------------------------------+------------------------+---------------------------------------------------------------------------------------------------------------------|
 
 When L4 is more ready, we will add these teams
 
