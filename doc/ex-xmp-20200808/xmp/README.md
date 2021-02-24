@@ -68,11 +68,12 @@ This is a classic command-line antipattern. It will clobber myfile.pdf. Do not d
 
 ## Command Line Options
 
-| short | long    | description                                                       |
-|:------|:--------|:------------------------------------------------------------------|
-| -y    | --yaml  | read and write output in YAML instead of JSON                     |
-| -b    | --batch | read *.pdf and save JSON output to *.json                         |
-| -w    | --write | in batch mode, write JSON into *.pdf, outputting to *.xmljson.pdf |
+| short | long            | description                                       |
+|:------|:----------------|:--------------------------------------------------|
+| -y    | --yaml          | read and write output in YAML instead of JSON     |
+| -b    | --batch         | read *.pdf and save JSON output to *.json         |
+| -w    | --write OUTFILE | write to an output PDF named OUTFILE              |
+| -j    | --json  INFILE  | when doing a --write, read input JSON from INFILE |
 
 ## Cookbook
 
