@@ -75,6 +75,21 @@ This is a classic command-line antipattern. It will clobber myfile.pdf. Do not d
 | -w    | --write OUTFILE | write to an output PDF named OUTFILE              |
 | -j    | --json  INFILE  | when doing a --write, read input JSON from INFILE |
 
+### Enumerating Some Possibilities
+
+        metareader greeting.pdf
+        metareader -j greeting.pdf # -j is default
+        metareader -y greeting.pdf
+        metareader greeting.pdf > meta.json
+        metareader greeting.pdf | metareader plain.pdf --write new.pdf
+        metareader plain.pdf --write new.pdf < meta.json
+        metareader plain.pdf --write new.pdf < meta.yaml
+        metareader plain.pdf -j meta.json --write new.pdf
+        metareader plain.pdf -y meta.yaml --write new.pdf
+
+- Reading is always to stdout
+- May need to have some form of meta file type detection
+
 ## Cookbook
 
 Commonly performed tasks:
@@ -171,7 +186,3 @@ l4vc is under construction.
 Future directions:
 
 - add support for metadata in Docx files, just as with PDF files.
-
-
-
-
