@@ -1,5 +1,6 @@
 import argparse
-import xmp
+import sys
+# import xmp
 
 def arguments():
     '''
@@ -9,17 +10,69 @@ def arguments():
         parser (ArgumentParser): ArgumentParser object
     '''
     parser = argparse.ArgumentParser(
-            prog = 'xmp',
+            prog = 'metareader',
             description = 'Read/Write XMP',
             allow_abbrev = False 
     )
-    subparser = parser.add_subparsers()
 
-    read(subparser)
-    write(subparser)
+    # subparser = parser.add_subparsers()
+    # read(subparser)
+    # write(subparser)
+
+    single_mode(parser)
 
     return parser
+
+def single_mode(parser):
+    '''
+    Arguments for reading.
+
+    Returns:
+        parser (ArgumentParser): parser
+    '''
+
+    parser.add_argument(
+        'file',
+        help = 'location of document',
+        type = argparse.FileType('r', encoding = 'UTF-8'),
+        nargs = 1,
+        # default = sys.stdin
+    )
+
+    outputs = parser.add_mutually_exclusive_group()
     
+    outputs.add_argument(
+        '-j', '--json',
+        help = 'output metadata in JSON',
+        action = 'store_true'
+    )
+    outputs.add_argument(
+        '-y', '--yaml',
+        help = 'output metadata in YAML',
+        action = 'store_true'
+    )
+    
+    display = parser.add_mutually_exclusive_group()
+    
+    display.add_argument(
+        '-s', '--silent',
+        help = 'do not display terminal output',
+        action = 'store_true'
+    )
+    display.add_argument(
+        '-v', '--verbose',
+        help = 'display terminal output',
+        action = 'store_true'
+    )
+    parser.add_argument(
+        '-t', '--type',
+        help = 'specify metadata output format',
+        choices = ['json', 'yaml'],
+        default = 'json'
+    )
+    
+    return parser
+
 def read(subparser):
     '''
     Arguments for reading.
@@ -75,8 +128,8 @@ def write(subparser):
 
 def main():
     args = arguments().parse_args()
-    args.func(args)
     print(vars(args))
+    # args.func(args)
 
 if __name__ == '__main__':
     main()
