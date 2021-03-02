@@ -17,8 +17,7 @@ H. Every Person belongs to exactly one Group
 
 1. Team IDE contains Ruslan, Asey, Joey
 2. Team NLG contains Inari, Maryam, Regina, Liyana
-3. Team FV contains Martin, Andreas, Jacob
-4. Team DSL contains Inari, Andreas, Jason
+3. Team BabyL4 contains Martin, Andreas, Jacob, Liyana, Inari, Jason
 5. Team Tooling contains Meng, JoHsi, WeiShen, Alfred
 6. Team Alexis contains Alexis
 7. Team Bencoolen contains Inari, Andreas, Jason

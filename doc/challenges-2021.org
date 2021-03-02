@@ -124,6 +124,8 @@ See the examples from https://github.com/smucclaw/complaw/tree/primary/doc/ex-nz
 
 - Y is X when Z
 
+- does this cover ontologies and class definitions?
+
 *** for a performative grammer
 
 - P hereby A
