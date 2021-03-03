@@ -43,7 +43,7 @@ The following curriculum assumes minimal computer science experience. You might 
 
 The curriculum does assume a temperament suited to problem-solving, acquisition of technical skills, and high tolerance for frustration.
 
-And it assumes the sort of intelligence associated with logical reasoning and critical thinking, but also with creative imagination.
+And it assumes the sort of intelligence associated with logical reasoning and critical thinking, but also with curiosity and creative imagination.
 
 It also assumes that you possess very strong English reading, writing, and conversational skills both spoken and written. You should be fluent enough in English that the idea of reading and writing a lot of it does not bother you.
 
@@ -455,11 +455,11 @@ There are actually three different courses that are worth checking out, all unde
 - [[https://cs50.harvard.edu/ai/2020/][CS50 AI]] :: seven lectures on different techniques in AI. Do the exercises.
 - [[https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/][CS50 for Lawyers]] :: revisit CS50, but from the perspective of lawyers. If you've done the above then you can probably skip the exercises and just skim the videos to get a sense of what the lawyer audience cares about.
 
-So, all told, the CS50 curriculum will probably take you several months.
+So, all told, the CS50* curriculum will probably take you three months.
 
 ** Learn Haskell
 
-This will probably take you several more months. See Haskell resources below.
+This will probably take you another three months. See Haskell resources below.
 
 ** I feel like I'm back in school again.
 
