@@ -77,18 +77,26 @@ This is a classic command-line antipattern. It will clobber myfile.pdf. Do not d
 
 ### Enumerating Some Possibilities
 
-        metareader greeting.pdf
-        metareader -j greeting.pdf # -j is default
-        metareader -y greeting.pdf
-        metareader greeting.pdf > meta.json
-        metareader greeting.pdf | metareader plain.pdf --write new.pdf
-        metareader plain.pdf --write new.pdf < meta.json
-        metareader plain.pdf --write new.pdf < meta.yaml
-        metareader plain.pdf -j meta.json --write new.pdf
-        metareader plain.pdf -y meta.yaml --write new.pdf
+    metareader greeting.pdf
+    metareader -j greeting.pdf # -j is default
+    metareader -y greeting.pdf
+    metareader greeting.pdf > meta.json
+
+    metareader greeting.pdf | metareader plain.pdf --write new.pdf
+    metareader plain.pdf --write new.pdf < meta.json
+    metareader plain.pdf --write new.pdf < meta.yaml
+    # metareader plain.pdf -j meta.json --write new.pdf
+    # metareader plain.pdf -y meta.yaml --write new.pdf
 
 - Reading is always to stdout
+- Able to handle pipes and redirection
 - May need to have some form of meta file type detection
+- `exiftool` does not support `yaml` format, will need to incorporate a Python dictionary or JSON to/from YAML converter
+
+1. Handle read from pdf, stdout to JSON
+1. Handle read from pdf, stdout to YAML
+1. In write mode, allow pipes from stdin
+1. In write mode, allow redirection from stdin
 
 ## Cookbook
 
