@@ -1,6 +1,7 @@
 import argparse
 import sys
 # import xmp
+import exif
 
 def arguments():
     '''
@@ -39,6 +40,13 @@ def single_mode(parser):
         # default = sys.stdin
     )
 
+    parser.add_argument(
+        '-t', '--type',
+        help = 'specify metadata output format',
+        choices = ['json', 'yaml'],
+        default = 'json'
+    )
+
     outputs = parser.add_mutually_exclusive_group()
     
     outputs.add_argument(
@@ -63,12 +71,6 @@ def single_mode(parser):
         '-v', '--verbose',
         help = 'display terminal output',
         action = 'store_true'
-    )
-    parser.add_argument(
-        '-t', '--type',
-        help = 'specify metadata output format',
-        choices = ['json', 'yaml'],
-        default = 'json'
     )
     
     return parser
