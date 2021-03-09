@@ -67,16 +67,17 @@ This is a classic command-line antipattern. It will clobber myfile.pdf. Do not d
 | -w    | --write OUTFILE | write to an output PDF named OUTFILE              |
 | -j    | --json  INFILE  | when doing a --write, read input JSON from INFILE |
 
-### Enumerating Some Possibilities
+### Additional Notes
 
-    metareader greeting.pdf
-    metareader -j greeting.pdf # -j is default
-    metareader -y greeting.pdf
-    metareader greeting.pdf > meta.json
+    l4metadata greeting.pdf
+    l4metadata -j greeting.pdf # -j is default
+    l4metadata -y greeting.pdf
+    l4metadata greeting.pdf > meta.json
 
-    metareader greeting.pdf | metareader plain.pdf --write new.pdf
-    metareader plain.pdf --write new.pdf < meta.json
-    metareader plain.pdf --write new.pdf < meta.yaml
+    l4metadata greeting.pdf | metareader plain.pdf --write new.pdf
+    l4metadata plain.pdf --write new.pdf < meta.json
+    l4metadata plain.pdf --write new.pdf < meta.yaml
+    l4metadata write plain.pdf new.pdf
     # metareader plain.pdf -j meta.json --write new.pdf
     # metareader plain.pdf -y meta.yaml --write new.pdf
 
@@ -84,11 +85,29 @@ This is a classic command-line antipattern. It will clobber myfile.pdf. Do not d
 - Able to handle pipes and redirection
 - May need to have some form of meta file type detection
 - `exiftool` does not support `yaml` format, will need to incorporate a Python dictionary or JSON to/from YAML converter
+- Always append
 
 1. Handle read from pdf, stdout to JSON
 1. Handle read from pdf, stdout to YAML
 1. In write mode, allow pipes from stdin
 1. In write mode, allow redirection from stdin
+
+### Proposed Final Command Line Help
+
+Either or; still studying the better option.
+
+```
+l4metadata [-h] [-t {json,yaml}] [-j | -y] infile [--write [-m file] outfile]
+```
+
+The problem with this option is that so far based on research, positional arguments in `python argparse` have to be at the very end - can anyone find positional arguments which can be in between optional arguments?
+
+```
+l4metadata read [-h] [-t {json,yaml}] [-j | -y] infile
+l4metadata write [-h] [-m file] infile outfile 
+```
+
+This one is more verbose, but hopefully can condense it to one single command!
 
 ## Cookbook
 
