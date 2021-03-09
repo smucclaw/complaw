@@ -1,6 +1,7 @@
 import argparse
 import sys
 import os
+import subprocess
 import shlex
 import exif
 
@@ -76,15 +77,6 @@ def read(subparser):
         action = 'store_true'
     )
 
-    # command = ['exiftool', '-G', '-j', '-n', '-xmp:all', filename]
-    # command = 'exiftool -G -j -n -xmp:all'
-    # command_sp = shlex.split(command)
-    # proc = subprocess.Popen(command_sp)
-
-    # parser.set_defaults(func = xmp.read_xmp)
-
-    return parser
-
 def write(subparser):
     parser = subparser.add_parser(
             'write',
@@ -110,15 +102,19 @@ def write(subparser):
             nargs = 1
     )
 
-    # parser.set_defaults(func = xmp.write_xmp)
+def read_from_exiftool(args):
+    inputs = vars(args)
+    
+    base_command = 'exiftool -G -j -n -xmp:all ' + args.file[0].name
+    base_command_split = shlex.split(base_command)
 
-    return parser
+    proc = subprocess.call(base_command_split)
+
+    return proc
 
 def main():
     args = arguments().parse_args()
-    print(vars(args))
-    # print(args.file[0].name)
-    # args.func(args)
+    print(read_from_exiftool(args))
 
 if __name__ == '__main__':
     main()
