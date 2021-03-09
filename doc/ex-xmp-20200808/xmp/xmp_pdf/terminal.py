@@ -1,6 +1,7 @@
 import argparse
 import sys
-# import xmp
+import os
+import shlex
 import exif
 
 def arguments():
@@ -11,33 +12,35 @@ def arguments():
         parser (ArgumentParser): ArgumentParser object
     '''
     parser = argparse.ArgumentParser(
-            prog = 'metareader',
+            prog = 'l4metadata',
             description = 'Read/Write XMP',
             allow_abbrev = False 
     )
 
-    # subparser = parser.add_subparsers()
-    # read(subparser)
-    # write(subparser)
-
-    single_mode(parser)
+    subparser = parser.add_subparsers()
+    read(subparser)
+    write(subparser)
 
     return parser
 
-def single_mode(parser):
+def read(subparser):
     '''
-    Arguments for reading.
+    Arguments for reading. By default the command outputs a JSON.
 
     Returns:
         parser (ArgumentParser): parser
     '''
+    
+    parser = subparser.add_parser(
+        'read',
+        help = 'Read XMP from PDF into stdout'
+    )
 
     parser.add_argument(
         'file',
-        help = 'location of document',
+        help = 'location of file',
         type = argparse.FileType('r', encoding = 'UTF-8'),
-        nargs = 1,
-        # default = sys.stdin
+        nargs = 1
     )
 
     parser.add_argument(
@@ -46,7 +49,7 @@ def single_mode(parser):
         choices = ['json', 'yaml'],
         default = 'json'
     )
-
+    
     outputs = parser.add_mutually_exclusive_group()
     
     outputs.add_argument(
@@ -59,7 +62,7 @@ def single_mode(parser):
         help = 'output metadata in YAML',
         action = 'store_true'
     )
-    
+
     display = parser.add_mutually_exclusive_group()
     
     display.add_argument(
@@ -72,36 +75,13 @@ def single_mode(parser):
         help = 'display terminal output',
         action = 'store_true'
     )
-    
-    return parser
 
-def read(subparser):
-    '''
-    Arguments for reading.
+    # command = ['exiftool', '-G', '-j', '-n', '-xmp:all', filename]
+    # command = 'exiftool -G -j -n -xmp:all'
+    # command_sp = shlex.split(command)
+    # proc = subprocess.Popen(command_sp)
 
-    By default the command outputs a JSON.
-
-    Returns:
-        parser (ArgumentParser): parser
-    '''
-    parser = subparser.add_parser(
-            'read',
-            help = 'Read XMP from PDF into stdout'
-    )
-
-    parser.add_argument(
-            'file',
-            help = 'location of file',
-            type = str,
-            nargs = 1
-    )
-    # parser.add_argument(
-    #         '-j', '--json',
-    #         help = 'export into a JSON file',
-    #         type = str,
-    #         nargs = 1
-    # )
-    parser.set_defaults(func = xmp.read_xmp)
+    # parser.set_defaults(func = xmp.read_xmp)
 
     return parser
 
@@ -112,25 +92,32 @@ def write(subparser):
     )
     
     parser.add_argument(
-            'pdf',
-            help = 'location of PDF',
-            type = str,
+            'input',
+            help = 'location of PDF to be read',
+            type = argparse.FileType('r', encoding = 'UTF-8'),
             nargs = 1
     )
     parser.add_argument(
-            'json',
-            help = 'location of JSON',
-            type = str,
+            'output',
+            help = 'location of PDF to be written',
+            type = argparse.FileType('r', encoding = 'UTF-8'),
+            nargs = 1
+    )
+    parser.add_argument(
+            '-m','--meta',
+            help = 'location of metadata',
+            type = argparse.FileType('r', encoding = 'UTF-8'),
             nargs = 1
     )
 
-    parser.set_defaults(func = xmp.write_xmp)
+    # parser.set_defaults(func = xmp.write_xmp)
 
     return parser
 
 def main():
     args = arguments().parse_args()
     print(vars(args))
+    # print(args.file[0].name)
     # args.func(args)
 
 if __name__ == '__main__':
