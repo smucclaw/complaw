@@ -6,14 +6,6 @@ This is a command line tool to read/write JSON encoded in XMP to/from PDF.
 
 First, install dependencies:
 
-#### if we build based on python-xmp-toolkit
-
-    apt-get install libexempi-dev
-    brew install exempi
-    pip install xmpjson-cli
-
-#### if we build based on exiftool
-
     brew install exiftool
     brew install Archive::Zip
     pip install xmpjson-cli
