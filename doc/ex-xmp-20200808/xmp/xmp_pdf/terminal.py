@@ -116,7 +116,7 @@ def write(subparser):
     parser.add_argument(
             'output',
             help = 'location of PDF to be written',
-            type = argparse.FileType('r', encoding = 'UTF-8'),
+            type = argparse.FileType('w', encoding = 'UTF-8'),
             nargs = 1
     )
     parser.add_argument(
@@ -125,6 +125,20 @@ def write(subparser):
             type = argparse.FileType('r', encoding = 'UTF-8'),
             nargs = 1
     )
+
+    display = parser.add_mutually_exclusive_group()
+    
+    display.add_argument(
+        '-s', '--silent',
+        help = 'do not display terminal output',
+        action = 'store_true'
+    )
+    display.add_argument(
+        '-v', '--verbose',
+        help = 'display terminal output',
+        action = 'store_true'
+    )
+
 
 def read_from_exiftool(args):
     inputs = vars(args)
@@ -141,14 +155,15 @@ def main():
     argvars = vars(args)
     is_read = argvars['mode'] == 0
     
+    # Silent or verbose
+    if argvars['verbose']:
+        print(argvars)
+    elif argvars['silent']:
+        pass
+    
     with exif.ExifTool() as e:
         if is_read:
             # Read
-            if argvars['verbose']:
-                print(argvars)
-            elif argvars['silent']:
-                pass
-
             meta = e.get_metadata(argvars['file'][0].name)
             meta = meta[0]
             prefix = 'XMP:' + argvars['prefix']
@@ -164,7 +179,18 @@ def main():
                 print(yaml.dump(meta))
         else:
             # Write
-            pass
+            
+            # For new file, first copy over to the specified directory then
+            # write the metadata
+
+            # Detect metadata file type
+            metafile = argvars['meta'][0].name
+            metafile_name, metafile_ext = os.path.splitext(metafile_path)
+            
+            if metafile_ext == '.json':
+                print('JSON!')
+            elif metafile_ext == '.yml' or metafile_ext == '.yaml':
+                print('YAML!')
 
 if __name__ == '__main__':
     main()
