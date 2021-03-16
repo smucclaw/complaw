@@ -4,6 +4,8 @@ import os
 import subprocess
 import shlex
 import exif
+import json
+import yaml
 
 def arguments():
     '''
@@ -38,6 +40,13 @@ def read(subparser):
     )
 
     parser.add_argument(
+        'mode',
+        action = 'store_const',
+        const = 0,
+        help = argparse.SUPPRESS
+    )
+
+    parser.add_argument(
         'file',
         help = 'location of file',
         type = argparse.FileType('r', encoding = 'UTF-8'),
@@ -64,6 +73,14 @@ def read(subparser):
         action = 'store_true'
     )
 
+    parser.add_argument(
+        '-p', '--prefix',
+        help = 'Specify prefix for metadata',
+        type = str,
+        nargs = 1,
+        default = 'L4'
+    )
+
     display = parser.add_mutually_exclusive_group()
     
     display.add_argument(
@@ -81,6 +98,13 @@ def write(subparser):
     parser = subparser.add_parser(
             'write',
             help = 'Write XMP to PDF from JSON'
+    )
+    
+    parser.add_argument(
+        'mode',
+        action = 'store_const',
+        const = 1,
+        help = argparse.SUPPRESS
     )
     
     parser.add_argument(
@@ -114,7 +138,33 @@ def read_from_exiftool(args):
 
 def main():
     args = arguments().parse_args()
-    print(read_from_exiftool(args))
+    argvars = vars(args)
+    is_read = argvars['mode'] == 0
+    
+    with exif.ExifTool() as e:
+        if is_read:
+            # Read
+            if argvars['verbose']:
+                print(argvars)
+            elif argvars['silent']:
+                pass
+
+            meta = e.get_metadata(argvars['file'][0].name)
+            meta = meta[0]
+            prefix = 'XMP:' + argvars['prefix']
+
+            # Print out only those with the specified prefix
+            for k in list(meta.keys()):
+                if not k.startswith(prefix):
+                    del meta[k]
+            
+            if argvars['type'] == 'json' or argvars['json']:
+                print(json.dumps(meta, indent = 4))
+            elif argvars['type'] == 'yaml' or argvars['yaml']:
+                print(yaml.dump(meta))
+        else:
+            # Write
+            pass
 
 if __name__ == '__main__':
     main()
