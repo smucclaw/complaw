@@ -1,10 +1,11 @@
 import subprocess
 import os
 import sys
+import shlex
 import json
 import yaml
 
-class ExifTool(object):
+class ExifTool:
     '''
     Reference: https://stackoverflow.com/questions/10075115/call-exiftool-from-a-python-script
     '''
@@ -39,8 +40,24 @@ class ExifTool(object):
     def get_metadata(self, *filenames):
         return json.loads(self.execute("-G", "-j", "-n", '-xmp:all', *filenames))
 
+    def write_metadata(self, filename):
+        '''
+            exiftool -args fruit-contract-2.docx | grep '^-L4' | perl -ple 's/^-/-XMP-pdfx:/' > fruit-contract-2.args
+            exiftool -config xmp.config -@ fruit-contract-2.args fruit-contract-2.pdf
+        '''
+        return self.execute('-G', '-j', '-n', '-xmp:all', filename)
+
+def get_data(filename):
+    '''
+    New approach to running exiftool since the previous approach leaves exiftool open while
+    what we want is execute once
+    '''
+
+    command = ['exiftool', '-G', '-j', '-n', '-xmp:all', filename]
+    
+    return subprocess.call(command)
+
 if __name__ == '__main__':
     with ExifTool() as e:
-        out = e.get_metadata('fruit-contract-2.pdf')
-        print(json.dumps(out, indent = 4))
-        print(yaml.dump(out))
+       out = e.get_metadata('../../fruit-contract-2.pdf')
+       print(json.dumps(out, indent = 4))
