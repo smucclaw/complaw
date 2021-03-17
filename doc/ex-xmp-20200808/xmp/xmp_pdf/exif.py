@@ -47,17 +47,11 @@ class ExifTool:
         '''
         return self.execute('-G', '-j', '-n', '-xmp:all', filename)
 
-def get_data(filename):
-    '''
-    New approach to running exiftool since the previous approach leaves exiftool open while
-    what we want is execute once
-    '''
-
-    command = ['exiftool', '-G', '-j', '-n', '-xmp:all', filename]
-    
-    return subprocess.call(command)
+def main():
+    filename = '../../fruit-contract-2.pdf'
+    with ExifTool() as e:
+       out = e.get_metadata(filename)
+       print(json.dumps(out, indent = 4))
 
 if __name__ == '__main__':
-    with ExifTool() as e:
-       out = e.get_metadata('../../fruit-contract-2.pdf')
-       print(json.dumps(out, indent = 4))
+    main()
