@@ -126,6 +126,8 @@ def write(subparser):
             nargs = 1
     )
 
+    # Adjust log level
+    # https://stackoverflow.com/a/53293042
     display = parser.add_mutually_exclusive_group()
     
     display.add_argument(
@@ -136,9 +138,9 @@ def write(subparser):
     display.add_argument(
         '-v', '--verbose',
         help = 'display terminal output',
-        action = 'store_true'
+        action = 'count',
+        nargs = '?'
     )
-
 
 def read_from_exiftool(args):
     inputs = vars(args)
@@ -156,7 +158,7 @@ def main():
     is_read = argvars['mode'] == 0
     
     # Silent or verbose
-    if argvars['verbose']:
+    if argvars['verbose'] > 0:
         print(argvars)
     elif argvars['silent']:
         pass
