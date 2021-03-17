@@ -138,8 +138,9 @@ def write(subparser):
     display.add_argument(
         '-v', '--verbose',
         help = 'display terminal output',
-        action = 'count',
-        nargs = '?'
+        action = 'store_true'
+        # action = 'count',
+        # nargs = '?'
     )
 
 def read_from_exiftool(args):
@@ -158,7 +159,7 @@ def main():
     is_read = argvars['mode'] == 0
     
     # Silent or verbose
-    if argvars['verbose'] > 0:
+    if argvars['verbose']:
         print(argvars)
     elif argvars['silent']:
         pass
