@@ -53,23 +53,22 @@ def read(subparser):
         nargs = 1
     )
 
-    parser.add_argument(
+    outputs = parser.add_mutually_exclusive_group()
+    
+    outputs.add_argument(
         '-t', '--type',
         help = 'specify metadata output format',
         choices = ['json', 'yaml'],
         default = 'json'
     )
-    
-    outputs = parser.add_mutually_exclusive_group()
-    
     outputs.add_argument(
         '-j', '--json',
-        help = 'output metadata in JSON',
+        help = 'output metadata in JSON, same as --type json',
         action = 'store_true'
     )
     outputs.add_argument(
         '-y', '--yaml',
-        help = 'output metadata in YAML',
+        help = 'output metadata in YAML, same as --type yaml',
         action = 'store_true'
     )
 
