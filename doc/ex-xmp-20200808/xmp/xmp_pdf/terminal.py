@@ -189,10 +189,12 @@ def main():
             metafile = args.meta[0].name
             metafile_name, metafile_ext = os.path.splitext(metafile)
             
-            if metafile_ext == '.json':
-                print('JSON!')
-            elif metafile_ext == '.yml' or metafile_ext == '.yaml':
-                print('YAML!')
+            # Depending on the type of file, parse
+            with open(metafile) as file:
+                if metafile_ext == '.json':
+                    metadata = json.load(file)
+                elif metafile_ext == '.yml' or metafile_ext == '.yaml':
+                    metadata = yaml.load(file, Loader = yaml.FullLoader)
 
 if __name__ == '__main__':
     main()
