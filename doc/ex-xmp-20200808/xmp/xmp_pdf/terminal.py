@@ -154,30 +154,29 @@ def read_from_exiftool(args):
 
 def main():
     args = arguments().parse_args()
-    argvars = vars(args)
-    is_read = argvars['mode'] == 0
     
     # Silent or verbose
-    if argvars['verbose']:
-        print(argvars)
-    elif argvars['silent']:
+    if args.verbose:
+        print(vars(args))
+    elif args.silent:
         pass
     
     with exif.ExifTool() as e:
+        is_read = args.mode == 0
         if is_read:
             # Read
-            meta = e.get_metadata(argvars['file'][0].name)
+            meta = e.get_metadata(args.file[0].name)
             meta = meta[0]
-            prefix = 'XMP:' + argvars['prefix']
+            prefix = 'XMP:' + args.prefix
 
             # Print out only those with the specified prefix
             for k in list(meta.keys()):
                 if not k.startswith(prefix):
                     del meta[k]
             
-            if argvars['type'] == 'json' or argvars['json']:
+            if args.json or args.type == 'json':
                 print(json.dumps(meta, indent = 4))
-            elif argvars['type'] == 'yaml' or argvars['yaml']:
+            elif args.yaml or args.type == 'yaml':
                 print(yaml.dump(meta))
         else:
             # Write
@@ -186,8 +185,8 @@ def main():
             # write the metadata
 
             # Detect metadata file type
-            metafile = argvars['meta'][0].name
-            metafile_name, metafile_ext = os.path.splitext(metafile_path)
+            metafile = args.meta[0].name
+            metafile_name, metafile_ext = os.path.splitext(metafile)
             
             if metafile_ext == '.json':
                 print('JSON!')
