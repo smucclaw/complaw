@@ -3,6 +3,7 @@ import sys
 import os
 import subprocess
 import shlex
+import shutil
 import exif
 import json
 import yaml
@@ -181,8 +182,8 @@ def main():
         else:
             # Write
             
-            # For new file, first copy over to the specified directory then
-            # write the metadata
+            # Copy over file
+            shutil.copy2(args.input.name, args.output.name)
 
             # Detect metadata file type
             metafile = args.meta[0].name
