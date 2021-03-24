@@ -36,18 +36,24 @@ given an actual json structure in inner.json:
                   "en": "spud" }
     }
     
-we stringify it to new.json:
+we stringify it:
 
     ┌─[mengwong@solo-wmw-2] - [~/src/smucclaw/complaw/doc/ex-xmp-20200808/xmp/xmp_pdf] - [2021-03-24 01:28:27]
     └─[0] <git:(xmp 95c1990✱✈) > json -e 'console.log (JSON.stringify({"L4json":JSON.stringify(this)}))' < inner.json | head -1 | tee new.json
     {"L4json":"{\"BuyerName\":\"Carol Cucumber\",\"ClosingDate\":\"1970:01:01 10:00:00Z\",\"Consideration\":\"USD 100\",\"SellerName\":\"Alice Apple\",\"Potato\":{\"fr\":\"pomme de terre\",\"en\":\"spud\"}}"}
 
-then we save it to the PDF:
+to `new.json`:
 
     ┌─[mengwong@solo-wmw-2] - [~/src/smucclaw/complaw/doc/ex-xmp-20200808/xmp/xmp_pdf] - [2021-03-24 01:31:29]
     └─[0] <git:(xmp 95c1990✱✈) > cat new.json
     { "L4json": "{\"BuyerName\":\"Carol Cucumber\",\"ClosingDate\":\"1970:01:01 10:00:00Z\",\"Consideration\":\"USD 100\",\"SellerName\":\"Alice Apple\",\"Potato\":{\"fr\":\"pomme de terre\",\"en\":\"spud\"}}"
     }
+
+and we save it to the PDF:
+
+    ┌─[mengwong@solo-wmw-2] - [~/src/smucclaw/complaw/doc/ex-xmp-20200808/xmp/xmp_pdf] - [2021-03-24 01:31:38]
+    └─[0] <git:(xmp 95c1990✱✈) > exiftool -config xmp.config -j+=new.json plain.pdf
+        1 image files updated
 
 then we confirm it comes back out:
 
