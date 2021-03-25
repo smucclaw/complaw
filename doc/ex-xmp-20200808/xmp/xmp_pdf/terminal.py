@@ -1,12 +1,5 @@
 import argparse
-import sys
-import os
-import subprocess
-import shlex
-import shutil
-import exif
-import json
-import yaml
+import process
 
 def arguments():
     '''
@@ -143,58 +136,9 @@ def write(subparser):
         # nargs = '?'
     )
 
-def read_from_exiftool(args):
-    inputs = vars(args)
-    
-    base_command = 'exiftool -G -j -n -xmp:all ' + args.file[0].name
-    base_command_split = shlex.split(base_command)
-
-    proc = subprocess.call(base_command_split)
-
-    return proc
-
 def main():
     args = arguments().parse_args()
-    
-    # Silent or verbose
-    if args.verbose:
-        print(vars(args))
-    elif args.silent:
-        pass
-    
-    with exif.ExifTool() as e:
-        is_read = args.mode == 0
-        if is_read:
-            # Read
-            meta = e.get_metadata(args.file[0].name)
-            meta = meta[0]
-            prefix = 'XMP:' + args.prefix
-
-            # Print out only those with the specified prefix
-            for k in list(meta.keys()):
-                if not k.startswith(prefix):
-                    del meta[k]
-            
-            if args.json or args.type == 'json':
-                print(json.dumps(meta, indent = 4))
-            elif args.yaml or args.type == 'yaml':
-                print(yaml.dump(meta))
-        else:
-            # Write
-            
-            # Copy over file
-            shutil.copy2(args.input.name, args.output.name)
-
-            # Detect metadata file type
-            metafile = args.meta[0].name
-            metafile_name, metafile_ext = os.path.splitext(metafile)
-            
-            # Depending on the type of file, parse
-            with open(metafile) as file:
-                if metafile_ext == '.json':
-                    metadata = json.load(file)
-                elif metafile_ext == '.yml' or metafile_ext == '.yaml':
-                    metadata = yaml.load(file, Loader = yaml.FullLoader)
+    print(process.process(args))
 
 if __name__ == '__main__':
     main()
