@@ -41,8 +41,7 @@ class ExifTool:
 
     def write_metadata(self, filename):
         '''
-            exiftool -args fruit-contract-2.docx | grep '^-L4' | perl -ple 's/^-/-XMP-pdfx:/' > fruit-contract-2.args
-            exiftool -config xmp.config -@ fruit-contract-2.args fruit-contract-2.pdf
+            exiftool -config xmp.config -j+=meta.json file.pdf
         '''
         return self.execute('-G', '-j', '-n', '-xmp:all', filename)
 
