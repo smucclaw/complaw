@@ -6,9 +6,17 @@ This is a command line tool to read/write JSON encoded in XMP to/from PDF.
 
 First, install dependencies:
 
+### For Windows
+
+
+
+### For macOS
     brew install exiftool
     brew install Archive::Zip
     pip install xmpjson-cli
+
+### For Ubuntu/Debian
+
 
 ## Quick Start
 
@@ -75,6 +83,7 @@ This is a classic command-line antipattern. It will clobber myfile.pdf. Do not d
     l4metadata greeting.pdf > meta.json
 
     l4metadata greeting.pdf | metareader plain.pdf --write new.pdf
+    l4netadata read greeting.pdf | l4netadata write --write new.pdf
     l4metadata plain.pdf --write new.pdf < meta.json
     l4metadata plain.pdf --write new.pdf < meta.yaml
     l4metadata write plain.pdf new.pdf
@@ -92,11 +101,15 @@ This is a classic command-line antipattern. It will clobber myfile.pdf. Do not d
 1. In write mode, allow pipes from stdin
 1. In write mode, allow redirection from stdin
 
+- Can JSON contain more than the default 4 attributes??? e.g. Charlie is involved, wants to buy X. If the script has 5 elements, can it still function?
+- If JSON contains nested objects?
+
 ### Proposed Final Command Line Help
 
 Either or; still studying the better option.
 
 ```
+l4netadata infile [--write outfile]
 l4metadata [-h] [-t {json,yaml}] [-j | -y] infile [--write [-m file] outfile]
 ```
 
@@ -108,6 +121,12 @@ l4metadata write [-h] [-m file] infile outfile
 ```
 
 This one is more verbose, but hopefully can condense it to one single command!
+
+```
+exiftool --config xmp.config -j+=something.json target.pdf
+```
+
+- Using "hacky" way to shove all the JSON into a "L4JSON" key in `xmp.config`
 
 ## Cookbook
 
