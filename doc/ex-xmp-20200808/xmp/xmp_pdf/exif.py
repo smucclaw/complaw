@@ -3,7 +3,6 @@ import os
 import sys
 import shlex
 import json
-import yaml
 
 class ExifTool:
     '''
