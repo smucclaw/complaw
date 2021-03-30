@@ -77,9 +77,12 @@ class MetaTool(ExifTool):
             A dict of metadata
         '''
 
-        meta = json.loads(meta)
-        meta = meta[0][self.prefix]
-        meta = json.loads(meta)
+        try:
+            meta = json.loads(meta)
+            meta = meta[0][self.prefix]
+            meta = json.loads(meta)
+        except Exception as e:
+            meta = {}
 
         return meta
 
