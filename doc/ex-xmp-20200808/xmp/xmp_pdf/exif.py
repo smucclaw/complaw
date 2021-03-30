@@ -40,16 +40,50 @@ class ExifTool:
         return json.loads(self.execute("-G", "-j", "-n", '-xmp:all', *filenames))
 
     def write_metadata(self, filename):
-        '''
-            exiftool -config xmp.config -j+=meta.json file.pdf
-        '''
         return self.execute('-G', '-j', '-n', '-xmp:all', filename)
 
-def main():
-    filename = '../../fruit-contract-2.pdf'
-    with ExifTool() as e:
-       out = e.get_metadata(filename)
-       print(json.dumps(out, indent = 4))
+class MetaTool(ExifTool):
+    def __init__(self, executable = "/usr/bin/exiftool", prefix = 'L4'):
+        super().__init__(executable)
+        self.prefix = prefix
 
-if __name__ == '__main__':
-    main()
+    def read(self, *filenames):
+        # Execute and return the output
+        output = self.execute('-j', *filenames)
+
+        # Process the output until the component is extracted
+        proc = self.serialize(output)
+        
+        return proc
+
+    def write(self, *filenames, metafile, configfile = 'xmp.config'):
+        '''
+        Write the metadata into the new file
+
+        The original command is:
+            exiftool -config xmp.config -j+=meta.json file.pdf
+        '''
+        output = self.execute('-config ' + configfile, 'j+=' + metafile, *filenames)
+        return output
+
+    def serialize(meta):
+        '''
+        Convert the stringified metadata into metadata in JSON
+        '''
+
+        meta = json.loads(meta)
+        meta = meta[0][self.prefix]
+        meta = json.loads(meta)
+
+        return meta
+
+    def stringify(meta):
+        '''
+        Convert the metadata in JSON into stringified metadata
+        '''
+        
+        meta = json.dumps(meta)
+        meta = { self.prefix : meta }
+        meta = json.dumps(meta)
+
+        return meta
