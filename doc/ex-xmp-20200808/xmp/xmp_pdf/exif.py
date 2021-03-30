@@ -66,9 +66,14 @@ class MetaTool(ExifTool):
         output = self.execute('-config ' + configfile, 'j+=' + metafile, *filenames)
         return output
 
-    def serialize(meta):
+    def serialize(self, meta : str):
         '''
         Convert the stringified metadata into metadata in JSON
+
+        Args:
+            meta: The stringified metadata
+        Returns:
+            A dict of metadata
         '''
 
         meta = json.loads(meta)
@@ -80,6 +85,9 @@ class MetaTool(ExifTool):
     def stringify(meta):
         '''
         Convert the metadata in JSON into stringified metadata
+
+        Args:
+            meta: The metadata in dict
         '''
         
         meta = json.dumps(meta)
