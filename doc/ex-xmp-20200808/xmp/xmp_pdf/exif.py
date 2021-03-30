@@ -63,7 +63,8 @@ class MetaTool(ExifTool):
         The original command is:
             exiftool -config xmp.config -j+=meta.json file.pdf
         '''
-        output = self.execute('-config ' + configfile, 'j+=' + metafile, *filenames)
+
+        output = self.execute('-config ' + configfile, '-j+=' + metafile, *filenames)
         return output
 
     def serialize(self, meta : str):
@@ -82,7 +83,7 @@ class MetaTool(ExifTool):
 
         return meta
 
-    def stringify(meta):
+    def stringify(self, meta):
         '''
         Convert the metadata in JSON into stringified metadata
 
