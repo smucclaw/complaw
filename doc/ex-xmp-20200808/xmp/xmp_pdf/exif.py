@@ -10,15 +10,16 @@ class ExifTool:
     '''
     sentinel = "{ready}\r\n" if os.name == 'nt' else "{ready}\n"
 
-    def __init__(self, executable="/usr/bin/exiftool"):
+    def __init__(self, executable = '/usr/bin/exiftool', commands = ["-stay_open", "True",  "-@", "-"]):
         self.executable = executable
+        self.commands = commands 
 
     def __enter__(self):
         self.process = subprocess.Popen(
-            [self.executable, "-stay_open", "True",  "-@", "-"],
+            [self.executable] + self.commands,
             universal_newlines = True,
-            stdin=subprocess.PIPE, 
-            stdout=subprocess.PIPE
+            stdin = subprocess.PIPE, 
+            stdout = subprocess.PIPE
         )
         return self
 
@@ -30,16 +31,16 @@ class ExifTool:
         args = args + ("-execute\n",)
         self.process.stdin.write(str.join("\n", args))
         self.process.stdin.flush()
-        output = ""
+        output = ''
         fd = self.process.stdout.fileno()
         while not output.endswith(self.sentinel):
             output += os.read(fd, 4096).decode('utf-8')
         return output[:-len(self.sentinel)]
 
 class MetaTool(ExifTool):
-    def __init__(self, executable = "/usr/bin/exiftool", prefix = 'L4'):
-        super().__init__(executable)
+    def __init__(self, commands = ['-config', 'xmp.config', "-stay_open", "True",  "-@", "-"], prefix = 'L4'):
         self.prefix = prefix
+        super().__init__(commands = commands)
 
     def read(self, *filenames):
         # Execute and return the output
@@ -50,15 +51,17 @@ class MetaTool(ExifTool):
         
         return proc
 
-    def write(self, *filenames, metafile, configfile = 'xmp.config'):
+    def write(self, *filenames, metafile):
         '''
         Write the metadata into the new file
 
         The original command is:
             exiftool -config xmp.config -j+=meta.json file.pdf
+
+        Note: Does not work, see https://exiftool.org/forum/index.php?topic=9433.0
         '''
 
-        output = self.execute('-config ' + configfile, '-j+=' + metafile, *filenames)
+        output = self.execute('-j+=' + metafile, *filenames)
         return output
 
     def serialize(self, meta : str):
