@@ -36,12 +36,6 @@ class ExifTool:
             output += os.read(fd, 4096).decode('utf-8')
         return output[:-len(self.sentinel)]
 
-    def get_metadata(self, *filenames):
-        return json.loads(self.execute("-G", "-j", "-n", '-xmp:all', *filenames))
-
-    def write_metadata(self, filename):
-        return self.execute('-G', '-j', '-n', '-xmp:all', filename)
-
 class MetaTool(ExifTool):
     def __init__(self, executable = "/usr/bin/exiftool", prefix = 'L4'):
         super().__init__(executable)
