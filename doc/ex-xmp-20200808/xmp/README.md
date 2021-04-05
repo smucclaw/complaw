@@ -53,19 +53,17 @@ In the `demo/` directory you will find:
 
 ### Reading
 
-The general command for reading metadata for documents will be:
-
 ```console
 $ l4metadata read [FILE]
 ```
 
-Execute the following command to read `greeting.pdf`:
+For example, to read `greeting.pdf`, execute the following command:
 
 ```console
 $ l4metadata read greeting.pdf
 ```
 
-It will return:
+The output will be the metadata of `greeting.pdf` in `json` format, as below:
 
 ```console
 {
