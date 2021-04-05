@@ -1,22 +1,51 @@
-# XMP JSON
+# L4 Metadata Tool
 
-This is a command line tool to read/write JSON encoded in XMP to/from PDF.
+The `l4metadata` tool is a command line tool to read/write metadata to/from a document.
 
 ## Installation
 
-First, install dependencies:
+### From Source Code
+
+Clone the repo:
+
+```sh
+git clone git@github.com:smucclaw/complaw.git
+cd complaw/
+git checkout xmp
+cd doc/ex-xmp-20200808/xmp/xmp_pdf/
+```
+
+Make sure to checkout to the `xmp` branch, and run the command inside `complaw/doc/ex-xmp-20200808/xmp/xmp_pdf`, as this is the main entrypoint for running the `l4metadata` tool.
+
+Note that the documentation will use `l4metadata` as the starting point, which is an alias of `python terminal.py`. You can run the following command or add to your \*rc file:
+
+```sh
+alias l4metadata='python terminal.py'
+```
+
+### For Debian / Ubuntu
+
+**Please note that `l4metadata` package has yet to be deployed to pypi, so you might want to follow the instructions from the section [From Source Code](### From Source Code) after installing `exiftool`.**
+
+You will need to install the following dependencies:
+
+```sh
+apt-get install exiftool
+pip install l4metadata
+```
+
+### For macOS
+
+**Please note that `l4metadata` package has yet to be deployed to pypi, so you might want to follow the instructions from the section [From Source Code](### From Source Code) after installing `exiftool`.**
+
+```sh
+brew install exiftool
+pip install l4metadata
+``` 
 
 ### For Windows
 
-
-
-### For macOS
-    brew install exiftool
-    brew install Archive::Zip
-    pip install xmpjson-cli
-
-### For Ubuntu/Debian
-
+Work in progress.
 
 ## Quick Start
 
@@ -24,163 +53,70 @@ In the `demo/` directory you will find:
 - plain.pdf
 - greeting.pdf
 
-Run
+### Reading
 
-    xmpjson greeting.pdf
-    
-It returns:
+The general command for reading metadata for documents will be:
 
-    {
-      "greeting": "Hello, World!"
-    }
+```console
+$ l4metadata read [FILE]
+```
 
-If you run `xmpjson plain.pdf` you get nothing back:
+Execute the following command to read `greeting.pdf`:
 
-    { }
-    
-Now, augment `plain.pdf` with the JSON greeting:
+```console
+$ l4metadata read greeting.pdf
+```
 
-    xmpjson greeting.pdf | xmpjson plain.pdf --write new.pdf
+It will return:
 
-As you can see, when `xmpjson` is called with `--write`, it reads
-STDIN and produces a new PDF that contains the JSON, encoded in XMP.
+```console
+{
+    "greeting": "Hello World!"
+}
+```
 
-You can confirm that the metadata is there:
+However, if you run the same command for `plain.pdf`, it will return:
 
-    xmpjson new.pdf
-    
-returns:
+```console
+{ }
+```
 
-    {
-      "greeting": "Hello, World!"
-    }
+### Writing
 
-## File Safety
+```console
+$ l4metadata write [INPUT] [OUTPUT]
+```
 
-`xmpjson` never changes the input PDF; it always produces a new PDF.
-If you want to edit-in-place, it is up to you to write a wrapper
-script that verifies that the output PDF is correct before renaming or
-overwriting the original PDF.
+For example, to write the same metadata in `greeting.pdf` into `plain.pdf`, execute the following command. Use the `--meta` flag to specify the location of the metadata file. Note that you should write metadata into a new document, in this case, to `plain2.pdf`.
 
-WARNING: Avoid ever running `xmpjson myfile.pdf < new.json > myfile.pdf`
+```console
+$ l4metadata read greeting.pdf > greeting.json
+$ l4metadata write --meta greeting.json plain.pdf plain2.pdf
+```
 
-This is a classic command-line antipattern. It will clobber myfile.pdf. Do not do that. Always output to a new file.
+You can confirm that `plain2.pdf` has the metadata by running:
+
+```console
+$ l4metadata read plain2.pdf
+```
+
+It will return:
+
+```console
+{
+    "greeting": "Hello World!"
+}
+```
 
 ## Command Line Options
 
-| short | long            | description                                       |
-|:------|:----------------|:--------------------------------------------------|
-| -y    | --yaml          | read and write output in YAML instead of JSON     |
-| -b    | --batch         | read *.pdf and save JSON output to *.json         |
-| -w    | --write OUTFILE | write to an output PDF named OUTFILE              |
-| -j    | --json  INFILE  | when doing a --write, read input JSON from INFILE |
+### Read
 
-### Additional Notes
+To be updated
 
-    l4metadata greeting.pdf
-    l4metadata -j greeting.pdf # -j is default
-    l4metadata -y greeting.pdf
-    l4metadata greeting.pdf > meta.json
+### Write
 
-    l4metadata greeting.pdf | metareader plain.pdf --write new.pdf
-    l4netadata read greeting.pdf | l4netadata write --write new.pdf
-    l4metadata plain.pdf --write new.pdf < meta.json
-    l4metadata plain.pdf --write new.pdf < meta.yaml
-    l4metadata write plain.pdf new.pdf
-    # metareader plain.pdf -j meta.json --write new.pdf
-    # metareader plain.pdf -y meta.yaml --write new.pdf
-
-- Reading is always to stdout
-- Able to handle pipes and redirection
-- May need to have some form of meta file type detection
-- `exiftool` does not support `yaml` format, will need to incorporate a Python dictionary or JSON to/from YAML converter
-- Always append
-
-1. Handle read from pdf, stdout to JSON
-1. Handle read from pdf, stdout to YAML
-1. In write mode, allow pipes from stdin
-1. In write mode, allow redirection from stdin
-
-- Can JSON contain more than the default 4 attributes??? e.g. Charlie is involved, wants to buy X. If the script has 5 elements, can it still function?
-- If JSON contains nested objects?
-
-### Proposed Final Command Line Help
-
-Either or; still studying the better option.
-
-```
-l4netadata infile [--write outfile]
-l4metadata [-h] [-t {json,yaml}] [-j | -y] infile [--write [-m file] outfile]
-```
-
-The problem with this option is that so far based on research, positional arguments in `python argparse` have to be at the very end - can anyone find positional arguments which can be in between optional arguments?
-
-```
-l4metadata read [-h] [-t {json,yaml}] [-j | -y] infile
-l4metadata write [-h] [-m file] infile outfile 
-```
-
-This one is more verbose, but hopefully can condense it to one single command!
-
-```
-exiftool --config xmp.config -j+=something.json target.pdf
-```
-
-- Using "hacky" way to shove all the JSON into a "L4JSON" key in `xmp.config`
-
-## Cookbook
-
-Commonly performed tasks:
-
-### I want to extract JSON from a PDF file to STDOUT
-
-    xmpjson myfile.pdf
-    
-### I want to insert JSON into a PDF file from STDIN
-
-Assuming `metadata.json` contains the JSON you want to add, pipe it in:
-
-    xmpjson myfile.pdf --write new.pdf < metadata.json
-
-### I want to extract JSON from a PDF file to a JSON file
-
-Just redirect STDOUT to the desired path.
-
-    xmpjson myfile.pdf > metadata.json
-
-### I want to insert JSON into a PDF file from a JSON file
-
-    xmpjson myfile.pdf --json metadata.json --write new.pdf
-    
-### I want to output PDF to STDOUT
-
-    xmpjson myfile.pdf --json metadata.json --write - > new.pdf
-
-The convention for this is to give `-` as the output filename.
-
-### I want to extract JSON from multiple PDF files
-
-    xmpjson --batch *.pdf
-    
-If you have `alice.pdf`, `bob.pdf`, and `carol.pdf`, this will produce `alice.json`, `bob.json`, and `carol.json`, but only if none of those `*.json` already exist. If they do, `xmpjson` will abort with an error.
-
-### I want to insert different JSON into multiple PDF files
-
-    xmpjson --batch --write *.json
-    
-If you have a directory containing
-
-- alice.json
-- alice.pdf
-- bob.json
-- bob.pdf
-- carol.json
-- donna.pdf
-
-This command will create
-
-- alice.xmpjson.pdf
-- bob.xmpjson.pdf
+To be updated
 
 ## Integrations and Workflows
 
@@ -219,8 +155,8 @@ JSON-augmented PDFs to a current latest-state JSON.
 
 l4vc is under construction.
 
-## Requirements
+## Future Work
 
-Future directions:
-
-- add support for metadata in Docx files, just as with PDF files.
+[ ] Add support for `yaml`
+[ ] Add support for piping between reading and writing operations
+[ ] Add support for reading/writing metadata from `docx` files
