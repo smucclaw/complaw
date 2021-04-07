@@ -17,30 +17,11 @@ def process():
     with exif.MetaTool(prefix = 'L4') as e:
         is_read = args.mode == 0
         if is_read:
-            return read2(e, args)
+            return read(e, args)
         else:
             return write(e, args)
 
 def read(e, args):
-    meta = e.get_metadata(args.file[0].name)
-    meta = meta[0]
-    prefix = 'XMP:' + args.prefix
-
-    # Print out only those with the specified prefix
-    for k in list(meta.keys()):
-        if not k.startswith(prefix):
-            del meta[k]
-    
-    if args.json or args.type == 'json':
-        print()
-        result = json.dumps(meta, indent = 4)
-    elif args.yaml or args.type == 'yaml':
-        print()
-        result = yaml.dump(meta)
-    
-    return result
-
-def read2(e, args):
     meta = e.read(args.file[0].name)
 
     if args.json or args.type == 'json':
