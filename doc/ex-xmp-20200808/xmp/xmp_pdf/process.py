@@ -14,7 +14,7 @@ def process():
     elif args.silent:
         pass
     
-    with exif.MetaTool(prefix = 'L4') as e:
+    with exif.MetaTool() as e:
         is_read = args.mode == 0
         if is_read:
             return read(e, args)

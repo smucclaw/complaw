@@ -74,13 +74,13 @@ def read(subparser):
         const = 'yaml'
     )
 
-    parser.add_argument(
-        '-p', '--prefix',
-        help = 'Specify prefix for metadata',
-        type = str,
-        nargs = 1,
-        default = 'L4'
-    )
+    # parser.add_argument(
+    #     '-p', '--prefix',
+    #     help = 'Specify prefix for metadata',
+    #     type = str,
+    #     nargs = 1,
+    #     default = 'L4'
+    # )
 
     display = parser.add_mutually_exclusive_group()
     
