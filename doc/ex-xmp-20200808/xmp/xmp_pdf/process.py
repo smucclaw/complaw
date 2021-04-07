@@ -43,7 +43,7 @@ def read2(e, args):
     if args.json or args.type == 'json':
         result = json.dumps(meta, indent = 4)
     elif args.yaml or args.type == 'yaml':
-        result = yamp.dumps(meta)
+        result = yaml.dumps(meta)
 
     return result
 
