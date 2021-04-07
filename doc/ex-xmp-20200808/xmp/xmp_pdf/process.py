@@ -45,15 +45,16 @@ def write(e, args):
         metafile_ext = detect_file_type(metafile)
 
         if metafile_ext == '.json':
-            new_file = 'new2.json'
-
             metadata = json.load(file)
-            meta_flat = e.stringify(metadata)
-            convert_to_flat(meta_flat, new_file)
-            
-            result = e.write(args.output[0].name, metafile = new_file)
         elif metafile_ext == '.yml' or metafile_ext == '.yaml':
             metadata = yaml.load(file, Loader = yaml.FullLoader)
+
+        new_file = 'new2.json'
+
+        meta_flat = e.stringify(metadata)
+        convert_to_flat(meta_flat, new_file)
+        
+        result = e.write(args.output[0].name, metafile = new_file)
 
     return result
 
