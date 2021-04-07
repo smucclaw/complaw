@@ -57,13 +57,13 @@ In the `demo/` directory you will find:
 $ l4metadata read [FILE]
 ```
 
-For example, to read `greeting.pdf`, execute the following command:
+For example, to read **greeting.pdf**, execute the following command:
 
 ```console
 $ l4metadata read greeting.pdf
 ```
 
-The output will be the metadata of `greeting.pdf` in `json` format, as below:
+The output will be the metadata of **greeting.pdf** in **json** format, as below:
 
 ```console
 {
@@ -71,7 +71,14 @@ The output will be the metadata of `greeting.pdf` in `json` format, as below:
 }
 ```
 
-However, if you run the same command for `plain.pdf`, it will return:
+Adding a `--type yaml` or simply `-y` flag will cause the output the metadata of the same **greeting.pdf** to be in **yaml**:
+
+```console
+greeting: Hello World!
+
+```
+
+However, if you run the same command for **plain.pdf**, it will return:
 
 ```console
 { }
@@ -137,6 +144,6 @@ l4vc is under construction.
 
 ## Future Work
 
-- [ ] Add support for `yaml`
+- [x] Add support for `yaml`
 - [ ] Add support for piping between reading and writing operations
 - [ ] Add support for reading/writing metadata from `docx` files
