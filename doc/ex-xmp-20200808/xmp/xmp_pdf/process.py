@@ -3,8 +3,11 @@ import exif
 import json
 import shutil
 import yaml
+import terminal
 
-def process(args):
+def process():
+    parser, args = terminal.arguments()
+    
     # Silent or verbose
     if args.verbose:
         print(vars(args))

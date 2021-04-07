@@ -8,17 +8,21 @@ def arguments():
     Returns:
         parser (ArgumentParser): ArgumentParser object
     '''
-    parser = argparse.ArgumentParser(
-            prog = 'l4metadata',
-            description = 'Read/Write XMP',
-            allow_abbrev = False 
-    )
+    props = {
+        "prog": "l4metadata",
+        "description": "Read/Write metadata",
+        "allow_abbrev": False
+    }
+    
+    parser = argparse.ArgumentParser(**props)
 
     subparser = parser.add_subparsers()
     read(subparser)
     write(subparser)
 
-    return parser
+    args = parser.parse_args()
+
+    return parser, args
 
 def read(subparser):
     '''
@@ -137,8 +141,9 @@ def write(subparser):
     )
 
 def main():
-    args = arguments().parse_args()
-    print(process.process(args))
+    # args = arguments().parse_args()
+    # print(process.process(args))
+    pass
 
 if __name__ == '__main__':
     main()

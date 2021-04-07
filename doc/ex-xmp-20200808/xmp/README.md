@@ -18,7 +18,7 @@ cd doc/ex-xmp-20200808/xmp/xmp_pdf/
 - The documentation will use `l4metadata` as the starting point, which is an alias of `python terminal.py`. You can alias the command or add the following to your \*rc file, so long as the command is run inside `complaw/doc/ex-xmp-20200808/xmp/xmp_pdf`.
 
 ```sh
-alias l4metadata='python terminal.py'
+alias l4metadata='python l4meta.py'
 ```
 
 ### For Debian / Ubuntu
