@@ -24,10 +24,10 @@ def process():
 def read(e, args):
     meta = e.read(args.file[0].name)
 
-    if args.json or args.type == 'json':
+    if args.type == 'json':
         result = json.dumps(meta, indent = 4)
-    elif args.yaml or args.type == 'yaml':
-        result = yaml.dumps(meta)
+    elif args.type == 'yaml':
+        result = yaml.dump(meta)
 
     return result
 

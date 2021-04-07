@@ -62,12 +62,16 @@ def read(subparser):
     outputs.add_argument(
         '-j', '--json',
         help = 'output metadata in JSON, same as --type json',
-        action = 'store_true'
+        action = 'store_const',
+        dest = 'type',
+        const = 'json'
     )
     outputs.add_argument(
         '-y', '--yaml',
         help = 'output metadata in YAML, same as --type yaml',
-        action = 'store_true'
+        action = 'store_const',
+        dest = 'type',
+        const = 'yaml'
     )
 
     parser.add_argument(
