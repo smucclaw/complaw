@@ -17,19 +17,9 @@ def process():
     with exif.MetaTool() as e:
         is_read = args.mode == 0
         if is_read:
-            return read(e, args)
+            return e.read(args.file[0].name, output_format = args.type)
         else:
             return write(e, args)
-
-def read(e, args):
-    meta = e.read(args.file[0].name)
-
-    if args.type == 'json':
-        result = json.dumps(meta, indent = 4)
-    elif args.type == 'yaml':
-        result = yaml.dump(meta)
-
-    return result
 
 def write(e, args):
     result = ''

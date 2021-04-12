@@ -42,14 +42,25 @@ class MetaTool(ExifTool):
         self.prefix = prefix
         super().__init__(commands = commands)
 
-    def read(self, *filenames):
-        # Execute and return the output
+    def read(self, *filenames, output_format):
+        '''
+        '''
+        if output_format not in ['json', 'yaml']:
+            raise TypeError('Output should be in \"json\" or \"yaml\"!')
+
+        # Execute and get output
         output = self.execute('-j', *filenames)
 
-        # Process the output until the component is extracted
-        proc = self.serialize(output)
+        # Extract component
+        meta = self.serialize(output)
+
+        # Produce the output
+        if output_format == 'json':
+            result = json.dumps(meta, indent = 4)
+        elif output_format == 'yaml':
+            result = yaml.dump(meta)
         
-        return proc
+        return result
 
     def write(self, *filenames, metafile):
         '''
