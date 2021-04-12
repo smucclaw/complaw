@@ -1,5 +1,4 @@
 import argparse
-import process
 
 def arguments():
     '''
@@ -143,11 +142,3 @@ def write(subparser):
         # action = 'count',
         # nargs = '?'
     )
-
-def main():
-    # args = arguments().parse_args()
-    # print(process.process(args))
-    pass
-
-if __name__ == '__main__':
-    main()

@@ -41,8 +41,9 @@ class ExifTool:
         return output[:-len(self.sentinel)]
 
 class MetaTool(ExifTool):
-    def __init__(self, commands = ['-config', 'xmp.config', "-stay_open", "True",  "-@", "-"], prefix = 'L4'):
+    def __init__(self, config = 'config/xmp.config', prefix = 'L4'):
         self.prefix = prefix
+        commands = ['-config', config, "-stay_open", "True",  "-@", "-"]
         super().__init__(commands = commands)
 
     def extract_single_metadata(self, output, output_format):
