@@ -2,6 +2,8 @@ import subprocess
 import os
 import sys
 import shlex
+import shutil
+import tempfile
 import json
 import yaml
 
@@ -81,7 +83,6 @@ class MetaTool(ExifTool):
     def read(self, *filenames, output_format):
         '''
         '''
-        # Execute and get output
         output = self.execute('-j', *filenames)
 
         result = self.extract_single_metadata(output, output_format)
@@ -100,6 +101,26 @@ class MetaTool(ExifTool):
 
         output = self.execute('-j+=' + metafile, *filenames)
         return output
+
+    def write_single(self, in_file, out_file, metafile):
+        '''
+        '''
+
+        result = ''
+
+        # Copy over file
+        shutil.copy2(in_file, out_file)
+
+        # Process metafile
+        metadata = self.read_metadata(metafile)
+        meta_flat = self.stringify(metadata)
+
+        with tempfile.NamedTemporaryFile(mode = 'w+', suffix = '.json') as t:
+            t.write(meta_flat + "\n")
+            t.seek(0)
+            result = self.write(out_file, metafile = t.name)
+
+        return result
 
     def serialize(self, meta : str):
         '''

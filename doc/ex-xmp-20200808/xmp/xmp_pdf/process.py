@@ -1,9 +1,4 @@
-import os
 import exif
-import json
-import shutil
-import yaml
-import tempfile
 import terminal
 
 def process():
@@ -20,21 +15,8 @@ def process():
         if is_read:
             return e.read(args.file[0].name, output_format = args.type)
         else:
-            return write(e, args)
-
-def write(e, args):
-    result = ''
-
-    # Copy over file
-    shutil.copy2(args.input[0].name, args.output[0].name)
-
-    # Process metafile
-    metadata = e.read_metadata(args.meta[0].name)
-    meta_flat = e.stringify(metadata)
-
-    with tempfile.NamedTemporaryFile(mode = 'w+', suffix = '.json') as t:
-        t.write(meta_flat + "\n")
-        t.seek(0)
-        result = e.write(args.output[0].name, metafile = t.name)
-
-    return result
+            return e.write_single(
+                    in_file = args.input[0].name,
+                    out_file = args.output[0].name,
+                    metafile = args.meta[0].name
+            )
