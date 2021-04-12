@@ -42,14 +42,14 @@ class MetaTool(ExifTool):
         self.prefix = prefix
         super().__init__(commands = commands)
 
-    def read(self, *filenames, output_format):
+    def extract_single_metadata(self, output, output_format):
         '''
+        Extract metadata from one file and return the output
         '''
-        if output_format not in ['json', 'yaml']:
-            raise TypeError('Output should be in \"json\" or \"yaml\"!')
 
-        # Execute and get output
-        output = self.execute('-j', *filenames)
+        # Check that output format is either json or yaml
+        if output_format not in ['json', 'yaml']:
+            raise TypeError('Output format should be in \"json\" or \"yaml\"!')
 
         # Extract component
         meta = self.serialize(output)
@@ -60,6 +60,16 @@ class MetaTool(ExifTool):
         elif output_format == 'yaml':
             result = yaml.dump(meta)
         
+        return result
+
+    def read(self, *filenames, output_format):
+        '''
+        '''
+        # Execute and get output
+        output = self.execute('-j', *filenames)
+
+        result = self.extract_single_metadata(output, output_format)
+
         return result
 
     def write(self, *filenames, metafile):
