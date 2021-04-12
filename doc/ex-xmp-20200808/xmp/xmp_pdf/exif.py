@@ -3,6 +3,7 @@ import os
 import sys
 import shlex
 import json
+import yaml
 
 class ExifTool:
     '''
@@ -61,6 +62,21 @@ class MetaTool(ExifTool):
             result = yaml.dump(meta)
         
         return result
+
+    def read_metadata(self, filename):
+        metadata = {}
+
+        # Get extension
+        name, ext = os.path.splitext(filename)
+
+        # Get metadata
+        with open(filename) as file:
+            if ext == '.json':
+                metadata = json.load(file)
+            elif ext == '.yml' or ext == '.yaml':
+                metadata = yaml.load(file, Loader = yaml.FullLoader)
+
+        return metadata
 
     def read(self, *filenames, output_format):
         '''
