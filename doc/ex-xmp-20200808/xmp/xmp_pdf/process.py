@@ -3,6 +3,7 @@ import exif
 import json
 import shutil
 import yaml
+import tempfile
 import terminal
 
 def process():
@@ -31,9 +32,9 @@ def write(e, args):
     metadata = e.read_metadata(args.meta[0].name)
     meta_flat = e.stringify(metadata)
 
-    new_file = 'new2.json'
-    with open(new_file, 'w+') as file:
-        file.write(meta_flat + "\n")
-        result = e.write(args.output[0].name, metafile = new_file)
+    with tempfile.NamedTemporaryFile(mode = 'w+', suffix = '.json') as t:
+        t.write(meta_flat + "\n")
+        t.seek(0)
+        result = e.write(args.output[0].name, metafile = t.name)
 
     return result
