@@ -5,6 +5,7 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 ## Requirements
 
 - Python 3.x
+    - `pyyaml`
 - `exiftool`
 
 ## Installation
@@ -30,6 +31,7 @@ You will need to install the following dependencies:
 
 ```sh
 apt-get install exiftool
+pip install pyyaml
 pip install l4meta
 ```
 
@@ -39,6 +41,7 @@ pip install l4meta
 
 ```sh
 brew install exiftool
+pip install pyyaml
 pip install l4meta
 ``` 
 
@@ -72,7 +75,13 @@ The output will be the metadata of **greeting.pdf** in **json** format, as below
 }
 ```
 
-Adding a `--type yaml` or simply `-y` flag will cause the output the metadata of the same **greeting.pdf** to be in **yaml**:
+Adding a `--type yaml`, `--yaml` or `-y` flag like so:
+
+```console
+$ l4meta read -y greeting.pdf
+```
+
+...will cause the output the metadata of the same **greeting.pdf** to be in **yaml**:
 
 ```console
 greeting: Hello World!
@@ -90,6 +99,8 @@ However, if you run the same command for **plain.pdf**, it will return:
 ```console
 $ l4meta write [INPUT] [OUTPUT]
 ```
+
+For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. Therefore you must specify the location of your existing document as the **INPUT** and the location where you want to duplicate your document to as the **OUTPUT**.
 
 For example, to write the same metadata in **greeting.pdf** into **plain.pdf**, execute the following command. Use the `--meta` flag to specify the location of the metadata file. Note that you should write metadata into a new document, in this case, to **plain2.pdf**.
 
@@ -118,6 +129,13 @@ We're working on adding piping and redirection so that in future we can run it a
 
 ```console
 $ l4meta read greeting.pdf | l4meta write plain.pdf plain2.pdf
+```
+
+We're also working on making the entry for the **OUTPUT** optional, in which case the program will duplicate the document for you. For example, the program will automatically duplicate **plain.pdf** to **plain_v1.pdf** in the same directory if no `--output` flag with the new filename is defined. It will probably look something like this:
+
+```console
+$ l4meta read greeting.pdf | l4meta write plain.pdf
+$ l4meta read greeting.pdf | l4meta write plain.pdf --output plain2.pdf
 ```
 
 ## Command Line Options
