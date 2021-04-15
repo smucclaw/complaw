@@ -12,8 +12,9 @@ class ExifTool:
     Reference: https://stackoverflow.com/questions/10075115/call-exiftool-from-a-python-script
     '''
     sentinel = "{ready}\r\n" if os.name == 'nt' else "{ready}\n"
+    bin_exif = shutil.which('exiftool')
 
-    def __init__(self, executable = '/usr/bin/exiftool', commands = ["-stay_open", "True",  "-@", "-"]):
+    def __init__(self, executable = bin_exif, commands = ["-stay_open", "True",  "-@", "-"]):
         self.executable = executable
         self.commands = commands 
 
@@ -77,7 +78,7 @@ class MetaTool(ExifTool):
             if ext == '.json':
                 metadata = json.load(file)
             elif ext == '.yml' or ext == '.yaml':
-                metadata = yaml.load(file, Loader = yaml.FullLoader)
+                metadata = yaml.load(file)
 
         return metadata
 
