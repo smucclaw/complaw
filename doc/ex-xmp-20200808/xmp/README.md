@@ -2,6 +2,11 @@
 
 The `l4meta` tool is a command line tool to read/write metadata to/from a document.
 
+## Requirements
+
+- Python 3.x
+- `exiftool`
+
 ## Installation
 
 ### From Source Code
@@ -14,12 +19,8 @@ cd doc/ex-xmp-20200808/xmp/l4meta/
 ```
 
 #### NOTE
-- Make sure to checkout to the `xmp` branch, and run the command inside `complaw/doc/ex-xmp-20200808/xmp/xmp_pdf`, as this is the main entrypoint for running the `l4meta` tool.
-- The documentation will use `l4meta` as the starting point, which is an alias of `python terminal.py`. You can alias the command or add the following to your \*rc file, so long as the command is run inside `complaw/doc/ex-xmp-20200808/xmp/l4meta`.
-
-```sh
-alias l4meta='python l4meta.py'
-```
+- Make sure to checkout to the `xmp` branch, and run the command inside `complaw/doc/ex-xmp-20200808/xmp/l4meta`, as this is the main entrypoint for running the `l4meta` tool.
+- The documentation will use `l4meta` as the starting point, which is an alias of `python l4meta.py`. When running the commands below, you will need to reference the files relative to the `l4meta` directory. For example, if you are going to read **greeting.pdf**, you will need to reference accordingly: `python l4meta.py read ../demo/greeting.pdf`. This workaround is needed as this package has yet to be deployed to pypi; once deployed you can reference to the file directly.
 
 ### For Debian / Ubuntu
 
@@ -28,7 +29,7 @@ alias l4meta='python l4meta.py'
 You will need to install the following dependencies:
 
 ```sh
-apt-get instexiftool
+apt-get install exiftool
 pip install l4meta
 ```
 
@@ -111,6 +112,14 @@ It will return:
 }
 ```
 
+#### NOTE
+
+We're working on adding piping and redirection so that in future we can run it as a single line command:
+
+```console
+$ l4meta read greeting.pdf | l4meta write plain.pdf plain2.pdf
+```
+
 ## Command Line Options
 
 ### Read
@@ -146,4 +155,6 @@ l4vc is under construction.
 
 - [x] Add support for `yaml`
 - [ ] Add support for piping between reading and writing operations
+- [ ] Make OUTPUT file for write optional, and let program automatically duplicate file if no value is supplied
 - [ ] Add support for reading/writing metadata from `docx` files
+- [ ] Combine both read/write modes into a single mode, with read as default 
