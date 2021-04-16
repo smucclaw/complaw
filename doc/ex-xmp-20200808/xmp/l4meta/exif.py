@@ -90,7 +90,7 @@ class MetaTool(ExifTool):
             if ext == '.json':
                 metadata = json.load(file)
             elif ext == '.yml' or ext == '.yaml':
-                metadata = yaml.load(file)
+                metadata = yaml.load_all(file, Loader = yaml.FullLoader)
 
         return metadata
 
