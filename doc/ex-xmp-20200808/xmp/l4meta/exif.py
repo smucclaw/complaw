@@ -94,6 +94,28 @@ class MetaTool(ExifTool):
 
         return metadata
 
+    def parse_metadata(self, unclean_metadata):
+        '''
+        Parse the input string
+
+        Args:
+            unclean_metadata
+        Returns:
+            A dict of the metadata which has been parsed
+        '''
+        metadata = {}
+
+        unclean_metadata = unclean_metadata.strip()
+
+        if unclean_metadata[0] in ['{', '[']:
+            # JSON
+            metadata = json.loads(unclean_metadata)
+        else:
+            # YAML
+            metadata = yaml.safe_load(unclean_metadata)
+
+        return metadata
+
     def read(self, *filenames, output_format):
         '''
         '''
@@ -116,7 +138,7 @@ class MetaTool(ExifTool):
         output = self.execute('-j+=' + metafile, *filenames)
         return output
 
-    def write_single(self, in_file, out_file, metafile):
+    def write_single(self, in_file, out_file, metafile = '', metadata = ''):
         '''
         '''
 
@@ -126,8 +148,9 @@ class MetaTool(ExifTool):
         shutil.copy2(in_file, out_file)
 
         # Process metafile
-        metadata = self.read_metadata(metafile)
-        meta_flat = self.stringify(metadata)
+        # metadata = self.read_metadata(metafile)
+        parsed_metadata = self.parse_metadata(metadata)
+        meta_flat = self.stringify(parsed_metadata)
 
         with tempfile.NamedTemporaryFile(mode = 'w+', suffix = '.json') as t:
             t.write(meta_flat + "\n")

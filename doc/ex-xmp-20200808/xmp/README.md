@@ -16,7 +16,8 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 git clone git@github.com:smucclaw/complaw.git
 cd complaw/
 git checkout xmp
-cd doc/ex-xmp-20200808/xmp/l4meta/
+cd doc/ex-xmp-20200808/xmp/
+pip install -r requirements.txt
 ```
 
 #### NOTE
@@ -97,16 +98,25 @@ However, if you run the same command for **plain.pdf**, it will return:
 ### Writing
 
 ```console
-$ l4meta write [INPUT] [OUTPUT]
+$ l4meta write [INPUT DOCUMENT] [OUTPUT DOCUMENT] [METADATA]
 ```
 
-For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. Therefore you must specify the location of your existing document as the **INPUT** and the location where you want to duplicate your document to as the **OUTPUT**.
+For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. Therefore you must specify the location of your existing document as the **INPUT** and the location where you want to duplicate your document to as the **OUTPUT**. You must also specify a location for the metadata.
 
-For example, to write the same metadata in **greeting.pdf** into **plain.pdf**, execute the following command. Use the `--meta` flag to specify the location of the metadata file. Note that you should write metadata into a new document, in this case, to **plain2.pdf**.
+For example, to write the same metadata in **greeting.pdf** into **plain.pdf**, execute any of the following commands, all of which perform the same function. Note that you should write metadata into a new document, in this case, to **plain2.pdf**.
 
 ```console
 $ l4meta read greeting.pdf > greeting.json
-$ l4meta write --meta greeting.json plain.pdf plain2.pdf
+$ l4meta write plain.pdf plain2.pdf greeting.json
+```
+
+```console
+$ l4meta read greeting.pdf > greeting.json
+$ l4meta write plain.pdf plain2.pdf < greeting.json
+```
+
+```console
+$ l4meta read greeting.pdf | l4meta write plain.pdf plain2.pdf
 ```
 
 You can confirm that **plain2.pdf** has the metadata by running:
@@ -125,13 +135,7 @@ It will return:
 
 #### NOTE
 
-We're working on adding piping and redirection so that in future we can run it as a single line command:
-
-```console
-$ l4meta read greeting.pdf | l4meta write plain.pdf plain2.pdf
-```
-
-We're also working on making the entry for the **OUTPUT** optional, in which case the program will duplicate the document for you. For example, the program will automatically duplicate **plain.pdf** to **plain_v1.pdf** in the same directory if no `--output` flag with the new filename is defined. It will probably look something like this:
+We're working on making the entry for the **OUTPUT** optional, in which case the program will duplicate the document for you. For example, the program will automatically duplicate **plain.pdf** to **plain_v1.pdf** in the same directory if no `--output` flag with the new filename is defined. It will probably look something like this:
 
 ```console
 $ l4meta read greeting.pdf | l4meta write plain.pdf
@@ -172,7 +176,7 @@ l4vc is under construction.
 ## Future Work
 
 - [x] Add support for `yaml`
-- [ ] Add support for piping between reading and writing operations
+- [x] Add support for piping between reading and writing operations
 - [ ] Make OUTPUT file for write optional, and let program automatically duplicate file if no value is supplied
 - [ ] Add support for reading/writing metadata from `docx` files
 - [ ] Combine both read/write modes into a single mode, with read as default 

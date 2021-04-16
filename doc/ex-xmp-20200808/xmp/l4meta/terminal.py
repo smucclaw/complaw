@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 def arguments():
     '''
@@ -120,10 +121,11 @@ def write(subparser):
             nargs = 1
     )
     parser.add_argument(
-            '-m','--meta',
+            'meta',
             help = 'location of metadata',
             type = argparse.FileType('r', encoding = 'UTF-8'),
-            nargs = 1
+            nargs = '?',
+            default = sys.stdin
     )
 
     # Adjust log level

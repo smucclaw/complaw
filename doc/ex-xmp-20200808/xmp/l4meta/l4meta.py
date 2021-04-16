@@ -15,10 +15,11 @@ def process():
         if is_read:
             return e.read(args.file[0].name, output_format = args.type)
         else:
+            metadata = args.meta.read() if not args.meta.isatty() else '{}'
             return e.write_single(
                     in_file = args.input[0].name,
                     out_file = args.output[0].name,
-                    metafile = args.meta[0].name
+                    metadata = metadata
             )
 
 def main():
