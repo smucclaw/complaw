@@ -178,5 +178,5 @@ l4vc is under construction.
 - [x] Add support for `yaml`
 - [x] Add support for piping between reading and writing operations
 - [ ] Make OUTPUT file for write optional, and let program automatically duplicate file if no value is supplied
-- [ ] Add support for reading/writing metadata from `docx` files
+- [ ] ~~Add support for reading/writing metadata from `docx` files~~ `exiftool` does not support writing into `docx` files, sorry!
 - [ ] Combine both read/write modes into a single mode, with read as default 
