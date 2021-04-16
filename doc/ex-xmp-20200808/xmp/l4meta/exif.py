@@ -12,10 +12,10 @@ class ExifTool:
     Reference: https://stackoverflow.com/questions/10075115/call-exiftool-from-a-python-script
     '''
     sentinel = "{ready}\r\n" if os.name == 'nt' else "{ready}\n"
-    bin_exif = shutil.which('exiftool')
+    BIN_EXIF = 'exiftool'
 
-    def __init__(self, executable = bin_exif, commands = ["-stay_open", "True",  "-@", "-"]):
-        self.executable = executable
+    def __init__(self, executable = BIN_EXIF, commands = ["-stay_open", "True",  "-@", "-"]):
+        self.executable = self.check_bin_exif_present(executable)
         self.commands = commands 
 
     def __enter__(self):
@@ -30,6 +30,18 @@ class ExifTool:
     def  __exit__(self, exc_type, exc_value, traceback):
         self.process.stdin.write("-stay_open\nFalse\n")
         self.process.stdin.flush()
+
+    def check_bin_exif_present(self, executable):
+        bin_path = shutil.which(executable)
+
+        if not bin_path:
+            message = \
+                "Error: exiftool not installed! \n \
+                To install exiftool, run \n \
+                sudo apt-get install exiftool"
+            raise Exception(message)
+
+        return bin_path
 
     def execute(self, *args):
         args = args + ("-execute\n",)
