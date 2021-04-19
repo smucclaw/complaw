@@ -139,14 +139,25 @@ class MetaTool(ExifTool):
         output = self.execute('-j+=' + metafile, *filenames)
         return output
 
-    def write_single(self, in_file, out_file, metafile = '', metadata = ''):
+    def write_single(self, in_file, out_file, metadata):
         '''
+        Process to write metadata into a single file
+
+        Args:
+            in_file: The input file
+            out_file: The output file
+            metadata: Metadata to be written to the output file
+        Returns:
+            A string
         '''
 
         result = ''
 
         # Copy over file
-        shutil.copy2(in_file, out_file)
+        abs_path = lambda filenames : [os.path.abspath(f) for f in filenames]
+        in_file = abs_path(in_file)
+        out_file = abs_path(out_file)
+        shutil.copy2(in_file[0], out_file[0])
 
         # Process metafile
         # metadata = self.read_metadata(metafile)
@@ -156,7 +167,7 @@ class MetaTool(ExifTool):
         with tempfile.NamedTemporaryFile(mode = 'w+', suffix = '.json') as t:
             t.write(meta_flat + "\n")
             t.seek(0)
-            result = self.write(out_file, metafile = t.name)
+            result = self.write(out_file[0], metafile = t.name)
 
         return result
 

@@ -111,13 +111,13 @@ def write(subparser):
     parser.add_argument(
             'input',
             help = 'location of PDF to be read',
-            type = argparse.FileType('rb'),
+            type = str,
             nargs = 1
     )
     parser.add_argument(
             'output',
             help = 'location of PDF to be written',
-            type = argparse.FileType('wb'),
+            type = str,
             nargs = 1
     )
     parser.add_argument(

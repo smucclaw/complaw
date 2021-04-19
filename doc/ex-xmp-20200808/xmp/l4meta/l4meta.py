@@ -17,8 +17,8 @@ def process():
         else:
             metadata = args.meta.read() if not args.meta.isatty() else '{}'
             return e.write_single(
-                    in_file = args.input[0].name,
-                    out_file = args.output[0].name,
+                    in_file = args.input,
+                    out_file = args.output,
                     metadata = metadata
             )
 
