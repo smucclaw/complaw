@@ -47,7 +47,7 @@ def read(subparser):
     parser.add_argument(
         'file',
         help = 'location of file',
-        type = argparse.FileType('rb', encoding = 'UTF-8'),
+        type = argparse.FileType('rb'),
         nargs = 1
     )
 
@@ -111,13 +111,13 @@ def write(subparser):
     parser.add_argument(
             'input',
             help = 'location of PDF to be read',
-            type = argparse.FileType('rb', encoding = 'UTF-8'),
+            type = argparse.FileType('rb'),
             nargs = 1
     )
     parser.add_argument(
             'output',
             help = 'location of PDF to be written',
-            type = argparse.FileType('wb', encoding = 'UTF-8'),
+            type = argparse.FileType('wb'),
             nargs = 1
     )
     parser.add_argument(
