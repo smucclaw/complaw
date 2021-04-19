@@ -13,7 +13,7 @@ def process():
     with exif.MetaTool() as e:
         is_read = args.mode == 0
         if is_read:
-            return e.read(args.file[0].name, output_format = args.type)
+            return e.read(args.file, args.type)
         else:
             metadata = args.meta.read() if not args.meta.isatty() else '{}'
             return e.write_single(

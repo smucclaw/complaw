@@ -47,7 +47,7 @@ def read(subparser):
     parser.add_argument(
         'file',
         help = 'location of file',
-        type = argparse.FileType('rb'),
+        type = str,
         nargs = 1
     )
 

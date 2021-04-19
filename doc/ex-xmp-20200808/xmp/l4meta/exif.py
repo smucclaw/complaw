@@ -116,9 +116,10 @@ class MetaTool(ExifTool):
 
         return metadata
 
-    def read(self, *filenames, output_format):
+    def read(self, filenames, output_format):
         '''
         '''
+        filenames = [os.path.abspath(f) for f in filenames]
         output = self.execute('-j', *filenames)
 
         result = self.extract_single_metadata(output, output_format)
