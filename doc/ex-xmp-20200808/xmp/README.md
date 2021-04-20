@@ -98,49 +98,34 @@ However, if you run the same command for **plain.pdf**, it will return:
 ### Writing
 
 ```console
-$ l4meta write [INPUT DOCUMENT] [OUTPUT DOCUMENT] [METADATA]
+$ l4meta write [FILE] [METADATA]
 ```
 
-For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. Therefore you must specify the location of your existing document as the **INPUT** and the location where you want to duplicate your document to as the **OUTPUT**. You must also specify a location for the metadata.
+For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. You will need to specify the file in which you wish to write your metadata into, which will be duplicated, and the metadata you want to write (which will be written into the duplicate).
 
-For example, to write the same metadata in **greeting.pdf** into **plain.pdf**, execute any of the following commands, all of which perform the same function. Note that you should write metadata into a new document, in this case, to **plain2.pdf**.
+For example, to write the same metadata in **greeting.pdf** into **plain.pdf**, execute any of the following commands, all of which perform the same function. Your metadata will be written to a new file that is suffixed with a *\_v1*, i.e. your metadata will be written to **plain_v1.pdf**.
 
 ```console
 $ l4meta read greeting.pdf > greeting.json
-$ l4meta write plain.pdf plain2.pdf greeting.json
+$ l4meta write plain.pdf greeting.json
 ```
 
 ```console
 $ l4meta read greeting.pdf > greeting.json
-$ l4meta write plain.pdf plain2.pdf < greeting.json
+$ l4meta write plain.pdf < greeting.json
 ```
-
-```console
-$ l4meta read greeting.pdf | l4meta write plain.pdf plain2.pdf
-```
-
-You can confirm that **plain2.pdf** has the metadata by running:
-
-```console
-$ l4meta read plain2.pdf
-```
-
-It will return:
-
-```console
-{
-    "greeting": "Hello World!"
-}
-```
-
-#### NOTE
-
-We're working on making the entry for the **OUTPUT** optional, in which case the program will duplicate the document for you. For example, the program will automatically duplicate **plain.pdf** to **plain_v1.pdf** in the same directory if no `--output` flag with the new filename is defined. It will probably look something like this:
 
 ```console
 $ l4meta read greeting.pdf | l4meta write plain.pdf
+```
+
+To specify a custom location for your new file with metadata, add a `-o` or `--output` flag:
+
+```console
 $ l4meta read greeting.pdf | l4meta write plain.pdf --output plain2.pdf
 ```
+
+You can verify that your new file has the metadata; just follow the instructions from the [Reading](#reading) section above but replace the filename to be read with the location of your new file, e.g. **plain_v1.pdf**.
 
 ## Command Line Options
 

@@ -158,10 +158,7 @@ class MetaTool(ExifTool):
         result = ''
 
         # Copy over file
-        abs_path = lambda filenames : [os.path.abspath(f) for f in filenames]
-        in_file = abs_path(in_file)
-        out_file = abs_path(out_file)
-        shutil.copy2(in_file[0], out_file[0])
+        output_file = self.duplicate_files(in_file, out_file)
 
         # Process metafile
         metadata = self.read_metadata_file(meta_file)
@@ -171,9 +168,39 @@ class MetaTool(ExifTool):
         with tempfile.NamedTemporaryFile(mode = 'w+', suffix = '.json') as t:
             t.write(meta_flat + "\n")
             t.seek(0)
-            result = self.write(out_file[0], metafile = t.name)
+            result = self.write(output_file, metafile = t.name)
 
         return result
+
+    def duplicate_files(self, in_file, out_file) -> str:
+        '''
+        Duplicate a single file based on the location of
+        the input and output file. After duplication, it
+        returns the location of the output file.
+
+        Args:
+            in_file: location of the input file
+            out_file: location of the output file
+        Returns:
+            The absolute path of the output file
+        '''
+
+        # Temporary fix to get the first file
+        # since the inputs to the arguments are
+        # a list of str
+        op_file = lambda f: os.path.abspath(f[0]) if f else None
+        in_file = op_file(in_file)
+        out_file = op_file(out_file)
+
+        if out_file is None:
+            name, ext = os.path.splitext(in_file)
+            # TODO: Suggest a better naming convention
+            # for a duplicate file
+            out_file = name + '_v1' + ext
+
+        shutil.copy2(in_file, out_file)
+
+        return out_file
 
     def serialize(self, meta : str):
         '''
