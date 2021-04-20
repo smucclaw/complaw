@@ -94,6 +94,10 @@ class MetaTool(ExifTool):
 
         return metadata
 
+    def read_metadata_file(self, content):
+        with content as f:
+            return content.read()
+
     def parse_metadata(self, unclean_metadata):
         '''
         Parse the input string
@@ -139,14 +143,14 @@ class MetaTool(ExifTool):
         output = self.execute('-j+=' + metafile, *filenames)
         return output
 
-    def write_single(self, in_file, out_file, metadata):
+    def write_single(self, in_file, out_file, meta_file):
         '''
         Process to write metadata into a single file
 
         Args:
             in_file: The input file
             out_file: The output file
-            metadata: Metadata to be written to the output file
+            meta_file: Metadata to be written to the output file
         Returns:
             A string
         '''
@@ -160,7 +164,7 @@ class MetaTool(ExifTool):
         shutil.copy2(in_file[0], out_file[0])
 
         # Process metafile
-        # metadata = self.read_metadata(metafile)
+        metadata = self.read_metadata_file(meta_file)
         parsed_metadata = self.parse_metadata(metadata)
         meta_flat = self.stringify(parsed_metadata)
 
