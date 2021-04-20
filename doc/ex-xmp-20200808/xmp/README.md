@@ -162,6 +162,8 @@ l4vc is under construction.
 
 - [x] Add support for `yaml`
 - [x] Add support for piping between reading and writing operations
-- [ ] Make OUTPUT file for write optional, and let program automatically duplicate file if no value is supplied
-- [ ] ~~Add support for reading/writing metadata from `docx` files~~ `exiftool` does not support writing into `docx` files, sorry!
+- [x] Make OUTPUT file for write optional, and let program automatically duplicate file if no value is supplied
+- [ ] Change the message when writing into file is successful
+- [ ] Enforce specific filetype
+- [ ] ~~Add support for reading/writing metadata from `docx` files~~ `exiftool` does not support writing into `docx` files, sorry! Nevertheless `docx` can convert to `pdf`, considering it as a future feature
 - [ ] Combine both read/write modes into a single mode, with read as default 
