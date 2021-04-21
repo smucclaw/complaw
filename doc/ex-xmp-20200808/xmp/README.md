@@ -98,34 +98,28 @@ However, if you run the same command for **plain.pdf**, it will return:
 ### Writing
 
 ```console
-$ l4meta write [FILE] [METADATA]
+$ l4meta write [INPUT] [OUTPUT] [METADATA]
 ```
 
-For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. You will need to specify the file in which you wish to write your metadata into, which will be duplicated, and the metadata you want to write (which will be written into the duplicate).
+For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. You must specify the location of your original file in the INPUT which you intend to write your metadata, as well as the location of your duplicate file in the OUTPUT, which will be the same copy as your original file with metadata written. The original file remains completely untouched; however, any existing metadata that you have in your original copy will be overwritten in your duplicate copy.
 
-For example, to write the same metadata in **greeting.pdf** into **plain.pdf**, execute any of the following commands, all of which perform the same function. Your metadata will be written to a new file that is suffixed with a *\_v1*, i.e. your metadata will be written to **plain_v1.pdf**.
+For example, to write the same metadata in **greeting.pdf** into **plain.pdf**, execute any of the following commands, all of which perform the same function. The metadata will be written into a new **plainv1.pdf**, which is a duplicate of **plain.pdf**, but with metadata.
 
 ```console
 $ l4meta read greeting.pdf > greeting.json
-$ l4meta write plain.pdf greeting.json
+$ l4meta write plain.pdf plainv1.pdf greeting.json
 ```
 
 ```console
 $ l4meta read greeting.pdf > greeting.json
-$ l4meta write plain.pdf < greeting.json
+$ l4meta write plain.pdf plainv1.pdf < greeting.json
 ```
 
 ```console
-$ l4meta read greeting.pdf | l4meta write plain.pdf
+$ l4meta read greeting.pdf | l4meta write plain.pdf plainv1.pdf
 ```
 
-To specify a custom location for your new file with metadata, add a `-o` or `--output` flag:
-
-```console
-$ l4meta read greeting.pdf | l4meta write plain.pdf --output plain2.pdf
-```
-
-You can verify that your new file has the metadata; just follow the instructions from the [Reading](#reading) section above but replace the filename to be read with the location of your new file, e.g. **plain_v1.pdf**.
+You can verify that your new **plainv1.pdf** file has the metadata; just follow the instructions from the [Reading](#reading) section above but replace the filename to be read with the location of your new file, e.g. **plainv1.pdf**.
 
 ## Command Line Options
 
@@ -162,7 +156,7 @@ l4vc is under construction.
 
 - [x] Add support for `yaml`
 - [x] Add support for piping between reading and writing operations
-- [x] Make OUTPUT file for write optional, and let program automatically duplicate file if no value is supplied
+- [x] ~~Make OUTPUT file for write optional, and let program automatically duplicate file if no value is supplied~~ OUTPUT made mandatory, user must define where the output file is
 - [ ] Change the message when writing into file is successful
 - [ ] Enforce specific filetype
 - [ ] ~~Add support for reading/writing metadata from `docx` files~~ `exiftool` does not support writing into `docx` files, sorry! Nevertheless `docx` can convert to `pdf`, considering it as a future feature

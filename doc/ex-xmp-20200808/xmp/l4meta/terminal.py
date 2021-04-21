@@ -113,10 +113,10 @@ def write(subparser):
             nargs = 1
     )
     parser.add_argument(
-            '-o', '--output',
-            help = 'location of PDF to be written',
-            type = str,
-            nargs = 1
+        'output',
+        help = 'location of PDF to be written',
+        type = str,
+        nargs = 1
     )
     parser.add_argument(
             'meta',

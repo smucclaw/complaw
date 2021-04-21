@@ -130,17 +130,30 @@ class MetaTool(ExifTool):
 
         return result
 
-    def write(self, *filenames, metafile):
+    def write(self, input_file : str, output_file : str, metafile : str):
         '''
-        Write the metadata into the new file
+        Write metadata into the new file.
+        This function only writes a single file.
+        The output file can be the final location or written to stdout.
 
         The original command is:
-            exiftool -config xmp.config -j+=meta.json file.pdf
+            exiftool -config xmp.config -j+=meta.json -o - file.pdf
 
-        Note: Does not work, see https://exiftool.org/forum/index.php?topic=9433.0
+        Args:
+            input_file: The input file
+            output_file: The output file
+            meta_file: Metadata to be written to the output file
+        Returns:
+            Output of the command
         '''
 
-        output = self.execute('-j+=' + metafile, *filenames)
+        command = [
+            '-j+=' + metafile,
+            '-o',
+            output_file,
+            input_file
+        ]
+        output = self.execute(*command)
         return output
 
     def write_single(self, in_file, out_file, meta_file):
@@ -157,8 +170,10 @@ class MetaTool(ExifTool):
 
         result = ''
 
-        # Copy over file
-        output_file = self.duplicate_files(in_file, out_file)
+        # Get the absolute path of the file
+        input_file = os.path.abspath(in_file[0])
+        output_file = os.path.abspath(out_file[0]) \
+                if out_file[0] != '-' else '-'
 
         # Process metafile
         metadata = self.read_metadata_file(meta_file)
@@ -168,39 +183,13 @@ class MetaTool(ExifTool):
         with tempfile.NamedTemporaryFile(mode = 'w+', suffix = '.json') as t:
             t.write(meta_flat + "\n")
             t.seek(0)
-            result = self.write(output_file, metafile = t.name)
+            result = self.write(
+                input_file = input_file,
+                output_file = output_file,
+                metafile = t.name
+            )
 
         return result
-
-    def duplicate_files(self, in_file, out_file) -> str:
-        '''
-        Duplicate a single file based on the location of
-        the input and output file. After duplication, it
-        returns the location of the output file.
-
-        Args:
-            in_file: location of the input file
-            out_file: location of the output file
-        Returns:
-            The absolute path of the output file
-        '''
-
-        # Temporary fix to get the first file
-        # since the inputs to the arguments are
-        # a list of str
-        op_file = lambda f: os.path.abspath(f[0]) if f else None
-        in_file = op_file(in_file)
-        out_file = op_file(out_file)
-
-        if out_file is None:
-            name, ext = os.path.splitext(in_file)
-            # TODO: Suggest a better naming convention
-            # for a duplicate file
-            out_file = name + '_v1' + ext
-
-        shutil.copy2(in_file, out_file)
-
-        return out_file
 
     def serialize(self, meta : str):
         '''
