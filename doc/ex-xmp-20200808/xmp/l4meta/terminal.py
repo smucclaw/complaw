@@ -73,31 +73,10 @@ def read(subparser):
         const = 'yaml'
     )
 
-    # parser.add_argument(
-    #     '-p', '--prefix',
-    #     help = 'Specify prefix for metadata',
-    #     type = str,
-    #     nargs = 1,
-    #     default = 'L4'
-    # )
-
-    display = parser.add_mutually_exclusive_group()
-    
-    display.add_argument(
-        '-s', '--silent',
-        help = 'do not display terminal output',
-        action = 'store_true'
-    )
-    display.add_argument(
-        '-v', '--verbose',
-        help = 'display terminal output',
-        action = 'store_true'
-    )
-
 def write(subparser):
     parser = subparser.add_parser(
-            'write',
-            help = 'Write XMP to PDF from JSON'
+        'write',
+        help = 'Write XMP to PDF from JSON'
     )
     
     parser.add_argument(
@@ -107,10 +86,10 @@ def write(subparser):
     )
     
     parser.add_argument(
-            'input',
-            help = 'location of PDF to be read',
-            type = str,
-            nargs = 1
+        'input',
+        help = 'location of PDF to be read',
+        type = str,
+        nargs = 1
     )
     parser.add_argument(
         'output',
@@ -119,26 +98,9 @@ def write(subparser):
         nargs = 1
     )
     parser.add_argument(
-            'meta',
-            help = 'location of metadata',
-            type = argparse.FileType('r', encoding = 'UTF-8'),
-            nargs = '?',
-            default = sys.stdin
-    )
-
-    # Adjust log level
-    # https://stackoverflow.com/a/53293042
-    display = parser.add_mutually_exclusive_group()
-    
-    display.add_argument(
-        '-s', '--silent',
-        help = 'do not display terminal output',
-        action = 'store_true'
-    )
-    display.add_argument(
-        '-v', '--verbose',
-        help = 'display terminal output',
-        action = 'store_true'
-        # action = 'count',
-        # nargs = '?'
+        'meta',
+        help = 'location of metadata',
+        type = argparse.FileType('r', encoding = 'UTF-8'),
+        nargs = '?',
+        default = sys.stdin
     )
