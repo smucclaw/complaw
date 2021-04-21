@@ -9,9 +9,9 @@ def arguments():
         parser (ArgumentParser): ArgumentParser object
     '''
     props = {
-        "prog": "l4metadata",
-        "description": "Read/Write metadata",
-        "allow_abbrev": False
+        'prog': 'l4meta',
+        'description': 'Read/Write L4 metadata',
+        'allow_abbrev': False
     }
     
     parser = argparse.ArgumentParser(**props)
