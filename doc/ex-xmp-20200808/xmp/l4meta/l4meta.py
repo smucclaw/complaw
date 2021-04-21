@@ -11,8 +11,7 @@ def process():
         pass
     
     with exif.MetaTool() as e:
-        is_read = args.mode == 0
-        if is_read:
+        if args.is_read:
             return e.read(args.file, args.type)
         else:
             return e.write_single(

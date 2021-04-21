@@ -38,9 +38,8 @@ def read(subparser):
     )
 
     parser.add_argument(
-        'mode',
-        action = 'store_const',
-        const = 0,
+        'is_read',
+        action = 'store_true',
         help = argparse.SUPPRESS
     )
 
@@ -102,9 +101,8 @@ def write(subparser):
     )
     
     parser.add_argument(
-        'mode',
-        action = 'store_const',
-        const = 1,
+        'is_read',
+        action = 'store_false',
         help = argparse.SUPPRESS
     )
     
