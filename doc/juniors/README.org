@@ -649,6 +649,8 @@ In /Jiro Dreams of Sushi/, it's ten years before you're allowed to cook eggs. Ha
 
 This is Joel's Law of Leaky Abstractions at work: there is a certain amount of complexity in any field, and abstractions can only hide it from you for so long; sooner or later you will have to open up the black box and learn how it works. Haskell wants you to learn CS early, singing in the choir; other languages let you learn CS late, as a sinner born again. (A New Jersey worse-is-better sinner, to be precise. [[https://www.dreamsongs.com/RiseOfWorseIsBetter.html][Essay]], [[https://www.dreamsongs.com/WorseIsBetter.html][Context]])
 
+[Cf. https://blog.statebox.org/whats-the-deal-with-statebox-anyway-517e3df727fd]
+
 All that being said, we'll try to make Haskell accessible, so you can climb the learning curve less painfully than most. We'll show you the easier routes up the mountain and how to get unstuck. We write [[https://www.parsonsmatt.org/2019/12/26/write_junior_code.html][junior code]].
 
 When Lisp programmers look at code written by less sophisticated programmers in less sophisticated languages, their reaction is often: "dude, 90% of the work you're doing here isn't even about solving your actual problem; it's just you micromanaging the computer to get you to the point of being able to solve it. Why don't you all have a library for that? Or language features that make the solution easy?"
