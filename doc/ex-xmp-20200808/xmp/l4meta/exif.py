@@ -3,195 +3,247 @@ import os
 import sys
 import shlex
 import shutil
-import tempfile
 import json
 import yaml
 
+from subprocess import CompletedProcess
+from tempfile import NamedTemporaryFile
+from typing import TextIO
+
+__version__ = '0.2'
+__all__ = ['ExifTool', 'MetaTool']
+
+
 class ExifTool:
-    '''
-    Reference: https://stackoverflow.com/questions/10075115/call-exiftool-from-a-python-script
-    '''
-    sentinel = "{ready}\r\n" if os.name == 'nt' else "{ready}\n"
     BIN_EXIF = 'exiftool'
 
-    def __init__(self, executable = BIN_EXIF, commands = ["-stay_open", "True",  "-@", "-"]):
-        self.executable = self.check_bin_exif_present(executable)
-        self.commands = commands 
+    def __init__(
+            self,
+            executable: str = BIN_EXIF) -> None:
+        self.executable = self.check_bin_present(executable)
 
-    def __enter__(self):
-        self.process = subprocess.Popen(
-            [self.executable] + self.commands,
-            universal_newlines = True,
-            stdin = subprocess.PIPE, 
-            stdout = subprocess.PIPE
-        )
-        return self
+    def __repr__(self) -> str:
+        type_name = type(self).__name__
+        arg_strings = []
+        star_args = {}
+        for arg in self._get_args():
+            arg_strings.append(repr(arg))
+        for name, value in self._get_kwargs():
+            if name.isidentifier():
+                arg_strings.append('%s=%r' % (name, value))
+            else:
+                star_args[name] = value
+        if star_args:
+            arg_strings.append('**%s' % repr(star_args))
+        return '%s(%s)' % (type_name, ', '.join(arg_strings))
 
-    def  __exit__(self, exc_type, exc_value, traceback):
-        self.process.stdin.write("-stay_open\nFalse\n")
-        self.process.stdin.flush()
+    def _get_kwargs(self) -> list:
+        return list(self.__dict__.items())
 
-    def check_bin_exif_present(self, executable):
+    def _get_args(self) -> list:
+        return []
+
+    def check_bin_present(
+            self,
+            executable: str) -> str:
+        '''
+        Checks that the executable is present.
+        '''
         bin_path = shutil.which(executable)
-
-        if not bin_path:
-            message = \
+        self.exit_on_error(
+                not bin_path,
                 "Error: exiftool not installed! \n \
                 To install exiftool, run \n \
-                sudo apt-get install exiftool"
-            raise Exception(message)
-
+                sudo apt-get install exiftool")
         return bin_path
 
-    def execute(self, *args):
-        args = args + ("-execute\n",)
-        self.process.stdin.write(str.join("\n", args))
-        self.process.stdin.flush()
-        output = ''
-        fd = self.process.stdout.fileno()
-        while not output.endswith(self.sentinel):
-            output += os.read(fd, 4096).decode('utf-8')
-        return output[:-len(self.sentinel)]
+    def execute(
+            self,
+            args: list[str]) -> CompletedProcess:
+        '''
+        Execute the command.
+        '''
+        return subprocess.run(
+            [self.executable] + args,
+            universal_newlines=True,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE)
+
+    def exit_on_error(
+            self,
+            condition: bool = False,
+            message: str = '') -> None:
+        '''
+        Cause an error to be raised when a condition is met.
+        '''
+        if condition:
+            raise Exception('Error: ' + message)
+
 
 class MetaTool(ExifTool):
-    def __init__(self, config = 'config/xmp.config', prefix = 'L4'):
-        self.prefix = prefix
-        commands = ['-config', config, "-stay_open", "True",  "-@", "-"]
-        super().__init__(commands = commands)
+    PREFIX = 'L4'
+    CONFIG_FILE = 'config/xmp.config'
+    FORMATS = ['json', 'yaml']
+    ALLOWED_FILETYPES = ['pdf']
 
-    def extract_single_metadata(self, output, output_format):
+    def __init__(
+            self,
+            config: str = CONFIG_FILE,
+            flags: str = '-q',
+            formats: list[str] = FORMATS) -> None:
+        self.config = self.get_absolute_path(config)
+        self.formats = formats
+        self.flags = flags
+        super().__init__()
+
+    def get_absolute_path(
+            self,
+            location: str,
+            check_required: bool = True) -> str:
         '''
-        Extract metadata from one file and return the output
+        Get the absolute path of the file.
         '''
+        absolute_location = os.path.abspath(location)
+        if check_required:
+            self.exit_on_error(
+                    not os.path.isfile(absolute_location),
+                    'File not found - ' + location)
+        return absolute_location
 
-        # Check that output format is either json or yaml
-        if output_format not in ['json', 'yaml']:
-            raise TypeError('Output format should be in \"json\" or \"yaml\"!')
+    def check_approved_filetype(
+            self,
+            location: str,
+            allowed_filetypes: list[str] = ALLOWED_FILETYPES) -> bool:
+        '''
+        Check that the file is among the approved filetypes.
+        '''
+        name, ext = os.path.splitext(location)
+        self.exit_on_error(
+                ext[1:] not in allowed_filetypes,
+                'Not an approved filetype - ' + ext[1:])
+        return True
 
-        # Extract component
-        meta = self.serialize(output)
+    def execute(
+            self,
+            arguments: str) -> CompletedProcess:
+        '''
+        Execute the command.
+        '''
+        arg_config = '-config ' + self.config
+        arguments = arg_config \
+            + ' ' + self.flags \
+            + ' ' + arguments
+        args = shlex.split(arguments)
+        return super().execute(args)
 
-        # Produce the output
-        if output_format == 'json':
-            result = json.dumps(meta, indent = 4)
-        elif output_format == 'yaml':
-            result = yaml.dump(meta)
-        
-        return result
+    def read_file(
+            self,
+            filename: str,
+            output_format: str = 'json') -> str:
+        '''
+        Read metadata from a single file.
+        '''
+        filename = self.get_absolute_path(filename)
+        self.check_approved_filetype(filename)
 
-    def read_metadata(self, filename):
-        metadata = {}
+        command = '-j ' + filename
+        process = self.execute(command)
+        self.exit_on_error(
+                process.returncode != 0,
+                'Unable to read file!')
 
-        # Get extension
-        name, ext = os.path.splitext(filename)
+        output = process.stdout
+        meta = self.convert_str_to_dict(output)
+        return self.dump_metadata(meta, output_format)
 
-        # Get metadata
-        with open(filename) as file:
-            if ext == '.json':
-                metadata = json.load(file)
-            elif ext == '.yml' or ext == '.yaml':
-                metadata = yaml.load_all(file, Loader = yaml.FullLoader)
+    def write_file(
+            self,
+            input_file: str,
+            output_file: str,
+            metadata: str) -> bool:
+        '''
+        Write metadata to a single file.
+        '''
+        self.exit_on_error(
+                output_file == '-',
+                '\'-\' not supported at this time!')
+        input_file = self.get_absolute_path(input_file)
+        output_file = self.get_absolute_path(output_file, False)
+        self.check_approved_filetype(input_file)
+        self.check_approved_filetype(output_file)
 
-        return metadata
+        raw_metadata = self.read_metadata_file(metadata)
+        parsed_metadata = self.parse_metadata(raw_metadata)
+        flat_metadata = self.convert_dict_to_str(parsed_metadata)
 
-    def read_metadata_file(self, content):
+        process = self.write_metadata(
+                flat_metadata,
+                input_file, output_file)
+        return process.returncode == 0
+
+    def write_metadata(
+            self,
+            metadata: str,
+            input_file: str,
+            output: str = '-',
+            file_type: str = '.json') -> CompletedProcess:
+        '''
+        Write metadata for a single input file
+        to a single output.
+        '''
+        with NamedTemporaryFile(mode='w+', suffix=file_type) as t:
+            t.write(metadata + "\n")
+            t.seek(0)
+            command = '-j+=' + t.name + ' -o ' + output + ' ' + input_file
+            return self.execute(command)
+
+    def read_metadata_file(
+            self,
+            content: TextIO) -> str:
+        '''
+        Read the metadata file.
+        '''
         with content as f:
             return content.read()
 
-    def parse_metadata(self, unclean_metadata):
+    def dump_metadata(
+            self,
+            meta: dict,
+            output_format: str = 'json',
+            indent: int = 4) -> str:
+        '''
+        Convert the metadata into a string depending on the specified
+        output format. The currently accepted formats are 'json' and
+        'yaml'.
+        '''
+        self.exit_on_error(
+                output_format not in self.formats,
+                'Output format should be in any of: json, yaml!')
+        if output_format == 'yaml':
+            return yaml.dump(meta)
+        return json.dumps(meta, indent=indent)
+
+    def parse_metadata(
+            self,
+            metadata: str,
+            is_json=lambda s: s[0] in ['{', '[']) -> dict:
         '''
         Parse the input string
 
         Args:
-            unclean_metadata
+            metadata
+            is_json
         Returns:
             A dict of the metadata which has been parsed
         '''
-        metadata = {}
+        metadata = metadata.strip()
+        if is_json(metadata):
+            return json.loads(metadata)
+        return yaml.safe_load(metadata)
 
-        unclean_metadata = unclean_metadata.strip()
-
-        if unclean_metadata[0] in ['{', '[']:
-            # JSON
-            metadata = json.loads(unclean_metadata)
-        else:
-            # YAML
-            metadata = yaml.safe_load(unclean_metadata)
-
-        return metadata
-
-    def read(self, filenames, output_format):
-        '''
-        '''
-        filenames = [os.path.abspath(f) for f in filenames]
-        output = self.execute('-j', *filenames)
-
-        result = self.extract_single_metadata(output, output_format)
-
-        return result
-
-    def write(self, input_file : str, output_file : str, metafile : str):
-        '''
-        Write metadata into the new file.
-        This function only writes a single file.
-        The output file can be the final location or written to stdout.
-
-        The original command is:
-            exiftool -config xmp.config -j+=meta.json -o - file.pdf
-
-        Args:
-            input_file: The input file
-            output_file: The output file
-            meta_file: Metadata to be written to the output file
-        Returns:
-            Output of the command
-        '''
-
-        command = [
-            '-j+=' + metafile,
-            '-o',
-            output_file,
-            input_file
-        ]
-        output = self.execute(*command)
-        return output
-
-    def write_single(self, in_file, out_file, meta_file):
-        '''
-        Process to write metadata into a single file
-
-        Args:
-            in_file: The input file
-            out_file: The output file
-            meta_file: Metadata to be written to the output file
-        Returns:
-            A string
-        '''
-
-        result = ''
-
-        # Get the absolute path of the file
-        input_file = os.path.abspath(in_file[0])
-        output_file = os.path.abspath(out_file[0]) \
-                if out_file[0] != '-' else '-'
-
-        # Process metafile
-        metadata = self.read_metadata_file(meta_file)
-        parsed_metadata = self.parse_metadata(metadata)
-        meta_flat = self.stringify(parsed_metadata)
-
-        with tempfile.NamedTemporaryFile(mode = 'w+', suffix = '.json') as t:
-            t.write(meta_flat + "\n")
-            t.seek(0)
-            result = self.write(
-                input_file = input_file,
-                output_file = output_file,
-                metafile = t.name
-            )
-
-        return result
-
-    def serialize(self, meta : str):
+    def convert_str_to_dict(
+            self,
+            meta: str) -> dict:
         '''
         Convert the stringified metadata into metadata in JSON
 
@@ -200,26 +252,25 @@ class MetaTool(ExifTool):
         Returns:
             A dict of metadata
         '''
-
         try:
             meta = json.loads(meta)
-            meta = meta[0][self.prefix]
-            meta = json.loads(meta)
+            meta = meta[0][self.PREFIX]
+            return json.loads(meta)
         except Exception as e:
-            meta = {}
+            return {}
 
-        return meta
-
-    def stringify(self, meta):
+    def convert_dict_to_str(
+            self,
+            meta: dict) -> str:
         '''
         Convert the metadata in JSON into stringified metadata
 
         Args:
             meta: The metadata in dict
         '''
-        
-        meta = json.dumps(meta)
-        meta = { self.prefix : meta }
-        meta = json.dumps(meta)
-
-        return meta
+        try:
+            meta = json.dumps(meta)
+            meta = {self.PREFIX: meta}
+            return json.dumps(meta)
+        except Exception as e:
+            return {}
