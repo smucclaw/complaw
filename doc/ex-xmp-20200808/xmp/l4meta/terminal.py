@@ -20,9 +20,7 @@ def arguments():
     read(subparser)
     write(subparser)
 
-    args = parser.parse_args()
-
-    return parser, args
+    return parser
 
 def read(subparser):
     '''

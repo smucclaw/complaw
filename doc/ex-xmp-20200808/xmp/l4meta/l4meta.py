@@ -2,7 +2,8 @@ import exif
 import terminal
 
 def process():
-    parser, args = terminal.arguments()
+    parser = terminal.arguments()
+    args = parser.parse_args()
     
     with exif.MetaTool() as e:
         if args.is_read:
