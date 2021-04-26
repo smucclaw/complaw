@@ -94,3 +94,47 @@ def write(subparser):
         type=FileType('r', encoding='UTF-8'),
         nargs='?',
         default=sys.stdin)
+
+
+def single(parser):
+    parser.add_argument(
+        'file',
+        help='location of document',
+        type=str,
+        nargs=1
+    )
+
+    outputs = parser.add_mutually_exclusive_group()
+    outputs.add_argument(
+        '-t', '--type',
+        help='specify metadata output format',
+        choices=['json', 'yaml'],
+        default='json'
+    )
+    outputs.add_argument(
+        '-j', '--json',
+        help='output metadata in JSON, same as --type json',
+        action='store_const',
+        dest='type',
+        const='json'
+    )
+    outputs.add_argument(
+        '-y', '--yaml',
+        help='output metadata in YAML, same as --type yaml',
+        action='store_const',
+        dest='type',
+        const='yaml'
+    )
+    parser.add_argument(
+        '--write',
+        help='location of document to be written',
+        type=str,
+        nargs=1
+    )
+    parser.add_argument(
+        'meta',
+        help='location of metadata',
+        type=FileType('r', encoding='UTF-8'),
+        nargs='?',
+        default=sys.stdin
+    )
