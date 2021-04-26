@@ -10,7 +10,8 @@ def process():
         args = parser.parse_args()
         return operate(args)
     except Exception as e:
-        return e
+        print(e)
+        sys.exit(1)
 
 
 def operate(args):
