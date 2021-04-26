@@ -15,13 +15,13 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 ```sh
 git clone git@github.com:smucclaw/complaw.git
 cd complaw/
-git checkout xmp
+git checkout xmp-refactor
 cd doc/ex-xmp-20200808/xmp/
 pip install -r requirements.txt
 ```
 
 #### NOTE
-- Make sure to checkout to the `xmp` branch, and run the command inside `complaw/doc/ex-xmp-20200808/xmp/l4meta`, as this is the main entrypoint for running the `l4meta` tool.
+- Make sure to checkout to the `xmp-refactor` branch, and run the command inside `complaw/doc/ex-xmp-20200808/xmp/l4meta`, as this is the main entrypoint for running the `l4meta` tool.
 - The documentation will use `l4meta` as the starting point, which is an alias of `python l4meta.py`. When running the commands below, you will need to reference the files relative to the `l4meta` directory. For example, if you are going to read **greeting.pdf**, you will need to reference accordingly: `python l4meta.py read ../demo/greeting.pdf`. This workaround is needed as this package has yet to be deployed to pypi; once deployed you can reference to the file directly.
 
 ### For Debian / Ubuntu
@@ -32,7 +32,6 @@ You will need to install the following dependencies:
 
 ```sh
 apt-get install exiftool
-pip install pyyaml
 pip install l4meta
 ```
 
@@ -42,13 +41,22 @@ pip install l4meta
 
 ```sh
 brew install exiftool
-pip install pyyaml
 pip install l4meta
 ``` 
 
 ### For Windows
 
-Work in progress.
+**Please note that `l4meta` package has yet to be deployed to pypi, so you might want to follow the instructions from the section [From Source Code](#from-source-code) after installing `exiftool`.**
+
+You will need to install:
+- [Python](https://www.python.org/) or [Anaconda](https://www.anaconda.com/products/individual#Downloads)
+- [exiftool](https://exiftool.org/)
+
+In the Command Prompt or Powershell, run:
+
+```powershell
+pip install l4meta
+```
 
 ## Quick Start
 
@@ -150,14 +158,13 @@ We can also think about this from the point of view of [temporal databases](http
 
 In future, `l4meta` will ship with a related utility called `l4vc` which does this job. It assumes that your PDFs contain XMP that contain JSON that conforms to the schema defined by the L4 project, which establishes open conventions for computational contracts. `l4vc` stands for "L4 version control" and will flatten multiple JSON-augmented PDFs to a current latest-state JSON.
 
-l4vc is under construction.
+`l4vc` is under construction.
 
 ## Future Work
 
 - [x] Add support for `yaml`
 - [x] Add support for piping between reading and writing operations
-- [x] ~~Make OUTPUT file for write optional, and let program automatically duplicate file if no value is supplied~~ OUTPUT made mandatory, user must define where the output file is
 - [x] Change the message when writing into file is successful
 - [x] Enforce specific filetype
-- [ ] ~~Add support for reading/writing metadata from `docx` files~~ `exiftool` does not support writing into `docx` files, sorry! Nevertheless `docx` can convert to `pdf`, considering it as a future feature
+- [ ] Add support for converting `docx` to `pdf` and writing metadata in a single write operation
 - [ ] Combine both read/write modes into a single mode, with read as default 
