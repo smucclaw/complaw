@@ -1,5 +1,6 @@
-import argparse
 import sys
+
+from argparse import ArgumentParser, FileType, SUPPRESS
 
 
 def arguments():
@@ -12,8 +13,10 @@ def arguments():
     props = {
         'prog': 'l4meta',
         'description': 'Read/Write L4 metadata',
-        'allow_abbrev': False}
-    parser = argparse.ArgumentParser(**props)
+        'allow_abbrev': False
+    }
+    parser = ArgumentParser(**props)
+
     subparser = parser.add_subparsers()
     read(subparser)
     write(subparser)
@@ -35,7 +38,7 @@ def read(subparser):
     parser.add_argument(
         'is_read',
         action='store_true',
-        help=argparse.SUPPRESS)
+        help=SUPPRESS)
 
     parser.add_argument(
         'file',
@@ -73,7 +76,7 @@ def write(subparser):
     parser.add_argument(
         'is_read',
         action='store_false',
-        help=argparse.SUPPRESS)
+        help=SUPPRESS)
 
     parser.add_argument(
         'input',
@@ -88,6 +91,6 @@ def write(subparser):
     parser.add_argument(
         'meta',
         help='location of metadata',
-        type=argparse.FileType('r', encoding='UTF-8'),
+        type=FileType('r', encoding='UTF-8'),
         nargs='?',
         default=sys.stdin)
