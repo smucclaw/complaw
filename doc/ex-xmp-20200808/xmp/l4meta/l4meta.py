@@ -17,7 +17,7 @@ def process():
 def operate(args):
     metatool = MetaTool()
     if args.is_read:
-        return metatool.read_file(args.file[0], args.type)
+        return metatool.read_multiple_files(args.file, args.type)
     if not metatool.write_file(
             input_file=args.input[0],
             output_file=args.output[0],

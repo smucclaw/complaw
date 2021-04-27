@@ -154,6 +154,30 @@ class MetaTool(ExifTool):
         args = shlex.split(arguments, posix=0)
         return super().execute(args)
 
+    def read_multiple_files(
+            self,
+            filenames: List[str],
+            output_format: str = 'json') -> str:
+        '''
+        Read metadata from multiple files.
+        '''
+        self.exit_on_error(
+                not filenames,
+                'No files to read!')
+        self.exit_on_error(
+                len(filenames) > 1,
+                'Reading of multiple files not supported yet!')
+        if len(filenames) == 1:
+            return self.read_file(filenames[0], output_format)
+        # else assume batch mode
+
+    def write_multiple_files(
+            self) -> None:
+        '''
+        Write metadata to multiple files.
+        '''
+        pass
+
     def read_file(
             self,
             filename: str,
