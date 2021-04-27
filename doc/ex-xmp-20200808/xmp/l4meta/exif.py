@@ -6,6 +6,7 @@ import shutil
 import json
 import yaml
 
+from contextlib import contextmanager
 from subprocess import CompletedProcess
 from tempfile import NamedTemporaryFile
 from typing import TextIO, List
@@ -82,6 +83,20 @@ class ExifTool:
         '''
         if condition:
             raise ExifToolError('Error: ' + message)
+
+    @contextmanager
+    def cd(
+            self,
+            new_dir: str,
+            previous_dir: str = os.getcwd()) -> None:
+        '''
+        Change directory.
+        '''
+        os.chdir(os.path.expanduser(new_dir))
+        try:
+            yield
+        finally:
+            os.chdir(previous_dir)
 
 
 class MetaTool(ExifTool):
@@ -175,15 +190,17 @@ class MetaTool(ExifTool):
         output_file = self.get_absolute_path(output_file, False)
         self.check_approved_filetype(input_file)
         self.check_approved_filetype(output_file)
+        input_file_dir = os.path.dirname(input_file)
 
         raw_metadata = self.read_metadata_file(metadata)
         parsed_metadata = self.parse_metadata(raw_metadata)
         flat_metadata = self.convert_dict_to_str(parsed_metadata)
 
-        process = self.write_metadata(
-                flat_metadata,
-                input_file, output_file)
-        return process.returncode == 0
+        with self.cd(input_file_dir):
+            process = self.write_metadata(
+                    flat_metadata,
+                    input_file, output_file)
+            return process.returncode == 0
 
     def write_metadata(
             self,
