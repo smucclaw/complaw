@@ -194,7 +194,10 @@ class MetaTool(ExifTool):
 
         raw_metadata = self.read_metadata_file(metadata)
         parsed_metadata = self.parse_metadata(raw_metadata)
-        flat_metadata = self.convert_dict_to_str(parsed_metadata)
+        flat_metadata = self.convert_to_output(
+                parsed_metadata,
+                input_file)
+        # flat_metadata = self.convert_dict_to_str(parsed_metadata)
 
         with self.cd(input_file_dir):
             process = self.write_metadata(
@@ -292,6 +295,23 @@ class MetaTool(ExifTool):
         try:
             meta = json.dumps(meta)
             meta = {self.PREFIX: meta}
+            return json.dumps(meta)
+        except Exception as e:
+            return {}
+
+    def convert_to_output(
+            self,
+            meta: str,
+            source_file: str) -> str:
+        '''
+        '''
+        try:
+            meta = json.dumps(meta)
+            meta = {
+                    self.PREFIX: meta,
+                    'SourceFile': source_file
+            }
+            meta = [meta]
             return json.dumps(meta)
         except Exception as e:
             return {}
