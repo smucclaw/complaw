@@ -224,8 +224,10 @@ class MetaTool(ExifTool):
         '''
         Read the metadata file.
         '''
-        with content as f:
-            return content.read()
+        self.exit_on_error(
+                content.isatty(),
+                'Need an input to metadata!')
+        return content.read()
 
     def dump_metadata(
             self,
