@@ -189,7 +189,6 @@ class MetaTool(ExifTool):
         output_file = self.get_absolute_path(output_file, False)
         self.check_approved_filetype(input_file)
         self.check_approved_filetype(output_file)
-        input_file_dir = os.path.dirname(input_file)
 
         raw_metadata = self.read_metadata_file(metadata)
         parsed_metadata = self.parse_metadata(raw_metadata)
