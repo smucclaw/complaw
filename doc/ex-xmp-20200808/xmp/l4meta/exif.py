@@ -8,7 +8,6 @@ import yaml
 
 from contextlib import contextmanager
 from subprocess import CompletedProcess
-from tempfile import NamedTemporaryFile
 from typing import TextIO, List
 
 __version__ = '0.2'
@@ -194,32 +193,31 @@ class MetaTool(ExifTool):
 
         raw_metadata = self.read_metadata_file(metadata)
         parsed_metadata = self.parse_metadata(raw_metadata)
-        flat_metadata = self.convert_to_output(
-                parsed_metadata,
-                input_file)
-        # flat_metadata = self.convert_dict_to_str(parsed_metadata)
+        flat_metadata = self.convert_dict_to_str(parsed_metadata)
 
-        with self.cd(input_file_dir):
-            process = self.write_metadata(
-                    flat_metadata,
-                    input_file, output_file)
-            return process.returncode == 0
+        process = self.write_metadata(
+                flat_metadata,
+                input_file, output_file)
+        return process.returncode == 0
 
     def write_metadata(
             self,
             metadata: str,
             input_file: str,
             output: str = '-',
-            file_type: str = '.json') -> CompletedProcess:
+            temporary_file: str = 'temp.json') -> CompletedProcess:
         '''
-        Write metadata for a single input file
-        to a single output.
+        Write metadata for a single input file to a single output.
         '''
-        with NamedTemporaryFile(mode='w+', suffix=file_type) as t:
+        tempfile = self.get_absolute_path(temporary_file, False)
+        with open(tempfile, 'w+') as t:
             t.write(metadata + "\n")
-            t.seek(0)
-            command = '-j+=' + t.name + ' -o ' + output + ' ' + input_file
-            return self.execute(command)
+
+        command = '-j+=' + tempfile + ' -o ' + output + ' ' + input_file
+        process = self.execute(command)
+
+        os.remove(tempfile)
+        return process
 
     def read_metadata_file(
             self,
