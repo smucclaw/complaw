@@ -1,6 +1,6 @@
 import sys
 
-from exif import MetaTool
+from exif import MetaTool, ExifToolError
 from terminal import arguments
 
 
@@ -9,7 +9,7 @@ def process():
         parser = arguments()
         args = parser.parse_args()
         return operate(args)
-    except Exception as e:
+    except ExifToolError as e:
         print(e)
         sys.exit(1)
 
@@ -22,7 +22,7 @@ def operate(args):
             input_file=args.input[0],
             output_file=args.output[0],
             metadata=args.meta):
-        raise Exception()
+        raise ExifToolError()
     return 'Write into ' + args.output[0] + ' successful!'
 
 

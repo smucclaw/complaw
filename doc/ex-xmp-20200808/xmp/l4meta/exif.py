@@ -8,10 +8,14 @@ import yaml
 
 from subprocess import CompletedProcess
 from tempfile import NamedTemporaryFile
-from typing import TextIO
+from typing import TextIO, List
 
 __version__ = '0.2'
-__all__ = ['ExifTool', 'MetaTool']
+__all__ = [
+        'ExifTool',
+        'MetaTool',
+        'ExifToolError'
+]
 
 
 class ExifTool:
@@ -59,7 +63,7 @@ class ExifTool:
 
     def execute(
             self,
-            args: list[str]) -> CompletedProcess:
+            args: List[str]) -> CompletedProcess:
         '''
         Execute the command.
         '''
@@ -77,7 +81,7 @@ class ExifTool:
         Cause an error to be raised when a condition is met.
         '''
         if condition:
-            raise Exception('Error: ' + message)
+            raise ExifToolError('Error: ' + message)
 
 
 class MetaTool(ExifTool):
@@ -90,7 +94,7 @@ class MetaTool(ExifTool):
             self,
             config: str = CONFIG_FILE,
             flags: str = '-q',
-            formats: list[str] = FORMATS) -> None:
+            formats: List[str] = FORMATS) -> None:
         self.config = self.get_absolute_path(config)
         self.formats = formats
         self.flags = flags
@@ -113,7 +117,7 @@ class MetaTool(ExifTool):
     def check_approved_filetype(
             self,
             location: str,
-            allowed_filetypes: list[str] = ALLOWED_FILETYPES) -> bool:
+            allowed_filetypes: List[str] = ALLOWED_FILETYPES) -> bool:
         '''
         Check that the file is among the approved filetypes.
         '''
@@ -133,7 +137,7 @@ class MetaTool(ExifTool):
         arguments = arg_config \
             + ' ' + self.flags \
             + ' ' + arguments
-        args = shlex.split(arguments)
+        args = shlex.split(arguments, posix=0)
         return super().execute(args)
 
     def read_file(
@@ -274,3 +278,7 @@ class MetaTool(ExifTool):
             return json.dumps(meta)
         except Exception as e:
             return {}
+
+
+class ExifToolError(Exception):
+    pass
