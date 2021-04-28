@@ -8,6 +8,7 @@ import yaml
 
 from contextlib import contextmanager
 from subprocess import CompletedProcess
+from tempfile import gettempdir
 from typing import TextIO, List
 
 __version__ = '0.2'
@@ -228,18 +229,18 @@ class MetaTool(ExifTool):
             metadata: str,
             input_file: str,
             output: str = '-',
-            temporary_file: str = 'temp.json') -> CompletedProcess:
+            temporary_file: str = 'temp_meta.json') -> CompletedProcess:
         '''
         Write metadata for a single input file to a single output.
         '''
-        tempfile = self.get_absolute_path(temporary_file, False)
-        with open(tempfile, 'w+') as t:
+        temporary_file = gettempdir() + '/' + temporary_file
+        with open(temporary_file, 'w+') as t:
             t.write(metadata + "\n")
 
-        command = '-j+=' + tempfile + ' -o ' + output + ' ' + input_file
+        command = '-j+=' + temporary_file + ' -o ' + output + ' ' + input_file
         process = self.execute(command)
 
-        os.remove(tempfile)
+        os.remove(temporary_file)
         return process
 
     def read_metadata_file(
