@@ -67,13 +67,13 @@ In the `demo/` directory you will find:
 ### Reading
 
 ```console
-$ l4meta read [FILE]
+$ l4meta [FILE]
 ```
 
 For example, to read **greeting.pdf**, execute the following command:
 
 ```console
-$ l4meta read greeting.pdf
+$ l4meta greeting.pdf
 ```
 
 The output will be the metadata of **greeting.pdf** in **json** format, as below:
@@ -87,7 +87,7 @@ The output will be the metadata of **greeting.pdf** in **json** format, as below
 Adding a `--type yaml`, `--yaml` or `-y` flag like so:
 
 ```console
-$ l4meta read -y greeting.pdf
+$ l4meta -y greeting.pdf
 ```
 
 ...will cause the output the metadata of the same **greeting.pdf** to be in **yaml**:
@@ -106,38 +106,52 @@ However, if you run the same command for **plain.pdf**, it will return:
 ### Writing
 
 ```console
-$ l4meta write [INPUT] [OUTPUT] [METADATA]
+$ l4meta file [--write [file ...]] [--meta [file]]
 ```
 
-For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. You must specify the location of your original file in the INPUT which you intend to write your metadata, as well as the location of your duplicate file in the OUTPUT, which will be the same copy as your original file with metadata written. The original file remains completely untouched; however, any existing metadata that you have in your original copy will be overwritten in your duplicate copy.
+For writing, metadata is always written to a duplicate copy of your existing document and never to your original copy. You must specify the location of your original file which you intend to write your metadata, as well as the location of your duplicate file in the `-w` or `--write` flag, which will be the same copy as your original file with metadata written. The original file remains completely untouched; however, any existing metadata that you have in your original copy will be overwritten in your duplicate copy.
+
+When writing metadata to a single file, you must also specify the `-m` or `--meta` flag, which is the location of your metadata.
 
 For example, to write the same metadata in **greeting.pdf** into **plain.pdf**, execute any of the following commands, all of which perform the same function. The metadata will be written into a new **plainv1.pdf**, which is a duplicate of **plain.pdf**, but with metadata.
 
 ```console
-$ l4meta read greeting.pdf > greeting.json
-$ l4meta write plain.pdf plainv1.pdf greeting.json
+$ l4meta greeting.pdf > greeting.json
+$ l4meta plain.pdf --write plainv1.pdf --meta greeting.json
 ```
 
 ```console
-$ l4meta read greeting.pdf > greeting.json
-$ l4meta write plain.pdf plainv1.pdf < greeting.json
+$ l4meta greeting.pdf > greeting.json
+$ l4meta plain.pdf --write plainv1.pdf --meta < greeting.json
 ```
 
 ```console
-$ l4meta read greeting.pdf | l4meta write plain.pdf plainv1.pdf
+$ l4meta greeting.pdf | l4meta plain.pdf --write plainv1.pdf --meta
 ```
 
 You can verify that your new **plainv1.pdf** file has the metadata; just follow the instructions from the [Reading](#reading) section above but replace the filename to be read with the location of your new file, e.g. **plainv1.pdf**.
 
 ## Command Line Options
 
-### Read
+```console
+usage: l4meta [-h] [--type {json,yaml} | -j | -y] [-w [file ...]] [-m [file]]
+              [file ...]
 
-To be updated
+Read/Write L4 metadata
 
-### Write
+positional arguments:
+  file                  location of document
 
-To be updated
+optional arguments:
+  -h, --help            show this help message and exit
+  --type {json,yaml}    specify metadata output format
+  -j, --json            output metadata in JSON, same as --type json
+  -y, --yaml            output metadata in YAML, same as --type yaml
+  -w [file ...], --write [file ...]
+                        location of document to be written
+  -m [file], --meta [file]
+                        location of metadata
+```
 
 ## Integrations and Workflows
 
@@ -168,4 +182,4 @@ In future, `l4meta` will ship with a related utility called `l4vc` which does th
 - [x] Enforce specific filetype
 - [ ] Add batch read/write feature
 - [ ] Add support for converting `docx` to `pdf` and writing metadata in a single write operation
-- [ ] Combine both read/write modes into a single mode, with read as default 
+- [x] Combine both read/write modes into a single mode, with read as default 
