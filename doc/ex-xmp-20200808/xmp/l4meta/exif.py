@@ -165,12 +165,12 @@ class MetaTool(ExifTool):
         self.exit_on_error(
                 not filenames,
                 'No files to read!')
+        if len(filenames) == 1:
+            return self.read_file(filenames[0], output_format)
+        print('Using batch mode')
         self.exit_on_error(
                 len(filenames) > 1,
                 'Reading of multiple files not supported yet!')
-        if len(filenames) == 1:
-            return self.read_file(filenames[0], output_format)
-        # else assume batch mode
 
     def write_multiple_files(
             self) -> None:
