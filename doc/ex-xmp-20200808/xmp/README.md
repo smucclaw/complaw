@@ -176,10 +176,5 @@ In future, `l4meta` will ship with a related utility called `l4vc` which does th
 
 ## Future Work
 
-- [x] Add support for `yaml`
-- [x] Add support for piping between reading and writing operations
-- [x] Change the message when writing into file is successful
-- [x] Enforce specific filetype
-- [ ] Add batch read/write feature
+- [ ] Add batch mode
 - [ ] Add support for converting `docx` to `pdf` and writing metadata in a single write operation
-- [x] Combine both read/write modes into a single mode, with read as default 
