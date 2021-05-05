@@ -8,7 +8,6 @@ def process():
     try:
         parser = arguments()
         args = parser.parse_args()
-        # print(check_mode(args))
         check_if_valid(parser, args)
         print(operate(args))
     except ExifToolError as e:
@@ -16,34 +15,24 @@ def process():
         sys.exit(1)
 
 
-def check_mode(args):
-    if not args.read and args.write:
-        return 'batch write'
-    if args.read and args.write and args.meta:
-        return 'write'
-    if len(args.read) > 1:
-        return 'batch read'
-    return 'read'
-
-
 def check_if_valid(parser, args):
-    """
-    """
     if len(sys.argv) == 1:
         parser.error('You must specify a file to read/write.')
-    if ((args.meta and not args.write) or
-            (args.write and len(args.write) == 1 and not args.meta)):
+    multiple_files_read = args.read and len(args.read) > 1
+    if multiple_files_read:
+        parser.error('Reading multiple files not supported currently.')
+    multiple_files_written = args.write and len(args.write) > 1
+    if multiple_files_written:
+        parser.error('Writing multiple files not supported currently.')
+    only_meta_enabled = args.meta and not args.write
+    meta_not_enabled = args.write \
+        and len(args.read) == 1 \
+        and len(args.write) == 1 \
+        and not args.meta
+    if only_meta_enabled or meta_not_enabled:
         parser.error(
-            'Both --meta and --write flag '
-            'must be specified at the same time.')
-    # if args.write and args.type:
-    #     parser.error(
-    #         '--type/-j/--json/-y/--yaml '
-    #         'flag can only be used for reading.')
-    if not args.read and args.write:
-        return None
-    if not args.read:
-        parser.error('No files to read.')
+                'Both --meta and --write flag '
+                'must be specified at the same time.')
 
 
 def operate(args):
