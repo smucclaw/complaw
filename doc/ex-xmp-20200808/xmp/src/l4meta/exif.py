@@ -1,6 +1,5 @@
 import subprocess
 import os
-import sys
 import shlex
 import shutil
 import json
@@ -57,9 +56,9 @@ class ExifTool:
         bin_path = shutil.which(executable)
         self.exit_on_error(
                 not bin_path,
-                "Error: exiftool not installed! \n \
-                To install exiftool, run \n \
-                sudo apt-get install exiftool")
+                """exiftool not installed!
+                To install exiftool, run
+                sudo apt-get install exiftool""")
         return bin_path
 
     def execute(
@@ -304,7 +303,7 @@ class MetaTool(ExifTool):
             meta = json.loads(meta)
             meta = meta[0][self.PREFIX]
             return json.loads(meta)
-        except Exception as e:
+        except Exception:
             return {}
 
     def convert_dict_to_str(
@@ -320,7 +319,7 @@ class MetaTool(ExifTool):
             meta = json.dumps(meta)
             meta = {self.PREFIX: meta}
             return json.dumps(meta)
-        except Exception as e:
+        except Exception:
             return {}
 
     def convert_to_output(
@@ -337,7 +336,7 @@ class MetaTool(ExifTool):
             }
             meta = [meta]
             return json.dumps(meta)
-        except Exception as e:
+        except Exception:
             return {}
 
 

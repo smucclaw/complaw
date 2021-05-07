@@ -1,7 +1,7 @@
 import sys
 
-from exif import MetaTool, ExifToolError
-from argparse import ArgumentParser, FileType, SUPPRESS
+from .exif import MetaTool, ExifToolError
+from argparse import ArgumentParser, FileType
 
 
 def arguments() -> ArgumentParser:
