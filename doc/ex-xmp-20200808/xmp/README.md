@@ -2,31 +2,32 @@
 
 The `l4meta` tool is a command line tool to read/write metadata to/from a document.
 
+## Features
+
+- Read metadata directly from PDFs
+- Write metadata into a PDF
+- Specify metadata in `json` and `yaml` formats
+
 ## Requirements
 
-- Python 3.x
-    - `pyyaml`
+- Python 3.8 and above
 - `exiftool`
 
 ## Installation
+
+**Please note that `l4meta` package has yet to be deployed to pypi, so you might want to follow the instructions from the section [From Source Code](#from-source-code) after installing `exiftool`.**
 
 ### From Source Code
 
 ```sh
 git clone git@github.com:smucclaw/complaw.git
 cd complaw/
-git checkout xmp-refactor
+git checkout xmp
 cd doc/ex-xmp-20200808/xmp/
-pip install -r requirements.txt
+python setup.py install
 ```
 
-#### NOTE
-- Make sure to checkout to the `xmp-refactor` branch, and run the command inside `complaw/doc/ex-xmp-20200808/xmp/l4meta`, as this is the main entrypoint for running the `l4meta` tool.
-- The documentation will use `l4meta` as the starting point, which is an alias of `python l4meta.py`. When running the commands below, you will need to reference the files relative to the `l4meta` directory. For example, if you are going to read **greeting.pdf**, you will need to reference accordingly: `python l4meta.py read ../demo/greeting.pdf`. This workaround is needed as this package has yet to be deployed to pypi; once deployed you can reference to the file directly.
-
 ### For Debian / Ubuntu
-
-**Please note that `l4meta` package has yet to be deployed to pypi, so you might want to follow the instructions from the section [From Source Code](#from-source-code) after installing `exiftool`.**
 
 You will need to install the following dependencies:
 
@@ -37,8 +38,6 @@ pip install l4meta
 
 ### For macOS
 
-**Please note that `l4meta` package has yet to be deployed to pypi, so you might want to follow the instructions from the section [From Source Code](#from-source-code) after installing `exiftool`.**
-
 ```sh
 brew install exiftool
 pip install l4meta
@@ -46,9 +45,6 @@ pip install l4meta
 
 ### For Windows
 
-**Please note that `l4meta` package has yet to be deployed to pypi, so you might want to follow the instructions from the section [From Source Code](#from-source-code) after installing `exiftool`.**
-
-You will need to install:
 - [Python](https://www.python.org/) or [Anaconda](https://www.anaconda.com/products/individual#Downloads)
 - [exiftool](https://exiftool.org/)
 
@@ -67,7 +63,7 @@ In the `demo/` directory you will find:
 ### Reading
 
 ```console
-$ l4meta [FILE]
+$ l4meta [file ...]
 ```
 
 For example, to read **greeting.pdf**, execute the following command:
