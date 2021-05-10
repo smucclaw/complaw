@@ -4,9 +4,9 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 
 ## Features
 
-- Read metadata directly from PDFs
-- Write metadata into a PDF
+- Read/Write metadata directly from/to PDFs
 - Specify metadata in `json` and `yaml` formats
+- Platform agnostic, can be run on Windows, macOS and Linux
 
 ## Requirements
 
@@ -20,10 +20,7 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 ### From Source Code
 
 ```sh
-git clone git@github.com:smucclaw/complaw.git
-cd complaw/
-git checkout xmp
-cd doc/ex-xmp-20200808/xmp/
+git clone git@github.com:smucclaw/l4meta.git
 python setup.py install
 ```
 
@@ -52,6 +49,28 @@ In the Command Prompt or Powershell, run:
 
 ```powershell
 pip install l4meta
+```
+
+## Usage
+
+```console
+usage: l4meta [-h] [--type {json,yaml} | -j | -y] [-w [file ...]] [-m [file]]
+              [file ...]
+
+Read/Write L4 metadata
+
+positional arguments:
+  file                  location of document
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --type {json,yaml}    specify metadata output format
+  -j, --json            output metadata in JSON, same as --type json
+  -y, --yaml            output metadata in YAML, same as --type yaml
+  -w [file ...], --write [file ...]
+                        location of document to be written
+  -m [file], --meta [file]
+                        location of metadata
 ```
 
 ## Quick Start
@@ -126,49 +145,6 @@ $ l4meta greeting.pdf | l4meta plain.pdf --write plainv1.pdf --meta
 ```
 
 You can verify that your new **plainv1.pdf** file has the metadata; just follow the instructions from the [Reading](#reading) section above but replace the filename to be read with the location of your new file, e.g. **plainv1.pdf**.
-
-## Command Line Options
-
-```console
-usage: l4meta [-h] [--type {json,yaml} | -j | -y] [-w [file ...]] [-m [file]]
-              [file ...]
-
-Read/Write L4 metadata
-
-positional arguments:
-  file                  location of document
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --type {json,yaml}    specify metadata output format
-  -j, --json            output metadata in JSON, same as --type json
-  -y, --yaml            output metadata in YAML, same as --type yaml
-  -w [file ...], --write [file ...]
-                        location of document to be written
-  -m [file], --meta [file]
-                        location of metadata
-```
-
-## Integrations and Workflows
-
-### I have multiple physical revisions of the same logical PDF.
-
-I started with a PDF, let's call it "base". This was a contract that multiple parties signed a few years ago.
-
-Subsequently, I created a new PDF, let's call it "v2", whose _raison d'etre_ was to revise some of the information in "base": maybe it changed the expiry date of the original or changed some of the
-parties. This was an amendment letter signed by all the relevant parties.
-
-Subsequently, there were "v3" and "v4" containing yet more updates to the original document: maybe the dollar amounts changed, or an interest rate.
-
-Now I want to compose "base" with all the subsequent versions to show a snapshot of the latest version of reality.
-
-Commentary: from a CS point of view, this is a problem in version control: Git is the natural framework for thinking about these things. The initial PDF, "base", corresponds to the first commit of a file. The second PDF, "v2", patches the "base" file in some way. The result: a snapshot.
-
-We can also think about this from the point of view of [temporal databases](https://en.wikipedia.org/wiki/Temporal_database).
-
-In future, `l4meta` will ship with a related utility called `l4vc` which does this job. It assumes that your PDFs contain XMP that contain JSON that conforms to the schema defined by the L4 project, which establishes open conventions for computational contracts. `l4vc` stands for "L4 version control" and will flatten multiple JSON-augmented PDFs to a current latest-state JSON.
-
-`l4vc` is under construction.
 
 ## Future Work
 
