@@ -11,6 +11,7 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 ## Requirements
 
 - Python 3.8 and above
+    - Note: If you have both Python 2 and 3 installed on your machine, use `python3` or `pip3` in place of `python` and `pip` respectively
 - `exiftool`
 
 ## Installation
@@ -21,7 +22,7 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 
 ```sh
 git clone git@github.com:smucclaw/l4meta.git
-python setup.py install
+pip install .
 ```
 
 ### For Debian / Ubuntu
