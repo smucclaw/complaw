@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 import shlex
 import shutil
 import json
@@ -96,19 +97,30 @@ class ExifTool:
 
 class MetaTool(ExifTool):
     PREFIX = 'L4'
-    CONFIG_FILE = 'config/xmp.config'
     FORMATS = ['json', 'yaml']
     ALLOWED_FILETYPES = ['pdf']
 
     def __init__(
             self,
-            config: str = CONFIG_FILE,
             flags: str = '-q',
             formats: List[str] = FORMATS) -> None:
-        self.config = self.get_absolute_path(config)
+        self.config = self.load_config()
         self.formats = formats
         self.flags = flags
         super().__init__()
+
+    def load_config(
+            self,
+            module: str = 'l4meta',
+            directory: str = 'config',
+            resource: str = 'xmp.config') -> str:
+        """Get the path of the config file
+
+        Reference:
+        https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
+        """
+        full_path = os.path.dirname(sys.modules[module].__file__)
+        return os.path.join(full_path, directory, resource)
 
     def get_absolute_path(
             self,
