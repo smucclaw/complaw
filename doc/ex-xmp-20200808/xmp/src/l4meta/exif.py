@@ -11,7 +11,6 @@ from subprocess import CompletedProcess
 from tempfile import gettempdir
 from typing import TextIO, List
 
-__version__ = '0.2'
 __all__ = [
         'ExifTool',
         'MetaTool',
