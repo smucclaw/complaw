@@ -8,48 +8,17 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 - Specify metadata in `json` and `yaml` formats
 - Platform agnostic, can be run on Windows, macOS and Linux
 
-## Requirements
-
-- Python 3.8 and above
-    - Note: If you have both Python 2 and 3 installed on your machine, use `python3` or `pip3` in place of `python` and `pip` respectively
-- `exiftool`
-
 ## Installation
 
-**Please note that `l4meta` package has yet to be deployed to pypi, so you might want to follow the instructions from the section [From Source Code](#from-source-code) after installing `exiftool`.**
-
-### From Source Code
-
-```sh
-git clone git@github.com:smucclaw/l4meta.git
-pip install .
-```
-
-### For Debian / Ubuntu
-
-You will need to install the following dependencies:
-
-```sh
-apt-get install exiftool
-pip install l4meta
-```
-
-### For macOS
-
-```sh
-brew install exiftool
-pip install l4meta
-``` 
-
-### For Windows
-
-- [Python](https://www.python.org/) or [Anaconda](https://www.anaconda.com/products/individual#Downloads)
+You will need:
+- Python 3.6 and above
+    - Note: If you have both Python 2 and 3 installed on your machine, use `python3` or `pip3` in place of `python` and `pip` respectively
 - [exiftool](https://exiftool.org/)
 
-In the Command Prompt or Powershell, run:
+To install, clone this repository and run:
 
-```powershell
-pip install l4meta
+```sh
+pip install .
 ```
 
 ## Usage
