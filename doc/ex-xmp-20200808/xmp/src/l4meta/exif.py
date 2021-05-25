@@ -1,5 +1,8 @@
+"""exif.py."""
+
 import subprocess
 import os
+import sys
 import shlex
 import shutil
 import json
@@ -10,7 +13,6 @@ from subprocess import CompletedProcess
 from tempfile import gettempdir
 from typing import TextIO, List
 
-__version__ = '0.2'
 __all__ = [
         'ExifTool',
         'MetaTool',
@@ -19,14 +21,17 @@ __all__ = [
 
 
 class ExifTool:
+    """ExifTool class."""
     BIN_EXIF = 'exiftool'
 
     def __init__(
             self,
             executable: str = BIN_EXIF) -> None:
+        """Initialise the class."""
         self.executable = self.check_bin_present(executable)
 
     def __repr__(self) -> str:
+        """Representation of the class."""
         type_name = type(self).__name__
         arg_strings = []
         star_args = {}
@@ -50,9 +55,7 @@ class ExifTool:
     def check_bin_present(
             self,
             executable: str) -> str:
-        '''
-        Checks that the executable is present.
-        '''
+        """Check that the executable is present."""
         bin_path = shutil.which(executable)
         self.exit_on_error(
                 not bin_path,
@@ -64,9 +67,7 @@ class ExifTool:
     def execute(
             self,
             args: List[str]) -> CompletedProcess:
-        '''
-        Execute the command.
-        '''
+        """Execute the command."""
         return subprocess.run(
             [self.executable] + args,
             universal_newlines=True,
@@ -77,9 +78,7 @@ class ExifTool:
             self,
             condition: bool = False,
             message: str = '') -> None:
-        '''
-        Cause an error to be raised when a condition is met.
-        '''
+        """Cause an error to be raised when a condition is met."""
         if condition:
             raise ExifToolError('Error: ' + message)
 
@@ -88,9 +87,7 @@ class ExifTool:
             self,
             new_dir: str,
             previous_dir: str = os.getcwd()) -> None:
-        '''
-        Change directory.
-        '''
+        """Change directory."""
         os.chdir(os.path.expanduser(new_dir))
         try:
             yield
@@ -99,28 +96,39 @@ class ExifTool:
 
 
 class MetaTool(ExifTool):
+    """MetaTool class."""
     PREFIX = 'L4'
-    CONFIG_FILE = 'config/xmp.config'
     FORMATS = ['json', 'yaml']
     ALLOWED_FILETYPES = ['pdf']
 
     def __init__(
             self,
-            config: str = CONFIG_FILE,
             flags: str = '-q',
             formats: List[str] = FORMATS) -> None:
-        self.config = self.get_absolute_path(config)
+        """Initialise the class."""
+        self.config = self.load_config()
         self.formats = formats
         self.flags = flags
         super().__init__()
+
+    def load_config(
+            self,
+            module: str = 'l4meta',
+            directory: str = 'config',
+            resource: str = 'xmp.config') -> str:
+        """Get the path of the config file.
+
+        Reference:
+        https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
+        """
+        full_path = os.path.dirname(sys.modules[module].__file__)
+        return os.path.join(full_path, directory, resource)
 
     def get_absolute_path(
             self,
             location: str,
             check_required: bool = True) -> str:
-        '''
-        Get the absolute path of the file.
-        '''
+        """Get the absolute path of the file."""
         absolute_location = os.path.abspath(location)
         if check_required:
             self.exit_on_error(
@@ -132,9 +140,7 @@ class MetaTool(ExifTool):
             self,
             location: str,
             allowed_filetypes: List[str] = ALLOWED_FILETYPES) -> bool:
-        '''
-        Check that the file is among the approved filetypes.
-        '''
+        """Check that the file is among the approved filetypes."""
         name, ext = os.path.splitext(location)
         self.exit_on_error(
                 ext[1:] not in allowed_filetypes,
@@ -144,9 +150,7 @@ class MetaTool(ExifTool):
     def execute(
             self,
             arguments: str) -> CompletedProcess:
-        '''
-        Execute the command.
-        '''
+        """Execute the command."""
         arg_config = '-config ' + self.config
         arguments = arg_config \
             + ' ' + self.flags \
@@ -158,9 +162,7 @@ class MetaTool(ExifTool):
             self,
             filenames: List[str],
             output_format: str = 'json') -> str:
-        '''
-        Read metadata from multiple files.
-        '''
+        """Read metadata from multiple files."""
         self.exit_on_error(
                 not filenames,
                 'No files to read!')
@@ -173,18 +175,14 @@ class MetaTool(ExifTool):
 
     def write_multiple_files(
             self) -> None:
-        '''
-        Write metadata to multiple files.
-        '''
+        """Write metadata to multiple files."""
         pass
 
     def read_file(
             self,
             filename: str,
             output_format: str = 'json') -> str:
-        '''
-        Read metadata from a single file.
-        '''
+        """Read metadata from a single file."""
         filename = self.get_absolute_path(filename)
         self.check_approved_filetype(filename)
 
@@ -203,9 +201,7 @@ class MetaTool(ExifTool):
             input_file: str,
             output_file: str,
             metadata: str) -> bool:
-        '''
-        Write metadata to a single file.
-        '''
+        """Write metadata to a single file."""
         self.exit_on_error(
                 output_file == '-',
                 '\'-\' not supported at this time!')
@@ -229,9 +225,7 @@ class MetaTool(ExifTool):
             input_file: str,
             output: str = '-',
             temporary_file: str = 'temp_meta.json') -> CompletedProcess:
-        '''
-        Write metadata for a single input file to a single output.
-        '''
+        """Write metadata for a single input file to a single output."""
         temporary_file = gettempdir() + '/' + temporary_file
         with open(temporary_file, 'w+') as t:
             t.write(metadata + "\n")
@@ -245,9 +239,7 @@ class MetaTool(ExifTool):
     def read_metadata_file(
             self,
             content: TextIO) -> str:
-        '''
-        Read the metadata file.
-        '''
+        """Read the metadata file."""
         self.exit_on_error(
                 content.isatty(),
                 'Need an input to metadata!')
@@ -258,11 +250,10 @@ class MetaTool(ExifTool):
             meta: dict,
             output_format: str = 'json',
             indent: int = 4) -> str:
-        '''
-        Convert the metadata into a string depending on the specified
-        output format. The currently accepted formats are 'json' and
-        'yaml'.
-        '''
+        """Convert the metadata into a string depending on the output format.
+
+        The currently accepted formats are 'json' and 'yaml'.
+        """
         self.exit_on_error(
                 output_format not in self.formats,
                 'Output format should be in any of: json, yaml!')
@@ -274,15 +265,14 @@ class MetaTool(ExifTool):
             self,
             metadata: str,
             is_json=lambda s: s[0] in ['{', '[']) -> dict:
-        '''
-        Parse the input string
+        """Parse the input string.
 
         Args:
             metadata
             is_json
         Returns:
             A dict of the metadata which has been parsed
-        '''
+        """
         metadata = metadata.strip()
         if is_json(metadata):
             return json.loads(metadata)
@@ -291,14 +281,13 @@ class MetaTool(ExifTool):
     def convert_str_to_dict(
             self,
             meta: str) -> dict:
-        '''
-        Convert the stringified metadata into metadata in JSON
+        """Convert the stringified metadata into metadata in JSON.
 
         Args:
             meta: The stringified metadata
         Returns:
             A dict of metadata
-        '''
+        """
         try:
             meta = json.loads(meta)
             meta = meta[0][self.PREFIX]
@@ -309,12 +298,11 @@ class MetaTool(ExifTool):
     def convert_dict_to_str(
             self,
             meta: dict) -> str:
-        '''
-        Convert the metadata in JSON into stringified metadata
+        """Convert the metadata in JSON into stringified metadata.
 
         Args:
             meta: The metadata in dict
-        '''
+        """
         try:
             meta = json.dumps(meta)
             meta = {self.PREFIX: meta}
@@ -326,8 +314,7 @@ class MetaTool(ExifTool):
             self,
             meta: str,
             source_file: str) -> str:
-        '''
-        '''
+        """Convert metadata to output for writing XMP."""
         try:
             meta = json.dumps(meta)
             meta = {
@@ -341,4 +328,5 @@ class MetaTool(ExifTool):
 
 
 class ExifToolError(Exception):
+    """Class for handling errors from ExifTool."""
     pass

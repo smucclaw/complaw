@@ -1,3 +1,5 @@
+"""cli.py."""
+
 import sys
 
 from .exif import MetaTool, ExifToolError
@@ -63,8 +65,7 @@ def arguments() -> ArgumentParser:
 
 
 def validate(parser, args):
-    """Validate the arguments being passed into the command line interface.
-    """
+    """Validate the arguments being passed into the command line interface."""
     if len(sys.argv) == 1:
         parser.error('You must specify a file to read/write.')
     multiple_files_read = args.read and len(args.read) > 1
@@ -85,8 +86,7 @@ def validate(parser, args):
 
 
 def execute(args):
-    """
-    """
+    """Execute l4meta."""
     metatool = MetaTool()
     if not args.write:
         return metatool.read_multiple_files(args.read, args.type)
@@ -101,8 +101,7 @@ def execute(args):
 
 
 def run():
-    """
-    """
+    """Parse and run l4meta."""
     parser = arguments()
     args = parser.parse_args()
     validate(parser, args)
@@ -114,6 +113,7 @@ def run():
 
 
 def main():
+    """Run main function."""
     run()
 
 
