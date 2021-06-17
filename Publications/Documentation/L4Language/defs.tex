@@ -1,0 +1,149 @@
+% Theorems and definitions
+
+% \newtheorem{definition}{Definition}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{lemma}{Lemma}
+% \newtheorem{proposition}{Proposition}
+
+
+% Definition of colors
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\green}[1]{{\color{green}#1}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\gray}[1]{{\color{gray}#1}}
+
+% From MSCS file
+\newcommand{\eg}{\textit{e.g.\ }}
+\newcommand{\etal}{\textit{et al.\ }}
+\newcommand{\etc}{\textit{etc}}
+\newcommand{\ie}{\textit{i.e.\ }}
+\newcommand{\viz}{\textit{viz.\ }}
+\newcommand{\wrt}{\textit{w.r.t.\ }}
+\newcommand{\lex}{\langle}
+\newcommand{\rex}{\rangle}
+
+% Own abbreviations
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\secrefs}[1]{Sections~\ref{#1}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\figrefs}[1]{Figures~\ref{#1}}
+\newcommand{\pgref}[1]{page~\pageref{#1}}
+\newcommand{\theoremref}[1]{Theorem~\ref{#1}}
+\newcommand{\theoremrefs}[1]{Theorems~\ref{#1}}
+\newcommand{\lemmaref}[1]{Lemma~\ref{#1}}
+\newcommand{\exampleref}[1]{Example~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+
+\newcommand{\figline}{\rule{\textwidth}{0.5pt}}
+
+
+% Logique
+
+\newcommand{\IMPL}[0]{\longrightarrow}
+\newcommand{\IMPLL}[0]{\Longrightarrow} % another implication, to make
+                                % a difference with reduction relations
+\newcommand{\AND}[0]{\land}
+\newcommand{\OR}[0]{\lor}
+\newcommand{\NOT}[0]{\lnot}
+\newcommand{\FALSE}[0]{\perp}
+\newcommand{\TRUE}[0]{\top}
+\newcommand{\IFF}[0]{\leftrightarrow}
+\newcommand{\BIGAND}[1]{\bigwedge_{#1}}
+\newcommand{\BIGOR}[1]{\bigvee_{#1}}
+\newcommand{\BIGANDC}[2]{\bigwedge_{#1|#2}} % bigand with constraint
+\newcommand{\BIGORC}[2]{\bigvee_{#1|#2}}    % bigor with constraint
+
+\newcommand{\exgeq}[1]{\exists^{{\geq #1}}}
+\newcommand{\exeq}[1]{\exists^{{= #1}}}
+\newcommand{\exle}[1]{\exists^{{< #1}}}
+
+% Other
+
+\newcommand{\smalltalcq}[0]{{\small small}-t{$\cal ALCQ$}}
+\newcommand{\smalltalcqe}[0]{{\small small}-t{$\cal ALCQ$e}}
+\newcommand{\trule}[0]{\xhookrightarrow}
+\newcommand{\tableaurule}[1]{{\xhookrightarrow[]{#1}}}
+\newcommand{\nodes}[1]{{\cal N}({#1})}
+\newcommand{\trans}[1]{{\cal T}({#1})}
+\newcommand{\transm}[1]{{\cal T'}({#1})}
+\newcommand{\rconts}[1]{\llparenthesis #1 \rrparenthesis} %record contents
+\newcommand{\rupd}[2]{{#1}\llparenthesis #2 \rrparenthesis} %record update
+
+\newcommand{\eform}[0]{\mathit{eform}}
+\newcommand{\form}[0]{\mathit{form}}
+\newcommand{\free}[0]{\mathit{free}}
+\newcommand{\exclprop}[0]{\stackrel{\times}{\longrightarrow}}
+
+
+%----------------------------------------------------------------------
+% For drawing syntax diagrams
+% ----------------------------------------------------------------------
+
+% Environment defining the general layout
+
+\newenvironment{syntaxdiagram}[1]
+{
+%  \begin{equation}\label{eq:#1}
+  \begin{tikzpicture}[%
+node distance=5mm and 10mm,
+>=stealth',
+black!50,
+text=black,
+graphs/every graph/.style={edges=rounded corners},
+hv path/.style={to path={-| (\tikztotarget)}},
+vh path/.style={to path={|- (\tikztotarget)}},
+nonterminal/.style={%
+rectangle,
+minimum size=6mm,
+draw=black,
+},
+terminal/.style={%
+rectangle,minimum size=6mm,rounded corners=3mm,
+draw=black!50,
+},
+start/.style={%
+circle,inner sep=1pt,minimum size=1pt,fill=white,draw=black!50,
+},
+end/.style={%
+start,
+},
+junction/.style={circle,inner sep=0pt,minimum size=0pt},]
+\node[nonterminal] (#1) {\hypertarget{syn:#1}{#1:}};
+}
+{\end{tikzpicture}
+%\end{equation}
+}
+
+% Connects start point #1 via intermediate node entry #2 and exit #3
+% to an end point #4.
+\newcommand{\syndiagAlternative}[4]{%
+\graph[use existing nodes] {
+#1 ->[vh path] #2;
+#3 ->[hv path] #4;
+};
+}
+
+% Connects start point #1 via intermediate node #2 (typically a junction)
+% to an end point #3.
+\newcommand{\syndiagBridge}[3]{%
+\graph[use existing nodes] {
+#1 --[vh path] #2;
+#2 ->[hv path] #3;
+};
+}
+
+\newcommand{\nonterminalref}[1]{\hyperlink{syn:#1}{#1}}
+
+
+%----------------------------------------------------------------------
+% Remarks
+% ----------------------------------------------------------------------
+
+\newcommand{\remms}[2][]{\todo[color=green!40,#1]{MS: #2}}
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 

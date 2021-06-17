@@ -1,0 +1,68 @@
+\documentclass[11pt,a4paper,twoside,headinclude,footexclude]{scrreprt}
+
+%----------------------------------------------------------------------
+
+\input{settings}
+\input{defs}
+
+\RequirePackage{geometry}
+
+\geometry{reset,twoside,a4paper,includemp=false,%
+  top=4.5cm,bottom=4.5cm,left=3.2cm,right=3.2cm,%
+  headheight=30pt
+}
+
+\begin{document}
+
+\input{layout}
+
+\input{title}
+
+\cleardoublepage
+
+%----------------------------------------------------------------------
+
+%----------------------------------------------------------------------
+\newpage
+\tableofcontents
+%\newpage
+%\listoftables
+\listoffigures
+
+%----------------------------------------------------------------------
+\cleardoublepage
+
+%======================================================================
+
+\chapter{User Documentation}
+
+\section{Introduction}\label{sec:introduction}
+\input{introduction}
+
+
+\section{L4 Language Description}\label{sec:language}
+\input{language}
+
+
+\section{Translations to Proof Tools}\label{sec:translations}
+\input{translations}
+
+%======================================================================
+\chapter{Developer Documentation}
+
+\section{Parsing and Typechecking}\label{sec:parsing_typechecking}
+\input{parsing_typechecking}
+
+
+
+%======================================================================
+\newpage
+\bibliographystyle{alpha}
+\bibliography{main}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
