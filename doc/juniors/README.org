@@ -573,6 +573,8 @@ In [[https://venturebeat.com/2019/04/24/how-programming-languages-have-evolved-a
 
 Peter Van Roy's [[https://www.info.ucl.ac.be/~pvr/VanRoyChapter.pdf][Programming Paradigms for Dummies]] shows the ingredients that go into programming languages. If natural languages [[https://en.wikipedia.org/wiki/Grammatical_category][differ by features]], programming languages differ by paradigm.
 
+Jean Yang's [[https://www.twitch.tv/jeanqasaur][PLTalk]] also serves to delve into various aspects of programming languages through interviews with expert guests.
+
 From Matt Might's list, I would suggest starting with
 
 - Javascript :: (update: Typescript and Deno); this is the /lingua franca/ of the web today. But it is not a well-designed language; it has many flaws, both in its [[https://www.destroyallsoftware.com/talks/wat][native syntax]] and in its [[https://www.hillelwayne.com/post/stamping-on-eventstream/][jungle of packages]]. It's gotten better over the years.
