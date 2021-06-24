@@ -1,0 +1,132 @@
+\section{The L4 Language}\label{sec:l4_language}
+
+This section gives an account of the L4 language as it is currently defined --
+as an experimental language, L4 will evolve over the next months. In our
+discussion, we will ignore some features such as a natural language interface
+\cite{} that are not relevant for the topic of this paper.
+
+As a language intended for representing legal texts and reasoning about them,
+an L4 module is essentially composed of four sections:
+\begin{itemize}
+\item a terminology in the form of \emph{class definitions};
+\item \emph{declarations} of functions and predicates;
+\item \emph{rules} representing the core of a law text, specifying what is
+  considered as legal behaviour;
+\item \emph{assertions} for stating and proving properties about the rules.
+\end{itemize}
+
+In the following, these elements will be presented in more detail and
+illustrated with a running example, a (fictitious) reglementation of speed
+limits for different types of vehicles.
+
+
+% ----------------------------------------------------------------------
+\subsection{Class Definitions}\label{sec:classdefs}
+
+The definition in \figref{fig:classdefs} introduces classes for vehicles, days
+and roads. 
+
+\begin{figure}[h]
+  \begin{framed}
+\begin{alltt}
+class Vehicle \{
+   weight: Integer
+\}
+class Car extends Vehicle \{
+   doors: Integer
+\}
+class Truck extends Vehicle
+
+class Day
+class Workday extends Day
+class Holiday extends Day
+
+class Road
+class Highway extends Road
+\end{alltt}
+\end{framed}
+  \caption{Class definitions of speedlimit example}\label{fig:classdefs}
+\end{figure}
+
+Classes are arranged in a tree-shaped hierarchy, having a class named
+\texttt{Class} as its top element. Classes that are not explicitly derived
+from another class via \texttt{extends} are implicitly derived from
+\texttt{Class}. A class $S$ derived from a class $C$ by \texttt{extends} will
+be called a subclass of $C$, and the immediate subclasses of \texttt{Class}
+will be called \emph{sorts} in the following. Intuitively, classes are meant
+to be sets of entitities, with subclasses being interpreted as
+subsets. Different subclasses of a class are not meant to be disjoint.
+
+Class definitions can come with attributes, in braces. These attributes can be
+of simple type, as in the given example, or of higher type (the notion of type
+will be explained in \secref {sec:fundecls}). In a declarative reading,
+attributes can be understood as a shorthand for function declarations that
+have the class they are defined in as additional codomain. Thus, the attribute
+\texttt{weight} corresponds to a top-level declaration \texttt{weight: Vehicle
+  -> Integer}. In a more operational reading, L4 classes can be understood as
+prototypes of classes in object-oriented programming languages, and an
+alternative field selection syntax can be used: For \texttt{v: Vehicle}, the
+expression \texttt{v.weight} is equivalent to \texttt{weight(v)}, at least
+logically, even though its operational interpretation may differ.
+
+
+% ----------------------------------------------------------------------
+\subsection{Function Declarations}\label{sec:fundecls}
+
+L4 is an \emph{explicitely} and \emph{strongly typed} language: all entities
+such as functions, predicates and variables have to be declared before being
+used. One purpose of this measure is to ensure that the executable sublanguage
+of L4, based on the simply-typed lambda calculus with subtyping, enjoys a type
+soundness property: evaluation of a function cannot produce a dynamic type
+error.
+
+
+
+\begin{figure}[h]
+\begin{framed}
+
+\begin{alltt}
+\end{alltt}
+
+\end{framed}
+  \caption{Declarations of speedlimit example}\label{fig:fundecls}
+\end{figure}
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Rules}\label{sec:rules}
+
+\begin{figure}[h]
+\begin{framed}
+
+\begin{alltt}
+\end{alltt}
+
+\end{framed}
+  \caption{Rules of speedlimit example}\label{fig:rules}
+\end{figure}
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Assertions}\label{sec:assertions}
+
+\begin{figure}[h]
+\begin{framed}
+
+\begin{alltt}
+\end{alltt}
+
+\end{framed}
+  \caption{Assertions of speedlimit example}\label{fig:assertions}
+\end{figure}
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
