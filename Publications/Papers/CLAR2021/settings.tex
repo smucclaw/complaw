@@ -28,33 +28,44 @@
 \usepackage{todonotes}
 \usepackage{wrapfig}
 \usepackage{framed}
+\usepackage{mdframed}
 \usepackage{mathtools}
 \usepackage{stmaryrd}
 \usepackage{soul}
 
-\setcounter{secnumdepth}{3}
-    
-\usepackage{tikz}
-\usetikzlibrary{trees}
-\usetikzlibrary{arrows}
-\usetikzlibrary{decorations.pathmorphing}
-\usetikzlibrary{shapes.multipart}
-\usetikzlibrary{shapes.geometric}
-\usetikzlibrary{calc}
-\usetikzlibrary{positioning} 
-\usetikzlibrary{fit}
-\usetikzlibrary{backgrounds}
 
-%4 mars 2016 setting for Java code template
-\renewcommand{\lstlistingname}{Code}
+% Configuration of lstlisting for L4
+\lstdefinelanguage{L4}
+{morekeywords={
+      assert 
+    , class  
+    , decl   
+    , defn   
+    , extends
+    , lexicon
+    , fact   
+    , rule   
+    , derivable
+    , let   
+    , in    
+    , not   
+    , forall
+    , exists
+    , if   
+    , then 
+    , else 
+    , for  
+    , true 
+    , false
+},    
+sensitive=false,
+morecomment=[l]{\#},
+morestring=[b]",
+}
 
-
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{frame=tb,
-  language=Java,
+  language=L4,
   aboveskip=3mm,
   belowskip=3mm,
   showstringspaces=false,
@@ -69,6 +80,26 @@
   breakatwhitespace=true,
   tabsize=2
 }
+
+
+\setcounter{secnumdepth}{3}
+    
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning} 
+\usetikzlibrary{fit}
+\usetikzlibrary{backgrounds}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
 
 \setlength{\intextsep}{5pt}
 \setlength{\textfloatsep}{5pt}
