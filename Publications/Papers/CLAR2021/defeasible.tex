@@ -1,5 +1,332 @@
 \section{Defeasible Reasoning}\label{sec:defeasible}
 
+% ----------------------------------------------------------------------
+\subsection{Facets of Defeasible Reasoning}\label{sec:facets}
+
+\begin{tcolorbox}[title=To be done]
+Discussion on existing notions of defeasibility in particular in a legal context
+\begin{itemize}
+\item \cite{hart_concept_of_law_1997}
+\item \cite{alchourron_makinson_hierarchies_of_regulations_1981}
+\item \cite{hage_law_and_defeasibility_2003}
+\item More recent: \cite{governatori21:_unrav_legal_refer_defeas_deont_logic}
+\end{itemize}
+\end{tcolorbox}
+
+Given a plethora of different notions of ``defeasibility'', we had to make a
+choice as to which notions to support, and which semantics to give to them. We
+will here concentrate on two concepts, which we call \emph{rule modifiers},
+that limit the applicability of rules and make them ``defeasible''. They will
+we be presented in \secref{sec:rule_modifiers}, and we will see how to give
+them a semantics in a classical first-order logic, but also in a non-monotonic
+logic in a system based on Answer Set Programming
+(\secref{sec:answer_set_programming}). An orthogonal question is that of
+arriving at conclusion in absence of complete information, which, via the
+mechanism of negation as \remms{as/by??} failure, often prones the use of
+non-monotonic logics. In \secref{sec:rule_inversion}, we will see how similar
+effects can be achieved by means of \emph{rule inversion}. An Answer Set
+Programming approach to defeasible reasoning, with an emphasis on rule
+modifiers, will be presented in \secref{sec:answer_set_programming}. We finish
+with a comparison of the two strands of reasoning in \secref{sec:comparison}.
+
+
+% ----------------------------------------------------------------------
+\subsection{Introducing Rule Modifiers}\label{sec:intro_rule_modifiers}
+
+We will concentrate on two rule modifiers that restrict the applicability of
+rules and that frequently occur in law texts: \emph{subject to} and
+\emph{despite}. To illustrate their use, we consider an excerpt of Singapore's
+Professional Conduct Rules \S~34 \cite{professional_conduct_rules} (also see
+\cite{morris21:_const_answer_set_progr_tool} for a more detailed treatment of
+this case study):
+
+\begin{description}
+\item[(1)] A legal practitioner must not accept any executive appointment associated with any of the following businesses:
+  \begin{description}
+  \item[(a)] any business which detracts from, is incompatible with, or
+    derogates from the dignity of, the legal profession;
+  \item[(b)] any business which materially interferes with the legal
+    practitioner’s primary occupation of practising as a lawyer; (\dots)
+  \end{description}
+\item[(5)] Despite paragraph (1)(b), but subject to paragraph (1)(a) and (c)
+  to (f), a locum solicitor may accept an executive appointment in a business
+  entity which does not provide any legal services or law-related services, if
+  all of the conditions set out in the Second Schedule are satisfied.
+\end{description}
+
+The two main notions developed in the Conduct Rules are which executive appointments a legal
+practictioner \emph{may} or \emph{must not} accept under which
+circumstances. As there is currently no direct support for deontic logics in
+L4, these notions are defined as two predicates \texttt{MayAccept} and
+\texttt{MustNotAccept}, with the intended meaning that these two notions are
+contradictory, and this is indeed what will be provable after a complete
+formalization.
+
+Let us here concentrate on the modifiers \emph{despite} and \emph{subject
+  to}. A synonym of ``despite'' that is often used in legal texts is
+``notwithstanding'',  and a synonym of
+``subject to'' is ``except as provided in'', see \cite{adams_contract_drafting_2004}.
+
+The reading of rule (5) is the following:
+\begin{itemize}
+\item ``subject to paragraph (1)(a) and (c) to (f)'' means: rule (5) applies
+  as far as (1)(a) and (c) to (f) is not established. Differently said, rules
+  (1)(a) and (c) to (f) undercut or defeat rule (5).
+
+  One way of explicitating the ``subject to'' clause would be to rewrite (5)
+  to: ``Despite paragraph (1)(b), provided the business does not detract from,
+  is incompatible with, or derogate from the dignity of, the legal profession;
+  and provided that not [clauses (1)(c) to (f)]; then a locum
+  sollicitor\footnote{in our class-based terminology, a subclass of legal
+    practitioner} may accept an executive appointment.''
+
+\item ``despite paragraph (1)(b)'' expresses that rule (5) overrides rule
+  (1)(b). In a similar spirit as the ``subject to'' clause, this can be made
+  explicit by introducing a proviso, however not locally in  rule (5), but
+  remotely in rule (1)(b).
+
+  One way of explicitating the ``despite'' clause of rule (5) would be to
+  rewrite (1)(b) to: ``Provided (5) is not applicable, a legal practitioner
+  must not accept any executive appointment associated with any business which
+  materially interferes with the legal practitioner’s primary occupation of
+  practising as a lawyer.''
+\end{itemize}
+
+The astute reader will have remarked that the treatment in both cases is
+slightly different, and this is not related to the particular semantics of
+\emph{subject to} and \emph{despite}: we can state defeasibility
+\begin{itemize}
+\item either in the form of (negated) preconditions of rules: ``rule $r_1$ is
+  applicable if the preconditions of $r_2$ do not hold'';
+\item or in the form of (negated) derivability of the postcondition of rules: ``rule $r_1$ is
+  applicable if the postcondition of $r_2$ does not hold''.
+\end{itemize}
+We will subsequently come back to this difference\remms{where?}.
+
+Before looking at a formalization, let us summarize this informal exposition
+of defeasibility rule modifiers as follows:
+\remms{Make the writing of the modifiers more homogenous: in italics or in quotes}
+\begin{itemize}
+\item ``$r_1$ subject to $r_2$'' and ``$r_1$ despite $r_2$'' are complementary
+  ways of expressing that one rule may override the other rule. They have in
+  common that $r_1$ and $r_2$ have contradicting conclusions. The conjunction
+  of the conclusions can either be directly unsatisfiable (may accept vs.{}
+  must not accept) or unsatisfiable \wrt{} an intended background theory
+  (obtaining different maximal speeds is inconsistent when expecting
+  \texttt{maxSp} to be functional in its fourth argument).
+\item Both modifiers differ in that ``subject to'' modifies the rule to which
+  it is attached, whereas ``despite'' has a remote effect.
+\item They permit to structure a legal text, favoring conciseness and
+  modularity: In the case of \emph{despite}, the overridden, typically more
+  general rule need not be aware of the overriding, typically subordinate rules.
+\item Even though these modifiers appear to be mechanisms on the meta-level in
+  that they reasoning about rules, they can directly be reflected on the
+  object-level.
+\end{itemize}
+Making the meaning of the modifiers explicit can therefore be understood as a
+\emph{compilation} problem, which will be described in the following.
+
+In L4, rule modifiers are introduced with the aid of \emph{rule annotations}, with a
+list of rule names following the keywords \texttt{subjectTo} and
+\texttt{despite}. We return to our running example and modify rule
+\texttt{maxSpCarHighway} of \figref{fig:rules} with
+
+\begin{lstlisting}
+rule <maxSpCarHighway>
+  {restrict: {despite: maxSpCarWorkday}}
+# rest of rule unchanged
+\end{lstlisting}
+
+For the delight of the public of the country with the highest density of
+sports cars, we also introduce a new rule:\remms{Problem with spaces in lstlisting}
+
+\begin{lstlisting}
+rule <maxSpSportsCar>
+  {restrict: {subjectTo: maxSpCarWorkday, 
+              despite: maxSpCarHighway}}
+   for v: Vehicle, d: Day, r: Road
+   if isSportsCar v && isHighway r
+   then maxSp v d r 320
+ \end{lstlisting}
+
+In the following, we will examine the interaction of these rules.
+
+% ----------------------------------------------------------------------
+\subsection{Rule Modifiers in Classical Logic}\label{sec:rule_modifiers_in_classical_logic}
+
+In this section, we will describe how to rewrite rules, progressively
+eliminating the instructions appearing in the rule annotations so that in the
+end, only purely logical rules remain. Whereas the first preprocessing steps
+(\secref{sec:preprocessing}) are generic, we will discuss two variants of
+conversion into logical format (\secrefs{sec:restr_precond} and
+\ref{sec:restr_deriv}).
+
+
+
+% ......................................................................
+\subsubsection{Preprocessing}\label{sec:preprocessing}
+
+Preprocessing consists of several elimination steps that are carried out in a
+fixed order.
+
+\paragraph{\textbf{``Despite''  elimination}}
+
+As can be concluded from the discussion in \secref{sec:facets}, a
+$\mathtt{despite}\; r_2$ clause appearing in rule $r_1$ is equivalent to a
+$\mathtt{subjectTo}\; r_1$ clause in rule $r_2$. The first rule transformation
+consists in applying exhaustively the following \emph{despite elimination}
+rule transformer:
+\remms[inline]{In the whole discussion (and the implementation), make a
+  clearer distinction between rule set transformer \texttt{restrict} and rule
+  generator \texttt{derived}.}
+
+\noindent
+\emph{despiteElim:}\\
+$
+\{r_1 \{\mathtt{restrict}: \{\mathtt{despite}\; r_2\} \uplus a_1\},\;\;
+r_2\{\mathtt{restrict}: a_2\}, \dots\} \longrightarrow$\\
+$\{r_1 \{\mathtt{restrict}: a_1\},\;\;
+r_2\{\mathtt{restrict}:  \{\mathtt{subjectTo}\; r_1\} \uplus a_2\}, \dots\}
+$
+
+\begin{example}\label{ex:rewrite_despite}\mbox{}\\
+Application of this rewrite rule to the three example rules \texttt{maxSpCarWorkday},
+\texttt{maxSpCarHighway} and  \texttt{maxSpSportsCar} changes them to:
+
+\begin{lstlisting}
+rule <maxSpCarWorkday>
+  {restrict: {subjectTo: maxSpCarHighway}}
+rule <maxSpCarHighway>
+  {restrict: {subjectTo: maxSpSportsCar}}
+rule <maxSpSportsCar>
+  {restrict: {subjectTo: maxSpCarWorkday}}
+\end{lstlisting}
+Here, only the headings are shown, the bodies of the rules are
+unchanged. 
+\end{example}
+
+One defect of the rule set already becomes apparent to the human reader at
+this point: the circular dependency of the rules. We will however continue
+with our algorithm, applying the next step which will be to rewrite the
+\texttt{\{restrict: \{subjectTo: \dots\}\}} clauses.  Please note that each
+rule can be \texttt{subjectTo} several other rules, each of which may have a
+complex structure as a result of transformations that are applied to it.
+
+
+\paragraph{\textbf{``Subject'' To elimination}}
+
+The rule transformer \emph{subjectToElim} does the following: it splits up the
+rule into two rules: its source (the rule body as originally given), and its
+definition as the result of applying a rule transformation function to several rules.
+
+\begin{example}\label{ex:rewrite_subject_to}\
+Before stating the rule transformer, we show its effect on rule
+\texttt{maxSpCarWorkday} of \exampleref{ex:rewrite_despite}. On rewriting
+with \emph{subjectToElim}, the rule is transformed into two rules:
+
+\begin{lstlisting}
+# new rule name, body of rule unchanged
+rule <maxSpCarWorkday'Orig>
+   {source}
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isWorkday d
+   then maxSp v d r 90
+
+# rule with header and without body
+rule <maxSpCarWorkday>
+ {derived: {apply: 
+ {restrictSubjectTo maxSpCarWorkday'Orig  maxSpSportsCar}}}
+\end{lstlisting}
+\remms[inline]{check syntax of apply}
+\end{example}
+
+We can now state the transformation (after grouping the
+\texttt{subjectTo $r_2$}, \dots, \texttt{subjectTo $r_n$} into
+\texttt{subjectTo $[r_2 \dots r_n]$}):
+
+
+\noindent
+\emph{subjectToElim:}\\
+$
+\{r_1 \{\mathtt{restrict}: \{\mathtt{subjectTo}\; [r_2, \dots, r_n]\}\}, \dots \} \longrightarrow$\\
+$\{r_1^o \{\mathtt{source}\}, r_1 \{\mathtt{derived:}\; \{\mathtt{apply:}\; \{
+\mathtt{restrictSubjectTo}\;\; r_1^o\; r_2 \dots r_n \}\}\}, \dots \}
+$
+
+
+
+\paragraph{\textbf{Computation of derived rule}}
+The last step consists in generating the derived rules, by evaluating the value
+of the rule transformer expression marked by \texttt{apply:}. The rules
+appearing in these expressions may themselves be defined by complex
+expressions. For simplifying the expressions in a rule set, we compute a rule
+dependency order $\preceq_R$ defined by: $r \preceq_R r'$ iff $r$ appears in
+the defining expression of $r'$. If $\preceq_R$ is not a partial order (in
+particular, if it is not cycle-free), then evaluation fails. Otherwise, we
+order the rules topologically by $\preceq_R$ and simplify the
+expressions starting from the minimal elements.
+
+\begin{example}
+It is at this point that the cyclic dependence already remarked after
+\exampleref{ex:rewrite_despite} will be discovered. We have:
+
+\noindent
+\texttt{maxSpCarWorkday'Orig}, \texttt{maxSpCarHighway} $\preceq_R$ \texttt{maxSpCarWorkday}\\
+\texttt{maxSpCarHighway'Orig}, \texttt{maxSpSportsCar} $\preceq_R$ \texttt{maxSpCarHighway}\\
+\texttt{maxSpSportsCar'Orig}, \texttt{maxSpCarWorkday} $\preceq_R$  \texttt{maxSpSportsCar}\\
+\noindent
+which cannot be totally ordered.
+
+Let us fix the problem by changing the heading of rule
+\texttt{maxSpCarHighway} from \texttt{despite} to \texttt{subjectTo}:
+\begin{lstlisting}
+rule <maxSpCarHighway>
+  {restrict: {subjectTo: maxSpCarWorkday}}
+\end{lstlisting}
+
+After rerunning \emph{despiteElim} and \emph{subjectToElim}, we can now order
+the rules:
+
+% \begin{lstlisting}
+% rule <maxSpCarWorkday>
+% rule <maxSpCarHighway>
+%   {restrict: {subjectTo: maxSpCarWorkday, maxSpSportsCar}}
+% rule <maxSpSportsCar>
+%   {restrict: {subjectTo: maxSpCarWorkday}}
+% \end{lstlisting}
+
+\noindent
+\{ \texttt{maxSpSportsCar'Orig}
+\texttt{maxSpCarHighway'Orig},
+\texttt{maxSpCarWorkday} \} $\preceq_R$
+\texttt{maxSpSportsCar} $\preceq_R$
+\texttt{maxSpCarHighway}\\
+and will use this order for rule elaboration.
+\end{example}
+
+
+% ......................................................................
+\subsubsection{Restriction via Preconditions}\label{sec:restr_precond}
+
+% ......................................................................
+\subsubsection{Restriction via Derivability}\label{sec:restr_deriv}
+
+% ----------------------------------------------------------------------
+\subsection{Rule Inversion}\label{sec:rule_inversion}
+
+
+% ----------------------------------------------------------------------
+\subsection{Answer Set Programming}\label{sec:answer_set_programming}
+
+\remms[inline]{section probably does not have an adequate name}
+
+% ----------------------------------------------------------------------
+\subsection{Comparison}\label{sec:comparison}
+
+
+
+
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main"

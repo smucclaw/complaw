@@ -36,6 +36,7 @@ class Car extends Vehicle {
    doors: Integer
 }
 class Truck extends Vehicle
+class SportsCar extends Car
 
 class Day
 class Workday extends Day
@@ -95,7 +96,7 @@ higher-order, but extraction to some solvers (\secref{}) will be limited to
 %\begin{mdframed}
 \begin{lstlisting}
 decl isCar : Vehicle -> Boolean
-decl maxSpeed : Vehicle -> Day -> Road -> Integer -> Boolean
+decl maxSp : Vehicle -> Day -> Road -> Integer -> Boolean
 \end{lstlisting}
 %\end{mdframed}
   \caption{Declarations of speedlimit example}\label{fig:fundecls}
@@ -147,7 +148,7 @@ In its most complete form, a \emph{rule} is composed by a list of variable
 declarations introduced by the keyword \texttt{for}, a precondition introduced
 by \texttt{if} and a postcondition introduced by
 \texttt{then}. \figref{fig:rules} gives an example of rules of our speed limit
-scenario, stating, respectively, that cars may drive at 90 km/h on a
+scenario, stating, respectively, that the maximal speed of cars is 90 km/h on a
 workday,\remms{scenario changed wrt repo}
 and that they may drive at 130 km/h if the road is a highway.  Note that in
 general, both pre- and postconditions are Boolean formulas that can be
@@ -158,15 +159,15 @@ preconditions or atomic formulas in the postconditions.
 %\begin{mdframed}
 
   \begin{lstlisting}
-rule <maxSpeedCarWorkday> 
+rule <maxSpCarWorkday> 
    for v: Vehicle, d: Day, r: Road
    if isCar v && isWorkday d
-   then maxSpeed v d r 90
+   then maxSp v d r 90
 
-rule <maxSpeedCarHighway>
+rule <maxSpCarHighway>
    for v: Vehicle, d: Day, r: Road
    if isCar v && isHighway r
-   then maxSpeed v d r 130
+   then maxSp v d r 130
 \end{lstlisting}
 
 %\end{mdframed}
@@ -212,7 +213,7 @@ relative to a rule set comprising some or all of the rules and facts stated
 before. 
 
 The statement in \figref{fig:assertions} claims that the predicate
-\texttt{maxSpeed} behaves like a function, \ie{} given the same car, day and
+\texttt{maxSp} behaves like a function, \ie{} given the same car, day and
 road, the speed will be the same. Instead of a universal quantification, we
 here use variables \texttt{inst...} that have been declared globally, because they
 produce more readable (counter-)models. 
@@ -221,9 +222,9 @@ produce more readable (counter-)models.
 %\begin{mdframed}
 
 \begin{lstlisting}
-assert <maxSpeedFunctional> {SMT: {valid}}
-   maxSpeed instCar instDay instRoad instSpeed1 &&
-   maxSpeed instCar instDay instRoad instSpeed2
+assert <maxSpFunctional> {SMT: {valid}}
+   maxSp instCar instDay instRoad instSpeed1 &&
+   maxSp instCar instDay instRoad instSpeed2
    --> instSpeed1 == instSpeed2
 \end{lstlisting}
 
@@ -248,20 +249,20 @@ maximal speed: if the vehicle is a car, the day a workday and the road a
 highway, the maximal speed can be 90 or 130, depending on the rule applied.
 \remms{Put output of model checker here?}
 
-The assertion \texttt{maxSpeedFunctional} can be considered as an essential
+The assertion \texttt{maxSpFunctional} can be considered as an essential
 consistency requirement and a rule system violating it as inconsistent. One
 remedial action is to declare one of the rules as default and the other rule
 as overrriding it. In \secref{sec:defeasible}, we will discuss different solutions
 implemented in L4.
 
-After this repair action, \texttt{maxSpeedFunctional} will be provable (under
+After this repair action, \texttt{maxSpFunctional} will be provable (under
 additional natural conditions described in \secref{sec:defeasible}). We can now
 continue to probe other consistency requirements, such as exhaustiveness
 stating that a maximal speed is defined for every combination of vehicle:
 
 \begin{lstlisting}
-assert <maxSpeedExhaustive>
-   exists sp: Integer. maxSpeed instVeh instDay instRoad sp
+assert <maxSpExhaustive>
+   exists sp: Integer. maxSp instVeh instDay instRoad sp
 \end{lstlisting}
 
 The intended usage scenario of L4 is that by an interplay of proving
