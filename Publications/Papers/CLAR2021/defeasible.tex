@@ -178,7 +178,7 @@ consists in applying exhaustively the following \emph{despite elimination}
 rule transformer:
 \remms[inline]{In the whole discussion (and the implementation), make a
   clearer distinction between rule set transformer \texttt{restrict} and rule
-  generator \texttt{derived}.}
+  generator / transformer \texttt{derived}.}
 
 \noindent
 \emph{despiteElim:}\\
@@ -250,21 +250,22 @@ We can now state the transformation (after grouping the
 $
 \{r_1 \{\mathtt{restrict}: \{\mathtt{subjectTo}\; [r_2, \dots, r_n]\}\}, \dots \} \longrightarrow$\\
 $\{r_1^o \{\mathtt{source}\}, r_1 \{\mathtt{derived:}\; \{\mathtt{apply:}\; \{
-\mathtt{restrictSubjectTo}\;\; r_1^o\; r_2 \dots r_n \}\}\}, \dots \}
+\mathtt{restrictSubjectTo}\;\; r_1^o\; [r_2 \dots r_n] \}\}\}, \dots \}
 $
 
 
 
 \paragraph{\textbf{Computation of derived rule}}
-The last step consists in generating the derived rules, by evaluating the value
-of the rule transformer expression marked by \texttt{apply:}. The rules
+The last step consists in generating the derived rules, by evaluating the
+value of the rule transformer expression marked by \texttt{apply}. The rules
 appearing in these expressions may themselves be defined by complex
-expressions. For simplifying the expressions in a rule set, we compute a rule
-dependency order $\preceq_R$ defined by: $r \preceq_R r'$ iff $r$ appears in
-the defining expression of $r'$. If $\preceq_R$ is not a partial order (in
-particular, if it is not cycle-free), then evaluation fails. Otherwise, we
-order the rules topologically by $\preceq_R$ and simplify the
-expressions starting from the minimal elements.
+expressions. However, direct or indirect recursion is not allowed. For
+simplifying the expressions in a rule set, we compute a rule dependency order
+$\preceq_R$ defined by: $r \preceq_R r'$ iff $r$ appears in the defining
+expression of $r'$. If $\preceq_R$ is not a partial order (in particular, if
+it is not cycle-free), then evaluation fails. Otherwise, we order the rules
+topologically by $\preceq_R$ and evaluate the expressions starting from the
+minimal elements.
 
 \begin{example}
 It is at this point that the cyclic dependence already remarked after
@@ -308,8 +309,55 @@ and will use this order for rule elaboration.
 % ......................................................................
 \subsubsection{Restriction via Preconditions}\label{sec:restr_precond}
 
+Here, we propose one possible implementation of the rule transformer
+\texttt{restrictSubjectTo} introduced in \secref{sec:preprocessing} that takes
+a rule $r_1$ and a list of rules $[r_2 \dots r_n]$ and produces a new rule, by
+adding the negation of the preconditions of $[r_2 \dots r_n]$ to $r_1$. More
+formally:
+
+\begin{itemize}
+\item $\mathtt{restrictSubjectTo}\; r_1\; [] = r_1$
+\item $\mathtt{restrictSubjectTo}\; r_1\; (r' \uplus rs) =$\\
+  $\mathtt{restrictSubjectTo}\; (r_1(precond := precond(r_1) \AND \NOT precond(r')))\; rs$
+\end{itemize}
+where $precond(r)$ selects the precondition of rule $r$ and $r(precond:=p)$
+updates the precondition of rule $r$ with $p$.
+
+There is one proviso to the application of \texttt{restrictSubjectTo}: the
+rules have to have the same \emph{parameter interface}: the number and types
+of the parameters in the rules' \texttt{for} clause have to be the same.
+Rules with different parameter interfaces can be adapted via the
+\texttt{remap} rule transformer.
+
+
+%========================================
+
+% R1: 
+% for x1:Tx1, x2: Tx2. body1(x1, x2)
+
+% R2:
+% for y1:Ty1, y2: Ty2, y3: Ty3. body2(y1, y2, y3)
+
+
+% remap R2 [x1:Tx1, x2: Tx2] [y1 := x1, y2 := x2, y3 := e]
+% yields:
+% for x1:Tx1, x2: Tx2.
+% body2(x1, x2, e)
+
+% remap R1 [y1:Ty1, y2: Ty2, y3] [x1 := y1, x2:= y2]
+% yields:
+% for y1:Ty1, y2: Ty2, y3: Ty3.
+% body1(y1, y2)
+
+
+%========================================
+
+
+
 % ......................................................................
 \subsubsection{Restriction via Derivability}\label{sec:restr_deriv}
+
+
 
 % ----------------------------------------------------------------------
 \subsection{Rule Inversion}\label{sec:rule_inversion}
