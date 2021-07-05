@@ -17,7 +17,7 @@ Given a plethora of different notions of ``defeasibility'', we had to make a
 choice as to which notions to support, and which semantics to give to them. We
 will here concentrate on two concepts, which we call \emph{rule modifiers},
 that limit the applicability of rules and make them ``defeasible''. They will
-we be presented in \secref{sec:rule_modifiers}, and we will see how to give
+we be presented in \secref{sec:intro_rule_modifiers}, and we will see how to give
 them a semantics in a classical first-order logic, but also in a non-monotonic
 logic in a system based on Answer Set Programming
 (\secref{sec:answer_set_programming}). An orthogonal question is that of
@@ -216,8 +216,9 @@ complex structure as a result of transformations that are applied to it.
 \paragraph{\textbf{``Subject'' To elimination}}
 
 The rule transformer \emph{subjectToElim} does the following: it splits up the
-rule into two rules: its source (the rule body as originally given), and its
-definition as the result of applying a rule transformation function to several rules.
+rule into two rules, (1) its source (the rule body as originally given), and
+(2) its definition as the result of applying a rule transformation function to
+several rules.
 
 \begin{example}\label{ex:rewrite_subject_to}\
 Before stating the rule transformer, we show its effect on rule
@@ -327,37 +328,154 @@ There is one proviso to the application of \texttt{restrictSubjectTo}: the
 rules have to have the same \emph{parameter interface}: the number and types
 of the parameters in the rules' \texttt{for} clause have to be the same.
 Rules with different parameter interfaces can be adapted via the
-\texttt{remap} rule transformer.
+\texttt{remap} rule transformer.\remms{Promise} The rule 
+
+\begin{lstlisting}[frame=none,mathescape=true]
+rule <r> for $x_1$:$T_1$ $\dots$ $x_n$:$T_n$ if Pre($x_1, \dots, x_n$) then Post($x_1, \dots, x_n$)
+\end{lstlisting}
+is remapped with 
+\begin{lstlisting}[frame=none,mathescape=true]
+remap r [$y_1: S_1, \dots, y_m: S_m$] [$x_1 := e_1, \dots, x_n := e_n$]
+\end{lstlisting}
+to the rule
+\begin{lstlisting}[frame=none,mathescape=true]
+rule <r> for $y_1$: $S_1$ $\dots$ $y_m$: $S_m$ if Pre($e_1, \dots, e_n$) then Post($e_1, \dots, e_n$)
+\end{lstlisting}
+Here, $e_1, \dots, e_n$ are expressions that have to be well-typed with types $E_1, \dots, E_n$ in
+context $y_1: S_1, \dots, y_m: S_m$ (which means in particular that they may
+contain the variables $y_i$) with $E_i \preceq T_i$ (with the consequence that
+the pre- and post-conditions of the new rule remain well-typed). 
 
 
-%========================================
+\begin{example}\mbox{}\\
+We come back to the running example. When processing the rules in the order of
+$\preceq_R$, rule \texttt{maxSpSportsCar}, defined by
+\texttt{apply: \{restrictSubjectTo maxSpSportsCar'Orig maxSpCarWorkday\}},
+becomes:
+\begin{lstlisting}
+rule <maxSpSportsCar>
+   for v: Vehicle, d: Day, r: Road
+   if isSportsCar v && isHighway r &&
+      not (isCar v && isWorkday d)
+   then maxSp v d r 320
+ \end{lstlisting}
 
-% R1: 
-% for x1:Tx1, x2: Tx2. body1(x1, x2)
+ We can now state \texttt{maxSpCarHighway}, which has been defined by
+ \texttt{apply: \{restrictSubjectTo maxSpCarHighway'Orig maxSpSportsCar\}}, as:
 
-% R2:
-% for y1:Ty1, y2: Ty2, y3: Ty3. body2(y1, y2, y3)
+ \begin{lstlisting}
+rule <maxSpCarHighway>
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isHighway r &&
+      not (isSportsCar v && isHighway r &&
+           not (isCar v && isWorkday d))
+   then maxSp v d r 130
+\end{lstlisting}
+\end{example}
 
-
-% remap R2 [x1:Tx1, x2: Tx2] [y1 := x1, y2 := x2, y3 := e]
-% yields:
-% for x1:Tx1, x2: Tx2.
-% body2(x1, x2, e)
-
-% remap R1 [y1:Ty1, y2: Ty2, y3] [x1 := y1, x2:= y2]
-% yields:
-% for y1:Ty1, y2: Ty2, y3: Ty3.
-% body1(y1, y2)
-
-
-%========================================
-
+One downside of the approach of adding negated preconditions is that the
+preconditions of rules can become very complex. This effect is mitigated by
+the fact that conditions in \texttt{subjectTo} and \texttt{despite} clauses
+express specialization or refinement and often permit substantial
+simplifications. Thus, the precondition of \texttt{maxSpSportsCar} simplifies
+to \texttt{isSportsCar v \&\& isHighway r \&\& isWorkday d} and the
+precondition of \texttt{maxSpCarHighway} to
+\texttt{isCar v \&\& isHighway r \&\& not (isSportsCar v \&\& isWorkday d)}.
 
 
 % ......................................................................
 \subsubsection{Restriction via Derivability}\label{sec:restr_deriv}
 
+We now give an alternative reading of \texttt{restrictSubjectTo}. To
+illustrate the point, let us take a look at a simple propositional example.
 
+\begin{example}\label{ex:small_propositional} Take the definitions:
+\begin{lstlisting}
+rule <r1> if B1 then C1
+rule <r2> {subjectTo: r1} if B2 then C2
+\end{lstlisting}
+\end{example}
+
+Instead of saying: \texttt{r2} corresponds to
+\texttt{\blue{if} B2 \&\& not B1 \blue{then} C2} 
+as in \secref{sec:restr_precond}, we would now read it as
+``if the conclusion of \texttt{r1} cannot be derived'', 
+which could be written as
+\texttt{\blue{if} B2 \&\& not C1 \blue{then} C2}.
+The two main problems with this naive approach are the following:
+\begin{itemize}
+\item As mentioned in \secref{sec:intro_rule_modifiers}, a \emph{subject to}
+  restriction is often applied to rules with contradicting conclusions, so in
+  the case that \texttt{C1} is \texttt{not C2}, the generated rule would be a
+  tautology.
+\item In case of the presence of a third rule
+\begin{lstlisting}[frame=none]
+rule <r3> if B3 then C1
+\end{lstlisting}
+a derivation of \texttt{C1} from \texttt{B3} would also block the application
+of \texttt{r2}, and \texttt{subjectTo: r1} and \texttt{subjectTo: r1, r3}
+would be indistinguishable.
+\end{itemize}
+
+We now sketch a solution for rule sets whose conclusion is always an atom (and
+not a more complex formula).
+
+\begin{enumerate}
+\item In a preprocessing stage, all rules are transformed as follows:
+  \begin{enumerate}
+  \item We assume the existence of a class \texttt{Rulename}, which we will
+    take to be \texttt{String} in the following.
+  \item All the predicates $p$
+    occurring in the conclusions of rules (called \emph{transformable
+      predicates}) are converted into predicates $p^+$ with one additional
+    argument of type \texttt{Rulename}. In the
+    example, \texttt{C1$^+$: Rulename -> Boolean} and similarly for \texttt{C2}.
+  \item The transformable predicates $p$ in conclusions of rules receive one
+    more argument, which is the name \emph{rn} of the rule: $p$ is transformed
+    into $p^+\; rn$. The informal reading is ``the predicate is derivable with
+    rule \emph{rn}''.
+  \item All transformable predicates in the preconditions of the rules receive
+    one more argument, which is a universally quantified variable of type
+    \texttt{Rulename} bound in the \texttt{for}-list of the rule.
+  \end{enumerate}
+\item In the main processing stage, \texttt{restrictSubjectTo} in the rule
+  annotations generates rules according to:
+  \begin{itemize}
+\item $\mathtt{restrictSubjectTo}\; r_1\; [] = r_1$
+\item $\mathtt{restrictSubjectTo}\; r_1\; (r' \uplus rs) =$\\
+  $\mathtt{restrictSubjectTo}\; (r_1(precond := precond(r_1) \AND \NOT postcond(r')))\; rs$
+  Thus, the essential difference \wrt{} the definition of
+  \secref{sec:restr_precond} is that we add the negated postcondition.
+\end{itemize}
+\end{enumerate}
+
+\begin{example} The rules of \exampleref{ex:small_propositional} are now
+  transformed to:
+\begin{lstlisting}[mathescape=true]
+rule <r1> for rn: Rulename if B1$^+$ rn then C1$^+$ r1
+rule <r2> for rn: Rulename if B2$^+$ rn and not C1$^+$ r1 then C2$^+$ r2
+\end{lstlisting}
+The derivability of another instance of \texttt{C1}, such as \texttt{C1$^+$ r3},
+would not inhibit the application of \texttt{r2} any more.
+\end{example}
+
+
+\begin{example} The two rules of the running example become, after resolution
+  of the \texttt{restrictSubjectTo} clauses:
+\begin{lstlisting}[mathescape=true]
+rule <maxSpSportsCar>
+   for v: Vehicle, d: Day, r: Road
+   if isSportsCar v && isHighway r &&
+      not maxSp$^+$ maxSpCarWorkday v d r 90
+   then maxSp v d r 320
+rule <maxSpCarHighway>
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isHighway r &&
+      not maxSp$^+$ maxSpCarWorkday v d r 90 &&
+      not maxSp$^+$ maxSpSportsCar v d r 320
+   then maxSp v d r 130
+\end{lstlisting}
+\end{example}
 
 % ----------------------------------------------------------------------
 \subsection{Rule Inversion}\label{sec:rule_inversion}
