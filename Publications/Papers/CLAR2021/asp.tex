@@ -1,0 +1,70 @@
+\section{Introduction}
+
+Let the tuple $Config = (R,F,M,I)$ denote a $configuration$ of legal rules. The set $R$ denotes a set of rules of the form $pre\_con(r)\rightarrow concl(r)$. These are 'naive' rules with no information pertaining to any of the other rules in $R$. $F$ is a set of literals and predicates that describe facts of the legal scenario we wish to consider. $M$ is a set of the binary predicates $despite$, $subject\_to$ and $strong\_subject\_to$. $I$ is a collection of minimal inconsistent sets of positive atoms/predicates. Henceforth for a rule $r$, we may write $C_{r}$ for it's conclusion $Concl(r)$ \\
+\newline
+The binary predicate $legally\_valid(r,c)$ intuitively means that the rule $r$ in $R$ enforces conclusion $c$. The unary predicate $is\_legal(c)$ intuitively means that $c$ legally holds. The predicates $despite$, $subject\_to$ and $strong\_subject\_to$ all cause some rules to override others. Their precise semantics will be given next.
+\subsection{Semantics}
+A set $S$ of $is\_legal$ and $legally\_valid$ predicates is called a $model$ of $Config = (R,F,M,I)$, if and only if\\
+\newline
+A1) $\forall f \in F$ $is\_legal(f) \in S$.\\
+\newline
+A2) $\forall r \in R$, if $legally\_valid(r,C_{r}) \in S$. then $S\models is\_legal(pre\_con(r))$ and $S\models is\_legal(C_{r})$ (this is a slight abuse of notation. Explain later?) \\
+\newline
+A3) $\forall c$, if $is\_legal(c) \in S$, then either $c\in F$ or there exists $r \in R$ such that $legally\_valid(r,C_{r}) \in S$ and $c= C_{r}$.\\
+\newline
+B1) $\forall r_{1}, r_{2} \in R$, if $despite(r_{1}, r_{2}) \in M$ and $S\models is\_legal(pre\_con(r_{2}))$, then $legally\_valid(r_{1},C_{r_{1}}) \notin S$\\
+\newline
+B2) $\forall r_{1}, r_{2} \in R$, if $strong\_subject\_to(r_{1}, r_{2}) \in M$ and $legally\_valid(r_{1},C_{r_{1}}) \in S$, then $legally\_valid(r_{2},C_{r_{2}}) \notin S$\\
+\newline
+B3) $\forall r_{1},r_{2} \in R$ if $subject\_to(r_{1},r_{2}) \in M$, and $legally\_valid(r_{1},C_{r_{1}}) \in S$ and there exists a minimal conflicting set $i \in I$ such that $is\_legal(C_{r_{1}}) \in i$, $i\not\subseteq S$, and $i\subseteq S\cup \{is\_legal(C_{r_{2}})\}$, then $legally\_valid(r_{2},C_{r_{2}}) \notin S$.\\
+\newline
+B4) $\forall r\in R$, if $S\models pre\_con(r)$, but $legally\_valid(r,C\_{r})\notin S$, then at-least one of B1, B2, B3 hold.
+
+
+\section{ASP encoding}
+Here is an ASP encoding scheme given a configuration $Config = (R,F,M,I)$ of legal rules.
+\begin{verbatim}
+% For any f in F, we have:
+is_legal(f).    
+
+% Any rule r in R is encoded using the general schema:
+according_to(r,C_r):-is_legal(pre_con(r)).
+
+% Say {a,b,c} is a minimal inconsistent set in I, then this would get encoded as: 
+opposes(a,b):-is_legal(c)
+opposes(a,c):-is_legal(b).
+opposes(b,c):-is_legal(a).
+% The above is done for every minimal inconsistent set
+
+opposes(X,Y):-opposes(Y,X).
+
+
+% Encoding for 'despite'
+defeated(R,C):-according_to(R,C),according_to(R1,C1),despite(R,R1).
+
+% Encoding for 'subject_to'
+defeated(R,C):-according_to(R,C),legally_valid(R1,C1),opposes(C,C1),subject_to(C1,C).
+
+% Encoding for 'strong_subject_to'
+defeated(R,C):-according_to(R,C),legally_valid(R1,C1),subject_to(C1,C).
+
+legally_valid(R,C):-according_to(R,C),not defeated(R,C).
+
+is_legal(C):-legally_valid(R,C).
+\end{verbatim}
+\subsection{Main claim}
+For a configuration $Config=(R,F,M,I)$, let the above encoding be the program $ASP_{Config}$. Then the sets of $is\_legal$ and $legally\_valid$ predicates from answer sets of $ASP_{Config}$ correspond exactly to the $models$ of $Config$.
+\subsection{Comments/Thoughts}
+It is not entirely clear to me how to unify this approach with Martin's approach to the semantics of L4/where this stuff fits in exactly. However I think it can be done? It seems that our notions of what a rule is match well. Class hierarchies can be incorporated using rules like $is\_truck(X)\rightarrow is\_vehicle(X)$. In this set-up this information along with minimal inconsistent sets can all be stored in the parameter $I$ from the tuple. So perhaps we could rename it $T$ for background theory?\\
+\newline
+The minimal inconsistent sets in $I$ seem to somewhat loosely correspond to 'assertions' in Martin's set up although they seem to mean different things. In this set up, they are meant to encode basic domain knowledge about things that contradict each other. But I think they can also be used as a tool to check properties of the program.\\
+\newline
+Our notions of 'subject to' are different but 'strong subject to' here seems close to Martin's 'subject to'.\\
+\newline
+The intuition for the three modifiers here is that with despite, once the precondition of the higher priority rule is true, it invalidates the lower priority rule regardless of whether the higher priority rule actually comes into effect. With 'strong subject to', once the higher priority rule is in effect, then it invalidates the lower priority rule. With 'subject to', The higher priority rule has to be in effect and it has to contradict the lower priority rule for the lower priority rule to be invalidated.\\
+\subsection{(Slightly worrying) Issues}
+1. I haven't really thought about how to handle disjunctions/conjunctions in rule conclusions.\\
+\newline
+2. I think the main claim 2.1 is correct but I haven't properly proved it yet...\\
+\newline
+3. Although this builds on Jason's work,this framework still needs to be tried out on proper test cases.
