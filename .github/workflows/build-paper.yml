@@ -50,6 +50,8 @@ jobs:
       run: |
         cd Publications/Papers/CLAR2021/
         pdflatex -output-directory=$GITHUB_WORKSPACE ./main.tex
+    - name: Copy pdf
+      run: |
         mkdir public
         cp main.pdf public/
     - name: Deploy
