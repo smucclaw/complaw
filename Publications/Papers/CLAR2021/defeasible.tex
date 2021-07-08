@@ -10,6 +10,11 @@ Discussion on existing notions of defeasibility in particular in a legal context
 \item \cite{alchourron_makinson_hierarchies_of_regulations_1981}
 \item \cite{hage_law_and_defeasibility_2003}
 \item More recent: \cite{governatori21:_unrav_legal_refer_defeas_deont_logic}
+\item Using SMT solvers for CASP:
+  \cite{shen_lierler_smt_answer_set_kr_2018}. Some of the techniques are
+  similar (use of Clark completion), but our purpose is not to simulate answer
+  set programming in SMT solvers, but to represent legal reasoning. In this
+  context, maybe also look at \cite{fages_consistency_clark_completion_1994}.
 \end{itemize}
 \end{tcolorbox}
 
@@ -41,7 +46,8 @@ Professional Conduct Rules \S~34 \cite{professional_conduct_rules} (also see
 this case study):
 
 \begin{description}
-\item[(1)] A legal practitioner must not accept any executive appointment associated with any of the following businesses:
+\item[(1)] A legal practitioner must not accept any executive appointment
+  associated with any of the following businesses: 
   \begin{description}
   \item[(a)] any business which detracts from, is incompatible with, or
     derogates from the dignity of, the legal profession;
@@ -479,6 +485,93 @@ rule <maxSpCarHighway>
 
 % ----------------------------------------------------------------------
 \subsection{Rule Inversion}\label{sec:rule_inversion}
+
+The purpose of this section is to derive formulas that, for a given rule set,
+simulate negation as failure, but are coded in a classical first-order logic,
+do not require a dedicated proof engine (such as Prolog) and can be checked
+with a SAT or SMT solver. The net effect is similar to the completion
+introduced by Clark \cite{clark_NegAsFailure_1978}; however, the justification
+is not operational as in \cite{clark_NegAsFailure_1978}, but takes 
+inductive closure as a point of departure. Apart from that, our technique
+applies to a considerably wider class of formulas.
+
+In the following, we assume that our rules have an atomic predicate $P$ as
+conclusion, whereas the precondition $Pre$ can be an arbitrarily complex
+formula.  We furthermore assume that rules are in \emph{normalized form}: $P$
+may only be applied to $n$ distinct variables $x_1, \dots, x_n$, where $n$ is
+the arity of $P$, and the rule quantifies over exactly these variables.
+For notational simplicity, we write normalized rules in logical format,
+ignoring types:
+$\forall x_1, \dots, x_n. Pre(x_1, \dots x_n) \IMPL Post(x_1, \dots, x_n)$.
+
+Every rule can be written in normalized form, by applying the following
+algorithm:
+\begin{itemize}
+\item Remove expressions or duplicate variables in the conclusion, by using
+  the equivalences $P(\dots e \dots) = (\forall x. x = e \IMPL P(\dots x
+  \dots))$ for a fresh variable x, and similarly $P(\dots y \dots y \dots) =
+  (\forall x. x = y   \IMPL P(\dots x \dots y \dots))$.
+\item Remove variables from the universal quantifier prefix if they do not
+  occur in the conclusion, by using the equivalence
+  $(\forall x. Pre(\dots x \dots) \IMPL P) = (\exists x. Pre(\dots x \dots))
+  \IMPL P$.
+\end{itemize}
+
+For any rule set $R$ and any predicate $P$, we can form the set of $P$-rules
+$\{\forall x_1, \dots, x_n. Pre_1(x_1, \dots x_n) \IMPL P(x_1, \dots, x_n),
+\dots, \forall x_1, \dots, x_n. Pre_k(x_1, \dots x_n)$ $\IMPL P(x_1, \dots,
+x_n)\}$ as the subset of $R$ containing all rules having $P$ as
+post-condition. 
+
+The inductive closure of a set of $P$-rules is the predicate $P^*$ defined by
+the second-order formula
+\begin{align*}
+  P^*(x_1, \dots, x_n) = \forall P.\;  & (Pre_1(x_1, \dots x_n) \IMPL P(x_1, \dots, x_n)) \IMPL \dots \\
+                         & (Pre_k(x_1, \dots x_n) \IMPL P(x_1, \dots, x_n)) \IMPL\\
+                         & P(x_1, \dots, x_n)
+\end{align*}
+
+$P^*$ can be understood as the least predicate satisfying the set of $P$-rules
+and is the predicate that represents ``all that is known about $P$ and
+assuming nothing else about $P$ is true'', and corresponds to the notion of
+exhaustiveness prevalent in law texts. It can also be understood as the static
+equivalent of the operational concept of negation as failure for predicate $P$.
+
+As an illustration, let us note that in case the $P$-rule set is empty, \ie there
+are no rules establishing $P$, we have $P^*(x_1, \dots, x_n) = \forall
+P.\;  P(x_1, \dots, x_n) = \bot$.
+
+Obviously, a second-order formula such as the definition of $P^*$ is unwieldy
+in fully automated theorem proving. We derive one consequence:
+
+\begin{lemma}
+$P^*(x_1, \dots, x_n) \IMPL Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)$
+\end{lemma}
+\begin{proof}
+Expand the definition of $P^*$ and instantiate the universal variable $P$ with
+$\lambda x_1 \dots x_n. Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)$.
+\end{proof}
+As a consequence of the Löwenheim–Skolem theorem, there is no first-order
+equivalent of $P^*$: a formula of the form $P^*$ can characterize the natural
+numbers up to isomorphism, but no first-order formula can. In the absence of
+such a first-order equivalent, we define the formula
+\[
+\forall x_1, \dots, x_n.\;  P(x_1, \dots, x_n) \IMPL Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)
+\]
+called the \emph{inversion formula of  $P$}, as an approximation of the
+effect of $P^*$.
+
+Inversion formulas can be automatically derived and added to the rule set in
+L4 proofs; they turn out to be essential for consistency properties. For
+example, the functionality of \texttt{maxSp} stated in \figref{fig:assertions}
+is not provable without the inversion formula of \texttt{maxSp}.
+
+To avoid misunderstandings, we should emphasize that this approach is entirely
+based on a classical monotonic logic, in spite of non-monotonic
+effects. Adding a new $P$-rule may invalidate previously provable facts, but
+this is only so because the new rule alters the inversion formula of $P$.
+
+
 
 
 % ----------------------------------------------------------------------
