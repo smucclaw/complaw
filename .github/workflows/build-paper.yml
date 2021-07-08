@@ -50,6 +50,14 @@ jobs:
       run: |
         cd Publications/Papers/CLAR2021/
         pdflatex -output-directory=$GITHUB_WORKSPACE ./main.tex
+        mkdir public
+        cp main.pdf public/
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
+
     - name: Store pdf
       uses: actions/upload-artifact@v2
       with:
