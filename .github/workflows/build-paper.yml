@@ -1,0 +1,58 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the primary branch
+  push:
+    branches: [ primary ]
+    paths: 
+    - Publications/Papers/CLAR2021/*
+    - .github/workflows/build-paper.yml
+  pull_request:
+    branches: [ primary ]
+    paths: 
+    - Publications/Papers/CLAR2021/*
+    - .github/workflows/build-paper.yml
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-resume:
+    runs-on: ubuntu-latest
+    name: Create document
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    # "uses" steps doesn't support working-directory
+    # so let's just copy the contents here instead, as a hack
+    # - name: Copy contents of directory here
+    #   run: cp Publications/Papers/CLAR2021/* .
+    - name: Install latex
+      run: |
+        sudo apt-get update
+        DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
+          texlive-base \
+          texlive-binaries \
+          texlive-fonts-recommended \
+          texlive-latex-base \
+          texlive-latex-recommended \
+          texlive-latex-extra \
+          texlive-science
+    # - name: Convert to pdf
+    #   id: convert-to-pdf
+    #   uses: closoco/pdflatex-action@v1.0.0
+    #   with:
+    #     texFile: ./main.tex
+    - name: Create pdf
+      run: |
+        cd Publications/Papers/CLAR2021/
+        pdflatex -output-directory=$GITHUB_WORKSPACE ./main.tex
+    - name: Store pdf
+      uses: actions/upload-artifact@v2
+      with:
+        name: main.pdf
+        path: main.pdf
+
