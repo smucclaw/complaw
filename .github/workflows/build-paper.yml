@@ -40,6 +40,7 @@ jobs:
           texlive-latex-base \
           texlive-latex-recommended \
           texlive-latex-extra \
+          cm-super \
           texlive-science
     # - name: Convert to pdf
     #   id: convert-to-pdf
