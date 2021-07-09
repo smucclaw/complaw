@@ -1,4 +1,8 @@
-\section{Introduction}
+\section{Defeasible Reasoning with Answer Set Programming}\label{sec:defeasible_asp}
+
+
+
+\subsection{Introduction}
 The purpose of this section is to give an account of the work we have been doing using Answer Set Programming to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Here we will not go too much into the details of how various L4, language constructs map to the ASP formalisation. Our intention rather, is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable, intuitive and respecting the idea of having an 'isomorphism' between the rules and the encoding. Going forward, our intention is to develop a method to compile L4 code to a suitable ASP representation like the one we shall now present. We first begin by formalizing the notion of what it means to 'satisfy' a rule set. We will do this in a way that is most amenable to ASP.
 \subsection{Formal Setup}
 Let the tuple $Config = (R,F,M,I)$ denote a $configuration$ of legal rules. The set $R$ denotes a set of rules of the form $pre\_con(r)\rightarrow concl(r)$. These are 'naive' rules with no information pertaining to any of the other rules in $R$. $F$ is a set of positive atoms and predicates that describe facts of the legal scenario we wish to consider. $M$ is a set of the binary predicates $despite$, $subject\_to$ and $strong\_subject\_to$. $I$ is a collection of minimal inconsistent sets of positive atoms/predicates. Henceforth for a rule $r$, we may write $C_{r}$ for it's conclusion $Concl(r)$ \\
@@ -25,9 +29,9 @@ A8) $S$ is subset minimal among all sets $S'$ satisfying A1-A7.
 
 \subsection{Some remarks on axioms A1-A7}
 Before we proceed let us give some informal intuition behind some of the axioms and their intended effects. A1 says that all facts in F automatically gain legal status. The set F represents indisputable facts about the legal scenario we are considering. A2 says that if a conclusion is enforced by a rule then both the pre-condition and conclusion of that rule must have legal status. Note that it is not enough if simply the conclusion has legal status as more than one rule may enforce the same conclusion or the conclusion may be a fact, so we want to know exactly which rules are 'in force' as well as their conclusions. A3 says that anything that has legal status must either be a fact or be enforced by the rules. A4 to A6 describe the semantics of the three modifiers. The intuition for the three modifiers here is that with despite, once the precondition of the higher priority rule is true, it invalidates the lower priority rule regardless of whether the higher priority rule actually comes into effect. With 'strong subject to', once the higher priority rule is in effect, then it invalidates the lower priority rule. With 'subject to', The higher priority rule has to be in effect and it has to contradict the lower priority rule for the lower priority rule to be invalidated. We will give examples later on to illustrate these modifiers. A7 says essentially that A4-A6 represent the only ways in which a rule whose pre-condition is true may nevertheless not be in effect, and any rule whose precondition is satisfied and is not invalidated directly by some instance of A4-A6 must be in effect. 
-\section{Non-existence of models}
+\subsection{Non-existence of models}
 Note that there may be configurations for which no models exist. This is most easily seen in the case where there is only one rule, the pre-condition of that rule is given as fact, and the rule is strongly subject to itself. There maybe other more non-trivial cases where there are no models corresponding to a configuration but so far we haven't been able to formulate explicit examples of this. 
-\section{ASP encoding}
+\subsection{ASP encoding}
 Here is an ASP encoding scheme given a configuration $Config = (R,F,M,I)$ of legal rules.
 \begin{verbatim}
 % For any f in F, we have:
@@ -65,16 +69,27 @@ is_legal(C):-legally_valid(R,C).
 For a configuration $Config=(R,F,M,I)$, let the above encoding be the program $ASP_{Config}$. Then the sets of $is\_legal$ and $legally\_valid$ predicates from answer sets of $ASP_{Config}$ correspond exactly to the $models$ of $Config$.\\
 \newline
 $Proof$ $sketch$ The definition of $defeated(R,C)$ that involves $despite$ encodes exactly A4, the definition of $defeated(R,C)$ that involves $strong\_subject\_to$ encodes exactly A5, and the way the $opposes$ predicates are defined together with the remaining definition of $defeated(R,C)$ encodes exactly A6. Other than rules that are invalidated this way, all $according\_to(R,C)$ predicates get turned into $legally\_valid(R,C)$ predicates (A7), and the only way to derive a $is\_legal(C)$ predicate is if $C$ is a fact or $C$ has been enforced by a rule. (First and last lines of encoding)
-\section{Examples}
-Let us now give an example to illustrate the various concepts/modifiers discussed above.\\
-\newline
-Consider 4 basic rules:\\
-(1) If Bob is wealthy, he must buy a Rolls-Royce.\\
-(2) If Bob is wealthy, he must buy a Mercedes.\\
-(3) If Bob is wealthy, he may spend up to 2 million dollars on cars\\
-(4) If Bob is extremely wealthy, he may spend up to 10 million dollars on cars.\\
-\newline
-Suppose we know that the Rolls-Royce and Mercedes together cost more than 2 million but each is individually less than 2 million. We also have that rules 1 and 2 are each subject to rule 3 and despite rule 1, rule 4 holds. Additionally, we also have the fact that Bob is wealthy. In this situation we would expect 2 models. One in which exactly rule 1 and rule 3 are legally valid and one in which exactly rule 2 and rule 3 are legally valid. Let us see what our encoding looks like.
+\subsection{Examples}
+Let us now give an example to illustrate the various concepts/modifiers discussed above.
+
+
+Consider 4 basic rules:
+\begin{enumerate}
+  \item If Bob is wealthy, he must buy a Rolls-Royce.
+  \item If Bob is wealthy, he must buy a Mercedes.
+  \item If Bob is wealthy, he may spend up to 2 million dollars on cars.
+  \item If Bob is extremely wealthy, he may spend up to 10 million dollars on cars.
+\end{enumerate}
+    
+Suppose we know that the Rolls-Royce and Mercedes together cost more
+than 2 million but each is individually less than 2 million. We also
+have that rules 1 and 2 are each subject to rule 3 and despite rule 1,
+rule 4 holds. Additionally, we also have the fact that Bob is
+wealthy. In this situation we would expect 2 models. One in which
+exactly rule 1 and rule 3 are legally valid and one in which exactly
+rule 2 and rule 3 are legally valid. Let us see what our encoding
+looks like.
+
 \begin{verbatim}
 is_legal(wealthy(bob)).
 % Rules
@@ -123,7 +138,7 @@ At this point, we wish to remind the reader that if there was a 5th rule in this
 However, in the case of $subject\_to$ and $strong\_subject\_to$, the dominating rules needs to be legally valid to invalidate the subordinate rule.\\ 
 \newline
 As an illustration of the previous point say we have a fifth rule which says, if Bob owns a company, he may spend up to 20 million dollars on cars, and we have $despite(4,5)$ as an additional modifier. Suppose now also we have the three facts that Bob is wealthy, Bob is extremely wealthy and Bob owns a company. Then we would get exactly one answer set/model in which exactly rule 1, rule 2 and rule 5 were legally valid. So rule 4 would invalidate rule 3 even though it itself is invalidated by 5. 
-\section{Comments/Thoughts}
+\subsection{Comments/Thoughts}
 It is not entirely clear to me how to unify this approach with Martin's approach to the semantics of L4/where this stuff fits in exactly. However I think it can be done? It seems that our notions of what a rule is match well. Class hierarchies can be incorporated using rules like $is\_truck(X)\rightarrow is\_vehicle(X)$. In this set-up this information along with minimal inconsistent sets can all be stored in the parameter $I$ from the tuple. So perhaps we could rename it $T$ for background theory?\\
 \newline
 The minimal inconsistent sets in $I$ seem to somewhat loosely correspond to 'assertions' in Martin's set up although they seem to mean different things. In this set up, they are meant to encode basic domain knowledge about things that contradict each other. But I think they can also be used as a tool to check properties of the program.\\
@@ -131,3 +146,10 @@ The minimal inconsistent sets in $I$ seem to somewhat loosely correspond to 'ass
 Our notions of 'subject to' are different but 'strong subject to' here seems close to Martin's 'subject to'.\\
 \newline
 I kind of think I know how to go about proving the lemma...
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
