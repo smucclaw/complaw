@@ -3,11 +3,11 @@
 Computer-supported reasoning about law is a longstanding effort of researchers
 from different disciplines such as jurisprudence, artificial intelligence, logic and
 philosophy. What originally may have appeared as an academic playground is
-now evolving into a realistic scenario, for different reasons. 
+now evolving into a realistic scenario, for various reasons. 
 
 On the \emph{demand} side, there is a growing number of human-machine or
 machine-machine interactions where compliance with legal norms is essential,
-such as in sales, insurance, banking or digital rights management, to name but
+such as in sales, insurance, banking and finance or digital rights management, to name but
 a few. Innumerable ``smart contract'' languages attest of the interest to
 automate these processes, even though many of them are rather dedicated
 programming languages than formalisms intended to express and reason about
@@ -28,15 +28,26 @@ with its characteristic elements such as cross references, prioritisation of
 rules and defeasible reasoning. Indeed, presenting these features is one of
 the main topics of this paper. Once a law has been coded in L4, it can
 be further processed: it can be converted to natural language \cite{listemnmaa2021cnl} to
-be as human readable as a traditional law and efficient executable code can be
+be as human readable as a traditional law text, and efficient executable code can be
 extracted, for example to perform tax calculations (all this is not the topic
 of the present paper). It can also be analysed, to find faults in the law
 text on the meta level (such as consistency and completeness of a rule set),
 but also on the object level, to decide individual cases.
 
-\paragraph{Structure of the paper}
-
-
+\paragraph{Overview of the paper}
+The main emphasis of this paper is on the L4 DSL that is currently under
+definition, which in particular features a formalism for transcribing rules
+and reasoning support for verifying their properties. \secref{sec:l4_language} is dedicated to a description of the language
+and the L4 system implementation currently under development. The rule
+language will be dissected in \secref{sec:resasoning_with_rules}. We will in
+particular describe mechanisms for prioritisation and defeasibility of rules
+that are encoded via specific keywords in law texts. We then define a precise
+semantics of these mechanisms, by a translation to logic. Classical, monotonic
+logic, developed in \secref{sec:defeasible_classical}, has received surprisingly
+little attention in this area, even though proof support in the form of
+SAT/SMT solvers has made astounding progress in recent years. An alternative
+approach, based on Answer Set Programming, is described in
+\secref{sec:defeasible_asp}. We conclude in \secref{sec:conclusions}.
 
 
 \paragraph{Related work}
