@@ -3,35 +3,59 @@
 
 
 \subsection{Introduction}
-The purpose of this section is to give an account of the work we have been doing using Answer Set Programming to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Here we will not go too much into the details of how various L4, language constructs map to the ASP formalisation. Our intention rather, is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable, intuitive and respecting the idea of having an 'isomorphism' between the rules and the encoding. Going forward, our intention is to develop a method to compile L4 code to a suitable ASP representation like the one we shall now present. We formalize the notion of what it means to 'satisfy' a rule set. We will do this in a way that is most amenable to ASP.\\
+The purpose of this section is to give an account of the work we have been doing using Answer Set Programming (ASP) to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Here we will not go too much into the details of how various L4, language constructs map to the ASP formalisation. Our intention rather, is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable, intuitive and respecting the idea of having an 'isomorphism' between the rules and the encoding. Going forward, our intention is to develop a method to compile L4 code to a suitable ASP representation like the one we shall now present. We formalize the notion of what it means to 'satisfy' a rule set. We will do this in a way that is most amenable to ASP.
 
-First we shall give a brief overview of Answer Set Programming (ASP). ASP is a declarative programming language used mainly in Knowledge Representation and Reasoning to model rules, facts, integrity constraints etc. within a particular scenario that one wishes to consider. A rule in ASP has the form:\\
-\newline
-$h\leftarrow b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}.$\\
+First we shall give a brief overview of Answer Set Programming. ASP is a declarative programming language used mainly in Knowledge Representation and Reasoning to model rules, facts, integrity constraints etc. within a particular scenario that one wishes to consider. A rule in ASP has the form:
+\[h\leftarrow b_{1},b_{2}..,b_{k},not\; b_{k+1}...,not\; b_{n}.\]
+Here $h$ and $b_{1}$...,$b_{n}$ are atoms. For an atom $b_{i}$, $not$ $b_{i}$ is the negated atom where the $not$ represents negation as failure. Informally $not$ $b_{i}$ is true exactly when $b_{i}$ cannot be derived. This is also sometimes known as the 'closed world assumption'. Intuitively the rule above says that when $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ are all true, $h$ is true. $h$ is also sometimes known as the head of the rule and the positive and negated atoms $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ form the body. A rule with only a head and an empty body is called a fact. A logic program is a set of facts and rules. (In fact ASP can also model other things like integrity constrains, disjunctions in rule heads etc, but we will not be using these features in our paper). When a logic program is passed to an ASP solver, the solver returns a set of $stable$ $models$ (also known as $answer$ $sets$) which make all the rules and facts in the logic program true. The set of $stable$ $models$ of a logic program is calculated using the $stable$ $model$ $semantics$ for ASP. For logic programs without negation-as-failure, the set of stable models is exactly the set of subset minimal models of the program. For logic programs with negation as failure stable models are most commonly defined using a construction known as the $reduct$ of a logic program with respect to an $herbrand$ $interpretation$. Please see \cite{asp_background} for more details on ASP and the stable model semantics.   
 
-Here $h$ and $b_{1}$...,$b_{n}$ are atoms. For an atom $b_{i}$, $not$ $b_{i}$ is the negated atom where the $not$ represents negation as failure. Informally $not$ $b_{i}$ is true exactly when $b_{i}$ cannot be derived. This is also sometimes known as the 'closed world assumption'. Intuitively the rule above says that when $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ are all true, $h$ is true. $h$ is also sometimes known as the head of the rule and the positive and negated atoms $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ form the body. A rule with only a head and an empty body is called a fact. A logic program is a set of facts and rules. (In fact ASP can also model other things like integrity constrains, disjunctions in rule heads etc, but we will not be using these features in our paper). When a logic program is passed to an ASP solver, the solver returns a set of $stable$ $models$ (also known as $answer$ $sets$) which make all the rules and facts in the logic program true. The set of $stable$ $models$ of a logic program is calculated using the $stable$ $model$ $semantics$ for ASP. For logic programs without negation-as-failure, the set of stable models is exactly the set of subset minimal models of the program. For logic programs with negation as failure stable models are most commonly defined using a construction known as the $reduct$ of a logic program with respect to an $herbrand$ $interpretation$. Please see \cite{asp_background} for more details on ASP and the stable model semantics.    
+\remms[inline]{Typesetting remarks:}
+\begin{itemize}
+    \item Herbrand: name of a mathematician, therefore capitalized
+    \item for \emph{emphasis}, use the \emph{emph} macro and not $math$ mode which looks ugly with ligatures, compare \emph{stuff} and $stuff$ or \emph{configuration} and $configuration$
+\end{itemize}
+
+
+
 \subsection{Formal Setup}
-Let the tuple $Config = (R,F,M,I)$ denote a $configuration$ of legal rules. The set $R$ denotes a set of rules of the form $pre\_con(r)\rightarrow concl(r)$. These are 'naive' rules with no information pertaining to any of the other rules in $R$. $F$ is a set of positive atoms and predicates that describe facts of the legal scenario we wish to consider. $M$ is a set of the binary predicates $despite$, $subject\_to$ and $strong\_subject\_to$. $I$ is a collection of minimal inconsistent sets of positive atoms/predicates. Henceforth for a rule $r$, we may write $C_{r}$ for it's conclusion $Concl(r)$.\\ Note that, throughout this section, given any rule $r$ $C_{r}$ is assumed to be a single positive atom. That is there are no disjunctions or conjunctions in rule conclusions. Also any rule pre-condition ($pre\_con(r)$) is assumed to be a conjunction of positive and negated atoms. Here negation denotes 'negation as failure'.  
-\newline
-Throughout this document, whenever we use an uppercase or lowercase letter (like $r$, $r_{1}$, $R$ etc.) to denote a rule that is an argument,in a binary predicate, we mean the unique numeric or alpha-numeric rule id associated with that rule. The binary predicate $legally\_valid(r,c)$ intuitively means that the rule $r$ is 'in force' and it has conclusion $c$. The unary predicate $is\_legal(c)$ intuitively means that $c$ legally holds/has legal status. The predicates $despite$, $subject\_to$ and $strong\_subject\_to$ all cause some rules to override others. Their precise properties will be given next.
+Let the tuple $Config = (R,F,M,I)$ denote a $configuration$ of legal rules. The set $R$ denotes a set of rules of the form $pre\_con(r)\rightarrow concl(r)$. These are 'naive' rules with no information pertaining to any of the other rules in $R$. $F$ is a set of positive atoms and predicates that describe facts of the legal scenario we wish to consider. $M$ is a set of the binary predicates $despite$, $subject\_to$ and $strong\_subject\_to$. $I$ is a collection of minimal inconsistent sets of positive atoms/predicates. Henceforth for a rule $r$, we may write $C_{r}$ for its conclusion $Concl(r)$. \remms{The question is whether there is any formal difference between rules and facts. Differently said, can facts be considered as rules with precondition True?}
+
+Note that, throughout this section, given any rule $r$, $C_{r}$ is assumed to be a single positive atom. That is, there are no disjunctions or conjunctions in rule conclusions. Also any rule pre-condition ($pre\_con(r)$) is assumed to be a conjunction of positive and negated atoms. Here negation denotes 'negation as failure'.  
+\remms{Homogenize writing, for example \emph{subjectTo} instead of \emph{subject\_to}}
+
+Throughout this document, whenever we use an uppercase or lowercase letter (like $r$, $r_{1}$, $R$ etc.) to denote a rule that is an argument, in a binary predicate, we mean the unique numeric or alpha-numeric rule id associated with that rule.\remms{not clear} The binary predicate $legally\_valid(r,c)$ intuitively means that the rule $r$ is 'in force' and it has conclusion $c$. The unary predicate $is\_legal(c)$ intuitively means that $c$ legally holds/has legal status. The predicates $despite$, $subject\_to$ and $strong\_subject\_to$ all cause some rules to override others. Their precise properties will be given next.\remms{Don't quite see the difference between "is legal" and "legally valid"}
+
+
 \subsection{Semantics}
 
 A set $S$ of $is\_legal$ and $legally\_valid$ predicates is called a \textit{legal model} of $Config = (R,F,M,I)$, if and only if
 \begin{description}
-\item[(A1)]$\forall f \in F$ $is\_legal(f) \in S$.\\
-\item[(A2)] $\forall r \in R$, if $legally\_valid(r,C_{r}) \in S$. then $S\models is\_legal(pre\_con(r))$ and $S\models is\_legal(C_{r})$ \footnote{By $S\models is\_legal(pre\_con(r))$ we mean that for each positive atom $b_{i}$ in the conjunction, $is\_legal(b_{i}) \in S$ and for each negated body atom $not$ $b_{j}$ in the conjunction $is\_legal(b_{j})\notin S$ }\\ 
-\item[(A3)] $\forall c$, if $is\_legal(c) \in S$, then either $c\in F$ or there exists $r \in R$ such that $legally\_valid(r,C_{r}) \in S$ and $c= C_{r}$.\\
-\item[(A4)] $\forall r_{1}, r_{2} \in R$, if $despite(r_{1}, r_{2}) \in M$ and $S\models is\_legal(pre\_con(r_{2}))$, then $legally\_valid(r_{1},C_{r_{1}}) \notin S$\\
-\item[(A5)] $\forall r_{1}, r_{2} \in R$, if $strong\_subject\_to(r_{1}, r_{2}) \in M$ and $legally\_valid(r_{1},C_{r_{1}}) \in S$, then $legally\_valid(r_{2},C_{r_{2}}) \notin S$\\
-\item[(A6)] $\forall r_{1},r_{2} \in R$ if $subject\_to(r_{1},r_{2}) \in M$, and $legally\_valid(r_{1},C_{r_{1}}) \in S$ and there exists a minimal conflicting set $i \in I$ such that $is\_legal(C_{r_{1}}) \in i$ and $i\subseteq S\cup \{is\_legal(C_{r_{2}})\}$, then $legally\_valid(r_{2},C_{r_{2}}) \notin S$.\\
-\item[(A7)] $\forall r\in R$, if $S\models pre\_con(r)$, but $legally\_valid(r,C_{r})\notin S$, then it must be the case that at least one of A4 or A5 or A6 has caused the exclusion of $legally\_valid(r,C_{r})$. That is if $S\models pre\_con(r)$, then unless this would violate one of A5, A6 or A7, it must be the case that $legally\_valid(r,C_{r})\in S$.\\
+\item[(A1)]$\forall f \in F$ $is\_legal(f) \in S$.
+
+\item[(A2)] $\forall r \in R$, if $legally\_valid(r,C_{r}) \in S$. then $S\models is\_legal(pre\_con(r))$ and\remms{implies?} $S\models is\_legal(C_{r})$ \footnote{By $S\models is\_legal(pre\_con(r))$ we mean that for each positive atom $b_{i}$ in the conjunction, $is\_legal(b_{i}) \in S$ and for each negated body atom $not$ $b_{j}$ in the conjunction $is\_legal(b_{j})\notin S$ }
+
+\item[(A3)] $\forall c$, if $is\_legal(c) \in S$, then either $c\in F$ or there exists $r \in R$ such that $legally\_valid(r,C_{r}) \in S$ and $c= C_{r}$.
+
+\item[(A4)] $\forall r_{1}, r_{2} \in R$, if $despite(r_{1}, r_{2}) \in M$ and $S\models is\_legal(pre\_con(r_{2}))$, then $legally\_valid(r_{1},C_{r_{1}}) \notin S$
+
+\item[(A5)] $\forall r_{1}, r_{2} \in R$, if $strong\_subject\_to(r_{1}, r_{2}) \in M$ and $legally\_valid(r_{1},C_{r_{1}}) \in S$, then $legally\_valid(r_{2},C_{r_{2}}) \notin S$
+\remms{Shouldn't it be the inverse: if $r_2$ is not legally valid, then one is entitled to conclude that $C_{r_1}$ is legally valid, provided one can also show the preconditions of $r_1$?}
+
+\item[(A6)] $\forall r_{1},r_{2} \in R$ if $subject\_to(r_{1},r_{2}) \in M$, and $legally\_valid(r_{1},C_{r_{1}}) \in S$ and there exists a minimal conflicting set $i \in I$ such that $is\_legal(C_{r_{1}}) \in i$ and $i\setminus \{is\_legal(C_{r_{2}})\}\subseteq S $, then $legally\_valid(r_{2},C_{r_{2}}) \notin S$.
+
+\item[(A7)] $\forall r\in R$, if $S\models pre\_con(r)$, but $legally\_valid(r,C_{r})\notin S$, then it must be the case that at least one of A4 or A5 or A6 has caused the exclusion of $legally\_valid(r,C_{r})$. That is if $S\models pre\_con(r)$, then unless this would violate one of A5, A6 or A7, it must be the case that $legally\_valid(r,C_{r})\in S$.
+
 \item[(A8)] $S$ is subset minimal among all sets $S'$ satisfying A1-A7.
 \end{description}
 
 \subsection{Some remarks on axioms A1-A8}
-Before we proceed let us give some informal intuition behind some of the axioms and their intended effects. A1 says that all facts in $F$ automatically gain legal status. The set $F$ represents indisputable facts about the legal scenario we are considering. A2 says that if a rule is 'in force' then both the pre-condition and conclusion of that rule must have legal status. Note that it is not enough if simply the conclusion has legal status as more than one rule may enforce the same conclusion or the conclusion may be a fact, so we want to know exactly which rules are in force as well as their conclusions. A3 says that anything that has legal status must either be a fact or be a conclusion of some rule that is in force. A4 to A6 describe the semantics of the three modifiers. The intuition for the three modifiers here is that with $despite$, once the precondition of the dominating rule is true, it invalidates the subordinate rule regardless of whether the dominating rule itself is then invalidated by some other rule. With \textit{strong subject to}, once the dominating rule is in force, then it invalidates the subordinate rule. With \textit{subject to}, for the subordinate rule $r$ to be invalidated, it has to be the case that, the dominating rule is in force and, there is a minimal inconsistent set $i$ in $I$ that contains the two atoms in the conclusions of the two rules and, $i\setminus\{C_{r}\}\subseteq S$ . These minimal inconsistent sets along with the \textit{subject to} modifier give us a way to incorporate a classical negation like effect into our system. We will give examples later on to illustrate these modifiers. A7 says essentially that A4-A6 represent the only ways in which a rule whose pre-condition is true may nevertheless be invalidated, and any rule whose precondition is satisfied and is not invalidated directly by some instance of A4-A6, must be in force. A8 says that $S$ must be subset minimal among all sets satisfying A1-A7. 
+Before we proceed let us give some informal intuition behind some of the axioms and their intended effects. A1 says that all facts in $F$ automatically gain legal status. The set $F$ represents indisputable facts about the legal scenario we are considering. A2 says that if a rule is 'in force' then both the pre-condition and conclusion of that rule must have legal status. Note that it is not enough if simply the conclusion has legal status as more than one rule may enforce the same conclusion or the conclusion may be a fact, so we want to know exactly which rules are in force as well as their conclusions. A3 says that anything that has legal status must either be a fact or be a conclusion of some rule that is in force. A4 to A6 describe the semantics of the three modifiers. The intuition for the three modifiers here is that with $despite$, once the precondition of the dominating rule \remms{$r_2$} is true, it invalidates the subordinate rule \remms{$r_1$} regardless of whether the dominating rule itself is then invalidated by some other rule. With \textit{strong subject to}, once the dominating rule \remms{$r_1$} is in force, then it invalidates the subordinate rule\remms{$r_2$}. With \textit{subject to}, for the subordinate rule $r$ to be invalidated, it has to be the case that, the dominating rule is in force and, there is a minimal inconsistent set $i$ in $I$ that contains the two atoms in the conclusions of the two rules and, $i\setminus\{C_{r}\}\subseteq S$ . These minimal inconsistent sets along with the \textit{subject to} modifier give us a way to incorporate a classical negation like effect into our system. We will give examples later on to illustrate these modifiers. A7 says essentially that A4-A6 represent the only ways in which a rule whose pre-condition is true may nevertheless be invalidated, and any rule whose precondition is satisfied and is not invalidated directly by some instance of A4-A6, must be in force. A8 says that $S$ must be subset minimal among all sets satisfying A1-A7. 
+
+
 \subsection{Non-existence of legal models}
 Note that there may be configurations for which no legal models exist. This is most easily seen in the case where there is only one rule, the pre-condition of that rule is given as fact, and the rule is strongly subject to itself. There maybe other more non-trivial cases where there are no legal models corresponding to a configuration but so far we haven't been able to formulate explicit examples of this. 
+
+
 \subsection{ASP encoding}
 Here is an ASP encoding scheme given a configuration $Config = (R,F,M,I)$ of legal rules.
 \begin{lstlisting}[language=Prolog, numbers=left]
@@ -42,19 +66,19 @@ is_legal(f).
 according_to(r,C_r):-is_legal(pre_con(r)).
 
 % Say {a,b,c} is a minimal inconsistent set in I, then this would get encoded as: 
-opposes(a,b):-is_legal(c)
-opposes(a,c):-is_legal(b).
-opposes(b,c):-is_legal(a).
+opposes(a,b) :- is_legal(c)
+opposes(a,c) :- is_legal(b).
+opposes(b,c) :- is_legal(a).
 %The above is done for every minimal inconsistent set. A pair from the set forms the opposes predicate and the rest of the elements go in the body 
 
 % Say {d,e,f,g} is another minimal inconsistent set in I, then this would get encoded as:
 
-opposes(d,e):-is_legal(f),is_legal(g).
-opposes(d,f):-is_legal(e),is_legal(g).
-opposes(d,g):-is_legal(f),is_legal(e).
-opposes(e,f):-is_legal(d),is_legal(g).
-opposes(e,g):-is_legal(f),is_legal(d).
-opposes(f,g):-is_legal(d),is_legal(e).
+opposes(d,e) :- is_legal(f),is_legal(g).
+opposes(d,f) :- is_legal(e),is_legal(g).
+opposes(d,g) :- is_legal(f),is_legal(e).
+opposes(e,f) :- is_legal(d),is_legal(g).
+opposes(e,g) :- is_legal(f),is_legal(d).
+opposes(f,g) :- is_legal(d),is_legal(e).
 
 % If we had a minimal inconsistent set consisting of only 2 elements say {j,k}, this would get encoded as:
 
@@ -65,15 +89,20 @@ opposes(X,Y):-opposes(Y,X).
 
 
 % Encoding for 'despite'
-defeated(R,C,R1):-according_to(R,C),according_to(R1,C1),despite(R,R1).
+defeated(R,C,R1) :-
+    according_to(R,C), according_to(R1,C1), despite(R,R1).
 
 %Encoding for 'subject_to'
-defeated(R,C,R1):-according_to(R,C),legally_valid(R1,C1),opposes(C,C1),subject_to(R1,R).
+defeated(R,C,R1) :-
+    according_to(R,C), legally_valid(R1,C1),
+    opposes(C,C1), subject_to(R1,R).
 
 % Encoding for 'strong_subject_to'
-defeated(R,C,R1):-according_to(R,C),legally_valid(R1,C1),strong_subject_to(R1,R).
+defeated(R,C,R1) :-
+    according_to(R,C), legally_valid(R1,C1),
+    strong_subject_to(R1,R).
 
-not_legally_valid(R):-defeated(R,C,R1).
+not_legally_valid(R) :- defeated(R,C,R1).
 
 legally_valid(R,C):-according_to(R,C),not not_legally_valid(R).
 
@@ -83,8 +112,10 @@ is_legal(C):-legally_valid(R,C).
 For a configuration $Config=(R,F,M,I)$, let the above encoding be the program $ASP_{Config}$. Then given an answer set $A_{Config}$ of $ASP_{Config}$ let $S_{A_{Config}}$ be the set of $is\_legal$ and $legally\_valid$ predicates in $A_{Config}$. Then $S_{A_{Config}}$ is a legal model of $Config$.    
 
 $Proof$ See Appendix. $\square$
+
+
 \subsection{Examples}
-Let us now give an example to illustrate the various concepts/modifiers discussed above.
+Let us now give an example to illustrate the various concepts~/~modifiers discussed above.
 Consider 4 basic rules:
 \begin{enumerate}
   \item If Bob is wealthy, he must buy a Rolls-Royce.
@@ -103,18 +134,23 @@ looks like.
 \begin{lstlisting}[language=Prolog, numbers=left]
 is_legal(wealthy(bob)).
 % Rules
-according_to(1,must_buy(rolls,bob)):-is_legal(wealthy(bob)).
-according_to(2,must_buy(merc,bob)):-is_legal(wealthy(bob)).
-according_to(3,may_spend_up_to_one_mill(bob)):-is_legal(wealthy(bob)).
-according_to(4,may_spend_up_to_ten_mill(bob)):-is_legal(extremely_wealthy(bob)).
+according_to(1,must_buy(rolls,bob)) :- is_legal(wealthy(bob)).
+according_to(2,must_buy(merc,bob)) :- is_legal(wealthy(bob)).
+according_to(3,may_spend_up_to_one_mill(bob)) :-
+    is_legal(wealthy(bob)).
+according_to(4,may_spend_up_to_ten_mill(bob)) :-
+    is_legal(extremely_wealthy(bob)).
 
 % {(must_buy(rolls,bob),must_buy(merc,bob), may_spend_up_to_one_mill(bob)} is a min. inconsistent set.
 
-opposes(must_buy(rolls,bob),must_buy(merc,bob)):-is_legal(may_spend_up_to_one_mill(bob)).
+opposes(must_buy(rolls,bob),must_buy(merc,bob)) :-
+    is_legal(may_spend_up_to_one_mill(bob)).
 
-opposes(must_buy(rolls,bob),may_spend_up_to_one_mill(bob)):-is_legal(must_buy(merc,bob)).
+opposes(must_buy(rolls,bob),may_spend_up_to_one_mill(bob)) :-
+    is_legal(must_buy(merc,bob)).
 
-opposes(must_buy(merc,bob),may_spend_up_to_one_mill(bob)):-is_legal(must_buy(rolls,bob)).
+opposes(must_buy(merc,bob),may_spend_up_to_one_mill(bob)) :-
+    is_legal(must_buy(rolls,bob)).
 
 opposes(X,Y):-opposes(Y,X).
 
@@ -123,17 +159,23 @@ subject_to(3,2).
 despite(3,4).
 
 % Encoding for 'despite'
-defeated(R,C,R1):-according_to(R,C),according_to(R1,C1),despite(R,R1).
+defeated(R,C,R1) :-
+    according_to(R,C),according_to(R1,C1),despite(R,R1).
 
 % Encoding for 'subject_to'
-defeated(R,C,R1):-according_to(R,C),legally_valid(R1,C1),opposes(C,C1),subject_to(R1,R).
+defeated(R,C,R1) :-
+    according_to(R,C), legally_valid(R1,C1),
+    opposes(C,C1), subject_to(R1,R).
 
 % Encoding for 'strong_subject_to'
-defeated(R,C,R1):-according_to(R,C),legally_valid(R1,C1),strong_subject_to(R1,R).
+defeated(R,C,R1) :-
+    according_to(R,C), legally_valid(R1,C1),
+    strong_subject_to(R1,R).
 
-not_legally_valid(R):-defeated(R,C,R1).
+not_legally_valid(R) :- defeated(R,C,R1).
 
-legally_valid(R,C):-according_to(R,C),not not_legally_valid(R).
+legally_valid(R,C) :- 
+    according_to(R,C), not not_legally_valid(R).
 
 is_legal(C):-legally_valid(R,C).
 \end{lstlisting}

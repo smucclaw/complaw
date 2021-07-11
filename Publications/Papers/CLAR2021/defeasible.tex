@@ -276,20 +276,20 @@ value of the rule transformer expression marked by \texttt{apply}. The rules
 appearing in these expressions may themselves be defined by complex
 expressions. However, direct or indirect recursion is not allowed. For
 simplifying the expressions in a rule set, we compute a rule dependency order
-$\preceq_R$ defined by: $r \preceq_R r'$ iff $r$ appears in the defining
-expression of $r'$. If $\preceq_R$ is not a partial order (in particular, if
+$\prec_R$ defined by: $r \prec_R r'$ iff $r$ appears in the defining
+expression of $r'$. If $\prec_R$ is not a strict partial order (in particular, if
 it is not cycle-free), then evaluation fails. Otherwise, we order the rules
-topologically by $\preceq_R$ and evaluate the expressions starting from the
-minimal elements.
+topologically by $\prec_R$ and evaluate the expressions starting from the
+minimal elements. Obviously, the order $\prec_R$ does not prevent rules from being recursive.
 
 \begin{example}
 It is at this point that the cyclic dependence already remarked after
 \exampleref{ex:rewrite_despite} will be discovered. We have:
 
 \noindent
-\texttt{maxSpCarWorkday'Orig}, \texttt{maxSpCarHighway} $\preceq_R$ \texttt{maxSpCarWorkday}\\
-\texttt{maxSpCarHighway'Orig}, \texttt{maxSpSportsCar} $\preceq_R$ \texttt{maxSpCarHighway}\\
-\texttt{maxSpSportsCar'Orig}, \texttt{maxSpCarWorkday} $\preceq_R$  \texttt{maxSpSportsCar}\\
+\texttt{maxSpCarWorkday'Orig}, \texttt{maxSpCarHighway} $\prec_R$ \texttt{maxSpCarWorkday}\\
+\texttt{maxSpCarHighway'Orig}, \texttt{maxSpSportsCar} $\prec_R$ \texttt{maxSpCarHighway}\\
+\texttt{maxSpSportsCar'Orig}, \texttt{maxSpCarWorkday} $\prec_R$  \texttt{maxSpSportsCar}\\
 \noindent
 which cannot be totally ordered.
 
@@ -314,8 +314,8 @@ the rules:
 \noindent
 \{ \texttt{maxSpSportsCar'Orig}
 \texttt{maxSpCarHighway'Orig},
-\texttt{maxSpCarWorkday} \} $\preceq_R$
-\texttt{maxSpSportsCar} $\preceq_R$
+\texttt{maxSpCarWorkday} \} $\prec_R$
+\texttt{maxSpSportsCar} $\prec_R$
 \texttt{maxSpCarHighway}\\
 and will use this order for rule elaboration.
 \end{example}
@@ -363,7 +363,7 @@ the pre- and post-conditions of the new rule remain well-typed).
 
 \begin{example}\mbox{}\\
 We come back to the running example. When processing the rules in the order of
-$\preceq_R$, rule \texttt{maxSpSportsCar}, defined by
+$\prec_R$, rule \texttt{maxSpSportsCar}, defined by
 \texttt{apply: \{restrictSubjectTo maxSpSportsCar'Orig maxSpCarWorkday\}},
 becomes:
 \begin{lstlisting}
@@ -639,7 +639,7 @@ sets, we obtain formula sets ${\cal F}_P$ respectively ${\cal F}_D$ by
   of ${\cal R}_M$, or if they are related inversion predicates $Inv_C$ and $Inv_{C^+}$.
 
   We first address related rules. The proof is by well-founded induction over
-  the rule order $\preceq_R$. Consider a rule $r_P \in {\cal F}_P$ with rule
+  the rule order $\prec_R$. Consider a rule $r_P \in {\cal F}_P$ with rule
   name $rn_P$ which by construction has the form
   $r_p = \forall x_1, \dots x_n.\; pre_P^o \AND \NOT pre_P^1 \AND \NOT pre_P^k
   \IMPL C(x_1, \dots, x_n)$.
@@ -656,7 +656,7 @@ sets, we obtain formula sets ${\cal F}_P$ respectively ${\cal F}_D$ by
     $r_D$, or one of the $pre_P^i$ is satisfied.
 
     In this case, as the rule $r_P^i$ with precondition $pre_P^i$ is strictly
-    smaller than $r_P$ \wrt{} $\preceq_R$, by induction hypothesis, also the
+    smaller than $r_P$ \wrt{} $\prec_R$, by induction hypothesis, also the
     postcondition of $r_P^i$ will be satisfied, so that in ${\cal M}_D$, one
     negated precondition of the related rule $r_D$ is not satisfied, so $r_D$
     is satisfied.
@@ -676,7 +676,7 @@ sets, we obtain formula sets ${\cal F}_P$ respectively ${\cal F}_D$ by
   In analogy to \lemmaref{lemma:mp_to_md}, we start from a model ${\cal M}_D$
   of ${\cal F}_D$ and construct a model ${\cal M}_P$ of ${\cal F}_P$. 
 
-  As in \lemmaref{lemma:mp_to_md}, the proof is by induction on $\preceq_R$.
+  As in \lemmaref{lemma:mp_to_md}, the proof is by induction on $\prec_R$.
   Consider a rule $r_D \in {\cal F}_D$ with rule
   name $rn_D$ which by construction has the form
   $r_D = \forall x_1, \dots x_n.\; pre_D^o \AND \NOT post_D^1(rn_1) \AND \NOT post_D^k(rn_k)
