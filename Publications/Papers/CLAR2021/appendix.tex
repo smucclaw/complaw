@@ -81,7 +81,7 @@ Say the set $M$ contains $subject\_to(r_{i}, r_{j})$ and $legally\_valid(r_{i}, 
 
 Again as before, if $pre\_con(r_{j})$ is not in $A_{Config}$ then $legally\_valid(r_{j}, C_{r_{j}})$ is not in $A_{Config}$ and therefore not in $S_{A_{Config}}$.\\
 
-Suppose $S_{A_{Config}}\models pre\_con(r_{j})$, then $A_{Config}$ satisfies $pre\_con(r_{j})$. So $according\_to(r_{j},C_{j})$ is in $A_{Config}$, then if $legally\_valid(r_{j}, C_{j})$ is not in $A_{Config}$, according to lines 41 and 43 of the encoding it must be the case that $defeated(r_{j},C_{j},r_{k})$ is in $A_{Config}$ for some rule $r_{k}$. But then because of the way that the $defeated$ predicate is defined in lines 28, 32, 37, it must mean that rule $r_{j}$ is invalidated in accordance with either A4, A5 or A6. So $S_{A_{Config}}$ satisfies A7. $\square$
+Suppose $S_{A_{Config}}\models pre\_con(r_{j})$, then $A_{Config}$ satisfies $pre\_con(r_{j})$. So $according\_to(r_{j},C_{j})$ is in $A_{Config}$, then if $legally\_valid(r_{j}, C_{j})$ is not in $A_{Config}$, according to lines 48 and 50 of the encoding it must be the case that $defeated(r_{j},C_{j},r_{k})$ is in $A_{Config}$ for some rule $r_{k}$. But then because of the way that the $defeated$ predicate is defined in lines 35, 39, 44, it must mean that rule $r_{j}$ is invalidated in accordance with either A4, A5 or A6. So $S_{A_{Config}}$ satisfies A7. $\square$
 \section{Pathological rule configuration examples}
 In this section we shall briefly give some examples of rule configurations that fail to satisfy certain properties.\\
 
@@ -100,7 +100,7 @@ Here we will give an example of a rule configuration that has no legal models ev
 
 Consider the configuration where there are 2 rules:\\ $(1)$ $a\rightarrow b$\\
 $(2)$ $b\rightarrow c$\\
-The only fact is $is\_legal(a)$, there is one modifier $subject_to(2,1)$ and there is one minimal inconsistent set $\{b,c\}$. Then this rule configuration has no legal models. 
+The only fact is $is\_legal(a)$, there is one modifier $subject\_to(2,1)$ and there is one minimal inconsistent set $\{b,c\}$. Then this rule configuration has no legal models. 
 
 
 
