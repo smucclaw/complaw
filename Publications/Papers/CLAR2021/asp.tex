@@ -3,11 +3,9 @@
 
 
 \subsection{Introduction}
-The purpose of this section is to give an account of the work we have been doing using Answer Set Programming (ASP) to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Here we will not go too much into the details of how various L4, language constructs map to the ASP formalisation. Our intention rather, is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable, intuitive and respecting the idea of having an 'isomorphism' between the rules and the encoding. Going forward, our intention is to develop a method to compile L4 code to a suitable ASP representation like the one we shall now present. We formalize the notion of what it means to 'satisfy' a rule set. We will do this in a way that is most amenable to ASP.
+The purpose of this section is to give an account of the work we have been doing using Answer Set Programming (ASP) to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Here we will not go too much into the details of how various L4, language constructs map to the ASP formalisation. Our intention rather, is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable, intuitive and respecting the idea of having an 'isomorphism' between the rules and the encoding. Going forward, our intention is to develop a method to compile L4 code to a suitable ASP representation like the one we shall now present. We formalize the notion of what it means to 'satisfy' a rule set. We will do this in a way that is most amenable to ASP. Please see the appendix for a brief overview of ASP and references for further reading. 
 
-First we shall give a brief overview of Answer Set Programming. ASP is a declarative programming language used mainly in Knowledge Representation and Reasoning to model rules, facts, integrity constraints etc. within a particular scenario that one wishes to consider. A rule in ASP has the form:
-\[h\leftarrow b_{1},b_{2}..,b_{k},not\; b_{k+1}...,not\; b_{n}.\]
-Here $h$ and $b_{1}$...,$b_{n}$ are atoms. For an atom $b_{i}$, $not$ $b_{i}$ is the negated atom where the $not$ represents negation as failure. Informally $not$ $b_{i}$ is true exactly when $b_{i}$ cannot be derived. This is also sometimes known as the 'closed world assumption'. Intuitively the rule above says that when $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ are all true, $h$ is true. $h$ is also sometimes known as the head of the rule and the positive and negated atoms $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ form the body. A rule with only a head and an empty body is called a fact. A logic program is a set of facts and rules. (In fact ASP can also model other things like integrity constrains, disjunctions in rule heads etc, but we will not be using these features in our paper). When a logic program is passed to an ASP solver, the solver returns a set of $stable$ $models$ (also known as $answer$ $sets$) which make all the rules and facts in the logic program true. The set of $stable$ $models$ of a logic program is calculated using the $stable$ $model$ $semantics$ for ASP. For logic programs without negation-as-failure, the set of stable models is exactly the set of subset minimal models of the program. For logic programs with negation as failure stable models are most commonly defined using a construction known as the $reduct$ of a logic program with respect to an $herbrand$ $interpretation$. Please see \cite{asp_background} for more details on ASP and the stable model semantics.   
+   
 
 \remms[inline]{Typesetting remarks:}
 \begin{itemize}
@@ -61,29 +59,17 @@ is_legal(f).
 
 % All the modifiers get added as facts like for example:
 despite(1,2).
-subject_to(4,5).
 
 % Any rule r in R is encoded using the general schema:
 according_to(r,C_r):-is_legal(pre_con(r)).
 
-% Say {a,b,c} is a minimal inconsistent set in I, then this would get encoded as: 
-opposes(a,b) :- is_legal(c)
-opposes(a,c) :- is_legal(b).
-opposes(b,c) :- is_legal(a).
-%The above is done for every minimal inconsistent set. A pair from the set forms the opposes predicate and the rest of the elements go in the body 
-
-% Say {d,e,f,g} is another minimal inconsistent set in I, then this would get encoded as:
-
-opposes(d,e) :- is_legal(f),is_legal(g).
-opposes(d,f) :- is_legal(e),is_legal(g).
-opposes(d,g) :- is_legal(f),is_legal(e).
-opposes(e,f) :- is_legal(d),is_legal(g).
-opposes(e,g) :- is_legal(f),is_legal(d).
-opposes(f,g) :- is_legal(d),is_legal(e).
-
-% If we had a minimal inconsistent set consisting of only 2 elements say {j,k}, this would get encoded as:
-
-opposes(j,k).
+% Given a minimal inconsistent set {a_1,a_2,...,a_n}, this corresponds to a set of rules:
+opposes(a_1,a_2):-is_legal(a_2),is_legal(a_3),...,is_legal(a_n).
+opposes(a_1,a_3):-is_legal(a_2),is_legal(a_4)...,is_legal(a_n).
+               .
+               .
+               .
+opposes(a_n-1,a_n):-is_legal(a_1),...,is_legal(a_n-2).               
 
 % Opposes is a symmetric relation
 opposes(X,Y):-opposes(Y,X).

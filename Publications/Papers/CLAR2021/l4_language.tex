@@ -249,8 +249,8 @@ maximal speed: if the vehicle is a car, the day a workday and the road a
 highway, the maximal speed can be 90 or 130, depending on the rule applied.
 \remms{Put output of model checker here?}
 
-The assertion \texttt{maxSpFunctional} can be considered as an essential
-consistency requirement and a rule system violating it as inconsistent. One
+The assertion \texttt{maxSpFunctional} can be considered an essential
+consistency requirement and a rule system violating it is inconsistent \wrt{} the intended semantics of \texttt{maxSp}. One
 remedial action is to declare one of the rules as default and the other rule
 as overrriding it. In \secref{sec:defeasible}, we will discuss different solutions
 implemented in L4.

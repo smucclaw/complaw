@@ -52,10 +52,10 @@ approach, based on Answer Set Programming, is described in
 
 \paragraph{Related work}
 
-There is a huge body of work both on computer-assisted legal reasoning and,
-not necessarily related, defeasible reasoning. Sergot and Kowalski
+There is a huge body of work both on computer-assisted legal reasoning and
+(not necessarily related) defeasible reasoning. Sergot and Kowalski
 \cite{sergot_kowalski_etal__british_nationality_acm_1986,kowalski_legislation_logic_programs_1995}
-code the British nationality act in Prolog, exploiting Prolog's negation as
+code the British Nationality Act in Prolog, exploiting Prolog's negation as
 failure for default reasoning.
 
 
@@ -68,10 +68,8 @@ exceptions can be raised.
 
 An entirely different approach to tool support is taken with the LogiKEy \cite{benzmueller_etal_logikey_2020}
 workbench that codes legal reasoning in the Isabelle interactive proof assistant, paving
-the way for a very expressive formalism; in contrast, we have opted for a DSL
-with fully automated proofs through SMT respectively ASP solvers where human
-proof support is neither possible nor, hopefully, required.
-Symboleo
+the way for a very expressive formalism. In contrast, we have opted for a DSL
+with fully automated proofs which are provided by SMT respectively ASP solvers. These do not permit for human intervention in the proof process, which would not be adequate for the user group we target. Symboleo
 \cite{sarifi_parvizimosaed_amyot_logrippo_mylopoulos_Symboleo_spec_legal_contracts_2020}
 and the NAI Suite
 \cite{libal_steen_nai_suite_draft_reason_legal_texts_jurix_2019} emphasise
