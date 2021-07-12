@@ -36,31 +36,32 @@ A set $S$ of $is\_legal$ and $legally\_valid$ predicates is called a \textit{leg
 
 \item[(A3)] $\forall c$, if $is\_legal(c) \in S$, then either $c\in F$ or there exists $r \in R$ such that $legally\_valid(r,C_{r}) \in S$ and $c= C_{r}$.
 
-\item[(A4)] $\forall r_{1}, r_{2} \in R$, if $despite(r_{1}, r_{2}) \in M$ and $S\models is\_legal(pre\_con(r_{2}))$, then $legally\_valid(r_{1},C_{r_{1}}) \notin S$
+\item[(A4)] $\forall r_{i}, r_{j} \in R$, if $despite(r_{i}, r_{j}) \in M$ and $S\models is\_legal(pre\_con(r_{j}))$, then $legally\_valid(r_{i},C_{r_{i}}) \notin S$
 
-\item[(A5)] $\forall r_{1}, r_{2} \in R$, if $strong\_subject\_to(r_{1}, r_{2}) \in M$ and $legally\_valid(r_{1},C_{r_{1}}) \in S$, then $legally\_valid(r_{2},C_{r_{2}}) \notin S$
+\item[(A5)] $\forall r_{i}, r_{j} \in R$, if $strong\_subject\_to(r_{i}, r_{j}) \in M$ and $legally\_valid(r_{i},C_{r_{i}}) \in S$, then $legally\_valid(r_{j},C_{r_{j}}) \notin S$
 \remms{Shouldn't it be the inverse: if $r_2$ is not legally valid, then one is entitled to conclude that $C_{r_1}$ is legally valid, provided one can also show the preconditions of $r_1$?}
 
-\item[(A6)] $\forall r_{1},r_{2} \in R$ if $subject\_to(r_{1},r_{2}) \in M$, and $legally\_valid(r_{1},C_{r_{1}}) \in S$ and there exists a minimal conflicting set $i \in I$ such that $is\_legal(C_{r_{1}}) \in i$ and $i\setminus \{is\_legal(C_{r_{2}})\}\subseteq S $, then $legally\_valid(r_{2},C_{r_{2}}) \notin S$.
+\item[(A6)] $\forall r_{i},r_{j} \in R$ if $subject\_to(r_{i},r_{j}) \in M$, and $legally\_valid(r_{i},C_{r_{i}}) \in S$ and there exists a minimal conflicting set $k \in I$ such that $C_{r_{i}} \in k$ and $C_{r_{j}}\in k$ and $is\_legal(k\setminus \{C_{r_{j}})\})\subseteq S $, then $legally\_valid(r_{j},C_{r_{j}}) \notin S$.\footnote{For a set of atoms $A$, by $is\_legal(A)$, we mean the set $\{is\_legal(a)\mid a\in A\}$}
 
 \item[(A7)] $\forall r\in R$, if $S\models pre\_con(r)$, but $legally\_valid(r,C_{r})\notin S$, then it must be the case that at least one of A4 or A5 or A6 has caused the exclusion of $legally\_valid(r,C_{r})$. That is if $S\models pre\_con(r)$, then unless this would violate one of A5, A6 or A7, it must be the case that $legally\_valid(r,C_{r})\in S$.
-
-\item[(A8)] $S$ is subset minimal among all sets $S'$ satisfying A1-A7.
 \end{description}
 
-\subsection{Some remarks on axioms A1-A8}
-Before we proceed let us give some informal intuition behind some of the axioms and their intended effects. A1 says that all facts in $F$ automatically gain legal status. The set $F$ represents indisputable facts about the legal scenario we are considering. A2 says that if a rule is 'in force' then both the pre-condition and conclusion of that rule must have legal status. Note that it is not enough if simply the conclusion has legal status as more than one rule may enforce the same conclusion or the conclusion may be a fact, so we want to know exactly which rules are in force as well as their conclusions. A3 says that anything that has legal status must either be a fact or be a conclusion of some rule that is in force. A4 to A6 describe the semantics of the three modifiers. The intuition for the three modifiers here is that with $despite$, once the precondition of the dominating rule \remms{$r_2$} is true, it invalidates the subordinate rule \remms{$r_1$} regardless of whether the dominating rule itself is then invalidated by some other rule. With \textit{strong subject to}, once the dominating rule \remms{$r_1$} is in force, then it invalidates the subordinate rule\remms{$r_2$}. With \textit{subject to}, for the subordinate rule $r$ to be invalidated, it has to be the case that, the dominating rule is in force and, there is a minimal inconsistent set $i$ in $I$ that contains the two atoms in the conclusions of the two rules and, $i\setminus\{C_{r}\}\subseteq S$ . These minimal inconsistent sets along with the \textit{subject to} modifier give us a way to incorporate a classical negation like effect into our system. We will give examples later on to illustrate these modifiers. A7 says essentially that A4-A6 represent the only ways in which a rule whose pre-condition is true may nevertheless be invalidated, and any rule whose precondition is satisfied and is not invalidated directly by some instance of A4-A6, must be in force. A8 says that $S$ must be subset minimal among all sets satisfying A1-A7. 
+\subsection{Some remarks on axioms A1-A7}
+Before we proceed let us give some informal intuition behind some of the axioms and their intended effects. A1 says that all facts in $F$ automatically gain legal status. The set $F$ represents indisputable facts about the legal scenario we are considering. A2 says that if a rule is 'in force' then both the pre-condition and conclusion of that rule must have legal status. Note that it is not enough if simply require that the conclusion has legal status as more than one rule may enforce the same conclusion or the conclusion may be a fact, so we want to know exactly which rules are in force as well as their conclusions. A3 says that anything that has legal status must either be a fact or be a conclusion of some rule that is in force. A4 to A6 describe the semantics of the three modifiers. The intuition for the three modifiers will be discussed next. Firstly, it may help the reader to read $despite(r_{i},r_{j})$ as 'despite $r_{i}$, $r_{j}$'. Thus $r_{i}$ here is the 'subordinate rule' and $r_{j}$ is the 'dominating' rule. The idea here is that once the precondition of the dominating rule $r_{j}$ \remms{$r_2$} is true, it invalidates the subordinate rule $r_{i}$ \remms{$r_1$} regardless of whether the dominating rule itself is then invalidated by some other rule. For \textit{strong subject to}, the intended reading for $strong_subject_to(r_{i},r_{j})$ is something like '(strong) subject to $r_{i}$, $r_{j}$'. Here $r_{i}$ can be considered the dominating rule and $r_{j}$ the subordinate one. Once the dominating rule \remms{$r_1$} is in force, then it invalidates the subordinate rule\remms{$r_2$}. For \textit{subject to}, the intended reading for $subject\_to(r_{i},r_{j})$ is 'subject to $r_{i}$, $r_{j}$'. For the subordinate rule $r_{j}$ to be invalidated, it has to be the case that, the dominating rule $r_{i}$ is in force and, there is a minimal inconsistent set $k$ in $I$ that contains the two atoms in the conclusions of the two rules and, $i\setminus\{C_{r_{j}}\}\subseteq S$. These minimal inconsistent sets along with the \textit{subject to} modifier give us a way to incorporate a classical negation like effect into our system. We will give examples later on to illustrate these modifiers. A7 says essentially that A4-A6 represent the only ways in which a rule whose pre-condition is true may nevertheless be invalidated, and any rule whose precondition is satisfied and is not invalidated directly by some instance of A4-A6, must be in force. 
 
 
 \subsection{Non-existence of legal models}
-Note that there may be configurations for which no legal models exist. This is most easily seen in the case where there is only one rule, the pre-condition of that rule is given as fact, and the rule is strongly subject to itself. There maybe other more non-trivial cases where there are no legal models corresponding to a configuration but so far we haven't been able to formulate explicit examples of this. 
-
+Note that there may be configurations for which no legal models exist. This is most easily seen in the case where there is only one rule, the pre-condition of that rule is given as fact, and the rule is strongly subject to itself. See the appendix for some further examples of 'pathological' rule configurations.
 
 \subsection{ASP encoding}
 Here is an ASP encoding scheme given a configuration $Config = (R,F,M,I)$ of legal rules.
 \begin{lstlisting}[language=Prolog, numbers=left]
 % For any f in F, we have:
-is_legal(f).    
+is_legal(f). 
+
+% All the modifiers get added as facts like for example:
+despite(1,2).
+subject_to(4,5).
 
 % Any rule r in R is encoded using the general schema:
 according_to(r,C_r):-is_legal(pre_con(r)).

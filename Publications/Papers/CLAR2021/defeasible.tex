@@ -6,36 +6,20 @@
 % ----------------------------------------------------------------------
 \subsection{Facets of Defeasible Reasoning}\label{sec:facets}
 
-\begin{tcolorbox}[title=To be done]
-Discussion on existing notions of defeasibility in particular in a legal context
-\begin{itemize}
-\item \cite{hart_concept_of_law_1997}
-\item \cite{alchourron_makinson_hierarchies_of_regulations_1981}
-\item \cite{hage_law_and_defeasibility_2003}
-\item More recent: \cite{governatori21:_unrav_legal_refer_defeas_deont_logic}
-\item Using SMT solvers for CASP:
-  \cite{shen_lierler_smt_answer_set_kr_2018}. Some of the techniques are
-  similar (use of Clark completion), but our purpose is not to simulate answer
-  set programming in SMT solvers, but to represent legal reasoning. In this
-  context, maybe also look at \cite{fages_consistency_clark_completion_1994}.
-\end{itemize}
-\end{tcolorbox}
-
 Given a plethora of different notions of ``defeasibility'', we had to make a
 choice as to which notions to support, and which semantics to give to them. We
 will here concentrate on two concepts, which we call \emph{rule modifiers},
 that limit the applicability of rules and make them ``defeasible''. They will
-be presented in \secref{sec:intro_rule_modifiers}, and we will see how to give
-them a semantics in a classical first-order logic, but also in a non-monotonic
-logic in a system based on Answer Set Programming
-(\secref{sec:answer_set_programming}). An orthogonal question is that of
+be presented in \secref{sec:intro_rule_modifiers}, and the rest of this section will be dedicated to giving
+them a semantics in a classical first-order logic, by means of apparently different interpretations.
+A discussion of a non-monotonic
+logic, in the context of on Answer Set Programming, will be deferred to
+(\secref{sec:defeasible_asp}). An orthogonal question is that of
 arriving at conclusion in absence of complete information, which, via the
 mechanism of negation as \remms{as/by??} failure, often prones the use of
 non-monotonic logics. In \secref{sec:rule_inversion}, we will see how similar
-effects can be achieved by means of \emph{rule inversion}. An Answer Set
-Programming approach to defeasible reasoning, with an emphasis on rule
-modifiers, will be presented in \secref{sec:answer_set_programming}. We finish
-with a comparison of the two strands of reasoning in \secref{sec:comparison}.
+effects can be achieved by means of \emph{rule inversion}.  We finish
+with a comparison of the two strands of reasoning in \secref{sec:comparison}.\remms{This intro is a mess and has to be rewritten depending on how we organize the paper}
 
 
 % ----------------------------------------------------------------------
@@ -501,8 +485,8 @@ do not require a dedicated proof engine (such as Prolog) and can be checked
 with a SAT or SMT solver. The net effect is similar to the completion
 introduced by Clark \cite{clark_NegAsFailure_1978}; however, the justification
 is not operational as in \cite{clark_NegAsFailure_1978}, but takes 
-inductive closure as a point of departure. Apart from that, our technique
-applies to a considerably wider class of formulas.
+inductive closure as a point of departure. Least fixpoint semantics of logic programs are discussed in  \cite{falaschi_etal_declarative_logic_langauges_1989,fages_consistency_clark_completion_1994}.
+The discussion below applies to a considerably wider class of formulas.
 
 In the following, we assume that our rules have an atomic predicate $P$ as
 conclusion, whereas the precondition $Pre$ can be an arbitrarily complex
@@ -526,49 +510,72 @@ algorithm:
   \IMPL P$.
 \end{itemize}
 
-For any rule set $R$ and any predicate $P$, we can form the set of $P$-rules
-$\{\forall x_1, \dots, x_n. Pre_1(x_1, \dots x_n) \IMPL P(x_1, \dots, x_n),
-\dots, \forall x_1, \dots, x_n. Pre_k(x_1, \dots x_n)$ $\IMPL P(x_1, \dots,
-x_n)\}$ as the subset of $R$ containing all rules having $P$ as
-post-condition. 
+For any rule set $\cal R$ and predicate $P$, we can form the set of
+$P$-rules, ${\cal R}[P]$, as
+\begin{align*}
+\{ & \forall x_1, \dots, x_n. Pre_1[P](x_1, \dots x_n) \IMPL P(x_1, \dots, x_n),
+     \dots,\\
+  & \forall x_1, \dots, x_n.Pre_k[P](x_1, \dots x_n)\IMPL P(x_1, \dots,
+x_n)\}
+\end{align*}
+as the subset of $\cal R$ containing all rules having $P$ as
+post-condition. The notation $F[P]$ is meant to indicate that the $F$ can
+contain $P$. It can also be taken as a \emph{functional}, \ie{} a higher-order
+function having $P$ as parameter.
+
+We say that a functional $F$ is \emph{semantically monotonic} if
+\[
+  (\forall x_1, \dots, x_n.\; P(x_1, \dots, x_n) \IMPL P'(x_1, \dots, x_n)) \IMPL 
+  (\forall \overrightarrow{v}. F[P] \IMPL F[P'])
+\]
+A sufficient condition for semantic monotonicity is syntactic monotonicity:
+$P$ does not occur under an odd number of negations in $F$. 
 
 The inductive closure of a set of $P$-rules is the predicate $P^*$ defined by
 the second-order formula
-\begin{align*}
-  P^*(x_1, \dots, x_n) = \forall P.\;  & (Pre_1(x_1, \dots x_n) \IMPL P(x_1, \dots, x_n)) \IMPL \dots \\
-                         & (Pre_k(x_1, \dots x_n) \IMPL P(x_1, \dots, x_n)) \IMPL\\
-                         & P(x_1, \dots, x_n)
-\end{align*}
+\[  P^*(x_1, \dots, x_n) = \forall P.\; (\bigwedge{\cal R}[P]) \IMPL P(x_1, \dots x_n) \]
+where $\bigwedge{\cal R}[P]$ is the conjunction of all the rules in ${\cal R}[P]$.
 
 $P^*$ can be understood as the least predicate satisfying the set of $P$-rules
 and is the predicate that represents ``all that is known about $P$ and
 assuming nothing else about $P$ is true'', and corresponds to the notion of
 exhaustiveness prevalent in law texts. It can also be understood as the static
-equivalent of the operational concept of negation as failure for predicate $P$.
-
-As an illustration, let us note that in case the $P$-rule set is empty, \ie there
-are no rules establishing $P$, we have $P^*(x_1, \dots, x_n) = \forall
-P.\;  P(x_1, \dots, x_n) = \bot$.
+equivalent of the operational concept of negation as failure for predicate
+$P$.  By the Knaster-Tarski theorem, $P^*$, as the least fixpoint of a
+monotonic functional, is consistent (see a counterexample in
+\exampleref{ex:syntactically_non_monotonic_rule}). 
 
 Obviously, a second-order formula such as the definition of $P^*$ is unwieldy
-in fully automated theorem proving. We derive one consequence:
+in fully automated theorem proving, so we derive one particular consequence:
 
-\begin{lemma}
-$P^*(x_1, \dots, x_n) \IMPL Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)$
+\begin{lemma}\label{lemma:p_star}
+$P^*(x_1, \dots, x_n) \IMPL Pre_1[P^*](x_1, \dots x_n) \OR \dots \OR Pre_k[P^*](x_1, \dots x_n)$
 \end{lemma}
-\begin{proof}
-Expand the definition of $P^*$ and instantiate the universal variable $P$ with
-$\lambda x_1 \dots x_n. Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)$.
-\end{proof}
+% \begin{proof}
+% Expand the definition of $P^*$ and instantiate the universal variable $P$ with
+% $\lambda x_1 \dots x_n. Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)$.
+% \end{proof}
 As a consequence of the Löwenheim–Skolem theorem, there is no first-order
 equivalent of $P^*$: a formula of the form $P^*$ can characterize the natural
-numbers up to isomorphism, but no first-order formula can. In the absence of
-such a first-order equivalent, we define the formula
+numbers up to isomorphism, but no first-order formula can.
+
+In the absence of such a first-order equivalent, we define the formula $Inv_P$
 \[
-\forall x_1, \dots, x_n.\;  P(x_1, \dots, x_n) \IMPL Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)
+\forall x_1, \dots, x_n.\;  P(x_1, \dots, x_n) \IMPL Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k[P](x_1, \dots x_n)
 \]
-called the \emph{inversion formula of  $P$}, as an approximation of the
-effect of $P^*$.
+called the \emph{inversion formula of  $P$}, and take it as an approximation of the
+effect of $P^*$ in \lemmaref{lemma:p_star}.
+
+As usual, a disjunction over an empty set is taken to be the falsum
+$\bot$. Assume there are no defining rules for a predicate $P$, then $Inv_P =
+P \IMPL \bot = \NOT P$, which corresponds to a closed-world assumption for $P$.
+
+\begin{example}\label{ex:syntactically_non_monotonic_rule}
+  One motivation for the monotonicity constraint is the following: The
+  simplest example of a rule that is not syntactically monotonic is
+  $\NOT P \IMPL P$. Its inversion is $P \IMPL \NOT P$. The two formulas
+  together, $P \IFF \NOT P$, are inconsistent.
+\end{example}
 
 Inversion formulas can be automatically derived and added to the rule set in
 L4 proofs; they turn out to be essential for consistency properties. For

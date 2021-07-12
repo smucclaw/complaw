@@ -6,7 +6,7 @@ philosophy. What originally may have appeared as an academic playground is
 now evolving into a realistic scenario, for various reasons. 
 
 On the \emph{demand} side, there is a growing number of human-machine or
-machine-machine interactions where compliance with legal norms is essential,
+machine-machine interactions where compliance with legal norms or with a contract is essential,
 such as in sales, insurance, banking and finance or digital rights management, to name but
 a few. Innumerable ``smart contract'' languages attest of the interest to
 automate these processes, even though many of them are rather dedicated
@@ -51,17 +51,59 @@ approach, based on Answer Set Programming, is described in
 
 
 \paragraph{Related work}
-ctd
 
-\remms[inline]{TBD}
+There is a huge body of work both on computer-assisted legal reasoning and,
+not necessarily related, defeasible reasoning. Sergot and Kowalski
+\cite{sergot_kowalski_etal__british_nationality_acm_1986,kowalski_legislation_logic_programs_1995}
+code the British nationality act in Prolog, exploiting Prolog's negation as
+failure for default reasoning.
 
-\begin{itemize}
-\item For bibliographical references, see
-  \footnote{\url{https://law.stanford.edu/publications/developing-a-legal-specification-protocol-technological-considerations-and-requirements/}}
-\item \cite{sergot_kowalski_etal__british_nationality_acm_1986,kowalski_legislation_logic_programs_1995}
-\item \cite{libal_steen_nai_suite_draft_reason_legal_texts_jurix_2019}
-\item \cite{governatori_carnead_defeas_logic_icail_2011}
-\end{itemize}
+
+
+The Catala language \cite{merigoux_chataing_protzenko_cata_icfp_2021},
+extensively used for coding tax law and resembling more a high-level
+programming language than a reasoning formalism, includes default rules, which
+are however not entirely disambiguated during compile time so that run time
+exceptions can be raised.
+
+An entirely different approach to tool support is taken with the LogiKEy \cite{benzmueller_etal_logikey_2020}
+workbench that codes legal reasoning in the Isabelle interactive proof assistant, paving
+the way for a very expressive formalism; in contrast, we have opted for a DSL
+with fully automated proofs through SMT respectively ASP solvers where human
+proof support is neither possible nor, hopefully, required.
+Symboleo
+\cite{sarifi_parvizimosaed_amyot_logrippo_mylopoulos_Symboleo_spec_legal_contracts_2020}
+and the NAI Suite
+\cite{libal_steen_nai_suite_draft_reason_legal_texts_jurix_2019} emphasise
+deontic logic rather than defeasible reasoning (the former is so far not
+considered in our L4).
+
+As a result of a long series of logics, see for example
+\cite{governatori_carnead_defeas_logic_icail_2011,governatori21:_unrav_legal_refer_defeas_deont_logic},
+Governatori and colleagues have developed the Turnip
+system\footnote{\url{https://turnipbox.netlify.com/}} that is based on a
+combination of defeasible and deontic logic. The system is applied, among
+others, to modelling traffic rules
+\cite{governatori_Traffic_Rules_Encoding_using_Defeasible_jurix_2020}.
+
+It seems vain to attempt an exhaustive
+review of defeasible reasoning. Before the backdrop of foundational law
+theory \cite{hart_concept_of_law_1997}, there are sometimes diverging
+proposals for integrating defeasibility, sometimes opting for non-monotonic
+logics \cite{hage_law_and_defeasibility_2003}, sometimes taking a more
+classical stance \cite{alchourron_makinson_hierarchies_of_regulations_1981}. 
+Defeasible rule-based reasoning in the context of argumentation theory is
+discussed in \cite{dung_argumentation_theory_1995,amgoud_besnard_rule_based_argumentation_systems_2019}.
+
+On a more practical side, Answer Set Programming (ASP) \cite{asp_background}\remms{find
+  some more representative refs, also in high-level journals}
+goes beyond logic programming and increasingly integrates techniques from
+constraint solving, such as in the sCASP\remms{introduce macro?} system
+\cite{arias_phd_2019}. In spite of a convergence of SMT and CASP technologies,
+there are few attempts to use SMT for ASP, see
+\cite{shen_lierler_smt_answer_set_kr_2018}. For the technologies used in our
+own implementation, please see \secref{sec:conclusions}. 
+
 
 
 
