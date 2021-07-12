@@ -9,7 +9,7 @@ will here concentrate on two concepts, which we call \emph{rule modifiers},
 that limit the applicability of rules and make them ``defeasible''. They will
 be presented informally in the following. Giving them a precise semantics in
 classical, monotonic logic is the topic of \secref{sec:defeasible_classical};
-a semantics based on  Answer Set Programming, will be provided in
+a semantics based on Answer Set Programming will be provided in
 \secref{sec:defeasible_asp}.
 
 We will concentrate on two rule modifiers that restrict the applicability of
@@ -33,7 +33,7 @@ rule <maxSpCarHighway>
   {restrict: {despite: maxSpCarWorkday}}
 # rest of rule unchanged
 \end{lstlisting}
-Furthermore, for the delight of the public of the country with the highest
+Furthermore, to the delight of the public of the country with the highest
 density of sports cars, we also introduce a new rule \texttt{maxSpSportsCar}
 that holds \emph{subject to} \texttt{maxSpCarWorkday} and \emph{despite}
 \texttt{maxSpCarHighway}:
