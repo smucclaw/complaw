@@ -1,7 +1,7 @@
 \section{Brief outline of ASP}
 First we shall give a brief overview of Answer Set Programming. ASP is a declarative programming language used mainly in Knowledge Representation and Reasoning to model rules, facts, integrity constraints etc. within a particular scenario that one wishes to consider. A rule in ASP has the form:
 \[h\leftarrow b_{1},b_{2}..,b_{k},not\; b_{k+1}...,not\; b_{n}.\]
-Here $h$ and $b_{1}$...,$b_{n}$ are atoms. For an atom $b_{i}$, $not$ $b_{i}$ is the negated atom where the $not$ represents negation as failure. Informally $not$ $b_{i}$ is true exactly when $b_{i}$ cannot be derived. This is also sometimes known as the 'closed world assumption'. Intuitively the rule above says that when $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ are all true, $h$ is true. $h$ is also sometimes known as the head of the rule and the positive and negated atoms $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ form the body. A rule with only a head and an empty body is called a fact. A logic program is a set of facts and rules. (In fact ASP can also model other things like integrity constrains, disjunctions in rule heads etc, but we will not be using these features in our paper). When a logic program is passed to an ASP solver, the solver returns a set of $stable$ $models$ (also known as $answer$ $sets$) which make all the rules and facts in the logic program true. The set of $stable$ $models$ of a logic program is calculated using the $stable$ $model$ $semantics$ for ASP. For logic programs without negation-as-failure, the set of stable models is exactly the set of subset minimal models of the program. For logic programs with negation as failure stable models are most commonly defined using a construction known as the $reduct$ of a logic program with respect to an $herbrand$ $interpretation$. Please see \cite{asp_background} for more details on ASP and the stable model semantics.
+Here $h$ and $b_{1}$...,$b_{n}$ are atoms. For an atom $b_{i}$, $not$ $b_{i}$ is the negated atom where the $not$ represents negation as failure. Informally $not$ $b_{i}$ is true exactly when $b_{i}$ cannot be derived. This is also sometimes known as the 'closed world assumption'. Intuitively the rule above says that when $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ are all true, $h$ is true. $h$ is also sometimes known as the head of the rule and the positive and negated atoms $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ form the body. A rule with only a head and an empty body is called a fact. A logic program is a set of facts and rules. (In fact ASP can also model other things like integrity constrains, disjunctions in rule heads etc, but we will not be using these features in our paper). When a logic program is passed to an ASP solver, the solver returns a set of $stable$ $models$ (also known as $answer$ $sets$) which make all the rules and facts in the logic program true. The set of $stable$ $models$ of a logic program is calculated using the $stable$ $model$ $semantics$ for ASP. For logic programs without negation-as-failure, the set of stable models is exactly the set of subset minimal models of the program. For logic programs with negation as failure stable models are most commonly defined using a construction known as the $reduct$ of a logic program with respect to an $Herbrand$ $interpretation$. Please see \cite{asp_background} for more details on ASP and the stable model semantics.
 
 \section{ASP encoding}
 Here we recap the ASP encoding scheme given a configuration $Config = (R,F,M,I)$ of legal rules. We will refer to this in the proof of lemma in 5.7, which will be given next.
@@ -63,9 +63,8 @@ is_legal(C):-legally_valid(R,C).
 
 
 
-\section{Proofs}\label{sec:proofs}
+\section{Proof of Lemma in 5.7}\label{sec:proofs}
 
-Proof of the Lemma in 5.7\\
 Firstly note, that the converse of the lemma is false. That is, there are configurations and legal models of those configurations that do not correspond to any answer set of the ASP encoding. A simple example of this is the following: Consider the configuration where there are only 2 rules:\\ (1): $a\rightarrow a$\\
 (2): $not$ $a\rightarrow b\\$
 
@@ -101,6 +100,14 @@ Here we will give an example of a rule configuration that has no legal models ev
 Consider the configuration where there are 2 rules:\\ $(1)$ $a\rightarrow b$\\
 $(2)$ $b\rightarrow c$\\
 The only fact is $is\_legal(a)$, there is one modifier $subject\_to(2,1)$ and there is one minimal inconsistent set $\{b,c\}$. Then this rule configuration has no legal models. 
+
+\section{Further remarks on example in 5.8}
+
+Here we explore further modifications of the example in 5.8. First, we wish to remind the reader that if there was a 5th rule in this rule set and we had a $despite(4,5)$ modifier, then as long as the precondition of rule 4 is true, it would still invalidate rule 3 even if rule 4 itself got invalidated by rule 5.
+
+However, in the case of $subject\_to$ and $strong\_subject\_to$, the dominating rules needs to be legally valid to invalidate the subordinate rule. 
+
+As an illustration of the previous point say we have a fifth rule which says, if Bob owns a company, he may spend up to 20 million dollars on cars, and we had $despite(4,5)$ as an additional modifier. Suppose now also we have the three facts that Bob is wealthy, Bob is extremely wealthy and Bob owns a company. Then we would get exactly one legal model/answer set in which exactly rule 1, rule 2 and rule 5 were legally valid. So rule 4 would invalidate rule 3 even though it itself is invalidated by rule 5. 
 
 
 

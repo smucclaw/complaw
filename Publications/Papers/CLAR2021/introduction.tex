@@ -8,9 +8,9 @@ now evolving into a realistic scenario, for various reasons.
 On the \emph{demand} side, there is a growing number of human-machine or
 machine-machine interactions where compliance with legal norms or with a contract is essential,
 such as in sales, insurance, banking and finance or digital rights management, to name but
-a few. Innumerable ``smart contract'' languages attest of the interest to
-automate these processes, even though many of them are rather dedicated
-programming languages than formalisms intended to express and reason about
+a few. Innumerable ``smart contract'' languages attest to the interest to
+automate these processes, even though many of them are dedicated
+programming languages rather than formalisms intended to express and reason about
 regulations.
 
 On the \emph{supply} side, decisive advances have been made in fields such as
@@ -28,7 +28,7 @@ with its characteristic elements such as cross references, prioritisation of
 rules and defeasible reasoning. Indeed, presenting these features is one of
 the main topics of this paper. Once a law has been coded in L4, it can
 be further processed: it can be converted to natural language \cite{listemnmaa2021cnl} to
-be as human readable as a traditional law text, and efficient executable code can be
+be as human-readable as a traditional law text, and efficient executable code can be
 extracted, for example to perform tax calculations (all this is not the topic
 of the present paper). It can also be analysed, to find faults in the law
 text on the meta level (such as consistency and completeness of a rule set),
@@ -80,7 +80,7 @@ with fully automated proofs which are provided by SMT respectively ASP solvers. 
 and the NAI Suite
 \cite{libal_steen_nai_suite_draft_reason_legal_texts_jurix_2019} emphasise
 deontic logic rather than defeasible reasoning (the former is so far not
-considered in our L4).
+considered in our L4 fragment).
 
 As a result of a long series of logics, see for example
 \cite{governatori_carnead_defeas_logic_icail_2011,governatori21:_unrav_legal_refer_defeas_deont_logic},
@@ -99,10 +99,9 @@ classical stance \cite{alchourron_makinson_hierarchies_of_regulations_1981}.
 Defeasible rule-based reasoning in the context of argumentation theory is
 discussed in \cite{dung_argumentation_theory_1995,amgoud_besnard_rule_based_argumentation_systems_2019}.
 
-On a more practical side, Answer Set Programming (ASP) \cite{asp_background}\remms{find
-  some more representative refs, also in high-level journals}
+On a more practical side, Answer Set Programming (ASP) \cite{asp_background}
 goes beyond logic programming and increasingly integrates techniques from
-constraint solving, such as in the sCASP\remms{introduce macro?} system
+constraint solving, such as in the sCASP system
 \cite{arias_phd_2019}. In spite of a convergence of SMT and CASP technologies,
 there are few attempts to use SMT for ASP, see
 \cite{shen_lierler_smt_answer_set_kr_2018}. For the technologies used in our
