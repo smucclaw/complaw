@@ -2,17 +2,21 @@
 \section{Defeasible Reasoning in a Classical Logic}\label{sec:defeasible_classical}
 % ----------------------------------------------------------------------
 
+In this section, we will describe how to give a precise semantics to the rule
+modifiers, by rewriting rules, progressively eliminating the instructions
+appearing in the rule annotations so that in the end, only purely logical
+rules remain. Making the meaning of the modifiers explicit can therefore be
+understood as a \emph{compilation} problem.  Whereas the first preprocessing
+steps (\secref{sec:preprocessing}) are generic, we will discuss two variants
+of conversion into logical format (\secrefs{sec:restr_precond} and
+\ref{sec:restr_deriv}). We will then discuss rule inversion
+(\secref{sec:rule_inversion}) which gives our approach a non-monotonic flavour
+while remaining entirely in a classical setting. Rule inversion will also be
+instrumental for comparing the conversion variants in \secref{sec:comparison}.
+
+
 % ----------------------------------------------------------------------
 \subsection{Rule Modifiers in Classical Logic}\label{sec:rule_modifiers_in_classical_logic}
-
-In this section, we will describe how to rewrite rules, progressively
-eliminating the instructions appearing in the rule annotations so that in the
-end, only purely logical rules remain. Whereas the first preprocessing steps
-(\secref{sec:preprocessing}) are generic, we will discuss two variants of
-conversion into logical format (\secrefs{sec:restr_precond} and
-\ref{sec:restr_deriv}).
-
-
 
 % ......................................................................
 \subsubsection{Preprocessing}\label{sec:preprocessing}

@@ -90,8 +90,8 @@ the aid of \emph{characteristic predicates}. Each class $C$ which is a
 subclass of sort $S$ gives rise to a declaration \texttt{is$C$: $S$ ->
   Boolean}. An example is the declaration of \texttt{isCar} in
 \figref{fig:fundecls}. In the L4 system, this declaration, as well as the
-corresponding class inclusion axiom (\secref{sec:rules}), are generated
-automatically.\remms{Promise}
+corresponding class inclusion axiom, are generated
+automatically.
 
 Two classes derived from the same base class (thus: \texttt{$C_1$ extends $B$}
 and \texttt{$C_2$ extends $B$}) are not necessarily disjoint. 
@@ -141,13 +141,12 @@ In the given example, the SMT solver checks the validity of the formula and
 indeed returns a countermodel that leads to contradictory prescriptions of the
 maximal speed: if the vehicle is a car, the day a workday and the road a
 highway, the maximal speed can be 90 or 130, depending on the rule applied.
-\remms{Put output of model checker here?}
 
-The assertion \texttt{maxSpFunctional} can be considered an essential
+
+The assertion \texttt{maxSpFunctional} of \figref{fig:assertions} can be considered an essential
 consistency requirement and a rule system violating it is inconsistent \wrt{} the intended semantics of \texttt{maxSp}. One
 remedial action is to declare one of the rules as default and the other rule
-as overrriding it. In \secref{sec:defeasible}, we will discuss different solutions
-implemented in L4.
+as overrriding it.
 
 After this repair action, \texttt{maxSpFunctional} will be provable (under
 additional natural conditions described in \secref{sec:rule_inversion}). We can now
@@ -163,7 +162,7 @@ The intended usage scenario of L4 is that by an interplay of proving
 assertions and repairing broken rules, one arrives at a rule set satisfying
 general principles of coherence, completeness and other, more elusive
 properties such as fairness (at most temporary exclusion from essential
-resources or rights).\remms{maybe put this into the intro}
+resources or rights).
 
 
 %%% Local Variables:
