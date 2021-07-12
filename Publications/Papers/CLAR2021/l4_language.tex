@@ -15,65 +15,58 @@ an L4 module is essentially composed of four sections:
 \item \emph{assertions} for stating and proving properties about the rules.
 \end{itemize}
 
-In the following, these elements will be presented in more detail and
-illustrated with an example, a (fictitious) regulation of speed
-limits for different types of vehicles.
-
-
-% ----------------------------------------------------------------------
-\subsection{Rules}\label{sec:rules}
+For lack of space, we cannot give a full description here -- see
+\appref{sec:l4_language_app} for more details. 
+We will illustrate the concepts  with an example, a (fictitious) regulation of speed
+limits for different types of vehicles. Classes are, for example, \texttt{Car}
+and its subclass \texttt{SportsCar}, \texttt{Day} and \texttt{Road}. We will
+in particular be interested in specifying the maximal speed \texttt{maxSp} of
+a vehicle on a particular day and type of road, and this will be the purpose
+of the rules.
 
 Before discussing rules, a few remarks about \emph{expressions} which are
 their main constituents: L4 supports a simple functional language featuring
 typical arithmetic, Boolean and comparison operators, an \texttt{if .. then
   .. else} expression, function application, anonymous functions (\ie, lambda
 abstraction) written in the form \texttt{$\backslash$x : T -> e}, class
-instances and field access (as mentioned before). A \emph{formula} is just a
+instances and field access. A \emph{formula} is just a
 Boolean expression, and, consequently, so are quantified formulas
 \texttt{forall x:T. form} and \texttt{exists x:T. form}.
 
-In its most complete form, a \emph{rule} is composed by a list of variable
+In its most complete form, a \emph{rule} is composed of a list of variable
 declarations introduced by the keyword \texttt{for}, a precondition introduced
-by \texttt{if} and a postcondition introduced by
+by \texttt{if} and a post-condition introduced by
 \texttt{then}. \figref{fig:rules} gives an example of rules of our speed limit
 scenario, stating, respectively, that the maximal speed of cars is 90 km/h on a
-workday,\remms{scenario changed wrt repo}
+workday,
 and that they may drive at 130 km/h if the road is a highway.  Note that in
-general, both pre- and postconditions are Boolean formulas that can be
+general, both pre- and post-conditions are Boolean formulas that can be
 arbitrarily complex, thus are not limited to conjunctions of literals in the
-preconditions or atomic formulas in the postconditions.
+preconditions or atomic formulas in the post-conditions.
 
 \begin{figure}[h!]
-%\begin{mdframed}
-
   \begin{lstlisting}
 rule <maxSpCarWorkday> 
    for v: Vehicle, d: Day, r: Road
    if isCar v && isWorkday d
    then maxSp v d r 90
-
 rule <maxSpCarHighway>
    for v: Vehicle, d: Day, r: Road
    if isCar v && isHighway r
    then maxSp v d r 130
 \end{lstlisting}
-
-%\end{mdframed}
-  \caption{Rules of speedlimit example}\label{fig:rules}
+  \caption{Rules of speed limit example}\label{fig:rules}
 \end{figure}
 
-Rules whose precondition is \texttt{true} can be written as
-
-\begin{lstlisting}[frame=none,mathescape=true]
-fact <name> for $v_1$: $T_1$ $\dots$ $v_n$: $T_n$ P $v_1 \dots v_n$
-\end{lstlisting}
-
-Rules may not contain free variables, so all variables occuring in the body of
+Rules whose precondition is \texttt{true} can be written as \texttt{fact}
+without the \texttt{if} \dots \texttt{then} keywords.
+% \begin{lstlisting}[frame=none,mathescape=true]
+% fact <name> for $v_1$: $T_1$ $\dots$ $v_n$: $T_n$ P $v_1 \dots v_n$
+% \end{lstlisting}
+Rules may not contain free variables, so all variables occurring in the body of
 the rule have to be declared in the \texttt{for} clause. In the absence of
-variables to be declared, the \texttt{for} clause can be omitted.
-
+variables to be declared, the \texttt{for} clause can be omitted. 
 Intuitively, a rule
-
 \begin{lstlisting}[frame=none,mathescape=true]
   rule <r> for $\overrightarrow{v}$: $\overrightarrow{T}$ if Pre $\overrightarrow{v}$ then Post $\overrightarrow{v}$
 \end{lstlisting}
@@ -82,13 +75,34 @@ $\forall \overrightarrow{v} : \overrightarrow{T}.\; Pre \overrightarrow{v}
 \IMPL Post \overrightarrow{v}$ that could directly be written as a fact,
 and it may seem that a separate rule syntax is redundant. This is not so,
 because the specific structure of rules makes them amenable to transformations
-that are useful for defeasible reasoning, as will be seen in \secref{sec:defeasible}.
+that are useful for defeasible reasoning, as will be seen in
+\secrefs{sec:resasoning_with_rules} and \ref{sec:defeasible_classical}.
 
 Apart from user-defined rules and rules obtained by transformation, there are
 system generated rules: For each subclass relation \texttt{$C$ extends $B$}, a
 class inclusion axiom of the form \texttt{for x: $S$ if is$C$ x then is$B$ x}
 is generated, where \texttt{is$C$} and \texttt{is$B$} are the characteristic
-predicates and $S$ is the common supersort of $C$ and $B$.\remms{Promise}
+predicates and $S$ is the common super-sort of $C$ and $B$.
+
+\begin{figure}[h]
+\begin{lstlisting}
+assert <maxSpFunctional> {SMT: {valid}}
+   maxSp instCar instDay instRoad instSpeed1 &&
+   maxSp instCar instDay instRoad instSpeed2
+   --> instSpeed1 == instSpeed2
+\end{lstlisting}
+  \caption{Assertions of speedlimit example}\label{fig:assertions}
+\end{figure}
+
+
+The purpose of our formalization efforts is to be able to make assertions
+and prove them, such as the statement in \figref{fig:assertions} which claims
+that the predicate 
+\texttt{maxSp} behaves like a function, \ie{} given the same car, day and
+road, the speed will be the same. Instead of a universal quantification, we
+here use variables \texttt{inst...} that have been declared globally, because they
+produce more readable (counter-)models. 
+
 
 %%% Local Variables:
 %%% mode: latex

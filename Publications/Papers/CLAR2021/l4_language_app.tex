@@ -1,5 +1,7 @@
 \section{An Overview of the L4 Language: Details}\label{sec:l4_language_app}
 
+Let us give some more details about the L4 language: its class and type
+definition mechanism, and the way it handles proof obligations.
 
 % ----------------------------------------------------------------------
 \subsection{Terminology and Class Definitions}\label{sec:classdefs}
@@ -123,25 +125,6 @@ reject -- differently said, they are proof obligations. These assertions are ver
 relative to a rule set comprising some or all of the rules and facts stated
 before. 
 
-The statement in \figref{fig:assertions} claims that the predicate
-\texttt{maxSp} behaves like a function, \ie{} given the same car, day and
-road, the speed will be the same. Instead of a universal quantification, we
-here use variables \texttt{inst...} that have been declared globally, because they
-produce more readable (counter-)models. 
-
-\begin{figure}[h]
-%\begin{mdframed}
-
-\begin{lstlisting}
-assert <maxSpFunctional> {SMT: {valid}}
-   maxSp instCar instDay instRoad instSpeed1 &&
-   maxSp instCar instDay instRoad instSpeed2
-   --> instSpeed1 == instSpeed2
-\end{lstlisting}
-
-%\end{mdframed}
-  \caption{Assertions of speedlimit example}\label{fig:assertions}
-\end{figure}
 
 The active rule set used for verification can be configured, by adding rules
 to or deleting rules from a default set. Assume the active rule set consists
