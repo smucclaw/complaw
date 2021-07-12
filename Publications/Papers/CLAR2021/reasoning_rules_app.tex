@@ -2,30 +2,12 @@
 \section{Reasoning with and about Rules - Motivation}\label{sec:resasoning_with_rules_app}
 % ----------------------------------------------------------------------
 
-
-% ----------------------------------------------------------------------
-\subsection{Facets of Defeasible Reasoning}\label{sec:facets}
-
-
- \secref{sec:intro_rule_modifiers}, and the rest of this section will be dedicated to giving
-them a semantics in a classical first-order logic, by means of apparently different interpretations.
-A discussion of a non-monotonic
-logic, in the context of on Answer Set Programming, will be deferred to
-(\secref{sec:defeasible_asp}). An orthogonal question is that of
-arriving at conclusion in absence of complete information, which, via the
-mechanism of negation as \remms{as/by??} failure, often prones the use of
-non-monotonic logics. In \secref{sec:rule_inversion}, we will see how similar
-effects can be achieved by means of \emph{rule inversion}.  We finish
-with a comparison of the two strands of reasoning in \secref{sec:comparison}.\remms{This intro is a mess and has to be rewritten depending on how we organize the paper}
-
-
-% ----------------------------------------------------------------------
-\subsection{Introducing Rule Modifiers}\label{sec:intro_rule_modifiers}
-
- To illustrate their use, we consider an excerpt of Singapore's
-Professional Conduct Rules \S~34 \cite{professional_conduct_rules} (also see
-\cite{morris21:_const_answer_set_progr_tool} for a more detailed treatment of
-this case study):
+To illustrate the use of rule modifiers discussed in
+\secref{sec:resasoning_with_rules}, we consider a realistic law text,
+Singapore's Professional Conduct Rules \S~34
+\cite{professional_conduct_rules}. This case study has been investigated in
+detail in \cite{morris21:_const_answer_set_progr_tool}. Here is an excerpt of
+the rules:
 
 \begin{description}
 \item[(1)] A legal practitioner must not accept any executive appointment
@@ -89,55 +71,7 @@ slightly different, and this is not related to the particular semantics of
 \item or in the form of (negated) derivability of the postcondition of rules: ``rule $r_1$ is
   applicable if the postcondition of $r_2$ does not hold''.
 \end{itemize}
-We will subsequently come back to this difference\remms{where?}.
 
-Before looking at a formalization, let us summarize this informal exposition
-of defeasibility rule modifiers as follows:
-\remms{Make the writing of the modifiers more homogenous: in italics or in quotes}
-\begin{itemize}
-\item ``$r_1$ subject to $r_2$'' and ``$r_1$ despite $r_2$'' are complementary
-  ways of expressing that one rule may override the other rule. They have in
-  common that $r_1$ and $r_2$ have contradicting conclusions. The conjunction
-  of the conclusions can either be directly unsatisfiable (may accept vs.{}
-  must not accept) or unsatisfiable \wrt{} an intended background theory
-  (obtaining different maximal speeds is inconsistent when expecting
-  \texttt{maxSp} to be functional in its fourth argument).
-\item Both modifiers differ in that ``subject to'' modifies the rule to which
-  it is attached, whereas ``despite'' has a remote effect.
-\item They permit to structure a legal text, favoring conciseness and
-  modularity: In the case of \emph{despite}, the overridden, typically more
-  general rule need not be aware of the overriding, typically subordinate rules.
-\item Even though these modifiers appear to be mechanisms on the meta-level in
-  that they reasoning about rules, they can directly be reflected on the
-  object-level.
-\end{itemize}
-Making the meaning of the modifiers explicit can therefore be understood as a
-\emph{compilation} problem, which will be described in the following.
-
-In L4, rule modifiers are introduced with the aid of \emph{rule annotations}, with a
-list of rule names following the keywords \texttt{subjectTo} and
-\texttt{despite}. We return to our running example and modify rule
-\texttt{maxSpCarHighway} of \figref{fig:rules} with
-
-\begin{lstlisting}
-rule <maxSpCarHighway>
-  {restrict: {despite: maxSpCarWorkday}}
-# rest of rule unchanged
-\end{lstlisting}
-
-For the delight of the public of the country with the highest density of
-sports cars, we also introduce a new rule:\remms{Problem with spaces in lstlisting}
-
-\begin{lstlisting}
-rule <maxSpSportsCar>
-  {restrict: {subjectTo: maxSpCarWorkday, 
-              despite: maxSpCarHighway}}
-   for v: Vehicle, d: Day, r: Road
-   if isSportsCar v && isHighway r
-   then maxSp v d r 320
- \end{lstlisting}
-
-In the following, we will examine the interaction of these rules.
 
 %%% Local Variables:
 %%% mode: latex
