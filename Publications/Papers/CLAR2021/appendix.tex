@@ -88,7 +88,7 @@ In this section we shall briefly give some examples of rule configurations that 
 One may suspect that given any configuration, the ASP encoding only generates answer sets corresponding to subset minimal legal models. However this is not the case. Consider the configuration where there are 3 rules:\\ $(1)$ $a\rightarrow c$\\
 $(2)$ $not$ $c\rightarrow e$\\
 $(3)$ $a\rightarrow a$\\
-The only fact is $is\_legal(a)$, and there are 2 modifiers $despite(1,2)$, $strongly\_subject\_to(3,2)$. There are no minimal inconsistent sets.\\
+The only fact is $is\_legal(a)$, and there are 2 modifiers $despite(1,2)$, $strong\_subject\_to(3,2)$. There are no minimal inconsistent sets.\\
 
 For this configuration, the ASP encoding generates two answer sets corresponding to the legal models:\\
 \newline
