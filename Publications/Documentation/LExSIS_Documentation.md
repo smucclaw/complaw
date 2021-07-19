@@ -181,6 +181,9 @@ data:
 
 If the user enters "Janet" as the person's name, the user will be asked "Does the person named Janet play any sports?", "What sport does the person named Janet play?", and "Does the person named Janet play any other sports?" as required.
 
+For a deeper understanding of how this works, refer to Docassemble's [generic objects](https://docassemble.org/docs/modifiers.html#generic%20object), and the [question defaults](https://github.com/smucclaw/docassemble-l4/blob/main/docassemble/l4/data/questions/l4.yml) used in docassemble-l4.
+
+
 #### Terms
 
 ```
