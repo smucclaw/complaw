@@ -763,6 +763,10 @@ Content addressing. [[https://en.wikipedia.org/wiki/Distributed_hash_table][DHTs
 - tweetstorm on [[https://twitter.com/mengwong/status/1434348997863362564?s=20][the history of Layman Allen, Coode, and Hohfeld]], but stopping short of Leibniz
 - https://courses.edx.org/courses/course-v1:HarvardX+CS50L+Law/course/
 
+* In a similar vein, David MacIver's tweetstorm
+
+https://twitter.com/DRMacIver/status/1426113565593903104
+
 * Know your tools.
 
 https://missing.csail.mit.edu/
