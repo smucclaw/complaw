@@ -36,7 +36,7 @@ Once you have Stack installed, run `stack build`
 
 Run the executable:
 
-    openfisca-aotearoa/l4% stack exec aotearoa-exe -- combined_income=20000 dependants=0 rates_total=2000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=rr-br3nda-clip --nlgstyle=concrete
+    openfisca-aotearoa/l4% stack run  aotearoa-exe -- combined_income=20000 dependants=0 rates_total=2000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=l4/rr-br3nda-clip.l4 --nlgstyle=concrete
     showing how we obtain the answer
     630.00 -- which is
     | the lesser of
@@ -102,7 +102,7 @@ Concrete shows all numerical values used to arrive at the answer.
 
 Abstract has the fewest numerical values.
 
-    20190509-16:36:50 mengwong@venice4:~/src/l/openfisca-aotearoa/l4% stack exec aotearoa-exe -- dependants=0 combined_income=24000 rates_total=1000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=rr-br3nda-noclip --nlgstyle=abstract
+    20190509-16:36:50 mengwong@venice4:~/src/l/openfisca-aotearoa/l4% stack exec aotearoa-exe -- dependants=0 combined_income=24000 rates_total=1000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=l4/rr-br3nda-noclip.l4 --nlgstyle=abstract
     the goal is defined as
     | the lesser of
     | | the greater of
@@ -147,7 +147,8 @@ Yaml produces test cases suitable for openfisca test.
 You can also view tabular output by giving input ranges, using Haskell syntax:
 https://stackoverflow.com/a/7958408:
 
-    openfisca-aotearoa/l4% stack exec aotearoa-exe -- dependants=0 combined_income=0,2000..40000 rates_total=0,200..3000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=rr-br3nda-clip      +-----------------------------------------------------------------------------------------------------------------------------+
+    openfisca-aotearoa/l4% stack exec aotearoa-exe -- dependants=0 combined_income=0,2000..40000 rates_total=0,200..3000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=l4/rr-br3nda-clip.l4
+      +-----------------------------------------------------------------------------------------------------------------------------+
     |       0 2000 4000 6000 8000 10000 12000 14000 16000 18000 20000 22000 24000 26000 28000 30000 32000 34000 36000 38000 40000 |
     |   0   0    0    0    0    0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 |
     | 200  27   27   27   27   27    27    27    27    27    27    27    27    27     0     0     0     0     0     0     0     0 |
@@ -168,7 +169,7 @@ https://stackoverflow.com/a/7958408:
     +-----------------------------------------------------------------------------------------------------------------------------+
     ## done with run; 336 answers across 21 variations of combined_income * 16 variations of rates_total
 
-    openfisca-aotearoa/l4% stack exec aotearoa-exe -- dependants=0 combined_income=0,2000..40000 rates_total=0,200..3000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=rr-br3nda-noclip
+    openfisca-aotearoa/l4% stack exec aotearoa-exe -- dependants=0 combined_income=0,2000..40000 rates_total=0,200..3000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=l4/rr-br3nda-noclip.l4
     +-----------------------------------------------------------------------------------------------------------------------------+
     |       0 2000 4000 6000 8000 10000 12000 14000 16000 18000 20000 22000 24000 26000 28000 30000 32000 34000 36000 38000 40000 |
     |   0 630  630  630  630  630   630   630   630   630   630   630   398   148     0     0     0     0     0     0     0     0 |
@@ -193,7 +194,7 @@ https://stackoverflow.com/a/7958408:
 
 Ranging anything other than two variables takes you back to a more traditional table.
 
-    20190509-16:34:54 mengwong@venice4:~/src/l/openfisca-aotearoa/l4% stack exec aotearoa-exe -- dependants=0,2 combined_income=0,20000..40000 rates_total=1000,2000..3000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=rr-br3nda-noclip
+    20190509-16:34:54 mengwong@venice4:~/src/l/openfisca-aotearoa/l4% stack exec aotearoa-exe -- dependants=0,2 combined_income=0,20000..40000 rates_total=1000,2000..3000 additional_per_dependant=500 initial_contribution=160 maximum_allowable=630 income_threshold=25180 --goal=l4/rr-br3nda-noclip.l4
     +---------------------------------------------+
     | dependants combined_income rates_total goal |
     |          0               0        1000  630 |
