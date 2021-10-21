@@ -1172,6 +1172,8 @@ exercise: does the website https://missing.csail.mit.edu/ contain any mention of
 - DocAssemble
 - DMN
 
+Document automation generally: see https://www.bailii.org/ew/cases/EWFC/HCJ/2021/80.html
+
 *** Outcomes
 
 - understand backward-chaining vs forward-chaining rules
