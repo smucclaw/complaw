@@ -9,16 +9,16 @@
 \begin{document}
 %\title{Computer-Supported Defeasible Reasoning in Law}
 %\title{Computer-Supported Defeasible Reasoning in Legal Texts}
-\title{Automating Defeasible Reasoning in Law}
+\title{Title: TBD}
 
 \author{TBD
   }
 \institute{Singapore Management University}
 \maketitle
 
-\begin{abstract}
-\input{abstract}
-\end{abstract}
+% \begin{abstract}
+% \input{abstract}
+% \end{abstract}
 
 \keywords{
   Knowledge representation and reasoning,
@@ -35,19 +35,112 @@ Computerized support for law has a long tradition going back at least to the
 1970. While the participants of the present workshop presumably share an
 interest in the topic, there are different methods for approaching it. The
 purpose of this paper is to expose the main tenets of our work at the Centre
-for Computational Law \footnote{\url{https://cclaw.smu.edu.sg/}} at Singapore
-Management University. We describe some basic principles in this section, and
-then give an overview of current work (\secref{sec:current_work}) and work
-still to be accomplished (\secref{sec:outlook}).
+for Computational Law\footnote{\url{https://cclaw.smu.edu.sg/}} at Singapore
+Management University. We describe some basic principles and requirements in
+this section, and then give an overview of current work
+(\secref{sec:current_work}) and work still to be accomplished
+(\secref{sec:outlook}).
 
+The first principle is that law is construed as a set of rules (in a large
+sense), as opposed to a set of cases, and that what is admissible according to
+law can be determined by deductive means, contrary to case-based reasoning
+supported by similarity metrics. The second principle is that law is meant to
+describe a set of admissible behaviours, and not a single behaviour, so our
+framework is primarily declarative and not directly executable, in contrast to
+\emph{smart contract} languages many of which are in fact programming
+languages. The promise is to have a language that combines formal rigour with
+user-friendliness and accessibility to legal practitioners without specific
+training in computer science, in particular through natural-language
+interaction. This has led us to conceive our own domain-specific language
+(DSL) called L4, instead of adopting an existing general-purpose
+language. Finally, the language aims at supporting a variety of tasks relevant
+in a law context, ranging from legal drafting and reasoning \emph{about} rules
+(such as consistency checking of a rule set) through compliance checking of
+business processes to reasoning \emph{with} rules in order to derive
+consequences of an individual usage scenario.
 
-
+Altogether, L4 can best be described as a multi-faceted, extensible language
+platform rather than as a single language with a fixed semantics.
 
 \section{Current Work}\label{sec:current_work}
 
+\subsection{Language}\label{sec:language}
+
+We will now highlight some aspects and usage patterns of the L4
+platform. Conceptually, a central notion is the \emph{rule} which describes
+admissible behaviour. We first describe static rules and their possible uses,
+then dynamic rules for time-dependent processes.
+
+In their simplest form, \textbf{rules} are \emph{if-then} statements, where both the
+pre- and post-conditions are expressions. By means of an example, here is an
+excerpt of the Professional Conduct Rules of the Singaporean Legal Profession
+Act:\footnote{\url{https://sso.agc.gov.sg/SL/LPA1966-S706-2015}}
+
+\begin{lstlisting}
+rule <r1a>
+for lpr: LegalPractitioner, app: Appointment
+if (exists bsn : Business. AssociatedWithAppB app bsn && IncompatibleDignity bsn)
+then MustNotAcceptApp lpr app
+\end{lstlisting}
+
+The \textbf{expression} language is a simply-typed lambda calculus. As seen in
+the example, there is no \emph{a priori} restriction to using complex
+(quantified, higher-order, \dots) expressions in rules, as long as they are
+well typed, but further processing steps may be restricted to fragments of the
+rule language or require previous (automated) transformations. With this, the
+above rule can be used without further ado in a Prolog-like context (see
+below).
+
+In a legal context, the questions of deontics and of default reasoning are
+inevitable. L4 supports neither of them natively, \ie{} in the logic, but
+provides mechanisms for expressing them by other means. The decision against a
+full-fledged \emph{deontic logic} is motivated by the fact that in spite of a
+decade-long debate, there is no consensus on how to avoid paradoxes of
+classical deontic logics; the combination with other modalities is not clear
+(in particular: possibility and necessity arising in temporal reasoning, which
+we do support); and there is no native support in expressive reasoning
+tools. Instead, in static rules as the above, obligations can be expressed
+with dedicated predicates, such as \texttt{MustNotAcceptApp} above, and it
+becomes possible to reason about consistency and completeness of legal
+requirements, which is barely possible if these notions are built into the
+logic (also see \secref{sec:services}). In dynamic, state-based system
+specifications, individual states can be flagged as breach states, again
+allowing for a fine-grained reasoning about traces that avoid, reach or repair
+these breaches.
+
+Neither is there native support for \emph{default reasoning}. Rules can be
+mapped to reasoning services that are based on non-monotonic logics, see
+\secref{sec:services}. 
+
+\subsection{Services}\label{sec:services}
+
+\begin{itemize}
+\item SMT
+\item ASP
+\item Expert system
+\item Natural language processing
+\item Visualization
+\end{itemize}
+
+\subsection{Tool support}\label{sec:tool_support}
+
+
+The reader should be aware that most of what has been described is still work
+in progress. Work on the above is ongoing, with an open-source development in
+Haskell available on CCLAW's
+github\footnote{\url{https://github.com/smucclaw}}, with an integration into
+Visual Studio Code that features syntax highlighting, on-the fly type checking
+and code completion \remms{too much of a promise?}
+
+\remms[inline]{Further remarks}
+\begin{itemize}
+\item whole language does not have a fixed semantics, but strands of the
+  language do have.
+\end{itemize}
+
 \section{Outlook on Future Work}\label{sec:outlook}
 
-
+\remms[inline]{Maybe scrap the whole section}
 
 
 \paragraph{Acknowledgements.}
