@@ -9,9 +9,9 @@
 \begin{document}
 %\title{Computer-Supported Defeasible Reasoning in Law}
 %\title{Computer-Supported Defeasible Reasoning in Legal Texts}
-\title{Title: TBD}
+\title{Overview of the CCLAW project}
 
-\author{TBD
+\author{CCLAW team
   }
 \institute{Singapore Management University}
 \maketitle
@@ -92,7 +92,7 @@ above rule can be used without further ado in a Prolog-like context (see
 below).
 
 In a legal context, the questions of deontics and of default reasoning are
-inevitable. L4 supports neither of them natively, \ie{} in the logic, but
+inevitable. L4 supports neither of them in the core language, \ie{} in the logic, but
 provides mechanisms for expressing them by other means. The decision against a
 full-fledged \emph{deontic logic} is motivated by the fact that in spite of a
 decade-long debate, there is no consensus on how to avoid paradoxes of
@@ -110,7 +110,13 @@ these breaches.
 
 Neither is there native support for \emph{default reasoning}. Rules can be
 mapped to reasoning services that are based on non-monotonic logics, see
-\secref{sec:services}. 
+\secref{sec:services}. As an extra-logical feature, a rule can be marked with
+modifiers like \emph{subject to} or \emph{despite} (another rule), which
+implicitly prioritizes rules and provides a reasoning pattern that, in absence
+of knowledge to the contrary, a given rule is applicable. In a similar spirit,
+negation by failure can be simulated by rule inversion. It is worth noting
+that these mechanisms do not rely on an extension of the logic, but on
+compilation of rules.
 
 \subsection{Services}\label{sec:services}
 
