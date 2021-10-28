@@ -9,145 +9,132 @@
 \begin{document}
 %\title{Computer-Supported Defeasible Reasoning in Law}
 %\title{Computer-Supported Defeasible Reasoning in Legal Texts}
-\title{Overview of the CCLAW project}
+\title{Overview of the CCLAW L4 project}
 
-\author{CCLAW team
-  }
+\author{Martin Strecker\orcidID{0000-0001-9953-9871}}
 \institute{Singapore Management University}
 \maketitle
 
-% \begin{abstract}
-% \input{abstract}
-% \end{abstract}
+\begin{abstract}
+L4 is a domain-specific specification language that facilitates semantically rigorous formalization of legal expressions found in legislation and contracts. In our talk we will demo the working pieces (as of late 2021 / early 2022): a low-level core and a high-level language, a transpiler to reasoning back-ends including static analysis / formal verification and an expert system web app, and a real-world case study.
+\end{abstract}
 
 \keywords{
   Knowledge representation and reasoning,
   Argumentation and law,
   Computational Law,
-  Defeasible reasoning
+  Defeasible reasoning,
+  Programming language theory,
+  Specification languages
 }
 
 %----------------------------------------------------------------------
 
 \section{Context}\label{sec:context}
 
-Computerized support for law has a long tradition going back at least to the
-1970. While the participants of the present workshop presumably share an
-interest in the topic, there are different methods for approaching it. The
-purpose of this paper is to expose the main tenets of our work at the Centre
+Computerized support for legal reasoning has a long history going back to the
+1970s; in the decades since, a wide variety of approaches have appeared at venues such as ICAIL and JURIX.
+This paper shares the main tenets of our approach at the Centre
 for Computational Law\footnote{\url{https://cclaw.smu.edu.sg/}} at Singapore
-Management University. We describe some basic principles and requirements in
+Management University. We describe some principles and requirements in
 this section, and then give an overview of current work
-(\secref{sec:current_work}) and work still to be accomplished
-(\secref{sec:outlook}).
+(\secref{sec:current_work}).
 
-The first principle is that law is construed as a set of rules (in a large
-sense), as opposed to a set of cases, and that what is admissible according to
-law can be determined by deductive means, contrary to case-based reasoning
-supported by similarity metrics. The second principle is that law is meant to
+The first principle focuses our work on rule-based reasoning in law (\emph{vs} case-based reasoning). Our approach lies in the formalist tradition, closer to pure civil law than pure common law. We explore the deductive and abductive modes of reasoning, leaving inductive reasoning (supported by similarity metrics) to other work in the very active domain of machine learning.
+The second principle is that law is meant to
 describe a set of admissible behaviours, and not a single behaviour, so our
-framework is primarily declarative and not directly executable, in contrast to
-\emph{smart contract} languages many of which are in fact programming
-languages. The promise is to have a language that combines formal rigour with
-user-friendliness and accessibility to legal practitioners without specific
-training in computer science, in particular through natural-language
-interaction. This has led us to conceive our own domain-specific language
+framework is declarative, in contrast to
+\emph{smart contract} languages which are in fact programming
+languages. We seek to combine formal rigour with
+user-friendliness and accessibility to lay legal workers. This has led us to conceive our own domain-specific language
 (DSL) called L4, instead of adopting an existing general-purpose
-language. Finally, the language aims at supporting a variety of tasks relevant
+language.
+Finally, the language aims at supporting a variety of tasks relevant
 in a law context, ranging from legal drafting and reasoning \emph{about} rules
 (such as consistency checking of a rule set) through compliance checking of
 business processes to reasoning \emph{with} rules in order to derive
 consequences of an individual usage scenario.
 
-Altogether, L4 can best be described as a multi-faceted, extensible language
-platform rather than as a single language with a fixed semantics.
+L4 is inspired by prior research at Gothenburg, at Copenhagen, at Data61, at INRIA, by the
+LegalRuleML working group, and by many others.
 
 \section{Current Work}\label{sec:current_work}
 
 \subsection{Language}\label{sec:language}
 
 We will now highlight some aspects and usage patterns of the L4
-platform. Conceptually, a central notion is the \emph{rule} which describes
-admissible behaviour. We first describe static rules and their possible uses,
-then dynamic rules for time-dependent processes.
+platform. We borrow from RuleML the notions of \emph{constitutive} rules which provide ontology, and \emph{prescriptive} rules which regulate behaviour by actors. We first describe static prescriptive rules and their possible uses, then dynamic prescriptive rules for time-dependent, multi-agent processes.
 
-In their simplest form, \textbf{rules} are \emph{if-then} statements, where both the
-pre- and post-conditions are expressions. By means of an example, here is an
-excerpt of the Professional Conduct Rules of the Singaporean Legal Profession
+In their simplest form, in the core language, \textbf{rules} are \emph{if-then} statements, where both the
+antecedent and consequent are expressions. We encode an
+excerpt of the Professional Conduct Rules from Singapore's Legal Profession
 Act:\footnote{\url{https://sso.agc.gov.sg/SL/LPA1966-S706-2015}}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=L4]
 rule <r1a>
 for lpr: LegalPractitioner, app: Appointment
 if (exists bsn : Business. AssociatedWithAppB app bsn && IncompatibleDignity bsn)
 then MustNotAcceptApp lpr app
 \end{lstlisting}
 
-The \textbf{expression} language is a simply-typed lambda calculus. As seen in
+\noindent The core \textbf{expression} language here is a simply-typed lambda calculus. As seen in
 the example, there is no \emph{a priori} restriction to using complex
 (quantified, higher-order, \dots) expressions in rules, as long as they are
 well typed, but further processing steps may be restricted to fragments of the
 rule language or require previous (automated) transformations. With this, the
-above rule can be used without further ado in a Prolog-like context (see
-below).
+above style of rule can be used without further ado in a Prolog-like fashion, to represent constitutive rules and simple prescriptive rules based on them.
 
-In a legal context, the questions of deontics and of default reasoning are
+In legal formalization, questions of deontics and of defeasible reasoning are
 inevitable. L4 supports neither of them in the core language, \ie{} in the logic, but
-provides mechanisms for expressing them by other means. The decision against a
-full-fledged \emph{deontic logic} is motivated by the fact that in spite of a
-decade-long debate, there is no consensus on how to avoid paradoxes of
-classical deontic logics; the combination with other modalities is not clear
-(in particular: possibility and necessity arising in temporal reasoning, which
-we do support); and there is no native support in expressive reasoning
-tools. Instead, in static rules as the above, obligations can be expressed
-with dedicated predicates, such as \texttt{MustNotAcceptApp} above, and it
-becomes possible to reason about consistency and completeness of legal
-requirements, which is barely possible if these notions are built into the
-logic (also see \secref{sec:services}). In dynamic, state-based system
-specifications, individual states can be flagged as breach states, again
+provides mechanisms for expressing them by other means. In dynamic, state-based system
+specifications, individual states can be flagged as breach states,
 allowing for a fine-grained reasoning about traces that avoid, reach or repair
 these breaches.
 
-Neither is there native support for \emph{default reasoning}. Rules can be
-mapped to reasoning services that are based on non-monotonic logics, see
-\secref{sec:services}. As an extra-logical feature, a rule can be marked with
-modifiers like \emph{subject to} or \emph{despite} (another rule), which
-implicitly prioritizes rules and provides a reasoning pattern that, in absence
+Neither is there native support for \emph{default reasoning}. As an extra-logical feature, a rule can be marked with
+modifiers like \emph{subject to} or \emph{despite}, which prioritizes rules and
+provides a \emph{defeasible} reasoning pattern that, in absence
 of knowledge to the contrary, a given rule is applicable. In a similar spirit,
 negation by failure can be simulated by rule inversion. It is worth noting
 that these mechanisms do not rely on an extension of the logic, but on
 compilation of rules.
 
-\subsection{Services}\label{sec:services}
+The core language is augmented by a higher-level language, whose syntax is inspired by SQL, which transpiles to the core and to other target languages. The following fragment, based on Singapore's Personal Data Protection Act\footnote{\url{https://sso.agc.gov.sg/Act/PDPA2012?ProvIds=P1VIA-##pr26C-}} and related Regulations\footnote{\url{https://sso.agc.gov.sg/SL/PDPA2012-S64-2021?DocDate=20210930&WholeDoc=1}} expresses a prescriptive rule -- actually three sub-rules, connected by the \texttt{HENCE} and \texttt{LEST} keywords:
+\begin{lstlisting}[language=L4Sugary]
+ EVERY  Organisation  ("You")
+UNLESS  the Organisation is a Public Agency
+  UPON  becoming aware a data breach may have occurred
+WITHIN  30 days
+  MUST  assess
+        if   it is a Notifiable Data Breach
+  LEST      PARTY  Personal Data Protection Commission  ("PDPC")
+           WITHIN  30 days
+              MAY  demand
+                   an explanation   for your inaction
+            HENCE  You MUST  respond
+                             to   PDPC
+                     BEFORE  28 days
+\end{lstlisting}
 
+\subsection{Back-End Services}\label{sec:services}
+
+The L4 transpiler integrates the developer-facing front-end with a variety of back-ends, including:
 \begin{itemize}
-\item SMT
-\item ASP
-\item Expert system
-\item Natural language processing
-\item Visualization
+\item SAT/SMT solvers and related tools such as Uppaal\footnote{\url{https://uppaal.org/}}, for model checking, static analysis, symbolic execution, and formal verification;
+\item Answer Set Programming and (Constraint) Logic Programming, to help perform abductive reasoning to solve planning problems arising in legal contexts;
+\item Expert systems, to assist with rule optimization and operationalization in an end-user UI (typically a web app or chatbot providing decision support);
+\item Natural language generation, for validation round-tripping from natural language text to natural language text, and to improve the UI generally; and
+\item Visualization, to aid comprehension of rule sets at a variety of levels of detail, benefitting both end-users and drafters.
 \end{itemize}
 
 \subsection{Tool support}\label{sec:tool_support}
 
-
 The reader should be aware that most of what has been described is still work
 in progress. Work on the above is ongoing, with an open-source development in
-Haskell available on CCLAW's
-github\footnote{\url{https://github.com/smucclaw}}, with an integration into
+Haskell available on CCLAW's Github\footnote{\url{https://github.com/smucclaw}}, with an integration into
 Visual Studio Code that features syntax highlighting, on-the fly type checking
-and code completion \remms{too much of a promise?}
-
-\remms[inline]{Further remarks}
-\begin{itemize}
-\item whole language does not have a fixed semantics, but strands of the
-  language do have.
-\end{itemize}
-
-\section{Outlook on Future Work}\label{sec:outlook}
-
-\remms[inline]{Maybe scrap the whole section}
-
+and code completion. An alternative IDE is being prototyped as a convention for
+drafting rules inside a spreadsheet environment such as Excel or Google Sheets.
 
 \paragraph{Acknowledgements.}
 This research is supported by the National Research Foundation (NRF),
