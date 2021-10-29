@@ -11,7 +11,11 @@
 %\title{Computer-Supported Defeasible Reasoning in Legal Texts}
 \title{Overview of the CCLAW L4 project}
 
-\author{Martin Strecker\orcidID{0000-0001-9953-9871}}
+\author{
+    Avishkar Mahajan\orcidID{0000-0002-9925-1533} \and
+    Martin Strecker\orcidID{0000-0001-9953-9871} \and
+    Meng Weng Wong\orcidID{0000-0003-0419-9443}
+}
 \institute{Singapore Management University}
 \maketitle
 
@@ -99,7 +103,7 @@ negation by failure can be simulated by rule inversion. It is worth noting
 that these mechanisms do not rely on an extension of the logic, but on
 compilation of rules.
 
-The core language is augmented by a higher-level language, whose syntax is inspired by SQL, which transpiles to the core and to other target languages. The following fragment, based on Singapore's Personal Data Protection Act\footnote{\url{https://sso.agc.gov.sg/Act/PDPA2012?ProvIds=P1VIA-##pr26C-}} and related Regulations\footnote{\url{https://sso.agc.gov.sg/SL/PDPA2012-S64-2021?DocDate=20210930&WholeDoc=1}} expresses a prescriptive rule -- actually three sub-rules, connected by the \texttt{HENCE} and \texttt{LEST} keywords:
+The core language is augmented by a higher-level language, whose syntax is inspired by data-centric languages, which transpiles to the core and to other target languages. The following fragment, based on Singapore's Personal Data Protection Act\footnote{\url{https://sso.agc.gov.sg/Act/PDPA2012?ProvIds=P1VIA-##pr26C-}} and related Regulations\footnote{\url{https://sso.agc.gov.sg/SL/PDPA2012-S64-2021?WholeDoc=1}} expresses a prescriptive rule -- actually three sub-rules, connected by the \texttt{HENCE} and \texttt{LEST} keywords:
 \begin{lstlisting}[language=L4Sugary]
  EVERY  Organisation  ("You")
 UNLESS  the Organisation is a Public Agency
@@ -118,19 +122,18 @@ WITHIN  30 days
 
 \subsection{Back-End Services}\label{sec:services}
 
-The L4 transpiler integrates the developer-facing front-end with a variety of back-ends, including:
-\begin{itemize}
-\item SAT/SMT solvers and related tools such as Uppaal\footnote{\url{https://uppaal.org/}}, for model checking, static analysis, symbolic execution, and formal verification;
-\item Answer Set Programming and (Constraint) Logic Programming, to help perform abductive reasoning to solve planning problems arising in legal contexts;
-\item Expert systems, to assist with rule optimization and operationalization in an end-user UI (typically a web app or chatbot providing decision support);
-\item Natural language generation, for validation round-tripping from natural language text to natural language text, and to improve the UI generally; and
-\item Visualization, to aid comprehension of rule sets at a variety of levels of detail, benefitting both end-users and drafters.
-\end{itemize}
+% The L4 transpiler integrates the developer-facing front-end with a variety of back-ends, including:
+% \begin{itemize}
+% \item SAT/SMT solvers and related tools such as Uppaal\footnote{\url{https://uppaal.org/}}, for model checking, static analysis, symbolic execution, and formal verification;
+% \item Answer Set Programming and (Constraint) Logic Programming, to help perform abductive reasoning to solve planning problems arising in legal contexts;
+% \item Expert systems, to assist with rule optimization and operationalization in an end-user UI (typically a web app or chatbot providing decision support);
+% \item Natural language generation, for validation round-tripping from natural language text to natural language text, and to improve the UI generally; and
+% \item Visualization, to aid comprehension of rule sets at a variety of levels of detail, benefitting both end-users and drafters.
+% \end{itemize}
 
 We provide \textbf{reasoning services} by translating rules to other languages or
 solvers. According to the principle of usability for the target audience, we
-aim at a push-button technology, which precludes the use of (say) interactive
-proof assistants. We provide the following, mostly complementary, services:
+aim at a push-button technology with the following, mostly complementary, services:
 
 \begin{itemize}
 \item \textbf{SMT solvers:} Their purpose is to permit reasoning about a rule
@@ -143,11 +146,16 @@ proof assistants. We provide the following, mostly complementary, services:
   other. For verification, users can write down a proof obligation (a formula). The L4
   tool set translates this formula and the rules (eventually transformed, as
   mentioned above) to expressions in the the SMTLIB format, sends them to a
-  SMT solver and retrieves the result.  Other consistency checks (such as a search for
-  overlapping rules) could be done automatically, but has not yet been
-  implemented. SMT solvers are in principle also capable of reasoning about
+  SMT solver and retrieves the result. 
+%   Other consistency checks (such as a search for
+%   overlapping rules) could be done automatically, but has not yet been
+%   implemented. 
+  SMT solvers are in principle also capable of reasoning about
   specific scenarios, but the following methods are more appropriate.
-\item \textbf{Answer Set Programming:}
+\item \textbf{Answer Set Programming:} 
+Answer Set Programming (ASP) is a declarative programming language used widely in Knowledge Representation and Reasoning to model rules, facts, integrity constraints etc, within various domains. ASP systems are able to implement non-monotonic logic through the use of $\emph{negation as failure}$. An ASP system calculates the $\emph{stable models}$ of the given ASP program based on the $\emph{stable model semantics}$. Using ASP, we want to  derive legal conclusions from facts and also justify those conclusions all while taking into account unique features of legal reasoning such as reasoning with priorities, exceptions etc. We also want to explore ways to automatically generate questions to solicit information from the user based on the input legal rules.
+The two ASP systems we are experimenting with are sCASP\footnote{\url{https://cliplab.org/papers/iclp2018-scasp.pdf}} and Clingo\footnote{\url{https://potassco.org/clingo/}}. sCASP is of particular interest for us due to its ability to generate justification trees for conclusions. In Clingo, we have experimented with the use of a backward chaining and abductive search procedure for the purpose of automatically generating Boolean questions to ask the user. We are currently able to transpile a small subset of L4 rules into the required ASP programs to achieve the forward reasoning, justification graph generation and Boolean question generation features. We are now working to extend our implementations to handle larger classes of L4 rule sets.
+
 \item \textbf{``Expert system'':} By this, we understand a rule based
   production system where rules are applied to data stored in a fact base to
   derive new data, and this until a fixed point is reached. We currently
@@ -159,26 +167,22 @@ proof assistants. We provide the following, mostly complementary, services:
   data.
 \end{itemize}
 Our current work concentrates on providing readable justifications for traces
-of rule applications or models produced by solvers.
+of rule applications or models produced by solvers. This includes a \textbf{visualization} component for justifications. 
 
-
-\begin{itemize}
-\item Natural language processing
-\item Visualization
-\end{itemize}
+An essential element of the L4 environment is \textbf{natural language processing} provided through interaction with the Grammatical Framework\footnote{\url{http://www.grammaticalframework.org/}}. Whereas the L4 language is a DSL in the programming language tradition, it contains natural language elements (see the second example rule) that are mapped to expressions of the core language (as in the first example rule). Beyond that, natural language processing and generation are essential in interactive legal advisors.
 
 \subsection{Tool support}\label{sec:tool_support}
 
 The reader should be aware that most of what has been described is still work
-in progress. Work on the above is ongoing, with an open-source development in
-Haskell available on CCLAW's Github\footnote{\url{https://github.com/smucclaw}}, with an integration into
-Visual Studio Code that features syntax highlighting, on-the fly type checking
+in progress, with an open-source development in
+Haskell available on CCLAW's Github\footnote{\url{https://github.com/smucclaw}} that is integrated into
+Visual Studio Code and features syntax highlighting, on-the fly type checking
 and code completion. An alternative IDE is being prototyped as a convention for
 drafting rules inside a spreadsheet environment such as Excel or Google Sheets.
 
 \paragraph{Acknowledgements.}
 This research is supported by the National Research Foundation (NRF),
-Singapore, under its Industry Alignment Fund –- Pre-Positioning Programme, as
+Singapore, under its Industry Alignment Fund -- Pre-Positioning Programme, as
 the Research Programme in Computational Law. Any opinions, findings and
 conclusions or recommendations expressed in this material are those of the
 authors and do not reflect the views of National Research Foundation,
