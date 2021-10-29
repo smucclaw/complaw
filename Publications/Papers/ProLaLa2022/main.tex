@@ -1,36 +1,39 @@
-\documentclass[runningheads]{llncs}
+\documentclass[10pt,a4paper]{article}
 
 \input{settings}
 \input{defs}
+
+\usepackage{authblk}
+\addtolength{\oddsidemargin}{-10mm}
+\addtolength{\evensidemargin}{-10mm}
+\addtolength{\textwidth}{20mm}
+\addtolength{\textheight}{20mm}
 
 % Possilby remove for final version
 %\pagestyle{plain}
 
 \begin{document}
-%\title{Computer-Supported Defeasible Reasoning in Law}
-%\title{Computer-Supported Defeasible Reasoning in Legal Texts}
 \title{Overview of the CCLAW L4 project}
+\author{Avishkar Mahajan} 
+\author{Martin Strecker} 
+\author{Meng Weng Wong}
 
-\author{
-    Avishkar Mahajan\orcidID{0000-0002-9925-1533} \and
-    Martin Strecker\orcidID{0000-0001-9953-9871} \and
-    Meng Weng Wong\orcidID{0000-0003-0419-9443}
-}
-\institute{Singapore Management University}
+\affil{Singapore Management University}
+\date{}
 \maketitle
 
 \begin{abstract}
-L4 is a domain-specific specification language that facilitates semantically rigorous formalization of legal expressions found in legislation and contracts. In our talk we will demo the working pieces (as of late 2021 / early 2022): a low-level core and a high-level language, a transpiler to reasoning back-ends including static analysis / formal verification and an expert system web app, and a real-world case study.
+\noindent L4 is a domain-specific specification language that facilitates semantically rigorous formalization of legal expressions found in legislation and contracts. In our talk we will demo the working pieces (as of late 2021 / early 2022): a low-level core and a high-level language, a transpiler to reasoning back-ends including static analysis / formal verification and an expert system web app, and a real-world case study.
 \end{abstract}
 
-\keywords{
+\textbf{Keywords:} 
   Knowledge representation and reasoning,
   Argumentation and law,
   Computational Law,
   Defeasible reasoning,
   Programming language theory,
   Specification languages
-}
+
 
 %----------------------------------------------------------------------
 
@@ -44,7 +47,7 @@ Management University. We describe some principles and requirements in
 this section, and then give an overview of current work
 (\secref{sec:current_work}).
 
-The first principle focuses our work on rule-based reasoning in law (\emph{vs} case-based reasoning). Our approach lies in the formalist tradition, closer to pure civil law than pure common law. We explore the deductive and abductive modes of reasoning, leaving inductive reasoning (supported by similarity metrics) to other work in the very active domain of machine learning.
+The first principle focuses our work on rule-based reasoning in law (\emph{vs} case-based reasoning). This approach lies in the formalist tradition, closer to pure civil law than pure common law. We explore the deductive and abductive modes of reasoning, leaving inductive reasoning (supported by similarity metrics) to the very active field of machine learning.
 The second principle is that law is meant to
 describe a set of admissible behaviours, and not a single behaviour, so our
 framework is declarative, in contrast to
@@ -67,7 +70,7 @@ LegalRuleML working group, and by many others.
 \subsection{Language}\label{sec:language}
 
 We will now highlight some aspects and usage patterns of the L4
-platform. We borrow from RuleML the notions of \emph{constitutive} rules which provide ontology, and \emph{prescriptive} rules which regulate behaviour by actors. We first describe static prescriptive rules and their possible uses, then dynamic prescriptive rules for time-dependent, multi-agent processes.
+platform. We borrow from RuleML the notions of \emph{constitutive} rules which provide ontology, and \emph{prescriptive} rules which regulate behaviour. We first describe static prescriptive rules and their possible uses, then dynamic prescriptive rules for time-dependent, multi-agent processes.
 
 In their simplest form, in the core language, \textbf{rules} are \emph{if-then} statements, where both the
 antecedent and consequent are expressions. We encode an
@@ -153,8 +156,8 @@ aim at a push-button technology with the following, mostly complementary, servic
   SMT solvers are in principle also capable of reasoning about
   specific scenarios, but the following methods are more appropriate.
 \item \textbf{Answer Set Programming:} 
-Answer Set Programming (ASP) is a declarative programming language used widely in Knowledge Representation and Reasoning to model rules, facts, integrity constraints etc, within various domains. ASP systems are able to implement non-monotonic logic through the use of $\emph{negation as failure}$. An ASP system calculates the $\emph{stable models}$ of the given ASP program based on the $\emph{stable model semantics}$. Using ASP, we want to  derive legal conclusions from facts and also justify those conclusions all while taking into account unique features of legal reasoning such as reasoning with priorities, exceptions etc. We also want to explore ways to automatically generate questions to solicit information from the user based on the input legal rules.
-The two ASP systems we are experimenting with are sCASP\footnote{\url{https://cliplab.org/papers/iclp2018-scasp.pdf}} and Clingo\footnote{\url{https://potassco.org/clingo/}}. sCASP is of particular interest for us due to its ability to generate justification trees for conclusions. In Clingo, we have experimented with the use of a backward chaining and abductive search procedure for the purpose of automatically generating Boolean questions to ask the user. We are currently able to transpile a small subset of L4 rules into the required ASP programs to achieve the forward reasoning, justification graph generation and Boolean question generation features. We are now working to extend our implementations to handle larger classes of L4 rule sets.
+Answer Set Programming (ASP) is a declarative programming language used widely in Knowledge Representation and Reasoning to model rules, facts, integrity constraints etc, within various domains. Using ASP, we want to  derive legal conclusions from facts and rules and also justify those conclusions all while taking into account unique features of legal reasoning such as reasoning with priorities, exceptions etc. We also want to explore ways to automatically generate questions to solicit information from the user based on the input legal rules.
+The two ASP systems we are experimenting with are sCASP\footnote{\url{https://cliplab.org/papers/iclp2018-scasp.pdf}} and Clingo\footnote{\url{https://potassco.org/clingo/}}. sCASP is of particular interest for us due to its ability to generate justification trees for conclusions. In Clingo, we have experimented with the use of a backward chaining and abductive search procedure for the purpose of automatically generating Boolean questions to ask the user. We are currently able to transpile a small subset of L4 rules into the required ASP programs to achieve some of the desired functionalities.
 
 \item \textbf{``Expert system'':} By this, we understand a rule based
   production system where rules are applied to data stored in a fact base to
@@ -162,7 +165,7 @@ The two ASP systems we are experimenting with are sCASP\footnote{\url{https://cl
   experiment with the systems Drools\footnote{\url{https://www.drools.org}},
   Clara\footnote{\url{http://www.clara-rules.org/}} and
   O'Doyle\footnote{\url{https://github.com/oakes/odoyle-rules}}. As compared
-  to primarily logical emthods, the strength
+  to primarily logical methods, the strength
   of these engines lies in their capability to process larger quantities of
   data.
 \end{itemize}
@@ -175,12 +178,11 @@ An essential element of the L4 environment is \textbf{natural language processin
 
 The reader should be aware that most of what has been described is still work
 in progress, with an open-source development in
-Haskell available on CCLAW's Github\footnote{\url{https://github.com/smucclaw}} that is integrated into
-Visual Studio Code and features syntax highlighting, on-the fly type checking
-and code completion. An alternative IDE is being prototyped as a convention for
-drafting rules inside a spreadsheet environment such as Excel or Google Sheets.
+Haskell available on CCLAW's Github.\footnote{\url{https://github.com/smucclaw}} 
 
-\paragraph{Acknowledgements.}
+%that is integrated into Visual Studio Code and features syntax highlighting, on-the fly type checking and code completion. An alternative IDE is being prototyped as a convention for drafting rules inside a spreadsheet environment such as Excel or Google Sheets.
+
+\paragraph{Acknowledgements.} The work reported above is the result of the contributions of the whole CCLAW team (see the Github page).
 This research is supported by the National Research Foundation (NRF),
 Singapore, under its Industry Alignment Fund -- Pre-Positioning Programme, as
 the Research Programme in Computational Law. Any opinions, findings and
