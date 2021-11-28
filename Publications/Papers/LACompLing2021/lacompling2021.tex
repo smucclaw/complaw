@@ -1,0 +1,94 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.20 of 2017/10/04
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage{todonotes}
+\newcommand{\remms}[2][]{\todo[color=green!40,#1]{MS:#2}}
+
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+\usepackage{hyperref}
+% If you use the hyperref package, please uncomment the following line
+% to display URLs in blue roman font according to Springer's eBook style:
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\begin{document}
+%
+%\title{Contribution Title\thanks{Supported by organization x.}}
+\title{Natural Language Generation and Processing for the Legal Domain}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Inari Listenmaa\inst{1}\orcidID{0000-0001-5555-0251} \and
+Martin Strecker\inst{1}\orcidID{0000-0001-9953-9871} \and
+Warrick Macmillan\inst{2}}  
+%
+\authorrunning{I. Listenmaa et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\institute{Singapore Management University \\
+\email{\{ilistenmaa,mstrecker\}@smu.edu.sg}
+%\url{https://cclaw.smu.edu.sg}
+\and
+University of Gothenburg\\
+\email{gusmacwa@student.gu.se}}
+%
+%
+\maketitle              % typeset the header of the contribution
+%
+%\begin{abstract}
+%The abstract should briefly summarize the contents of the paper in 15--250 words.
+
+%\keywords{First keyword  \and Second keyword \and Another keyword.}
+%\end{abstract}
+%
+%
+%
+
+The general context of our work is the SMU Centre for Computational Law %\footnote{\url{https://cclaw.smu.edu.sg/}} 
+aiming at computerizing legal reasoning in a manner that is both formally precise and intuitively accessible to legal experts. 
+The cornerstone is a domain specific language (DSL) for the legal domain, called L4, 
+which can be converted to natural language but is also the basis for formal verification procedures.
+%in particular combining SAT~/~SMT solvers (\emph{e.g.} Z3\cite{demoura_bjorner_z3_2008}) and Timed Automata (\emph{e.g.} Uppaal \cite{larsen1997uppaal}). 
+Inversely, we can also go from natural or close to natural language to a formal DSL. The following highlights essential aspects of this endeavor. 
+
+%to  we seek to generate formally verifiable natural language. 
+
+
+%\textbf{Natural language generation from L4}
+Our preliminary efforts \cite{listenmaa-etal-2021-towards} %,listenmaa2021nlg}
+%transform Core L4 into natural language. This is 
+focus on \textbf{natural language generation from Core L4}, a formal logical system.
+%start from Core L4, with optional (controlled) natural language verbalisations for individual objects and predicates. 
+We have now defined a higher-level variant of the core language, Natural L4, a semi-structured natural language layer.
+%whose purpose is to facilitate human understanding and make it easier for non-programmers to produce or modify L4 code. 
+%that, while still being a formal DSL, facilitates human understanding.
+Consequently, our task is to \textbf{translate Natural L4 into formal logical systems},
+inspired by approaches such as \cite{vanEijck2010computationalSemantics,schaefer_kohlhase_glif_2020}.
+The most natural translation target is the Core L4, but we also explore translating Natural L4 directly into output formats like 
+SAT~/~SMT solvers (\emph{e.g.}, Z3\cite{demoura_bjorner_z3_2008}) and Timed Automata (\emph{e.g.}, Uppaal \cite{larsen1997uppaal}).
+
+We compare the different approaches, extrapolating ideas from \cite{macmillan2021} to the legal domain. The first tries to generate meaningful natural language from a formal language, desiring \emph{semantic adequacy}. The second approach asks if natural language can be made to fit some well-defined mathematical model, a notion known as \emph{syntactic completeness}.
+
+%We explore both the technical differences and their practical implications in the legal domain. If our language fails to be semantically adequate, then the user of the DSL may have an an intensional belief which contradicts the extensional meaning of the some contract, or L4 program. Alternatively, if DSL is syntactically incomplete and the user says something which has no formal meaning, "debugging" the error without explicit knowledge of the DSL will be generally infeasible. Failure to achieve either could not only result in a poor user experience, but have legal consequences for the DSL designers. 
+
+
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+% \bibliographystyle{splncs04}
+\bibliography{bibliography}
+\bibliographystyle{spmpsci}
+
+\end{document}
