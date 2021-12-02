@@ -221,19 +221,20 @@ start -- bdefn -- defn -- VarDefn -- aVarDefn -> end
 %......................................................................
 
 
-\remms{TODO}
+
 %......................................................................
 \begin{syntaxdiagram}{VarDefn}
   \node[junction,right=of VarDefn] (start) {};
-  \node[junction,right=of start] (bvar) {};
-  \node[terminal,right=of bvar] (var) {\emph{VAR}};
+%  \node[junction,right=of start] (bvar) {};
+  \node[terminal,right=of start] (var) {\emph{VAR}};
   \node[terminal,right=of var] (colon) {\texttt{:}};
   \node[nonterminal,right=of colon] (Tp) {Tp};
-  \node[junction,right=of Tp] (aTp) {};
-  \node[junction,right=of aTp] (end) {};
+  \node[terminal,right=of Tp] (eq) {\texttt{=}};
+  \node[nonterminal,right=of eq] (Expr) {Expr};
+  \node[junction,right=of Expr] (end) {};
 
 \graph [use existing nodes] {
-start -- bvar -- var -- colon -- Tp -- aTp -> end
+start -- var -- colon -- Tp -- eq -- Expr -> end
 };
 \end{syntaxdiagram}
 %......................................................................
@@ -338,11 +339,12 @@ start -- bassert -- assert -- expr -- aexpr -> end
 %......................................................................
 
 
-A \nonterminalref{Program} is the main processing unit. It consists of a
-lexicon, a list of class declarations, global variable declarations, rules and
-assertions, all of which can be missing.
+A \nonterminalref{Program} is the main processing unit. It consists of a list
+of top level elements that can be arranged in any order. A
+\nonterminalref{TopLevelElement} can be a mapping, a list class declarations,
+global variable declaration or definition, a rule, fact or assertion of a system.
 
-A \nonterminalref{Lexicon} maps identifiers of the program to GF
+A \nonterminalref{Mapping} maps identifiers of the program to GF
 strings\remms{Inari: more details}.
 
 Class declarations (\nonterminalref{ClassDecl}) come in several shapes. In
@@ -382,8 +384,7 @@ whereas \texttt{Lawyer} inherits \texttt{name} and \texttt{age} from
 Global variable declarations (\nonterminalref{GlobalVarDecl}) introduce names
 that are meant to have global visibility in the program.
 
-In the \nonterminalref{Rules} section, rules and facts can be mixed
-arbitrarily. A \nonterminalref{Rule} introduces local variables in a
+A \nonterminalref{Rule} introduces local variables in a
 \texttt{for} clause (which may be omitted if there are no local variables),
 followed by a precondition (\texttt{if}) and a postcondition (\texttt{then}),
 both assumed to be Boolean expressions. If there are several preconditions,
@@ -392,7 +393,7 @@ A \nonterminalref{Fact} is a notational variant of a  \nonterminalref{Rule}
 that does not have a precondition (more technically, a fact is mapped to a
 rule whose precondition is \texttt{True}).
 
-\nonterminalref{Assertion} are Boolean expressions introduced by the keyword \texttt{assert}.
+An \nonterminalref{Assertion} is a Boolean expressions introduced by the keyword \texttt{assert}.
 
 
 %......................................................................
