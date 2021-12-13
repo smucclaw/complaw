@@ -18,6 +18,14 @@ compatibility so that Uppaal can be used together with L4, in two directions:
 \item \texttt{*.xta} files written by Uppaal can be read by L4, with minor
   syntactic differences and restrictions. An example is given in \figref{fig:system_l4}.
 \end{itemize}
+The above automata are graphically displayed in \figref{fig:uppaal_automaton}.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{Figures/uppaal_automaton.png}
+\caption{Automaton represented in Uppaal}\label{fig:uppaal_automaton}
+\end{figure}
+
 
 These two methods will be revisited in the following.
 
@@ -122,6 +130,17 @@ necessary:
 
 A notable difference is that Uppaal permits the declaration of automaton
 \emph{templates} that can be instantiated. This is currently not possible in L4.
+
+
+
+\remms[inline]{BEGIN TODO}
+Note: there is another TODO file elsewhere. Integrate in this document, in a separate file to be excluded from compilation for the general public.
+\begin{itemize}
+\item local variable declarations not printed
+\end{itemize}
+
+\remms[inline]{END TODO}
+
 
 
 %......................................................................
