@@ -160,8 +160,40 @@ Note: there is another TODO file elsewhere. Integrate in this document, in a sep
 
 %......................................................................
 \subsection{Expert Systems}\label{sec:epert_systems}
+\parskip=5pt plus 7pt
+\parindent=15pt
 
+Expert Systems are a way of replicating the logical reasoning and domain 
+capabilities of a human expert through explicit knowledge capture.
 
+L4 targets the use of expert systems as formal advisory interpreters; that form 
+high-level conclusions given a set of ground truths and the application of formal 
+axioms. 
+\remal{There exists case-based legal expert systems, but my personal opinion is that these are less intuitive and much harder to support} 
+Legal texts are typically well-structured \& formal, with well-defined 
+terms integrated in clear and specific domains. However, there might be 
+situations where the interpretive ability of a trained lawyer are required, 
+but cannot be accessed due to the insufficient time or resources. Situations like
+these are prime areas that expert systems excel in. Unfortunately,  
+previous attempts at legal-specific expert systems in the 1980s and 1990s were 
+largely exploratory and descriptive in nature, with no attempts at public testing. \cite{leith2016riseandfall}
+
+In the time since, there have been various efforts into the building of rigorous 
+and efficient rule-based systems.
+\remal{To cite drool's rete, find clara's paper (if it exists) etc.} 
+To build on the results of these efforts, we offer L4 as an upstream format that 
+transpiles to such existing formats. 
+
+As with existing expert systems, L4 files already mimic the characteristics 
+of an easily modifiable knowledge base. 
+Furthermore, this approach allows you, the user-developer/knowledge engineer, 
+the option of choosing the language environment you would like to work with, and the 
+flexibility of desigining a frontend user interface that would fit your purposes.
+
+The currently supported rule-engine output formats are 
+\href{https://docs.jboss.org/drools/release/7.58.0.Final/drools-docs/html_single/}{Drools} 
+and 
+\href{http://www.clara-rules.org/}{Clara-Rules}.
 
 
 
