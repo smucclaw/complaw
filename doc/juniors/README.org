@@ -18,6 +18,16 @@ Somebody should have given you access to:
 
 If you don't have access to those resources, say something!
 
+** How We Work
+
+As a research group at a university, we tend to operate according to academic conventions:
+
+https://web.eecs.utk.edu/~azh/blog/lessonsfrommyphd.html
+
+At the same time, our primary output is opensource software intended for use by industry:
+
+https://blog.pragmaticengineer.com/what-silicon-valley-gets-right-on-software-engineers/
+
 ** Your place in the team
 
 When recruiting the team we selected for a range of backgrounds and levels of experience. Some team members have decades of experience; some are relatively new to coding, but I believe that everyone will have a chance to make a contribution.
