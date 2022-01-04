@@ -42,8 +42,8 @@
   \blue{Time and Date:}
   \begin{itemize}
   \item Sun 16 Jan 5pm local time (US Eastern time)
-  \item Sun 16 Jan 11pm in Europe
-  \item Mon 17 Jan 6am in Singapore
+  \item which is: Sun 16 Jan 11pm in Europe
+  \item which is: Mon 17 Jan 6am in Singapore
   \end{itemize}
 
 \end{frame}
@@ -73,18 +73,74 @@
 
 
 %-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{Overview of the project}
+\begin{frame}[fragile]\frametitle{Administrative overview of the project}
 
-  \blue{Administrative overview:}
+  \blue{Administrative overview:} \red{Do we want that?}
   \begin{itemize}
   \item Goals and structure of CCLAW
   \item Pragmatic orientation
   \end{itemize}
 
-  \blue{High-level technical overview} (see GoogleDoc diagram p. 2)
+\end{frame}
+
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Essential tenets}
+
+  \blue{Fundamental notions:}
+  \begin{itemize}
+  \item The law / a contract defines
+    \begin{itemize}
+    \item a \emph{set} of admissible situations (static)
+    \item a \emph{set} of admissible behaviours (dynamic)
+    \end{itemize}
+  \item L4 is therefore primarily a \emph{declarative} and not an
+    \emph{executable} language
+  \end{itemize}
+  
+  \blue{Fundamental questions} we try to answer:
+  \begin{itemize}
+  \item is a law free of contradictions? (behaviour admissible \emph{and} inadmissible))
+  \item is a law complete? (some behaviours not qualified as (in)admissible)
+  \item is an individual behaviour admissible wrt. a law?
+  \item how can laws / contracts be composed?
+  \end{itemize}
 
 
 \end{frame}
+
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Overall approach}
+
+  \blue{Hierarchy of languages}, here:
+  \begin{itemize}
+  \item user-friendly \emph{Natural L4}, formally reducible to Core L4
+  \item compact \emph{Core L4}, amenable to precise model-theoretic semantics
+  \end{itemize}
+
+  \blue{Principle:} Minimize complexity of the core language.
+  \begin{itemize}
+  \item Avoid debatable logics\\
+    \emph{e.g.:} the ``right'' default logic\\
+    \emph{instead:} compile away defeasibility, statically
+  \item Avoid debatable combinations of logics\\
+    \emph{e.g.:} combination of temporal and deontic logics\\
+    \emph{instead:} combined treatment as attainable states in a Kripke structure
+  \end{itemize}
+  \red{Illustrated in the following}
+  
+\end{frame}
+
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Technical overview of the project}
+
+
+  \blue{High-level technical overview} (see GoogleDoc diagram p. 2)
+
+\end{frame}
+
 
 
 %======================================================================
@@ -96,7 +152,6 @@
 
 
 
-
 \end{frame}
 
 
@@ -104,8 +159,41 @@
 \section{Core L4 - Static}
 
 
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Defeasibility}
+
+  (Martin's part of CLAR paper)
+
+\end{frame}
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Optimal Fact Elicitation} 
+
+  (Avishkar's part of CLAR paper)
+
+\end{frame}
+
+
 %======================================================================
 \section{Core L4 - Dynamic}
+
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Translation of dynamic rules to Timed Automata}
+
+
+
+\end{frame}
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Conclusions and outlook}
+
+  \blue{What we have achieved:}
+
+  \blue{Open challenges:}
+
+
+\end{frame}
 
 
 
