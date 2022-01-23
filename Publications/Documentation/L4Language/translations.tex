@@ -5,7 +5,128 @@
 
 %----------------------------------------------------------------------
 \subsection{Translation to ASP solvers}\label{sec:translation_asp}
+We are currently working on the use of Answer Set Programming (ASP) for various functionalities. Our main choice of ASP solver is Clingo. Clingo is our choice of solver as it is a robust implementation of ASP and also allows additional constructs like \emph{choice rules} and \emph{weak constraints} (ie optimizations) with \emph{priority levels}
+\subsubsection{ASP for defeasible reasoning}
+Defeasible reasoning can be modelled in ASP through use of the \emph{negation-as-failure} operator \emph{not} which is interpreted under the \emph{stable model semantics}. Our guiding principle is that it should be possible to simulate various kinds of defeasible/non-monotonic logics by principled translations to the correct corresponding ASP program where we there is only one non-monotonic operator namely, the negation-as-failure \emph{not} as described above. Simulating everything on ASP has the advantage that we can use the underlying stable model semantics to give clear axiomatic foundations for the overall semantics of the defeasible reasoning processes that we implement. A theoretical investigation into the limits of a such a 'reductionist' approach to defeasible reasoning would be of interest. We shall now describe one implementation of defeasible reasoning for which we currently have a rudimentary L4 to ASP code generator.\\
+\subsubsection{Assumed input rule syntax}
+We assume that the input rule syntax from a source such as L4 is compatible with the syntax for prolog-like rules. More specifically we assume that each source rule has exactly the following form (or can be put into the following form):
+\begin{verbatim}
+pre_con_1(V1),pre_con_2(V2)...,pre_con_n(Vn) -> post_con(V).
+\end{verbatim}
+We further make the folllowing assumptions:\\
+1. Each pre-condition $pre\_con_{i}(V_{i})$ is atomic and so is the post-condition $post\_con(V)$.\\
+2. $V_{i}$ is the set of variables occuring in the $i^{th}$ pre-condition $pre\_con_{i}(V_{i})$ and $V$ is the set of variables occuring in the post condition $post\_con(V)$. We assume that $V_{1}\cup V_{2}\cup ... \cup V_{n} = V$.\\
+3. Each variable occurring in either a pre-condition or the post condition is universally quantified over.\\
+4. Each input rule of the form above carries with it an integer rule id. possibly originating in the legislation.
+\subsubsection{Main input rule translation}
+Given an input rule \begin{verbatim}
+pre_con_1(V1),pre_con_2(V2)...,pre_con_n(Vn) -> post_con(V).
+\end{verbatim} obeying all the properties in (2), say this rule has integer rule id. $n$, then we write the following rule in our ASP program: \begin{verbatim}
+according_to(n,post_con(V)):-legally_holds(pre_con(V1)),...,legally_holds(pre_con(Vn)).    
+\end{verbatim} 
+We repeat this for each input rule.
+\subsubsection{Defeasibility meta-theory}
+The following set of meta-rules governs the defeasibility in our forward reasoning process (This is only one possible implementation of defeasibility):
+\begin{verbatim}
+defeated(R2,C2):-overrides(R1,R2),according_to(R2,C2),legally_enforces(R1,C1),
+opposes(C1,C2).
 
+opposes(C1,C2):-opposes(C2,C1).
+
+legally_enforces(R,C):-according_to(R,C),not defeated(R,C).
+
+legally_holds(C):-legally_enforces(R,C).
+
+:-opposes(C1,C2),legally_holds(C1),legally_holds(C2). 
+\end{verbatim}
+Given any atomic propositions $C$, $C1$ such that $C$ and $C1$ are negatives of each other we add the ASP rule:
+\begin{verbatim}
+opposes(C,C1):-according_to(R,C).
+opposes(C1,C):-according_to(R1,C1).
+\end{verbatim}
+\subsubsection{ASP for Proof Search/Abductive reasoning}
+Implementing a proof search procedure in ASP has multiple potential uses such as solving abductive reasoning problems, general model checking and automating/optimizing the generation of user questions to determine the truth value of a base query. The procedure presented here is a goal-directed procedure that combines forward chaining and backward chaining and makes use of the choice rules and prioritized weak constraints features of clingo. Unlike many papers on abductive reasoning, the space of abducibles for our abduction problems is not pre-set  and must be derived from the rules itself.\\
+The intuitive idea that will enable us to build a theorem prover is to generate the space of abducibles in a controlled manner by applying the top level L4 input rules  in the reverse direction. Ie recursively inferring pre-conditions from post conditions, and then feeding these abducibles as initial conditions into the forward reasoning mechanism to check for entailment of the base query. This reverse inference procedure for generating the space of abducibles is similar to Prolog's resolution and unification algorithms. There are technical issues to be dealt with here regarding the handling of certain existential quantifiers via skolemnization, the completeness of the search procedure and the handling of arithmetic operations/constraints. These issues will be described later. First we shall describe the abduction space generation procedure for our restricted rule syntax.\\
+Given an input rule \begin{verbatim}
+pre_con_1(V1),pre_con_2(V2)...,pre_con_n(Vn) -> post_con(V).
+\end{verbatim} obeying all the properties in (2), we add the following set of ASP rules to our ASP program: \begin{verbatim}
+explains(pre_con_1(V1),post_con(V),N+1):-query(post_con(V),N).
+explains(pre_con_2(V2),post_con(V),N+1):-query(post_con(V),N).
+                          .
+                          .
+                          .
+                        
+explains(pre_con_n(Vn),post_con(V),N+1):-query(post_con(V),N).
+\end{verbatim}
+We repeat this for each input rule. We then add the following bit of ASP code:
+\subsubsection{Supporting code}
+\begin{verbatim}
+query(C,0):-generate_q(C).
+query(C1,N):-query(C,N),opposes(C,C1).
+
+query(X,N):-explains(X,Y,N),q_level(N).
+\end{verbatim}
+For each pair of atomic propositions $C$, $C1$ that are negatives of each other, we add the following ASP rule:
+\begin{verbatim}
+opposes(C,C1):-query(C,N).
+opposes(C1,C):-query(C1,N).
+\end{verbatim}
+\subsubsection{ASP for Justification tree generation}
+The method for deriving justification trees is similar to that of proof search in that we seek to recursively justify premises of justified conclusions. However as this is a trace extraction problem rather that a proof search problem, this method is in fact easily extended as is to rules involving existential quantifiers in antecedents, arithmetic inequalities etc. 
+Given an input rule \begin{verbatim}
+pre_con_1(V1),pre_con_2(V2)...,pre_con_n(Vn) -> post_con(V).
+\end{verbatim} obeying all the properties in (2), with integer rule id $n$ we add the following set of ASP rules to our ASP program:\begin{verbatim}
+caused_by(pos,legally_holds(pre_con_1(V1)),according_to(n,post_con(V)),N+1)
+:-according_to(n,post_con(V)),legally_holds(pre_con_1(V1)),...,legally_holds(pre_con_n(Vn)),
+justify(according_to(n,post_con(V),N).  
+            .
+            .
+            .
+caused_by(pos,legally_holds(pre_con_n(Vn)),according_to(n,post_con(V)),N+1)
+:-according_to(post_con(V)),legally_holds(pre_con_1(V1)),...,legally_holds(pre_con_n(Vn)),
+justify(according_to(n,post_con(V),N).             
+\end{verbatim}
+We repeat this for each input rule and then add the following bit of ASP code
+\subsubsection{Supporting code}
+\begin{verbatim}
+caused_by(pos,overrides(R1,R2),defeated(R2,C2),N+1):-defeated(R2,C2),overrides(R1,R2),
+according_to(R2,C2),legally_enforces(R1,C1),opposes(C1,C2),justify(defeated(R2,C2),N).
+
+caused_by(pos,according_to(R2,C2),defeated(R2,C2),N+1):-defeated(R2,C2),overrides(R1,R2),
+according_to(R2,C2),legally_enforces(R1,C1),opposes(C1,C2),justify(defeated(R2,C2),N).
+
+caused_by(pos,legally_enforces(R1,C1),defeated(R2,C2),N+1):-defeated(R2,C2),overrides(R1,R2),
+according_to(R2,C2),legally_enforces(R1,C1),opposes(C1,C2),justify(defeated(R2,C2),N).
+
+caused_by(pos,opposes(C1,C2),defeated(R2,C2),N+1):-defeated(R2,C2),overrides(R1,R2),
+according_to(R2,C2),legally_enforces(R1,C1),opposes(C1,C2),justify(defeated(R2,C2),N).
+
+
+caused_by(pos,according_to(R,C),legally_enforces(R,C),N+1):-legally_enforces(R,C),according_to(R,C),
+not defeated(R,C),justify(legally_enforces(R,C),N).
+
+caused_by(neg,defeated(R,C),legally_enforces(R,C),N+1):-legally_enforces(R,C),according_to(R,C),
+not defeated(R,C),justify(legally_enforces(R,C),N).
+
+
+caused_by(pos,legally_enforces(R,C),legally_holds(C),N+1):-legally_holds(C),legally_enforces(R,C),
+not user_input(pos,C), justify(legally_holds(C),N).
+
+caused_by(pos,user_input(pos,C),legally_holds(C),N+1):-legally_holds(C), 
+user_input(pos,C), justify(legally_holds(C),N).
+
+justify(X,N):-caused_by(pos,X,Y,N),graph_level(N+1), not user_input(pos,X).
+directedEdge(Sgn,X,Y):-caused_by(Sgn,X,Y,M).
+
+graph_level(0..N):-max_graph_level(N).
+
+justify(X,0):-gen_graph(X). 
+
+\end{verbatim}
+\subsubsection{General discussion}
+As alluded to earlier, further work remains to be done especially with the proof search procedure. Dealing with input rules that have existential quantifiers in antecedents means we have to introduce \emph{skolem} functions and variables when reversing the rules for the generation of abducibles. Further modifications are necessary to generate the appropriate abducibles based on partial substitution of variables. Ie. When one conjunct in a rule premise has been instantiated by the user with some variable substitutions then the other conjuncts should be instantiated with the same substitutions and the resulting set of atoms made available as possible abducibles in the  abductive reasoning process. This to some extent bridges the gap between Prolog, whose aim is to find some proof of the query by among other things making appropriate substitutions and ASP, whose aim is to give the set of derived consequences based on ground facts and first order rules with no real notion of a 'query'.\\
+Furthermore the methods presented here can give rather unwieldy outputs with rules that have heavy use of arithmetic constraints, along with existential quantifiers in rule premises etc. This is the case for example with temporal rules that describe time-dependent regulative norms. Essentially such rules are not easily 'reversible' although other model checking, contract execution functionalities that do not depend on the reversibility of rules can still be carried out. For model checking of such rules however it is likely that a SMT solver approach is the best approach. A contract execution (as opposed to a contract verification) language however can be realised in ASP by adapting the use of event calculus formalisms and such a language can be enriched with some lightweight contract checking features.\\
+Finally of course it remains to prove the completeness of the proof search procedures. It is expected that such completeness results will be closely tied to the choice of defeasibility meta-theory that underlies the forward reasoning process.
 %----------------------------------------------------------------------
 \subsection{Translation to Expert Systems}\label{sec:translation_expertsystem}
 
