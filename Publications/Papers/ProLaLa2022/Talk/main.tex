@@ -167,11 +167,35 @@
 \end{frame}
 
 %-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{Optimal Fact Elicitation} 
+\begin{frame}[fragile]\frametitle{Defeasible Reasoning via Answer Set Programming} 
 
-  (Avishkar's part of CLAR paper)
+ - Various defeasible logics have been proposed to automate legal reasoning, particularly in argumentation theory\\
+ 
+ - Our aim is to be able to simulate various non-monotonic semantics in ASP, which uses just \textit{negation-as-failure} interpreted in terms of the stable model semantics as its single core non-monotonic operation\\
+ 
+ 
+ - We achieve this by separating the raw-rules from a set of defeasibility 'meta-rules', all written in ASP.\\
+ 
+ - Changing the defeasibility meta-rules changes the semantics given to the rules
 
 \end{frame}
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Answer Set Programming based expert system}
+
+- Overarching aim : Combine forward chaining and backward chaining to allow user to interact closely with the rule set
+
+For example:
+-Infer facts to support given conclusions (abductive reasoning), use this as a form of question generation
+
+-Explore multiple derivations/proofs of conclusions based on. which predicates are subject to CWA and which are not
+
+-Justify conclusions derived by forward reasoning mechanism
+
+
+\end{frame}
+
+
 
 
 %======================================================================
