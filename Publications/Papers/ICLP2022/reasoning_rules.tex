@@ -1,0 +1,74 @@
+% ----------------------------------------------------------------------
+\section{Reasoning with and about Rules}\label{sec:resasoning_with_rules}
+% ----------------------------------------------------------------------
+
+
+Given a plethora of different notions of ``defeasibility'', we had to make a
+choice as to which notions to support, and which semantics to give to them. We
+will here concentrate on two concepts, which we call \emph{rule modifiers},
+that limit the applicability of rules and make them ``defeasible''. They will
+be presented informally in the following. Giving them a precise semantics in
+classical, monotonic logic is the topic of \secref{sec:defeasible_classical};
+a semantics based on Answer Set Programming will be provided in
+\secref{sec:defeasible_asp}.
+
+We will concentrate on two rule modifiers that restrict the applicability of
+rules and that frequently occur in law texts: \emph{subject to} and
+\emph{despite}. A motivating discussion justifying their informal semantics is
+given in \appref{sec:resasoning_with_rules_app}, drawn from a detailed
+analysis of Singapore's Professional Conduct Rules. In the following, however,
+we return to our running example.
+
+\remms{Convert environment into example environment}
+\begin{example}
+  The rules \texttt{maxSpCarHighway} and \texttt{maxSpCarWorkday} are not
+  mutually exclusive and contradict another because they postulate different
+  maximal speeds. For disambiguation, we would like to say:
+  \texttt{maxSpCarHighway} holds \emph{despite} rule
+  \texttt{maxSpCarWorkday}. In L4, rule modifiers are introduced with the aid
+  of \emph{rule annotations}, with a list of rule names following the keywords
+  \texttt{subjectTo} and \texttt{despite}. Thus, we modify rule
+  \texttt{maxSpCarHighway} of \figref{fig:rules} with
+\begin{lstlisting}
+rule <maxSpCarHighway>
+  {restrict: {despite: maxSpCarWorkday}}
+# rest of rule unchanged
+\end{lstlisting}
+Furthermore, to the delight of the public of the country with the highest
+density of sports cars, we also introduce a new rule \texttt{maxSpSportsCar}
+that holds \emph{subject to} \texttt{maxSpCarWorkday} and \emph{despite}
+\texttt{maxSpCarHighway}:
+\begin{lstlisting}
+rule <maxSpSportsCar>
+  {restrict: {subjectTo: maxSpCarWorkday, 
+              despite: maxSpCarHighway}}
+   for v: Vehicle, d: Day, r: Road
+   if isSportsCar v && isHighway r
+   then maxSp v d r 320
+ \end{lstlisting}
+\end{example}
+
+We will now give an informal characterization of these modifiers:
+\begin{itemize}
+\item $r_1$ \emph{subject to} $r_2$ and $r_1$ \emph{despite} $r_2$ are complementary
+  ways of expressing that one rule may override the other rule. They have in
+  common that $r_1$ and $r_2$ have contradicting conclusions. The conjunction
+  of the conclusions can either be directly unsatisfiable (such as: ``may hold'' vs.{}
+  ``must not hold'') or unsatisfiable \wrt{} an intended background theory
+  (obtaining different maximal speeds is inconsistent when expecting
+  \texttt{maxSp} to be functional in its fourth argument).
+\item Both modifiers differ in that \emph{subject to} modifies the rule to which
+  it is attached, whereas \emph{despite} has a remote effect on the rule given
+  as argument.
+\item They permit to structure a legal text, favouring conciseness and
+  modularity: In the case of \emph{despite}, the overridden, typically more
+  general rule need not be aware of the overriding, typically subordinate rules.
+\item Even though these modifiers appear to be mechanisms on the meta-level in
+  that they reasoning about rules, they can directly be reflected on the
+  object-level.
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

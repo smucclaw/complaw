@@ -1,0 +1,171 @@
+\section{An Overview of the L4 Language: Details}\label{sec:l4_language_app}
+
+Let us give some more details about the L4 language: its class and type
+definition mechanism, and the way it handles proof obligations.
+
+% ----------------------------------------------------------------------
+\subsection{Terminology and Class Definitions}\label{sec:classdefs}
+
+The definition in \figref{fig:classdefs} introduces classes for vehicles, days
+and roads. 
+
+\begin{figure}[h!]
+%\begin{mdframed}
+\begin{lstlisting}
+class Vehicle {
+   weight: Integer
+}
+class Car extends Vehicle {
+   doors: Integer
+}
+class Truck extends Vehicle
+class SportsCar extends Car
+
+class Day
+class Workday extends Day
+class Holiday extends Day
+
+class Road
+class Highway extends Road
+\end{lstlisting}
+%\end{mdframed}
+  \caption{Class definitions of speedlimit example}\label{fig:classdefs}
+\end{figure}
+
+Classes are arranged in a tree-shaped hierarchy, having a class named
+\texttt{Class} as its top element. Classes that are not explicitly derived
+from another class via \texttt{extends} are implicitly derived from
+\texttt{Class}. A class $S$ derived from a class $C$ by \texttt{extends} will
+be called a subclass of $C$, and the immediate subclasses of \texttt{Class}
+will be called \emph{sorts} in the following. Intuitively, classes are meant
+to be sets of entitities, with subclasses being interpreted as
+subsets. Different subclasses of a class are not meant to be disjoint.
+
+Class definitions can come with attributes, in braces. These attributes can be
+of simple type, as in the given example, or of higher type (the notion of type
+will be explained in \secref {sec:fundecls}). In a declarative reading,
+attributes can be understood as a shorthand for function declarations that
+have the class they are defined in as additional domain. Thus, the attribute
+\texttt{weight} corresponds to a top-level declaration \texttt{weight: Vehicle
+  -> Integer}. In a more operational reading, L4 classes can be understood as
+prototypes of classes in object-oriented programming languages, and an
+alternative field selection syntax can be used: For \texttt{v: Vehicle}, the
+expression \texttt{v.weight} is equivalent to \texttt{weight(v)}, at least
+logically, even though the operational interpretations may differ.
+
+
+% ----------------------------------------------------------------------
+\subsection{Types and Function Declarations}\label{sec:fundecls}
+
+L4 is an \emph{explicitly} and \emph{strongly typed} language: all entities
+such as functions, predicates and variables have to be declared before being
+used. One purpose of this measure is to ensure that the executable sublanguage
+of L4, based on the simply-typed lambda calculus with subtyping, enjoys a type
+soundness property: evaluation of a function cannot produce a dynamic type
+error.
+
+\figref{fig:fundecls} shows two function declarations. Functions with
+\texttt{Boolean} result type will sometimes be called \emph{predicates} in the
+following, even though there is no syntactic difference. All the declared
+classes are considered as elementary types, as well as \texttt{Integer},
+\texttt{Float}, \texttt{String} and \texttt{Boolean} (which are internally also treated as
+classes). If $T_1, T_2, \dots T_n$ are types, then so are function types
+\texttt{$T_1$ -> $T_2$} and tuple types \texttt{($T_1$, $\dots$ ,$T_n$)}. The
+type system and the expression language, to be presented later, are
+higher-order, but extraction to some solvers will be limited to
+(restricted) first-order theories.
+
+\begin{figure}[h]
+%\begin{mdframed}
+\begin{lstlisting}
+decl isCar : Vehicle -> Boolean
+decl maxSp : Vehicle -> Day -> Road -> Integer -> Boolean
+\end{lstlisting}
+%\end{mdframed}
+  \caption{Declarations of speedlimit example}\label{fig:fundecls}
+\end{figure}
+
+The nexus between the terminological and the logical level is established with
+the aid of \emph{characteristic predicates}. Each class $C$ which is a
+subclass of sort $S$ gives rise to a declaration \texttt{is$C$: $S$ ->
+  Boolean}. An example is the declaration of \texttt{isCar} in
+\figref{fig:fundecls}. In the L4 system, this declaration, as well as the
+corresponding class inclusion axiom, are generated
+automatically.
+
+Two classes derived from the same base class (thus: \texttt{$C_1$ extends $B$}
+and \texttt{$C_2$ extends $B$}) are not necessarily disjoint. 
+
+From the subclass relation, a \emph{subtype} relation $\preceq$ can be defined
+inductively as follows: if \texttt{$C$ extends $B$}, then $C \preceq B$, and
+for types $T_1, \dots, T_n, T_1', \dots, T_n'$,
+if $T_1 \preceq T_1', \dots, T_n \preceq T_n'$, 
+then \texttt{$T_1'$ -> $T_2 \; \preceq \; T_1$ -> $T_2'$} 
+and \texttt{($T_1$, $\dots$, $T_n$) $\preceq$ ($T_1'$, $\dots$, $T_n'$)}.
+
+Without going into details of the type system, let us remark that it has been
+designed to be compatible with subtyping: if an element of a type is
+acceptable in a given context, then so is an element of a subtype. In
+particular,
+\begin{itemize}
+\item for field selection, if $C'$ is a class having field $f$ of type $T$,
+  and $C \preceq C'$, and $c : C$, then field selection is well-typed with $c.f : T$.
+\item for function application, if $f: A' \mbox{\texttt{->}} B$ and $a:A$ and
+  $A \preceq A'$, then function application is well-typed with $f\; a : B$.
+\end{itemize}
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Assertions}\label{sec:assertions}
+
+
+Assertions are statements that the L4 system is meant to verify or to
+reject -- differently said, they are proof obligations. These assertions are verified
+relative to a rule set comprising some or all of the rules and facts stated
+before. 
+
+
+The active rule set used for verification can be configured, by adding rules
+to or deleting rules from a default set. Assume the active rule set consists
+of $n$ rules whose logical representation is $R_1 \dots R_n$, and assume the
+formula of the assertion is $A$. The proof obligation can then be checked for
+\begin{itemize}
+\item  \emph{satisfiability}: in this case, $R_1 \AND \dots \AND R_n \AND A$
+  is checked for satisfiability.
+\item \emph{validity}: in this case, $R_1 \AND \dots \AND R_n \IMPL A$ is
+  checked for validity.
+\end{itemize}
+In either case, if the proof fails, a model resp.{} countermodel is produced.
+In the given example, the SMT solver checks the validity of the formula and
+indeed returns a countermodel that leads to contradictory prescriptions of the
+maximal speed: if the vehicle is a car, the day a workday and the road a
+highway, the maximal speed can be 90 or 130, depending on the rule applied.
+
+
+The assertion \texttt{maxSpFunctional} of \figref{fig:assertions} can be considered an essential
+consistency requirement and a rule system violating it is inconsistent \wrt{} the intended semantics of \texttt{maxSp}. One
+remedial action is to declare one of the rules as default and the other rule
+as overrriding it.
+
+After this repair action, \texttt{maxSpFunctional} will be provable (under
+additional natural conditions described in \secref{sec:rule_inversion}). We can now
+continue to probe other consistency requirements, such as exhaustiveness
+stating that a maximal speed is defined for every combination of vehicle:
+
+\begin{lstlisting}
+assert <maxSpExhaustive>
+   exists sp: Integer. maxSp instVeh instDay instRoad sp
+\end{lstlisting}
+
+The intended usage scenario of L4 is that by an interplay of proving
+assertions and repairing broken rules, one arrives at a rule set satisfying
+general principles of coherence, completeness and other, more elusive
+properties such as fairness (at most temporary exclusion from essential
+resources or rights).
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

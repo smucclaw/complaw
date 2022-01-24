@@ -1,0 +1,501 @@
+% ----------------------------------------------------------------------
+\section{Defeasible Reasoning in a Classical Logic}\label{sec:defeasible_classical}
+% ----------------------------------------------------------------------
+
+In this section, we will describe how to give a precise semantics to the rule
+modifiers, by rewriting rules, progressively eliminating the instructions
+appearing in the rule annotations so that in the end, only purely logical
+rules remain. Making the meaning of the modifiers explicit can therefore be
+understood as a \emph{compilation} problem.  Whereas the first preprocessing
+steps (\secref{sec:preprocessing}) are generic, we will discuss two variants
+of conversion into logical format (\secrefs{sec:restr_precond} and
+\ref{sec:restr_deriv}). We will then discuss rule inversion
+(\secref{sec:rule_inversion}) which gives our approach a non-monotonic flavour
+while remaining entirely in a classical setting. Rule inversion will also be
+instrumental for comparing the conversion variants in \secref{sec:comparison}.
+
+
+% ----------------------------------------------------------------------
+\subsection{Rule Modifiers in Classical Logic}\label{sec:rule_modifiers_in_classical_logic}
+
+% ......................................................................
+\subsubsection{Preprocessing}\label{sec:preprocessing}
+
+Preprocessing consists of several elimination steps that are carried out in a
+fixed order.
+
+\paragraph{\textbf{``Despite''  elimination}}
+
+As can be concluded from the previous discussion, a
+$\mathtt{despite}\; r_2$ clause appearing in rule $r_1$ is equivalent to a
+$\mathtt{subjectTo}\; r_1$ clause in rule $r_2$. The first rule transformation
+consists in applying exhaustively the following \emph{despite elimination}
+rule transformer:
+% \remms[inline]{In the whole discussion (and the implementation), make a
+%   clearer distinction between rule set transformer \texttt{restrict} and rule
+%   generator / transformer \texttt{derived}.}
+
+\noindent
+\emph{despiteElim:}\\
+$
+\{r_1 \{\mathtt{restrict}: \{\mathtt{despite}\; r_2\} \uplus a_1\},\;\;
+r_2\{\mathtt{restrict}: a_2\}, \dots\} \longrightarrow$\\
+$\{r_1 \{\mathtt{restrict}: a_1\},\;\;
+r_2\{\mathtt{restrict}:  \{\mathtt{subjectTo}\; r_1\} \uplus a_2\}, \dots\}
+$
+
+\begin{example}\label{ex:rewrite_despite}\mbox{}\\
+Application of this rewrite rule to the three example rules \texttt{maxSpCarWorkday},
+\texttt{maxSpCarHighway} and  \texttt{maxSpSportsCar} changes them to:
+
+\begin{lstlisting}
+rule <maxSpCarWorkday>
+  {restrict: {subjectTo: maxSpCarHighway}}
+rule <maxSpCarHighway>
+  {restrict: {subjectTo: maxSpSportsCar}}
+rule <maxSpSportsCar>
+  {restrict: {subjectTo: maxSpCarWorkday}}
+\end{lstlisting}
+Here, only the headings are shown, the bodies of the rules are
+unchanged. 
+\end{example}
+
+One defect of the rule set already becomes apparent to the human reader at
+this point: the circular dependency of the rules. We will however continue
+with our algorithm, applying the next step which will be to rewrite the
+\texttt{\{restrict: \{subjectTo: \dots\}\}} clauses.  Please note that each
+rule can be \texttt{subjectTo} several other rules, each of which may have a
+complex structure as a result of transformations that are applied to it.
+
+
+\paragraph{\textbf{``Subject'' To elimination}}
+
+The rule transformer \emph{subjectToElim} does the following: it splits up the
+rule into two rules, (1) its source (the rule body as originally given), and
+(2) its definition as the result of applying a rule transformation function to
+several rules.
+
+\begin{example}\label{ex:rewrite_subject_to}\
+Before stating the rule transformer, we show its effect on rule
+\texttt{maxSpCarWorkday} of \exampleref{ex:rewrite_despite}. On rewriting
+with \emph{subjectToElim}, the rule is transformed into two rules:
+
+\begin{lstlisting}
+# new rule name, body of rule unchanged
+rule <maxSpCarWorkday'Orig>
+   {source}
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isWorkday d
+   then maxSp v d r 90
+
+# rule with header and without body
+rule <maxSpCarWorkday>
+ {derived: {apply: 
+ {restrictSubjectTo maxSpCarWorkday'Orig  maxSpSportsCar}}}
+\end{lstlisting}
+\end{example}
+
+We can now state the transformation (after grouping the
+\texttt{subjectTo $r_2$}, \dots, \texttt{subjectTo $r_n$} into
+\texttt{subjectTo $[r_2 \dots r_n]$}):
+
+
+\noindent
+\emph{subjectToElim:}\\
+$
+\{r_1 \{\mathtt{restrict}: \{\mathtt{subjectTo}\; [r_2, \dots, r_n]\}\}, \dots \} \longrightarrow$\\
+$\{r_1^o \{\mathtt{source}\}, r_1 \{\mathtt{derived:}\; \{\mathtt{apply:}\; \{
+\mathtt{restrictSubjectTo}\;\; r_1^o\; [r_2 \dots r_n] \}\}\}, \dots \}
+$
+
+
+
+\paragraph{\textbf{Computation of derived rule}}
+The last step consists in generating the derived rules, by evaluating the
+value of the rule transformer expression marked by \texttt{apply}. The rules
+appearing in these expressions may themselves be defined by complex
+expressions. However, direct or indirect recursion is not allowed. For
+simplifying the expressions in a rule set, we compute a rule dependency order
+$\prec_R$ defined by: $r \prec_R r'$ iff $r$ appears in the defining
+expression of $r'$. If $\prec_R$ is not a strict partial order (in particular, if
+it is not cycle-free), then evaluation fails. Otherwise, we order the rules
+topologically by $\prec_R$ and evaluate the expressions starting from the
+minimal elements. Obviously, the order $\prec_R$ does not prevent rules from being recursive.
+
+\begin{example}
+It is at this point that the cyclic dependence already remarked after
+\exampleref{ex:rewrite_despite} will be discovered. We have:
+
+\noindent
+\texttt{maxSpCarWorkday'Orig}, \texttt{maxSpCarHighway} $\prec_R$ \texttt{maxSpCarWorkday}\\
+\texttt{maxSpCarHighway'Orig}, \texttt{maxSpSportsCar} $\prec_R$ \texttt{maxSpCarHighway}\\
+\texttt{maxSpSportsCar'Orig}, \texttt{maxSpCarWorkday} $\prec_R$  \texttt{maxSpSportsCar}\\
+\noindent
+which cannot be totally ordered.
+
+Let us fix the problem by changing the heading of rule
+\texttt{maxSpCarHighway} from \texttt{despite} to \texttt{subjectTo}:
+\begin{lstlisting}
+rule <maxSpCarHighway>
+  {restrict: {subjectTo: maxSpCarWorkday}}
+\end{lstlisting}
+
+After rerunning \emph{despiteElim} and \emph{subjectToElim}, we can now order
+the rules:
+
+% \begin{lstlisting}
+% rule <maxSpCarWorkday>
+% rule <maxSpCarHighway>
+%   {restrict: {subjectTo: maxSpCarWorkday, maxSpSportsCar}}
+% rule <maxSpSportsCar>
+%   {restrict: {subjectTo: maxSpCarWorkday}}
+% \end{lstlisting}
+
+\noindent
+\{ \texttt{maxSpSportsCar'Orig}
+\texttt{maxSpCarHighway'Orig},
+\texttt{maxSpCarWorkday} \} $\prec_R$
+\texttt{maxSpSportsCar} $\prec_R$
+\texttt{maxSpCarHighway}\\
+and will use this order for rule elaboration.
+\end{example}
+
+
+% ......................................................................
+\subsubsection{Restriction via Preconditions}\label{sec:restr_precond}
+
+Here, we propose one possible implementation of the rule transformer
+\texttt{restrictSubjectTo} introduced in \secref{sec:preprocessing} that takes
+a rule $r_1$ and a list of rules $[r_2 \dots r_n]$ and produces a new rule, by
+adding the negation of the preconditions of $[r_2 \dots r_n]$ to $r_1$. More
+formally:
+
+\begin{itemize}
+\item $\mathtt{restrictSubjectTo}\; r_1\; [] = r_1$
+\item $\mathtt{restrictSubjectTo}\; r_1\; (r' \uplus rs) =$\\
+  $\mathtt{restrictSubjectTo}\; (r_1(precond := precond(r_1) \AND \NOT precond(r')))\; rs$
+\end{itemize}
+where $precond(r)$ selects the precondition of rule $r$ and $r(precond:=p)$
+updates the precondition of rule $r$ with $p$.
+
+There is one proviso to the application of \texttt{restrictSubjectTo}: the
+rules have to have the same \emph{parameter interface}: the number and types
+of the parameters in the rules' \texttt{for} clause have to be the same.
+Rules with different parameter interfaces can be adapted via the
+\texttt{remap} rule transformer. The rule 
+
+\begin{lstlisting}[frame=none,mathescape=true]
+rule <r> for $x_1$:$T_1$ $\dots$ $x_n$:$T_n$ if Pre($x_1, \dots, x_n$) then Post($x_1, \dots, x_n$)
+\end{lstlisting}
+is remapped by \texttt{remap r [$y_1: S_1, \dots, y_m: S_m$] [$x_1 := e_1, \dots, x_n := e_n$]}
+to 
+\begin{lstlisting}[frame=none,mathescape=true]
+rule <r> for $y_1$: $S_1$ $\dots$ $y_m$: $S_m$ if Pre($e_1, \dots, e_n$) then Post($e_1, \dots, e_n$)
+\end{lstlisting}
+Here, $e_1, \dots, e_n$ are expressions that have to be well-typed with types $E_1, \dots, E_n$ in
+context $y_1: S_1, \dots, y_m: S_m$ (which means in particular that they may
+contain the variables $y_i$) with $E_i \preceq T_i$,  (with the consequence that
+the pre- and post-conditions of the new rule remain well-typed), where $\preceq$ is subtyping. 
+
+
+\begin{example}\mbox{}\\
+We come back to the running example. When processing the rules in the order of
+$\prec_R$, rule \texttt{maxSpSportsCar}, defined by
+\texttt{apply: \{restrictSubjectTo maxSpSportsCar'Orig maxSpCarWorkday\}},
+becomes:
+\begin{lstlisting}
+rule <maxSpSportsCar>
+   for v: Vehicle, d: Day, r: Road
+   if isSportsCar v && isHighway r &&
+      not (isCar v && isWorkday d)
+   then maxSp v d r 320
+ \end{lstlisting}
+
+ We can now state \texttt{maxSpCarHighway}, which has been defined by
+ \texttt{apply: \{restrictSubjectTo maxSpCarHighway'Orig maxSpSportsCar\}}, as:
+
+ \begin{lstlisting}
+rule <maxSpCarHighway>
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isHighway r &&
+      not (isSportsCar v && isHighway r &&
+              not (isCar v && isWorkday d))  &&
+      not (isCar v && isWorkday d))
+   then maxSp v d r 130
+\end{lstlisting}
+\end{example}
+
+One downside of the approach of adding negated preconditions is that the
+preconditions of rules can become very complex. This effect is mitigated by
+the fact that conditions in \texttt{subjectTo} and \texttt{despite} clauses
+express specialisation or refinement and often permit substantial
+simplifications. Thus, the precondition of \texttt{maxSpSportsCar} simplifies
+to \texttt{isSportsCar v \&\& isHighway r \&\& isWorkday d} and the
+precondition of \texttt{maxSpCarHighway} to
+\texttt{isCar v \&\& isHighway r \&\& not (isSportsCar v \&\& isWorkday d)}.
+
+
+% ......................................................................
+\subsubsection{Restriction via Derivability}\label{sec:restr_deriv}
+
+We now give an alternative reading of \texttt{restrictSubjectTo}. To
+illustrate the point, let us take a look at a simple propositional example.
+
+\begin{example}\label{ex:small_propositional} Take the definitions:
+\begin{lstlisting}
+rule <r1> if B1 then C1
+rule <r2> {subjectTo: r1} if B2 then C2
+\end{lstlisting}
+\end{example}
+
+Instead of saying: \texttt{r2} corresponds to
+\texttt{\blue{if} B2 \&\& not B1 \blue{then} C2} 
+as in \secref{sec:restr_precond}, we would now read it as
+``if the conclusion of \texttt{r1} cannot be derived'', 
+which could be written as
+\texttt{\blue{if} B2 \&\& not C1 \blue{then} C2}.
+The two main problems with this naive approach are the following:
+\begin{itemize}
+\item As mentioned in \secref{sec:resasoning_with_rules}, a \emph{subject to}
+  restriction is often applied to rules with contradicting conclusions, so in
+  the case that \texttt{C1} is \texttt{not C2}, the generated rule would be a
+  tautology.
+\item In case of the presence of a third rule
+\begin{lstlisting}[frame=none]
+rule <r3> if B3 then C1
+\end{lstlisting}
+a derivation of \texttt{C1} from \texttt{B3} would also block the application
+of \texttt{r2}, and \texttt{subjectTo: r1} and \texttt{subjectTo: r1, r3}
+would be indistinguishable.
+\end{itemize}
+
+We now sketch a solution for rule sets whose conclusion is always an atom (and
+not a more complex formula).
+
+\begin{enumerate}
+\item In a preprocessing stage, all rules are transformed as follows:
+  \begin{enumerate}
+  \item We assume the existence of classes \texttt{Rulename$_P$}, one for each
+    transformable predicate $P$ (see below).
+  \item All the predicates $P$
+    occurring in the conclusions of rules (called \emph{transformable
+      predicates}) are converted into predicates $P^+$ with one additional
+    argument of type \texttt{Rulename$_P$}. In the
+    example, \texttt{C1$^+$: Rulename$_{C1}$ -> Boolean} and similarly for \texttt{C2}.
+  \item The transformable predicates $P$ in conclusions of rules receive one
+    more argument, which is the name \emph{rn} of the rule: $P$ is transformed
+    into $P^+\; rn$. The informal reading is ``the predicate is derivable with
+    rule \emph{rn}''.
+  \item All transformable predicates in the preconditions of the rules receive
+    one more argument, which is a universally quantified variable of type
+    \texttt{Rulename$_P$} of the appropriate type, bound in the
+    \texttt{for}-list of the rule.
+  \end{enumerate}
+\item In the main processing stage, \texttt{restrictSubjectTo} in the rule
+  annotations generates rules according to:
+  \begin{itemize}
+\item $\mathtt{restrictSubjectTo}\; r_1\; [] = r_1$
+\item $\mathtt{restrictSubjectTo}\; r_1\; (r' \uplus rs) =$\\
+  $\mathtt{restrictSubjectTo}\; (r_1(precond := precond(r_1) \AND \NOT postcond(r')))\; rs$
+  Thus, the essential difference \wrt{} the definition of
+  \secref{sec:restr_precond} is that we add the negated post-condition and not
+  the negated pre-condition.
+\end{itemize}
+\end{enumerate}
+
+\begin{example} The rules of \exampleref{ex:small_propositional} are now
+  transformed to:
+\begin{lstlisting}[mathescape=true]
+rule <r1> for rn:Rulename$_{B1}$ if B1$^+$ rn then C1$^+$ r1
+rule <r2> for rn:Rulename$_{B2}$ if B2$^+$ rn and not C1$^+$ r1 then C2$^+$ r2
+\end{lstlisting}
+The derivability of another instance of \texttt{C1}, such as \texttt{C1$^+$ r3},
+would not inhibit the application of \texttt{r2} any more.
+\end{example}
+
+
+\begin{example} The two rules of the running example become, after resolution
+  of the \texttt{restrictSubjectTo} clauses:
+\begin{lstlisting}[mathescape=true]
+rule <maxSpSportsCar>
+   for v: Vehicle, d: Day, r: Road
+   if isSportsCar v && isHighway r &&
+      not maxSp$^+$ maxSpCarWorkday v d r 90
+   then maxSp$^+$ maxSpSportsCar v d r 320
+rule <maxSpCarHighway>
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isHighway r &&
+      not maxSp$^+$ maxSpCarWorkday v d r 90 &&
+      not maxSp$^+$ maxSpSportsCar v d r 320
+   then maxSp$^+$ maxSpCarHighway v d r 130
+\end{lstlisting}
+\end{example}
+
+% ----------------------------------------------------------------------
+\subsection{Rule Inversion}\label{sec:rule_inversion}
+
+The purpose of this section is to derive formulas that, for a given rule set,
+simulate negation as failure, but are coded in a classical first-order logic,
+do not require a dedicated proof engine (such as Prolog) and can be checked
+with a SAT or SMT solver. The net effect is similar to the completion
+introduced by Clark \cite{clark_NegAsFailure_1978}; however, the justification
+is not operational as in \cite{clark_NegAsFailure_1978}, but takes inductive
+closure as a point of departure. Some of the ideas are reminiscent of least
+fixpoint semantics of logic programs, as discussed in
+\cite{falaschi_etal_declarative_logic_langauges_1989,fages_consistency_clark_completion_1994}.
+The discussion below applies to a considerably wider class of formulas.
+
+In the following, we assume that our rules have an atomic predicate $P$ as
+conclusion, whereas the precondition $Pre$ can be an arbitrarily complex
+formula.  We furthermore assume that rules are in \emph{normalized form}: $P$
+may only be applied to $n$ distinct variables $x_1, \dots, x_n$, where $n$ is
+the arity of $P$, and the rule quantifies over exactly these variables.
+For notational simplicity, we write normalized rules in logical format,
+ignoring types:
+$\forall x_1, \dots, x_n. Pre(x_1, \dots x_n) \IMPL Post(x_1, \dots, x_n)$.
+
+Every rule can be written in normalized form, by applying the following
+algorithm:
+\begin{itemize}
+\item Remove expressions or duplicate variables in the conclusion, by using
+  the equivalences $P(\dots e \dots) = (\forall x. x = e \IMPL P(\dots x
+  \dots))$ for a fresh variable x, and similarly $P(\dots y \dots y \dots) =
+  (\forall x. x = y   \IMPL P(\dots x \dots y \dots))$.
+\item Remove variables from the universal quantifier prefix if they do not
+  occur in the conclusion, by using the equivalence
+  $(\forall x. Pre(\dots x \dots) \IMPL P) = (\exists x. Pre(\dots x \dots))
+  \IMPL P$.
+\end{itemize}
+
+For any rule set $\cal R$ and predicate $P$, we can form the set of
+$P$-rules, ${\cal R}[P]$, as
+\begin{align*}
+\{ & \forall x_1, \dots, x_n. Pre_1[P](x_1, \dots x_n) \IMPL P(x_1, \dots, x_n),
+     \dots,\\
+  & \forall x_1, \dots, x_n.Pre_k[P](x_1, \dots x_n)\IMPL P(x_1, \dots,
+x_n)\}
+\end{align*}
+as the subset of $\cal R$ containing all rules having $P$ as
+post-condition. The notation $F[P]$ is meant to indicate that the $F$ can
+contain $P$. It can also be taken as a \emph{functional}, \ie{} a higher-order
+function having $P$ as parameter.
+
+We say that a functional $F$ is \emph{semantically monotonic} if
+\[
+  (\forall x_1, \dots, x_n.\; P(x_1, \dots, x_n) \IMPL P'(x_1, \dots, x_n)) \IMPL 
+  (\forall \overrightarrow{v}. F[P] \IMPL F[P'])
+\]
+A sufficient condition for semantic monotonicity is syntactic monotonicity:
+$P$ does not occur under an odd number of negations in $F$. 
+
+The inductive closure of a set of $P$-rules is the predicate $P^*$ defined by
+the second-order formula
+\[  P^*(x_1, \dots, x_n) = \forall P.\; (\bigwedge{\cal R}[P]) \IMPL P(x_1, \dots x_n) \]
+where $\bigwedge{\cal R}[P]$ is the conjunction of all the rules in ${\cal R}[P]$.
+
+$P^*$ can be understood as the least predicate satisfying the set of $P$-rules
+and is the predicate that represents ``all that is known about $P$ and
+assuming nothing else about $P$ is true'', and corresponds to the notion of
+exhaustiveness prevalent in law texts. It can also be understood as the static
+equivalent of the operational concept of negation as failure for predicate
+$P$.  By the Knaster-Tarski theorem, $P^*$, as the least fixpoint of a
+monotonic functional, is consistent (see a counterexample in
+\exampleref{ex:syntactically_non_monotonic_rule}). 
+
+Obviously, a second-order formula such as the definition of $P^*$ is unwieldy
+in fully automated theorem proving, so we derive one particular consequence:
+
+\begin{lemma}\label{lemma:p_star}
+$P^*(x_1, \dots, x_n) \IMPL Pre_1[P^*](x_1, \dots x_n) \OR \dots \OR Pre_k[P^*](x_1, \dots x_n)$
+\end{lemma}
+% \begin{proof}
+% Expand the definition of $P^*$ and instantiate the universal variable $P$ with
+% $\lambda x_1 \dots x_n. Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)$.
+% \end{proof}
+As a consequence of the Löwenheim–Skolem theorem, there is no first-order
+equivalent of $P^*$: a formula of the form $P^*$ can characterize the natural
+numbers up to isomorphism, but no first-order formula can.
+
+In the absence of such a first-order equivalent, we define the formula $Inv_P$
+\[
+\forall x_1, \dots, x_n.\;  P(x_1, \dots, x_n) \IMPL Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k[P](x_1, \dots x_n)
+\]
+called the \emph{inversion formula of  $P$}, and take it as an approximation of the
+effect of $P^*$ in \lemmaref{lemma:p_star}.
+
+As usual, a disjunction over an empty set is taken to be the falsum
+$\bot$. Assume there are no defining rules for a predicate $P$, then $Inv_P =
+P \IMPL \bot = \NOT P$, which corresponds to a closed-world assumption for $P$.
+
+\begin{example}\label{ex:syntactically_non_monotonic_rule}
+  One motivation for the monotonicity constraint is the following: The
+  simplest example of a rule that is not syntactically monotonic is
+  $\NOT P \IMPL P$. Its inversion is $P \IMPL \NOT P$. The two formulas
+  together, $P \IFF \NOT P$, are inconsistent.
+\end{example}
+
+Inversion formulas can be automatically derived and added to the rule set in
+L4 proofs; they turn out to be essential for consistency properties. For
+example, the functionality of \texttt{maxSp} stated in \figref{fig:assertions}
+is not provable without the inversion formula of \texttt{maxSp}.
+
+To avoid misunderstandings, we should emphasize that this approach is entirely
+based on a classical monotonic logic, in spite of non-monotonic
+effects. Adding a new $P$-rule may invalidate previously provable facts, but
+this is only so because the new rule alters the inversion formula of $P$.
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Comparison}\label{sec:comparison}
+
+One may wonder whether, starting from the same set of rules, the transformations in
+\secref{sec:restr_precond} and \secref{sec:restr_deriv} produce
+equivalent rules. On the face of it, this is not so, because the
+transformation via derivability modifies the arity of the predicates, so the
+rule sets have different models.
+
+We will however show that the two rule sets have corresponding sets of
+models. This will be made more precise in the following. To fix notation,
+assume ${\cal R}_M$ to be a set of rules annotated with rule modifiers. Let
+${\cal R}_P$ be the set of rules obtained from ${\cal R}_M$ through the rule
+translation via preconditions of \secref{sec:restr_precond}, and similarly
+${\cal R}_D$ the set of rules obtained from ${\cal R}_M$ through the rule
+translation via derivability of \secref{sec:restr_deriv}. From these rule
+sets, we obtain formula sets ${\cal F}_P$ respectively ${\cal F}_D$ by
+\begin{itemize}
+\item translating rules to formulas;
+\item adding inversion formulas $Inv_C$ for all
+  the transformable predicates $C$ of the rule set;
+% \item in the case of ${\cal F}_D$, adding exhaustivity predicates for all the
+%   \texttt{Rulename$_C$} types\remms{Parameterize Rulename types with
+%     predicates}, of the form $\forall x: \mathtt{Rulename}_C.\; x = rn_1 \OR
+%   \dots \OR x=rn_r$ if $\{rn_1, \dots, rn_r\}$ are the rule names having $C$
+%   as conclusion.\remms{Maybe not required?}
+\end{itemize}
+
+
+\begin{lemma}\label{lemma:mp_to_md}
+  Any model ${\cal M}_P$ of ${\cal F}_P$ can be transformed into a model
+  ${\cal M}_D$ of ${\cal F}_D$.
+\end{lemma}
+
+The proof will be given in \secref{sec:comparison_proofs} after  \lemmaref{lemma:mp_to_md_with_proof}.
+
+
+\begin{lemma}\label{lemma:md_to_mp}
+  Any model ${\cal M}_D$ of ${\cal F}_D$ can be transformed into a model
+  ${\cal M}_P$ of ${\cal F}_P$.
+\end{lemma}
+
+The proof will be given in \secref{sec:comparison_proofs} after
+\lemmaref{lemma:md_to_mp_with_proof}
+
+We should emphasize that, in the proof of \lemmaref{lemma:md_to_mp}, the
+inversion formulas play a decisive role.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

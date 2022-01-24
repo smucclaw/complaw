@@ -1,0 +1,119 @@
+\section{Brief outline of ASP}
+First we shall give a brief overview of Answer Set Programming. ASP is a declarative programming language used mainly in Knowledge Representation and Reasoning to model rules, facts, integrity constraints etc. within a particular scenario that one wishes to consider. A rule in ASP has the form:
+\[h\leftarrow b_{1},b_{2}..,b_{k},not\; b_{k+1}...,not\; b_{n}.\]
+Here $h$ and $b_{1}$...,$b_{n}$ are atoms. For an atom $b_{i}$, $not$ $b_{i}$ is the negated atom where the $not$ represents negation as failure. Informally $not$ $b_{i}$ is true exactly when $b_{i}$ cannot be derived. This is also sometimes known as the `closed world assumption'. Intuitively the rule above says that when $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ are all true, $h$ is true. $h$ is also sometimes known as the head of the rule and the positive and negated atoms $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ form the body. A rule with only a head and an empty body is called a fact. A logic program is a set of facts and rules. (In fact ASP can also model other things like integrity constrains, disjunctions in rule heads etc, but we will not be using these features in our paper). When a logic program is passed to an ASP solver, the solver returns a set of $stable$ $models$ (also known as $answer$ $sets$) which make all the rules and facts in the logic program true. The set of $stable$ $models$ of a logic program is calculated using the $stable$ $model$ $semantics$ for ASP. For logic programs without negation-as-failure, the set of stable models is exactly the set of subset minimal models of the program. For logic programs with negation as failure stable models are most commonly defined using a construction known as the $reduct$ of a logic program with respect to an $Herbrand$ $interpretation$. Please see \cite{asp_background} for more details on ASP and the stable model semantics.
+
+\section{ASP encoding}
+Here we recap the ASP encoding scheme given a configuration $Config = (R,F,M,I)$ of legal rules. We will refer to this in the proof of lemma in 5.7, which will be given next.
+\begin{lstlisting}[language=Prolog, numbers=left]
+% For any f in F, we have:
+is_legal(f). 
+
+% All the modifiers get added as facts like for example:
+despite(1,2).
+subject_to(4,5).
+
+% Any rule r in R is encoded using the general schema:
+according_to(r,C_r):-is_legal(pre_con(r)).
+
+% Say {a,b,c} is a minimal inconsistent set in I, then this would get encoded as: 
+opposes(a,b) :- is_legal(c)
+opposes(a,c) :- is_legal(b).
+opposes(b,c) :- is_legal(a).
+%The above is done for every minimal inconsistent set. A pair from the set forms the opposes predicate and the rest of the elements go in the body 
+
+% Say {d,e,f,g} is another minimal inconsistent set in I, then this would get encoded as:
+
+opposes(d,e) :- is_legal(f),is_legal(g).
+opposes(d,f) :- is_legal(e),is_legal(g).
+opposes(d,g) :- is_legal(f),is_legal(e).
+opposes(e,f) :- is_legal(d),is_legal(g).
+opposes(e,g) :- is_legal(f),is_legal(d).
+opposes(f,g) :- is_legal(d),is_legal(e).
+
+% If we had a minimal inconsistent set consisting of only 2 elements say {j,k}, this would get encoded as:
+
+opposes(j,k).
+
+% Opposes is a symmetric relation
+opposes(X,Y):-opposes(Y,X).
+
+
+% Encoding for 'despite'
+defeated(R,C,R1) :-
+    according_to(R,C), according_to(R1,C1), despite(R,R1).
+
+%Encoding for 'subject_to'
+defeated(R,C,R1) :-
+    according_to(R,C), legally_valid(R1,C1),
+    opposes(C,C1), subject_to(R1,R).
+
+% Encoding for 'strong_subject_to'
+defeated(R,C,R1) :-
+    according_to(R,C), legally_valid(R1,C1),
+    strong_subject_to(R1,R).
+
+not_legally_valid(R) :- defeated(R,C,R1).
+
+legally_valid(R,C):-according_to(R,C),not not_legally_valid(R).
+
+is_legal(C):-legally_valid(R,C).
+\end{lstlisting}
+
+
+
+
+\section{Proof of Lemma 4 in 5.7}\label{sec:proofs}
+
+Firstly note, that the converse of the lemma is false. That is, there are configurations and legal models of those configurations that do not correspond to any answer set of the ASP encoding. A simple example of this is the following: Consider the configuration where there are only 2 rules:\\ (1): $a\rightarrow a$\\
+(2): $not$ $a\rightarrow b\\$
+
+There are no other facts, modifiers or minimal inconsistent sets. Then for this configuration $\{legally\_valid(1,a), is\_legal(a)\}$ is a legal model but it does not correspond to any answer set of the ASP encoding. As explained in \cite{KRR_notes}, this is essentially due to the fact that not all minimal supported models of a logic program are stable models. See \cite{KRR_notes} for the example given above and a further discussion on this topic.  Now we shall proceed to the proof of the lemma.\\
+
+Given a configuration $Config$, let $A_{Config}$ be an answer set of it's ASP encoding and let $S_{A_{Config}}$ be the set of $is\_legal$ and $legally\_valid$ predicates in $A_{Config}$. It is easy to see that $A_{Config}$ satisfies A1-A5. For example if the set $M$ from $Config$ contains $strong\_subject\_to(r_{i}, r_{j})$, then $A_{config}$ would contain $strong\_subject\_to(r_{i}, r_{j})$. Now if $S_{A_{Config}}$ contains $legally\_valid(r_{i}, C_{r_{i}})$, then so would $A_{Config}$. Now, if $pre\_con(r_{j})$ is satisfied in $A_{Config}$, then $according\_to(r_{j},C_{r_{j}})$ is in $A_{Config}$ and therefore $defeated(r_{j}, C_{r_{j}}, r_{i})$ is in $A_{Config}$ by line 44 of the general encoding shown above. Therefore $not\_legally\_valid(r_{j})$ is in $A_{Config}$ by line 48 of the encoding. Therefore by the line 50 of the encoding, $legally\_valid(r_{j},C_{r_{j}})$ is not in $A_{Config}$. Therefore $legally\_valid(r_{j},C_{r_{j}})$ is not in $S_{A_{Config}}$.\\
+
+Now if $pre\_con(r_{j})$ is not satisfied in $A_{Config}$, then $according\_to(r_{j},C_{r_{j}})$ is not in $A_{Config}$ and so again $legally\_valid(r_{j},C_{r_{j}})$ is not in $A_{Config}$ and therefore not in $S_{A_{Config}}$.\\
+
+We shall now show that $S_{A_{Config}}$ satisfies A6 and A7.\\
+
+Say the set $M$ contains $subject\_to(r_{i}, r_{j})$ and $legally\_valid(r_{i}, C_{r_{i}})$ is in $S_{A_{Config}}$. Furthermore suppose that there exists some $k\in I$ which contains $C_{r_{i}}$ and $C_{r_{j}}$ such that $is\_legal(k\setminus \{C_{r_{j}}\})\subseteq S_{A_{Config}}$. Then it follows that, $is\_legal(k\setminus \{C_{r_{j}}\})\subseteq A_{Config}$. Therefore due to the way that the $opposes$ predicates are defined in the encoding, it follows that $opposes(C_{r_{i}}, C_{r_{j}})$ is in $A_{Config}$. Now if $pre\_con(r_{j})$ is in $A_{Config}$ then it follows from line 39 of the encoding that, $defeated(r_{j}, C_{r_{j}}, r_{i}) $ is in $A_{Config}$, therefore $legally\_valid(r_{j}, C_{r_{j}})$ is not in $A_{Config}$ and therefore not in $S_{A_{Config}}$.\\
+
+Again as before, if $pre\_con(r_{j})$ is not in $A_{Config}$ then $legally\_valid(r_{j}, C_{r_{j}})$ is not in $A_{Config}$ and therefore not in $S_{A_{Config}}$.\\
+
+Suppose $S_{A_{Config}}\models pre\_con(r_{j})$, then $A_{Config}$ satisfies $pre\_con(r_{j})$. So $according\_to(r_{j},C_{j})$ is in $A_{Config}$, then if $legally\_valid(r_{j}, C_{j})$ is not in $A_{Config}$, according to lines 48 and 50 of the encoding it must be the case that $defeated(r_{j},C_{j},r_{k})$ is in $A_{Config}$ for some rule $r_{k}$. But then because of the way that the $defeated$ predicate is defined in lines 35, 39, 44, it must mean that rule $r_{j}$ is invalidated in accordance with either A4, A5 or A6. So $S_{A_{Config}}$ satisfies A7. $\square$
+\section{Pathological rule configuration examples}
+In this section we shall briefly give some examples of rule configurations that fail to satisfy certain properties.\\
+
+One may suspect that given any configuration, the ASP encoding only generates answer sets corresponding to subset minimal legal models. However this is not the case. Consider the configuration where there are 3 rules:\\ $(1)$ $a\rightarrow c$\\
+$(2)$ $not$ $c\rightarrow e$\\
+$(3)$ $a\rightarrow a$\\
+The only fact is $is\_legal(a)$, and there are 2 modifiers $despite(1,2)$, $strong\_subject\_to(3,2)$. There are no minimal inconsistent sets.\\
+
+For this configuration, the ASP encoding generates two answer sets corresponding to the legal models:\\
+\newline
+$\{is\_legal(a)$, $legally\_valid(3,a)\}$ and $\{is\_legal(a)$, $legally\_valid(3,a)$, $is\_legal(c)$, $legally\_valid(1,c)\}$.\\
+
+We suspect that the ASP encoding does only return subset minimal legal models if there is no negation as failure in rule pre-conditions or if there are no $despite$ modifiers, however pursuing this matter fully is left for future work.\\
+
+Here we will give an example of a rule configuration that has no legal models even though none of the rule modifiers involve a rule directly being subject to itself.\\
+
+Consider the configuration where there are 2 rules:\\ $(1)$ $a\rightarrow b$\\
+$(2)$ $b\rightarrow c$\\
+The only fact is $is\_legal(a)$, there is one modifier $subject\_to(2,1)$ and there is one minimal inconsistent set $\{b,c\}$. Then this rule configuration has no legal models. 
+
+\section{Further remarks on example in 5.8}
+
+Here we explore further modifications of the example in 5.8. First, we wish to remind the reader that if there was a 5th rule in this rule set and we had a $despite(4,5)$ modifier, then as long as the precondition of rule 4 is true, it would still invalidate rule 3 even if rule 4 itself got invalidated by rule 5.
+
+However, in the case of $subject\_to$ and $strong\_subject\_to$, the dominating rules needs to be legally valid to invalidate the subordinate rule. 
+
+As an illustration of the previous point say we have a fifth rule which says, if Bob owns a company, he may spend up to 20 million dollars on cars, and we had $despite(4,5)$ as an additional modifier. Suppose now also we have the three facts that Bob is wealthy, Bob is extremely wealthy and Bob owns a company. Then we would get exactly one legal model/answer set in which exactly rule 1, rule 2 and rule 5 were legally valid. So rule 4 would invalidate rule 3 even though it itself is invalidated by rule 5. 
+
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

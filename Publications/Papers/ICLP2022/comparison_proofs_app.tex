@@ -1,0 +1,91 @@
+\section{Proofs: Comparison of  Rule Transformation Strategies}\label{sec:comparison_proofs}
+
+We restate and give detailed proofs of two lemmas of \secref{sec:rule_inversion}.
+
+
+\begin{lemma}\label{lemma:mp_to_md_with_proof}
+  Any model ${\cal M}_P$ of ${\cal F}_P$ can be transformed into a model
+  ${\cal M}_D$ of ${\cal F}_D$.
+\end{lemma}
+
+\begin{proof}
+  We consider the transformation of a model ${\cal M}_P$ to a model
+  ${\cal M}_D$, and assume ${\cal M}_P$ is a model of ${\cal F}_P$. 
+  We now construct an interpretation ${\cal M}_D$ for the formulas with the
+  signature over ${\cal F}_D$.
+
+  The interpretation ${\cal M}_D$ will be the same as ${\cal M}_P$,
+  except for (1) the interpretation of the new types \texttt{Rulename$_C$},
+  each of which will be chosen to be the set of all rule names having $C$ as
+  conclusion, and (2) the interpretation of the new predicates $C^+$ on which
+  we will focus now: 
+  For each rule  $\forall x_1, \dots, x_n.\; Pre(x_1,
+  \dots, x_n) \IMPL C(x_1, \dots, x_n)$ with name  $rn$, whenever the $n$-tuple
+  $(a_1, \dots, a_n)$ satsifies the precondition $Pre$ under ${\cal M}_P$ and, consequently,
+  $(a_1, \dots, a_n) \in C^{{\cal M}_P}$, we will have   $(rn, a_1, \dots, a_n) \in (C^+)^{{\cal M}_D}$.
+
+  It remains to be shown that ${\cal M}_D$ is indeed a model of ${\cal
+    M}_D$. We show that related formulas in ${\cal F}_P$ and ${\cal F}_D$
+  are interpreted as true in ${\cal M}_P$ resp.{} ${\cal M}_D$, where two
+  formulas are \emph{related} if they are rules originating from the same rule
+  of ${\cal R}_M$, or if they are related inversion predicates $Inv_C$ and $Inv_{C^+}$.
+
+  We first address related rules. The proof is by well-founded induction over
+  the rule order $\prec_R$. Consider a rule $r_P \in {\cal F}_P$ with rule
+  name $rn_P$ which by construction has the form
+  $r_p = \forall x_1, \dots x_n.\; pre_P^o \AND \NOT pre_P^1 \AND \NOT pre_P^k
+  \IMPL C(x_1, \dots, x_n)$.
+  We make a case distinction:
+  \begin{itemize}
+  \item Assume that for arguments $(a_1, \dots, a_n)$, interpretation
+    ${\cal M}_P$ satisfies the precondition
+    $pre_P^o \AND \NOT pre_P^1 \AND \NOT pre_P^k$ and thus also the
+    conclusion. In this case, $(rn_P, a_1, \dots, a_n)\in (C^+)^{{\cal M}_D}$, thus
+    satisfying the related rule $r_D \in {\cal F}_D$.
+  \item Assume that for arguments $(a_1, \dots, a_n)$, interpretation
+    ${\cal M}_P$ does not satisfy the precondition. Either $pre_P^o$ is not
+    satisfied, leading again to a satisfying assignment of the related rule
+    $r_D$, or one of the $pre_P^i$ is satisfied.
+
+    In this case, as the rule $r_P^i$ with precondition $pre_P^i$ is strictly
+    smaller than $r_P$ \wrt{} $\prec_R$, by induction hypothesis, also the
+    postcondition of $r_P^i$ will be satisfied, so that in ${\cal M}_D$, one
+    negated precondition of the related rule $r_D$ is not satisfied, so $r_D$
+    is satisfied.
+  \end{itemize}
+
+  Once the equi-satisfiability of related rules has been established, it is
+  easy to do so for related inversion predicates $Inv_C$ and $Inv_{C^+}$.
+\end{proof}
+
+
+\begin{lemma}\label{lemma:md_to_mp_with_proof}
+  Any model ${\cal M}_D$ of ${\cal F}_D$ can be transformed into a model
+  ${\cal M}_P$ of ${\cal F}_P$.
+\end{lemma}
+
+\begin{proof} (Sketch)
+  In analogy to \lemmaref{lemma:mp_to_md}, we start from a model ${\cal M}_D$
+  of ${\cal F}_D$ and construct a model ${\cal M}_P$ of ${\cal F}_P$. 
+
+  As in \lemmaref{lemma:mp_to_md}, the proof is by induction on $\prec_R$.
+  Consider a rule $r_D \in {\cal F}_D$ with rule
+  name $rn_D$ which by construction has the form
+  $r_D = \forall x_1, \dots x_n.\; pre_D^o \AND \NOT post_D^1(rn_1) \AND \NOT post_D^k(rn_k)
+  \IMPL C^+(rn_D, x_1, \dots, x_n)$. Again, we make a case distinction:
+  \begin{itemize}
+  \item Assume that for arguments $(a_1, \dots, a_n)$, interpretation
+    ${\cal M}_D$ satisfies the precondition and thus also the conclusion. In
+    this case, $(a_1, \dots, a_n)\in C^{{\cal M}_P}$, thus satisfying the
+    related rule $r_P \in {\cal F}_P$.
+  \item Assume that for arguments $(a_1, \dots, a_n)$, interpretation
+    ${\cal M}_D$ does not satisfy the precondition. The interesting situation
+    is if one $post_D^i(rn_i)$ is satisfied. At this point, we need the
+    inversion formula of $post_D^i$, of the form
+    $\forall r.\; post_D^i(r) \IMPL P_1(r) \OR \dots \OR P_p(r)$. The rule
+    name $rn_i$ permits to select precisely the precondition $P_j$ of the
+    related formula
+    $r_P = \forall x_1, \dots x_n.\; pre_P^o \AND \NOT pre_P^1 \AND \NOT
+    pre_P^k \IMPL C(x_1, \dots, x_n)$.
+  \end{itemize}
+\end{proof}

@@ -1,0 +1,79 @@
+% ----------------------------------------------------------------------
+\section{Reasoning with and about Rules - Motivation}\label{sec:resasoning_with_rules_app}
+% ----------------------------------------------------------------------
+
+To illustrate the use of rule modifiers discussed in
+\secref{sec:resasoning_with_rules}, we consider a realistic law text,
+Singapore's Professional Conduct Rules \S~34
+\cite{professional_conduct_rules}. This case study has been investigated in
+detail in \cite{morris21:_const_answer_set_progr_tool}. Here is an excerpt of
+the rules:
+
+\begin{description}
+\item[(1)] A legal practitioner must not accept any executive appointment
+  associated with any of the following businesses: 
+  \begin{description}
+  \item[(a)] any business which detracts from, is incompatible with, or
+    derogates from the dignity of, the legal profession;
+  \item[(b)] any business which materially interferes with the legal
+    practitioner’s primary occupation of practising as a lawyer; (\dots)
+  \end{description}
+\item[(5)] Despite paragraph (1)(b), but subject to paragraph (1)(a) and (c)
+  to (f), a locum solicitor may accept an executive appointment in a business
+  entity which does not provide any legal services or law-related services, if
+  all of the conditions set out in the Second Schedule are satisfied.
+\end{description}
+
+The two main notions developed in the Conduct Rules are which executive appointments a legal
+practictioner \emph{may} or \emph{must not} accept under which
+circumstances. As there is currently no direct support for deontic logics in
+L4, these notions are defined as two predicates \texttt{MayAccept} and
+\texttt{MustNotAccept}, with the intended meaning that these two notions are
+contradictory, and this is indeed what will be provable after a complete
+formalization.
+
+Let us here concentrate on the modifiers \emph{despite} and \emph{subject
+  to}. A synonym of ``despite'' that is often used in legal texts is
+``notwithstanding'',  and a synonym of
+``subject to'' is ``except as provided in'', see \cite{adams_contract_drafting_2004}.
+
+The reading of rule (5) is the following:
+\begin{itemize}
+\item ``subject to paragraph (1)(a) and (c) to (f)'' means: rule (5) applies
+  as far as (1)(a) and (c) to (f) is not established. Differently said, rules
+  (1)(a) and (c) to (f) undercut or defeat rule (5).
+
+  One way of explicitating the ``subject to'' clause would be to rewrite (5)
+  to: ``Despite paragraph (1)(b), provided the business does not detract from,
+  is incompatible with, or derogate from the dignity of, the legal profession;
+  and provided that not [clauses (1)(c) to (f)]; then a locum
+  sollicitor\footnote{in our class-based terminology, a subclass of legal
+    practitioner} may accept an executive appointment.''
+
+\item ``despite paragraph (1)(b)'' expresses that rule (5) overrides rule
+  (1)(b). In a similar spirit as the ``subject to'' clause, this can be made
+  explicit by introducing a proviso, however not locally in  rule (5), but
+  remotely in rule (1)(b).
+
+  One way of explicitating the ``despite'' clause of rule (5) would be to
+  rewrite (1)(b) to: ``Provided (5) is not applicable, a legal practitioner
+  must not accept any executive appointment associated with any business which
+  materially interferes with the legal practitioner’s primary occupation of
+  practising as a lawyer.''
+\end{itemize}
+
+The astute reader will have remarked that the treatment in both cases is
+slightly different, and this is not related to the particular semantics of
+\emph{subject to} and \emph{despite}: we can state defeasibility
+\begin{itemize}
+\item either in the form of (negated) preconditions of rules: ``rule $r_1$ is
+  applicable if the preconditions of $r_2$ do not hold'';
+\item or in the form of (negated) derivability of the postcondition of rules: ``rule $r_1$ is
+  applicable if the postcondition of $r_2$ does not hold''.
+\end{itemize}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
