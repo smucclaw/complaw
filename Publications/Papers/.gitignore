@@ -1,0 +1,8 @@
+*~
+*.aux
+*.blg
+*.log
+*.out
+*.hi
+*.gfo
+.stack-work
