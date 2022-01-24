@@ -3,11 +3,22 @@
 \input{settings}
 \input{defs}
 
-% Possilby remove for final version
-%\pagestyle{plain}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{multirow}
 
 \begin{document}
-\title{Automating Defeasible Reasoning in Law}
+
+\lefttitle{Cambridge Author}
+
+\jnlPage{1}{8}
+\jnlDoiYr{2021}
+\doival{10.1017/xxxxx}
+
+\title[Theory and Practice of Logic Programming]{Theory and Practice of Logic Programming: \LaTeX\ Guidelines for~authors\thanks{Research partially funded by
+      MINECO
+      MICINN PID2019-108528RB-C21 \emph{ProCode} project, FPU grant
+      16/04811}}
 
 \begin{authgrp}
 \author{\sn{Cambridge} \gn{Author1}}
@@ -16,12 +27,8 @@
 \affiliation{Cambridge University Press}
 \end{authgrp}
 
-\author{How Khang Lim\orcidID{0000-0002-9333-1364} \and
-  Avishkar Mahajan\orcidID{0000-0002-9925-1533} \and
-  Martin Strecker\orcidID{0000-0001-9953-9871} \and
-  Meng Weng Wong\orcidID{0000-0003-0419-9443}
-  }
-\institute{Singapore Management University}
+\history{\sub{xx xx xxxx;} \rev{xx xx xxxx;} \acc{xx xx xxxx}}
+
 \maketitle
 
 \begin{abstract}
@@ -35,19 +42,20 @@
   Defeasible reasoning
 \end{keywords}
 
+
 %----------------------------------------------------------------------
 
-% \input{introduction}
+\input{introduction}
 
-% \input{l4_language}
+\input{l4_language}
 
-% \input{reasoning_rules}
+\input{reasoning_rules}
 
-% \input{defeasible}
+\input{defeasible}
 
-% \input{asp}
+\input{asp}
 
-% \input{conclusions}
+\input{conclusions}
 
 %\subsection*{Acknowledgements}
 \paragraph{Acknowledgements.}
@@ -66,24 +74,16 @@ Singapore.
 
 
 %----------------------------------------------------------------------
-% \bibliographystyle{splncs04}
-% \bibliography{main}
-%% \bibliographystyle{abbrv}
-
-
-%----------------------------------------------------------------------
 \newpage
 \appendix
 \input{l4_language_app}
 \input{reasoning_rules_app}
-\input{comparison_proofs}
-\input{appendix}
-
+\input{comparison_proofs_app}
+\input{asp_app}
 
 \end{document}
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
-%%% coding: utf-8
-%%% End: 
+%%% End:
