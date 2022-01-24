@@ -83,101 +83,16 @@ opposes(C,C1):-legally_holds(C).
 opposes(C1,C):-legally_holds(C1).
 \end{verbatim}
 
-\section{Abductive Proof Generation translation - II}
-\subsubsection{General procedure}
-Given a prolog like rule 
-\begin{verbatim}
-c(X1,X2,...Xn):-...,a(X(i_1),X(i_2),...,Y_(i_1),Y_(i_2)...),...    
-\end{verbatim}
-Let $a(Xi_1,Xi_2,...,Yi_1,Yi_2...)$ be one of the conjuncts in the antecedent of the rule such that each $X_{k}$ is in the set $\{X1,...,Xn\}$ and is universally quantified. Furthermore let all the $Y_{k}s$ be existentially quantified. Assume that each variable $X1, X2$,...,$Xn$ occurs in some conjunct in the antecedent. Let $\{X1,...,Xn,Y1,..,Ym\}$ be the entire set of variables appearing in the rule. Furthermore, let the rule have integer id $t$.\\
-\newline
-Then first we have the following set of ASP rules:
-\begin{verbatim}
-legally_holds(subs_vbls_t(X1,V2...,V_(m+n))).    :-query(c(X1,X2,..,Xn),N),
-                                 legally_holds(subs_vbls_t(V1,V2...,V_(m+n))). 
+\section{Encoding for Abductive Proof Gneration for rules with ext. quant.}
 
-legally_holds(subs_vbls_t(V1,X2...,V_(m+n))).    :-query(c(X1,X2,..,Xn),N),
-                               legally_holds(subs_vbls_t(V1,V2...,V_(m+n))).  
-
-.
-.
-.
-
-legally_holds(subs_vbls_t(V1,V2,Xn,...,V_(m+n))).    :-query(c(X1,X2,..,Xn),N),
-                               legally_holds(subs_vbls_t(V1,V2...,V_(m+n))).  
-\end{verbatim}
-
-Next we have the following ASP rule:
-\begin{verbatim}
-legally_holds(subs_vbls_t(X1,X2,..,Xn, skolemn_vbl_t_1(X1,X2,..,Xn),skolemn_vbl_t_2(X1,X2,...,Xn),
-
-...,skolemn_vbl_t_m(X1,X2,...,Xn)):-query(c(X1,X2,..,Xn),N).
-\end{verbatim}
-
-Finally for each conjunct in the antecedent we have the following ASP rules:
-\begin{verbatim}
-explains(a(X(i_1),X(i_2),...,skolemn_vbl_t_(i_1)(X1,X2,...,Xn),skolemn_vbl_t_(i_2)(X1,X2,...,Xn)...)
-,c(X1,X2,...,Xn),N+1):-query(c(X1,X2,..,Xn),N).  
-
-explains(a(V(i_1),V(i_2),...,V(n+i_1),V(n+i_2),...),c(V1,V2,..,Vn),N+1):-query(c(U1,...,Un),N)
-,legally_holds(subs_vbls_t(V1,V2,...,V_(m+n))).
-
-legally_holds(subs_vbls_t(V1,..,X(i_1),...,X(i_2),...,Vn,V_(n+1),...,Y_(i_1),...,Y_(i_2),...,V(n+m)))
-:-legally_holds(subs_vbls_t(V1,V2,...V_(m+n))),
-legally_holds(a(X(i_1),X(i_2),...,Y_(i_1),Y_(i_2)...)).
-\end{verbatim}
-We shall now exemplify the above with a concrete example
-
-Consider the folllowing rule
-\begin{verbatim}
-holds(a(X,X1)):-holds(b(X,Y1)),holds(e(X1,Y1,Y2)).
-\end{verbatim}
-
-Then we have the following ASP rules:
-\begin{verbatim}
-legally_holds(subs_vbls_1(X,V1,V2,V3)):-query(a(X,X1),N),legally_holds(subs_vbls_1(V,V1,V2,V3)).
-legally_holds(subs_vbls_1(V,X1,V2,V3)):-query(a(X,X1),N),legally_holds(subs_vbls_1(V,V1,V2,V3)).
-\end{verbatim}
-
-Next we have:
-\begin{verbatim}
-legally_holds(subs_vbls_1(X,X1,skolemn_vbl_1_1(X,X1),skolemn_vbl_1_2(X,X1))):-query(a(X,X1),N).
-\end{verbatim}
-
-Next:
-\begin{verbatim}
-explains(b(X,skolemn_vbl_1_1(X,X1)),a(X,X1),N+1):-query(a(X,X1),N).
-
-explains(e(X1,skolemn_vbl_1_1(X,X1),skolemn_vbl_1_2(X,X1)),a(X),N+1):-query(a(X,X1),N).
-    
-\end{verbatim}
-
-Finally:
-\begin{verbatim}
-explains(b(X,Y1),a(X,X1),N+1):-query(a(U,U1),N),legally_holds(subs_vbls_1(X,X1,Y1,Y2)).
-
-explains(e(X1,Y1,Y2),a(X,X1),N+1):-query(a(U,U1),N),legally_holds(subs_vbls_1(X,X1,Y1,Y2)).    
-\end{verbatim}
-
-and 
-
-\begin{verbatim}
-legally_holds(subs_vbls_1(X,V1,Y1,V3)):-legally_holds(b(X,Y1)),
-legally_holds(subs_vbls_1(V,V1,V2,V3)).
-
-
-legally_holds(subs_vbls_1(V,X1,Y1,Y2)):-legally_holds(e(X1,Y1,Y2)),
-legally_holds(subs_vbls_1(V,V1,V2,V3)).
-
-\end{verbatim}
-\section{Simpler encoding for Abductive Proof Gneration for rules with ext. quant.}
-
-Consider the following raw input rule again:
+Consider the following raw input rule:
 \begin{verbatim}
 a(X,X1):-b(X,Y1),e(X1,Y1,Y2).
 \end{verbatim}
 
-This time we have only the following ASP rules in the translation for abductive proof generation.
+$X$, $X1$ are universally quantified and $Y1$, $Y2$ are existentially quantified. Assume this rule has ruled id $1$.
+
+This time we have the following ASP rules in the translation for abductive proof generation.
 
 \begin{verbatim}
 explains(b(X,skolemn_vbl_1_1(X,X1)),a(X,X1),N+1):-query(a(X,X1),N).
@@ -198,6 +113,8 @@ create_subs(subs_vbls_1(V,X1,Y1,Y2),N):-legally_holds(e(X1,Y1,Y2)),
 create_subs(subs_vbls_1(V,V1,V2,V3),N).
     
 \end{verbatim}
+
+This can be generalised to a general translation for an arbitrary rule with existential quantifiers in the precondition.
 
 \section{Comments}
 The technical hurdle with abductive proof generation for rules with existential quantifiers is that a priori, not all the variables in the premises are known. Therefore the need for skolemization in the initial proof generation, the skolem variables act as "place-holder" variable values. However as the user supplies certain predicates as fact we want the system to simplify the generated proof by 'using' the variable instantiations provided by the user wherever possible. (Ie even in predicates that have not been explicitly supplied by the user) Hence we have this extra 'create-subs' predicate that holds the set of generated possible variable instantiations (only relevant combinations not strictly speaking all possible instantiations) and then supplies these values to enable the proof to be completed.\\
