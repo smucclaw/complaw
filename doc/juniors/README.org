@@ -248,6 +248,7 @@ See also:
 - [[http://www.catb.org/~esr/faqs/smart-questions.html][How To Ask Questions The Smart Way]]
 - [[https://jvns.ca/blog/good-questions][How to ask good questions]]
 - [[https://www.eyrie.org/~eagle/faqs/questions.html][Why Ask Questions in Public?]]
+- [[https://twitter.com/ahidalgosre/status/1486442877425266688?s=21][see also this twitter thread about having discussions in public by default]]
 - [[http://xyproblem.info/][XY Problem]]
 
 **** How To File A Bug Report
