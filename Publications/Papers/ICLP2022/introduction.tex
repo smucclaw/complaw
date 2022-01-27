@@ -43,9 +43,11 @@ but also on the object level, to decide individual cases.
 \paragraph{Overview of the paper}
 The main emphasis of this paper is on the L4 DSL that is currently under
 definition, which in particular features a formalism for transcribing rules
-and reasoning support for verifying their properties. \secref{sec:l4_language}
-is dedicated to a description of the language and the L4 system implementation
-currently under development. The rule language will be dissected in
+and reasoning support for verifying their properties.
+% \secref{sec:l4_language}
+% is dedicated to a description of the language and the L4 system implementation
+% currently under development.
+The rule language will be dissected in
 \secref{sec:resasoning_with_rules}. We will in particular describe mechanisms
 for prioritisation and defeasibility of rules that are encoded via specific
 keywords in law texts. We then define a precise semantics of these mechanisms,
@@ -88,7 +90,7 @@ An entirely different approach to tool support is taken with the LogiKEy \citep{
 workbench that codes legal reasoning in the Isabelle interactive proof assistant, paving
 the way for a very expressive formalism. In contrast, we have opted for a DSL
 with fully automated proofs which are provided by SMT respectively ASP solvers. These do not permit for human intervention in the proof process, which would not be adequate for the user group we target. Symboleo
-\citep{sarifi_parvizimosaed_amyot_logrippo_mylopoulos_Symboleo_spec_legal_contracts_2020}
+\citep{sharifi_parvizimosaed_amyot_logrippo_mylopoulos_Symboleo_spec_legal_contracts_2020}
 and the NAI Suite
 \citep{libal_steen_nai_suite_draft_reason_legal_texts_jurix_2019} emphasise
 deontic logic rather than defeasible reasoning (the former is so far not

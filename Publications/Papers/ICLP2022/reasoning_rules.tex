@@ -2,8 +2,61 @@
 \section{Reasoning with and about Rules}\label{sec:resasoning_with_rules}
 % ----------------------------------------------------------------------
 
+We can only give a brief outline of the L4 rule format here and defer a more
+thorough discussion of the L4 language to \ref{sec:l4_language_app}.
+We will illustrate the main concepts with an example, a (fictitious) regulation of speed
+limits for different types of vehicles, subdivided into class \texttt{Car}
+and its subclass \texttt{SportsCar}, furthermore classes \texttt{Day} and \texttt{Road}. We will
+in particular be interested in specifying the maximal speed \texttt{maxSp} of
+a vehicle on a particular day and type of road, and this will be the purpose
+of the rules.
 
-Given a plethora of different notions of ``defeasibility'', we had to make a
+In its most complete form, a \emph{rule} is composed of a list of variable
+declarations introduced by the keyword \texttt{for}, a precondition introduced
+by \texttt{if} and a post-condition introduced by
+\texttt{then}. \figref{fig:rules} gives an example of rules of our speed limit
+scenario, stating, respectively, that the maximal speed of cars is 90 km/h on a
+workday,
+and that they may drive at 130 km/h if the road is a highway.  Note that in
+general, both pre- and post-conditions are Boolean formulas that can be
+arbitrarily complex, thus are not limited to conjunctions of literals in the
+preconditions or atomic formulas in the post-conditions.
+Rules whose precondition is \texttt{true} can be written as \texttt{fact}.
+
+\begin{figure}[h!]
+  \begin{lstlisting}
+rule <maxSpCarWorkday> 
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isWorkday d
+   then maxSp v d r 90
+rule <maxSpCarHighway>
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isHighway r
+   then maxSp v d r 130
+\end{lstlisting}
+  \caption{Rules of speed limit example}\label{fig:rules}
+\end{figure}
+
+\begin{figure}[h]
+\begin{lstlisting}
+assert <maxSpFunctional> {SMT: {valid}}
+   maxSp instCar instDay instRoad instSpeed1 &&
+   maxSp instCar instDay instRoad instSpeed2
+   --> instSpeed1 == instSpeed2
+\end{lstlisting}
+  \caption{Assertions of speedlimit example}\label{fig:assertions}
+\end{figure}
+
+
+The purpose of our formalization efforts is to be able to make assertions
+and prove them, such as the statement in \figref{fig:assertions} which claims
+that the predicate 
+\texttt{maxSp} behaves like a function, \ie{} given the same car, day and
+road, the speed will be the same. Instead of a universal quantification, we
+here use variables \texttt{inst...} that have been declared globally, because they
+produce more readable (counter-)models. 
+
+Given a plethora of different notions of \emph{defeasibility}, we had to make a
 choice as to which notions to support, and which semantics to give to them. We
 will here concentrate on two concepts, which we call \emph{rule modifiers},
 that limit the applicability of rules and make them ``defeasible''. They will
