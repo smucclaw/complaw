@@ -1,12 +1,12 @@
 \section{Proofs: Comparison of  Rule Transformation Strategies}\label{sec:comparison_proofs}
 
-We restate and give detailed proofs of two lemmas of \secref{sec:rule_inversion}.
+We restate and give detailed proofs of two propositions of \secref{sec:rule_inversion}.
 
 
-\begin{lemma}\label{lemma:mp_to_md_with_proof}
+\begin{proposition}\label{lemma:mp_to_md_with_proof}
   Any model ${\cal M}_P$ of ${\cal F}_P$ can be transformed into a model
   ${\cal M}_D$ of ${\cal F}_D$.
-\end{lemma}
+\end{proposition}
 
 \begin{proof}
   We consider the transformation of a model ${\cal M}_P$ to a model
@@ -59,16 +59,16 @@ We restate and give detailed proofs of two lemmas of \secref{sec:rule_inversion}
 \end{proof}
 
 
-\begin{lemma}\label{lemma:md_to_mp_with_proof}
+\begin{proposition}\label{lemma:md_to_mp_with_proof}
   Any model ${\cal M}_D$ of ${\cal F}_D$ can be transformed into a model
   ${\cal M}_P$ of ${\cal F}_P$.
-\end{lemma}
+\end{proposition}
 
 \begin{proof} (Sketch)
-  In analogy to \lemmaref{lemma:mp_to_md}, we start from a model ${\cal M}_D$
+  In analogy to \propositionref{lemma:mp_to_md}, we start from a model ${\cal M}_D$
   of ${\cal F}_D$ and construct a model ${\cal M}_P$ of ${\cal F}_P$. 
 
-  As in \lemmaref{lemma:mp_to_md}, the proof is by induction on $\prec_R$.
+  As in \propositionref{lemma:mp_to_md}, the proof is by induction on $\prec_R$.
   Consider a rule $r_D \in {\cal F}_D$ with rule
   name $rn_D$ which by construction has the form
   $r_D = \forall x_1, \dots x_n.\; pre_D^o \AND \NOT post_D^1(rn_1) \AND \NOT post_D^k(rn_k)
@@ -89,3 +89,7 @@ We restate and give detailed proofs of two lemmas of \secref{sec:rule_inversion}
     pre_P^k \IMPL C(x_1, \dots, x_n)$.
   \end{itemize}
 \end{proof}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

@@ -24,7 +24,9 @@
 \newcommand{\rex}{\rangle}
 
 % Own abbreviations
-\newcommand{\appref}[1]{Appendix~\ref{#1}}
+% Note: the tlp style adds the word Appendix, but only for Appendix (not Section etc.)
+%\newcommand{\appref}[1]{Appendix~\ref{#1}}  
+\newcommand{\appref}[1]{\ref{#1}}
 \newcommand{\secref}[1]{Section~\ref{#1}}
 \newcommand{\secrefs}[1]{Sections~\ref{#1}}
 \newcommand{\figref}[1]{Figure~\ref{#1}}
@@ -33,6 +35,7 @@
 \newcommand{\theoremref}[1]{Theorem~\ref{#1}}
 \newcommand{\theoremrefs}[1]{Theorems~\ref{#1}}
 \newcommand{\lemmaref}[1]{Lemma~\ref{#1}}
+\newcommand{\propositionref}[1]{Proposition~\ref{#1}}
 \newcommand{\exampleref}[1]{Example~\ref{#1}}
 \newcommand{\defref}[1]{Definition~\ref{#1}}
 
@@ -61,9 +64,9 @@
 
 % Remark macros for the authors
 
+\newcommand{\remam}[2][]{\todo[color=blue!40,#1]{AM: #2}}
 \newcommand{\remms}[2][]{\todo[color=green!40,#1]{MS: #2}}
-\newcommand{\remre}[2][]{\todo[color=blue!40,#1]{RE: #2}}
-\newcommand{\remjhb}[2][]{\todo[color=blue!20,#1]{JHB: #2}}
+\newcommand{\remmww}[2][]{\todo[color=blue!20,#1]{MWW: #2}}
 
 
 % Other

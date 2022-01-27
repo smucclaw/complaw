@@ -44,7 +44,7 @@ $\{r_1 \{\mathtt{restrict}: a_1\},\;\;
 r_2\{\mathtt{restrict}:  \{\mathtt{subjectTo}\; r_1\} \uplus a_2\}, \dots\}
 $
 
-\begin{example}\label{ex:rewrite_despite}\mbox{}\\
+\begin{example}\label{ex:rewrite_despite}
 Application of this rewrite rule to the three example rules \texttt{maxSpCarWorkday},
 \texttt{maxSpCarHighway} and  \texttt{maxSpSportsCar} changes them to:
 
@@ -75,7 +75,7 @@ rule into two rules, (1) its source (the rule body as originally given), and
 (2) its definition as the result of applying a rule transformation function to
 several rules.
 
-\begin{example}\label{ex:rewrite_subject_to}\
+\begin{example}\label{ex:rewrite_subject_to}
 Before stating the rule transformer, we show its effect on rule
 \texttt{maxSpCarWorkday} of \exampleref{ex:rewrite_despite}. On rewriting
 with \emph{subjectToElim}, the rule is transformed into two rules:
@@ -198,7 +198,7 @@ contain the variables $y_i$) with $E_i \preceq T_i$,  (with the consequence that
 the pre- and post-conditions of the new rule remain well-typed), where $\preceq$ is subtyping. 
 
 
-\begin{example}\mbox{}\\
+\begin{example}
 We come back to the running example. When processing the rules in the order of
 $\prec_R$, rule \texttt{maxSpSportsCar}, defined by
 \texttt{apply: \{restrictSubjectTo maxSpSportsCar'Orig maxSpCarWorkday\}},
@@ -240,6 +240,7 @@ precondition of \texttt{maxSpCarHighway} to
 
 We now give an alternative reading of \texttt{restrictSubjectTo}. To
 illustrate the point, let us take a look at a simple propositional example.
+\remms{Move into appendix altogether. Save 1.5 pages}
 
 \begin{example}\label{ex:small_propositional} Take the definitions:
 \begin{lstlisting}
@@ -338,12 +339,13 @@ The purpose of this section is to derive formulas that, for a given rule set,
 simulate negation as failure, but are coded in a classical first-order logic,
 do not require a dedicated proof engine (such as Prolog) and can be checked
 with a SAT or SMT solver. The net effect is similar to the completion
-introduced by Clark \cite{clark_NegAsFailure_1978}; however, the justification
+introduced by \cite{clark_NegAsFailure_1978}; however, the justification
 is not operational as in \cite{clark_NegAsFailure_1978}, but takes inductive
 closure as a point of departure. Some of the ideas are reminiscent of least
 fixpoint semantics of logic programs, as discussed in
 \cite{falaschi_etal_declarative_logic_langauges_1989,fages_consistency_clark_completion_1994}.
 The discussion below applies to a considerably wider class of formulas.
+\remms{Shorten or remove. Save 1 page}
 
 In the following, we assume that our rules have an atomic predicate $P$ as
 conclusion, whereas the precondition $Pre$ can be an arbitrarily complex
@@ -405,9 +407,9 @@ monotonic functional, is consistent (see a counterexample in
 Obviously, a second-order formula such as the definition of $P^*$ is unwieldy
 in fully automated theorem proving, so we derive one particular consequence:
 
-\begin{lemma}\label{lemma:p_star}
+\begin{proposition}\label{lemma:p_star}
 $P^*(x_1, \dots, x_n) \IMPL Pre_1[P^*](x_1, \dots x_n) \OR \dots \OR Pre_k[P^*](x_1, \dots x_n)$
-\end{lemma}
+\end{proposition}
 % \begin{proof}
 % Expand the definition of $P^*$ and instantiate the universal variable $P$ with
 % $\lambda x_1 \dots x_n. Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k(x_1, \dots x_n)$.
@@ -421,7 +423,7 @@ In the absence of such a first-order equivalent, we define the formula $Inv_P$
 \forall x_1, \dots, x_n.\;  P(x_1, \dots, x_n) \IMPL Pre_1(x_1, \dots x_n) \OR \dots \OR Pre_k[P](x_1, \dots x_n)
 \]
 called the \emph{inversion formula of  $P$}, and take it as an approximation of the
-effect of $P^*$ in \lemmaref{lemma:p_star}.
+effect of $P^*$ in \propositionref{lemma:p_star}.
 
 As usual, a disjunction over an empty set is taken to be the falsum
 $\bot$. Assume there are no defining rules for a predicate $P$, then $Inv_P =
@@ -475,23 +477,23 @@ sets, we obtain formula sets ${\cal F}_P$ respectively ${\cal F}_D$ by
 \end{itemize}
 
 
-\begin{lemma}\label{lemma:mp_to_md}
+\begin{proposition}\label{lemma:mp_to_md}
   Any model ${\cal M}_P$ of ${\cal F}_P$ can be transformed into a model
   ${\cal M}_D$ of ${\cal F}_D$.
-\end{lemma}
+\end{proposition}
 
-The proof will be given in \secref{sec:comparison_proofs} after  \lemmaref{lemma:mp_to_md_with_proof}.
+The proof will be given in \ref{sec:comparison_proofs} after  \propositionref{lemma:mp_to_md_with_proof}.
 
 
-\begin{lemma}\label{lemma:md_to_mp}
+\begin{proposition}\label{lemma:md_to_mp}
   Any model ${\cal M}_D$ of ${\cal F}_D$ can be transformed into a model
   ${\cal M}_P$ of ${\cal F}_P$.
-\end{lemma}
+\end{proposition}
 
-The proof will be given in \secref{sec:comparison_proofs} after
-\lemmaref{lemma:md_to_mp_with_proof}
+The proof will be given in \ref{sec:comparison_proofs} after
+\propositionref{lemma:md_to_mp_with_proof}
 
-We should emphasize that, in the proof of \lemmaref{lemma:md_to_mp}, the
+We should emphasize that, in the proof of \propositionref{lemma:md_to_mp}, the
 inversion formulas play a decisive role.
 
 

@@ -3,7 +3,8 @@
 This section gives an account of the L4 language as it is currently defined --
 as an experimental language, L4 will evolve over the next months. In our
 discussion, we will ignore some features such as a natural language interface
-\cite{listemnmaa2021cnl} which are not relevant for the topic of this paper but are relevant in the future.
+\citep{listemnmaa2021cnl} which are not relevant for the topic of this paper
+but are relevant in the future. \remms{Reduce to half a page. Save 1 page}
 
 As a language intended for representing legal texts and reasoning about them,
 an L4 module is essentially composed of four sections:
@@ -68,10 +69,10 @@ the rule have to be declared in the \texttt{for} clause. In the absence of
 variables to be declared, the \texttt{for} clause can be omitted. 
 Intuitively, a rule
 \begin{lstlisting}[frame=none,mathescape=true]
-  rule <r> for $\overrightarrow{v}$: $\overrightarrow{T}$ if Pre $\overrightarrow{v}$ then Post $\overrightarrow{v}$
+  rule <r> for $\overrightarrow{v : T}$ if Pre $\overrightarrow{v}$ then Post $\overrightarrow{v}$
 \end{lstlisting}
 corresponds to a universally quantified formula
-$\forall \overrightarrow{v} : \overrightarrow{T}.\; Pre \overrightarrow{v}
+$\forall \overrightarrow{v : T}.\; Pre \overrightarrow{v}
 \IMPL Post \overrightarrow{v}$ that could directly be written as a fact,
 and it may seem that a separate rule syntax is redundant. This is not so,
 because the specific structure of rules makes them amenable to transformations

@@ -101,10 +101,10 @@ is_legal(C):-legally_valid(R,C).
 \end{lstlisting}
 \subsection{Lemma}
 
-\begin{lemma}\label{lemma:legal_model_of_config}
+\begin{proposition}\label{lemma:legal_model_of_config}
 For a configuration $Config=(R,F,M,I)$, let the above encoding be the program $ASP_{Config}$. Then given an answer set $A_{Config}$ of $ASP_{Config}$ let $S_{A_{Config}}$ be the set of $is\_legal$ and $legally\_valid$ predicates in $A_{Config}$. Then $S_{A_{Config}}$ is a legal model of $Config$. 
-\end{lemma}
-   
+\end{proposition}
+
 
 $Proof$ See Appendix. $\square$
 
