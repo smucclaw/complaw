@@ -64,8 +64,7 @@ with our algorithm, applying the next step which will be to rewrite the
 rule can be \texttt{subjectTo} several other rules, each of which may have a
 complex structure as a result of transformations that are applied to it.
 
-
-\paragraph{\textbf{``Subject'' To elimination}}
+\paragraph{\textbf{``Subject To''  elimination}}
 
 The rule transformer \emph{subjectToElim} does the following: it splits up the
 rule into two rules, (1) its source (the rule body as originally given), and
@@ -107,13 +106,13 @@ $
 The last step consists in generating the derived rules, by evaluating the
 value of the rule transformer expression marked by \texttt{apply}. The rules
 appearing in these expressions may themselves be defined by complex
-expressions. However, direct or indirect recursion is not allowed. For
+expressions. However, direct or indirect recursion of the transformers is not allowed. For
 simplifying the expressions in a rule set, we compute a rule dependency order
 $\prec_R$ defined by: $r \prec_R r'$ iff $r$ appears in the defining
 expression of $r'$. If $\prec_R$ is not a strict partial order (in particular, if
 it is not cycle-free), then evaluation fails. Otherwise, we order the rules
 topologically by $\prec_R$ and evaluate the expressions starting from the
-minimal elements. Obviously, the order $\prec_R$ does not prevent rules from being recursive.
+minimal elements. Obviously, the order $\prec_R$ does not prevent rules themselves from being recursive.
 
 \begin{example}
 It is at this point that the cyclic dependence already remarked after
