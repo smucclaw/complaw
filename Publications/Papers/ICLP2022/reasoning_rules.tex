@@ -26,11 +26,9 @@ Rules whose precondition is \texttt{true} can be written as \texttt{fact}.
 \begin{figure}[h!]
   \begin{lstlisting}
 rule <maxSpCarWorkday> 
-   for v: Vehicle, d: Day, r: Road
-   if isCar v && isWorkday d then maxSp v d r 90
+  for v: Vehicle, d: Day, r: Road  if isCar v && isWorkday d then maxSp v d r 90
 rule <maxSpCarHighway>
-   for v: Vehicle, d: Day, r: Road
-   if isCar v && isHighway r then maxSp v d r 130
+  for v: Vehicle, d: Day, r: Road if isCar v && isHighway r then maxSp v d r 130
 \end{lstlisting}
   \caption{Rules of speed limit example}\label{fig:rules}
 \end{figure}

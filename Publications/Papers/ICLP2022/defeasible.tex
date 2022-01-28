@@ -7,9 +7,11 @@ modifiers, by rewriting rules, progressively eliminating the instructions
 appearing in the rule annotations so that in the end, only purely logical
 rules remain. Making the meaning of the modifiers explicit can therefore be
 understood as a \emph{compilation} problem.  Whereas the first preprocessing
-steps (\secref{sec:preprocessing}) are generic, we will discuss two variants
-of conversion into logical format (\secrefs{sec:restr_precond} and
-\ref{sec:restr_deriv}). We will then discuss rule inversion
+steps (\secref{sec:preprocessing}) are generic, there are several
+possibilities
+of conversion into logical format, the first discussed in the following
+(\secrefs{sec:restr_precond}), the second in the extended version
+(\secref{sec:restr_deriv}). We will then discuss rule inversion 
 (\secref{sec:rule_inversion}) which gives our approach a non-monotonic flavour
 while remaining entirely in a classical setting. Rule inversion will also be
 instrumental for comparing the conversion variants in \secref{sec:comparison}.
@@ -79,8 +81,7 @@ with \emph{subjectToElim}, the rule is transformed into two rules:
 \begin{lstlisting}
 # new rule name, body of rule unchanged
 rule <maxSpCarWorkday'Orig> {source}
-   for v: Vehicle, d: Day, r: Road
-   if isCar v && isWorkday d then maxSp v d r 90
+   for v: Vehicle, d: Day, r: Road if isCar v && isWorkday d then maxSp v d r 90
 # rule with header and without body
 rule <maxSpCarWorkday>
    {derived: {apply: {restrictSubjectTo maxSpCarWorkday'Orig  maxSpSportsCar}}}
@@ -147,7 +148,7 @@ the rules:
 \texttt{maxSpCarHighway'Orig},
 \texttt{maxSpCarWorkday} \} $\prec_R$
 \texttt{maxSpSportsCar} $\prec_R$
-\texttt{maxSpCarHighway}\\
+\texttt{maxSpCarHighway}
 and will use this order for rule elaboration.
 \end{example}
 
@@ -241,7 +242,6 @@ closure as a point of departure. Some of the ideas are reminiscent of least
 fixpoint semantics of logic programs, as discussed in
 \cite{falaschi_etal_declarative_logic_langauges_1989,fages_consistency_clark_completion_1994}.
 The discussion below applies to a considerably wider class of formulas.
-\remms{Shorten or remove. Save 1 page}
 
 In the following, we assume that our rules have an atomic predicate $P$ as
 conclusion, whereas the precondition $Pre$ can be an arbitrarily complex
@@ -297,8 +297,9 @@ assuming nothing else about $P$ is true'', and corresponds to the notion of
 exhaustiveness prevalent in law texts. It can also be understood as the static
 equivalent of the operational concept of negation as failure for predicate
 $P$.  By the Knaster-Tarski theorem, $P^*$, as the least fixpoint of a
-monotonic functional, is consistent (see a counterexample in
-\exampleref{ex:syntactically_non_monotonic_rule}). 
+monotonic functional, is consistent.
+% (see a counterexample in
+% \exampleref{ex:syntactically_non_monotonic_rule}). 
 
 Obviously, a second-order formula such as the definition of $P^*$ is unwieldy
 in fully automated theorem proving, so we derive one particular consequence:
