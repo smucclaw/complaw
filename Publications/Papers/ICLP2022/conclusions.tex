@@ -9,27 +9,36 @@ based on Answer Set Programming, is presented in
 \secref{sec:defeasible_asp}. \remam{Added by Avishkar} All the encodings are motivated by the need to explore the implementation of various forms of defeasibility in logics for which well developed and powerful solvers already exist.  
 
 An experimental implementation of the L4 ecosystem is under
-way\footnote{\url{https://github.com/smucclaw/baby-l4}}, but it has not yet
-reached a stable, user-friendly status. It is implemented in Haskell and features
-an IDE based on VS Code and natural language processing via Grammatical
-Framework \citep{ranta_grammatical_2004}. Currently, only the coding of
-\secrefs{sec:restr_precond} has been implemented---the coding of
-\secref{sec:restr_deriv} would require a much more profound transformation of
-rules and assertions. Likewise, the ASP coding of \secref{sec:defeasible_asp}
-has only been done manually. The interaction with SMT solvers is done through
-an SMT-LIB \citep{BarFT_SMTLIB} interface, thus opening the possibility to
-interact with a wide range of solvers. As our rules typically contain
-quantification, reasoning with quantifiers is crucial, and the best support
-currently seems to be provided by Z3 \citep{demoura_bjorner_z3_2008}.
+way\footnote{\url{https://github.com/smucclaw/baby-l4}}. The interaction with
+SMT solvers is done through an SMT-LIB \citep{BarFT_SMTLIB} interface. Advanced
+solvers, such as Z3 \citep{demoura_bjorner_z3_2008}, provide good support for
+quantification. \remms{Say something more about the ASP part}
+
+
+% , but it has not yet
+% reached a stable, user-friendly status. It is implemented in Haskell and features
+% an IDE based on VS Code and natural language processing via Grammatical
+% Framework \citep{ranta_grammatical_2004}. Currently, only the coding of
+% \secrefs{sec:restr_precond} has been implemented---the coding of
+% \secref{sec:restr_deriv} would require a much more profound transformation of
+% rules and assertions. Likewise, the ASP coding of \secref{sec:defeasible_asp}
+% has only been done manually. The interaction with SMT solvers is done through
+% an SMT-LIB \citep{BarFT_SMTLIB} interface, thus opening the possibility to
+% interact with a wide range of solvers. As our rules typically contain
+% quantification, reasoning with quantifiers is crucial, and the best support
+% currently seems to be provided by Z3 \citep{demoura_bjorner_z3_2008}.
 
 We are still at the beginning of the journey. A theoretical comparison of the
 classical and ASP approaches presented here still has to be carried out, and
 it has to be propped up by an empirical evaluation. For this purpose, we are
-currently in the process of coding some real-life law texts in L4. We are
-fully aware of shortcomings of the current L4, which will strongly evolve in
-the next months, to include reasoning about deontics and about temporal
-relations. Integrating these aspects will not be easy, and this is one reason
-for not committing prematurely to one particular logical framework.
+currently in the process of coding some real-life law texts in L4, such as
+Singapore's Personal Data Protection Act \citep{ppda}.
+
+% We are
+% fully aware of shortcomings of the current L4, which will strongly evolve in
+% the next months, to include reasoning about deontics and about temporal
+% relations. Integrating these aspects will not be easy, and this is one reason
+% for not committing prematurely to one particular logical framework.
 
 
 %%% Local Variables:

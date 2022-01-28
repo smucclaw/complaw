@@ -27,12 +27,10 @@ Rules whose precondition is \texttt{true} can be written as \texttt{fact}.
   \begin{lstlisting}
 rule <maxSpCarWorkday> 
    for v: Vehicle, d: Day, r: Road
-   if isCar v && isWorkday d
-   then maxSp v d r 90
+   if isCar v && isWorkday d then maxSp v d r 90
 rule <maxSpCarHighway>
    for v: Vehicle, d: Day, r: Road
-   if isCar v && isHighway r
-   then maxSp v d r 130
+   if isCar v && isHighway r then maxSp v d r 130
 \end{lstlisting}
   \caption{Rules of speed limit example}\label{fig:rules}
 \end{figure}
@@ -82,8 +80,7 @@ we return to our running example.
   \texttt{subjectTo} and \texttt{despite}. Thus, we modify rule
   \texttt{maxSpCarHighway} of \figref{fig:rules} with
 \begin{lstlisting}
-rule <maxSpCarHighway>
-  {restrict: {despite: maxSpCarWorkday}}
+rule <maxSpCarHighway>  {restrict: {despite: maxSpCarWorkday}}
 # rest of rule unchanged
 \end{lstlisting}
 Furthermore, to the delight of the public of the country with the highest
@@ -92,11 +89,9 @@ that holds \emph{subject to} \texttt{maxSpCarWorkday} and \emph{despite}
 \texttt{maxSpCarHighway}:
 \begin{lstlisting}
 rule <maxSpSportsCar>
-  {restrict: {subjectTo: maxSpCarWorkday, 
-              despite: maxSpCarHighway}}
+   {restrict: {subjectTo: maxSpCarWorkday, despite: maxSpCarHighway}}
    for v: Vehicle, d: Day, r: Road
-   if isSportsCar v && isHighway r
-   then maxSp v d r 320
+   if isSportsCar v && isHighway r then maxSp v d r 320
  \end{lstlisting}
 \end{example}
 

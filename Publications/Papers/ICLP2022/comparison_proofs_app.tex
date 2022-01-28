@@ -1,5 +1,151 @@
 \section{Proofs: Comparison of  Rule Transformation Strategies}\label{sec:comparison_proofs}
 
+
+% ......................................................................
+\subsubsection{Restriction via Derivability}\label{sec:restr_deriv}
+
+We now give an alternative reading of \texttt{restrictSubjectTo}. To
+illustrate the point, let us take a look at a simple propositional example.
+\remms{Move into appendix altogether. Save 1.5 pages}
+
+\begin{example}\label{ex:small_propositional} Take the definitions:
+\begin{lstlisting}
+rule <r1> if B1 then C1
+rule <r2> {subjectTo: r1} if B2 then C2
+\end{lstlisting}
+\end{example}
+
+Instead of saying: \texttt{r2} corresponds to
+\texttt{\blue{if} B2 \&\& not B1 \blue{then} C2} 
+as in \secref{sec:restr_precond}, we would now read it as
+``if the conclusion of \texttt{r1} cannot be derived'', 
+which could be written as
+\texttt{\blue{if} B2 \&\& not C1 \blue{then} C2}.
+The two main problems with this naive approach are the following:
+\begin{itemize}
+\item As mentioned in \secref{sec:resasoning_with_rules}, a \emph{subject to}
+  restriction is often applied to rules with contradicting conclusions, so in
+  the case that \texttt{C1} is \texttt{not C2}, the generated rule would be a
+  tautology.
+\item In case of the presence of a third rule
+\begin{lstlisting}[frame=none]
+rule <r3> if B3 then C1
+\end{lstlisting}
+a derivation of \texttt{C1} from \texttt{B3} would also block the application
+of \texttt{r2}, and \texttt{subjectTo: r1} and \texttt{subjectTo: r1, r3}
+would be indistinguishable.
+\end{itemize}
+
+We now sketch a solution for rule sets whose conclusion is always an atom (and
+not a more complex formula).
+
+\begin{enumerate}
+\item In a preprocessing stage, all rules are transformed as follows:
+  \begin{enumerate}
+  \item We assume the existence of classes \texttt{Rulename$_P$}, one for each
+    transformable predicate $P$ (see below).
+  \item All the predicates $P$
+    occurring in the conclusions of rules (called \emph{transformable
+      predicates}) are converted into predicates $P^+$ with one additional
+    argument of type \texttt{Rulename$_P$}. In the
+    example, \texttt{C1$^+$: Rulename$_{C1}$ -> Boolean} and similarly for \texttt{C2}.
+  \item The transformable predicates $P$ in conclusions of rules receive one
+    more argument, which is the name \emph{rn} of the rule: $P$ is transformed
+    into $P^+\; rn$. The informal reading is ``the predicate is derivable with
+    rule \emph{rn}''.
+  \item All transformable predicates in the preconditions of the rules receive
+    one more argument, which is a universally quantified variable of type
+    \texttt{Rulename$_P$} of the appropriate type, bound in the
+    \texttt{for}-list of the rule.
+  \end{enumerate}
+\item In the main processing stage, \texttt{restrictSubjectTo} in the rule
+  annotations generates rules according to:
+  \begin{itemize}
+\item $\mathtt{restrictSubjectTo}\; r_1\; [] = r_1$
+\item $\mathtt{restrictSubjectTo}\; r_1\; (r' \uplus rs) =$\\
+  $\mathtt{restrictSubjectTo}\; (r_1(precond := precond(r_1) \AND \NOT postcond(r')))\; rs$
+  Thus, the essential difference \wrt{} the definition of
+  \secref{sec:restr_precond} is that we add the negated post-condition and not
+  the negated pre-condition.
+\end{itemize}
+\end{enumerate}
+
+\begin{example} The rules of \exampleref{ex:small_propositional} are now
+  transformed to:
+\begin{lstlisting}[mathescape=true]
+rule <r1> for rn:Rulename$_{B1}$ if B1$^+$ rn then C1$^+$ r1
+rule <r2> for rn:Rulename$_{B2}$ if B2$^+$ rn and not C1$^+$ r1 then C2$^+$ r2
+\end{lstlisting}
+The derivability of another instance of \texttt{C1}, such as \texttt{C1$^+$ r3},
+would not inhibit the application of \texttt{r2} any more.
+\end{example}
+
+
+\begin{example} The two rules of the running example become, after resolution
+  of the \texttt{restrictSubjectTo} clauses:
+\begin{lstlisting}[mathescape=true]
+rule <maxSpSportsCar>
+   for v: Vehicle, d: Day, r: Road
+   if isSportsCar v && isHighway r &&
+      not maxSp$^+$ maxSpCarWorkday v d r 90
+   then maxSp$^+$ maxSpSportsCar v d r 320
+rule <maxSpCarHighway>
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isHighway r &&
+      not maxSp$^+$ maxSpCarWorkday v d r 90 &&
+      not maxSp$^+$ maxSpSportsCar v d r 320
+   then maxSp$^+$ maxSpCarHighway v d r 130
+\end{lstlisting}
+\end{example}
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Comparison}\label{sec:comparison}
+
+One may wonder whether, starting from the same set of rules, the transformations in
+\secref{sec:restr_precond} and \secref{sec:restr_deriv} produce
+equivalent rules. On the face of it, this is not so, because the
+transformation via derivability modifies the arity of the predicates, so the
+rule sets have different models.
+
+We will however show that the two rule sets have corresponding sets of
+models. This will be made more precise in the following. To fix notation,
+assume ${\cal R}_M$ to be a set of rules annotated with rule modifiers. Let
+${\cal R}_P$ be the set of rules obtained from ${\cal R}_M$ through the rule
+translation via preconditions of \secref{sec:restr_precond}, and similarly
+${\cal R}_D$ the set of rules obtained from ${\cal R}_M$ through the rule
+translation via derivability of \secref{sec:restr_deriv}. From these rule
+sets, we obtain formula sets ${\cal F}_P$ respectively ${\cal F}_D$ by
+\begin{itemize}
+\item translating rules to formulas;
+\item adding inversion formulas $Inv_C$ for all
+  the transformable predicates $C$ of the rule set;
+% \item in the case of ${\cal F}_D$, adding exhaustivity predicates for all the
+%   \texttt{Rulename$_C$} types\remms{Parameterize Rulename types with
+%     predicates}, of the form $\forall x: \mathtt{Rulename}_C.\; x = rn_1 \OR
+%   \dots \OR x=rn_r$ if $\{rn_1, \dots, rn_r\}$ are the rule names having $C$
+%   as conclusion.\remms{Maybe not required?}
+\end{itemize}
+
+
+\begin{proposition}\label{lemma:mp_to_md}
+  Any model ${\cal M}_P$ of ${\cal F}_P$ can be transformed into a model
+  ${\cal M}_D$ of ${\cal F}_D$.
+\end{proposition}
+
+\begin{proposition}\label{lemma:md_to_mp}
+  Any model ${\cal M}_D$ of ${\cal F}_D$ can be transformed into a model
+  ${\cal M}_P$ of ${\cal F}_P$.
+\end{proposition}
+
+The proofs will be given in \ref{sec:comparison_proofs}, respectively after
+\propositionref{lemma:mp_to_md_with_proof} and 
+\propositionref{lemma:md_to_mp_with_proof}.
+In the proof of \propositionref{lemma:md_to_mp}, the
+inversion formulas play a decisive role.
+
+\remms{Rewrite this, the comparison is just above}
 We restate and give detailed proofs of two propositions of \secref{sec:rule_inversion}.
 
 
