@@ -89,7 +89,7 @@ is_legal(C):-legally_valid(R,C).
 Firstly note, that the converse of the lemma is false. That is, there are configurations and legal models of those configurations that do not correspond to any answer set of the ASP encoding. A simple example of this is the following: Consider the configuration where there are only 2 rules:\\ (1): $a\rightarrow a$\\
 (2): $not$ $a\rightarrow b\\$
 
-There are no other facts, modifiers or minimal inconsistent sets. Then for this configuration $\{legally\_valid(1,a), is\_legal(a)\}$ is a legal model but it does not correspond to any answer set of the ASP encoding. As explained in \citep{KRR_notes}, this is essentially due to the fact that not all minimal supported models of a logic program are stable models. See \citep{KRR_notes} for the example given above and a further discussion on this topic.  Now we shall proceed to the proof of the lemma.
+Here as usual, the $not$ in the body of the second rule denotes negation-as-failure. There are no other facts, modifiers or minimal inconsistent sets. Then for this configuration $\{legally\_valid(1,a), is\_legal(a)\}$ is a legal model but it does not correspond to any answer set of the ASP encoding. As explained in \citep{KRR_notes}, this is essentially due to the fact that not all minimal supported models of a logic program are stable models. See \citep{KRR_notes} for the example given above and a further discussion on this topic.  Now we shall proceed to the proof of the lemma.
 
 Given a configuration $Config$, let $A_{Config}$ be an answer set of it's ASP encoding and let $S_{A_{Config}}$ be the set of $is\_legal$ and $legally\_valid$ predicates in $A_{Config}$. It is easy to see that $A_{Config}$ satisfies A1-A5. For example if the set $M$ from $Config$ contains $strong\_subject\_to(r_{i}, r_{j})$, then $A_{config}$ would contain $strong\_subject\_to(r_{i}, r_{j})$. Now if $S_{A_{Config}}$ contains $legally\_valid(r_{i}, C_{r_{i}})$, then so would $A_{Config}$. Now, if $pre\_con(r_{j})$ is satisfied in $A_{Config}$, then $according\_to(r_{j},C_{r_{j}})$ is in $A_{Config}$ and therefore $defeated(r_{j}, C_{r_{j}}, r_{i})$ is in $A_{Config}$ by line 44 of the general encoding shown above. Therefore $not\_legally\_valid(r_{j})$ is in $A_{Config}$ by line 48 of the encoding. Therefore by the line 50 of the encoding, $legally\_valid(r_{j},C_{r_{j}})$ is not in $A_{Config}$. Therefore $legally\_valid(r_{j},C_{r_{j}})$ is not in $S_{A_{Config}}$.
 
@@ -116,15 +116,83 @@ $\{is\_legal(a)$, $legally\_valid(3,a)\}$ and $\{is\_legal(a)$, $legally\_valid(
 
 We suspect that the ASP encoding does only return subset minimal legal models if there is no negation as failure in rule pre-conditions or if there are no $despite$ modifiers, however pursuing this matter fully is left for future work.
 
-Here we will give an example of a rule configuration that has no legal models even though none of the rule modifiers involve a rule directly being subject to itself.
-
+Here we will give an example of a rule configuration that has no legal models.
 Consider the configuration where there are 2 rules:\\ $(1)$ $a\rightarrow b$\\
 $(2)$ $b\rightarrow c$\\
 The only fact is $is\_legal(a)$, there is one modifier $subject\_to(2,1)$ and there is one minimal inconsistent set $\{b,c\}$. Then this rule configuration has no legal models. 
 
 \section{Further remarks on example in 5.8}
 
-Here we explore further modifications of the example in 5.8. First, we wish to remind the reader that if there was a 5th rule in this rule set and we had a $despite(4,5)$ modifier, then as long as the precondition of rule 4 is true, it would still invalidate rule 3 even if rule 4 itself got invalidated by rule 5.
+Here we give a slightly more involved example to illustrate further, some of the ASP  ~/~modifiers.
+Consider 4 basic rules:
+\begin{enumerate}
+  \item If Bob is wealthy, he must buy a Rolls-Royce.
+  \item If Bob is wealthy, he must buy a Mercedes.
+  \item If Bob is wealthy, he may spend up to 2 million dollars on cars.
+  \item If Bob is extremely wealthy, he may spend up to 10 million dollars on cars.
+\end{enumerate}
+Suppose we know that the Rolls-Royce and Mercedes together cost more
+than 2 million but each is individually less than 2 million. We also
+have that rules 1 and 2 are each subject to rule 3 and despite rule 1,
+rule 4 holds. Additionally, we also have the fact that Bob is
+wealthy. In this situation we would expect 2 legal models. One in which
+exactly rule 1 and rule 3 are legally valid and one in which exactly
+rule 2 and rule 3 are legally valid. Let us see what our encoding
+looks like.
+\begin{lstlisting}[language=Prolog, numbers=left]
+is_legal(wealthy(bob)).
+% Rules
+according_to(1,must_buy(rolls,bob)) :- is_legal(wealthy(bob)).
+according_to(2,must_buy(merc,bob)) :- is_legal(wealthy(bob)).
+according_to(3,may_spend_up_to_one_mill(bob)) :-
+    is_legal(wealthy(bob)).
+according_to(4,may_spend_up_to_ten_mill(bob)) :-
+    is_legal(extremely_wealthy(bob)).
+
+% {(must_buy(rolls,bob),must_buy(merc,bob), may_spend_up_to_one_mill(bob)} is a min. inconsistent set.
+
+opposes(must_buy(rolls,bob),must_buy(merc,bob)) :-
+    is_legal(may_spend_up_to_one_mill(bob)).
+
+opposes(must_buy(rolls,bob),may_spend_up_to_one_mill(bob)) :-
+    is_legal(must_buy(merc,bob)).
+
+opposes(must_buy(merc,bob),may_spend_up_to_one_mill(bob)) :-
+    is_legal(must_buy(rolls,bob)).
+
+opposes(X,Y):-opposes(Y,X).
+
+subject_to(3,1).
+subject_to(3,2).
+despite(3,4).
+
+% Encoding for 'despite'
+defeated(R,C,R1) :-
+    according_to(R,C),according_to(R1,C1),despite(R,R1).
+
+% Encoding for 'subject_to'
+defeated(R,C,R1) :-
+    according_to(R,C), legally_valid(R1,C1),
+    opposes(C,C1), subject_to(R1,R).
+
+% Encoding for 'strong_subject_to'
+defeated(R,C,R1) :-
+    according_to(R,C), legally_valid(R1,C1),
+    strong_subject_to(R1,R).
+
+not_legally_valid(R) :- defeated(R,C,R1).
+
+legally_valid(R,C) :- 
+    according_to(R,C), not not_legally_valid(R).
+
+is_legal(C):-legally_valid(R,C).
+\end{lstlisting}
+Running the the program gives exactly 2 answer sets corresponding to the legal models described above. Now if we add say $strong\_subject\_to(3,1)$ to the set of modifiers then we get exactly one legal model/answer set where exactly rule 3 and rule 2 are legally valid but not rule 1 because it has been invalidated due to rule 3 being legally valid with no regard for the minimal inconsistent sets.
+
+Lastly, if we add $extremely\_wealthy(bob)$ to the set of facts, then we get a single legal model/answer set where exactly rule 1, rule 2 and rule 4 are legally valid. This is because the rule 3 has been invalidated and hence there are no constraints now on the validity of rule 1 and rule 2. See appendix for further remarks on this example.
+
+
+Let us consider some further modifications to the example discussed above. First, we wish to remind the reader that if there was a 5th rule in this rule set and we had a $despite(4,5)$ modifier, then as long as the precondition of rule 4 is true, it would still invalidate rule 3 even if rule 4 itself got invalidated by rule 5.
 
 However, in the case of $subject\_to$ and $strong\_subject\_to$, the dominating rules needs to be legally valid to invalidate the subordinate rule. 
 

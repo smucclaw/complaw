@@ -3,7 +3,7 @@
 
 
 \subsection{Introduction}
-The purpose of this section is to give an account of the work we have been doing using Answer Set Programming (ASP) to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Here we will not go too much into the details of how various L4 language constructs map to the ASP formalisation. Our intention, rather, is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable and intuitive and respecting the idea of having an `isomorphism' between the rules and the encoding. Going forward, our intention is to develop a method to compile L4 code to a suitable ASP representation like the one we shall now present. We formalize the notion of what it means to `satisfy' a rule set. We will do this in a way that is most amenable to ASP. Please see the appendix for a brief overview of ASP and references for further reading.\\
+The purpose of this section is to give an account of the work we have been doing using Answer Set Programming (ASP) to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Our intention is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable and intuitive and respecting the idea of having an `isomorphism' between the rules and the encoding. Please see the appendix for a brief overview of ASP and references for further reading.\\
 
 Our work in this section is inspired by \cite{DBLP:conf/iclp/WanGKFL09}. Readers will note that there are similarities between the use of predicates such as $according\_to$, $defeated$, $opposes$ in our ASP encoding, to reason about rules interacting with each other, and similar predicates that the authors of \cite{DBLP:conf/iclp/WanGKFL09} use in their work. However our ASP implementation is much more specific to legal reasoning whereas they seek to implement very general logic based reasoning mechanisms. We independently developed our `meta theory' for how rule modifiers interact with the rules and with each other and there are further original contributions like a proposed axiom system for what we call `legal models'. An interesting avenue of future work could be to compare our approaches within the framework of legal reasoning.
 
@@ -24,7 +24,7 @@ A set $S$ of $is\_legal$ and $legally\_valid$ predicates is called a \textit{leg
 \begin{description}
 \item[(A1)]$\forall f \in F$ $is\_legal(f) \in S$.
 
-\item[(A2)] $\forall r \in R$, if $legally\_valid(r,C_{r}) \in S$. then $S\models is\_legal(pre\_con(r))$ and $S\models is\_legal(C_{r})$ \footnote{By $S\models is\_legal(pre\_con(r))$ we mean that for each positive atom $b_{i}$ in the conjunction, $is\_legal(b_{i}) \in S$ and for each negated body atom $not$ $b_{j}$ in the conjunction $is\_legal(b_{j})\notin S$ }
+\item[(A2)] $\forall r \in R$, if $legally\_valid(r,C_{r}) \in S$. then $S\models is\_legal(pre\_con(r))$ and $S\models is\_legal(C_{r})$ \footnote{By $S\models is\_legal(pre\_con(r))$ we mean that for each positive atom $b_{i}$ in the conjunction, $is\_legal(b_{i}) \in S$ and for each negation-as-failure body atom $not$ $b_{j}$ in the conjunction $is\_legal(b_{j})\notin S$ }
 
 \item[(A3)] $\forall c$, if $is\_legal(c) \in S$, then either $c\in F$ or there exists $r \in R$ such that $legally\_valid(r,C_{r}) \in S$ and $c= C_{r}$.
 
@@ -51,9 +51,7 @@ A4--A6 describe the semantics of the three modifiers. The intuition for the thre
 
 A7 says essentially that A4--A6 represent the only ways in which a rule whose pre-condition is true may nevertheless be invalidated, and any rule whose precondition is satisfied and is not invalidated directly by some instance of A4--A6, must be in force. 
 
-
-\subsection{Non-existence of legal models}
-Note that there may be configurations for which no legal models exist. This is most easily seen in the case where there is only one rule, the pre-condition of that rule is given as fact, and the rule is strongly subject to itself. See the appendix for some further examples of `pathological' rule configurations.
+Note that there maybe legal rule configurations for which no legal models exist. See the appendix for a discussion of some 'pathological' rule configurations.
 
 \subsection{ASP encoding}
 Here is an ASP encoding scheme given a configuration $Config = (R,F,M,I)$ of legal rules.
@@ -110,73 +108,37 @@ $Proof$ See Appendix. $\square$
 
 
 \subsection{Example}
-Let us now give an example to illustrate the various concepts~/~modifiers discussed above.
-Consider 4 basic rules:
-\begin{enumerate}
-  \item If Bob is wealthy, he must buy a Rolls-Royce.
-  \item If Bob is wealthy, he must buy a Mercedes.
-  \item If Bob is wealthy, he may spend up to 2 million dollars on cars.
-  \item If Bob is extremely wealthy, he may spend up to 10 million dollars on cars.
-\end{enumerate}
-Suppose we know that the Rolls-Royce and Mercedes together cost more
-than 2 million but each is individually less than 2 million. We also
-have that rules 1 and 2 are each subject to rule 3 and despite rule 1,
-rule 4 holds. Additionally, we also have the fact that Bob is
-wealthy. In this situation we would expect 2 legal models. One in which
-exactly rule 1 and rule 3 are legally valid and one in which exactly
-rule 2 and rule 3 are legally valid. Let us see what our encoding
-looks like.
+Let us see how the running example would work in the ASP setting. 
 \begin{lstlisting}[language=Prolog, numbers=left]
-is_legal(wealthy(bob)).
-% Rules
-according_to(1,must_buy(rolls,bob)) :- is_legal(wealthy(bob)).
-according_to(2,must_buy(merc,bob)) :- is_legal(wealthy(bob)).
-according_to(3,may_spend_up_to_one_mill(bob)) :-
-    is_legal(wealthy(bob)).
-according_to(4,may_spend_up_to_ten_mill(bob)) :-
-    is_legal(extremely_wealthy(bob)).
+is_legal(is_workday(d)).
+is_legal(is_car(v)).
+is_legal(is_highway(r)).
+is_legal(is_sports_car(v)).
 
-% {(must_buy(rolls,bob),must_buy(merc,bob), may_spend_up_to_one_mill(bob)} is a min. inconsistent set.
+despite(1,2).
+strong_subject_to(3,2).
 
-opposes(must_buy(rolls,bob),must_buy(merc,bob)) :-
-    is_legal(may_spend_up_to_one_mill(bob)).
-
-opposes(must_buy(rolls,bob),may_spend_up_to_one_mill(bob)) :-
-    is_legal(must_buy(merc,bob)).
-
-opposes(must_buy(merc,bob),may_spend_up_to_one_mill(bob)) :-
-    is_legal(must_buy(rolls,bob)).
-
-opposes(X,Y):-opposes(Y,X).
-
-subject_to(3,1).
-subject_to(3,2).
-despite(3,4).
+according_to(1,max_spd(v,d,r,90)):-is_legal(is_workday(d)),
+is_legal(is_car(v)).
+according_to(2,max_spd(v,d,r,130)):-is_legal(is_highway(r)),is_legal(is_car(v)).
+according_to(3,max_spd(v,d,r,320)):-is_legal(is_highway(r)),is_legal(is_sports_car(v)).
 
 % Encoding for 'despite'
 defeated(R,C,R1) :-
-    according_to(R,C),according_to(R1,C1),despite(R,R1).
-
-% Encoding for 'subject_to'
+    according_to(R,C), according_to(R1,C1), despite(R,R1).
+%Encoding for 'subject_to'
 defeated(R,C,R1) :-
     according_to(R,C), legally_valid(R1,C1),
     opposes(C,C1), subject_to(R1,R).
-
 % Encoding for 'strong_subject_to'
 defeated(R,C,R1) :-
     according_to(R,C), legally_valid(R1,C1),
     strong_subject_to(R1,R).
 
 not_legally_valid(R) :- defeated(R,C,R1).
-
-legally_valid(R,C) :- 
-    according_to(R,C), not not_legally_valid(R).
-
+legally_valid(R,C):-according_to(R,C),not not_legally_valid(R).
 is_legal(C):-legally_valid(R,C).
 \end{lstlisting}
-Running the the program gives exactly 2 answer sets corresponding to the legal models described above. Now if we add say $strong\_subject\_to(3,1)$ to the set of modifiers then we get exactly one legal model/answer set where exactly rule 3 and rule 2 are legally valid but not rule 1 because it has been invalidated due to rule 3 being legally valid with no regard for the minimal inconsistent sets.
-
-Lastly, if we add $extremely\_wealthy(bob)$ to the set of facts, then we get a single legal model/answer set where exactly rule 1, rule 2 and rule 4 are legally valid. This is because the rule 3 has been invalidated and hence there are no constraints now on the validity of rule 1 and rule 2. See appendix for further remarks on this example.
 
 
 
