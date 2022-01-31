@@ -19,7 +19,7 @@ an L4 module is essentially composed of four sections:
 \end{itemize}
 
 To illustrate these notions, we will elaborate on the speed limit example of
-\secref{sec:resasoning_with_rules}. 
+\secref{sec:reasoning_with_rules}. 
 
 
 
@@ -199,7 +199,7 @@ $\forall \overrightarrow{v : T}.\; Pre \overrightarrow{v}
 and it may seem that a separate rule syntax is redundant. This is not so,
 because the specific structure of rules makes them amenable to transformations
 that are useful for defeasible reasoning, as discussed in 
-\secrefs{sec:resasoning_with_rules} and \ref{sec:defeasible_classical}.
+\secrefs{sec:reasoning_with_rules} and \ref{sec:defeasible_classical}.
 
 Apart from user-defined rules and rules obtained by transformation, there are
 system generated rules: For each subclass relation \texttt{$C$ extends $B$}, a
@@ -218,6 +218,10 @@ assert <maxSpFunctional> {SMT: {valid}}
 \end{figure}
 
 
+% ----------------------------------------------------------------------
+\subsection{Assertions}\label{sec:assertions}
+
+
 The purpose of our formalization efforts is to be able to make assertions
 and prove them, such as the statement in \figref{fig:assertions_app} which claims
 that the predicate 
@@ -225,12 +229,6 @@ that the predicate
 road, the speed will be the same. Instead of a universal quantification, we
 here use variables \texttt{inst...} that have been declared globally, because they
 produce more readable (counter-)models. 
-
-
-
-% ----------------------------------------------------------------------
-\subsection{Assertions}\label{sec:assertions}
-
 
 Assertions are statements that the L4 system is meant to verify or to
 refute -- differently said, they are proof obligations. These assertions are verified
@@ -255,7 +253,7 @@ maximal speed: if the vehicle is a car, the day a workday and the road a
 highway, the maximal speed can be 90 or 130, depending on the rule applied.
 
 
-The assertion \texttt{maxSpFunctional} of \figref{fig:assertions} can be considered an essential
+The assertion \texttt{maxSpFunctional} of \figref{fig:assertions_app} can be considered an essential
 consistency requirement and a rule system violating it is inconsistent \wrt{} the intended semantics of \texttt{maxSp}. One
 remedial action is to declare one of the rules as default and the other rule
 as overrriding it.

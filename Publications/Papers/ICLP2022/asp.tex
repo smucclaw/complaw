@@ -3,11 +3,12 @@
 
 
 \subsection{Introduction}
-The purpose of this section is to give an account of the work we have been doing using Answer Set Programming (ASP) to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Our intention is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable and intuitive and respecting the idea of having an `isomorphism' between the rules and the encoding. Please see the appendix for a brief overview of ASP and references for further reading.\\
+The purpose of this section is to give an account of the work we have been doing using Answer Set Programming (ASP) to formalize and reason about legal rules. This approach is complementary to the one described before using SMT solvers. Our intention is to present how some core legal reasoning tasks can be implemented in ASP while keeping the ASP representation readable and intuitive and respecting the idea of having an `isomorphism' between the rules and the encoding. Please see the appendix for a brief overview of ASP and references for further reading.
 
 Our work in this section is inspired by \cite{DBLP:conf/iclp/WanGKFL09}. Readers will note that there are similarities between the use of predicates such as $according\_to$, $defeated$, $opposes$ in our ASP encoding, to reason about rules interacting with each other, and similar predicates that the authors of \cite{DBLP:conf/iclp/WanGKFL09} use in their work. However our ASP implementation is much more specific to legal reasoning whereas they seek to implement very general logic based reasoning mechanisms. We independently developed our `meta theory' for how rule modifiers interact with the rules and with each other and there are further original contributions like a proposed axiom system for what we call `legal models'. An interesting avenue of future work could be to compare our approaches within the framework of legal reasoning.
 
-The work in this section builds on the work in \cite{morris21:_const_answer_set_progr_tool} and hence uses some of the same notation and terminology. The author of \cite{morris21:_const_answer_set_progr_tool} was a member of the same research group as the authors of this paper at SMU in 2020--2021.
+The work in this section builds on the work in \cite{morris21:_const_answer_set_progr_tool} and hence uses some of the same notation and terminology. 
+% The author of \cite{morris21:_const_answer_set_progr_tool} was a member of the same research group as the authors of this paper at SMU in 2020--2021.
 
 
 \subsection{Formal Setup}
@@ -54,47 +55,34 @@ A7 says essentially that A4--A6 represent the only ways in which a rule whose pr
 Note that there maybe legal rule configurations for which no legal models exist. See the appendix for a discussion of some 'pathological' rule configurations.
 
 \subsection{ASP encoding}
-Here is an ASP encoding scheme given a configuration $Config = (R,F,M,I)$ of legal rules.
+Here is an ASP encoding scheme for a configuration $Config = (R,F,M,I)$ of legal rules.
 \begin{lstlisting}[language=Prolog, numbers=left]
 % For any f in F, we have:
 is_legal(f). 
-
 % All the modifiers get added as facts like for example:
 despite(1,2).
-
 % Any rule r in R is encoded using the general schema:
 according_to(r,C_r):-is_legal(pre_con(r)).
-
 % Given a minimal inconsistent set {a_1,a_2,...,a_n}, this corresponds to a set of rules:
 opposes(a_1,a_2):-is_legal(a_2),is_legal(a_3),...,is_legal(a_n).
-opposes(a_1,a_3):-is_legal(a_2),is_legal(a_4)...,is_legal(a_n).
-               .
-               .
-               .
+opposes(a_1,a_3):-is_legal(a_2),is_legal(a_4)...,is_legal(a_n).  % etc ...
 opposes(a_n-1,a_n):-is_legal(a_1),...,is_legal(a_n-2).               
-
 % Opposes is a symmetric relation
 opposes(X,Y):-opposes(Y,X).
-
-
 % Encoding for 'despite'
 defeated(R,C,R1) :-
     according_to(R,C), according_to(R1,C1), despite(R,R1).
-
 %Encoding for 'subject_to'
 defeated(R,C,R1) :-
     according_to(R,C), legally_valid(R1,C1),
     opposes(C,C1), subject_to(R1,R).
-
 % Encoding for 'strong_subject_to'
 defeated(R,C,R1) :-
     according_to(R,C), legally_valid(R1,C1),
     strong_subject_to(R1,R).
 
 not_legally_valid(R) :- defeated(R,C,R1).
-
 legally_valid(R,C):-according_to(R,C),not not_legally_valid(R).
-
 is_legal(C):-legally_valid(R,C).
 \end{lstlisting}
 \subsection{Proposition}

@@ -56,7 +56,7 @@ by a translation to logic. Classical, monotonic logic, developed in
 in this area, even though proof support in the form of SAT/SMT solvers has
 made astounding progress in recent years. An alternative approach, based on
 Answer Set Programming, is described in
-\secref{sec:defeasible_asp}. \remam{Added by Avishkar} The guiding principle
+\secref{sec:defeasible_asp}. The guiding principle
 that underlies the work presented in both \secref{sec:defeasible_classical}
 and \secref{sec:defeasible_asp} is that we explore ways to simulate various
 forms of defeasibility seen in law texts on seemingly less expressive
@@ -67,7 +67,9 @@ verification and model checking tasks. In \secref{sec:defeasible_asp} we show
 how to handle defeasibility operators via encodings in Answer Set Programming
 (ASP) which has only \emph{negation as failure}, interpreted under the
 \emph{stable model semantics} as the core non-monotonic operator. We conclude
-in \secref{sec:conclusions}.
+in \secref{sec:conclusions}.\footnote{Note for the reviewers: This file
+  contains an appendix that is not meant to appear in the conference
+  proceedings but will be made available on \texttt{arXiv.org}.}
 
 
 \paragraph{Related work}
@@ -96,12 +98,15 @@ and the NAI Suite
 deontic logic rather than defeasible reasoning (the former is so far not
 considered in our L4 version).
 
-As a result of a long series of logics, see for example
-\citep{governatori_carnead_defeas_logic_icail_2011,governatori21:_unrav_legal_refer_defeas_deont_logic},
-Governatori and colleagues have developed the Turnip system
+As a result of a long series of logics,
+\cite{governatori21:_unrav_legal_refer_defeas_deont_logic} 
+and colleagues have developed the Turnip system
+% As a result of a long series of logics, see for example
+% \citep{governatori_carnead_defeas_logic_icail_2011,governatori21:_unrav_legal_refer_defeas_deont_logic},
+% Governatori and colleagues have developed the Turnip system
 %\footnote{\url{https://turnipbox.netlify.com/}} 
 that is based on a
-combination of defeasible and deontic logic. The system is applied, among
+combination of defeasible and deontic logic and which is applied, among
 others, to modelling traffic rules
 \citep{governatori_Traffic_Rules_Encoding_using_Defeasible_jurix_2020}.
 
@@ -111,8 +116,8 @@ theory \citep{hart_concept_of_law_1997}, there are sometimes diverging
 proposals for integrating defeasibility, sometimes opting for non-monotonic
 logics \citep{hage_law_and_defeasibility_2003}, sometimes taking a more
 classical stance \citep{alchourron_makinson_hierarchies_of_regulations_1981}. 
-Defeasible rule-based reasoning in the context of argumentation theory is
-discussed in \citep{dung_argumentation_theory_1995,amgoud_besnard_rule_based_argumentation_systems_2019}.
+% Defeasible rule-based reasoning in the context of argumentation theory is
+% discussed in \citep{dung_argumentation_theory_1995,amgoud_besnard_rule_based_argumentation_systems_2019}.
 
 On a more practical side, Answer Set Programming (ASP) \citep{asp_background}
 goes beyond logic programming and increasingly integrates techniques from
