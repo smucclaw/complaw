@@ -189,8 +189,7 @@ is_legal(C):-legally_valid(R,C).
 \end{lstlisting}
 Running the the program gives exactly 2 answer sets corresponding to the legal models described above. Now if we add say $strong\_subject\_to(3,1)$ to the set of modifiers then we get exactly one legal model/answer set where exactly rule 3 and rule 2 are legally valid but not rule 1 because it has been invalidated due to rule 3 being legally valid with no regard for the minimal inconsistent sets.
 
-Lastly, if we add $extremely\_wealthy(bob)$ to the set of facts, then we get a single legal model/answer set where exactly rule 1, rule 2 and rule 4 are legally valid. This is because the rule 3 has been invalidated and hence there are no constraints now on the validity of rule 1 and rule 2. See appendix for further remarks on this example.
-
+If we add $extremely\_wealthy(bob)$ to the set of facts, then we get a single legal model/answer set where exactly rule 1, rule 2 and rule 4 are legally valid. This is because the rule 3 has been invalidated and hence there are no constraints now on the validity of rule 1 and rule 2. 
 
 Let us consider some further modifications to the example discussed above. First, we wish to remind the reader that if there was a 5th rule in this rule set and we had a $despite(4,5)$ modifier, then as long as the precondition of rule 4 is true, it would still invalidate rule 3 even if rule 4 itself got invalidated by rule 5.
 
