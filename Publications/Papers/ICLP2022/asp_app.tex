@@ -24,8 +24,7 @@ with respect to an $Herbrand$ $interpretation$. Please see
 
 \section{ASP encoding}
 Here we recap the ASP encoding scheme given a configuration $Config =
-(R,F,M,I)$ of legal rules. We will refer to this in the proof of lemma in \secref{},
-which will be given next. \remms{no hardcoding of refs}
+(R,F,M,I)$ of legal rules. We will refer to this in the proof of \propositionref{lemma:legal_model_of_config} from the ASP section which will be given next. \remms{no hardcoding of refs}
 \begin{lstlisting}[language=Prolog, numbers=left]
 % For any f in F, we have:
 is_legal(f). 
@@ -84,7 +83,7 @@ is_legal(C):-legally_valid(R,C).
 
 
 
-\section{Proof of Proposition in \secref{}}\label{sec:proofs}
+\section{Proof of \propositionref{lemma:legal_model_of_config}}
 
 Firstly note, that the converse of the proposition is false. That is, there are configurations and legal models of those configurations that do not correspond to any answer set of the ASP encoding. A simple example of this is the following: Consider the configuration where there are only 2 rules:\\ (1): $a\rightarrow a$\\
 (2): $not$ $a\rightarrow b\\$
