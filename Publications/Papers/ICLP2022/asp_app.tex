@@ -24,7 +24,7 @@ with respect to an $Herbrand$ $interpretation$. Please see
 
 \section{ASP encoding}
 Here we recap the ASP encoding scheme given a configuration $Config =
-(R,F,M,I)$ of legal rules. We will refer to this in the proof of lemma in 5.7,
+(R,F,M,I)$ of legal rules. We will refer to this in the proof of lemma in \secref{},
 which will be given next. \remms{no hardcoding of refs}
 \begin{lstlisting}[language=Prolog, numbers=left]
 % For any f in F, we have:
@@ -84,9 +84,9 @@ is_legal(C):-legally_valid(R,C).
 
 
 
-\section{Proof of Lemma 4 in 5.7}\label{sec:proofs}
+\section{Proof of Proposition in \secref{}}\label{sec:proofs}
 
-Firstly note, that the converse of the lemma is false. That is, there are configurations and legal models of those configurations that do not correspond to any answer set of the ASP encoding. A simple example of this is the following: Consider the configuration where there are only 2 rules:\\ (1): $a\rightarrow a$\\
+Firstly note, that the converse of the proposition is false. That is, there are configurations and legal models of those configurations that do not correspond to any answer set of the ASP encoding. A simple example of this is the following: Consider the configuration where there are only 2 rules:\\ (1): $a\rightarrow a$\\
 (2): $not$ $a\rightarrow b\\$
 
 Here as usual, the $not$ in the body of the second rule denotes negation-as-failure. There are no other facts, modifiers or minimal inconsistent sets. Then for this configuration $\{legally\_valid(1,a), is\_legal(a)\}$ is a legal model but it does not correspond to any answer set of the ASP encoding. As explained in \citep{KRR_notes}, this is essentially due to the fact that not all minimal supported models of a logic program are stable models. See \citep{KRR_notes} for the example given above and a further discussion on this topic.  Now we shall proceed to the proof of the lemma.
@@ -121,9 +121,9 @@ Consider the configuration where there are 2 rules:\\ $(1)$ $a\rightarrow b$\\
 $(2)$ $b\rightarrow c$\\
 The only fact is $is\_legal(a)$, there is one modifier $subject\_to(2,1)$ and there is one minimal inconsistent set $\{b,c\}$. Then this rule configuration has no legal models. 
 
-\section{Further remarks on example in 5.8}
+\section{Further ASP example}
 
-Here we give a slightly more involved example to illustrate further, some of the ASP  ~/~modifiers.
+Here we give a slightly more involved example to further illustrate the ASP encoding
 Consider 4 basic rules:
 \begin{enumerate}
   \item If Bob is wealthy, he must buy a Rolls-Royce.

@@ -6,13 +6,8 @@ relation to other rules. We have notably presented two encodings in classical
 logic (\secrefs{sec:restr_precond} and \ref{sec:restr_deriv}) and explained
 how they are related (\secref{sec:comparison}). Quite a different approach,
 based on Answer Set Programming, is presented in
-\secref{sec:defeasible_asp}. \remam{Added by Avishkar} All the encodings are motivated by the need to explore the implementation of various forms of defeasibility in logics for which well developed and powerful solvers already exist.  
-
-An experimental implementation of the L4 ecosystem is under
-way\footnote{\url{https://github.com/smucclaw/baby-l4}}. The interaction with
-SMT solvers is done through an SMT-LIB \citep{BarFT_SMTLIB} interface. Advanced
-solvers, such as Z3 \citep{demoura_bjorner_z3_2008}, provide good support for
-quantification. \remms{Say something more about the ASP part}
+\secref{sec:defeasible_asp}. \remam{Added by Avishkar} All the encodings are motivated by the need to explore the implementation of various forms of defeasibility in logics for which well developed and powerful solvers such as SMT solvers and ASP solvers already exist. The ASP based and SMT based approaches are complimentary to each other. ASP's closed-world-assumption is useful when a legal verdict must be reached with potentially incomplete information, when the truth value of every atom is not explicitly known. For example in the speed limit example, unless it is known explicitly that the car in question was a sports car, the ASP solver would always return a speed limit lower than $320$. The SMT solver would generate two models, one in which the car is a sports car and one in which it is not. This could lead to two different speed limits, hence requiring human intervention to determine the true speed limit in the scenario being considered. On the other hand, when one does model checking or wants to reason about meta-properties of the rules such as soundness of the rule-set, the SMT solver approach is more suited than the ASP approach. Intuitively, here we want to allow all possible scenarios rather than restricting the reasoning to a particular scenario being considered. However, we are still at the beginning of the journey. To allow the two approaches to work together coherently and seamlessly, a theoretical comparison of the classical and ASP semantics presented here still has to be carried out, and it has to be propped up by an empirical evaluation. For this purpose, we are currently in the process of coding some real-life law texts in L4, such as Singapore's Personal Data Protection Act \citep{ppda}.
+An experimental implementation of the L4 ecosystem is under way\footnote{\url{https://github.com/smucclaw/baby-l4}}. The interaction with SMT solvers is done through an SMT-LIB \citep{BarFT_SMTLIB} interface. Advanced solvers, such as Z3 \citep{demoura_bjorner_z3_2008}, provide good support for quantification. \remms{Say something more about the ASP part}
 
 
 % , but it has not yet
@@ -28,11 +23,7 @@ quantification. \remms{Say something more about the ASP part}
 % quantification, reasoning with quantifiers is crucial, and the best support
 % currently seems to be provided by Z3 \citep{demoura_bjorner_z3_2008}.
 
-We are still at the beginning of the journey. A theoretical comparison of the
-classical and ASP approaches presented here still has to be carried out, and
-it has to be propped up by an empirical evaluation. For this purpose, we are
-currently in the process of coding some real-life law texts in L4, such as
-Singapore's Personal Data Protection Act \citep{ppda}.
+
 
 % We are
 % fully aware of shortcomings of the current L4, which will strongly evolve in
