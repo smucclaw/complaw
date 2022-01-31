@@ -1,12 +1,19 @@
-\section{Proofs: Comparison of  Rule Transformation Strategies}\label{sec:comparison_proofs}
+\section{Rule Transformation Strategies}\label{sec:rule_transformation_strategies}
 
+In \secref{sec:rule_modifiers_in_classical_logic}, we have discussed one
+approach for coding defeasibility in a classical, monotonic logic. We will now
+present a second approach (\secref{sec:restr_deriv}) that can potentially lead to more compact
+preconditions, but that is more complex because it requires a change of the
+signature of predicates. It has so far not been implemented. We compare the
+two approaches in \secref{sec:comparison}, showing that they produce
+essentially the same derivable models.
 
 % ......................................................................
-\subsubsection{Restriction via Derivability}\label{sec:restr_deriv}
+\subsection{Restriction via Derivability}\label{sec:restr_deriv}
 
-We now give an alternative reading of \texttt{restrictSubjectTo}. To
+We now give an alternative reading of \texttt{restrictSubjectTo} introduced in
+\secref{sec:preprocessing}. To
 illustrate the point, let us take a look at a simple propositional example.
-\remms{Move into appendix altogether. Save 1.5 pages}
 
 \begin{example}\label{ex:small_propositional} Take the definitions:
 \begin{lstlisting}
@@ -134,26 +141,6 @@ sets, we obtain formula sets ${\cal F}_P$ respectively ${\cal F}_D$ by
   ${\cal M}_D$ of ${\cal F}_D$.
 \end{proposition}
 
-\begin{proposition}\label{lemma:md_to_mp}
-  Any model ${\cal M}_D$ of ${\cal F}_D$ can be transformed into a model
-  ${\cal M}_P$ of ${\cal F}_P$.
-\end{proposition}
-
-The proofs will be given in \ref{sec:comparison_proofs}, respectively after
-\propositionref{lemma:mp_to_md_with_proof} and 
-\propositionref{lemma:md_to_mp_with_proof}.
-In the proof of \propositionref{lemma:md_to_mp}, the
-inversion formulas play a decisive role.
-
-\remms{Rewrite this, the comparison is just above}
-We restate and give detailed proofs of two propositions of \secref{sec:rule_inversion}.
-
-
-\begin{proposition}\label{lemma:mp_to_md_with_proof}
-  Any model ${\cal M}_P$ of ${\cal F}_P$ can be transformed into a model
-  ${\cal M}_D$ of ${\cal F}_D$.
-\end{proposition}
-
 \begin{proof}
   We consider the transformation of a model ${\cal M}_P$ to a model
   ${\cal M}_D$, and assume ${\cal M}_P$ is a model of ${\cal F}_P$. 
@@ -205,7 +192,7 @@ We restate and give detailed proofs of two propositions of \secref{sec:rule_inve
 \end{proof}
 
 
-\begin{proposition}\label{lemma:md_to_mp_with_proof}
+\begin{proposition}\label{lemma:md_to_mp}
   Any model ${\cal M}_D$ of ${\cal F}_D$ can be transformed into a model
   ${\cal M}_P$ of ${\cal F}_P$.
 \end{proposition}

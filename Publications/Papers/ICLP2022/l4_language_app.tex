@@ -1,8 +1,37 @@
-\section{An Overview of the L4 Language: Details}\label{sec:l4_language_app}
+% Integrates the text that was in l4_language.tex
 
-Let us give some more details about the L4 language: its class and type
-definition mechanism, and the way it handles proof obligations.
-\remms[inline]{Integrate l4\_language.tex}
+\section{An Overview of the L4 Language}\label{sec:l4_language_app}
+
+This section gives an account of the L4 language as it is currently defined --
+as an experimental language, L4 will evolve over the next months. In our
+discussion, we will ignore some features such as a natural language interface
+\citep{listemnmaa2021cnl} which are not relevant for the topic of this paper
+but are relevant in the future.
+
+As a language intended for representing legal texts and reasoning about them,
+an L4 module is essentially composed of four sections:
+\begin{itemize}
+\item a terminology in the form of \emph{class definitions};
+\item \emph{declarations} of functions and predicates;
+\item \emph{rules} representing the core of a law text, specifying what is
+  considered as legal behaviour;
+\item \emph{assertions} for stating and proving properties about the rules.
+\end{itemize}
+
+To illustrate these notions, we will elaborate on the speed limit example of
+\secref{sec:resasoning_with_rules}. 
+
+
+
+
+% \section{An Overview of the L4 Language: Details}\label{sec:l4_language_app}
+
+% Let us give some more details about the L4 language: its class and type
+% definition mechanism, and the way it handles proof obligations.
+% \remms[inline]{Integrate l4\_language.tex}
+
+
+
 
 % ----------------------------------------------------------------------
 \subsection{Terminology and Class Definitions}\label{sec:classdefs}
@@ -40,7 +69,8 @@ from another class via \texttt{extends} are implicitly derived from
 be called a subclass of $C$, and the immediate subclasses of \texttt{Class}
 will be called \emph{sorts} in the following. Intuitively, classes are meant
 to be sets of entitities, with subclasses being interpreted as
-subsets. Different subclasses of a class are not meant to be disjoint.
+subsets. Different subclasses of a class are not necessarily disjoint, but can
+be made so by introducing class disjointness axioms.
 
 Class definitions can come with attributes, in braces. These attributes can be
 of simple type, as in the given example, or of higher type (the notion of type
@@ -94,9 +124,6 @@ subclass of sort $S$ gives rise to a declaration \texttt{is$C$: $S$ ->
 corresponding class inclusion axiom, are generated
 automatically.
 
-Two classes derived from the same base class (thus: \texttt{$C_1$ extends $B$}
-and \texttt{$C_2$ extends $B$}) are not necessarily disjoint. 
-
 From the subclass relation, a \emph{subtype} relation $\preceq$ can be defined
 inductively as follows: if \texttt{$C$ extends $B$}, then $C \preceq B$, and
 for types $T_1, \dots, T_n, T_1', \dots, T_n'$,
@@ -116,13 +143,97 @@ particular,
 \end{itemize}
 
 
+% ----------------------------------------------------------------------
+\subsection{Rules}\label{sec:rules}
+
+
+Before discussing rules, a few remarks about \emph{expressions} which are
+their main constituents: L4 supports a simple functional language featuring
+typical arithmetic, Boolean and comparison operators, an \texttt{if .. then
+  .. else} expression, function application, anonymous functions (\ie, lambda
+abstraction) written in the form \texttt{$\backslash$x : T -> e}, class
+instances and field access. A \emph{formula} is just a
+Boolean expression, and, consequently, so are quantified formulas
+\texttt{forall x:T. form} and \texttt{exists x:T. form}.
+
+In its most complete form, a \emph{rule} is composed of a list of variable
+declarations introduced by the keyword \texttt{for}, a precondition introduced
+by \texttt{if} and a post-condition introduced by
+\texttt{then}. \figref{fig:rules_app} repeats the rules of our speed limit
+scenario, stating, respectively, that the maximal speed of cars is 90 km/h on a
+workday,
+and that they may drive at 130 km/h if the road is a highway.  Note that in
+general, both pre- and post-conditions are Boolean formulas that can be
+arbitrarily complex, thus are not limited to conjunctions of literals in the
+preconditions or atomic formulas in the post-conditions.
+
+\begin{figure}[h!]
+  \begin{lstlisting}
+rule <maxSpCarWorkday> 
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isWorkday d
+   then maxSp v d r 90
+rule <maxSpCarHighway>
+   for v: Vehicle, d: Day, r: Road
+   if isCar v && isHighway r
+   then maxSp v d r 130
+\end{lstlisting}
+  \caption{Rules of speed limit example}\label{fig:rules_app}
+\end{figure}
+
+Rules whose precondition is \texttt{true} can be written as \texttt{fact}
+without the \texttt{if} \dots \texttt{then} keywords.
+% \begin{lstlisting}[frame=none,mathescape=true]
+% fact <name> for $v_1$: $T_1$ $\dots$ $v_n$: $T_n$ P $v_1 \dots v_n$
+% \end{lstlisting}
+Rules may not contain free variables, so all variables occurring in the body of
+the rule have to be declared in the \texttt{for} clause. In the absence of
+variables to be declared, the \texttt{for} clause can be omitted. 
+Intuitively, a rule
+\begin{lstlisting}[frame=none,mathescape=true]
+  rule <r> for $\overrightarrow{v : T}$ if Pre $\overrightarrow{v}$ then Post $\overrightarrow{v}$
+\end{lstlisting}
+corresponds to a universally quantified formula
+$\forall \overrightarrow{v : T}.\; Pre \overrightarrow{v}
+\IMPL Post \overrightarrow{v}$ that could directly be written as a fact,
+and it may seem that a separate rule syntax is redundant. This is not so,
+because the specific structure of rules makes them amenable to transformations
+that are useful for defeasible reasoning, as discussed in 
+\secrefs{sec:resasoning_with_rules} and \ref{sec:defeasible_classical}.
+
+Apart from user-defined rules and rules obtained by transformation, there are
+system generated rules: For each subclass relation \texttt{$C$ extends $B$}, a
+class inclusion axiom of the form \texttt{for x: $S$ if is$C$ x then is$B$ x}
+is generated, where \texttt{is$C$} and \texttt{is$B$} are the characteristic
+predicates and $S$ is the common super-sort of $C$ and $B$.
+
+\begin{figure}[h]
+\begin{lstlisting}
+assert <maxSpFunctional> {SMT: {valid}}
+   maxSp instCar instDay instRoad instSpeed1 &&
+   maxSp instCar instDay instRoad instSpeed2
+   --> instSpeed1 == instSpeed2
+\end{lstlisting}
+  \caption{Assertions of speedlimit example}\label{fig:assertions_app}
+\end{figure}
+
+
+The purpose of our formalization efforts is to be able to make assertions
+and prove them, such as the statement in \figref{fig:assertions_app} which claims
+that the predicate 
+\texttt{maxSp} behaves like a function, \ie{} given the same car, day and
+road, the speed will be the same. Instead of a universal quantification, we
+here use variables \texttt{inst...} that have been declared globally, because they
+produce more readable (counter-)models. 
+
+
 
 % ----------------------------------------------------------------------
 \subsection{Assertions}\label{sec:assertions}
 
 
 Assertions are statements that the L4 system is meant to verify or to
-reject -- differently said, they are proof obligations. These assertions are verified
+refute -- differently said, they are proof obligations. These assertions are verified
 relative to a rule set comprising some or all of the rules and facts stated
 before. 
 
