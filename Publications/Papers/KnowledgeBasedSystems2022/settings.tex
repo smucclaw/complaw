@@ -1,0 +1,61 @@
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage[colorlinks,hyperindex,bookmarks,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{lineno}
+\modulolinenumbers[5]
+
+\usepackage{listings}
+
+% Configuration of lstlisting for L4
+\lstdefinelanguage{L4}
+{morekeywords={
+      assert 
+    , class  
+    , decl   
+    , defn   
+    , extends
+    , lexicon
+    , fact   
+    , rule   
+    , derivable
+    , let   
+    , in    
+    , not   
+    , forall
+    , exists
+    , if   
+    , then 
+    , else 
+    , for  
+    , true 
+    , false
+},    
+sensitive=false,
+morecomment=[l]{\#},
+morestring=[b]",
+}
+
+\lstset{frame=tb,
+  language=L4,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\footnotesize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
+
+%-----------------------------
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 

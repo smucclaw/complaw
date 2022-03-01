@@ -1,46 +1,66 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[review]{elsarticle}
 
+% Packages / global settings
+\input{settings}
+% Macros
+\input{defs}
+
+\journal{Knowledge-Based Systems}
+
+%% Numbered
+% \bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+% \bibliographystyle{model1a-num-names}
+
+\bibliographystyle{elsarticle-num}
 
 \begin{document}
-\title{Overview of the CCLAW L4 project}
-\author{Avishkar Mahajan} 
+
+\begin{frontmatter}
+
+\title{L4: An Expert System for the Law}
+\author{Alfred Ang}
+\author{Jo Hsi Keong}
 \author{Martin Strecker} 
-\author{Meng Weng Wong}
+\address{Centre for Computational Law, Singapore Management University}
+% \maketitle
 
-\maketitle
+\input{abstract}
 
-\section{Introduction}
-% 2 - 3 pages
+\begin{keyword}
 
-\subsection{Overview of CCLAW}
+\end{keyword}
 
-\subsection{Related Work}
+\end{frontmatter}
+
+\linenumbers
 
 
-\section{Overview of the L4 Rule Language}
-% 2 pages
-% --> Martin
+%----------------------------------------------------------------------
+\input{introduction}
 
-\section{Target Languages: Drools and Clara}
+\input{l4}
 
-% 3 pages
+\input{engines}
 
-\subsection{Commonalities}
+\input{generator}
 
-\subsection{Specific properties of Drools}
+\input{explanation}
 
-\subsection{Specific properties of Clara}
+\input{users}
 
-\section{Code Generator}
-% --> Alfred & Jo hsi
-% focus on the edge cases of semantic differences between l4 & rule language formats
+\input{conclusions}
 
-\section{Explanation and Visualization}
+%----------------------------------------------------------------------
+\section*{References}
 
-\section{Case Studies / User Experience}
-
-\cite{CCLAW_project}
-
-\section{Conclusions / Outlook}
+\bibliography{main}
 
 \end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
