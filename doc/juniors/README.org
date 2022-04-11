@@ -76,6 +76,38 @@ Where teamwork is concerned, the business world frequently recommends:
 - [[https://twitter.com/buttpraxis/status/1399057827063238657?s=20][Working With A Fully Remote Team]]
 - [[https://www.justingarrison.com/blog/2021-03-15-the-document-culture-of-amazon/][The Document Culture of Amazon]]
 
+** An Analogy
+
+Imagine a glowing sphere moving in free space. A star, if you will. The star is a person. It has:
+- mass
+- speed
+- direction
+- luminance
+
+What does this have to do with work?
+
+Some people give up easily. When obstacles arise they just stop. They have low momentum, like a balloon.
+
+Some people keep going. They power through challenges. When new difficulties arise they simply work through them and return to the original task. They have high /momentum/, like a bowling ball.
+
+Some people have high ability. They have the intelligence, the curiosity, the life circumstances that allow sustained focus without distraction. They have /speed/. They get things done. You know it when you see it.
+
+But speed isn't enough. Some people also need to be pointed in the right /direction/. Without direction they get labeled "all thrust, no vector". Before the X-Men recruited Quicksilver they found him playing video games in his mother's basement. With direction, they have /velocity/.
+
+/Luminance/ is about communication. It matters to teamwork. Some people are mysterious. Even if they have momentum and velocity it can still be hard to know where they are and what they're doing. Subatomic particles have an excuse: Heisenberg's uncertainty principle. But developers are macroscopic entities working in a field founded on transmitting information through electromagnetic means. It is our job to illuminate and communicate. Even individual contributors communicate: some of the best-documented projects on Github are solo efforts. Nobody enjoys working with a black hole. Don't be one.
+
+Talk about what you're doing; give project updates; when you run into a problem that you can't solve right away, don't just keep trying; share the struggle. We have #rubberduck for that. Sometimes just talking about the problem helps you find a solution: this is /reflection/. Sometimes someone else may have an answer, or a clue. After the problem is solved, come back and share the answer, for the sake of the next person.
+
+We hire for people who come to us with high momentum, high speed, and high luminance. This may be a matter of temperament or training. Either way, it's an important set of qualifications: more important than experience with particular programming languages. Those can be learned. Those are a matter of direction, and it's our job to set that together.
+
+But keep in mind: interstellar distances are immense, and it takes time for even light to crawl across space. This is a metaphor for the time it takes for a new person to join a team and learn new things -- to onboard onto a constellation, if you will.
+
+Our field is pretty advanced, so you can expect the first part of your time with us to be spent coming up to speed with a number of disciplines. You may feel that you can be immediately productive in Python or Javascript, and you may want to reimplement big chunks of our codebase in languages that you already know. However, we do subscribe to the notion of "the right tool for the job", and we chose our languages for good reason. We expect new hires to be patient and to be willing to learn new specialties: new fields, new tools, new languages. We appreciate that learning new things can be hard. Some people don't want to leave the comfort zone of their home star system. But others are willing to venture across the long night to arrive at a new destination. We hope you are one of them.
+
+What new specialties exactly? Programming language theory; compiler theory; specification languages; SAT solving; a variety of logics, first-order, higher-order, and modal; temporal calculi and "[[https://www.amazon.com/Commonsense-Reasoning-Event-Calculus-Approach/dp/0128014164][commonsense reasoning]]". Type theory and functional programming. These should be accessible to the practising computer scientist. But also: business rule systems like BPMN, rule engines like Drools and O'Doyle, ontology systems like Protege and OWL; to the academic mind, these may seem uncomfortably close to industry, and boring. And our specialties have very little to do with the topics that are trendy today: we don't have much interaction with machine learning, neural nets, big data, blockchain. This is what toiling in obscurity looks like. It's not for everybody!
+
+Some people want a lucrative career in CS and programming. It can be: the banks will pay $10,000 to $20,000 a month for functional programmers. So if that's your goal, spend a year or two with us getting really good at FP, then go search MyCareersFuture for "Haskell". That's totally fine. As long as you made some contributions along the way, it's a win-win!
+
 ** Why go through this curriculum?
 
 The world is full of people in situations which do not give them the opportunity to fulfill their potential: they are fish who have been asked to fly, birds who have been asked to swim.
