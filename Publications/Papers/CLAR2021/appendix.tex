@@ -68,34 +68,84 @@ is_legal(C):-legally_valid(R,C).
 Firstly note, that the converse of the lemma is false. That is, there are configurations and legal models of those configurations that do not correspond to any answer set of the ASP encoding. A simple example of this is the following: Consider the configuration where there are only 2 rules:\\ (1): $a\rightarrow a$\\
 (2): $not$ $a\rightarrow b\\$
 
-There are no other facts, modifiers or minimal inconsistent sets. Then for this configuration $\{legally\_valid(1,a), is\_legal(a)\}$ is a legal model but it does not correspond to any answer set of the ASP encoding. As explained in \cite{KRR_notes}, this is essentially due to the fact that not all minimal supported models of a logic program are stable models. See \cite{KRR_notes} for the example given above and a further discussion on this topic.  Now we shall proceed to the proof of the lemma.\\
+There are no other facts, modifiers or minimal inconsistent sets. Then for
+this configuration $\{legally\_valid(1,a),
+is\_legal(a)\}$ is a legal model but it does not correspond to any answer set
+of the ASP encoding. As explained in \cite{KRR_notes}, this is essentially due
+to the fact that not all minimal supported models of a logic program are
+stable models. See \cite{KRR_notes} for the example given above and a further
+discussion on this topic.  Now we shall proceed to the proof of the lemma.
 
-Given a configuration $Config$, let $A_{Config}$ be an answer set of it's ASP encoding and let $S_{A_{Config}}$ be the set of $is\_legal$ and $legally\_valid$ predicates in $A_{Config}$. It is easy to see that $A_{Config}$ satisfies A1-A5. For example if the set $M$ from $Config$ contains $strong\_subject\_to(r_{i}, r_{j})$, then $A_{config}$ would contain $strong\_subject\_to(r_{i}, r_{j})$. Now if $S_{A_{Config}}$ contains $legally\_valid(r_{i}, C_{r_{i}})$, then so would $A_{Config}$. Now, if $pre\_con(r_{j})$ is satisfied in $A_{Config}$, then $according\_to(r_{j},C_{r_{j}})$ is in $A_{Config}$ and therefore $defeated(r_{j}, C_{r_{j}}, r_{i})$ is in $A_{Config}$ by line 44 of the general encoding shown above. Therefore $not\_legally\_valid(r_{j})$ is in $A_{Config}$ by line 48 of the encoding. Therefore by the line 50 of the encoding, $legally\_valid(r_{j},C_{r_{j}})$ is not in $A_{Config}$. Therefore $legally\_valid(r_{j},C_{r_{j}})$ is not in $S_{A_{Config}}$.\\
+Given a configuration $Config$, let $A_{Config}$ be an answer set of it's ASP
+encoding and let $S_{A_{Config}}$ be the set of $is\_legal$ and
+$legally\_valid$ predicates in $A_{Config}$. It is easy to see that
+$A_{Config}$ satisfies A1-A5. For example if the set $M$ from $Config$
+contains $strong\_subject\_to(r_{i}, r_{j})$, then $A_{config}$ would contain
+$strong\_subject\_to(r_{i}, r_{j})$. Now if $S_{A_{Config}}$ contains
+$legally\_valid(r_{i}, C_{r_{i}})$, then so would $A_{Config}$. Now, if
+$pre\_con(r_{j})$ is satisfied in $A_{Config}$, then
+$according\_to(r_{j},C_{r_{j}})$ is in $A_{Config}$ and therefore
+$defeated(r_{j}, C_{r_{j}}, r_{i})$ is in $A_{Config}$ by line 44 of the
+general encoding shown above. Therefore $not\_legally\_valid(r_{j})$ is in
+$A_{Config}$ by line 48 of the encoding. Therefore by the line 50 of the
+encoding, $legally\_valid(r_{j},C_{r_{j}})$ is not in $A_{Config}$. Therefore
+$legally\_valid(r_{j},C_{r_{j}})$ is not in $S_{A_{Config}}$.
 
-Now if $pre\_con(r_{j})$ is not satisfied in $A_{Config}$, then $according\_to(r_{j},C_{r_{j}})$ is not in $A_{Config}$ and so again $legally\_valid(r_{j},C_{r_{j}})$ is not in $A_{Config}$ and therefore not in $S_{A_{Config}}$.\\
+Now if $pre\_con(r_{j})$ is not satisfied in $A_{Config}$, then
+$according\_to(r_{j},C_{r_{j}})$ is not in $A_{Config}$ and so again
+$legally\_valid(r_{j},C_{r_{j}})$ is not in $A_{Config}$ and therefore not in
+$S_{A_{Config}}$.
 
-We shall now show that $S_{A_{Config}}$ satisfies A6 and A7.\\
+We shall now show that $S_{A_{Config}}$ satisfies A6 and A7.
 
-Say the set $M$ contains $subject\_to(r_{i}, r_{j})$ and $legally\_valid(r_{i}, C_{r_{i}})$ is in $S_{A_{Config}}$. Furthermore suppose that there exists some $k\in I$ which contains $C_{r_{i}}$ and $C_{r_{j}}$ such that $is\_legal(k\setminus \{C_{r_{j}}\})\subseteq S_{A_{Config}}$. Then it follows that, $is\_legal(k\setminus \{C_{r_{j}}\})\subseteq A_{Config}$. Therefore due to the way that the $opposes$ predicates are defined in the encoding, it follows that $opposes(C_{r_{i}}, C_{r_{j}})$ is in $A_{Config}$. Now if $pre\_con(r_{j})$ is in $A_{Config}$ then it follows from line 39 of the encoding that, $defeated(r_{j}, C_{r_{j}}, r_{i}) $ is in $A_{Config}$, therefore $legally\_valid(r_{j}, C_{r_{j}})$ is not in $A_{Config}$ and therefore not in $S_{A_{Config}}$.\\
+Say the set $M$ contains $subject\_to(r_{i}, r_{j})$ and
+$legally\_valid(r_{i}, C_{r_{i}})$ is in $S_{A_{Config}}$. Furthermore suppose
+that there exists some $k\in I$ which contains $C_{r_{i}}$ and $C_{r_{j}}$
+such that $is\_legal(k\setminus \{C_{r_{j}}\})\subseteq S_{A_{Config}}$. Then
+it follows that, $is\_legal(k\setminus \{C_{r_{j}}\})\subseteq
+A_{Config}$. Therefore due to the way that the $opposes$ predicates are
+defined in the encoding, it follows that $opposes(C_{r_{i}}, C_{r_{j}})$ is in
+$A_{Config}$. Now if $pre\_con(r_{j})$ is in $A_{Config}$ then it follows from
+line 39 of the encoding that, $defeated(r_{j}, C_{r_{j}}, r_{i}) $ is in
+$A_{Config}$, therefore $legally\_valid(r_{j}, C_{r_{j}})$ is not in
+$A_{Config}$ and therefore not in $S_{A_{Config}}$.
 
-Again as before, if $pre\_con(r_{j})$ is not in $A_{Config}$ then $legally\_valid(r_{j}, C_{r_{j}})$ is not in $A_{Config}$ and therefore not in $S_{A_{Config}}$.\\
+Again as before, if $pre\_con(r_{j})$ is not in $A_{Config}$ then
+$legally\_valid(r_{j}, C_{r_{j}})$ is not in $A_{Config}$ and therefore not in
+$S_{A_{Config}}$.
 
-Suppose $S_{A_{Config}}\models pre\_con(r_{j})$, then $A_{Config}$ satisfies $pre\_con(r_{j})$. So $according\_to(r_{j},C_{j})$ is in $A_{Config}$, then if $legally\_valid(r_{j}, C_{j})$ is not in $A_{Config}$, according to lines 48 and 50 of the encoding it must be the case that $defeated(r_{j},C_{j},r_{k})$ is in $A_{Config}$ for some rule $r_{k}$. But then because of the way that the $defeated$ predicate is defined in lines 35, 39, 44, it must mean that rule $r_{j}$ is invalidated in accordance with either A4, A5 or A6. So $S_{A_{Config}}$ satisfies A7. $\square$
+Suppose $S_{A_{Config}}\models pre\_con(r_{j})$, then $A_{Config}$ satisfies
+$pre\_con(r_{j})$. So $according\_to(r_{j},C_{j})$ is in $A_{Config}$, then if
+$legally\_valid(r_{j}, C_{j})$ is not in $A_{Config}$, according to lines 48
+and 50 of the encoding it must be the case that $defeated(r_{j},C_{j},r_{k})$
+is in $A_{Config}$ for some rule $r_{k}$. But then because of the way that the
+$defeated$ predicate is defined in lines 35, 39, 44, it must mean that rule
+$r_{j}$ is invalidated in accordance with either A4, A5 or A6. So
+$S_{A_{Config}}$ satisfies A7. $\square$
+
 \section{Pathological rule configuration examples}
-In this section we shall briefly give some examples of rule configurations that fail to satisfy certain properties.\\
+In this section we shall briefly give some examples of rule configurations
+that fail to satisfy certain properties.
 
-One may suspect that given any configuration, the ASP encoding only generates answer sets corresponding to subset minimal legal models. However this is not the case. Consider the configuration where there are 3 rules:\\ $(1)$ $a\rightarrow c$\\
+One may suspect that given any configuration, the ASP encoding only generates answer sets corresponding to subset minimal legal models. However this is not the case. Consider the configuration where there are 3 rules:\\ 
+$(1)$ $a\rightarrow c$\\
 $(2)$ $not$ $c\rightarrow e$\\
 $(3)$ $a\rightarrow a$\\
 The only fact is $is\_legal(a)$, and there are 2 modifiers $despite(1,2)$, $strong\_subject\_to(3,2)$. There are no minimal inconsistent sets.\\
 
-For this configuration, the ASP encoding generates two answer sets corresponding to the legal models:\\
-\newline
-$\{is\_legal(a)$, $legally\_valid(3,a)\}$ and $\{is\_legal(a)$, $legally\_valid(3,a)$, $is\_legal(c)$, $legally\_valid(1,c)\}$.\\
+For this configuration, the ASP encoding generates two answer sets
+corresponding to the legal models: \newline $\{is\_legal(a)$,
+$legally\_valid(3,a)\}$ and $\{is\_legal(a)$, $legally\_valid(3,a)$,
+$is\_legal(c)$, $legally\_valid(1,c)\}$.
 
-We suspect that the ASP encoding does only return subset minimal legal models if there is no negation as failure in rule pre-conditions or if there are no $despite$ modifiers, however pursuing this matter fully is left for future work.\\
+We suspect that the ASP encoding does only return subset minimal legal models
+if there is no negation as failure in rule pre-conditions or if there are no
+$despite$ modifiers, however pursuing this matter fully is left for future
+work.
 
-Here we will give an example of a rule configuration that has no legal models even though none of the rule modifiers involve a rule directly being subject to itself.\\
+Here we will give an example of a rule configuration that has no legal models
+even though none of the rule modifiers involve a rule directly being subject
+to itself.
 
 Consider the configuration where there are 2 rules:\\ $(1)$ $a\rightarrow b$\\
 $(2)$ $b\rightarrow c$\\
