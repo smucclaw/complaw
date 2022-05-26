@@ -831,11 +831,12 @@ explains(p_z(W_f),p_y(U),e+1):-createSub(subInst_r_h(W''),e+1).
 query(Y,N-1):-explains(X,Y,N).    
 \end{verbatim}
 we get the atom $tr_{\phi}(q_{d})$. Now consider $\phi'= T(\theta, \theta(q_{d}), q_{d}, tr_{\phi}(q_{d}))$, then $\phi'=\phi$ on the terms in $q_{d}$, that also appear in $q_{o}$, and $\phi' = \theta$ on all other terms. However all the terms that appear in $q_{o}$ also appear in $q_{d}$, since we assumed that $q_{o}$ did not have terms corresponding to existential variables. Also the level of $q_{d}$ is $o$. Hence by the inductive hypothesis we are done.
+
 \begin{figure}
 
     \begin{center}
   \begin{tikzpicture}
-  [level distance = 8mm,
+  [level distance = 16mm,
   level 1/.style={sibling distance=30mm},
   level 2/.style={sibling distance=20mm},
   level 3/.style={sibling distance=10mm},
@@ -844,30 +845,34 @@ we get the atom $tr_{\phi}(q_{d})$. Now consider $\phi'= T(\theta, \theta(q_{d})
   ]
 
   \node {$query(relA(v1),0)$}
-  child {node {$query(relA(v1),1)$}
+  child {node {$$}
     child {node {p}
     }
     child {node {q}
     }
   }
-  child {node {$query(relB(v1,sk(v1)),1)$}
+  child {node {$\lnot$}
     child {node {$\vedge$}
       child {node {p}
       }
       child {node {r}
       }
     }
-    child {node {$query(relB(v1,sk(v1)),1)$}
+  }
+  child {node {$\lnot$}
     child {node {$\vedge$}
       child {node {p}
       }
       child {node {r}
       }
     }
-  };}
+  };
   \end{tikzpicture}
 \end{center}
+
+\caption{Trees}
 \end{figure}
+
 
  
 \subsection{Corollary}
