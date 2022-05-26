@@ -1,8 +1,32 @@
 \section{Code Generator}
 % --> Alfred & Jo hsi
+% intermediate ast
 % focus on the edge cases of semantic differences between l4 & rule language formats
 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main"
 %%% End:
+The code generator currently supports 2 output formats: \href{http://www.clara-rules.org/}{Clara-Rules}
+and \href{https://docs.jboss.org/drools/release/7.58.0.Final/drools-docs/html_single/}{Drools}.
+
+We will primarily use examples from Clara-Rules in this section, as it is the more developed of the two in terms of downstream applications.
+
+\subsection{Transpilation Process}
+
+Code generation is a 3-step process. Firstly, the L4 compiler consumes L4 source code and produces an L4 AST. Our code generator, in turn, consumes the L4 AST, to produce a simplified intermediate ast which has a structure more resembling logic programming source code. Finally, with pretty-printing type-classes, we transform the intermediate AST into a syntax that is consumable for the output languages.
+
+
+\begin{figure}
+    \centering
+    \includegraphics{}
+    \caption{An illustration of the code generation process}
+    \label{fig:code_generation_process}
+\end{figure}
+
+
+\subsubsection{System}
+
+A single 
+
+
