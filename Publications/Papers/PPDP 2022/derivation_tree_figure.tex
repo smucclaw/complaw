@@ -1,0 +1,55 @@
+
+
+\begin{figure}
+\small
+    \begin{center}
+  \begin{tikzpicture}
+  [level distance = 16mm,
+  level 1/.style={sibling distance=60mm},
+  level 2/.style={sibling distance=30mm},
+  level 3/.style={sibling distance=40mm},
+  level 4/.style={sibling distance=18mm},
+  level 5/.style={sibling distance=8mm},
+  ]
+
+  \node {$(relA(v1),0)$}
+  child {node {$(relA(v1),1)$}
+    child {node {$(relA(v1),2)$}
+    }
+    child {node {$(relB(v1,sk(v1)),2)$}
+     child {node {$(relD(v1,sk(v1)),3)$}
+      child 
+      child {
+      }
+    }
+    }
+    child {node {$(relC(v1,sk(v1)),2)$}
+    }
+  }
+  child {node {$(relB(v1,sk(v1)),1)$}
+    child {node {$(relD(v1,sk(v1)),2)$}
+      child 
+      child {
+      }
+    }
+  }
+  child {node {$(relC(v1,sk(v1)),1)$}
+    child {node {$\wedge$}
+      child {
+      }
+      child {
+      }
+    }
+  } ;
+  \end{tikzpicture}
+\end{center}
+\normalsize
+
+\caption{Derivation Tree}
+\end{figure}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 

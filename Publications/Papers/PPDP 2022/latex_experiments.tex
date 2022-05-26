@@ -1,0 +1,134 @@
+% File with various Latex examples - currently not included,
+% can be deleted in final version
+
+\paragraph{Example of proof tree}
+
+$
+\infer[(E\wedge_1)]{\Gamma \vdash A}{
+  \infer{\Gamma \vdash A \wedge B}{\vdash A & \vdash B}
+  }
+\qquad
+\infer[(E\wedge)]{\Gamma \vdash B}{\Gamma \vdash A \wedge B}
+$ 
+
+\paragraph{Example using Tikz}
+
+\begin{figure}[h]
+\begin{center}
+  \begin{tikzpicture}[
+auto,
+light/.style ={rectangle, draw=blue, thick, fill=blue!10,
+  text width=8em, text centered, 
+  minimum height=1em
+},
+dark/.style ={rectangle, draw=blue, thick, fill=blue!25,
+  text width=8em, text centered, 
+  minimum height=1em},
+line/.style ={draw, -latex'},
+dotline/.style ={draw, dotted, -latex'},
+thickline/.style ={draw, thick, -latex'}
+]
+
+\node[light] (ans) {Analyse syntaxique \S~\ref{sec:ans}};
+\node[dark] (typ) [right=of ans] {Typage \S~\ref{sec:typ}};
+\node[dark] (gen) [right=of typ] {Génération d'assembleur \S~\ref{sec:gen}};
+\node[dark] (exec) [above right=of gen] {Exécution assembleur \S~\ref{sec:exec}};
+\node[dark] (graph) [below right=of gen] {Graphe de flot de contrôle \S~\ref{sec:graph}};
+
+\path[->]
+(ans) edge (typ)
+(typ) edge (gen)
+(gen) edge (exec)
+(gen) edge (graph)
+;
+\end{tikzpicture}
+\end{center}
+\caption{Tikz example}
+\end{figure}
+
+
+
+
+\begin{figure}
+
+    \begin{center}
+  \begin{tikzpicture}
+  [level distance = 8mm,
+  level 1/.style={sibling distance=30mm},
+  level 2/.style={sibling distance=20mm},
+  level 3/.style={sibling distance=10mm},
+  level 4/.style={sibling distance=18mm},
+  level 5/.style={sibling distance=8mm},
+  ]
+
+  \node {$\vee$}
+  child {node {$\wedge$}
+    child {node {p}
+    }
+    child {node {q}
+    }
+  }
+  child {node {$\lnot$}
+    child {node {$\wedge$}
+      child {node {p}
+      }
+      child {node {r}
+      }
+    }
+  };
+  \end{tikzpicture}
+\end{center}
+
+\caption{Trees}
+\end{figure}
+
+
+
+\begin{figure}
+
+    \begin{center}
+  \begin{tikzpicture}
+  [level distance = 16mm,
+  level 1/.style={sibling distance=60mm},
+  level 2/.style={sibling distance=30mm},
+  level 3/.style={sibling distance=40mm},
+  level 4/.style={sibling distance=18mm},
+  level 5/.style={sibling distance=8mm},
+  ]
+
+  \node {$(relA(v1),0)$}
+  child {node {$(relA(v1),1)$}
+    child {node {$(relA(v1),2)$}
+    }
+    child {node {$(relB(v1,sk(v1)),2)$}
+     child {node {$(relD(v1,sk(v1)),3)$}
+      child 
+      child {
+      }
+    }
+    }
+    child {node {$(relC(v1,sk(v1)),2)$}
+    }
+  }
+  child {node {$(relB(v1,sk(v1)),1)$}
+    child {node {$(relD(v1,sk(v1)),2)$}
+      child 
+      child {
+      }
+    }
+  }
+  child {node {$(relC(v1,sk(v1)),1)$}
+    child {node {$\vedge$}
+      child {
+      }
+      child {
+      }
+    }
+  };
+  \end{tikzpicture}
+\end{center}
+
+\caption{Trees}
+\end{figure}
+
+
