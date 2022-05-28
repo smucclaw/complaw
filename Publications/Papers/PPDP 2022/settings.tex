@@ -35,7 +35,7 @@
 \usepackage{graphicx}
 %\usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-
+% Is that used anywhere?
 \lstdefinelanguage{L4}
 {morekeywords={
       assert 
@@ -64,8 +64,10 @@ morecomment=[l]{\#},
 morestring=[b]",
 }
 
+
+
 \lstset{frame=tb,
-  language=L4,
+  language=Prolog,
   aboveskip=3mm,
   belowskip=3mm,
   showstringspaces=false,
@@ -75,11 +77,17 @@ morestring=[b]",
   numberstyle=\tiny\color{gray},
   keywordstyle=\color{blue},
   commentstyle=\color{gray},
-  stringstyle=\color{mauve},
+%  stringstyle=\color{mauve},
   breaklines=true,
   breakatwhitespace=true,
   tabsize=2
 }
+
+
+% used for referencing line numbers, see section 8 of lstlisting manual
+\lstset{escapeinside={(*}{*)}}
+
+
 
 %%% Local Variables: 
 %%% mode: latex
