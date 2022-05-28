@@ -80,31 +80,34 @@
 % Main part
 
 \section{Introduction}
-The goal of this paper is to describe a method to automatically genenrate a space of abducibles, that will allow the creation of a fact set that results in the entailment of a given query with respect to a given ASP rule set. \\
+The goal of this paper is to describe a method to automatically genenrate a space of abducibles, that will allow the creation of a fact set that results in the entailment of a given query with respect to a given ASP rule set.
 
-A novel feature of the method is that depth control for proof search is done in a purely declarative way as part of the proof search encoding itself. Furthermore, adding facts to the program automatically triggers a kind of controlled variable substitution where skolem terms or other 'place-holder' terms occurring in abducibles are replaced away so that the resulting proof is simplified, without any need for an explicit representation of equality between terms. We present two main sets of proof-search encodings. One is guaranteed to only produce finite answer sets, but which does not support complete variable substitution in abducibles. The other encoding may produce infinite answer sets in the presence of skolem functions but supports complete variable substitution and still only produces finite answer sets if there are no skolem terms involved. Next we present an encoding which generates a set of directed edges representing a justification graph of any desired depth. The novel encodings for variable substitution and depth control set this work apart from other attempts like [Schuller ref, Petr Homola ref] to realize abduction in a Clingo-like bottom-up reasoner. Unlike sCASP our method keeps the justification production and proof search separate from each other which allows the user to have greater control on the justification produced without affecting the proof search procedure. Furthermore, in general, abduction problems where the input rules involve function symbols often either lead to infinite grounding or infinite backward proof search and problems that are intractable with a top-down reasoning mechanism often yield to a bottom-up reasoner and vice versa. Lastly, as mentioned in the abstract, there may be use cases where one wants to know all the resulting consequences of an abductive solution to a query with respect to a rule-set. Informally one can relate this to the problem of \emph{bi-abduction} which has been explored in separation logic [Bi-ab ref]. Hence our work can be regarded as addressing the problem of \emph{bi-abduction} but in an ASP setting. (However we shall not dwell on this connection any further, instead focus only on the abductive reasoning process). Therefore an abductive reasoner based on a solver like Clingo can complement the abilities of goal directed reasoners like sCASP, CIFF etc.  The rest of the paper is organised as follows. Section~\ref{sec:abductive_proof} provides some further background and motivation for the subject of the paper and also describes the problem being tackled more formally. Section~\ref{sec:derived_asp} presents 3 core sets of meta-rules that facilitate the abductive proof generation process. Section~\ref{sec:sample_problem} describes some formal results about the generated proof trees. Section~\ref{sec:proof_finiteness} discusses applications and comparisons to other work and Section~\ref{sec:conclusion} concludes. 
+A novel feature of the method is that depth control for proof search is done in a purely declarative way as part of the proof search encoding itself. Furthermore, adding facts to the program automatically triggers a kind of controlled variable substitution where skolem\remms{Capitalize?} terms or other 'place-holder' terms occurring in abducibles are replaced away so that the resulting proof is simplified, without any need for an explicit representation of equality between terms. We present two main sets of proof-search encodings. One is guaranteed to only produce finite answer sets, but which does not support complete variable substitution in abducibles. The other encoding may produce infinite answer sets in the presence of skolem functions but supports complete variable substitution and still only produces finite answer sets if there are no skolem terms involved. Next we present an encoding which generates a set of directed edges representing a justification graph of any desired depth. \remms{Set off the related work section from general intro}The novel encodings for variable substitution and depth control set this work apart from other attempts like [Schuller ref, Petr Homola ref] to realize abduction in a Clingo-like bottom-up reasoner. Unlike sCASP our method keeps the justification production and proof search separate from each other which allows the user to have greater control on the justification produced without affecting the proof search procedure. Furthermore, in general, abduction problems where the input rules involve function symbols often either lead to infinite grounding or infinite backward proof search and problems that are intractable with a top-down reasoning mechanism often yield to a bottom-up reasoner and vice versa.\remms{Sounds as if reasoning style does not matter} Lastly, as mentioned in the abstract, there may be use cases where one wants to know all the resulting consequences of an abductive solution to a query with respect to a rule-set. Informally one can relate this to the problem of \emph{bi-abduction} which has been explored in separation logic [Bi-ab ref]. Hence our work can be regarded as addressing the problem of \emph{bi-abduction} but in an ASP setting. (However we shall not dwell on this connection any further, instead focus only on the abductive reasoning process). Therefore an abductive reasoner based on a solver like Clingo can complement the abilities of goal directed reasoners like sCASP, CIFF etc.  
 
-Test citations: \cite{lim22:_autom_defeas_reason_law,mahajan22:_overv_cclaw_l4}
+The rest of the paper is organised as follows. Section~\ref{sec:abductive_proof} provides some further background and motivation for the subject of the paper and also describes the problem being tackled more formally. Section~\ref{sec:derived_asp} presents 3 core sets of meta-rules that facilitate the abductive proof generation process. Section~\ref{sec:sample_problem} describes some formal results about the generated proof trees. Section~\ref{sec:proof_finiteness} discusses applications and comparisons to other work and Section~\ref{sec:conclusion} concludes.
+
+Test citations:\remms{Remove} \cite{lim22:_autom_defeas_reason_law,mahajan22:_overv_cclaw_l4}
 
 
 \section{Abductive Proof Generation Task}\label{sec:abductive_proof}
 
 \subsection{Formal Setup}
-Given a source ASP rule set $R$, let the tuple $<R,q,U,C,N>$ denote the tuple consisting of the source ASP rules $R$, a ground positive or negative atom $q$. The set $U$ consists of 2 subsets. First we have a set of user-inputed facts, where each fact $f$ is denoted by the atom $user\_input(pos,f)$. Next in $U$ we have set of integrity constraints that constrain which atoms may be abduced. For example the constraint $:-abducedFact(p(X)).$ means no instantiation of the predicate $p$ maybe abduced.The integrity constraints can also prevent only specific instances of predicates from being abduced. For example instead of the constraint above we may have the constraint $:-abducedFact(p(john)).$.  $C$ denotes a set of ASP constraint which constrain which atoms may or may not appear in the complete model that results from the rules and abducibles. Finally we have the non-negative integer $N$. This acts as the depth control parameter for abductive proof search. We shall exemplify all these definitions with some examples later on. Then the key task is to find a set of facts $F$, such that:
+Given a source ASP rule set $R$, let the tuple $\langle R,q,U,C,N \rangle$ denote the tuple consisting of the source ASP rules $R$, a ground positive or negative atom $q$.\remms{say what intuitively $q$, $U$ etc. mean} The set $U$ consists of 2 subsets. First we have a set of user-inputed facts, where each fact $f$ is denoted by the atom $user\_input(pos,f)$.\remms{what is $user\_input$/ $pos$?} Next in $U$ we have a set of integrity constraints that constrain which atoms may be abduced. For example the constraint $:-abducedFact(p(X)).$ means no instantiation of the predicate $p$ may be abduced. The integrity constraints can also prevent only specific instances of predicates from being abduced. For example instead of the constraint above we may have the constraint $:-abducedFact(p(john)).$.  $C$ denotes a set of ASP constraint which constrain which atoms may or may not appear in the complete model that results from the rules and abducibles. Finally we have the non-negative integer $N$. This acts as the depth control parameter for abductive proof search. We shall exemplify all these definitions with some examples later on. Then the key task is to find a set of facts $F$, such that:
 
 \begin{enumerate}
     \item If $q$ is a positive atom, it is in some answer set $\mathcal{A}$ of $F\cup R\cup C$. If $q$ is a NAF atom, then there exists an answer set $\mathcal{A}$ of $F\cup R\cup C$ such that $q$ is $not$ in $\mathcal{A}$.
     \item $F$ contains all the positive facts from $U$ and $F$ does not violate any of the integrity constraints in $U$ Ie. $F$ does not contain abducibles that are specifically disallowed by the constraints on abducibles in $U$.
     \item $F$ does not have any atoms whose depth level is greater than $N$.
 \end{enumerate}
-We say $F$ is a solution of the abductive proof generation task $<R,Q,U,C,N>$
+We say $F$ is a solution of the abductive proof generation task $\langle R,q,U,C,N \rangle$
 
 \subsection{Source ASP program}
 
 When considering any abductive proof generation task we make the following assumptions on the input ASP rule set $R$. We assume that each source ASP rule has exactly the following form:
-\begin{verbatim}
-pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
-\end{verbatim}
+\begin{lstlisting}[language=Prolog,frame=none]
+pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),
+    not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
+\end{lstlisting}
 We further make the folllowing assumptions:
 
 \begin{enumerate}
@@ -113,7 +116,7 @@ We further make the folllowing assumptions:
     \item $V_{i}$ is the set of variables occuring in the $i^{th}$ pre-condition which is either $pre\_con_{i}(V_{i})$ or $not$ $pre\_con_{i}(V_{i})$ and $V$ is the set of variables occuring in the post condition $post\_con(V)$. We assume that $V\subseteq V_{1}\cup V_{2}\cup ... \cup V_{n}$.
     \item Each variable occurring in the post condition is universally quantified over, and each variable that occurs in some pre-condition but not the post condition is existentially quantified. In particular together with (3), this means that there are no existentially quantified variables in rule post-conditions.
     \item Each variable that occurs in a negation-as-failure pre-condition also occurs in some positive pre-condition.
-    \item Each input rule of the form above is assigned some unique rule.id.
+    \item Each input rule of the form above is assigned some unique rule id.
 \end{enumerate}
 
 We further assume that given any integrity constraint $c$ in $C$, every variable in a negation-as-failure atom in $c$ also occurs in some positive atom in $c$. We will now define the depth level of an atom with respect to a given input source ASP rule set $R$ and query $q$.
@@ -125,26 +128,26 @@ Given an atom $a$ let $\phi_{min}(a)$ be $-1$ if the set $\phi(a)$ is empty and 
 
 \section{Derived ASP Programs}\label{sec:derived_asp}
 Before we give the details of the main sets of rule translations that allow abductive reasoning and justification generation, here is a simple example to illustrate some key ideas and what the desired output for an abductive problem is. Consider the rule set $R$ given by the 3 rules
-\begin{verbatim}
-1) p(X,Y):-q(X,Y),r(X),s(Y).
-2) p(X,Y):-g(X,Y).
-3) d(X,Y):-g(X,Y).
-\end{verbatim}
-Now let $q$ be $p(john,james)$, let $U$ consist of the user provided fact $r(john)$ and let $U$ also include the constraint on abducibles $:-p(X,Y)$ meaning that no instance of the predicate $p$ may be abduced. Next let the set $C$ contain the single constraint $:-d(X,Y)$ meaning that we require a stable model of the user given facts, the abducibles, and the rules, which does not contain any instance of the predicate $d$, finally let $N = 2$. Then for this problem the minimal abductive solution can be represented by $\textit{abducedFact(q(john,james)), abducedFact(s(james))}$, which is what we want to get out of our encoding. Intuitively, the way we will solve this abductive reasoning problem is by first encoding the input rules such as the ones above directly as they are. Then we will have a representation which corresponds to 'reversing' the rules, ie we go from post-conditions to pre-conditions. These 'reveresed' rules generate a maximal space of abducibles which then feed into the direct rule translation. Finally we will have integrity constraints that ensure that the atom which we want to be true (represented by $q$) is indeed entailed by the abductive solution. An adapted version of this 'reversed rule' representation also enables us to generate a set of directed edges corresponding to a justification graph. The technical challenge in this process comes from finding a way to control the depth of abduction space generation. The other key challenge is dealing with rules that may have existential variables in pre-conditions or when rules may not have existential quantifier but the goal represented by $q$ is un-ground or existential in nature. So for example it maybe the case that the goal is not $p(john,james)$ but any arbitrary instance of the predicate $p$.    
+\begin{lstlisting}[language=Prolog, numbers=left,frame=none]
+p(X,Y):-q(X,Y),r(X),s(Y).
+p(X,Y):-g(X,Y).
+d(X,Y):-g(X,Y).
+\end{lstlisting}
+Now let $q$ be $p(john,james)$, let $U$ consist of the user provided fact $r(john)$ and let $U$ also include the constraint on abducibles $:-p(X,Y)$ meaning that no instance of the predicate $p$ may be abduced. Next let the set $C$ contain the single constraint $:-d(X,Y)$ meaning that we require a stable model of the user given facts, the abducibles, and the rules, which does not contain any instance of the predicate $d$, finally let $N = 2$. Then for this problem the minimal abductive solution can be represented by \textit{abducedFact(q(john,james)), abducedFact(s(james))}, which is what we want to get out of our encoding. Intuitively, the way we will solve this abductive reasoning problem is by first encoding the input rules such as the ones above directly as they are. Then we will have a representation which corresponds to 'reversing' the rules, \ie we go from post-conditions to pre-conditions.\remms{Looks like backward reasoning} These 'reveresed' rules generate a maximal space of abducibles which then feed into the direct rule translation. Finally we will have integrity constraints that ensure that the atom which we want to be true (represented by $q$) is indeed entailed by the abductive solution. An adapted version of this 'reversed rule' representation also enables us to generate a set of directed edges corresponding to a justification graph. The technical challenge in this process comes from finding a way to control the depth of abduction space generation. The other key challenge is dealing with rules that may have existential variables in pre-conditions or when rules may not have existential quantifier but the goal represented by $q$ is un-ground or existential in nature. So for example it maybe the case that the goal is not $p(john,james)$ but any arbitrary instance of the predicate $p$.    
 
 \subsection{Core rule translations}
+\remms[inline]{One should first situate the context (maybe already in the intro) and say that there are different approaches, such as rule transformations (as in the magic set approach) or embeddings (which are done here). }
 
 \subsubsection{Core Forward Reasoning}
 Given an input rule 
-\begin{verbatim}
-pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
-\end{verbatim}
+\begin{lstlisting}[language=Prolog,frame=none]
+pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),
+   not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
+\end{lstlisting}
 obeying all the properties as above we write the following rule in our ASP program: 
-
-\begin{verbatim}
-holds(post_con(V)):-holds(pre_con(V1)),...,holds(pre_con(Vk)), not holds(pre_con(Vk+1)),...
-,not holds(pre_con(Vn)). 
-\end{verbatim}
+\begin{lstlisting}[language=Prolog,frame=none]
+holds(post_con(V)):-holds(pre_con(V1)),...,holds(pre_con(Vk)), not holds(pre_con(Vk+1)), ..., not holds(pre_con(Vn)). 
+\end{lstlisting}
 
 We repeat this for each source ASP rule. For each constraint in $C$, we simply
 enclose each atom in the constraint inside the $holds$ predicate. For example
@@ -152,14 +155,14 @@ if $C$ contains the constraint $:-b(X,Y).$, (meaning that we require an
 abductive solution such that the there exists a stable model of the abduced
 facts, rules and user provided facts, which contains no instantiations of the
 predicate $b$), we encode that constraint as: 
-\begin{verbatim}
+\begin{lstlisting}[language=Prolog,frame=none]
 :-holds(b(X,Y)).
-\end{verbatim}
+\end{lstlisting}
 
 \subsubsection{Generating Abducibles}
 
-For this next set of meta-rules we will first need a way to assign the appropriate skolem terms to existential variables in pre-conditions. First given some rule in our rule set, say rule $r_{j}$. We now fix some order $O_{r_{j}}$ on the variables occuring in the combined set of variables from the post and pre-conditions of the rule $r_{j}$. Now we will describe a skolemnization map that assigns an existential variable in a pre-condition of $r_{j}$ to a skolem term. Firstly, let the rule $r_{j}$ 
-carry unique integer id. $t$. Let $v$ be a variable that occurs in some rule precondition but not the post condition. Then under this skolemization map, the variable $v$ gets mapped to 
+For this next set of meta-rules we will first need a way to assign the appropriate skolem terms to existential variables in pre-conditions. First given some rule in our rule set, say rule $r_{j}$. We now fix some order $O_{r_{j}}$ on the variables occuring in the combined set of variables from the post and pre-conditions of the rule $r_{j}$. Now we will describe a skolemization map that assigns an existential variable in a pre-condition of $r_{j}$ to a skolem term. Firstly, let the rule $r_{j}$ 
+carry unique integer id $t$. Let $v$ be a variable that occurs in some rule precondition but not the post condition. Then under this skolemization map, the variable $v$ gets mapped to 
 \begin{verbatim}
 skolemFn_t_v_(V)    
 \end{verbatim}
@@ -171,38 +174,38 @@ Assume that this rule carries integer id $1$. Let $O_{r}$ be $[X,Y,Z]$. Then the
 
 \subsubsection{AG1}
 Given an input ASP rule $r$ in $R$
-\begin{verbatim}
+\begin{lstlisting}[language=Prolog,frame=none]
 pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
-\end{verbatim}
+\end{lstlisting}
 our first set of abducible generation/proof search rules $AG1$ is given by the following. (In the rest of the paper we will use the terms abducible generation rules and proof search rules interchangeably) 
-\begin{verbatim}
-create_subs(sub_Inst_t((V'_sk),N+1):-query(post_con(V),N),N<M-1.
-\end{verbatim}
-Here $V'_{sk}$, denotes the ordered list $O_{r}$ but with existential variables replaced by their skolem term counter parts. Here $t$ is the integer id for the rule.
+\begin{lstlisting}[language=Prolog,frame=none]
+create_subs(sub_Inst_t((V_sk),N+1):-query(post_con(V),N),N<M-1.
+\end{lstlisting}
+Here $V_{sk}$, denotes the ordered list $O_{r}$ but with existential variables replaced by their skolem term counter parts. Here $t$ is the integer id for the rule.
 Next we have the following rules:
-\begin{verbatim}
-explains(pre_con_1(V1),post_con(V),N):-create_subs(sub_Inst_t((V'),N).
-explains(pre_con_2(V2),post_con(V),N):-create_subs(sub_Inst_t((V'),N).
-                          .
-                          .
-                          .
-                        
-explains(pre_con_n(Vn),post_con(V),N):-create_subs(sub_Inst_t((V'),N).
-\end{verbatim}
-Here $V'$ denotes the ordered list $O_{r}$.
+\begin{lstlisting}[language=Prolog,frame=none]
+explains(pre_con_1(V1),post_con(V),N):-create_subs(sub_Inst_t((V),N).
+explains(pre_con_2(V2),post_con(V),N):-create_subs(sub_Inst_t((V),N).
+% etc
+explains(pre_con_n(Vn),post_con(V),N):-create_subs(sub_Inst_t((V),N).
+\end{lstlisting}
+Here $V$ denotes the ordered list $O_{r}$.
 
 \subsubsection{AG2}
-Now we shall construct the second set of proof search rules $AG2$ Given $O_{r}$ construct $F_{r}$ be adjoining $FreshVar$ to each entry of $O_{r}$. So for our example above $F_{r}$ becomes $[FreshVar\_X,FreshVar\_Y,FreshVar\_Z]$. Given a pre condition $p$ occurring in $r$ $M_{r,p}$ is an ordered list constructed as follows. The $i_{th}$ element of $M_{r,p}$ is the $i_{th}$ element of $O_{r}$ if the $i_{th}$ element of $O_{r}$ is a variable which occurs in $p$. Otherwise, the $i_{th}$ element of $M_{r,p}$ is given by the $i_{th}$ element of $F_{r}$. Now for each negated or positive precondition $p$ we have the following rule:
-\begin{verbatim}
- create_subs(sub_Inst_t(M_(r,p)),M-1):-create_subs(sub_Inst_t(F_r),N),holds(p),max_ab_lvl(M), N<M.   
-\end{verbatim}
+\remms{What does AG1, 2 etc refer to?}
+Now we shall construct the second set of proof search rules $AG2$ Given $O_{r}$ construct $F_{r}$ be adjoining $FreshVar$ to each entry of $O_{r}$. So for our example above $F_{r}$ becomes $[FreshVar\_X,$ $FreshVar\_Y,FreshVar\_Z]$. Given a pre condition $p$ occurring in $r$ $M_{r,p}$ is an ordered list constructed as follows. The $i_{th}$ element of $M_{r,p}$ is the $i_{th}$ element of $O_{r}$ if the $i_{th}$ element of $O_{r}$ is a variable which occurs in $p$. Otherwise, the $i_{th}$ element of $M_{r,p}$ is given by the $i_{th}$ element of $F_{r}$. Now for each negated or positive precondition $p$ we have the following rule:
+\begin{lstlisting}[language=Prolog,frame=none]
+ create_subs(sub_Inst_t(M_(r,p)),M-1):-create_subs(sub_Inst_t(F_r),N),
+                       holds(p),max_ab_lvl(M), N<M.   
+\end{lstlisting}
 Repeat this for each pre-condition and. This is the set of rules $AG2$.
 
 \subsubsection{AG3}
 Finally $AG3$ consists of just the single rule:
-\begin{verbatim}
+\begin{lstlisting}[language=Prolog,frame=none]
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
-\end{verbatim}
+\end{lstlisting}
+
 \subsubsection{Skolem Example}
 Let us consider another example
 
@@ -210,32 +213,33 @@ Consider the source ASP rule:
 \begin{verbatim}
 a(X):- b(X,Y,Z), not c(X), not d(Y) .    
 \end{verbatim}
-Say this rule $r$ has rule id. $5$. 
+Say this rule $r$ has rule id $5$. 
 Let $O_{r}$ be $[X,Y,Z]$ Here is the encoding for the rule, $AG1$ is:
-\begin{verbatim}
+\begin{lstlisting}[language=Prolog,frame=none]
 create_subs(subs_Inst_5(X,skolemFn_5_Y(X),skolemFn_5_Z(X),N+1):-query(a(X),N),max_ab_lvl(M),N<M-1.
-
 
 explains(b(X,Y,Z),a(X),N):-create_subs(subs_Inst_5(X,Y,Z),N).
 
 explains(c(X),a(X),N):-create_subs(subs_Inst_5(X,Y,Z),N).
 
 explains(d(Y),a(X),N):-create_subs(subs_Inst_5(X,Y,Z),N).
-
-\end{verbatim}
+\end{lstlisting}
 AG2 is given by:
-\begin{verbatim}
-create_subs(subs_Inst_5(X,Y,Z),M-1):-create_subs(subs_Inst_5(FreshVar_X,FreshVar_Y,FreshVar_Z),N), 
-holds(b(X,Y,Z)),max_ab_lvl(M),N<M.
+
+\begin{lstlisting}[language=Prolog,frame=none]
+create_subs(subs_Inst_5(X,Y,Z),M-1):-
+     create_subs(subs_Inst_5(FreshVar_X,FreshVar_Y,FreshVar_Z),N), 
+     holds(b(X,Y,Z)),max_ab_lvl(M),N<M.
 
 create_subs(subs_Inst_5(X,FreshVar_Y,FreshVar_Z),M-1):-
 create_subs(subs_Inst_5(FreshVar_X,FreshVar_Y,FreshVar_Z),N), holds(c(X)),max_ab_lvl(M),N<M.
 
 create_subs(subs_Inst_5(FreshVar_X,Y,FreshVar_Z),M-1):-
 create_subs(subs_Inst_5(FreshVar_X,FreshVar_Y,FreshVar_Z),N), holds(d(Y)),max_ab_lvl(M),N<M.
-\end{verbatim}
+\end{lstlisting}
+
 \subsubsection{Supporting code for Abduction} 
-Given the original problem $<R,q,U,C,N>$, set $M=N+1$. Then we have the following: 
+Given the original problem $\langle R,q,U,C,N\rangle$, set $M=N+1$. Then we have the following: 
 \begin{verbatim}
 max_ab_lvl(M).
 query(Q,0):-generate_proof(Q).
@@ -629,7 +633,7 @@ explicit equality predicate allows us to better handle problems where the core
 rules have existential variables but we do not wish to use skolem functions in
 the abductive reasoning process. Recall that not having skolem functions
 allows us to get full term substitution without the possiblity of infinitely
-large answer sets. Consider the problem $,<R,q,U,C,N>$ where $R$ is the
+large answer sets. Consider the problem $,\langle R,q,U,C,N \rangle$ where $R$ is the
 following input rule set: 
 
 \begin{verbatim}
@@ -880,7 +884,7 @@ holds(X):-user_input(pos,X).
 
 \section{Proof sketch of Finiteness}\label{sec:proof_finiteness}
 \begin{theorem}[Finiteness]\label{Finiteness}
-Assume that $<R,q,U,C,N>$ is such that $R$ is function free and also contains no arithmetic operations. $N$ is finite. $q$ is a ground positive atom containing no function symbols. $U$ contains some integrity constraints and ground positive atoms containing no function symbols. Then $GenPf_{<R,q,U,C,N>}$ cannot have infinte answer sets. 
+Assume that $\langle R,q,U,C,N \rangle$ is such that $R$ is function free and also contains no arithmetic operations. $N$ is finite. $q$ is a ground positive atom containing no function symbols. $U$ contains some integrity constraints and ground positive atoms containing no function symbols. Then $GenPf_{\langle R,q,U,C,N \rangle}$ cannot have infinte answer sets. 
 \end{theorem}
 \begin{lemma}
 Let $S$ be the set of uninterpreted skolem functions appearing in the proof search encoding. Let $C$ be the set of constants occuring in either a user inputed fact in $U$ or the query $q$. Let $T_{k}$ denote the set of unique terms that can be constructed from $S$ and $C$ with skolem depth atmost $k$. Let $T$ be the possibly infinite set consisting of terms of unbounded depth. Then for any positive integer $k$, $T_{k}$ is finite.
@@ -889,23 +893,23 @@ Let $S$ be the set of uninterpreted skolem functions appearing in the proof sear
 $Proof:$ This is a standard result which follows easily by induction. Clearly $|T_{0}|$ = $|C|$, which is finite. Let $|T_{k}|$ = $B$ be finite. Let $S$ be a set of $l$ functions having arity at most $d$. Then $|T_{k+1}|\leq B + lB^{d}$. Hence $T_{k+1}$ is finite.  
 
 \begin{lemma}
- For any predicate $p$ inside an $abducedFact$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for any predicate $p$ inside an $holds$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for the other atoms in any answer set of $Ab_{<R,q,U,C,N>}$. Terms that correspond to arguments of rule predicates are always elements of $T_{N}$.
+ For any predicate $p$ inside an $abducedFact$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for any predicate $p$ inside an $holds$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for the other atoms in any answer set of $Ab_{\langle R,q,U,C,N \rangle}$. Terms that correspond to arguments of rule predicates are always elements of $T_{N}$.
 \end{lemma}
 
 $Proof$ $Sketch$: Firstly note that for any predicate $p$ inside a $abducedFact$ or $holds$ atom, where $p$ comes from the original rule set, the arguments of $p$ belong to the set $T$. We can see this by observing that since no rule in $R$ contains a function symbol, the encoding of the rules themselves such as in line 2 of the ASP program above, cannot introduce new terms in the arguments of predicates inside $holds$ atoms. Similarly lines like 24, 25 also cannot introduce new terms inside $holds$, $create\_sub$ atoms in the final answer set, which means also that no new terms appear as predicate arguments inside $abducedFact$ atoms. \\ Only lines like 18,19 are able to create fresh terms that become arguments of various atoms in the answer set. But then it follows that any $holds$ atom, $create\_sub$, $abducedFact$ can only have predicate arguments from the set $T$.    
 
-Next we show that the skolem depth of these terms is at most $N$. Any fresh term $t$ from $T$ appearing in the final answer set must have been constructed from rules like in lines 18,19. But these encode a 'static' space of abducibles, which unlike lines 24,25 is independent of the forward reasoning component or any user provided additional facts. It is not hard to see that terms created via these ASP rules must have skolemn depth at most $N$. 
+Next we show that the skolem depth of these terms is at most $N$. Any fresh term $t$ from $T$ appearing in the final answer set must have been constructed from rules like in lines 18,19. But these encode a 'static' space of abducibles, which unlike lines 24,25 is independent of the forward reasoning component or any user provided additional facts. It is not hard to see that terms created via these ASP rules must have skolem depth at most $N$. 
 \begin{lemma}
-Since the set $T_{N}$ is finite it follows that any answer set of $Ab_{<R,q,U,C,N>}$ is finite.\\
+Since the set $T_{N}$ is finite it follows that any answer set of $Ab_{\langle R,q,U,C,N \rangle}$ is finite.\\
 \end{lemma}
 
 $Proof:$ Since $T_{N}$ is finite and the integer argument of any $create\_sub$ atom is bounded by $N$, any atom in the final answer set has only finitely many instantiations. This proves finiteness of the resulting answer set. 
 \begin{lemma}
-If $Ab_{<R,q,U,C,N>}$ only has finite answer sets then so does $GenPf_{<R,q,U,C,N>}$
+If $Ab_{\langle R,q,U,C,N\rangle}$ only has finite answer sets then so does $GenPf_{\langle R,q,U,C,N\rangle}$
 \end{lemma}
 
 \section{Completeness for restricted class of problems}\label{sec:completeness}
-For the completeness proof we make the following assumptions leaving an investigation of the general case for future work. Given $<R,q,U,C,N>$ we make the following assumptions.
+For the completeness proof we make the following assumptions leaving an investigation of the general case for future work. Given $\langle R,q,U,C,N\rangle$ we make the following assumptions.
 
 \begin{enumerate}
 \item $R$ contains no negation as failure.
@@ -920,10 +924,10 @@ $p(X,X):-r(X,X,Y)$ is not allowed but the rule: $p(X,Y):-r(X,X,Y)$ is allowed.
 Note that that these conditions mean that without loss of generality, for the sake of proving completeness, we may assume that the set of user supplied facts is empty.
 
 \begin{lemma}
-Assume $<R,q,U,C,N>$, $<R,q',U,C,N>$ are two problems satisfying the conditions above but $q'$ is obtained from $q$ by possibly changing some or all of the arguments of $q$. Then $<R,q,U,C,N>$ has a solution if and only if $<R,q',U,C,N>$ does.\\
+Assume $\langle R,q,U,C,N\rangle$, $\langle R,q',U,C,N\rangle$ are two problems satisfying the conditions above but $q'$ is obtained from $q$ by possibly changing some or all of the arguments of $q$. Then $\langle R,q,U,C,N\rangle$ has a solution if and only if $\langle R,q',U,C,N\rangle$ does.\\
 \end{lemma}
 $Proof$ We prove the lemma by induction on $N$.
-The case $N = 0$ is trivial. If there exists a solution for $<R,q,U,\emptyset,0>$ then any instance of the predicate in $q$ can be abduced therefore $<R,q',U,\emptyset,0>$ has a solution. Assume the result for some $N = k$ such that $k>0$. A non trivial solution to $<R,q,U,\emptyset,k+1>$ implies the existence of a solution to the following set of problems $<R,q_{pre_{i}},U,\emptyset,k>$ where the set of $q_{pre_{i}}$ where the $q_{pre_{i}}$ are the set of pre-conditions of a rule $r$ in $R$, under some substitution $\theta$ where $\theta$ applied to the post-condition of $r$ gives $q$. But then since $r$ contains no repeated variables, if $q$ unifies with the post condition of $r$ under some substituion $\theta$, then there exists some other substitution $\theta'$ for the variables in $r$ such that $\theta'$ applied to the postcondition of $r$ gives $q'$. Therefore a solution to the set of problems $<R,q'_{pre_{i}},U,\emptyset,k>$ is also a solution to $<R,q',U,\emptyset,k+1>$ where each $q'_{pre_{i}}$ is obtained from $q'_{pre_{i}}$ by possibly changing the arguments in the predicate. By the induction hypothesis such a solution to the set of problems $<R,q'_{pre_{i}},U,\emptyset,k>$. Hence a solution to  $<R,q,U,\emptyset,k+1>$ exists. This proves the lemma.\\
+The case $N = 0$ is trivial. If there exists a solution for $\langle R,q,U,\emptyset,0\rangle$ then any instance of the predicate in $q$ can be abduced therefore $\langle R,q',U,\emptyset,0\rangle$ has a solution. Assume the result for some $N = k$ such that $k>0$. A non trivial solution to $<R,q,U,\emptyset,k+1>$ implies the existence of a solution to the following set of problems $<R,q_{pre_{i}},U,\emptyset,k>$ where the set of $q_{pre_{i}}$ where the $q_{pre_{i}}$ are the set of pre-conditions of a rule $r$ in $R$, under some substitution $\theta$ where $\theta$ applied to the post-condition of $r$ gives $q$. But then since $r$ contains no repeated variables, if $q$ unifies with the post condition of $r$ under some substituion $\theta$, then there exists some other substitution $\theta'$ for the variables in $r$ such that $\theta'$ applied to the postcondition of $r$ gives $q'$. Therefore a solution to the set of problems $<R,q'_{pre_{i}},U,\emptyset,k>$ is also a solution to $<R,q',U,\emptyset,k+1>$ where each $q'_{pre_{i}}$ is obtained from $q'_{pre_{i}}$ by possibly changing the arguments in the predicate. By the induction hypothesis such a solution to the set of problems $<R,q'_{pre_{i}},U,\emptyset,k>$. Hence a solution to  $<R,q,U,\emptyset,k+1>$ exists. This proves the lemma.\\
 \subsection{Proof of main theorem}
 We now prove the main theorem by induction on $N$. That is we prove the following:\\
 \begin{theorem}[Completeness]\label{completeness}If there exists a general solution $S$ to $<R,q,U,\emptyset,N>$ then there exists a ASP solution $S_{ASP}$ to $<R,q,U,\emptyset,N>$.
@@ -932,7 +936,7 @@ $Proof$ We prove this by induction on $N$. The case $N=0$ is trivial. Assume the
 
 \section{Proof simplification using user inputed facts for Comp encoding}\label{sec:proof_simplification}
 \subsection{Definition 1 - Abstract Proof graph}
-Given a rule set $R$ satisfying condition 4 from above but possibly having NAF, and a predicate $p$ and integer $n$ define the abstract proof graph $G_{R,p,n}$ as the set of $query$ predicates generated by the rules $AG1$ and $AG3$. when in $<R,q,U,C,N>$, $q$ is $p(v1,v2..,vk)$ where $p$ has arity $k$, $U$, $C$ are empty and $N = n+1$. 
+Given a rule set $R$ satisfying condition 4 from above but possibly having NAF, and a predicate $p$ and integer $n$ define the abstract proof graph $G_{R,p,n}$ as follows. The nodes of $G_{R,p,n}$ is the set of $query$ predicates generated by the rules $AG1$ and $AG3$. when in $<R,q,U,C,N>$, $q$ is $p(v1,v2..,vk)$ where $p$ has arity $k$, $U$, $C$ are empty and $N = n+1$. The edge relation is defined as follows. Two nodes $d1$, $d2$ are connected by a directed edge represented as $E(d1,d2)$ if and only if, $d1$ represents a pre-condition of an input rule where $d2$ is the post condition. 
 
 So if $R'$ consisted to the single rule:
 \begin{verbatim}
@@ -940,9 +944,17 @@ a(X):-b(X,Y),a(Y)
 \end{verbatim}
 Then $G_{R',a,2}$ is:
 \begin{verbatim}
-query(a(v1),0), query(b(v1,sk(v1)),1), query(a(sk(v1)),1)
-query(b(sk(v1),sk(sk(v1))),2), query(a(sk(sk(v1))),2) \end{verbatim}
+E(query(b(v1,sk(v1)),1),query(a(v1),0)),
+E(query(a(sk(v1)),1),query(a(v1),0)))
+E(query(b(sk(v1),sk(sk(v1))),2),query(a(sk(v1)),1)),
+E(query(a(sk(sk(v1))),2),query(a(sk(v1)),1)) \end{verbatim}
 Here $sk$ is just an abbreviation of the full skolem function name. 
+Given an abstract proof graph $G_{R',p,N}$, construct the minimal proof graph $G_{R',p,N}^{min}$ as follows. Firstly for given an integer $k$, going from left to right, delete all duplicate nodes $query(a',k)$ such that $query(a,k)$ is already in the proof graph and $a'=a$. Next for going down the proof graph, for each $k\in {0,1...,N}$, delete the node $query(a,k)$, if there exists $l<k$, such that $query(a',l)$ is in the proof graph $a=a'$. This forms $G_{R',p,N}^{min}$. The edge relation is inherited from $G_{R,p,N}$ in the obvious way. Note firstly that if for some $b,j$, $query(b,j)$ is in $G_{R',p,N}$, then there exists some $h\leq j$ such that $query(b,h)$ is in $G_{R',p,N}^{min}$. Secondly we have the following property:
+\begin{lemma}
+Given $query(a,k)$ in $G_{R',p,N}^{min}$, unless $k=0$, there exists $query(a',j)$ in $G_{R',p,N}^{min}$ such that we have $E(query(a,k),query(a',j))$.  
+\end{lemma}
+$\textit{Proof sketch}$ Let $query(a'',j')$ be such that $E(query(a,k),query(a'',j'))$ in $G_{R',p,N}$. Now if $query(a'',j')$ is not in $G_{R',p,N}^{min}$, then there exists $s<j'$ such that $query(a'',s)$ is in $G_{R',p,N}^{min}$, but then there exists $t<k$ such that $query(a,t)$ is in $G_{R',p,N}^{min}$. However this is a contradiction. Hence it must be the case that $query(a'',j')$ is in $G_{R',p,N}^{min}$. 
+
 
 
 \subsection{Definition 2 - Concrete Proof graph}
@@ -998,7 +1010,7 @@ query(X,N):-explains(X,Y,N).
 \end{verbatim}
 We get the following atom $query(p_{d}(a_{3},a_{1},\theta(sk(v2,v1,v3)),1)$ which is $tr(query(p_{d}(t_{3},t_{1},\theta(sk(v2,v1,v3))),1))$. Similarly for any other child node $q$ of $query(p(v1,v2,v3),0)$ in $G{R,p,N}$, we get $tr(q)$. Now it follows by a similar argument to before that for any child node $q'$ of these transformed level one nodes $q$, we also get $tr(q')$. One can see this by considering the following: Given a level one node $q$ from $G_{R,p,N}$, let $q_{c}^{1}$ be the image of $q$ under $\theta$, let $q_{o}^{1}$ be $q$ and let $q_{f}^{1}$ be $tr(q)$, then consider $\phi'$ = $T(\theta, q_{c}^{1},q_{o}^{1},q_{f}^{1})$. Then on any term $b$ in $q$, such that $b$ is in the set $\{v1,v2,v3\}$, $\phi'(b)$ =$\phi(b)$ and on all other terms $t$ in $G_{R,p,N}$, $\phi'(t)=\theta(t)$. Now, given the level one node $q$ in $G_{R,p,N}$, let $q'$ be a child node of $q$, then for any term $t'$ in $q'$, such that $t'$ occurs in the set $\{v1,v2,v3\}$, it must be the case that $t'$ occurs in $q$. Therefore, the result of applying $\phi'$ on $q'$ will in fact give us $tr(q')$ (recall that $tr$ corresponds to the transformation of $query$ atoms induced by $\phi$. In this way one can see that the term substitution given by $\phi$ will propogate all the way downwards over elements of $C_{R,p,N,\theta}$. This completes the case $k=0$. 
 
-Now suppose we have proven the theorem for all values of $k<e$. Now let $q_{c},q_{o},q{f}$ be such that the level of all these atoms in $e+1$, and let $q_{o}$ be $q_{o}$ does not correspond to a pre-condition of an input rule, where the pre-condition contains an existential variable. Now, let $q_{d}$ be the parent node of $q_{o}$. Let $r_{h}$ be the relevant rule and let the predicate corresponding to $q_{o}$ be $p_{z}$ and let the predicate corresponding to $q_{d}$ be $p_{y}$. Then due to an instantiation of a rule of the following form:
+Now suppose we have proven the theorem for all values of $k<e$. Now let $q_{c},q_{o},q_{f}$ be such that the level of all these atoms in $e+1$, and let $q_{o}$ be $q_{o}$ does not correspond to a pre-condition of an input rule, where the pre-condition contains an existential variable. Now, let $q_{d}$ be the parent node of $q_{o}$. Let $r_{h}$ be the relevant rule and let the predicate corresponding to $q_{o}$ be $p_{z}$ and let the predicate corresponding to $q_{d}$ be $p_{y}$. Then due to an instantiation of a rule of the following form:
 \begin{verbatim}
 createSub(subInst_r_h(W''),e+1):-query(p_z(W_f),e+1),createSub(subInst_r_h(W'),o+1).
 \end{verbatim}
@@ -1009,28 +1021,16 @@ explains(p_z(W_f),p_y(U),e+1):-createSub(subInst_r_h(W''),e+1).
 \begin{verbatim}
 query(Y,N-1):-explains(X,Y,N).    
 \end{verbatim}
-we get the atom $tr_{\phi}(q_{d})$. Now consider $\phi'= T(\theta, \theta(q_{d}), q_{d}, tr_{\phi}(q_{d}))$, then $\phi'=\phi$ on the terms in $q_{d}$, that also appear in $q_{o}$, and $\phi' = \theta$ on all other terms. However all the terms that appear in $q_{o}$ also appear in $q_{d}$, since we assumed that $q_{o}$ did not have terms corresponding to existential variables. Also the level of $q_{d}$ is $o$. Hence by the inductive hypothesis we are done.
+we get the atom $tr_{\phi}(q_{d})$. Now consider $\phi'= T(\theta, \theta(q_{d}), q_{d}, tr_{\phi}(q_{d}))$, then $\phi'=\phi$ on the terms in $q_{d}$, that also appear in $q_{o}$, and $\phi' = \theta$ on all other terms. However all the terms that appear in $q_{o}$ also appear in $q_{d}$, since we assumed that $q_{o}$ did not have terms corresponding to existential variables. Also the level of $q_{d}$ is $e$. Hence by the inductive hypothesis we are done. Now, let $q_{c},q_{o},q_{f}$ be such that some terms in the first argument of $q_{o}$ correspond to existential variables. That is these terms are do not appear in the parent node of $q_{c}$ and are skolem functions whose input consists of terms in the parent node of $q_{c}$. Let $V_{univ,q_{c}}$ consist of the set of terms in the first argument of $q_{c}$ that correspond to universally quantified variables and let $V_{ext,q_{c}}$ consist of the set of terms in the first argument of $q_{c}$ that correspond to existentially quantified variables. Firstly, consider $\phi'$ such that $\phi'=\phi$ on the terms in $V_{univ,q_{c}}$ and $\phi' =\theta$ on all other terms in the abstract proof graph. Then given this $\phi'$, note that we already get the concrete proof graph $C_{R,p,n,\phi'}$, this is because, given the parent node $q'_{o}$, in the abstract proof graph, we have $tr_{\phi'}(q'_{o})$ and since the level of $q'_{o}$ is $e$, we know by the inductive hypothesis that the appropriate transformation of the whole abstract proof graph follows. So in fact we to prove the case where the level of $q_{c},q_{o},q_{f}$ is $e+1$, we can now assume WLOG, that $q_{c}_{i}\neq q_{f}_{i}$ implies that $q_{o}_{i}$ corresponds to an existential variable where here $q_{c}_{i}$ denotes the $i^{th}$ entry of the first argument of $q_{c}$ and similarly for the others. So assume now that we are in this case and $\phi= T(q_{c},q_{o},q_{f})$. Let $V'_{ext,q_{o}}$ be the set of terms in the first argument of $q_{o}$ that correspond to existential variables. Now let $q'_{o}$ be the parent node of $q_{o}$. Then due to the appropriate $AG2$ and $AG3$ clauses, it follows that for all the child nodes $q''$ of $q'_{o}$, we have $tr_{\phi}(q'')$. Due to a similar argument to the one we used for the case $k=0$, it follows that for any descendant of $q_{d}$ of $q'_{o}$, we will get $tr_{\phi}(q_{d})$. Now we claim that in the abstract proof graph, the only nodes whose first entry contains terms from $V'_{ext,q_{o}}$ are descendants of $q'_{o}$. Given a term $t$ from $V'_{ext,q_{o}}$, occurring in a node $j$ of the minimal abstract proof graph, if $t$ does not correspond to an existential variable in $j$, then since $t$ is not in the set $\{v_{1},v_{2},..,v_{n}\}$, there exists some ancestor $j'$ of $j$ such that $t$ corresponds to an existential variable in $j'$. Let $j_{p}$ be the parent node of $j'$. Now, let $t$ be of the form $skolemFn_l_b_(g_{1},..,g_{m})$. Here $l$ refers to a input rule, $b$ refers to some existential variable among the pre-conditons of $l$, and $\{g_{1},g_{2},...,g_{m}\}$ refers to a fixed permutation of the arguments of the post-condition of rule corresponding to $l$. However, from this we can uniquely determine what the first entry of $j_{p}$ must be. Based on the order $O_{l}$, the arguments of the relevant instantiation of the  post-condition of $l$ are given by some fixed permutation $\pi_{O_{l}}$ of $\{g_{1},g_{2},...,g_{m}\}$. Therefore it follows that the first argument of $j_{p}$ is in fact the same as that of $q'_{o}$. But now since we are working with $\textit{minimal}$ abstract proof graphs it follows that $j_{p} = q'_{o}$. This proves the claim and hence completes the proof of the theorem.    
 
 \input{derivation_tree_figure}
 
 
  
-\subsection{Corollary}
-Given a rule set $R$ satisfying condition 4 from above consider $<R,q,U,C,N>$, let $p$ be the predicate corresponding to $q$. Suppose $A$ is an answer set of $P^{semi-complete}_{<R,q,U,C,N>}$ and let $A$ contain $C_{R,p,N,\theta}$. Now say the atom $query(p_{i}(t_{1},t_{2},..,t_{j}),k)$ is in $C_{R,p,N,\theta}$. Suppose $[a_{1},a_{2},..,a_{j}]$ is such that $[t_{1},t_{2},..,t_{j}]$ is compatible with $[a_{1},a_{2},..,a_{j}]$. Then adding the fact $holds(p_{i}(a_{1},a_{2},..,a_{j}))$ to $P^{semi-complete}_{<R,q,U,C,N>}$, the resulting program has an answer set $A'$ such that $A'$ contains $C_{R,p,N,\phi}$, where $\phi = DeriveSub(\theta, [t_{1},t_{2},..,t_{j}],[a_{1},a_{2},...,a_{j}])$. 
-
-$\textit{Proof}$ The proof proceeds almost exactly the same way as before. For
-the inductive case we note that the following rule
-\begin{verbatim}
-createSub(subInst_r_c(W'),o+1) :- createSub(subInst_r_c(W),o+1), holds(p_z(h1,h2,..,hr)),
-max_ab_lvl(M).    
-\end{verbatim}
-
-Creates the same new substitution instance of the rule $r_{c}$ and this then
-causes the atom $query(p_z(h1,h2,..,hr),o+1)$ to get added to the program due
-to proof search rules E9, E10. The base case $k=0$ is similarly dealt with
-using proof search expansion rules E9, E8.
-
-
+\begin{corollary}[Adding facts]\label{addfact}
+Given a rule set $R$ satisfying condition 4 from above consider $<R,q,U,C,N>$, let $p$ be the predicate corresponding to $q$. Suppose $A$ is an answer set of $P^{semi-complete}_{<R,q,U,C,N>}$ and let $A$ contain $C_{R,p,N,\theta}$. Now say the atom $q_{c}$ $query(p_{i}(t_{1},t_{2},..,t_{j}),k)$ is in $C_{R,p,N,\theta}$. Let $q_{o}$ be some query atom from the set $S_{q_{c}}$ given by $query((e_{1},e_{2},...,e_{j}),k)$. Now suppose, $h_{f}= holds((a_{1},a_{2},...,a_{j}))$ is an arbitrary $holds$ atom such that the map $\psi$ from the $e_{i}s$ to the $a_{i}s$ as described in the definition above is well defined. Then upon adding the fact $holds(p_{i}(a_{1},a_{2},..,a_{j}))$ to $P^{semi-complete}_{<R,q,U,C,N>}$, the resulting program has an answer set $A'$ such that $A'$ contains $C_{R,p,N,\phi}$, where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$, where $q_{f} = query(p_{i}(a_{1},a_{2},..,a_{j}),k)$. 
+\end{corollary}
+\textit{Proof} This follows from the theorem above and the rule\\ $query(X,N):-holds(X),max\_ab\_lvl(M),N = 0..M.$
 \section{Applications and Extensions}\label{sec:applications_extensions}
 
 \subsection{Maximal abduction depth}
