@@ -1,0 +1,52 @@
+\section{Abductive Proof Generation Task}\label{sec:abductive_proof}
+
+\subsection{Formal Setup}\label{formalsetup}
+Given a source ASP rule set $R$, let the tuple $\langle R,q,U,C,N \rangle$ denote the tuple consisting of the source ASP rules $R$, a ground positive or negative atom $q$.\remms{say what intuitively $q$, $U$ etc. mean} The set $U$ consists of 2 subsets. First we have a set of user-inputed facts, where each fact $f$ is denoted by the atom $user\_input(pos,f)$.\remms{what is $user\_input$/ $pos$?} Next in $U$ we have a set of integrity constraints that constrain which atoms may be abduced. For example the constraint $:-abducedFact(p(X)).$ means no instantiation of the predicate $p$ may be abduced. The integrity constraints can also prevent only specific instances of predicates from being abduced. For example instead of the constraint above we may have the constraint $:-abducedFact(p(john)).$.  $C$ denotes a set of ASP constraint which constrain which atoms may or may not appear in the complete model that results from the rules and abducibles. Finally we have the non-negative integer $N$. This acts as the depth control parameter for abductive proof search. We shall exemplify all these definitions with some examples later on. Then the key task is to find a set of facts $F$, such that:
+
+\begin{enumerate}
+    \item If $q$ is a positive atom, it is in some answer set $\mathcal{A}$ of $F\cup R\cup C$. If $q$ is a NAF atom, then there exists an answer set $\mathcal{A}$ of $F\cup R\cup C$ such that $q$ is $not$ in $\mathcal{A}$.
+    \item $F$ contains all the positive facts from $U$ and $F$ does not violate any of the integrity constraints in $U$ Ie. $F$ does not contain abducibles that are specifically disallowed by the constraints on abducibles in $U$.
+    \item $F$ does not have any atoms whose depth level is greater than $N$.
+\end{enumerate}
+We say $F$ is a solution of the abductive proof generation task $\langle R,q,U,C,N \rangle$
+
+\subsection{Source ASP program}
+
+When considering any abductive proof generation task we make the following assumptions on the input ASP rule set $R$. We assume that each source ASP rule has exactly the following form:
+\begin{lstlisting}[frame=none]
+pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),
+    not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
+\end{lstlisting}
+We further make the folllowing assumptions:
+
+\begin{enumerate}
+    \item Each pre-condition $pre\_con_{i}(V_{i})$ is atomic and so is the post-condition $post\_con(V)$.
+    \item The $not$ in front of the pre-conditions denotes \textit{negation as failure} interpreted under the \textit{stable model semantics}
+    \item $V_{i}$ is the set of variables occuring in the $i^{th}$ pre-condition which is either $pre\_con_{i}(V_{i})$ or $not$ $pre\_con_{i}(V_{i})$ and $V$ is the set of variables occuring in the post condition $post\_con(V)$. We assume that $V\subseteq V_{1}\cup V_{2}\cup ... \cup V_{n}$.
+    \item Each variable occurring in the post condition is universally quantified over, and each variable that occurs in some pre-condition but not the post condition is existentially quantified. In particular together with (3), this means that there are no existentially quantified variables in rule post-conditions.
+    \item Each variable that occurs in a negation-as-failure pre-condition also occurs in some positive pre-condition.
+    \item Each input rule of the form above is assigned some unique rule id.
+\end{enumerate}
+
+We further assume that given any integrity constraint $c$ in $C$, every variable in a negation-as-failure atom in $c$ also occurs in some positive atom in $c$. We will now define the depth level of an atom with respect to a given input source ASP rule set $R$ and query $q$.
+
+\subsection{Depth level of an atom}
+We define a map $\phi$ that maps an atom to a set of non-negative integers. We
+will describe this map rather informally. For the query $q$, $0\in
+\phi(q)$. Now the rest of the definition is recursive. Given an atom $a$, the
+non-negative integer $n$, $n\in \phi(a)$ if and only if there exists a rule
+$r$ in $R$ such that there is a substitution $\theta$ of the variables in $r$
+such that there exists some precondition (negated or positive) $p$ of $r$ such
+that that $\theta$ applied to $p$ gives $a$ and $\theta$ applied to the post
+condition of $r$ gives some atom $a'$ where $n-1$ $\in$ $\phi(a')$.
+
+Given an atom $a$ let $\phi_{min}(a)$ be $-1$ if the set $\phi(a)$ is empty
+and let $\phi_{min}(a)$ be the minimum member of the set $\phi(a)$
+otherwise. Then $\phi_{min}(a)$ is defined to be the $depth$ $level$ of $a$
+with respect to the rule set $R$ and query $q$.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

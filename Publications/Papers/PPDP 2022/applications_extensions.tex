@@ -1,0 +1,88 @@
+\section{Applications and Extensions}\label{sec:applications_extensions}
+
+\subsection{Maximal abduction depth}
+For rule sets with no existential variables, if one wants to explore the maximal abduction space then this can be achieved simply by setting all the integer depth parameters to 0. For instance this is what we will get for our previous example.
+\begin{lstlisting}[numbers=left]
+% Encoding the goal
+generate_proof(relA(v1,v2)).
+query(X,0):-generate_proof(X).
+goal:-holds(relA(P,R)).
+:- not goal.
+
+% Core rule translation
+holds(relA(X,Y)) :- holds(relB(X, Y)),holds(relD(Y)), not holds(relE(Y)).
+holds(relE(Y)) :- holds(relD(Y)), not holds(relF(Y)).
+
+% AG1_exp
+createSub(subInst_r1(X,Y),0) :- query(relA(X,Y) ,0).
+createSub(subInst_r2(Y),0) :- query(relE(Y) ,0).
+
+explains(relB(X, Y), relA(X,Y) ,0) :- createSub(subInst_r1(X,Y),0).
+explains(relD(Y), relA(X,Y) ,0) :- createSub(subInst_r1(X,Y),0).
+explains(relE(Y), relA(X,Y) ,0) :- createSub(subInst_r1(X,Y),0).
+explains(relA(X,Y), relA(X,Y) ,0) :- createSub(subInst_r1(X,Y),0).
+
+
+explains(relD(Y), relE(Y) ,0) :- createSub(subInst_r2(Y),0).
+explains(relF(Y), relE(Y) ,0) :- createSub(subInst_r2(Y),0).
+explains(relE(Y), relE(Y) ,0) :- createSub(subInst_r2(Y),0).
+
+
+% AG2_exp for rule 1
+
+createSub(subInst_r1(X,Y),0) :- createSub(subInst_r1(V_X,V_Y),0), holds(relA(X,Y)).
+createSub(subInst_r1(X,Y),0) :- createSub(subInst_r1(V_X,V_Y),0), holds(relB(X,Y)).
+createSub(subInst_r1(V_X,Y),0) :- createSub(subInst_r1(V_X,V_Y),0), holds(relD(Y)).
+createSub(subInst_r1(V_X,Y),0) :- createSub(subInst_r1(V_X,V_Y),0), holds(relE(Y)).
+
+createSub(subInst_r1(X,Y),0) :- createSub(subInst_r1(V_X,V_Y),0), query(relA(X,Y),0).
+createSub(subInst_r1(X,Y),0) :- createSub(subInst_r1(V_X,V_Y),0), query(relB(X,Y),0).
+createSub(subInst_r1(V_X,Y),0) :- createSub(subInst_r1(V_X,V_Y),0), query(relD(Y),0).
+createSub(subInst_r1(V_X,Y),0) :- createSub(subInst_r1(V_X,V_Y),0), query(relF(Y),0).
+
+% AG2_exp for rule 2
+
+createSub(subInst_r2(Y),0) :- createSub(subInst_r2(V_Y),0), holds(relE(Y)).
+createSub(subInst_r2(Y),0) :- createSub(subInst_r2(V_Y),0), holds(relD(Y)).
+createSub(subInst_r2(Y),0) :- createSub(subInst_r2(V_Y),0), holds(relF(Y)).
+
+
+createSub(subInst_r2(Y),0) :- createSub(subInst_r2(V_Y),0), query(relE(Y),0).
+createSub(subInst_r2(Y),0) :- createSub(subInst_r2(V_Y),0), query(relD(Y),0).
+createSub(subInst_r2(Y),0) :- createSub(subInst_r2(V_Y),0), query(relF(Y),0).
+
+% AG3_exp
+query(X,0):-explains(X,Y,0).
+query(Y,0):-explains(X,Y,0).
+
+% Supporting code
+{abducedFact(X)}:-query(X,0).
+holds(X):-abducedFact(X).
+holds(X):-user_input(pos,X).
+
+
+:~abducedFact(Y).[1@1,Y]
+:-abducedFact(relA(X,Y)).
+\end{lstlisting}
+Such an ASP program is also guaranteed to have only finite answer sets.
+
+\subsection{Mapping distinct variables to the same skolem terms}
+These extra proof search rules are needed to expand the proof search space when the rule set $R$ does not satify the unique arguments property. Say rule $r1$ involves 3 variables $X, Y, Z$. Then we add the following to the proof-search encoding:
+\begin{verbatim}
+createSub(subInst_r1(X,X,Z),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
+
+createSub(subInst_r1(X,Y,X),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
+
+createSub(subInst_r1(Y,Y,Z),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
+
+createSub(subInst_r1(X,Y,Y),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
+
+createSub(subInst_r1(Z,Y,Z),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
+
+createSub(subInst_r1(X,Z,Z),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
+\end{verbatim}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

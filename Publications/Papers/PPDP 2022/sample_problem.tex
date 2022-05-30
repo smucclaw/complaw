@@ -1,0 +1,48 @@
+\section{Sample problem and corresponding ASP program}\label{sec:sample_problem}
+We give a sample problem here and its corresponding ASP program. We will refer to certain lines of the ASP program given here, in the finiteness proof for the general case. 
+\begin{lstlisting}[numbers=left]
+max_ab_lvl(5).
+query(relA(bob),0).
+goal:-holds(relA(bob)).
+:-not goal.
+
+
+holds(relA(P)) :- holds(relB(P, R)),holds(relD(R)).
+holds(relB(P, R)) :- holds(relA(R)), holds(relC(P)).
+
+explains(relB(P, R), relA(P) ,N) :- createSub(subInst_r1(P,R),N).
+explains(relD(R), relA(P) ,N) :- createSub(subInst_r1(P,R),N).
+
+
+createSub(subInst_r1(P,skolemFn_r1_R(P)),N+1) :- query(relA(P) ,N),max_ab_lvl(M),N<M-1.
+createSub(subInst_r2(P,Q),N+1) :- query(relB(P, Q) ,N),max_ab_lvl(M),N<M-1.
+
+
+explains(relA(R), relB(P,R) ,N) :- createSub(subInst_r2(P,R),N).
+explains(relC(P), relB(P,R) ,N) :- createSub(subInst_r2(P,R),N).
+
+
+
+createSub(subInst_r1(P,R),M-1) :- createSub(subInst_r1(V_P,V_R),N), holds(relB(P, R)),max_ab_lvl(M).
+createSub(subInst_r1(V_P,R),M-1) :- createSub(subInst_r1(V_P,V_R),N), holds(relD(R)),max_ab_lvl(M).
+
+createSub(subInst_r2(V_P,R),M-1) :- createSub(subInst_r2(V_P,V_R),N), holds(relA(R)),max_ab_lvl(M).
+
+createSub(subInst_r2(P,V_R),M-1) :- createSub(subInst_r2(V_P,V_R),N), holds(relC(P)),max_ab_lvl(M).
+
+
+query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
+{abducedFact(X)}:-query(X,N).
+holds(X):-abducedFact(X).
+holds(X):-user_input(pos,X).
+
+:~abducedFact(Y).[1@1,Y]
+:-abducedFact(relA(bob)).
+:-abducedFact(relB(X,Y)).
+
+\end{lstlisting}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

@@ -1,0 +1,57 @@
+\section{Introduction}\label{sec:introduction}
+
+The goal of this paper is to describe a method to automatically genenrate a
+space of abducibles, that will allow the creation of a fact set that results
+in the entailment of a given query with respect to a given ASP rule set.
+
+A novel feature of the method is that depth control for proof search is done
+in a purely declarative way as part of the proof search encoding
+itself. Furthermore, adding facts to the program automatically triggers a kind
+of controlled variable substitution where skolem\remms{Capitalize?} terms or
+other 'place-holder' terms occurring in abducibles are replaced away so that
+the resulting proof is simplified, without any need for an explicit
+representation of equality between terms. We present two main sets of
+proof-search encodings. One is guaranteed to only produce finite answer sets,
+but which does not support complete variable substitution in abducibles. The
+other encoding may produce infinite answer sets in the presence of skolem
+functions but supports complete variable substitution and still only produces
+finite answer sets if there are no skolem terms involved. Next we present an
+encoding which generates a set of directed edges representing a justification
+graph of any desired depth. \remms{Set off the related work section from
+  general intro}The novel encodings for variable substitution and depth
+control set this work apart from other attempts like [Schuller ref, Petr
+Homola ref] to realize abduction in a Clingo-like bottom-up reasoner. Unlike
+sCASP our method keeps the justification production and proof search separate
+from each other which allows the user to have greater control on the
+justification produced without affecting the proof search
+procedure. Furthermore, in general, abduction problems where the input rules
+involve function symbols often either lead to infinite grounding or infinite
+backward proof search and problems that are intractable with a top-down
+reasoning mechanism often yield to a bottom-up reasoner and vice
+versa.\remms{Sounds as if reasoning style does not matter} Lastly, as
+mentioned in the abstract, there may be use cases where one wants to know all
+the resulting consequences of an abductive solution to a query with respect to
+a rule-set. Informally one can relate this to the problem of
+\emph{bi-abduction} which has been explored in separation logic [Bi-ab
+ref]. Hence our work can be regarded as addressing the problem of
+\emph{bi-abduction} but in an ASP setting. (However we shall not dwell on this
+connection any further, instead focus only on the abductive reasoning
+process). Therefore an abductive reasoner based on a solver like Clingo can
+complement the abilities of goal directed reasoners like sCASP, CIFF etc.
+
+The rest of the paper is organised as
+follows. Section~\ref{sec:abductive_proof} provides some further background
+and motivation for the subject of the paper and also describes the problem
+being tackled more formally. Section~\ref{sec:derived_asp} presents 3 core
+sets of meta-rules that facilitate the abductive proof generation
+process. Section~\ref{sec:sample_problem} describes some formal results about
+the generated proof trees. Section~\ref{sec:proof_finiteness} discusses
+applications and comparisons to other work and Section~\ref{sec:conclusion}
+concludes.
+
+Test citations:\remms{Remove} \cite{lim22:_autom_defeas_reason_law,mahajan22:_overv_cclaw_l4}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

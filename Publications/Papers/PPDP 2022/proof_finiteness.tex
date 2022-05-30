@@ -1,0 +1,60 @@
+\section{Proof sketch of Finiteness}\label{sec:proof_finiteness}
+
+\begin{theorem}[Finiteness]\label{thm:finiteness}
+Assume that $\langle R,q,U,C,N \rangle$ is such that $R$ is function free and
+also contains no arithmetic operations. $N$ is finite. $q$ is a ground
+positive atom containing no function symbols. $U$ contains some integrity
+constraints and ground positive atoms containing no function symbols. Then
+$P_{\langle R,q,U,C,N \rangle}^{res}$ cannot have infinite answer sets. 
+\end{theorem}
+
+\begin{lemma}
+Let $S$ be the set of uninterpreted skolem functions appearing in the proof
+search encoding. Let $C$ be the set of constants occurring in either a user
+inputed fact in $U$ or the query $q$. Let $T_{k}$ denote the set of unique
+terms that can be constructed from $S$ and $C$ with skolem depth atmost
+$k$. Let $T$  be the possibly infinite set consisting of terms of unbounded
+depth.\remms{Better write: $T$ is the union of the $T_k$. However, the lemma does not say anything about $T$} Then for any positive integer $k$, $T_{k}$ is finite.
+\end{lemma}
+
+$Proof:$ This is a standard result which follows easily by induction. Clearly $|T_{0}|$ = $|C|$, which is finite. Let $|T_{k}|$ = $B$ be finite. Let $S$ be a set of $l$ functions having arity at most $d$. Then $|T_{k+1}|\leq B + lB^{d}$. Hence $T_{k+1}$ is finite.  
+
+\begin{lemma}
+ For any predicate $p$ inside an $abducedFact$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for any predicate $p$ inside an $holds$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for the other atoms in any answer set of $P_{\langle R,q,U,C,N \rangle}^{res}$. Terms that correspond to arguments of rule predicates are always elements of $T_{N}$.
+\end{lemma}
+
+$Proof$ $Sketch$: Firstly note that for any predicate $p$ inside a
+$abducedFact$ or $holds$ atom, where $p$ comes from the original rule set, the
+arguments of $p$ belong to the set $T$. We can see this by observing that
+since no rule in $R$ contains a function symbol, the encoding of the rules
+themselves such as in line 2 of the ASP program above, cannot introduce new
+terms in the arguments of predicates inside $holds$ atoms. Similarly lines
+like 24, 25 also cannot introduce new terms inside $holds$, $create\_sub$
+atoms in the final answer set, which means also that no new terms appear as
+predicate arguments inside $abducedFact$ atoms. 
+
+Only lines like 18,19 are able to create fresh terms that become arguments of
+various atoms in the answer set. But then it follows that any $holds$ atom,
+$create\_sub$, $abducedFact$ can only have predicate arguments from the set $T$.
+
+Next we show that the skolem depth of these terms is at most $N$. Any fresh
+term $t$ from $T$ appearing in the final answer set must have been constructed
+from rules like in lines 18,19. But these encode a 'static' space of
+abducibles, which unlike lines 24,25 is independent of the forward reasoning
+component or any user provided additional facts. It is not hard to see that
+terms created via these ASP rules must have skolem depth at most $N$. 
+\remms[inline]{For formal reasons, I would not refer to an example in a proof, but rather make the argument general (``in phase AG1 of the translation''). For illustration, you can then come back to the example and say: this general behavior can also be seen to hold in the proof.}
+
+\begin{lemma}
+Since the set $T_{N}$ is finite it follows that any answer set of $P_{\langle
+  R,q,U,C,N \rangle}^{res}$ is finite.
+\end{lemma}
+
+$Proof:$ Since $T_{N}$ is finite and the integer argument of any $create\_sub$
+atom is bounded by $N$, any atom in the final answer set has only finitely
+many instantiations. This proves finiteness of the resulting answer set.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
