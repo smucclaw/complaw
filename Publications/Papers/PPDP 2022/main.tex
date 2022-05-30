@@ -124,7 +124,7 @@ Test citations:\remms{Remove} \cite{lim22:_autom_defeas_reason_law,mahajan22:_ov
 
 \section{Abductive Proof Generation Task}\label{sec:abductive_proof}
 
-\subsection{Formal Setup}
+\subsection{Formal Setup}\label{formalsetup}
 Given a source ASP rule set $R$, let the tuple $\langle R,q,U,C,N \rangle$ denote the tuple consisting of the source ASP rules $R$, a ground positive or negative atom $q$.\remms{say what intuitively $q$, $U$ etc. mean} The set $U$ consists of 2 subsets. First we have a set of user-inputed facts, where each fact $f$ is denoted by the atom $user\_input(pos,f)$.\remms{what is $user\_input$/ $pos$?} Next in $U$ we have a set of integrity constraints that constrain which atoms may be abduced. For example the constraint $:-abducedFact(p(X)).$ means no instantiation of the predicate $p$ may be abduced. The integrity constraints can also prevent only specific instances of predicates from being abduced. For example instead of the constraint above we may have the constraint $:-abducedFact(p(john)).$.  $C$ denotes a set of ASP constraint which constrain which atoms may or may not appear in the complete model that results from the rules and abducibles. Finally we have the non-negative integer $N$. This acts as the depth control parameter for abductive proof search. We shall exemplify all these definitions with some examples later on. Then the key task is to find a set of facts $F$, such that:
 
 \begin{enumerate}
@@ -205,7 +205,7 @@ represented by $q$ is un-ground or existential in nature. So for example it
 maybe the case that the goal is not $p(john,james)$ but any arbitrary instance
 of the predicate $p$.
 
-\subsection{Core rule translations}
+\subsection{Core rule translations}\label{ruletrans}
 \remms[inline]{One should first situate the context (maybe already in the
   intro) and say that there are different approaches, such as rule
   transformations (as in the magic set approach) or embeddings (which are done
@@ -369,6 +369,7 @@ goal:-holds(p(a,X,b,Y,Y)).
 :- not goal.
 \end{verbatim}
 Here $v1$, $v2$ are fresh constants.
+Given $<R,q,U,C,N>$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$ be called $P^{res}_<R,q,U,C,N>$ 
 
 \subsection{Extending abduction generation space for rules without existential variables}
 
@@ -395,13 +396,13 @@ create_subs(sub_Inst_t(M_(r,p')),N):-
 Here $M_{r,p'}$ is defined exactly the same way as $M_{r,p}$ for some pre-condition $p$. Next, for each rule and for each pre-condition $p$ in the rule we have.
 \begin{lstlisting}[frame=none]
 create_subs(sub_Inst_t(M_(r,p)),N):-
-   create_subs(sub_Inst_t(F_r),N),query(p,N),max_ab_lvl(M), N<M.   
+   create_subs(sub_Inst_t(F_r),N),query(p,L),max_ab_lvl(M), L<M.   
 \end{lstlisting}
 
 For the post-condition $p'$ we have:
 \begin{lstlisting}[frame=none]
 create_subs(sub_Inst_t(M_(r,p')),N):-
-   create_subs(sub_Inst_t(F_r),N),query(p',N-1),max_ab_lvl(M),0<N,N<M.   
+   create_subs(sub_Inst_t(F_r),N),query(p',L),max_ab_lvl(M),L<M.   
 \end{lstlisting}
 
 This completes the encoding $AG2_{exp}$. The adapted version of $AG3$,
@@ -410,6 +411,7 @@ $AG3_{exp}$, is given by adding to $AG3$ one extra rule. So $AG3_{exp}$ is:
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
 query(Y,N-1):-explains(X,Y,N),max_ab_lvl(M),1<N,N<M.
 \end{lstlisting}
+Given $<R,q,U,C,N>$ let the complete ASP program that uses $AG1_{exp}, AG2_{exp}, AG3_{exp}$ be called $P_{<R,q,U,C,N>}^{exp}$
 
 
 \subsection{Discussion of Abduction space generation}
@@ -461,10 +463,10 @@ createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), holds(relB(X,Y
 createSub(subInst_r1(V_X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), holds(relD(Y)).
 createSub(subInst_r1(V_X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), holds(relE(Y)).
 
-createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relA(X,Y),N-1),0<N.
-createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relB(X,Y),N).
-createSub(subInst_r1(V_X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relD(Y),N).
-createSub(subInst_r1(V_X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relE(Y),N).
+createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relA(X,Y),L).
+createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relB(X,Y),L).
+createSub(subInst_r1(V_X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relD(Y),L).
+createSub(subInst_r1(V_X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relE(Y),L).
 
 % AG2_exp for rule 2
 
@@ -473,9 +475,9 @@ createSub(subInst_r2(Y),N) :- createSub(subInst_r2(V_Y),N), holds(relD(Y)).
 createSub(subInst_r2(Y),N) :- createSub(subInst_r2(V_Y),N), holds(relF(Y)).
 
 
-createSub(subInst_r2(Y),N) :- createSub(subInst_r2(V_Y),N), query(relE(Y),N-1),0<N.
-createSub(subInst_r2(Y),N) :- createSub(subInst_r2(V_Y),N), query(relD(Y),N).
-createSub(subInst_r2(Y),N) :- createSub(subInst_r2(V_Y),N), query(relF(Y),N).
+createSub(subInst_r2(Y),N) :- createSub(subInst_r2(V_Y),N), query(relE(Y),L).
+createSub(subInst_r2(Y),N) :- createSub(subInst_r2(V_Y),N), query(relD(Y),L).
+createSub(subInst_r2(Y),N) :- createSub(subInst_r2(V_Y),N), query(relF(Y),L).
 
 % AG3_exp
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.(* \label{abdQuery} *)
@@ -491,6 +493,7 @@ holds(X):-user_input(pos,X).   (* \label{abdHoldsUI} *)
 :-abducedFact(relA(X,Y)).
 
 \end{lstlisting}
+
 
 
 We will now discuss various parts of the encoding.
@@ -803,9 +806,9 @@ createSub(subInst_r1(X,V_Y),N) :- createSub(subInst_r1(V_X,V_Y),N), holds(relA(X
 createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), holds(relB(X,Y)).
 createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), holds(relC(X,Y)).
 
-createSub(subInst_r1(X,V_Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relA(X),N-1),0<N.
-createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relB(X,Y),N).
-createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relC(X,Y),N).
+createSub(subInst_r1(X,V_Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relA(X),L).
+createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relB(X,Y),L).
+createSub(subInst_r1(X,Y),N) :- createSub(subInst_r1(V_X,V_Y),N), query(relC(X,Y),L).
 
 
 % AG2_exp for rule 2
@@ -815,9 +818,9 @@ createSub(subInst_r2(X,Y,Z),N) :- createSub(subInst_r2(V_X,V_Y,V_Z),N), holds(re
 createSub(subInst_r2(X,Y,Z),N) :- createSub(subInst_r2(V_X,V_Y,V_Z),N), holds(relE(X,Y,Z)).
 
 
-createSub(subInst_r2(X,Y,V_Z),N) :- createSub(subInst_r2(V_X,V_Y,V_Z),N), query(relB(X,Y),N-1),0<N.
-createSub(subInst_r2(X,Y,Z),N) :- createSub(subInst_r2(V_X,V_Y,V_Z),N), query(relD(X,Y,Z),N).
-createSub(subInst_r2(X,Y,Z),N) :- createSub(subInst_r2(V_X,V_Y,V_Z),N), query(relE(X,Y,Z),N).
+createSub(subInst_r2(X,Y,V_Z),N) :- createSub(subInst_r2(V_X,V_Y,V_Z),N), query(relB(X,Y),L).
+createSub(subInst_r2(X,Y,Z),N) :- createSub(subInst_r2(V_X,V_Y,V_Z),N), query(relD(X,Y,Z),L).
+createSub(subInst_r2(X,Y,Z),N) :- createSub(subInst_r2(V_X,V_Y,V_Z),N), query(relE(X,Y,Z),L).
 
 % AG3_exp
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
@@ -867,36 +870,36 @@ which in some sense is a less general solution than
 abducedFact(relE(john,james,extVar))
 abducedFact(relD(john,james,extVar))    
 \end{verbatim} 
-where $extVar$ is a place holder for any term (including $james$).
+where $extVar$ is a place holder for any term (including $james$). Given $<R,q,U,C,N>$, let this ASP program where we use $AG1_{exp}$ , $AG2_{exp}$, $AG3_{exp}$ but replace all use of skolem terms with $extVar$ be called $P_{<R,q,U,C,N>}^{semi-exp}$.\\ We will now turn to the problem of generating a set of directed edges corresponding the computed abductive solution.
+
 
 
 \subsection{Generating Justification Trees}
 
 Given a source rule 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 pre_con_1(V1),pre_con_2(V2),...,pre_con_k(Vk),not pre_con_k+1(Vk+1),...,not pre_con_n(Vn) -> 
 post_con(V).
-\end{verbatim}
+\end{lstlisting}
 
 For each positive pre-condition $pre\_con\_u(V_{u})$, we add the following ASP rule:
 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 causedBy(pos,pre_con_u(Vu), post_con(V),N+1):-holds(post_con(V)), holds(pre_con_1(V1)),
 holds(pre_con_2(V2)),...,holds(pre_con_k(Vk)),not holds(pre_con_k+1(Vk+1)),...,
 not holds(pre_con_n(Vn)),justify(post_con(V),N).   
-\end{verbatim}
-For each negative precondition $pre\_con\_f(V_{f})$ we add the following ASP
-rule: 
-\begin{verbatim}
+\end{lstlisting}
+For each negative precondition $pre\_con\_f(V_{f})$ we add the following ASP rule: 
+\begin{lstlisting}[frame=none]
 causedBy(neg,pre_con_f(Vf), post_con(V),N+1):-holds(post_con(V)), holds(pre_con_1(V1)),
 holds(pre_con_2(V2)),...,holds(pre_con_k(Vk)),not holds(pre_con_k+1(Vk+1)),...,
-not holds(pre_con_n(Vn)),justify(post_con(V),N).   
-\end{verbatim}
-
+not holds(pre_con_n(Vn)), justify(post_con(V),N).
+\end{lstlisting}
 
 \subsubsection{Supporting code for justification tree}
+\mbox{}
 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 justify(X,N):-causedBy(pos,X,Y,N), not user_input(pos,X),N<M, max_graph_lvl(M).
 directedEdge(Sgn,X,Y):-causedBy(Sgn,X,Y,M).
 
@@ -905,8 +908,7 @@ justify(X,0):-gen_graph(X),not user_input(pos,X).
 directedEdge(pos,userFact,X):-directedEdge(pos,X,Y), user_input(pos,X).
 
 directedEdge(pos,userFact,X):-gen_graph(X), user_input(pos,X).
-
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Discussion of Justification generation}
 
@@ -916,7 +918,7 @@ a stable model $M$ of $F$, $R$ if either $a$ is in $F$ or there exists some
 rule $r$ in $R$ such that for some ground instantiation $r_{g}$ of $r$, all
 the pre-conditions of $r_{g}$, (ie. the body atoms) are true in $M$ and the
 post-condition (ie. head) of $r_{g}$ is $a$. Here the truth value of $NAF$
-atoms is interpreted in the usual way.The edges for the justification graph
+atoms is interpreted in the usual way. The edges for the justification graph
 are calculated recursively. An atom $justify(h,k)$ represents the fact that
 $holds(h)$ needs to be justified. If $r_{g}$ is a ground instantiantion of an
 input rule where the post condition of $r_{g}$ is $h$ and all the
@@ -1018,22 +1020,22 @@ Assume that $\langle R,q,U,C,N \rangle$ is such that $R$ is function free and
 also contains no arithmetic operations. $N$ is finite. $q$ is a ground
 positive atom containing no function symbols. $U$ contains some integrity
 constraints and ground positive atoms containing no function symbols. Then
-$GenPf_{\langle R,q,U,C,N \rangle}$ cannot have infinte answer sets. 
+$P_{\langle R,q,U,C,N \rangle}^{res}$ cannot have infinite answer sets. 
 \end{theorem}
 
 \begin{lemma}
 Let $S$ be the set of uninterpreted skolem functions appearing in the proof
-search encoding. Let $C$ be the set of constants occuring in either a user
+search encoding. Let $C$ be the set of constants occurring in either a user
 inputed fact in $U$ or the query $q$. Let $T_{k}$ denote the set of unique
 terms that can be constructed from $S$ and $C$ with skolem depth atmost
-$k$. Let $T$ be the possibly infinite set consisting of terms of unbounded
-depth. Then for any positive integer $k$, $T_{k}$ is finite. 
+$k$. Let $T$  be the possibly infinite set consisting of terms of unbounded
+depth.\remms{Better write: $T$ is the union of the $T_k$. However, the lemma does not say anything about $T$} Then for any positive integer $k$, $T_{k}$ is finite.
 \end{lemma}
 
 $Proof:$ This is a standard result which follows easily by induction. Clearly $|T_{0}|$ = $|C|$, which is finite. Let $|T_{k}|$ = $B$ be finite. Let $S$ be a set of $l$ functions having arity at most $d$. Then $|T_{k+1}|\leq B + lB^{d}$. Hence $T_{k+1}$ is finite.  
 
 \begin{lemma}
- For any predicate $p$ inside an $abducedFact$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for any predicate $p$ inside an $holds$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for the other atoms in any answer set of $Ab_{\langle R,q,U,C,N \rangle}$. Terms that correspond to arguments of rule predicates are always elements of $T_{N}$.
+ For any predicate $p$ inside an $abducedFact$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for any predicate $p$ inside an $holds$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for the other atoms in any answer set of $P_{\langle R,q,U,C,N \rangle}^{res}$. Terms that correspond to arguments of rule predicates are always elements of $T_{N}$.
 \end{lemma}
 
 $Proof$ $Sketch$: Firstly note that for any predicate $p$ inside a
@@ -1056,18 +1058,26 @@ from rules like in lines 18,19. But these encode a 'static' space of
 abducibles, which unlike lines 24,25 is independent of the forward reasoning
 component or any user provided additional facts. It is not hard to see that
 terms created via these ASP rules must have skolem depth at most $N$. 
+\remms[inline]{For formal reasons, I would not refer to an example in a proof, but rather make the argument general (``in phase AG1 of the translation''). For illustration, you can then come back to the example and say: this general behavior can also be seen to hold in the proof.}
 
 \begin{lemma}
-Since the set $T_{N}$ is finite it follows that any answer set of $Ab_{\langle
-  R,q,U,C,N \rangle}$ is finite.
+Since the set $T_{N}$ is finite it follows that any answer set of $P_{\langle
+  R,q,U,C,N \rangle}^{res}$ is finite.
 \end{lemma}
 
 $Proof:$ Since $T_{N}$ is finite and the integer argument of any $create\_sub$ atom is bounded by $N$, any atom in the final answer set has only finitely many instantiations. This proves finiteness of the resulting answer set. 
-\begin{lemma}
-If $Ab_{\langle R,q,U,C,N\rangle}$ only has finite answer sets then so does $GenPf_{\langle R,q,U,C,N\rangle}$
-\end{lemma}
-
 \section{Completeness for restricted class of problems}\label{sec:completeness}
+We will now prove the following theorem:
+\begin{theorem}[Completeness]\label{thm:completeness}
+  If there exists a general solution $S$ to $\langle R,q,U,\emptyset,N\rangle$ then there
+  exists a ASP solution $S_{ASP}$ to $\langle R,q,U,\emptyset,N\rangle$.
+\end{theorem}
+Here by a general solution $S$, we mean any set of facts $S$ satisfying the following conditions that we also mentioned in Section \ref{formalsetup}. Namely we have that: \begin{enumerate}
+    \item $q$ is in some answer set $\mathcal{A}$ of $F\cup R$.
+    \item $F$ contains all the positive facts from $U$ and $F$ does not violate any of the integrity constraints in $U$ Ie. $F$ does not contain abducibles that are specifically disallowed by the constraints on abducibles in $U$.
+    \item $F$ does not have any atoms whose depth level is greater than $N$.
+\end{enumerate}
+
 For the completeness proof we make the following assumptions leaving an
 investigation of the general case for future work. Given $\langle
 R,q,U,C,N\rangle$ we make the following assumptions. 
@@ -1079,16 +1089,16 @@ R,q,U,C,N\rangle$ we make the following assumptions.
   disjoint from the set of predicates which are prevented from being used as
   abducibles
 \item No post condition of any rule in $R$ contains repeated variables. For example the rule:\\
-$p(X,X):-r(X,X,Y)$ is not allowed but the rule: $p(X,Y):-r(X,X,Y)$ is allowed.
+$p(X,X):-r(X,X,Y)$ is not allowed but the rule: $p(X,Y):-r(X,X,Y)$ is allowed.\remms{Linearity. The same holds for patterns of functional programs}
 \end{enumerate}
 
-Note that that these conditions mean that without loss of generality, for the sake of proving completeness, we may assume that the set of user supplied facts is empty.
+Note that that these conditions mean that without loss of generality, for the sake of proving completeness, we may assume that the set of user supplied facts is empty. We will first need a preliminary lemma.
 
 \begin{lemma}
-Assume $\langle R,q,U,C,N\rangle$, $\langle R,q',U,C,N\rangle$ are two
+Assume $\langle R,q,U,\emptyset,N\rangle$, $\langle R,q',U,\emptyset,N\rangle$ are two
 problems satisfying the conditions above but $q'$ is obtained from $q$ by
 possibly changing some or all of the arguments of $q$. Then $\langle
-R,q,U,C,N\rangle$ has a solution if and only if $\langle R,q',U,C,N\rangle$
+R,q,U,\emptyset,N\rangle$ has a solution $F$ derived from the ASP program $P_{\langle R,q,U,\emptyset,N\rangle}^{res}$ if and only if $\langle R,q',U,\emptyset,N\rangle$ has a solution $F'$ derived from the ASP program $P_{\langle R,q',U,\emptyset,N\rangle}^{res}$
 does.
 \end{lemma}
 
@@ -1113,15 +1123,11 @@ induction hypothesis such a solution to the set of problems $\langle
 R,q'_{pre_{i}},U,\emptyset,k\rangle$. Hence a solution to  $\langle
 R,q,U,\emptyset,k+1\rangle$ exists. This proves the lemma.
 
-\subsection{Proof of main theorem}
-We now prove the main theorem by induction on $N$. That is we prove the following:
+\remms[inline]{Intuitively, the linearity requirement is not clear to me. Do you have a counterexample for the non-linear case?}
+We now prove the main theorem by induction on $N$. 
+\remms[inline]{It is not clear what a ``general'' and an ``ASP'' solution is. The structures $\langle R,q,U,\emptyset,N\rangle$ have always been defined to be ASP problems, see section 2.1}
 
-\begin{theorem}[Completeness]\label{thm:completeness}
-  If there exists a general solution $S$ to $\langle R,q,U,\emptyset,N\rangle$ then there
-  exists a ASP solution $S_{ASP}$ to $\langle R,q,U,\emptyset,N\rangle$.
-\end{theorem}
-
-$Proof$ We prove this by induction on $N$. The case $N=0$ is trivial. Assume
+$Proof$ The case $N=0$ is trivial. Assume
 the result for some $N=k>0$. The existence of a non-trivial general solution
 to $\langle R,q,U,\emptyset,k+1\rangle$ implies the existence of a solution to
 the following set of problems, $\langle R,q_{pre_{i}},U,\emptyset,k\rangle$
@@ -1170,10 +1176,10 @@ $\textit{Proof sketch}$ Let $query(a'',j')$ be such that $E(query(a,k),query(a''
 
 \subsection{Definition 2 - Concrete Proof graph}
 
-Given an abstract proof graph $G_{R,p,n}$, and a substitution $\theta$ for
+Given an abstract proof graph $G_{R,p,n}^{min}$, and a substitution $\theta$ for
 terms in the abstract proof graph, define the concrete proof graph
 $C_{R,p,n,\theta}$ to be the set of $query$ atoms obtained after doing the
-substitution $\theta$ on the set of $query$ atoms in $G_{R,p,n}$.
+substitution $\theta$ on the set of $query$ atoms in $G_{R,p,n}^{min}$. (We drop the $min$ from the notation for the concrete proof graph as we will always mean a substitution from the minimal abstract proof graph)
 
 For example given the substitution $\phi$ $[v1\rightarrow john, sk(v1)
 \rightarrow james, sk(sk(v1))\rightarrow mary]$, $C_{R',a,2,\phi}$ is :
@@ -1185,7 +1191,7 @@ Note that such a substitution $\phi$ need not be injective.
 
 
 \subsection{Definition 3 - Derived substitution}
-Given some $G_{R,p,n}$, and an associated $C_{R,p,n,\theta}$, let $q_{c}$ be a $query$ atom from $C_{R,p,n,\theta}$. Let $S_{q_{c}}$ be the set of $query$ atoms in $G_{R,p,n}$, which upon application of the substitution $\theta$ give $q_{c}$. Now pick an atom $q_{o}$ from $S_{q_{c}}$. Now suppose $q_{c}$ is given by $query((t_{1},t_{2},...,t_{j}),k)$, $q_{o}$ is given by $query((e_{1},e_{2},...,e_{j}),k)$. Now consider an arbitrary query atom $q_{f}$ given by $query((a_{1},a_{2},...,a_{j}),k)$, which is such that the map $\psi$ mapping each $e_{i}$ to the corresponding $a_{i}$ is well defined. (ie. $\psi$ is not one-to-many). Then define the substituion $\phi = T(\theta, q_{c},q_{o},q_{f})$ on terms in $G_{R,p,n}$ by the following:\\ For a term $u$ in $G_{R,p,n}$, if $u$ is in the set $\{e_{1},e_{2},...,e_{j}\}$ then $\phi(u) = \psi(u)$, otherwise $\phi(u) = \theta(u)$.
+Given some $G_{R,p,n}^{min}$, and an associated $C_{R,p,n,\theta}$, let $q_{c}$ be a $query$ atom from $C_{R,p,n,\theta}$. Let $S_{q_{c}}$ be the set of $query$ atoms in $G_{R,p,n}^{min}$, which upon application of the substitution $\theta$ give $q_{c}$. Now pick an atom $q_{o}$ from $S_{q_{c}}$. Now suppose $q_{c}$ is given by $query((t_{1},t_{2},...,t_{j}),k)$, $q_{o}$ is given by $query((e_{1},e_{2},...,e_{j}),k)$. Now consider an arbitrary query atom $q_{f}$ given by $query((a_{1},a_{2},...,a_{j}),k)$, which is such that the map $\psi$ mapping each $e_{i}$ to the corresponding $a_{i}$ is well defined. (ie. $\psi$ is not one-to-many). Then define the substituion $\phi = T(\theta, q_{c},q_{o},q_{f})$ on terms in $G_{R,p,n}^{min}$ by the following:\\ For a term $u$ in $G_{R,p,n}^{min}$ (meaning $u$ occurs as the argument of the predicate inside some $query$ atom), if $u$ is in the set $\{e_{1},e_{2},...,e_{j}\}$ then $\phi(u) = \psi(u)$, otherwise $\phi(u) = \theta(u)$.
 
 \begin{theorem}[Term substitution]\label{thm:termsub}
 Given a rule set $R$ satisfying condition 4 from above consider $\langle R,q,U,C,N\rangle$,
@@ -1202,9 +1208,9 @@ the resulting program has an answer set $A'$ such that $A'$ contains
 $C_{R,p,N,\phi}$, where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$.
 \end{theorem}
 
-$\textit{Proof sketch}$. In the following proof when we refer to the $level$ of a $query$ atom we mean the integer argument of the $query$ atom. When we refer to the $predicate$ $argument$ of a $query$ atom we will mean the first argument of a $query$ atom. Given a $query$ atom $q$ in $G_{R,p,N}$, the transformed atom $tr(q)$ denoted the corresponding atom in $C_{R,p,N,\phi}$. We will prove the result by induction on $k$, the level of the atoms $q_{c}$, $q_{o}$ and $q_{f}$. 
+$\textit{Proof sketch}$. In the following proof when we refer to the $level$ of a $query$ atom we mean the integer argument of the $query$ atom. When we refer to the $predicate$ $argument$ of a $query$ atom we will mean the first argument of a $query$ atom. Given a $query$ atom $q$ in $G_{R,p,N}^{min}$, the transformed atom $tr_{\chi}(q)$ denotes the corresponding atom in $C_{R,p,N,\chi}$, given some substitution $\chi$ of terms in $G_{R,p,N}^{min}$. We will prove the result by induction on $k$, the level of the atoms $q_{c}$, $q_{o}$ and $q_{f}$. 
 
-Fix $q_{c}$, $q_{o}$ and $q_{f}$ and suppose that the level of these atoms $k$ is $0$. Since there is only one level $0$ query atom say $q'$ in $G_{R,p,N}$, we must have $q_{o}=q'$, and $q_{f} = tr(q')$. Now we have to show that for all $query$ atoms $q$ in $G_{R,p,N}$ such that the level of $q$ is greater than $0$, we have $tr(q)$. Now suppose that $p$ is a 3 place predicate and there is an input rule $r_{c}$ where ${c}$ refers to the rule id. Suppose that the predicate $p_{d}$ appears as a pre-condition in $r_{c}$. Let the variables in $r_{c}$ be $X1$, $X2$, $X3$, $X4$, in the order given by $O_{c}$, (recall from Section 3.1 that for each input rule we had some order on the variables). Suppose $r_{c}$ has the following form:
+Fix $q_{c}$, $q_{o}$ and $q_{f}$ and suppose that the level of these atoms $k$ is $0$. Since there is only one level $0$ query atom say $q'$ in $G_{R,p,N}$, we must have $q_{o}=q'$, and $q_{f} = tr_{\phi}(q')$. Now we have to show that for all $query$ atoms $q$ in $G_{R,p,N}$ such that the level of $q$ is greater than $0$, we have $tr_{\phi}(q)$. Now suppose that $p$ is a 3 place predicate and there is an input rule $r_{c}$ where ${c}$ refers to the rule id. Suppose that the predicate $p_{d}$ appears as a pre-condition in $r_{c}$. Let the variables in $r_{c}$ be $X1$, $X2$, $X3$, $X4$, in the order given by $O_{c}$, (recall from Section \ref{ruletrans} that for each input rule we had some order on the variables). Suppose $r_{c}$ has the following form:
 \begin{verbatim}
 p(X2,X1,X4):-p_d(X4,X2,X3),...    
 \end{verbatim}
@@ -1294,8 +1300,23 @@ $l$ are given by some fixed permutation $\pi_{O_{l}}$ of
 $\{g_{1},g_{2},...,g_{m}\}$. Therefore it follows that the first argument of
 $j_{p}$ is in fact the same as that of $q'_{o}$. But now since we are working
 with $\textit{minimal}$ abstract proof graphs it follows that
-$j_{p} = q'_{o}$. This proves the claim and hence completes the proof of the
-theorem.
+$j_{p} = q'_{o}$. This proves the claim. It now remains to show that we also have $I_{R,p,N,\phi}$. First note that in the preceeding part of the proof, whenever we used an Abducibles Generation clause to show how a transformed query atom leads to a transformed child atom, we used invoked clauses of the following from:
+$createSub(t,i):-createSub(t',i),query(h,i-1).$\\
+$explains(g,g',i):-createSub(t,i).$\\
+$query(g,i):-explains(g,g',i).$\\
+Notice that the $createSub$ atom in the right hand side of the first clause is always from $I_{R,p,N,\theta}$. Similarly for a transformed $query$ atom leading to the transformation of a sibling atom we have: $createSub(t,i):-createSub(t',i),query(h,i).$\\
+$explains(g,g',i):-createSub(t,i).$\\
+$query(g,i):-explains(g,g',i).$\\ 
+and for transformation of a parent atom we have:\\
+$createSub(t,i):-createSub(t',i),query(h,i).$\\
+$explains(g,g',i):-createSub(t,i).$\\
+$query(g',i-1):-explains(g,g',i).$\\
+In each case the $createSub$ atom in the right hand side of the first clause is always from $I_{R,p,N,\theta}$ and a combination of such transformations creates the new concrete proof graph $C_{R,p,N,\phi}$. So in order to show that we have $I_{R,p,N,\theta}$, it is justified to first assume that we have $C_{R,p,N,\phi}$, $C_{R,p,N,\theta}$ and $I_{R,p,N,\theta}$. However this is now easy to see. given an atom $createSub(t',i)$ from $I_{R,p,N,\theta}$, the following instantions of $AG$ clauses shows how one gets the corresponding $createSub(t,i)$ atom from $I_{R,p,N,\phi}$.\\
+$createSub(t_{1},i):-createSub(t_{0},i),tr(q_{b_{1}}).$\\
+$createSub(t_{2},i):-createSub(t_{1},i),tr(q_{b_{2}}).$\\ ...\\
+$createSub(t_{l},i):-createSub(t_{l-1},i),tr(q_{b_{l}}).$\\
+$createSub(t_{l+1},i):-createSub(t_{l},i),tr(q_{h}).$\\
+Here $createSub(t_{0},i) = createSub(t',i)$ and $createSub(t_{l+1},i) = createSub(t,i)$. $q_{b_{1}}$, $q_{b_{2}}$..., refer to query atoms in $C_{R,p,N\theta}$ that correspond to preconditions of the input rule instantiation given by $createSub(t',i)$, $tr(q)$ refers to the corresponding query atom of $q$ in $C_{R,p,N\phi}$, finally $q_{h}$ refers to the post condition of the input rule instantiation given by $createSub(t',i)$. 
 
 \input{derivation_tree_figure}
 
@@ -1304,7 +1325,8 @@ theorem.
 \begin{corollary}[Adding facts]\label{addfact}
 Given a rule set $R$ satisfying condition 4 from above consider $\langle R,q,U,C,N\rangle$, let $p$ be the predicate corresponding to $q$. Suppose $A$ is an answer set of $P^{semi-complete}_{<R,q,U,C,N>}$ and let $A$ contain $C_{R,p,N,\theta}$. Now say the atom $q_{c}$ $query(p_{i}(t_{1},t_{2},..,t_{j}),k)$ is in $C_{R,p,N,\theta}$. Let $q_{o}$ be some query atom from the set $S_{q_{c}}$ given by $query((e_{1},e_{2},...,e_{j}),k)$. Now suppose, $h_{f}= holds((a_{1},a_{2},...,a_{j}))$ is an arbitrary $holds$ atom such that the map $\psi$ from the $e_{i}s$ to the $a_{i}s$ as described in the definition above is well defined. Then upon adding the fact $holds(p_{i}(a_{1},a_{2},..,a_{j}))$ to $P^{semi-complete}_{<R,q,U,C,N>}$, the resulting program has an answer set $A'$ such that $A'$ contains $C_{R,p,N,\phi}$, where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$, where $q_{f} = query(p_{i}(a_{1},a_{2},..,a_{j}),k)$. 
 \end{corollary}
-\textit{Proof} This follows from the theorem above and the rule\\ $query(X,N):-holds(X),max\_ab\_lvl(M),N = 0..M.$
+\textit{Proof} Given $q_{o}$, let $i_{o}$ be from the set $I_{R,p,N}$ such that $q_{o}$ corresponds to some input-rule precondition corresponding to $i_{o}$. Then given $q_{c}$, and $tr_{\theta}(i_{o})$, then consider the following instantiation of an $AG2$ clause. $tr_{\phi}(i_{o}):-tr_{\theta}(i_{o}),h_{f}$. Then due to an application of the $explains(...):-createSub(...)$ clause and the use of the following $AG3$ rule:
+$query(X,N):-explains(X,Y,N)$, we get the required atom $q_{f}$, where the first entry of $q_{f}$ is $h_{f}$ and the level of $q_{f}$ is the same as $q_{c},q_{o}$. So then the theorem above applies. In the case where $q_{o}, i_{o}$ are such that $q_{o}$ corresponds to a post-condition, we invoke the $AG3$ rule $query(Y,N-1):-explains(X,Y,N)$ instead.
 \section{Applications and Extensions}\label{sec:applications_extensions}
 
 \subsection{Maximal abduction depth}
