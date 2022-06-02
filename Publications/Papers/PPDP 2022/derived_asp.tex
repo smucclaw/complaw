@@ -21,7 +21,7 @@ want to get out of our encoding. Intuitively, the way we will solve this
 abductive reasoning problem is by first encoding the input rules such as the
 ones above in the usual forward direction. Then we will have a representation which
 corresponds to 'reversing' the rules, \ie we go from post-conditions to
-pre-conditions.\remms{Looks like backward reasoning} These 'reveresed' rules
+pre-conditions. These 'reveresed' rules
 generate a maximal space of abducibles which then feed into the forward rule
 translation. Finally we will have integrity constraints that ensure that the
 atom which we want to be true (represented by $q$) is indeed entailed by the
@@ -29,6 +29,7 @@ abductive solution. An adapted version of this 'reversed rule' representation
 also enables us to generate a set of directed edges corresponding to a
 justification graph. The technical challenge in this process comes from
 finding a way to deal with existential variables and the depth of abducible generation.
+
 \subsection{Input Rule translations}
 
 \subsubsection{Forward Translation}
@@ -127,7 +128,8 @@ for each negated or positive precondition $p$ we have the following rule:
                        holds(p),max_ab_lvl(M), N<M.   
 \end{lstlisting}
 Repeat this for each pre-condition. This is the set of rules $AG2$.
-\remms{\texttt{max\_ab\_lvl} should be motivated}
+
+%\remms{\texttt{max\_ab\_lvl} should be motivated}
 
 \subsubsection{AG3}
 Finally $AG3$ consists of just the single rule:
@@ -184,14 +186,16 @@ If instead only a specific ground instance of $p$ or a partially ground instance
 :-abducedFact(p(alpha,X)).
 \end{verbatim}
 Next we add the following $weak$ constraint so that in the optimal abductive
-solution as few abducibles as possible are used.\remms{what does $[1@1,X]$ mean?}
+solution as few abducibles as possible are used.
+%\remms{what does $[1@1,X]$ mean?}
 \begin{verbatim} 
 :~abducedFact(X).[1@1,X]
 \end{verbatim}
 
 \subsubsection{Specifying the goal}
 Here is the code to encode the goal of the abductive reasoning process represented by the parameter $q$. If q is a ground atom say $p(a1,a2..,an)$ for some predicate $p$ then we
-have:\remms{\texttt{-: not goal} needs some explanation.}
+have:
+%\remms{\texttt{-: not goal} needs some explanation.}
 \begin{lstlisting}[frame=none]
 generate_proof(p(a1,a2,...,an)).
 goal:-holds(p(a1,a2,..,an)).
@@ -412,8 +416,9 @@ and a similar result is obtained if we add an instance of the predicate $relD$
 to the initially empty set of user provided facts. Thus with this encoding we
 have full implicit term substitution. The place holder or 'dummy' variables
 $v1$, $v2$, always get replaced away in the optimal abductive solution based
-on the user provided facts.\remms{But one can still get an abduced fact
-  containing a Skolem function?} A subtle point here is that there is no notion of
+on the user provided facts.
+%\remms{But one can still get an abduced fact containing a Skolem function?} 
+A subtle point here is that there is no notion of
 equality between terms. We are not setting $v2 = mary$. We are instead
 enlarging the space of abducibles in a systematic way based on user provided
 facts so that a more optimal solution which involves replacing the term $v2$
@@ -494,7 +499,7 @@ createSub(subInst_r1(skolemFn_r1_Y(bob), skolemFn_r1_Y(skolemFn_r1_Y(bob))),1)
 \end{lstlisting}
 Then due line 8 and line 17, we get the atom \begin{lstlisting}[frame=none]
 query(relA(skolemFn_r1_Y(skolemFn_r1_Y(bob)),1)
-\end{lstlisting}.\\
+\end{lstlisting}
 
 In this way we can see that with the encoding above we would have answer sets
 that contain atoms of the form\\ $query(relA(skolemFn\_r1\_Y(...),1)$ for

@@ -53,8 +53,9 @@ generation encoding. Let $C$ be the set of constants occurring in either a user
 inputed fact in $U$ or the query $q$. Let $T_{k}$ denote the set of unique
 terms that can be constructed from $S$ and $C$ with skolem depth at most
 $k$. Let $T$  be the possibly infinite set consisting of terms of unbounded
-depth.\remms{Better write: $T$ is the union of the $T_k$. However, the lemma does not say anything about $T$} Then for any positive integer $k$, $T_{k}$ is finite.
+depth. Then for any positive integer $k$, $T_{k}$ is finite.
 \end{lemma}
+% \remms{Better write: $T$ is the union of the $T_k$. However, the lemma does not say anything about $T$} 
 
 \begin{proof}
 This is a standard result which follows easily by induction. Clearly $|T_{0}|$ = $|C|$, which is finite. Let $|T_{k}|$ = $B$ be finite. Let $S$ be a set of $l$ functions having arity at most $d$. Then $|T_{k+1}|\leq B + lB^{d}$. Hence $T_{k+1}$ is finite.  
@@ -64,7 +65,7 @@ This is a standard result which follows easily by induction. Clearly $|T_{0}|$ =
  For any predicate $p$ inside an $abducedFact$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for any predicate $p$ inside an $holds$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for the other atoms in any answer set of $P_{\langle R,q,U,C,N \rangle}^{res}$. Terms that correspond to arguments of predicates occuring in the input rules are always elements of $T_{N}$.
 \end{lemma}
 
-\begin{proof}\textit{(sketch)}: Firstly note that for any predicate $p$ inside a
+\begin{proof}\textit{(sketch)}. Firstly note that for any predicate $p$ inside a
 $abducedFact$ or $holds$ atom, where $p$ comes from the input rule set, the
 arguments of $p$ belong to the (possibly infinite) set $T$. We can see this by observing that
 since no rule in $R$ contains a function symbol, the encoding of the rules
