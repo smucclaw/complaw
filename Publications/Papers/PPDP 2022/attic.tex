@@ -1,0 +1,118 @@
+
+
+\subsection{Counter-example to completeness when rules have existential variables in pre-conditions}
+\begin{verbatim}
+p(X):-q(X,Y,Z),r(X,Y,Z).
+r(X,Y,Y):-q(X,Y,Y).
+\end{verbatim}
+query is p(john), and predicate r is given CWA. 
+
+Then without some additional user-input like $q(john, v1,v1)$, no solution is generated. Possible solution is to allow different vbls in pre-con to get mapped to the same skolem vbls.
+
+Counter example to completeness when skolemization and NAF is involved
+\begin{verbatim}
+a(X):-q(X,Y,Z),not p(X,Y).
+p(X,Y):-q(X,Y,Z),not b(X).
+b(X):-q(X,Y,Y).
+
+%query is a(john), level = 1, CWA on a(X).
+% Compare skolemized output
+%q(john,v1,v2).
+% Fully instantiated
+q(john,james,james).    
+\end{verbatim}
+
+\subsection{Completeness table}
+\begin{verbatim}
+Ext vbs   Integrity Cnst     NAF   Comp
+N              Y              Y      N
+N              N              Y      Y
+N              Y              N      Y
+N              N.             N.     Y  
+Y              Y.             N.     N 
+Y              Y              Y.     N
+Y              N              Y.     N 
+Y              N              N.     N 
+\end{verbatim}
+
+\subsection{Expanding Proof Search Space for rules with Existential variables in pre-conditions}
+
+Optional if user-inputed query is non ground:
+\begin{verbatim}
+ explains(postcon(X,Y),postcon(X,Y),N+1):-createSub(subInst_r1(X,Y,Z),_N).   
+\end{verbatim}
+(Warning: With these additions this whole thing becomes liable to massive state space explosions (including infinite models) and bounds on abduction level are mandatory. Do we always still get finite models once max abduction level is imposed?)
+
+So for a rule involving $N$ variables, we get $N(N-1)$ extra $create\_sub$ rules. This is to allow distinct variables in the source ASP rules to get mapped to the same skolem expressions, during proof search, thus overcoming the counter-examples to the completeness of the procedure.
+
+Consider the ASP rule set:
+\begin{verbatim}
+p(X):-q(X).
+q(X):-r(X).
+\end{verbatim}
+Intuitively, there are 3 separate minimal sets of facts, that in conjunction with the rule set would lead to the entailment of the atom $p(bob)$. These are $\{r(bob)\}$, $\{q(bob)\}$ and $\{p(bob)\}$. Each of these fact sets gives rise to a proof of $p(bob)$ of reducing depth. We have:
+\begin{mathpar}
+      \inferrule* [Right=R2,width=8em,
+leftskip=2em,rightskip=2em]
+{\inferrule* [Right=R1,width=8em,
+leftskip=2em,rightskip=2em]{Fact : r(bob)}{q(bob)}}
+{p(bob)}
+\end{mathpar}
+
+\begin{mathpar}
+      \inferrule* [Right=R1,width=8em,
+leftskip=2em,rightskip=2em]
+{\inferrule* {}{Fact : q(bob)}}
+{p(bob)}
+\end{mathpar}
+
+$Fact : p(bob)$
+
+
+\subsubsection{Invariance of satisfiability under variable re-naming}
+Given an abduction task $T= \langle R,Q,U,C,N\rangle$  we say $T$ has the
+$invariance$ property if the following holds: given any proof tree $P_{S}$ of
+$T$, corresponding to an abductive solution $S$ of $T$, consider a map $M$ on
+predicate arguments in $P_{S}$ where $M$ is injective, $M$ is the identity map
+on predicate arguments that occur in $Q$, and on all other arguments, $M$ maps
+to fresh terms not occuring elsewhere in the logic program. Then the abductive
+solution $M(S)$ obtained under any such map $M$ must also be a solution to the
+abductive task $T$. 
+
+
+\subsection{Formal Setup}
+\subsubsection{Finite Answer sets property}
+Given a set of source ASP rule $R$ we say that $R$ has the Finite Answer Sets property if for any finite set of facts $F$, the ASP program for $R$ together with the facts in $F$, always has at least one answer set and furthermore only has finite answer sets.
+ \subsubsection{Unique arguments in predicates}
+We say that a rule set $R$ satisfies the $uniqueness$ $of$ $arguments$ property if none of the predicates occuring in a given rule contain repeated arguments. For example the rule:
+$p(X,Y,Y)\rightarrow q(X)$ is not allowed but the rule: $p(X,Y,Z)\rightarrow q(X)$ is fine. 
+
+\subsection{Completeness, Minimality and Finiteness of Proof generation}
+
+\subsubsection{Valid task}
+Given a task $T = \langle R,Q,U,C,N\rangle$ we say $T$ is valid if $R$ obeys the finite answer sets property and the uniqeness of arguments property, $N$ is finite and $U$, $C$ are finite sets. 
+
+\subsubsection{Theorem - Finiteness of Proof generation}
+Given a valid task $\langle R,Q,U,C,N\rangle$, $\langle R,Q,U,C,N>_{ASP}$ has only finite answer sets. 
+
+\subsubsection{Theorem - Completeness and Minimality of Proof Generation}
+$Thm$ Given a valid task $T= \langle R,Q,U,C,N\rangle$, assume $C$ is empty. Then $T$ has a solution $F$ if and only if $\langle R,Q,U,C,N>_{ASP}$ has an answer set $\mathcal{S}$ such that the set of $abducedFact$ predicates in $\mathcal{S}$ also is a solution to $\langle R,Q,U,C,N\rangle$. Furthermore the optimal answer set of $\langle R,Q,U,C,N>_{ASP}$ corresponds to a $minimal$ solution if the proof graph is filled in bottom up by the user. If $C$ is non-empty then do we still get completeness assuming $R$ does not contain $NAF$?
+
+$Proof$
+Given a valid task $T= \langle R,Q,U,C,N\rangle$, assume $C$ is empty but that $R$ may contain NAF Then $T$ has a solution $F$ if and only if $\langle R,Q,U,C,N>_{ASP}$ has an answer set $\mathcal{S}$ such that the set of $abducedFact$ predicates in $\mathcal{S}$ also is a solution to $\langle R,Q,U,C,N\rangle$. Furthermore the optimal answer set of $\langle R,Q,U,C,N>_{ASP}$ corresponds to a $minimal$ solution if the proof graph is filled in bottom up by the user.
+
+$Proof$ Now assume that $\langle R,Q,U,C,N\rangle$ is such that neither $R$ nor $C$ contain NAF, but $Q$ is a NAF atom...
+
+Now assume that $\langle R,Q,U,C,N\rangle$ is such that neither $R$ nor $C$ contain NAF, but $Q$ is a positive atom...
+
+Now assume that $\langle R,Q,U,C,N\rangle$ is such that $R$ contains NAF but $C$ is empty...
+
+We now give a counter example to completeness when we have both NAF in the rules and a non-empty set of integrity constraints.
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
