@@ -1,79 +1,59 @@
-\section{Completeness for restricted class of problems}\label{sec:completeness}
+\section{Completeness for simple  problems}\label{sec:completeness}
 We will now prove the following theorem:
 \begin{theorem}[Completeness]\label{thm:completeness}
-  If there exists a general solution $S$ to $\langle R,q,U,\emptyset,N\rangle$ then there
-  exists a ASP solution $S_{ASP}$ to $\langle R,q,U,\emptyset,N\rangle$.
+  Given a simple a simple abductive proof generation task,if there exists a general solution $S$ to that task then there
+  exists a ASP solution $S_{ASP}$ to that task corresponding to an answer set of the ASP program $P_{\langle R,q,U,\emptyset,N\rangle}^{res}$.
 \end{theorem}
-Here by a general solution $S$, we mean any set of facts $S$ satisfying the following conditions that we also mentioned in Section \ref{formalsetup}. Namely we have that: \begin{enumerate}
-    \item $q$ is in some answer set $\mathcal{A}$ of $F\cup R$.
-    \item $F$ contains all the positive facts from $U$ and $F$ does not violate any of the integrity constraints in $U$ Ie. $F$ does not contain abducibles that are specifically disallowed by the constraints on abducibles in $U$.
-    \item $F$ does not have any atoms whose depth level is greater than $N$.
-\end{enumerate}
-
-For the completeness proof we make the following assumptions leaving an
-investigation of the general case for future work. Given $\langle
-R,q,U,C,N\rangle$ we make the following assumptions. 
-
-\begin{enumerate}
-\item $R$ contains no negation as failure.
-\item $C$ is empty.
-\item The set of predicates which occur in user supplied facts in $U$ is
-  disjoint from the set of predicates which are prevented from being used as
-  abducibles
-\item No post condition of any rule in $R$ contains repeated variables. For example the rule:\\
-$p(X,X):-r(X,X,Y)$ is not allowed but the rule: $p(X,Y):-r(X,X,Y)$ is allowed.\remms{Linearity. The same holds for patterns of functional programs}
-\end{enumerate}
-
-Note that that these conditions mean that without loss of generality, for the sake of proving completeness, we may assume that the set of user supplied facts is empty. We will first need a preliminary lemma.
+Note that without loss of generality, for the sake of proving completeness, we may assume that the set of user supplied facts is empty. We will first need a preliminary lemma.
 
 \begin{lemma}
 Assume $\langle R,q,U,\emptyset,N\rangle$, $\langle R,q',U,\emptyset,N\rangle$ are two
 problems satisfying the conditions above but $q'$ is obtained from $q$ by
 possibly changing some or all of the arguments of $q$. Then $\langle
-R,q,U,\emptyset,N\rangle$ has a solution $F$ derived from the ASP program $P_{\langle R,q,U,\emptyset,N\rangle}^{res}$ if and only if $\langle R,q',U,\emptyset,N\rangle$ has a solution $F'$ derived from the ASP program $P_{\langle R,q',U,\emptyset,N\rangle}^{res}$
-does.
+R,q,U,\emptyset,N\rangle$ has a solution $S_{ASP}$ derived from the ASP program $P_{\langle R,q,U,\emptyset,N\rangle}^{res}$ if and only if $\langle R,q',U,\emptyset,N\rangle$ has a solution $S'_{ASP}$ derived from the ASP program $P_{\langle R,q',U,\emptyset,N\rangle}^{res}$ We call such solutions ASP solutions for short.
 \end{lemma}
 
 $Proof$ We prove the lemma by induction on $N$.
-The case $N = 0$ is trivial. If there exists a solution for $\langle
+The case $N = 0$ is trivial. If there exists a ASP solution for $\langle
 R,q,U,\emptyset,0\rangle$ then any instance of the predicate in $q$ can be
-abduced therefore $\langle R,q',U,\emptyset,0\rangle$ has a solution. Assume
-the result for some $N = k$ such that $k>0$. A non trivial solution to
-$\langle R,q,U,\emptyset,k+1\rangle$ implies the existence of a solution to
-the following set of problems $\langle R,q_{pre_{i}},U,\emptyset,k\rangle$
-where the set of $q_{pre_{i}}$ where the $q_{pre_{i}}$ are the set of
+abduced therefore $\langle R,q',U,\emptyset,0\rangle$ has a ASP solution. Assume
+the result for all $N<k$ such that $k>0$. A non trivial ASP solution to
+$\langle R,q,U,\emptyset,k+1\rangle$ (ie a solution in which no instance of the predicate in $q$ can be abduced) implies the existence of some ASP solution to
+each of the following set of problems $\langle R,q_{pre_{i}},U,\emptyset,k\rangle$
+where the $q_{pre_{i}}$ are a set of
 pre-conditions of a rule $r$ in $R$, under some substitution $\theta$ where
-$\theta$ applied to the post-condition of $r$ gives $q$. But then since $r$
+$\theta$ applied to the post-condition of $r$ gives $q$. But then since the post- condition of $r$
 contains no repeated variables, if $q$ unifies with the post condition of $r$
 under some substituion $\theta$, then there exists some other substitution
 $\theta'$ for the variables in $r$ such that $\theta'$ applied to the
-postcondition of $r$ gives $q'$. Therefore a solution to the set of problems
-$\langle R,q'_{pre_{i}},U,\emptyset,k\rangle$ is also a solution to $\langle
+postcondition of $r$ gives $q'$. Therefore the union of ASP solutions to the set of problems
+$\langle R,q'_{pre_{i}},U,\emptyset,k\rangle$ is also a ASP solution to $\langle
 R,q',U,\emptyset,k+1\rangle$ where each $q'_{pre_{i}}$ is obtained from
-$q'_{pre_{i}}$ by possibly changing the arguments in the predicate. By the
-induction hypothesis such a solution to the set of problems $\langle
-R,q'_{pre_{i}},U,\emptyset,k\rangle$. Hence a solution to  $\langle
-R,q,U,\emptyset,k+1\rangle$ exists. This proves the lemma.
+$q_{pre_{i}}$ by possibly changing the arguments in the predicate. By the
+induction hypothesis an ASP solution to each of the problems $\langle
+R,q'_{pre_{i}},U,\emptyset,k\rangle$ exists. Hence by taking the union of the solutions we get an ASP solution to  $\langle
+R,q',U,\emptyset,k+1\rangle$. This proves the lemma.
 
 \remms[inline]{Intuitively, the linearity requirement is not clear to me. Do you have a counterexample for the non-linear case?}
 We now prove the main theorem by induction on $N$. 
 \remms[inline]{It is not clear what a ``general'' and an ``ASP'' solution is. The structures $\langle R,q,U,\emptyset,N\rangle$ have always been defined to be ASP problems, see section 2.1}
 
 $Proof$ The case $N=0$ is trivial. Assume
-the result for some $N=k>0$. The existence of a non-trivial general solution
-to $\langle R,q,U,\emptyset,k+1\rangle$ implies the existence of a solution to
-the following set of problems, $\langle R,q_{pre_{i}},U,\emptyset,k\rangle$
-where the set of $q_{pre_{i}}$ where the $q_{pre_{i}}$ are the set of
+the result for all $N<k$, where $k>0$. The existence of a non-trivial general solution
+to $\langle R,q,U,\emptyset,k+1\rangle$ implies the existence of a solution to each of the following set of problems, $\langle R,q_{pre_{i}},U,\emptyset,k\rangle$ where the $q_{pre_{i}}$ are the set of
 pre-conditions of a rule $r$ in $R$, under some substitution $\theta$ where
 $\theta$ applied to the post-condition of $r$ gives $q$. But then by the
-inductive hypothesis there is an ASP solution to the same set of problems. By
-the lemma proved above there exists an ASP solution to following set of
+inductive hypothesis there is an ASP each of the same set of problems. By
+the lemma proved above there exists an ASP solution to each of the following set of
 problems $\langle R,q'_{pre_{i}},U,\emptyset,k\rangle$, where each
 $q'_{pre_{i}}$ is obtained from the corresponding $q_{pre_{i}}$, by possibly
 replacing some predicate arguments with the appropriate skolem terms for
 predicate arguments that correspond to existential variables in the
-preconditions of $r$. Hence there exists an ASP solution to
+preconditions of $r$. Hence taking a union of these ASP solutions we get an ASP solution to
 $\langle R,q,U,\emptyset,N\rangle$.
+\section{Summary of results - I}
+Let us just comment on the results above in a slightly broader context . Firstly it is not difficult to see that the above results for finiteness and completeness hold for a slightly larger class of abductive proof generation tasks than the class of simple tasks. Namely we can in fact relax condition codition 7 in the definition of simple tasks, to allow $q$ to be un-ground or only partially ground. Call this class of abduction tasks $semi$-$simple$.  Also, the completeness result in fact holds if $P_{R,q,U,C,N}^{res}$ is replaced with $P_{R,q,U,C,N}^{semi-res}$. In summary what we have then is the following\\
+Given a $\textit{semi-simple}$ task $\langle R,q,U,\emptyset,N\rangle$. $P_{R,q,U,C,N}^{res}$, $P_{R,q,U,C,N}^{semi-res}$, both enjoy the completeness and finiteness properties. However only $P_{R,q,U,C,N}^{semi-res}$ supports full implicit term substitution whereas $P_{R,q,U,C,N}^{res}$ only supports partial term substitution. We shall formulate and prove a formal result regarding term substitution for $P_{R,q,U,C,N}^{res}$ next.    
 
 %%% Local Variables:
 %%% mode: latex

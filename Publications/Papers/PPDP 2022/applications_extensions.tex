@@ -66,21 +66,7 @@ holds(X):-user_input(pos,X).
 \end{lstlisting}
 Such an ASP program is also guaranteed to have only finite answer sets.
 
-\subsection{Mapping distinct variables to the same skolem terms}
-These extra proof search rules are needed to expand the proof search space when the rule set $R$ does not satify the unique arguments property. Say rule $r1$ involves 3 variables $X, Y, Z$. Then we add the following to the proof-search encoding:
-\begin{verbatim}
-createSub(subInst_r1(X,X,Z),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
 
-createSub(subInst_r1(X,Y,X),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
-
-createSub(subInst_r1(Y,Y,Z),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
-
-createSub(subInst_r1(X,Y,Y),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
-
-createSub(subInst_r1(Z,Y,Z),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
-
-createSub(subInst_r1(X,Z,Z),M-1)    :-createSub(subInst_r1(X,Y,Z),N),max_ab_lvl(M).
-\end{verbatim}
 
 %%% Local Variables:
 %%% mode: latex

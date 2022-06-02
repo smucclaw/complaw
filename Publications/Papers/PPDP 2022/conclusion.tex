@@ -1,48 +1,7 @@
-\section{Future and Related work, Conclusion}\label{sec:conclusion}
+\section{ Conclusion, related work, future directions}\label{sec:conclusion}
+We have presented several encodings for abductive proof generation in ASP, incorporating notions of depth control and  novel implementations of term substitution. We have also given an encoding that allows one to generate a set of directed edges representing a justification graph.\\It seems to us that some of the ideas involved in the term substituion mechanism are similar to the ideas involved when one uses $\textit{Sideways Information Passing Strategies}$ [SIPS ref] to re-write datalog rules for more efficient evaluation of queries by incorporating elements of top-down reasoning. However we have not explored this connection in detail. It seems to us that those techniques typically involve a complete re-write of the input rules according some chosen fixed sideways information passing strategy, which makes that whole approach quite different to ours.\\ Possible future directions of work may include extending the formal results presented here to a larger class of abductive proof generation problems. It also seems to us that the main technique used to generate the directed edge set representing the justification graph could be adapted for use in SAT/SMT solvers to get justifications out of them. This too could be a potentially interesting avenue for future work. 
+\remms[inline]{Also mention Haskell implemenation}
 
-\section{Novelty Factor}
-Integration of abductive reasoning and 'why not' explanations. I don't think why-not explanations have been implemented interms of abductive reasoning in the literature. Rather the approach is to compute De Morgan duals of rules. Check Schulz's survey paper and some other more recent work like xclingo. 
-\begin{verbatim}
-https://hal.archives-ouvertes.fr/hal-03032897/document
-
-https://arxiv.org/pdf/2009.10242v1.pdf
-\end{verbatim}
-Advantage of this explanation method is that we get a lot more control over depth of explanation, we get a more 'complete' why not explanation, it cn take user-inputs into account. Get some form of minimality in explanations. All this seems to neccesitate a very generalized abductive framework like the one presented.
-
-\section{Papers to read}
-Survey of Explanation approaches - Schulz etc.
-
-See section 3.6.4 eg: "For example, justification approaches where all derivation steps are included in the
-justification, that is all approaches other than LABAS justifications, may struggle
-with the succinctness when explaining a large logic program, as explanations grow
-with longer derivations. In contrast, LABAS justifications are independent of the
-derivation length. However, a large logic program may also comprise more dependencies on negative literals, thus increasing the size of LABAS justifications. More
-generally, it is an open problem how to effectively deal with the growing size (as
-well as the previously mentioned exponential number) of justifications" The paper also mentions dealing with variables as only a partially dealt with challenge, and also mentions delaling with disjunction in rule heads as a potential challenge. However our system can infact be easily adapted to deal with disjunctions. 
-
-See LABAS website
-\begin{verbatim}
-http://labas-justification.herokuapp.com/Tutorial.html    
-\end{verbatim}
-"The only approach able to handle non-normal
-logic programs, i.e. logic programs with disjunctive heads, is the causal justification
-approach, which can also deal with nested expressions in the body."
-
-Open ASP, Abduction - PA Bonnati\\
-Abduction with side effects - LM Pereira etc.\\
-Abduction over unbounded domains via ASP - PA Bonnati\\ - Involves a complex procedure to reduce an input program to a 'relevant' sub-program. Only works on so called 'finitary programs'. Doesn't seem to be any support for explanation optimization. Requires one to define abducible skolem symbols from before hand.
-
-CIFF proof procedure - F Toni etc.\\
-Combining open world Description Logic reasonong with closed world ASP - Ian Horrocks etc.\\
-sCASP papers\\
-Focussing Proofs\\
-Prolog based prover ie. LeanTAP\\
-PTTP - Prolog Technology Theorem Prover\\
-Open answer set Programming (OASP)\\
-Implementing
-Probabilistic Abductive Logic Programming
-with Constraint Handling Rules - Henning Christiansen\\
-Modelling variations of First Order Horn Abduction with Answer Set Programming- P.Schuller - Seems very similar to what I'm doing but there is no notion of integer 'levels' in the abductive proof thus easy to get into infinite backward search. Also, it is not integrated with an explanation mechanism as it is here. Lastly substitution of values for uninterpreted skolem functions is not really done automatically but rather handled through explicit equality. However overall this paper comes very close to the work here and we would need to study that paper carefully. (See FWD-A encoding) (Done, see file with tests on the complete encoding)
 
 
 

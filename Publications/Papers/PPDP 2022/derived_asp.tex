@@ -1,10 +1,11 @@
 \section{Derived ASP Programs}\label{sec:derived_asp}
+\subsection{A First Example}
 Before we give the details of the main sets of rule translations that allow
 abductive reasoning and justification generation, here is a simple example to
 illustrate some key ideas and what the desired output for an abductive problem
 is. Consider the rule set $R$ given by the 3 rules
-\begin{lstlisting}[numbers=left,frame=none]
-p(X,Y):-q(X,Y),r(X),s(Y).
+\begin{lstlisting}[frame=none]
+p(X,Y):-q(X,Y),s(Y).
 p(X,Y):-g(X,Y).
 d(X,Y):-g(X,Y).
 \end{lstlisting}
@@ -18,35 +19,25 @@ problem the minimal abductive solution can be represented by
 \textit{abducedFact(q(john,james)), abducedFact(s(james))}, which is what we
 want to get out of our encoding. Intuitively, the way we will solve this
 abductive reasoning problem is by first encoding the input rules such as the
-ones above directly as they are. Then we will have a representation which
+ones above in the usual forward direction. Then we will have a representation which
 corresponds to 'reversing' the rules, \ie we go from post-conditions to
 pre-conditions.\remms{Looks like backward reasoning} These 'reveresed' rules
-generate a maximal space of abducibles which then feed into the direct rule
+generate a maximal space of abducibles which then feed into the forward rule
 translation. Finally we will have integrity constraints that ensure that the
 atom which we want to be true (represented by $q$) is indeed entailed by the
 abductive solution. An adapted version of this 'reversed rule' representation
 also enables us to generate a set of directed edges corresponding to a
 justification graph. The technical challenge in this process comes from
-finding a way to control the depth of abduction space generation. The other
-key challenge is dealing with rules that may have existential variables in
-pre-conditions or when rules may not have existential quantifier but the goal
-represented by $q$ is un-ground or existential in nature. So for example it
-maybe the case that the goal is not $p(john,james)$ but any arbitrary instance
-of the predicate $p$.
+finding a way to deal with existential variables and the depth of abducible generation.
+\subsection{Input Rule translations}
 
-\subsection{Core rule translations}\label{ruletrans}
-\remms[inline]{One should first situate the context (maybe already in the
-  intro) and say that there are different approaches, such as rule
-  transformations (as in the magic set approach) or embeddings (which are done
-  here). }
-
-\subsubsection{Core Forward Reasoning}
-Given an input rule 
+\subsubsection{Forward Translation}
+Given an input ASP rule 
 \begin{lstlisting}[frame=none]
 pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),
    not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
 \end{lstlisting}
-obeying all the properties as above we write the following rule in our ASP program: 
+we translate it in the following way:
 \begin{lstlisting}[frame=none]
 holds(post_con(V)):-holds(pre_con(V1)),...,holds(pre_con(Vk)), not holds(pre_con(Vk+1)), ..., not holds(pre_con(Vn)). 
 \end{lstlisting}
@@ -62,25 +53,23 @@ predicate $b$), we encode that constraint as:
 \end{lstlisting}
 
 \subsubsection{Generating Abducibles}
-
-For this next set of meta-rules we will first need a way to assign the
-appropriate skolem terms to existential variables in pre-conditions. First
-given some rule in our rule set, say rule $r_{j}$. We now fix some order
-$O_{r_{j}}$ on the variables occuring in the combined set of variables from
+Before diving into the details of the details of the abduction generation encoding let us give a brief intuition for some key meta-predicates and rules that will show up in the abducibles generation encoding. Firstly the binary meta-predicate $query$ has as its first argument an atom which may become a candidate for abduction and as its second argument an integer corresponding roughly to the depth level of that atom with respect to $(R,q)$. Next the meta predicate $explains$ has as its first argument, an atom which forms a pre-condition of some input rule instantiation, and as its second argument the corresponding input rule instantiation post condition. The third argument of $explains$ meta predicate carries the depth of the atom in the first argument. The final key meta-predicate is $createSub$. $createSub$ carries information about input rule instantiations. The first argument of $createSub$ is a tuple which carries generated rule instantiations of a particular rule via the instantiations of the variables in the rule in some fixed order.     
+Here we have a reversed representation of the rules. First we will need a way to assign appropriate skolem terms to existential variables in pre-conditions. Given some rule in our rule set, say rule $r_{j}$, We fix some order
+$O_{{j}}$ on the variables occuring in the combined set of variables from
 the post and pre-conditions of the rule $r_{j}$. Now we will describe a
 skolemization map that assigns an existential variable in a pre-condition of
 $r_{j}$ to a skolem term. Firstly, let the rule $r_{j}$ carry unique integer
-id $t$. Let $v$ be a variable that occurs in some rule precondition but not
+id $j$. Let $v$ be a variable that occurs in some rule precondition but not
 the post condition. Then under this skolemization map, the variable $v$ gets
 mapped to
 \begin{lstlisting}[frame=none]
-skolemFn_t_v_(V)    
+skolemFn_j_v_(V)    
 \end{lstlisting}
-where $V$ denotes the variables in the post-condition occuring in the order inherited from $O_{r_{j}}$. For example consider the rule $r$: 
+where $V$ denotes the variables in the post-condition occuring in the order inherited from $O_{r_{j}}$. For example consider the rule $r_{1}$: 
 \begin{lstlisting}[frame=none]
 p(Y,X):- q(X),r(X,Y),s(Z).    
 \end{lstlisting} 
-Assume that this rule carries integer id $1$. Let $O_{r}$ be $[X,Y,Z]$. Then
+Assume that this rule carries integer id $1$. Let $O_{1}$ be $[X,Y,Z]$. Then
 the variable $Z$ gets mapped to the skolem term $skolemFn\_1\_Z(X,Y)$.
 
 \subsubsection{AG1}
@@ -88,28 +77,27 @@ Given an input ASP rule $r$ in $R$
 \begin{lstlisting}[frame=none]
 pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
 \end{lstlisting}
-our first set of abducible generation/proof search rules $AG1$ is given by the following. (In the rest of the paper we will use the terms abducible generation rules and proof search rules interchangeably) 
+our first set of translated abducible generation rules $AG1$ is given by the following. 
 \begin{lstlisting}[frame=none]
-create_subs(sub_Inst_t((V_sk),N+1):-query(post_con(V),N),N<M-1.
+create_subs(sub_Inst_j((V_sk),N+1):-query(post_con(V),N),max_ab_lvl(M), N<M-1.
 \end{lstlisting}
-Here $V_{sk}$, denotes the ordered list $O_{r}$ but with existential variables replaced by their skolem term counter parts. Here $t$ is the integer id for the rule.
+Here $V_{sk}$, denotes the ordered list $O_{j}$ but with existential variables replaced by their skolem term counter parts. Here $j$ is the integer id for the rule. The integer $M=N+1$, where $N$ is the fifth entry of the tuple representing the abduction task, which represents the maximum depth of an abducible.
 Next we have the following rules:
 \begin{lstlisting}[frame=none]
 explains(pre_con_1(V1),post_con(V),N):-create_subs(sub_Inst_t((V),N).
 explains(pre_con_2(V2),post_con(V),N):-create_subs(sub_Inst_t((V),N).
-% etc
+...
 explains(pre_con_n(Vn),post_con(V),N):-create_subs(sub_Inst_t((V),N).
 \end{lstlisting}
-Here $V$ denotes the ordered list $O_{r}$.
-
+Here $V$ denotes all the variables occuring in the rule in the order $O_{j}$.
 \subsubsection{AG2}
-\remms{What does AG1, 2 etc refer to?}  Now we shall construct the second set
-of proof search rules $AG2$. Given $O_{r}$ construct $F_{r}$ be adjoining
-$FreshVar$ \remms{define} to each entry of $O_{r}$. So for our example above $F_{r}$ becomes
-$[FreshVar\_X,$ $FreshVar\_Y,FreshVar\_Z]$. Given a pre-condition $p$
-occurring in $r$ $M_{r,p}$ is an ordered list constructed as follows. The
-$i_{th}$ element of $M_{r,p}$ is the $i_{th}$ element of $O_{r}$ if the
-$i_{th}$ element of $O_{r}$ is a variable which occurs in $p$. Otherwise, the
+Now we shall construct the second set
+of abducible generating rules $AG2$. Given $O_{j}$ construct $F_{j}$ be adjoining the character
+$V\_$ to each entry of $O_{j}$. So for our example above $F_{1}$ becomes
+$[V\_X,$ $V\_Y,V\_Z]$. Given a pre-condition $p$
+occurring in rule $r$ with id $j$, $M_{r,p}$ is an ordered list constructed as follows. The
+$i_{th}$ element of $M_{r,p}$ is the $i_{th}$ element of $O_{j}$ if the
+$i_{th}$ element of $O_{j}$ is a variable which occurs in $p$. Otherwise, the
 $i_{th}$ element of $M_{r,p}$ is given by the $i_{th}$ element of $F_{r}$. Now
 for each negated or positive precondition $p$ we have the following rule:
 \begin{lstlisting}[frame=none]
@@ -124,16 +112,13 @@ Finally $AG3$ consists of just the single rule:
 \begin{lstlisting}[frame=none]
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
 \end{lstlisting}
-
-\subsubsection{Skolem Example}
 Let us consider another example.
-
-Consider the source ASP rule:
+Consider the input ASP rule:
 \begin{verbatim}
 a(X):- b(X,Y,Z), not c(X), not d(Y) .    
 \end{verbatim}
 Say this rule $r$ has rule id $5$. 
-Let $O_{r}$ be $[X,Y,Z]$. Here the encoding for the rule $AG1$ is:
+Let $O_{5}$ be $[X,Y,Z]$. Here the encoding for the rule $AG1$ is:
 \begin{lstlisting}[frame=none]
 create_subs(subs_Inst_5(X,skolemFn_5_Y(X),skolemFn_5_Z(X),N+1):-
    query(a(X),N),max_ab_lvl(M),N<M-1.
@@ -148,14 +133,14 @@ AG2 is given by:
 
 \begin{lstlisting}[frame=none]
 create_subs(subs_Inst_5(X,Y,Z),M-1):-
-     create_subs(subs_Inst_5(FreshVar_X,FreshVar_Y,FreshVar_Z),N), 
+     create_subs(subs_Inst_5(V_X,V_Y,V_Z),N), 
      holds(b(X,Y,Z)),max_ab_lvl(M),N<M.
 
-create_subs(subs_Inst_5(X,FreshVar_Y,FreshVar_Z),M-1):-
-create_subs(subs_Inst_5(FreshVar_X,FreshVar_Y,FreshVar_Z),N), holds(c(X)),max_ab_lvl(M),N<M.
+create_subs(subs_Inst_5(X,V_Y,V_Z),M-1):-
+create_subs(subs_Inst_5(V_X,V_Y,V_Z),N), holds(c(X)),max_ab_lvl(M),N<M.
 
-create_subs(subs_Inst_5(FreshVar_X,Y,FreshVar_Z),M-1):-
-create_subs(subs_Inst_5(FreshVar_X,FreshVar_Y,FreshVar_Z),N), holds(d(Y)),max_ab_lvl(M),N<M.
+create_subs(subs_Inst_5(V_X,Y,V_Z),M-1):-
+create_subs(subs_Inst_5(V_X,V_Y,V_Z),N), holds(d(Y)),max_ab_lvl(M),N<M.
 \end{lstlisting}
 
 \subsubsection{Supporting code for Abduction} 
@@ -183,29 +168,27 @@ solution as few abducibles as possible are used.\remms{what does $[1@1,X]$ mean?
 \end{verbatim}
 
 \subsubsection{Specifying the goal}
-Here is the code to encode the goal of the abductive reasoning process. If our
-goal is ground atom say $p(a1,a2..,an)$ for some predicate $p$ then we
+Here is the code to encode the goal of the abductive reasoning process represented by the parameter $q$. If q is a ground atom say $p(a1,a2..,an)$ for some predicate $p$ then we
 have:\remms{\texttt{-: not goal} needs some explanation.}
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 generate_proof(p(a1,a2,...,an)).
 goal:-holds(p(a1,a2,..,an)).
 :- not goal.
-\end{verbatim}
-If on the other hand our goal is unground or only partially ground then we have the following. Say our goal is of the form $p(a,X,b,Y,Y)$, which means that $X$,$Y$ are existential variables. Then for the example we have the following:
-\begin{verbatim}
+\end{lstlisting}
+If on the other hand $q$ is unground or only partially ground then we have the following. Say our goal is of the form $p(a,X,b,Y,Y)$, which means that $X$,$Y$ are existential variables. Then for the example we have the following:
+\begin{lstlisting}[frame=none]
 generate_proof(p(a,v1,b,v2,v2)).
 goal:-holds(p(a,X,b,Y,Y)).
 :- not goal.
-\end{verbatim}
-Here $v1$, $v2$ are fresh constants.
-Given $<R,q,U,C,N>$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$ be called $P^{res}_<R,q,U,C,N>$ 
-
+\end{lstlisting}
+Here $v1$, $v2$ are fresh constants. If $q$ is a ground NAF atom say $\textit{not p}$ then we simply write 
+\begin{lstlisting}[frame=none]
+generate_proof(p).
+goal:-not holds(p).
+:- not goal.
+\end{lstlisting}
+Given $<R,q,U,C,N>$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$, the supporting code and the forward translation be called $P^{res}_<R,q,U,C,N>$. We will now give a modified abduction generation encoding which can be used when no rule in $R$ contains an existential variable. It turns out that using this modified encoding on rules that have existential variables can lead to infinite answer sets. After giving this modified encoding we will explain in detail the encodings with the aid of an example. 
 \subsection{Extending abduction generation space for rules without existential variables}
-
-\remms[inline]{Why is it necessary to have a special procedure in this case?
-  Isn't this translation exactly what one gets if the list of existential
-  variables is empty?}
-
 When we have rules without existential variables, we can construct a larger
 space of abducibles without worrying about our ASP programs having infinite
 answer sets because there are now no skolem expressions. The encoding $AG1$ is
@@ -225,13 +208,13 @@ create_subs(sub_Inst_t(M_(r,p')),N):-
 Here $M_{r,p'}$ is defined exactly the same way as $M_{r,p}$ for some pre-condition $p$. Next, for each rule and for each pre-condition $p$ in the rule we have.
 \begin{lstlisting}[frame=none]
 create_subs(sub_Inst_t(M_(r,p)),N):-
-   create_subs(sub_Inst_t(F_r),N),query(p,L),max_ab_lvl(M), L<M.   
+   create_subs(sub_Inst_t(F_r),N),query(p,L).   
 \end{lstlisting}
 
 For the post-condition $p'$ we have:
 \begin{lstlisting}[frame=none]
 create_subs(sub_Inst_t(M_(r,p')),N):-
-   create_subs(sub_Inst_t(F_r),N),query(p',L),max_ab_lvl(M),L<M.   
+   create_subs(sub_Inst_t(F_r),N),query(p',L).   
 \end{lstlisting}
 
 This completes the encoding $AG2_{exp}$. The adapted version of $AG3$,
@@ -240,9 +223,7 @@ $AG3_{exp}$, is given by adding to $AG3$ one extra rule. So $AG3_{exp}$ is:
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
 query(Y,N-1):-explains(X,Y,N),max_ab_lvl(M),1<N,N<M.
 \end{lstlisting}
-Given $<R,q,U,C,N>$ let the complete ASP program that uses $AG1_{exp}, AG2_{exp}, AG3_{exp}$ be called $P_{<R,q,U,C,N>}^{exp}$
-
-
+Given $<R,q,U,C,N>$ let the complete ASP program that uses $AG1_{exp}, AG2_{exp}, AG3_{exp}$, the supporting code and the forward translation be called $P_{<R,q,U,C,N>}^{exp}$
 \subsection{Discussion of Abduction space generation}
 
 \subsubsection{Full term substitution}
@@ -268,7 +249,7 @@ query(X,0):-generate_proof(X).
 goal:-holds(relA(P,R)).
 :- not goal.
 
-% Core rule translation
+% forward translation
 holds(relA(X,Y)) :- holds(relB(X, Y)),holds(relD(Y)), not holds(relE(Y)).
 holds(relE(Y)) :- holds(relD(Y)), not holds(relF(Y)).
 
@@ -329,10 +310,10 @@ We will now discuss various parts of the encoding.
 
 As mentioned briefly earlier, the general idea is to recursively generate a
 maximal space of abducibles by 'reversing' the rules and then checking via the
-'Core rule translation' and encoding of the goal, which abducibles are needed
-for entailment of the original query or the 'goal'. More specifically any atom
+Forward Translation and encoding of the goal, which abducibles are needed
+for entailment of the original query. More specifically any atom
 of the form $query(h,i)$ generates an input rule instantiation where $h$ is
-the post-condition or head of that particular rule instantiation. Such rule
+the post-condition that particular rule instantiation. Such rule
 instantiations are represented by the $createSub$ atom. In the example above,
 this is done via lines \ref{abdInstR1}, \ref{abdInstR2} of the encoding. Line \ref{abdInstR1} corresponds to
 instantiations of rule 1 and line \ref{abdInstR2} corresponds to instantiations of rule
@@ -346,7 +327,7 @@ pre-condition. Via line \ref{abdQuery}, the first argument of an $explains$ atom
 the first argument of a $query$ atom. This new $query$ atom then recursively
 generates more $query$ atoms via the process described. Any $query$ atom
 corresponds to a candidate for abduction via the choice rule in line \ref{abdChoice}. Any
-fact which is abduced must hold due to line \ref{abdAbdHold}. At this point, before moving
+fact which is abduced must hold due to line \ref{abdHoldsAbduced}. At this point, before moving
 ahead let us first briefly comment upon the integer arguments occuring in the
 $explains$, $createSub$ and $query$ atoms.
 
@@ -389,23 +370,26 @@ createSub(subInst_r1(john,james),1):-
 Hence due to lines 16 and \ref{abdChoice}, the atom
 $query(relA(john,james),0)$ becomes true. This leads to the atoms
 $query(relD(james),1)$ and $query(relF(james),2)$ becoming true. Hence the atoms $relD(james)$ and $relF(james)$ become part of the space of abducibles and the solver gives us the new optimal solution:
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 abducedFact(relD(james)) 
 abducedFact(relF(james)) 
-\end{verbatim}
+\end{lstlisting}
 On the other hand if we instead add the fact $relF(mary)$ to the initially empty set of user provided facts then we get the follwing instantiation of line 41:
-\begin{verbatim}
-createSub(subInst_r2(v2),2):-createSub(subInst_r2(v2),2),holds(relF(mary)).    
-\end{verbatim}
-Hence the atom $createSub(subInst\_r2(v2),2)$. Via line 22, and line 50 the atom $query(relE(mary),1)$ becomes true. We thus get the following instantiation of line 35:
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
+createSub(subInst_r2(v2),2):-createSub(subInst_r2(v2),2),
+holds(relF(mary)).
+\end{lstlisting}
+Hence the atom $createSub(subInst\_r2(mary),2)$. Via line 22, and line 50 the atom $query(relE(mary),1)$ becomes true. We thus get the following instantiation of line 35:
+\begin{lstlisting}[frame=none]
 createSub(subInst_r1(v1,mary),1):- createSub(subInst_r1(v1,v2),1), query(relE(mary),1).   
-\end{verbatim}
-Thus the atom $createSub(subInst\_r1(v1,mary),1)$ becomes true, which then via say line 16 and line 50 causes the atom $query(relA(v1,mary),0)$ to become true. Now, because of $query(relA(v1,mary),0)$, $relD(mary)$, $relB(v1,mary)$ become part of the space of abducibles and the solver gives us the optimal abductive solution: 
-\begin{verbatim}
+\end{lstlisting}
+Thus the atom $createSub(subInst\_r1(v1,mary),1)$ becomes true, which then via say line 16 and line 50 causes the atom\\ 
+$query(relA(v1,mary),0)$ to become true. Now, because of\\ $query(relA(v1,mary),0)$, 
+$relD(mary)$, $relB(v1,mary)$ become part of the space of abducibles and the solver gives us the optimal abductive solution: 
+\begin{lstlisting}[frame=none]
 abducedFact(relD(mary)) 
 abducedFact(relB(v1,mary))
-\end{verbatim}
+\end{lstlisting}
 and a similar result is obtained if we add an instance of the predicate $relD$
 to the initially empty set of user provided facts. Thus with this encoding we
 have full implicit term substitution. The place holder or 'dummy' variables
@@ -468,19 +452,34 @@ holds(X):-user_input(pos,X).
 :-abducedFact(relA(bob)).
 \end{lstlisting}
 
-Due to line 11 in the encoding we get the atom $createSub(subInst\_r1(bob,skolemFn\_r1\_Y(bob)),1)$.\\
-Then due to lines 7 and 8 of the encoding we get the atoms $query(relA(skolemFn\_r1\_Y(bob)),1)$ and $query(relB(bob,skolemFn\_r1\_Y(bob)),1)$.\\
+Due to line 11 in the encoding we get the atom\begin{lstlisting}[frame=none]
+createSub(subInst_r1(bob,skolemFn_r1_Y(bob)),1).
+\end{lstlisting}
+Then due to lines 7 and 8 of the encoding we get the atoms \begin{lstlisting}[frame=none]
+query(relA(skolemFn_r1_Y(bob)),1) query(relB(bob,skolemFn_r1_Y(bob)),1).
+\end{lstlisting} 
 
-Then via lines 11 and 7 and due to the atom $query(relA(skolemFn\_r1\_Y(bob)),1)$, we get the atom $query(b(skolemFn\_r1\_Y(bob), skolemFn\_r1\_Y(skolemFn\_r1\_Y(bob))),2)$. \\
-
-Then due to lines 18, 19, we get the atom $holds(relB(skolemFn\_r1\_Y(bob), skolemFn\_r1\_Y(skolemFn\_r1\_Y(bob))$.\\
-
-Then due to line 13 of the encoding and the atom $createSub(subInst\_r1(bob,skolemFn\_r1\_Y(bob)),1)$ we get the atom $createSub(subInst\_r1(skolemFn\_r1\_Y(bob), skolemFn\_r1\_Y(skolemFn\_r1\_Y(bob))),1)$. \\
-
-Then due line 8 and line 17, we get the atom $query(relA(skolemFn\_r1\_Y(skolemFn\_r1\_Y(bob)),1)$.\\
+Then via lines 11 and 7 and due to the atom
+\begin{lstlisting}[frame=none]
+query(relA(skolemFn\_r1\_Y(bob)),1)
+\end{lstlisting} we get the atom \begin{lstlisting}[frame=none]
+query(b(skolemFn_r1_Y(bob), skolemFn_r1_Y(skolemFn_r1_Y(bob))),2)
+\end{lstlisting} 
+Then due to lines 18, 19, we get the atom \begin{lstlisting}[frame=none]
+holds(relB(skolemFn_r1_Y(bob), skolemFn_r1_Y(skolemFn_r1_Y(bob))
+\end{lstlisting}
+Then due to line 13 of the encoding and the atom \begin{lstlisting}[frame=none]
+createSub(subInst_r1(bob,skolemFn_r1_Y(bob)),1)
+\end{lstlisting} we get the atom
+\begin{lstlisting}[frame=none]
+createSub(subInst_r1(skolemFn_r1_Y(bob), skolemFn_r1_Y(skolemFn_r1_Y(bob))),1)
+\end{lstlisting}
+Then due line 8 and line 17, we get the atom \begin{lstlisting}[frame=none]
+query(relA(skolemFn_r1_Y(skolemFn_r1_Y(bob)),1)
+\end{lstlisting}.\\
 
 In this way we can see that with the encoding above we would have answer sets
-that contain atoms of the form $query(relA(skolemFn\_r1\_Y(...),1)$ for
+that contain atoms of the form\\ $query(relA(skolemFn\_r1\_Y(...),1)$ for
 aribtrarily large skolem function nesting depth. Hence the encoding above
 leads to infinitely large answer sets.
 
@@ -497,11 +496,10 @@ fresh $query$ atoms to be added to the abducibles space via rules like the one
 on line 11.
 
 As a result of this however we lose complete term substitution. Consider the following abduction problem. $R$ is given by the following ASP rules:
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 relA(P):-relB(P,R),relD(R).
 relB(P,R):-relA(R),relC(P).
-\end{verbatim}
-
+\end{lstlisting}
 Let $q$ be the atom $relA(john)$, let $U$ consist of the constraints $:-abducedFact(relA(john)).$, $:-abducedFact(relB(X,Y)).$ meaning that $q$ cannot itself be abduced and no instantiation of the predicate $relB$ can be abduced. Let the set of user provided facts be empty for now. Let the set $C$ also be empty and let $N = 4$. This is the non expanded abduction encoding for this problem. 
 \begin{lstlisting}[numbers=left]
 max_ab_lvl(5).
@@ -568,7 +566,8 @@ abducedFact(relA(skolemFn_r1_R(skolemFn_r1_R(john))))
 Now if we further add $relA(mary)$ to the set of user provided facts then we
 get as a minimal abductive solution the answer $relD(mary)$. This is because
 by after adding these facts, $holds(relB(john,mary))$ becomes true. Then by
-line 28 of the encoding   $createSub(subInst\_r1(john,mary),4)$ becomes
+line 28 of the encoding\\
+$createSub(subInst\_r1(john,mary),4)$ becomes
 true. Then by line 20, and line 36 $query(relD(mary),4)$ becomes true which
 then gives us the miinimal abductive solution. However if instead of adding
 the fact $relA(mary)$ we instead add the fact $relD(mary)$, then we do not get
@@ -578,7 +577,7 @@ solution is still
 abducedFact(relD(skolemFn_r1_R(skolemFn_r1_R(john))))
 abducedFact(relA(skolemFn_r1_R(skolemFn_r1_R(john))))    
 \end{verbatim} 
-This is because by line 29, the atom $createSub(subInst\_r1(john,mary),4)$,
+This is because by line 29, the atom\\ $createSub(subInst\_r1(john,mary),4)$,
 which due to line 19 and line 36 makes $query(relB(john,mary),4)$
 true. However now this cannot cause the atom $query(relA(mary),5)$ to become
 true because line 15 cannot apply due to the constraint on the integer
@@ -699,7 +698,7 @@ which in some sense is a less general solution than
 abducedFact(relE(john,james,extVar))
 abducedFact(relD(john,james,extVar))    
 \end{verbatim} 
-where $extVar$ is a place holder for any term (including $james$). Given $<R,q,U,C,N>$, let this ASP program where we use $AG1_{exp}$ , $AG2_{exp}$, $AG3_{exp}$ but replace all use of skolem terms with $extVar$ be called $P_{<R,q,U,C,N>}^{semi-exp}$.\\ We will now turn to the problem of generating a set of directed edges corresponding the computed abductive solution.
+where $extVar$ is a place holder for any term (including $james$). Given $<R,q,U,C,N>$, let this ASP program where we use $AG1_{exp}$ , $AG2_{exp}$, $AG3_{exp}$ but replace all use of skolem terms with $extVar$ be called $P_{<R,q,U,C,N>}^{semi-res}$.\\ We will now turn to the problem of generating a set of directed edges corresponding the computed abductive solution.
 
 
 
@@ -777,8 +776,10 @@ holds(relB(X,Y)) :- holds(relD(X,Y,Z)), holds(relE(X,Y,Z)).
 causedBy(pos,relB(X,Y),relA(X),N+1):-holds(relA(X)),holds(relB(X, Y)),not holds(relC(X,Y)),justify(relA(X),N).
 causedBy(neg,relC(X,Y),relA(X),N+1):-holds(relA(X)),holds(relB(X, Y)),not holds(relC(X,Y)),justify(relA(X),N).
 
-causedBy(pos,relD(X,Y,Z),relB(X,Y),N+1):-holds(relB(X,Y)),holds(relD(X,Y,Z)),holds(relE(X,Y,Z)),justify(relB(X,Y),N).
-causedBy(pos,relE(X,Y,Z),relB(X,Y),N+1):-holds(relB(X,Y)),holds(relD(X,Y,Z)),holds(relE(X,Y,Z)),justify(relB(X,Y),N).
+causedBy(pos,relD(X,Y,Z),relB(X,Y),N+1):-holds(relB(X,Y)),
+holds(relD(X,Y,Z)),holds(relE(X,Y,Z)),justify(relB(X,Y),N).
+causedBy(pos,relE(X,Y,Z),relB(X,Y),N+1):-holds(relB(X,Y)),
+holds(relD(X,Y,Z)),holds(relE(X,Y,Z)),justify(relB(X,Y),N).
 
 justify(X,N):-causedBy(pos,X,Y,N), not user_input(pos,X),N<M, max_graph_lvl(M).
 directedEdge(Sgn,X,Y):-causedBy(Sgn,X,Y,M).
@@ -790,14 +791,16 @@ directedEdge(pos,userFact,X):-directedEdge(pos,X,Y), user_input(pos,X).
 directedEdge(pos,userFact,X):-gen_graph(X), user_input(pos,X).
 \end{lstlisting}
 We get the following set of directed edges representing the justification graph. 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 directedEdge(pos,relB(john,james),relA(john))
 directedEdge(pos,relE(john,james,mary),relB(john,james))
 directedEdge(pos,relD(john,james,mary),relB(john,james))
 directedEdge(neg,relC(john,james),relA(john))
 directedEdge(pos,userFact,relD(john,james,mary))
 directedEdge(pos,userFact,relE(john,james,mary))
-\end{verbatim}
+\end{lstlisting}
+
+
 
 %%% Local Variables:
 %%% mode: latex

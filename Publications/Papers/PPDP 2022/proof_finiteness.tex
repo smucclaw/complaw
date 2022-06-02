@@ -1,56 +1,92 @@
 \section{Proof sketch of Finiteness}\label{sec:proof_finiteness}
 
 \begin{theorem}[Finiteness]\label{thm:finiteness}
-Assume that $\langle R,q,U,C,N \rangle$ is such that $R$ is function free and
-also contains no arithmetic operations. $N$ is finite. $q$ is a ground
-positive atom containing no function symbols. $U$ contains some integrity
-constraints and ground positive atoms containing no function symbols. Then
-$P_{\langle R,q,U,C,N \rangle}^{res}$ cannot have infinite answer sets. 
+Assume that $\langle R,q,U,C,N \rangle$ is such that it is a simple abductive proof generation task. %$R$ is function free and
+%also contains no arithmetic operations. $N$ is finite. $q$ is a ground
+%positive atom containing no function symbols. $U$ contains some integrity
+%constraints and ground positive atoms containing no function symbols.% Then
+Then $P_{\langle R,q,U,C,N \rangle}^{res}$ cannot have infinite answer sets. 
 \end{theorem}
+We will prove this result via a series of lemmas. Also we will refer to specific lines of the encoding given below but the arguments in the proof are fully general and can be easily extended to the encoding of any abductive proof generation problem
+
+\begin{lstlisting}[numbers=left]
+max_ab_lvl(5).
+query(relA(bob),0).
+goal:-holds(relA(bob)).
+:-not goal.
+
+
+holds(relA(P)) :- holds(relB(P, R)),holds(relD(R)).
+holds(relB(P, R)) :- holds(relA(R)), holds(relC(P)).
+
+explains(relB(P, R), relA(P) ,N) :- createSub(subInst_r1(P,R),N).
+explains(relD(R), relA(P) ,N) :- createSub(subInst_r1(P,R),N).
+
+
+createSub(subInst_r1(P,skolemFn_r1_R(P)),N+1) :- query(relA(P) ,N),max_ab_lvl(M),N<M-1.
+createSub(subInst_r2(P,Q),N+1) :- query(relB(P, Q) ,N),max_ab_lvl(M),N<M-1.
+
+
+explains(relA(R), relB(P,R) ,N) :- createSub(subInst_r2(P,R),N).
+explains(relC(P), relB(P,R) ,N) :- createSub(subInst_r2(P,R),N).
+
+
+
+createSub(subInst_r1(P,R),M-1) :- createSub(subInst_r1(V_P,V_R),N), holds(relB(P, R)),max_ab_lvl(M).
+createSub(subInst_r1(V_P,R),M-1) :- createSub(subInst_r1(V_P,V_R),N), holds(relD(R)),max_ab_lvl(M).
+
+createSub(subInst_r2(V_P,R),M-1) :- createSub(subInst_r2(V_P,V_R),N), holds(relA(R)),max_ab_lvl(M).
+
+createSub(subInst_r2(P,V_R),M-1) :- createSub(subInst_r2(V_P,V_R),N), holds(relC(P)),max_ab_lvl(M).
+
+
+query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
+{abducedFact(X)}:-query(X,N).
+holds(X):-abducedFact(X).
+holds(X):-user_input(pos,X).
+\end{lstlisting}
+
 
 \begin{lemma}
-Let $S$ be the set of uninterpreted skolem functions appearing in the proof
-search encoding. Let $C$ be the set of constants occurring in either a user
+Let $S$ be the set of uninterpreted skolem functions appearing in the abducible
+generation encoding. Let $C$ be the set of constants occurring in either a user
 inputed fact in $U$ or the query $q$. Let $T_{k}$ denote the set of unique
-terms that can be constructed from $S$ and $C$ with skolem depth atmost
+terms that can be constructed from $S$ and $C$ with skolem depth at most
 $k$. Let $T$  be the possibly infinite set consisting of terms of unbounded
 depth.\remms{Better write: $T$ is the union of the $T_k$. However, the lemma does not say anything about $T$} Then for any positive integer $k$, $T_{k}$ is finite.
 \end{lemma}
 
-$Proof:$ This is a standard result which follows easily by induction. Clearly $|T_{0}|$ = $|C|$, which is finite. Let $|T_{k}|$ = $B$ be finite. Let $S$ be a set of $l$ functions having arity at most $d$. Then $|T_{k+1}|\leq B + lB^{d}$. Hence $T_{k+1}$ is finite.  
+\begin{proof}
+This is a standard result which follows easily by induction. Clearly $|T_{0}|$ = $|C|$, which is finite. Let $|T_{k}|$ = $B$ be finite. Let $S$ be a set of $l$ functions having arity at most $d$. Then $|T_{k+1}|\leq B + lB^{d}$. Hence $T_{k+1}$ is finite.  
+\end{proof}
 
 \begin{lemma}
- For any predicate $p$ inside an $abducedFact$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for any predicate $p$ inside an $holds$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for the other atoms in any answer set of $P_{\langle R,q,U,C,N \rangle}^{res}$. Terms that correspond to arguments of rule predicates are always elements of $T_{N}$.
+ For any predicate $p$ inside an $abducedFact$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for any predicate $p$ inside an $holds$ atom the arguments of $p$ are elements of the set $T_{N}$. Similarly for the other atoms in any answer set of $P_{\langle R,q,U,C,N \rangle}^{res}$. Terms that correspond to arguments of predicates occuring in the input rules are always elements of $T_{N}$.
 \end{lemma}
 
-$Proof$ $Sketch$: Firstly note that for any predicate $p$ inside a
-$abducedFact$ or $holds$ atom, where $p$ comes from the original rule set, the
-arguments of $p$ belong to the set $T$. We can see this by observing that
+\begin{proof}\textit{(sketch)}: Firstly note that for any predicate $p$ inside a
+$abducedFact$ or $holds$ atom, where $p$ comes from the input rule set, the
+arguments of $p$ belong to the (possibly infinite) set $T$. We can see this by observing that
 since no rule in $R$ contains a function symbol, the encoding of the rules
-themselves such as in line 2 of the ASP program above, cannot introduce new
+themselves such as in line 7,8 of the ASP program above, cannot introduce new
 terms in the arguments of predicates inside $holds$ atoms. Similarly lines
-like 24, 25 also cannot introduce new terms inside $holds$, $create\_sub$
+like 23, 24 etc. also cannot introduce new terms inside $holds$, $create\_sub$
 atoms in the final answer set, which means also that no new terms appear as
-predicate arguments inside $abducedFact$ atoms. 
-
-Only lines like 18,19 are able to create fresh terms that become arguments of
+predicate arguments inside $abducedFact$ atoms.\\ 
+Only lines like 14,15 are able to create fresh terms that become arguments of
 various atoms in the answer set. But then it follows that any $holds$ atom,
-$create\_sub$, $abducedFact$ can only have predicate arguments from the set $T$.
-
+$create\_sub$, $abducedFact$, $query$, $explains$ atoms can only have input rule predicate arguments from the set $T$.\\
 Next we show that the skolem depth of these terms is at most $N$. Any fresh
-term $t$ from $T$ appearing in the final answer set must have been constructed
-from rules like in lines 18,19. But these encode a 'static' space of
-abducibles, which unlike lines 24,25 is independent of the forward reasoning
-component or any user provided additional facts. It is not hard to see that
-terms created via these ASP rules must have skolem depth at most $N$. 
-\remms[inline]{For formal reasons, I would not refer to an example in a proof, but rather make the argument general (``in phase AG1 of the translation''). For illustration, you can then come back to the example and say: this general behavior can also be seen to hold in the proof.}
+term $t$ from $T$ appearing in an atom in an answer set of the ASP program, such that $t$ does not appear in any user provided fact or in the original query $q$, must have been constructed from rules like in lines 14,15. But these encode a 'static' space of
+abducibles, which unlike lines 23, 24 is independent of the forward reasoning
+component or any user provided additional facts. This is because any $query$ atom that gives an instantiation of the right hand side of rules like the one in line 14, must have integer argument less than $M-1=N$, (recall that we have $M=N+1$), whereas rules like the one in line 24, gives us $query$ atoms with integer argument $M-1$. It is not hard to see that because of this fresh terms created via ASP rules like the one on line 14 must have skolem depth at most $N$. Therefore all terms inside atoms of the answer-set that correspond to input rule predicate arguments must belong to the set $T_{N}$.  
+\end{proof}
 
 \begin{lemma}
 Since the set $T_{N}$ is finite it follows that any answer set of $P_{\langle
   R,q,U,C,N \rangle}^{res}$ is finite.
 \end{lemma}
-
-$Proof:$ Since $T_{N}$ is finite and the integer argument of any $create\_sub$
+$Proof:$ Since $T_{N}$ is finite and the integer argument of any $create\_sub$, $explains$, $query$ 
 atom is bounded by $N$, any atom in the final answer set has only finitely
 many instantiations. This proves finiteness of the resulting answer set.
 

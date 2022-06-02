@@ -1,0 +1,18 @@
+\section{Simple Abductive Proof Generation Task}
+We shall define here the notion of a\\
+$
+\textit{Simple Abductive Proof Generation Task}$, as all of our formal results will apply to this restricted class of abductive proof generation tasks.
+\begin{definition}[Simple Abductive Proof Generation Task]\label{simpletask}
+Given an abductive proof generation task $\langle R,q,U,C,N \rangle$, we say that this task is a $\textit{simple abductive proof generation task}$ if the following hold:
+\begin{enumerate}
+\item $R$ contains no negation as failure.
+\item $R$ contains no function symbols, arithmetic operators.
+\item No post condition of any rule in $R$ contains repeated variables. For example the rule:\\
+$p(X,X):-r(X,X,Y)$ is not allowed but the rule: $p(X,Y):-r(X,X,Y)$ is allowed.
+\item $C$ is empty.
+\item Any constraint on abducibles in $U_{a}$ must consist of only a single positive fully un-ground atom with no repeated variables amongst its arguments. For example if $p$ is a binary predicate, then the constraint $:-abducedFact(p(X,Y)).$ is allowed but the constraint $:-abducedFact(p(X,X)).$ Constraints where more than one atom appers are also not allowed. For instance the following would be disallowed: $:-abducedFact(p(X,Y)),abducedFact(r(X)).$ Finally constraints containing partially or fully ground atoms are disallowed. For example the following would be disallowed $:-abducedFact(p(james,Y)).$
+\item If $U_{a}$ is such that no instance of some predicate $p$ can be abduced, then $U_{f}$ must not contain any instantiation of $p$.
+\item $q$ must be positive and fully ground.
+\\
+\end{enumerate}
+\end{definition}

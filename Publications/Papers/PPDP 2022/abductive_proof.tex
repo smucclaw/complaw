@@ -1,17 +1,22 @@
 \section{Abductive Proof Generation Task}\label{sec:abductive_proof}
 
 \subsection{Formal Setup}\label{formalsetup}
-Given a source ASP rule set $R$, let the tuple $\langle R,q,U,C,N \rangle$ denote the tuple consisting of the source ASP rules $R$, a ground positive or negative atom $q$.\remms{say what intuitively $q$, $U$ etc. mean} The set $U$ consists of 2 subsets. First we have a set of user-inputed facts, where each fact $f$ is denoted by the atom $user\_input(pos,f)$.\remms{what is $user\_input$/ $pos$?} Next in $U$ we have a set of integrity constraints that constrain which atoms may be abduced. For example the constraint $:-abducedFact(p(X)).$ means no instantiation of the predicate $p$ may be abduced. The integrity constraints can also prevent only specific instances of predicates from being abduced. For example instead of the constraint above we may have the constraint $:-abducedFact(p(john)).$.  $C$ denotes a set of ASP constraint which constrain which atoms may or may not appear in the complete model that results from the rules and abducibles. Finally we have the non-negative integer $N$. This acts as the depth control parameter for abductive proof search. We shall exemplify all these definitions with some examples later on. Then the key task is to find a set of facts $F$, such that:
 
+
+\begin{definition}[Abductive Proof Generation Task]\label{def:abductive_proof_generation_task}
+
+Given a source ASP rule set $R$, consider the tuple $\langle R,q,U,C,N \rangle$, which we will refer to as the $\textit{Abductive Proof Generation Task}$. In this tuple,  $R$ denotes a set of input ASP rules, which we shall also refer to as the input rules or the source rules throughout the rest of this paper. A possibly non-ground or partially ground positive atom or, a ground negation-as-failure atom $q$. $q$ intuitively represents the goal of our abductive reasoning process. In the context of an abductive proof generation task we may also sometimes refer to $q$ as the $query$. \remms{say what intuitively $q$, $U$ etc. mean} The set $U$ consists of 2 subsets, $U = U_{f} \cup U_{a}$. Here $U_{f}$ is a set of user provided facts. $U_{a}$ is a set of integrity constraints that prevents certain atoms from being abduced. Throughout the rest of this paper we may sometimes just refer to the set $U$ as a whole making it clear what is contained in the subsets. $C$ denotes a set of ASP constraints which constrain which atoms may or may not appear in the complete model that results from the rules, user provided facts and abducibles. Finally we have the non-negative integer $N$. This acts as the depth control parameter for abductive proof generation. 
+ \end{definition}
+Given an abductive proof generation task $\langle R,q,U,C,N \rangle$,let us define what we mean by a $\textit{General Solution}$ to the task
+\begin{definition}[General Solution]\label{def:abductive_proof_generation_task} \
+Given an abductive proof generation task $\langle R,q,U,C,N \rangle$, we say that $F$ is a general solution to this task if:
 \begin{enumerate}
-    \item If $q$ is a positive atom, it is in some answer set $\mathcal{A}$ of $F\cup R\cup C$. If $q$ is a NAF atom, then there exists an answer set $\mathcal{A}$ of $F\cup R\cup C$ such that $q$ is $not$ in $\mathcal{A}$.
-    \item $F$ contains all the positive facts from $U$ and $F$ does not violate any of the integrity constraints in $U$ Ie. $F$ does not contain abducibles that are specifically disallowed by the constraints on abducibles in $U$.
+    \item If $q$ is a positive atom, it is in some answer set $\mathcal{A}$ of $F\cup U_{f}\cup R\cup C$ where the un-ground variables in $q$ have been replaced with any set of ground terms. If $q$ is a ground NAF atom, then there exists an answer set $\mathcal{A}$ of $F\cup U_{f}\cup R\cup C$ such that $q$ is $not$ in $\mathcal{A}$.
+    \item $F$ does not violate any of the integrity constraints in $U_{a}$ Ie. $F$ does not contain abducibles that are specifically disallowed by the constraints in $U_{a}$.
     \item $F$ does not have any atoms whose depth level is greater than $N$.
 \end{enumerate}
-We say $F$ is a solution of the abductive proof generation task $\langle R,q,U,C,N \rangle$
-
-\subsection{Source ASP program}
-
+\end{definition} We will next state some assumptions we make on the set of input ASP rules $R$ and then also define what we mean by the depth level of an atom. After this we shall exemplify all these definitions with an example. 
+\subsection{Input ASP program}
 When considering any abductive proof generation task we make the following assumptions on the input ASP rule set $R$. We assume that each source ASP rule has exactly the following form:
 \begin{lstlisting}[frame=none]
 pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),
@@ -30,20 +35,26 @@ We further make the folllowing assumptions:
 
 We further assume that given any integrity constraint $c$ in $C$, every variable in a negation-as-failure atom in $c$ also occurs in some positive atom in $c$. We will now define the depth level of an atom with respect to a given input source ASP rule set $R$ and query $q$.
 
-\subsection{Depth level of an atom}
-We define a map $\phi$ that maps an atom to a set of non-negative integers. We
-will describe this map rather informally. For the query $q$, $0\in
-\phi(q)$. Now the rest of the definition is recursive. Given an atom $a$, the
-non-negative integer $n$, $n\in \phi(a)$ if and only if there exists a rule
-$r$ in $R$ such that there is a substitution $\theta$ of the variables in $r$
-such that there exists some precondition (negated or positive) $p$ of $r$ such
+\begin{definition}[Depth level of an atom]\label{depthlvl}
+Given a ASP rule set $R$ and some ground or partially ground positive atom $q$ which we shall call the query, we define a map $\phi_{R,q}$ that maps an arbitrary positive atom to a set of non-negative integers. We
+will describe this map rather informally. For any atom  $q'$ such that $q'$ is obtained from $q$ by replacing the variables in $q$, with some ground terms we have, $0\in
+\phi_{R,q}(q')$. Now the rest of the definition is recursive. Given an atom $a$, the
+non-negative integer $n$, $n\in \phi_{R,q}(a)$ if and only if there exists a rule
+$r$ in $R$ and some substitution $\theta$ of the variables in $r$
+such that there exists some precondition (NAF or positive) $p$ of $r$ such
 that that $\theta$ applied to $p$ gives $a$ and $\theta$ applied to the post
-condition of $r$ gives some atom $a'$ where $n-1$ $\in$ $\phi(a')$.
+condition of $r$ gives some atom $a'$ where $n-1$ $\in$ $\phi_{R,q}(a')$.
 
-Given an atom $a$ let $\phi_{min}(a)$ be $-1$ if the set $\phi(a)$ is empty
-and let $\phi_{min}(a)$ be the minimum member of the set $\phi(a)$
-otherwise. Then $\phi_{min}(a)$ is defined to be the $depth$ $level$ of $a$
-with respect to the rule set $R$ and query $q$.
+Given an atom $a$ let $\phi^{min}_{R,q}(a)$ be $-1$ if the set $\phi_{R,q}(a)$ is empty
+and let $\phi^{min}_{R,q}(a)$ be the minimum member of the set $\phi_{R,q}(a)$
+otherwise. Then $\phi^{min}_{R,q}(a)$ is defined to be the $depth$ $level$ of $a$
+with respect to the rule set $R$ and query $q$. If $q$ is a ground $NAF$ atom then given some some positive atom $a$ $\phi^{min}_{R,q}(a)$ is simply given by $\phi^{min}_{R,\tilde{q}}(a)$, where $\tilde{q}$ is obtained from $q$ by removing the $not$ operator from in front of $q$.  
+\end{definition}
+For example if $R$ consisted of the rules
+\begin{lstlisting}[frame=none]
+a(X):-b(X).
+b(X):-a(X).
+\end{lstlisting} and $q$ was $a(X)$, meaning $q$ is un-ground then we would have that given any term $t$, $\phi_{R,q}^{min}(a(t)) = 0$, $\phi_{R,q}^{min}(b(t)) = 1$, and for any other atom $p$, $\phi_{R,q}^{min}(p) = -1$.  
 
 
 %%% Local Variables:
