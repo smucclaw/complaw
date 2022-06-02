@@ -77,6 +77,7 @@ Given some $G_{R,p,n}^{min}$, and an associated $C_{R,p,n,\theta}$, let $q_{c}$ 
 \end{definition}
 For instance going back to our example if we let $q_{c}$ be\\
 $query(b(john,extVar),1)$ let $q_{o}$ be $query(b(v1,sk(v1)),1)$ and let $q_{f}$ be $query(b(john,james),1)$ then $\phi=T(\theta,q_{c},q_{o},q_{f})$ is the substitution $\theta =[v1\rightarrow john,sk(v1) \rightarrow james, sk'(v1,sk(v1))\rightarrow extVar]$. We now have the following theorem:
+
 \begin{theorem}[Term substitution]\label{thm:termsub}
 Consider the abductive proof generation task $\langle R,q,U,C,N\rangle$, and suppose that his task is a simple abductive proof generation task. Let $p$ be the predicate corresponding to $q$. Suppose $A$ is an answer set of $P^{semi-res}_{<R,q,U,C,N>}$ and let $A$ contain $C_{R,p,N,\theta}$ and $I_{R,p,N,\theta}$ . Now
 say the atom $q_{c}$ $query(p_{i}(t_{1},t_{2},..,t_{j}),k)$ is in
@@ -87,139 +88,19 @@ map $\psi$ from the $e_{i}s$ to the $a_{i}s$ as described in the definition
 above is well defined. Then upon adding the fact
 $query(p_{i}(a_{1},a_{2},..,a_{j}),k)$ to $P^{semi-res}_{<R,q,U,C,N>}$,
 the resulting program has an answer set $A'$ such that $A'$ contains
-$C_{R,p,N,\phi}$ and $I_{R,p,N,\phi}$  where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$.
+$C_{R,p,N,\phi}$ and $I_{R,p,N,\phi}$  where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$
 \end{theorem}
-
-\begin{proof} \textit{(sketch)}. In the following proof when we refer to the $level$ of a $query$ atom we mean the integer argument of the $query$ atom. When we refer to the $predicate$ $argument$ of a $query$ atom we will mean the first argument of a $query$ atom. Given a $query$ atom $q$ in $G_{R,p,N}^{min}$, the transformed atom $tr_{\chi}(q)$ denotes the corresponding atom in $C_{R,p,N,\chi}$, given some substitution $\chi$ of terms in $G_{R,p,N}^{min}$. We will prove the result by induction on $k$, the level of the atoms $q_{c}$, $q_{o}$ and $q_{f}$. 
-
-Fix $q_{c}$, $q_{o}$ and $q_{f}$ and suppose that the level of these atoms $k$ is $0$. Since there is only one level $0$ query atom say $q'$ in $G_{R,p,N}$, we must have $q_{o}=q'$, and $q_{f} = tr_{\phi}(q')$. Now we have to show that for all $query$ atoms $q$ in $G_{R,p,N}$ such that the level of $q$ is greater than $0$, we have $tr_{\phi}(q)$. Now suppose that $p$ is a 3 place predicate and there is an input rule $r_{c}$ where ${c}$ refers to the rule id. Suppose that the predicate $p_{d}$ appears as a pre-condition in $r_{c}$. Let the variables in $r_{c}$ be $X1$, $X2$, $X3$, $X4$, in the order given by $O_{c}$, (recall from Section \ref{ruletrans} that for each input rule we had some order on the variables). Suppose $r_{c}$ has the following form:
-\begin{verbatim}
-p(X2,X1,X4):-p_d(X4,X2,X3),...    
-\end{verbatim}
-
-Then in $C_{R,p,N,\theta}$, we have the following $query$ and $createSub$ atoms:
-
-$query(p(\theta(v1),\theta(v2),\theta(v3),0)$,\\ $query(p_{d}(\theta(v3),\theta(v1),\theta(sk(v2,v1,v3)),1))$. 
-
-Here $sk$ stands for the skolem function $skolemFn\_c\_x3$. 
-
-We also have\\
-$createSub(subInst\_r_{c}(\theta(v2),\theta(v1),\theta(sk(v2,v1,v3)), \theta(v3)),1)$. Note that $\theta(v1)=t_{1},\theta(v2)=t_{2},\theta(v3)=t_{3}$, furthermore\\ $q_{o}= query(p(v1,v2,v3),0)$. Now given $q_{f} = query(p(a_{1},a_{2},a_{3}),0)$ as above we consider the following $AG2$ clause:
-\begin{lstlisting}[frame=none]
-createSub(subInst_r_c(X1,X2,V_X3,X4),N):-
-createSub(subInst(V_X1,V_X2,V_X3,V_X4),N),query(p(X2,X1,X4),L).    
-\end{lstlisting}
-We have the following instantiation of the clause above
-
-$createSub(subInst\_r\_c(a_{2},a_{1},\theta(sk(v2,v1,v3)),a_{3}),1):-$  
-
-$createSub(subInst\_r\_c(t_{2},t_{1},\theta(sk(v2,v1,v3)),t_{3}),1),query(p(a_{1},a_{2},a_{3}),0).$\\
-Then via an instantiation of the following $AG1$ clause:
-\begin{lstlisting}[frame=none]
-explains(p_d(X4,X2,X3),p(X1,X2,X4),N):-
-createSub(subInst_r_c(X1,X2,X3,X4),N).    
-\end{lstlisting}
-and an instantiation of the following $AG1$ clause:
-\begin{lstlisting}[frame=none]
-query(X,N):-explains(X,Y,N). 
-\end{lstlisting}
-   
-
-We get the following atom $query(p_{d}(a_{3},a_{1},\theta(sk(v2,v1,v3)),1)$ which is $tr_{\phi}(query(p_{d}(t_{3},t_{1},\theta(sk(v2,v1,v3))),1))$. Similarly for any other child node $q$ of $query(p(v1,v2,v3),0)$ in $G_{R,p,N}^{min}$, we get $tr_{\phi}(q)$. Now it follows by a similar argument to before that for any child node $q'$ of these transformed level one nodes $q$, we also get $tr_{\phi}(q')$. One can see this by considering the following: Given a level one node $q$ from $G_{R,p,N}^{min}$, let $q_{c}^{1}$ be the image of $q$ under $\theta$, let $q_{o}^{1}$ be $q$ and let $q_{f}^{1}$ be $tr_{\phi}(q)$, then consider $\phi'$ = $T(\theta, q_{c}^{1},q_{o}^{1},q_{f}^{1})$. Then on any term $b$ in $q$, such that $b$ is in the set $\{v1,v2,v3\}$, $\phi'(b)$ =$\phi(b)$ and on all other terms $t$ in $G_{R,p,N}^{min}$, $\phi'(t)=\theta(t)$. Now, given the level one node $q$ in $G_{R,p,N}^{min}$, let $q'$ be a child node of $q$, then for any term $t'$ in $q'$, such that $t'$ occurs in the set $\{v1,v2,v3\}$, it must be the case that $t'$ occurs in $q$. Therefore, the result of applying $\phi'$ on $q'$ will in fact give us $tr_{\phi}(q')$. In this way one can see that the term substitution given by $\phi$ will propogate all the way downwards over elements of $C_{R,p,N,\theta}^{min}$. This completes the case $k=0$. 
-
-Now suppose we have proven the theorem for all values of $k<e$. Now let $q_{c},q_{o},q_{f}$ be such that the level of all these atoms in $e+1$, and let $q_{o}$ be such that $q_{o}$ does not correspond to a pre-condition of an input rule, where the pre-condition contains an existential variable. Now, let $q_{d}$ be a parent node of $q_{o}$. Let $r_{h}$ be the relevant rule and let the predicate corresponding to $q_{o}$ be $p_{z}$ and let the predicate corresponding to $q_{d}$ be $p_{y}$. Then we have the following instantiation of an $AG2$ rule 
-\begin{lstlisting}[frame=none]
-createSub(subInst_r_h(W''),o+1):-
-query(p_z(W_f),o+1),createSub(subInst_r_h(W'),o+1).
-\end{lstlisting}
-where $query(p_{z}(W_{f}),o+1)$ = $q_{f}$, $W'$ is $\theta$ applied to the relevant set of terms $W$ from the abstract proof graph, and $W''$ is $\phi(W)$. Now due an instantiation of the following rule:
-\begin{lstlisting}[frame=none]
-explains(p_z(W_f),p_y(U),e+1):-createSub(subInst_r_h(W''),e+1).
-\end{lstlisting}
-and the following $AG3$ rule:
-\begin{lstlisting}[frame=none]
-query(Y,N-1):-explains(X,Y,N). 
-\end{lstlisting}
-we get the atom $tr_{\phi}(q_{d})$. Now consider
-$\phi'= T(\theta, \theta(q_{d}), q_{d}, tr_{\phi}(q_{d}))$, then $\phi'=\phi$
-on the terms in $q_{d}$, that also appear in $q_{o}$, and $\phi' = \theta$ on
-all other terms. However all the terms that appear in $q_{o}$ also appear in
-$q_{d}$, since we assumed that $q_{o}$ did not have terms corresponding to
-existential variables. Also the level of $q_{d}$ is $e$. Hence by the
-inductive hypothesis we are done.\\
-Now, let $q_{c},q_{o},q_{f}$ be such that
-some terms in the first argument of $q_{o}$ correspond to existential
-variables. That is these terms are do not appear in any parent node of $q_{o}$
-and are skolem functions whose input consists of terms in the parent nodes of
-$q_{o}$. Let $V_{univ,q_{o}}$ consist of the set of terms in the first
-argument of $q_{o}$ that correspond to universally quantified variables and
-let $V_{ext,q_{o}}$ consist of the set of terms in the first argument of
-$q_{o}$ that correspond to existentially quantified variables. That is, given any term in $V_{ext,q_{o}}$, no parent node of $q_{o}$ contains this term. Given some term in $V_{univ,q_{o}}$, there is a parent node of $q_{o}$ that contains this term.   Firstly, consider $\phi'$ such that $\phi'=\phi$ on the terms in $V_{univ,q_{o}}$ and
-$\phi' =\theta$ on all other terms in the abstract proof graph. Then given
-this $\phi'$, note that we already get the concrete proof graph
-$C_{R,p,n,\phi'}$, this is because, the substitution on terms in $V_{univ,q_{o}}$ is passed to parent nodes of $q_{o}$ whose level is $e$, and hence by the inductive hypothesis this substitution of terms is passed on to all the nodes in the proof graph. So in fact to
-prove the case where the level of $q_{c},q_{o},q_{f}$ is $e+1$, we can now
-assume WLOG, that $q_{c_i}\neq q_{f_i}$ implies that $q_{o_i}$
-corresponds to an existential variable where here $q_{c_i}$ denotes the
-$i^{th}$ entry of the predicate argument of $q_{c}$ and similarly for the
-others. So assume now that we are in this case and
-$\phi= T(q_{c},q_{o},q_{f})$. Let $V'_{ext,q_{o}}$ be the set of terms in the
-first argument of $q_{o}$ that correspond to existential variables. Now let
-$q_{d}$ be the parent node of $q_{o}$. Then due to the appropriate $AG2$ and
-$AG3$ clauses, it follows that for all the child nodes $q''$ of $q_{d}$, we
-have $tr_{\phi}(q'')$. Then, due to a similar argument to the one we used for the
-case $k=0$, it follows that for any descendant of $q_{m}$ of $q_{d}$, we will
-get $tr_{\phi}(q_{d})$. Now we claim that in the minimal abstract proof graph, the
-only nodes whose predicate entry contains terms from $V'_{ext,q_{o}}$ are
-descendants of $q_{d}$. Given a term $t$ from $V'_{ext,q_{o}}$, occurring in some
-node $j$ of the minimal abstract proof graph, since $t$ is not in the set
-$\{v_{1},v_{2},..,v_{n}\}$, there exists some ancestor $j'$ of $j$ such that
-$t$ corresponds to an existential variable in $j'$. Let $j_{d}$ be the parent
-node of $j'$, such that $j_{d}$ does not contain the term $t$ in its predicate argument. Now, let $t$ be of the form
-$skolemFn\_l\_b(g_{1},..,g_{m})$. Here $l$ refers to a input rule, $b$ refers
-to some existential variable among the pre-conditons of $l$, and
-$\{g_{1},g_{2},...,g_{m}\}$ refers to a fixed permutation of the arguments of
-the post-condition of rule corresponding to $l$. However, from this we can
-uniquely determine what the predicate argument $j_{p}$ must be. Based on the order
-$O_{l}$, the arguments of the relevant instantiation of the post-condition of
-$l$ are given by some fixed permutation $\pi_{O_{l}}$ of
-$\{g_{1},g_{2},...,g_{m}\}$. Therefore it follows that the first argument of
-$j_{p}$ is in fact the same as that of $q_{p}$. But now since we are working
-with $\textit{minimal}$ abstract proof graphs it follows that
-$j_{p} = q_{p}$. This proves the claim. \\It now remains to show that we also have $I_{R,p,N,\phi}$. First note that in the preceeding part of the proof, whenever we used an Abducibles Generation rule to show how a transformed query atom $q$ gives us a transformed child atom, we used invoked rules of the following from:
-$createSub(t',i):-createSub(t,i),q.$\\
-$explains(g',g,i):-createSub(t',i).$\\
-$query(g',i):-explains(g,g',i).$\\
-Notice that the $createSub$ atom in the right hand side of the first clause is always from $I_{R,p,N,\theta}$. The same holds for a transformed $query$ atom leading to the transformation of a sibling atom and for transformation of a parent atom we have:\\
-$createSub(t',i):-createSub(t,i),q.$\\
-$explains(g,g',i):-createSub(t',i).$\\
-$query(g',i-1):-explains(g,g',i).$\\
-In each case the $createSub$ atom in the right hand side of the first clause is always from $I_{R,p,N,\theta}$ and a combination of such $query$ atom transformations creates the new concrete proof graph $C_{R,p,N,\phi}$. So in order to show that we have $I_{R,p,N,\phi}$, it is justified to first assume that we have $C_{R,p,N,\phi}$, $C_{R,p,N,\theta}$ and $I_{R,p,N,\theta}$. However this is now easy to see. given an atom $createSub(t,i)$ from $I_{R,p,N,\theta}$, the following instantions of $AG$ clauses shows how one gets the corresponding $createSub(t',i)$ atom from $I_{R,p,N,\phi}$.\\
-$createSub(t_{1},i):-createSub(t_{0},i),tr_{\phi}(q_{b_{1}}).$\\
-$createSub(t_{2},i):-createSub(t_{1},i),tr_{\phi}(q_{b_{2}}).$\\ ...\\
-$createSub(t_{l},i):-createSub(t_{l-1},i),tr_{\phi}(q_{b_{l}}).$\\
-$createSub(t_{l+1},i):-createSub(t_{l},i),tr_{\phi}(q_{h}).$\\
-Here $createSub(t_{0},i) = createSub(t,i)$ and $createSub(t_{l+1},i) = createSub(t',i)$. $q_{b_{1}}$, $q_{b_{2}}$..., refer to query atoms in $C_{R,p,N,\theta}$  such that the predicate arguments of these $query$ atoms correspond to preconditions of the input rule instantiation corresponding to $createSub(t,i)$. (Note that the level of these atoms need not be $i$.) Finally $q_{h}$ refers to the post condition of the input rule instantiation given by $createSub(t,i)$. Hence we do indeed have $I_{R,p,N,\phi}$.
-\end{proof}
 
 
 %\input{derivation_tree_figure}
 
 
- 
-\begin{corollary}[Adding facts]\label{addfact}
+\begin{corollary}[Adding facts]\label{thm:addfact}
 Given the simple abductive proof generation task $\langle R,q,U,C,N\rangle$, let $p$ be the predicate corresponding to $q$. Suppose $A$ is an answer set of $P^{semi-res}_{<R,q,U,C,N>}$ and let $A$ contain $C_{R,p,N,\theta}$ and $I_{R,p,N,\theta}$. Now say the atom $q_{c}$ $query(p_{i}(t_{1},t_{2},..,t_{j}),k)$ is in $C_{R,p,N,\theta}$. Let $q_{o}$ be some query atom from the set $S_{q_{c}}$ (The set of pre-images of $q_{c}$ in $G_{R,p,N}^{min}$) given by $query((e_{1},e_{2},...,e_{j}),k)$. Now suppose, $h_{f}= holds((a_{1},a_{2},...,a_{j}))$ is an arbitrary $holds$ atom such that the map $\psi$ from the $e_{i}s$ to the $a_{i}s$ as described in the earlier definition of derived substitution is well defined. Then upon adding the fact $holds(p_{i}(a_{1},a_{2},..,a_{j}))$ to $P^{semi-res}_{<R,q,U,C,N>}$, the resulting program has an answer set $A'$ such that $A'$ contains $C_{R,p,N,\phi}$ and $I_{R,p,N,\phi}$ , where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$, where $q_{f} = query(p_{i}(a_{1},a_{2},..,a_{j}),k)$. 
 \end{corollary}
 
-\begin{proof} Given $q_{o}$, let $i_{o}$ be from the set $I_{R,p,N}$ such that $q_{o}$ corresponds to some input-rule precondition corresponding to $i_{o}$. Then given $q_{c}$, and $tr_{\theta}(i_{o})$, then consider the following instantiation of an $AG2$ clause. $tr_{\phi}(i_{o}):-tr_{\theta}(i_{o}),h_{f}$. Then due to an application of the $explains(...):-createSub(...)$ clause and the use of the following $AG3$ rule:
-$query(X,N):-explains(X,Y,N)$, we get the required atom $q_{f}$, where the
-predicate argument of $q_{f}$ is $h_{f}$ and the level of $q_{f}$ is the same as
-$q_{c},q_{o}$. So then the theorem above applies. In the case where $q_{o},
-i_{o}$ are such that $q_{o}$ corresponds to a post-condition, we invoke the
-$AG3$ rule $query(Y,N-1):-explains(X,Y,N)$ instead.
-\end{proof}
 
-The preceding theorem and corollary correspond to the notion of full implicit term substitution which we discussed earlier. For example going to our main example in this section. Let $R$ be the set of rules:\begin{lstlisting}[frame=none]
+The preceding theorem and corrolary correspond to the notion of full implicit term substitution which we discussed earlier. For example going to our main example in this section. Let $R$ be the set of rules:\begin{lstlisting}[frame=none]
 a(X):-b(X,Y),c(Y).
 b(X,Y):-d(X,Y,Z).
 \end{lstlisting}
@@ -231,7 +112,8 @@ This corresponds to the substitution $\theta =[v1\rightarrow john,sk(v1) \righta
 \begin{lstlisting}[frame=none]
 abducedFact(d(john,james,extVar))
 \end{lstlisting} which corresponds to the substitution $\theta =[v1\rightarrow john,sk(v1) \rightarrow james, sk'(v1,sk(v1))\rightarrow extVar]$. 
-\section{Summary of results - II}
+
+% \section{Summary of results - II}
 As was the case for the finiteness and completeness results, it is in fact the case the theorem and corollary proved in the previous section hold for the slightly larger class of abductive proof generation tasks which we called semi-simple. Overall, we have the following results. Given a semi-simple task $\langle R,q,U,\emptyset,N\rangle$, if no rule in $R$ contains existential variables, then to solve this task we can use the encoding $P_{\langle R,q,U,\emptyset,N\rangle}^{exp}$, which enjoys the completeness, finiteness and full term substitution properties. If $R$ does contain existential variables then we can either use the encoding $P_{\langle R,q,U,\emptyset,N\rangle}^{res}$ which enjoys the properties of completeness and finiteness but only gives us partial term substitution or we can use $P_{\langle R,q,U,\emptyset,N\rangle}^{semi-res}$ which enjoys the properties of completeness, finiteness and full term substitution. 
 
 

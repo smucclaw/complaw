@@ -73,7 +73,8 @@ Here the first two arguments of the $explains$ meta predicate, get passed on to 
 Then produces the abducibles. Next we will describe the general structure of two kinds of rules which are key to enable a notion of term substitution where user-input is taken into account to simplify the generated abductive proof. First we have 
 \begin{lstlisting}[frame=none]
 createSub(...):-createSub(...),holds(...).
-\end{lstlisting} and next we have 
+\end{lstlisting} 
+and next we have 
 \begin{lstlisting}[frame=none]
 createSub(...):-createSub(...),query(...).
 \end{lstlisting}
@@ -213,7 +214,7 @@ generate_proof(p).
 goal:-not holds(p).
 :- not goal.
 \end{lstlisting}
-Given $<R,q,U,C,N>$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$, the supporting code and the forward translation be called $P^{res}_<R,q,U,C,N>$. We will now give a modified abduction generation encoding which can be used when no rule in $R$ contains an existential variable. As mentioned before, it turns out that using this modified encoding on rules that have existential variables can lead to infinite answer sets. After giving this modified encoding we will explain in detail the encodings with the aid of an example. 
+Given $\langle R,q,U,C,N \rangle$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$, the supporting code and the forward translation be called $P^{res}_<R,q,U,C,N>$. We will now give a modified abduction generation encoding which can be used when no rule in $R$ contains an existential variable. As mentioned before, it turns out that using this modified encoding on rules that have existential variables can lead to infinite answer sets. After giving this modified encoding we will explain in detail the encodings with the aid of an example. 
 \subsection{Extending abduction generation space for rules without existential variables}
 When we have rules without existential variables, we can construct a larger
 space of abducibles without worrying about our ASP programs having infinite
@@ -248,7 +249,7 @@ $AG3_{exp}$, is given by adding to $AG3$ one extra rule. So $AG3_{exp}$ is:
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
 query(Y,N-1):-explains(X,Y,N),max_ab_lvl(M),1<N,N<M.
 \end{lstlisting}
-Given $<R,q,U,C,N>$ let the complete ASP program that uses $AG1_{exp}, AG2_{exp}, AG3_{exp}$, the supporting code and the forward translation be called $P_{<R,q,U,C,N>}^{exp}$
+Given $\langle R,q,U,C,N \rangle$ let the complete ASP program that uses $AG1_{exp}$, $AG2_{exp}, AG3_{exp}$, the supporting code and the forward translation be called $P_{<R,q,U,C,N>}^{exp}$
 \subsection{Discussion of Abduction space generation}
 
 \subsubsection{Full term substitution}
