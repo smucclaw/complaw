@@ -53,8 +53,30 @@ predicate $b$), we encode that constraint as:
 \end{lstlisting}
 
 \subsubsection{Generating Abducibles}
-Before diving into the details of the details of the abduction generation encoding let us give a brief intuition for some key meta-predicates and rules that will show up in the abducibles generation encoding. Firstly the binary meta-predicate $query$ has as its first argument an atom which may become a candidate for abduction and as its second argument an integer corresponding roughly to the depth level of that atom with respect to $(R,q)$. Next the meta predicate $explains$ has as its first argument, an atom which forms a pre-condition of some input rule instantiation, and as its second argument the corresponding input rule instantiation post condition. The third argument of $explains$ meta predicate carries the depth of the atom in the first argument. The final key meta-predicate is $createSub$. $createSub$ carries information about input rule instantiations. The first argument of $createSub$ is a tuple which carries generated rule instantiations of a particular rule via the instantiations of the variables in the rule in some fixed order.     
-Here we have a reversed representation of the rules. First we will need a way to assign appropriate skolem terms to existential variables in pre-conditions. Given some rule in our rule set, say rule $r_{j}$, We fix some order
+Before diving into the details of the abducibles generation encoding let us give a brief intuition for some key meta-predicates and rules that will show up Firstly the binary meta-predicate $query$ has as its first argument an atom which may become a candidate for abduction and as its second argument an integer corresponding roughly to the depth level of that atom with respect to $(R,q)$. Next the meta predicate $explains$ has as its first argument, an atom which forms a pre-condition of some input rule instantiation, and as its second argument the corresponding input rule instantiation post condition. The third argument of the $explains$ meta predicate carries the depth of the atom in the first argument. The final key meta-predicate is $createSub$. $createSub$ carries information about input rule instantiations. The first argument of $createSub$ is a tuple which carries generated rule instantiations of a particular rule via the instantiations of the variables in the rule in some fixed order, the second argument of $createSub$ is again a integer depth parameter. Let us now explain the general structure of some of the rules in the abducibles generation encoding to illustrate the purpose of these meta predicates. Firstly we have abduction generation rules with the structure:
+\begin{lstlisting}[frame=none]
+createSub(...,N+1):-query(...,N),N<M,max_ab_lvl(M).
+\end{lstlisting}
+Intuitively in this rule, the first argument of the $query$ meta-predicate generates an instantiation of an input rule where that atom is the post-condition of the rule. Skolem terms are used for rules with existential variables in pre-conditions. Then we have abducible generation rules with the structure:
+\begin{lstlisting}[frame=none]
+explains(...,N):-createSub(...,N).
+\end{lstlisting}
+Here a given $createSub$ atom generates an $explains$ atom where the first argument of the $explains$ atom carries an input rule pre-condition given by the rule instantiation corresponding to the $createSub$ atom and the second argument of the $explains$ atom is the instantiation of the rule post-condition. Next we have abducible generation rules with the structure:
+\begin{lstlisting}[frame=none]
+query(...):-explains(...).
+\end{lstlisting}
+Here the first two arguments of the $explains$ meta predicate, get passed on to generate two instances of the $query$ meta predicate. One can see from this that intuitively, a given $query$ atom that carries an input rule post-condition generates a $createSub$ atom that carries an input rule instantiation. This then generates an $explains$ atom whose left hand side argument is a rule pre-condition which then generates a new $query$ atom. This is the central part of the backward chaining process. The choice rule
+\begin{lstlisting}[frame=none]
+{abducedFact(X)}:-query(X,N).
+\end{lstlisting}
+Then produces the abducibles. Next we will describe the general structure of two kinds of rules which are key to enable a notion of term substitution where user-input is taken into account to simplify the generated abductive proof. First we have 
+\begin{lstlisting}[frame=none]
+createSub(...):-createSub(...),holds(...).
+\end{lstlisting} and next we have 
+\begin{lstlisting}[frame=none]
+createSub(...):-createSub(...),query(...).
+\end{lstlisting}
+In the first kind of rule, arguments of $holds$ atoms can 'combine' with instances of the $createSub$ meta-predicate to yeild new instances of $createSub$. The intuition here is that if a certain instance of an input rule precondition/postcondition has  been established via the $holds$ predicate then this creates new substitutions for variables in that input rule which then leads to other input rule preconditions given by that substitution being included in the space of generated abducibles. The same intuition applies for abducible generation rules of the second kind, where instances of the $query$ predicate create new input rule substitutions. It turns out that constructing these abducible generation rules in a 'naive' way can lead to infinite answer sets, when there are skolem terms involved, even when the integer depth argument of all these meta-predicates is bounded. Hence we have different encodings for when there are skolem terms involved versus when there no skolem terms involved. Let us now get into the technical details of how these rules are constructed. First we will need a way to assign appropriate skolem terms to existential variables in pre-conditions. Given some rule in our rule set, say rule $r_{j}$, We fix some order
 $O_{{j}}$ on the variables occuring in the combined set of variables from
 the post and pre-conditions of the rule $r_{j}$. Now we will describe a
 skolemization map that assigns an existential variable in a pre-condition of
@@ -187,7 +209,7 @@ generate_proof(p).
 goal:-not holds(p).
 :- not goal.
 \end{lstlisting}
-Given $<R,q,U,C,N>$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$, the supporting code and the forward translation be called $P^{res}_<R,q,U,C,N>$. We will now give a modified abduction generation encoding which can be used when no rule in $R$ contains an existential variable. It turns out that using this modified encoding on rules that have existential variables can lead to infinite answer sets. After giving this modified encoding we will explain in detail the encodings with the aid of an example. 
+Given $<R,q,U,C,N>$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$, the supporting code and the forward translation be called $P^{res}_<R,q,U,C,N>$. We will now give a modified abduction generation encoding which can be used when no rule in $R$ contains an existential variable. As mentioned before, it turns out that using this modified encoding on rules that have existential variables can lead to infinite answer sets. After giving this modified encoding we will explain in detail the encodings with the aid of an example. 
 \subsection{Extending abduction generation space for rules without existential variables}
 When we have rules without existential variables, we can construct a larger
 space of abducibles without worrying about our ASP programs having infinite
@@ -196,13 +218,12 @@ the same as before but now clearly there will be no skolem terms. The new
 version of $AG2$ which we shall call $AG2_{exp}$ now becomes for each rule 
 \begin{lstlisting}[frame=none]
 create_subs(sub_Inst_t(M_(r,p)),N):-
-   create_subs(sub_Inst_t(F_r),N),holds(p),max_ab_lvl(M), N<M.   
+   create_subs(sub_Inst_t(F_r),N),holds(p).   
 \end{lstlisting}
-
-Repeat this for each pre-condition $p$. Then for the post-condition of the rule $p'$, we have:
+Notice that as opposed to the previous encoding, here the integer argument of the $createSub$ predicate on the left hand side is $N$ as opposed to $M-1$. Repeat this for each pre-condition $p$. Then for the post-condition of the rule $p'$, we have:
 \begin{lstlisting}[frame=none]
 create_subs(sub_Inst_t(M_(r,p')),N):-
-   create_subs(sub_Inst_t(F_r),N),holds(p'),max_ab_lvl(M), N<M.   
+   create_subs(sub_Inst_t(F_r),N),holds(p').   
 \end{lstlisting}
  
 Here $M_{r,p'}$ is defined exactly the same way as $M_{r,p}$ for some pre-condition $p$. Next, for each rule and for each pre-condition $p$ in the rule we have.
@@ -308,10 +329,10 @@ holds(X):-user_input(pos,X).   (* \label{abdHoldsUI} *)
 
 We will now discuss various parts of the encoding.
 
-As mentioned briefly earlier, the general idea is to recursively generate a
+As mentioned earlier, the general idea is to recursively generate a
 maximal space of abducibles by 'reversing' the rules and then checking via the
 Forward Translation and encoding of the goal, which abducibles are needed
-for entailment of the original query. More specifically any atom
+for entailment of the original query. More specifically in line with the intuitive discussion from before, any atom
 of the form $query(h,i)$ generates an input rule instantiation where $h$ is
 the post-condition that particular rule instantiation. Such rule
 instantiations are represented by the $createSub$ atom. In the example above,
@@ -328,7 +349,7 @@ the first argument of a $query$ atom. This new $query$ atom then recursively
 generates more $query$ atoms via the process described. Any $query$ atom
 corresponds to a candidate for abduction via the choice rule in line \ref{abdChoice}. Any
 fact which is abduced must hold due to line \ref{abdHoldsAbduced}. At this point, before moving
-ahead let us first briefly comment upon the integer arguments occuring in the
+ahead let us first briefly comment further upon the integer arguments occuring in the
 $explains$, $createSub$ and $query$ atoms.
 
 The integer parameter roughly
@@ -336,26 +357,23 @@ represents the depth of an abducible in the proof graph of the original
 query. When a $query$ atom carrying the post-condition of a rule generates a
 rule instantiation like in line \ref{abdInstR1} for example, the integer argument of the
 corresponding $createSub$ atom increases by one. Then an explains $atoms$
-derived from the application of a rule like line 16 retains the same integer
+derived from the application of a rule like line \ref{abdExplR1start} retains the same integer
 argument and so does the corresponding fresh $query$ atom generated from the
 application of the rule on line \ref{abdQuery}. Note that a fresh $query$ atom can only be
 created from an $explains$ atom if the integer parameter of the $explains$
-atom is less than $M$. The use of these integer parameters is very important
+atom is less than $M$. The use of these integer parameters is important
 when we need skolem functions/terms in our abducible generation encoding due
 to having rules with existentially quantified variables in pre-conditions. The
 use of these integer parameters allows us to control the depth of the
 abducible generating space thus preventing infinite answer sets even in the
 presence of skolem functions. We will discuss this more later on. For now let
 us turn our attention to some of the other parts of the encoding. The
-$AG2_{exp}$ encoding is key to enabling a notion of implicit term substitution
+$AG2_{exp}$ encoding enables a notion of implicit term substitution
 in (minimal) abductive solutions. This set of rules creates new instantiations
-of the core input rules based on which other atoms are true. Creating new
-instantiations of the core input rules via the $createSub$ atoms, then allows
+of the input rules based on which other atoms are true. As stated earlier, creating new instantiations of the core input rules via the $createSub$ atoms, then allows
 new abducibles to be added to the generated space of abducibles. Let us
 illustrate some of these ideas with an example. Upon running the above ASP
-program as the optimal solution given by the solver is: (recall that any
-instance of $relA$ will satisfy the $goal$ but no instance of $relA$ itself
-can be abduced) 
+program as the optimal solution given by the solver is: 
 
 \begin{lstlisting}[frame=none]
 abducedFact(relD(v2)) 
@@ -367,7 +385,7 @@ Now if $relB(john,james)$ is added to the set of user provided facts then firstl
 createSub(subInst_r1(john,james),1):-
    createSub(subInst_r1(v1,v2),1),holds(relB(john,james)). 
 \end{lstlisting}
-Hence due to lines 16 and \ref{abdChoice}, the atom
+Hence due to lines \ref{abdExplR1start} and \ref{abdAbdHold}, the atom
 $query(relA(john,james),0)$ becomes true. This leads to the atoms
 $query(relD(james),1)$ and $query(relF(james),2)$ becoming true. Hence the atoms $relD(james)$ and $relF(james)$ become part of the space of abducibles and the solver gives us the new optimal solution:
 \begin{lstlisting}[frame=none]
@@ -379,11 +397,11 @@ On the other hand if we instead add the fact $relF(mary)$ to the initially empty
 createSub(subInst_r2(v2),2):-createSub(subInst_r2(v2),2),
 holds(relF(mary)).
 \end{lstlisting}
-Hence the atom $createSub(subInst\_r2(mary),2)$. Via line 22, and line 50 the atom $query(relE(mary),1)$ becomes true. We thus get the following instantiation of line 35:
+Hence the atom $createSub(subInst\_r2(mary),2)$ becomes true. Via line 22, and line \ref{abdAbdHold} the atom $query(relE(mary),1)$ becomes true. We thus get the following instantiation of line 35:
 \begin{lstlisting}[frame=none]
 createSub(subInst_r1(v1,mary),1):- createSub(subInst_r1(v1,v2),1), query(relE(mary),1).   
 \end{lstlisting}
-Thus the atom $createSub(subInst\_r1(v1,mary),1)$ becomes true, which then via say line 16 and line 50 causes the atom\\ 
+Thus the atom $createSub(subInst\_r1(v1,mary),1)$ becomes true, which then via say line \ref{abdExplR1start} and line \ref{abdAbdHold} causes the atom\\ 
 $query(relA(v1,mary),0)$ to become true. Now, because of\\ $query(relA(v1,mary),0)$, 
 $relD(mary)$, $relB(v1,mary)$ become part of the space of abducibles and the solver gives us the optimal abductive solution: 
 \begin{lstlisting}[frame=none]
@@ -461,9 +479,9 @@ query(relA(skolemFn_r1_Y(bob)),1) query(relB(bob,skolemFn_r1_Y(bob)),1).
 
 Then via lines 11 and 7 and due to the atom
 \begin{lstlisting}[frame=none]
-query(relA(skolemFn\_r1\_Y(bob)),1)
+query(relA(skolemFn_r1_Y(bob)),1)
 \end{lstlisting} we get the atom \begin{lstlisting}[frame=none]
-query(b(skolemFn_r1_Y(bob), skolemFn_r1_Y(skolemFn_r1_Y(bob))),2)
+query(relB(skolemFn_r1_Y(bob), skolemFn_r1_Y(skolemFn_r1_Y(bob))),2)
 \end{lstlisting} 
 Then due to lines 18, 19, we get the atom \begin{lstlisting}[frame=none]
 holds(relB(skolemFn_r1_Y(bob), skolemFn_r1_Y(skolemFn_r1_Y(bob))
@@ -577,7 +595,7 @@ solution is still
 abducedFact(relD(skolemFn_r1_R(skolemFn_r1_R(john))))
 abducedFact(relA(skolemFn_r1_R(skolemFn_r1_R(john))))    
 \end{verbatim} 
-This is because by line 29, the atom\\ $createSub(subInst\_r1(john,mary),4)$,
+This is because by line 29, the atom\\ $createSub(subInst\_r1(john,mary),4)$ becomes true,
 which due to line 19 and line 36 makes $query(relB(john,mary),4)$
 true. However now this cannot cause the atom $query(relA(mary),5)$ to become
 true because line 15 cannot apply due to the constraint on the integer
