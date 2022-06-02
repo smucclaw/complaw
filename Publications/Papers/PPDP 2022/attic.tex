@@ -109,6 +109,21 @@ Now assume that $\langle R,Q,U,C,N\rangle$ is such that $R$ contains NAF but $C$
 
 We now give a counter example to completeness when we have both NAF in the rules and a non-empty set of integrity constraints.
 
+\subsection{Coresspondence with Classical FOL Semantics for rule sets without Negation-as-Failure}
+
+Given a task $\langle R,Q,U,C,\infty\rangle$, suppose that $R$ forms a definite logic
+program. That is there is no form of negation in $R$. Consider the associated
+classical first order theory $T_{<R,Q,U,C,\infty>}$ which is constructed as
+follows: For every predicate in $C$, we make the rules for that predicate
+definitional, via something like Clark Completion. Add to the theory the rest
+of the rules in $R$ as they are. for every positive atom in $U$ we add it to
+the theory and for every negative atom, we add its classical negation. Finally
+we add either $Q$ or in case of a negative query we add its classical
+negation. Then we have the following:
+
+\subsubsection{Theorem - Correspondence with Classical FOL}
+$\langle R,Q,U,C,\infty\rangle$ has a solution $F$ if and only if $T_{<R,Q,U,C,\infty>}$ has a model according to classical FOL semantics.
+
 
 
 

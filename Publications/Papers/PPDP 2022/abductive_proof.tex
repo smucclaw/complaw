@@ -10,7 +10,8 @@ Given a source ASP rule set $R$, consider the tuple $\langle R,q,U,C,N \rangle$,
 The set $U$ consists of 2 subsets, $U = U_{f} \cup U_{a}$. Here $U_{f}$ is a set of user provided facts. $U_{a}$ is a set of integrity constraints that prevents certain atoms from being abduced. Throughout the rest of this paper we may sometimes just refer to the set $U$ as a whole making it clear what is contained in the subsets. $C$ denotes a set of ASP constraints which constrain which atoms may or may not appear in the complete model that results from the rules, user provided facts and abducibles. Finally we have the non-negative integer $N$. This acts as the depth control parameter for abductive proof generation. 
  \end{definition}
 Given an abductive proof generation task $\langle R,q,U,C,N \rangle$,let us define what we mean by a $\textit{General Solution}$ to the task
-\begin{definition}[General Solution]\label{def:abductive_proof_generation_task} \
+
+\begin{definition}[General Solution]\label{def:abductive_proof_generation_solution} \
 Given an abductive proof generation task $\langle R,q,U,C,N \rangle$, we say that $F$ is a general solution to this task if:
 \begin{enumerate}
     \item If $q$ is a positive atom, it is in some answer set $\mathcal{A}$ of $F\cup U_{f}\cup R\cup C$ where the un-ground variables in $q$ have been replaced with any set of ground terms. If $q$ is a ground NAF atom, then there exists an answer set $\mathcal{A}$ of $F\cup U_{f}\cup R\cup C$ such that $q$ is $not$ in $\mathcal{A}$.
