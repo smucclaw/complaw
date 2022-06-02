@@ -13,7 +13,8 @@ possibly changing some or all of the arguments of $q$. Then $\langle
 R,q,U,\emptyset,N\rangle$ has a solution $S_{ASP}$ derived from the ASP program $P_{\langle R,q,U,\emptyset,N\rangle}^{res}$ if and only if $\langle R,q',U,\emptyset,N\rangle$ has a solution $S'_{ASP}$ derived from the ASP program $P_{\langle R,q',U,\emptyset,N\rangle}^{res}$ We call such solutions ASP solutions for short.
 \end{lemma}
 
-$Proof$ We prove the lemma by induction on $N$.
+\begin{proof}
+We prove the lemma by induction on $N$.
 The case $N = 0$ is trivial. If there exists a ASP solution for $\langle
 R,q,U,\emptyset,0\rangle$ then any instance of the predicate in $q$ can be
 abduced therefore $\langle R,q',U,\emptyset,0\rangle$ has a ASP solution. Assume
@@ -33,12 +34,12 @@ $q_{pre_{i}}$ by possibly changing the arguments in the predicate. By the
 induction hypothesis an ASP solution to each of the problems $\langle
 R,q'_{pre_{i}},U,\emptyset,k\rangle$ exists. Hence by taking the union of the solutions we get an ASP solution to  $\langle
 R,q',U,\emptyset,k+1\rangle$. This proves the lemma.
+\end{proof}
 
-\remms[inline]{Intuitively, the linearity requirement is not clear to me. Do you have a counterexample for the non-linear case?}
 We now prove the main theorem by induction on $N$. 
-\remms[inline]{It is not clear what a ``general'' and an ``ASP'' solution is. The structures $\langle R,q,U,\emptyset,N\rangle$ have always been defined to be ASP problems, see section 2.1}
 
-$Proof$ The case $N=0$ is trivial. Assume
+\begin{proof}
+The case $N=0$ is trivial. Assume
 the result for all $N<k$, where $k>0$. The existence of a non-trivial general solution
 to $\langle R,q,U,\emptyset,k+1\rangle$ implies the existence of a solution to each of the following set of problems, $\langle R,q_{pre_{i}},U,\emptyset,k\rangle$ where the $q_{pre_{i}}$ are the set of
 pre-conditions of a rule $r$ in $R$, under some substitution $\theta$ where
@@ -51,6 +52,9 @@ replacing some predicate arguments with the appropriate skolem terms for
 predicate arguments that correspond to existential variables in the
 preconditions of $r$. Hence taking a union of these ASP solutions we get an ASP solution to
 $\langle R,q,U,\emptyset,N\rangle$.
+\end{proof}
+
+
 \section{Summary of results - I}
 Let us just comment on the results above in a slightly broader context . Firstly it is not difficult to see that the above results for finiteness and completeness hold for a slightly larger class of abductive proof generation tasks than the class of simple tasks. Namely we can in fact relax condition codition 7 in the definition of simple tasks, to allow $q$ to be un-ground or only partially ground. Call this class of abduction tasks $semi$-$simple$.  Also, the completeness result in fact holds if $P_{R,q,U,C,N}^{res}$ is replaced with $P_{R,q,U,C,N}^{semi-res}$. In summary what we have then is the following\\
 Given a $\textit{semi-simple}$ task $\langle R,q,U,\emptyset,N\rangle$. $P_{R,q,U,C,N}^{res}$, $P_{R,q,U,C,N}^{semi-res}$, both enjoy the completeness and finiteness properties. However only $P_{R,q,U,C,N}^{semi-res}$ supports full implicit term substitution whereas $P_{R,q,U,C,N}^{res}$ only supports partial term substitution. We shall formulate and prove a formal result regarding term substitution for $P_{R,q,U,C,N}^{res}$ next.    

@@ -36,24 +36,34 @@ Note firstly that if for some $b,j$, $query(b,j)$ is in $G_{R',p,N}$, then there
 \begin{lemma}
 Given $query(a,k)$ in $G_{R',p,N}^{min}$, unless $k=0$, there exists $query(a',j)$ in $G_{R',p,N}^{min}$ such that we have $E(query(a,k),query(a',j))$.  
 \end{lemma}
-$\textit{Proof sketch}$ Let $query(a'',j')$ be such that $E(query(a,k),query(a'',j'))$ in $G_{R',p,N}$. Now if $query(a'',j')$ is not in $G_{R',p,N}^{min}$, then there exists $s<j'$ such that $query(a'',s)$ is in $G_{R',p,N}^{min}$, but then there exists $t<k$ such that $query(a,t)$ is in $G_{R',p,N}^{min}$. However this is a contradiction. Hence it must be the case that $query(a'',j')$ is in $G_{R',p,N}^{min}$. 
-For the example we have been consider the minimal abstract proof graph is the same as the abstract proof graph.
+
+
+\begin{proof} \textit{(sketch)}. \\
+Let $query(a'',j')$ be such that $E(query(a,k),query(a'',j'))$ in $G_{R',p,N}$. Now if $query(a'',j')$ is not in $G_{R',p,N}^{min}$, then there exists $s<j'$ such that $query(a'',s)$ is in $G_{R',p,N}^{min}$, but then there exists $t<k$ such that $query(a,t)$ is in $G_{R',p,N}^{min}$. However this is a contradiction. Hence it must be the case that $query(a'',j')$ is in $G_{R',p,N}^{min}$. 
+\end{proof}
+
+For the example we have been considering, the minimal abstract proof graph is the same as the abstract proof graph.
+
 \begin{definition}[Concrete Proof Graph]\label{def:concretegraph}
 Given an abstract proof graph $G_{R,p,n}^{min}$, and a substitution $\theta$ for
 terms in the abstract proof graph, define the concrete proof graph
 $C_{R,p,n,\theta}$ to be the set of $query$ atoms obtained after doing the
 substitution $\theta$ on the set of $query$ atoms in $G_{R,p,n}^{min}$. (We drop the $min$ from the notation for the concrete proof graph as we will always mean a substitution from the minimal abstract proof graph)
 \end{definition}
-Note that such a substitution $\theta$ need not be injective.\\
+
+Note that such a substitution $\theta$ need not be injective.
+
 \begin{definition}[Parent node, child node, sibling node, descendant]
 Given any concrete or abstract, minimal or non minimal proof graph $G$ and given two nodes $d1,d2$ in $G$, we say that $d2$ is a $\textit{parent}$ of $d1$ if we have $E(d1,d2)$. In such a case we say $d1$ is a $\textit{child}$ of $d2$. Given two nodes $d3$ and $d4$, we say $d3$ is a $\textit{sibling}$ node of $d4$, if there exists some node $d'$ such that $E(d3,d')$ and $E(d4,d')$. ($d4$ is then also a sibling node of $d3$) Given two nodes $d5$ and $d6$, we say $d5$ is a $\textit{descendant}$ of $d6$ if $E_{tr}(d5,d6)$ is true where $E_{tr}$ is the transitive closure of $E$. 
-\end{definition} 
+\end{definition}
+
 \begin{definition}[Concrete Instance Set]
 Given an abstract instance set $I_{R,p,n}$, and a substitution $\theta$ for
 terms in the instance set, define the concrete instance set
 $I_{R,p,n,\theta}$ to be the set of $createSub$ atoms obtained after applying the
 substitution $\theta$ on the set of $createSub$ atoms in $I_{R,p,n}$, (which itself is associated to the full abstract proof graph rather than the minimal one).
 \end{definition}
+
 For our example consider the substitution $\theta =[v1\rightarrow john,sk(v1) \rightarrow extVar, sk'(v1,sk(v1))\rightarrow extVar]$. Then $C_{R',a,2,\theta}$ is :
 \begin{lstlisting}[frame=none]
 E(query(b(john,extVar),1),query(a(john),0)),
@@ -80,9 +90,7 @@ the resulting program has an answer set $A'$ such that $A'$ contains
 $C_{R,p,N,\phi}$ and $I_{R,p,N,\phi}$  where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$.
 \end{theorem}
 
-%\begin{proof}
-$\textit{Proof sketch}$. In the following proof when we refer to the $level$ of a $query$ atom we mean the integer argument of the $query$ atom. When we refer to the $predicate$ $argument$ of a $query$ atom we will mean the first argument of a $query$ atom. Given a $query$ atom $q$ in $G_{R,p,N}^{min}$, the transformed atom $tr_{\chi}(q)$ denotes the corresponding atom in $C_{R,p,N,\chi}$, given some substitution $\chi$ of terms in $G_{R,p,N}^{min}$. We will prove the result by induction on $k$, the level of the atoms $q_{c}$, $q_{o}$ and $q_{f}$. 
-%\end{proof}
+\begin{proof} \textit{(sketch)}. In the following proof when we refer to the $level$ of a $query$ atom we mean the integer argument of the $query$ atom. When we refer to the $predicate$ $argument$ of a $query$ atom we will mean the first argument of a $query$ atom. Given a $query$ atom $q$ in $G_{R,p,N}^{min}$, the transformed atom $tr_{\chi}(q)$ denotes the corresponding atom in $C_{R,p,N,\chi}$, given some substitution $\chi$ of terms in $G_{R,p,N}^{min}$. We will prove the result by induction on $k$, the level of the atoms $q_{c}$, $q_{o}$ and $q_{f}$. 
 
 Fix $q_{c}$, $q_{o}$ and $q_{f}$ and suppose that the level of these atoms $k$ is $0$. Since there is only one level $0$ query atom say $q'$ in $G_{R,p,N}$, we must have $q_{o}=q'$, and $q_{f} = tr_{\phi}(q')$. Now we have to show that for all $query$ atoms $q$ in $G_{R,p,N}$ such that the level of $q$ is greater than $0$, we have $tr_{\phi}(q)$. Now suppose that $p$ is a 3 place predicate and there is an input rule $r_{c}$ where ${c}$ refers to the rule id. Suppose that the predicate $p_{d}$ appears as a pre-condition in $r_{c}$. Let the variables in $r_{c}$ be $X1$, $X2$, $X3$, $X4$, in the order given by $O_{c}$, (recall from Section \ref{ruletrans} that for each input rule we had some order on the variables). Suppose $r_{c}$ has the following form:
 \begin{verbatim}
@@ -192,6 +200,8 @@ $createSub(t_{2},i):-createSub(t_{1},i),tr_{\phi}(q_{b_{2}}).$\\ ...\\
 $createSub(t_{l},i):-createSub(t_{l-1},i),tr_{\phi}(q_{b_{l}}).$\\
 $createSub(t_{l+1},i):-createSub(t_{l},i),tr_{\phi}(q_{h}).$\\
 Here $createSub(t_{0},i) = createSub(t,i)$ and $createSub(t_{l+1},i) = createSub(t',i)$. $q_{b_{1}}$, $q_{b_{2}}$..., refer to query atoms in $C_{R,p,N,\theta}$  such that the predicate arguments of these $query$ atoms correspond to preconditions of the input rule instantiation corresponding to $createSub(t,i)$. (Note that the level of these atoms need not be $i$.) Finally $q_{h}$ refers to the post condition of the input rule instantiation given by $createSub(t,i)$. Hence we do indeed have $I_{R,p,N,\phi}$.
+\end{proof}
+
 
 %\input{derivation_tree_figure}
 
@@ -200,16 +210,21 @@ Here $createSub(t_{0},i) = createSub(t,i)$ and $createSub(t_{l+1},i) = createSub
 \begin{corollary}[Adding facts]\label{addfact}
 Given the simple abductive proof generation task $\langle R,q,U,C,N\rangle$, let $p$ be the predicate corresponding to $q$. Suppose $A$ is an answer set of $P^{semi-res}_{<R,q,U,C,N>}$ and let $A$ contain $C_{R,p,N,\theta}$ and $I_{R,p,N,\theta}$. Now say the atom $q_{c}$ $query(p_{i}(t_{1},t_{2},..,t_{j}),k)$ is in $C_{R,p,N,\theta}$. Let $q_{o}$ be some query atom from the set $S_{q_{c}}$ (The set of pre-images of $q_{c}$ in $G_{R,p,N}^{min}$) given by $query((e_{1},e_{2},...,e_{j}),k)$. Now suppose, $h_{f}= holds((a_{1},a_{2},...,a_{j}))$ is an arbitrary $holds$ atom such that the map $\psi$ from the $e_{i}s$ to the $a_{i}s$ as described in the earlier definition of derived substitution is well defined. Then upon adding the fact $holds(p_{i}(a_{1},a_{2},..,a_{j}))$ to $P^{semi-res}_{<R,q,U,C,N>}$, the resulting program has an answer set $A'$ such that $A'$ contains $C_{R,p,N,\phi}$ and $I_{R,p,N,\phi}$ , where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$, where $q_{f} = query(p_{i}(a_{1},a_{2},..,a_{j}),k)$. 
 \end{corollary}
-\textit{Proof} Given $q_{o}$, let $i_{o}$ be from the set $I_{R,p,N}$ such that $q_{o}$ corresponds to some input-rule precondition corresponding to $i_{o}$. Then given $q_{c}$, and $tr_{\theta}(i_{o})$, then consider the following instantiation of an $AG2$ clause. $tr_{\phi}(i_{o}):-tr_{\theta}(i_{o}),h_{f}$. Then due to an application of the $explains(...):-createSub(...)$ clause and the use of the following $AG3$ rule:
+
+\begin{proof} Given $q_{o}$, let $i_{o}$ be from the set $I_{R,p,N}$ such that $q_{o}$ corresponds to some input-rule precondition corresponding to $i_{o}$. Then given $q_{c}$, and $tr_{\theta}(i_{o})$, then consider the following instantiation of an $AG2$ clause. $tr_{\phi}(i_{o}):-tr_{\theta}(i_{o}),h_{f}$. Then due to an application of the $explains(...):-createSub(...)$ clause and the use of the following $AG3$ rule:
 $query(X,N):-explains(X,Y,N)$, we get the required atom $q_{f}$, where the
 predicate argument of $q_{f}$ is $h_{f}$ and the level of $q_{f}$ is the same as
 $q_{c},q_{o}$. So then the theorem above applies. In the case where $q_{o},
 i_{o}$ are such that $q_{o}$ corresponds to a post-condition, we invoke the
 $AG3$ rule $query(Y,N-1):-explains(X,Y,N)$ instead.
+\end{proof}
+
 The preceding theorem and corollary correspond to the notion of full implicit term substitution which we discussed earlier. For example going to our main example in this section. Let $R$ be the set of rules:\begin{lstlisting}[frame=none]
 a(X):-b(X,Y),c(Y).
 b(X,Y):-d(X,Y,Z).
-\end{lstlisting}, let $q$ be $a(john)$, let the set of user provided facts be empty and suppose that no instances of the predicate $a$ or $b$ can be abduced. Finally suppose that the set $C$ is empty and $N=2$. Then upon running the ASP program $P_{R,q,U,C,N}^{semi-res}$ we will get the minimal abductive solution \begin{lstlisting}[frame=none]
+\end{lstlisting}
+
+Let $q$ be $a(john)$, let the set of user provided facts be empty and suppose that no instances of the predicate $a$ or $b$ can be abduced. Finally suppose that the set $C$ is empty and $N=2$. Then upon running the ASP program $P_{R,q,U,C,N}^{semi-res}$ we will get the minimal abductive solution \begin{lstlisting}[frame=none]
 abducedFact(c(extVar)), abducedFact(d(john,extVar,extVar))
 \end{lstlisting} 
 This corresponds to the substitution $\theta =[v1\rightarrow john,sk(v1) \rightarrow extVar, sk'(v1,sk(v1))\rightarrow extVar]$. Then upon modifying the set of user provided facts by adding the fact $c(james)$, we get the smaller abductive solution:
