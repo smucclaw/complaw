@@ -51,25 +51,30 @@ The rule language will be dissected in
 \secref{sec:reasoning_with_rules}. We will in particular describe mechanisms
 for prioritisation and defeasibility of rules that are encoded via specific
 keywords in law texts. We then define a precise semantics of these mechanisms,
-by a translation to logic. Classical, monotonic logic, developed in
-\secref{sec:defeasible_classical}, has received surprisingly little attention
+by a translation to logic. Classical, monotonic logic
+% developed in\secref{sec:defeasible_classical},
+has received surprisingly little attention
 in this area, even though proof support in the form of SAT/SMT solvers has
-made astounding progress in recent years. An alternative approach, based on
-Answer Set Programming, is described in
-\secref{sec:defeasible_asp}. The guiding principle
-that underlies the work presented in both \secref{sec:defeasible_classical}
-and \secref{sec:defeasible_asp} is that we explore ways to simulate various
-forms of defeasibility seen in law texts on seemingly less expressive
-logics. In \secref{sec:defeasible_classical} we show how to handle
-defeasibility operators via reduction to pure classical logic which, as
-mentioned before, opens the door to the use of SAT/SMT solvers for various
-verification and model checking tasks. In \secref{sec:defeasible_asp} we show
-how to handle defeasibility operators via encodings in Answer Set Programming
-(ASP) which has only \emph{negation as failure}, interpreted under the
-\emph{stable model semantics} as the core non-monotonic operator. We conclude
-in \secref{sec:conclusions}.\footnote{Note for the reviewers: This file
-  contains an appendix that is not meant to appear in the conference
-  proceedings but will be made available on \texttt{arXiv.org}.}
+made astounding progress in recent years. It is not developed in detail here,
+but see  \cite{lim22:_autom_defeas_reason_law}.
+An alternative approach, based on
+Answer Set Programming, is described in \secref{sec:defeasible_asp}. 
+% The guiding principle
+% that underlies the work presented in both \secref{sec:defeasible_classical}
+% and \secref{sec:defeasible_asp} is that we explore ways to simulate various
+% forms of defeasibility seen in law texts on seemingly less expressive
+% logics. In \secref{sec:defeasible_classical} we show how to handle
+% defeasibility operators via reduction to pure classical logic which, as
+% mentioned before, opens the door to the use of SAT/SMT solvers for various
+% verification and model checking tasks.
+In \secref{sec:defeasible_asp} we show how to handle defeasibility operators
+via encodings in Answer Set Programming (ASP) which has only \emph{negation as
+  failure}, interpreted under the \emph{stable model semantics} as the core
+non-monotonic operator. We conclude in \secref{sec:conclusions}.
+% \footnote{Note
+%   for the reviewers: This file contains an appendix that is not meant to
+%   appear in the conference proceedings but will be made available on
+%   \texttt{arXiv.org}.}
 
 
 \paragraph{Related work}

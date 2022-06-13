@@ -3,7 +3,7 @@
 % ----------------------------------------------------------------------
 
 We can only give a brief outline of the L4 rule format here and defer a more
-thorough discussion of the L4 language to the full paper (\ref{sec:l4_language_app}).
+thorough discussion of the L4 language to the full paper \cite{lim22:_autom_defeas_reason_law}.
 We will illustrate the main concepts with an example, a (fictitious) regulation of speed
 limits for different types of vehicles, subdivided into class \texttt{Car}
 and its subclass \texttt{SportsCar}, furthermore classes \texttt{Day} and \texttt{Road}. We will
@@ -56,17 +56,19 @@ Given a plethora of different notions of \emph{defeasibility}, we had to make a
 choice as to which notions to support, and which semantics to give to them. We
 will here concentrate on two concepts, which we call \emph{rule modifiers},
 that limit the applicability of rules and make them ``defeasible''. They will
-be presented informally in the following. Giving them a precise semantics in
-classical, monotonic logic is the topic of \secref{sec:defeasible_classical};
-a semantics based on Answer Set Programming will be provided in
+be presented informally in the following. 
+% Giving them a precise semantics in
+% classical, monotonic logic is the topic of \secref{sec:defeasible_classical};
+A semantics based on Answer Set Programming will be provided in
 \secref{sec:defeasible_asp}.
 
 We will concentrate on two rule modifiers that restrict the applicability of
 rules and that frequently occur in law texts: \emph{subject to} and
-\emph{despite}. A motivating discussion justifying their informal semantics is
-given in \appref{sec:reasoning_with_rules_app}, drawn from a detailed
-analysis of Singapore's Professional Conduct Rules. In the following, however,
-we return to our running example.
+\emph{despite}, further illustrated by  our running example.
+% A motivating discussion justifying their informal semantics is
+% given in \appref{sec:reasoning_with_rules_app}, drawn from a detailed
+% analysis of Singapore's Professional Conduct Rules. In the following, however,
+% we return to our running example.
 
 \begin{example}
   The rules \texttt{maxSpCarHighway} and \texttt{maxSpCarWorkday} are not

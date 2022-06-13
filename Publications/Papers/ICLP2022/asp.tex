@@ -92,21 +92,21 @@ For a configuration $Config=(R,F,M,I)$, let the above encoding be the program $A
 \end{proposition}
 
 
-$Proof$ See Appendix. $\square$
+$Proof$ See Appendix of full paper. $\square$
 
 
 \subsection{Example}
 Let us see how the running example would work in the ASP setting. We have 3 rules encoded as below, there are no minimal inconsistent sets. There are 3 modifiers: $despite(2,3)$,                           $strong\_subject\_to(1,3)$, $strong\_subject\_to(1,2)$
 \begin{lstlisting}[language=Prolog, numbers=left]
-
 despite(2,3).
 strong_subject_to(1,3).
 strong_subject_to(1,2).
-
 according_to(1,max_spd(v,d,r,90)):-is_legal(is_workday(d)),
 is_legal(is_car(v)).
-according_to(2,max_spd(v,d,r,130)):-is_legal(is_highway(r)),is_legal(is_car(v)).
-according_to(3,max_spd(v,d,r,320)):-is_legal(is_highway(r)),is_legal(is_sports_car(v)).
+according_to(2,max_spd(v,d,r,130)):-is_legal(is_highway(r)),
+   is_legal(is_car(v)).
+according_to(3,max_spd(v,d,r,320)):-is_legal(is_highway(r)),
+   is_legal(is_sports_car(v)).
 
 % Encoding for 'despite'
 defeated(R,C,R1) :-
@@ -145,8 +145,17 @@ and running the s(CASP) query $?- legal\_max\_spd(X).$, which returns the bindin
 legal_max_spd(X):- X > 90, is_legal(max_spd(v,d,r,X)). 
 \end{lstlisting}
 Now running the query as above we see that there is no solution. 
-When $is\_legal(is\_workday(d))$ is removed from $F$ we get exactly one legal max speed of $320$, and when  $is\_legal(is\_sports\_car(v))$, and $is\_legal(is\_workday(d))$ are both removed from $F$ we get exactly one exactly legal max speed of $130$.\\
-We note here that if all 4 facts as in the first initial fact set are passed to the SMT solver following the approach presented in \secref{sec:defeasible_classical} then the SMT solver will also return exactly one max speed of $90$. If instead we choose to modify the initial fact set by negating $is\_work\_day(d)$, then the SMT solver will return exactly one max speed of $320$ and if modify the initial fact set by negating both  $is\_work\_day(d)$ and  $is\_sports\_car(v)$, we get exactly one max speed of $130$.
+When removing
+$is\_legal(is\_workday(d))$ from $F$, we get exactly one legal max speed of $320$, and when  $is\_legal(is\_sports\_car(v))$, and $is\_legal(is\_workday(d))$ are both removed from $F$ we get exactly one exactly legal max speed of $130$.
+
+% We note here that if all 4 facts as in the first initial fact set are passed
+% to the SMT solver following the approach presented in
+% \secref{sec:defeasible_classical} then the SMT solver will also return exactly
+% one max speed of $90$. If instead we choose to modify the initial fact set by
+% negating $is\_work\_day(d)$, then the SMT solver will return exactly one max
+% speed of $320$ and if modify the initial fact set by negating both
+% $is\_work\_day(d)$ and $is\_sports\_car(v)$, we get exactly one max speed of
+% $130$.
 
 
 
