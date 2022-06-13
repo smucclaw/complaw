@@ -9,18 +9,14 @@ when $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ are all true, $h$ is
 true. $h$ is also sometimes known as the head of the rule and the positive and
 negated atoms $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ form the
 body. A rule with only a head and an empty body is called a fact. A logic
-program is a set of facts and rules. (In fact ASP can also model other things
-like integrity constrains, disjunctions in rule heads etc, but we will not be
-using these features in our paper). When a logic program is passed to an ASP
-solver, the solver returns a set of $stable$ $models$ (also known as $answer$
-$sets$) which make all the rules and facts in the logic program true. The set
+program is a set of facts and rules. The set
 of $stable$ $models$ of a logic program is calculated using the $stable$
 $model$ $semantics$ for ASP. For logic programs without negation-as-failure,
 the set of stable models is exactly the set of subset minimal models of the
 program. For logic programs with negation as failure stable models are most
 commonly defined using a construction known as the $reduct$ of a logic program
 with respect to an $Herbrand$ $interpretation$. Please see
-\citep{asp_background} for more details on ASP and the stable model semantics.
+\citep{asp_background} for more details on ASP and the stable model semantics. The ASP solver s(CASP) [sCASP ref] takes in a logic program and a query, and the query succeeds if there is a stable model (also known as an $answer$ $set$) of the logic program in which the query is true, with some bindings for any variables in the query.
 
 \section{ASP encoding}
 Here we recap the ASP encoding scheme given a configuration $Config =
@@ -186,13 +182,13 @@ legally_valid(R,C) :-
 
 is_legal(C):-legally_valid(R,C).
 \end{lstlisting}
-Running the the program gives exactly 2 answer sets corresponding to the legal models described above. Now if we add say $strong\_subject\_to(3,1)$ to the set of modifiers then we get exactly one legal model/answer set where exactly rule 3 and rule 2 are legally valid but not rule 1 because it has been invalidated due to rule 3 being legally valid with no regard for the minimal inconsistent sets.
+This logic program has exactly 2 answer sets corresponding to the legal models described above. Now if we add say $strong\_subject\_to(3,1)$ to the set of modifiers then we get exactly one legal model/answer set where exactly rule 3 and rule 2 are legally valid but not rule 1 because it has been invalidated due to rule 3 being legally valid with no regard for the minimal inconsistent sets.
 
 If we add $extremely\_wealthy(bob)$ to the set of facts, then we get a single legal model/answer set where exactly rule 1, rule 2 and rule 4 are legally valid. This is because the rule 3 has been invalidated and hence there are no constraints now on the validity of rule 1 and rule 2. 
 
 Let us consider some further modifications to the example discussed above. First, we wish to remind the reader that if there was a 5th rule in this rule set and we had a $despite(4,5)$ modifier, then as long as the precondition of rule 4 is true, it would still invalidate rule 3 even if rule 4 itself got invalidated by rule 5.
 
-However, in the case of $subject\_to$ and $strong\_subject\_to$, the dominating rules needs to be legally valid to invalidate the subordinate rule. 
+However, in the case of $subject\_to$ and $strong\_subject\_to$, the dominating rule needs to be legally valid to invalidate the subordinate rule. 
 
 As an illustration of the previous point say we have a fifth rule which says, if Bob owns a company, he may spend up to 20 million dollars on cars, and we had $despite(4,5)$ as an additional modifier. Suppose now also we have the three facts that Bob is wealthy, Bob is extremely wealthy and Bob owns a company. Then we would get exactly one legal model/answer set in which exactly rule 1, rule 2 and rule 5 were legally valid. So rule 4 would invalidate rule 3 even though it itself is invalidated by rule 5. 
 
