@@ -9,14 +9,17 @@ when $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ are all true, $h$ is
 true. $h$ is also sometimes known as the head of the rule and the positive and
 negated atoms $b_{1},b_{2}..,b_{k},not$ $b_{k+1}...,not$ $b_{n}$ form the
 body. A rule with only a head and an empty body is called a fact. A logic
-program is a set of facts and rules. The set
-of $stable$ $models$ of a logic program is calculated using the $stable$
-$model$ $semantics$ for ASP. For logic programs without negation-as-failure,
-the set of stable models is exactly the set of subset minimal models of the
-program. For logic programs with negation as failure stable models are most
-commonly defined using a construction known as the $reduct$ of a logic program
-with respect to an $Herbrand$ $interpretation$. Please see
-\citep{asp_background} for more details on ASP and the stable model semantics. The ASP solver s(CASP) [sCASP ref] takes in a logic program and a query, and the query succeeds if there is a stable model (also known as an $answer$ $set$) of the logic program in which the query is true, with some bindings for any variables in the query.
+program is a set of facts and rules. The set of $stable$ $models$ of a logic
+program is calculated using the $stable$ $model$ $semantics$ for ASP. For
+logic programs without negation-as-failure, the set of stable models is
+exactly the set of subset minimal models of the program. For logic programs
+with negation as failure stable models are most commonly defined using a
+construction known as the $reduct$ of a logic program with respect to an
+$Herbrand$ $interpretation$. Please see \cite{asp_background} for more details
+on ASP and the stable model semantics. The ASP solver s(CASP) \cite{arias19:_const_answer_set_progr_groun_applic,arias_phd_2019}
+takes in a logic program and a query, and the query succeeds if there is a
+stable model (also known as an $answer$ $set$) of the logic program in which
+the query is true, with some bindings for any variables in the query.
 
 \section{ASP encoding}
 Here we recap the ASP encoding scheme given a configuration $Config =
@@ -84,7 +87,7 @@ is_legal(C):-legally_valid(R,C).
 Firstly note, that the converse of the proposition is false. That is, there are configurations and legal models of those configurations that do not correspond to any answer set of the ASP encoding. A simple example of this is the following: Consider the configuration where there are only 2 rules:\\ (1): $a\rightarrow a$\\
 (2): $not$ $a\rightarrow b\\$
 
-Here as usual, the $not$ in the body of the second rule denotes negation-as-failure. There are no other facts, modifiers or minimal inconsistent sets. Then for this configuration $\{legally\_valid(1,a), is\_legal(a)\}$ is a legal model but it does not correspond to any answer set of the ASP encoding. As explained in \citep{KRR_notes}, this is essentially due to the fact that not all minimal supported models of a logic program are stable models. See \citep{KRR_notes} for the example given above and a further discussion on this topic.  Now we shall proceed to the proof of the lemma.
+Here as usual, the $not$ in the body of the second rule denotes negation-as-failure. There are no other facts, modifiers or minimal inconsistent sets. Then for this configuration $\{legally\_valid(1,a), is\_legal(a)\}$ is a legal model but it does not correspond to any answer set of the ASP encoding. As explained in \cite{KRR_notes}, this is essentially due to the fact that not all minimal supported models of a logic program are stable models. See \cite{KRR_notes} for the example given above and a further discussion on this topic.  Now we shall proceed to the proof of the lemma.
 
 Given a configuration $Config$, let $A_{Config}$ be an answer set of it's ASP encoding and let $S_{A_{Config}}$ be the set of $is\_legal$ and $legally\_valid$ predicates in $A_{Config}$. It is easy to see that $A_{Config}$ satisfies A1-A5. For example if the set $M$ from $Config$ contains $strong\_subject\_to(r_{i}, r_{j})$, then $A_{config}$ would contain $strong\_subject\_to(r_{i}, r_{j})$. Now if $S_{A_{Config}}$ contains $legally\_valid(r_{i}, C_{r_{i}})$, then so would $A_{Config}$. Now, if $pre\_con(r_{j})$ is satisfied in $A_{Config}$, then $according\_to(r_{j},C_{r_{j}})$ is in $A_{Config}$ and therefore $defeated(r_{j}, C_{r_{j}}, r_{i})$ is in $A_{Config}$ by line 44 of the general encoding shown above. Therefore $not\_legally\_valid(r_{j})$ is in $A_{Config}$ by line 48 of the encoding. Therefore by the line 50 of the encoding, $legally\_valid(r_{j},C_{r_{j}})$ is not in $A_{Config}$. Therefore $legally\_valid(r_{j},C_{r_{j}})$ is not in $S_{A_{Config}}$.
 

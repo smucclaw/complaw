@@ -27,7 +27,7 @@ languages and at the same time sufficiently close to a traditional law text
 with its characteristic elements such as cross references, prioritisation of
 rules and defeasible reasoning. Indeed, presenting these features is one of
 the main topics of this paper. Once a law has been coded in L4, it can
-be further processed: it can be converted to natural language \citep{listemnmaa2021cnl} to
+be further processed: it can be converted to natural language \cite{listemnmaa2021cnl} to
 be as human-readable as a traditional law text, and efficient executable code can be
 extracted, for example to perform tax calculations (all this is not the topic
 of the present paper). It can also be analysed, to find faults in the law
@@ -76,25 +76,25 @@ in \secref{sec:conclusions}.\footnote{Note for the reviewers: This file
 
 There is a huge body of work both on computer-assisted legal reasoning and
 (not necessarily related) defeasible reasoning. In a seminal work, Sergot and Kowalski
-\citep{sergot_kowalski_etal__british_nationality_acm_1986,kowalski_legislation_logic_programs_1995}
+\cite{sergot_kowalski_etal__british_nationality_acm_1986,kowalski_legislation_logic_programs_1995}
 code the British Nationality Act in Prolog, exploiting Prolog's negation as
 failure for default reasoning.
 
 
 
-The Catala language \citep{merigoux_chataing_protzenko_cata_icfp_2021},
+The Catala language \cite{merigoux_chataing_protzenko_cata_icfp_2021},
 extensively used for coding tax law and resembling more a high-level
 programming language than a reasoning formalism, includes default rules, which
 are however not entirely disambiguated during compile time so that run time
 exceptions can be raised.
 
-An entirely different approach to tool support is taken with the LogiKEy \citep{benzmueller_etal_logikey_2020}
+An entirely different approach to tool support is taken with the LogiKEy \cite{benzmueller_etal_logikey_2020}
 workbench that codes legal reasoning in the Isabelle interactive proof assistant, paving
 the way for a very expressive formalism. In contrast, we have opted for a DSL
 with fully automated proofs which are provided by SMT respectively ASP solvers. These do not permit for human intervention in the proof process, which would not be adequate for the user group we target. Symboleo
-\citep{sharifi_parvizimosaed_amyot_logrippo_mylopoulos_Symboleo_spec_legal_contracts_2020}
+\cite{sharifi_parvizimosaed_amyot_logrippo_mylopoulos_Symboleo_spec_legal_contracts_2020}
 and the NAI Suite
-\citep{libal_steen_nai_suite_draft_reason_legal_texts_jurix_2019} emphasise
+\cite{libal_steen_nai_suite_draft_reason_legal_texts_jurix_2019} emphasise
 deontic logic rather than defeasible reasoning (the former is so far not
 considered in our L4 version).
 
@@ -108,23 +108,23 @@ and colleagues have developed the Turnip system
 that is based on a
 combination of defeasible and deontic logic and which is applied, among
 others, to modelling traffic rules
-\citep{governatori_Traffic_Rules_Encoding_using_Defeasible_jurix_2020}.
+\cite{governatori_Traffic_Rules_Encoding_using_Defeasible_jurix_2020}.
 
 It seems vain to attempt an exhaustive
 review of defeasible reasoning. Before the backdrop of foundational law
-theory \citep{hart_concept_of_law_1997}, there are sometimes diverging
+theory \cite{hart_concept_of_law_1997}, there are sometimes diverging
 proposals for integrating defeasibility, sometimes opting for non-monotonic
-logics \citep{hage_law_and_defeasibility_2003}, sometimes taking a more
-classical stance \citep{alchourron_makinson_hierarchies_of_regulations_1981}. 
+logics \cite{hage_law_and_defeasibility_2003}, sometimes taking a more
+classical stance \cite{alchourron_makinson_hierarchies_of_regulations_1981}. 
 % Defeasible rule-based reasoning in the context of argumentation theory is
 % discussed in \citep{dung_argumentation_theory_1995,amgoud_besnard_rule_based_argumentation_systems_2019}.
 
-On a more practical side, Answer Set Programming (ASP) \citep{asp_background}
+On a more practical side, Answer Set Programming (ASP) \cite{asp_background}
 goes beyond logic programming and increasingly integrates techniques from
 constraint solving, such as in the sCASP system
-\citep{arias_phd_2019}. In spite of a convergence of SMT and CASP technologies,
+\cite{arias_phd_2019}. In spite of a convergence of SMT and CASP technologies,
 there are few attempts to use SMT for ASP, see
-\citep{shen_lierler_smt_answer_set_kr_2018}. For the technologies used in our
+\cite{shen_lierler_smt_answer_set_kr_2018}. For the technologies used in our
 own implementation, please see \secref{sec:conclusions}. 
 
 
