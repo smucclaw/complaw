@@ -1057,7 +1057,7 @@ We recommend you install
 - Git (and set ~git config --global pull.rebase true~) to make life better; see https://www.atlassian.com/git/tutorials/merging-vs-rebasing for details
 - Slack
 - Emacs
-- VS Code / Atom / Sublime Text
+- VS Code
 - Zoom
 - node and npm
 - python 3
@@ -1424,10 +1424,31 @@ one of the below:
 
 *** Technical Skills and Competencies
 
+- A brief history of reasoning
+  - As modes of reasoning, induction and deduction have been recognized for a long time. We might characterize them this way:
+    - Given input facts and operating rules, deductive reasoning produces output conclusions. This is the domain of traditional algebra and traditional computer programming.
+    - Given output conclusions and input facts, inductive reasoning guesses at possible rules. Machine learning AI has been getting good at this lately, though the neural approach is, arguably, subsymbolic and nonverbal.
+    - What mode of reasoning completes the triangle? Which philosopher is credited with coining the term? Clue: he wrote an obituary of Charles Babbage, published in /The Nation/ on November 9, 1871. Recently, AI systems like GPT-3, Dall-E, and PaLM 540B have been exploring this mode of creativity, also in a subsymbolic and nonverbal way. Language models like LaMDA are verbal -- but are they symbolic?
+- Logic and circuits, a double feature:
+  - Who developed the theory of multiple intelligences?
+  - What did he call "the most significant master's thesis of the 20th century"?
+  - In what way did this thesis continue the work of Babbage's obituarist?
+  - First, read [[https://www.cs.virginia.edu/~evans/greatworks/shannon38.pdf][that master's thesis, as published in Transactions American Institute of Electrical Engineers, 1938]] (up to part /IV./; you can stop on page 483.)
+  - Then read all of [[https://drive.google.com/file/d/1FXHyxDhjQJ5plDC_a7yCPUrxIu8EBhYp/view?usp=sharing][Layman Allen 1978]], published 40 years later.
+  - Consider: why was the former paper considered so influential, while the latter has fallen into obscurity?
+  - What would it take for the latter paper to make a comeback?
+- Entry point for our SVG visualization efforts:
+  - What style of diagrams are used by PLC (programmable logic controller) designers?
+  - How are they reminiscent of some of the works above?
+  - Review BPMN and DMN, currently used in business; Camunda offers a good introduction.
+  - Would you consider these examples of diagrammatic reasoning? What formalisms and semantics are at work behind the scenes of these systems?
+  - Review the history of diagrammatic reasoning. Which philosopher's name turns up again here?
+- read lawyers on drafting
+  - [[https://drive.google.com/file/d/1nCjppx8ge-_4J2KQlPR9EP6wcwhWlukD/view?usp=sharing][Howard Darmstadter]]
+  - [[https://twitter.com/AdamsDrafting][Ken Adams on Twitter]]
 - watch Ron Dolin: https://youtu.be/YHri1NdYKS0
-- read: Layman Allen, Howard Darmstadter, Ken Adams
-- read and work through the case studies provided by CCLAW
-- learn the CCLAW L4 DSL in whatever forms it currently takes
+- read the previous and current case studies from CCLAW: the PDPA DBNO case, and the AXA case.
+- learn the CCLAW L4 DSL in its current form.
 
 *** Outcomes
 
@@ -1435,8 +1456,10 @@ one of the below:
 - able to write and run software to formally verify and find loopholes in contracts and laws
 - able to work through a CCLAW use case as developed with industry partner
 
-Discuss:
+*** Linguistic Ambiguity
 Alice has three children. Bob has four children. Does Alice have a child? Does Alice have one child? Does Bob have two children?
+
+Are you 18 years old? Are you 18 years of age?
 
 *** Training Duration (Weeks / Months)
 
