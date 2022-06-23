@@ -1079,6 +1079,8 @@ Specific readings will be assigned according to the trainee's background, intere
 
 You need to take the lead in learning this stuff. Many resources are available through the school [[https://library.smu.edu.sg/][library]] -- in particular, everything by O'Reillly is available, so use that as a starting point. Use Google. Find documentation. Ask your colleagues for help if you feel stuck. But you're not stuck until you've tried.
 
+
+
 ** Web Development: Introduction                                                           :module:
 
 *** Technical Skills and Competencies
@@ -1455,6 +1457,11 @@ one of the below:
 - able to formalise contracts and laws
 - able to write and run software to formally verify and find loopholes in contracts and laws
 - able to work through a CCLAW use case as developed with industry partner
+
+*** More Reading
+
+- [[https://drive.google.com/file/d/1iBUvS7Tv6uGcf6CtFq8X6Gho8z8Z2nYn/view?usp=sharing][Illuminating Innumeracy, Lisa Milot]]
+- [[https://drive.google.com/file/d/1LOdiOXfxtC3WXTfDv-eE74OudLHAPL-z/view?usp=sharing][Why Contracts are written in Legalese]]
 
 *** Linguistic Ambiguity
 Alice has three children. Bob has four children. Does Alice have a child? Does Alice have one child? Does Bob have two children?
