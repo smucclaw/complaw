@@ -1,0 +1,79 @@
+#+TITLE: AWS server setup notes
+
+CCLAW provides a Linux server for staff to develop on.
+
+It is hosted with Amazon Web Services.
+
+* On [2020-06-14 Sun] Meng set up a trial instance, very small.
+
+recommended configuration:
+
+20 gigs root ssd
+16 gigs swap partition ssd
+500 gigs /home cold
+50 gigs /nix ssd
+
+** /etc/fstab
+LABEL=cloudimg-rootfs   /        ext4   defaults,discard        0 0
+UUID=258bc2a9-b2c3-4e95-8b90-a85b7b3c3424               /home    ext4   defaults,nofail                0 0
+/swapfile               swap     swap   defaults                0 0
+/home/swapfile          swap     swap   defaults                0 0
+
+** swap setup:
+
+dd if=/dev/zero of=/swapfile bs=128M count=32
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+
+dd if=/dev/zero of=/home/swapfile bs=128M count=64
+chmod 600 /home/swapfile
+mkswap /home/swapfile
+
+** apt get
+
+apt install -y emacs-nox haskell-stack swi-prolog-nox ruby nodejs
+
+already installed: screen tmux python3
+
+** adduser
+- mengwong
+
+** haskell
+
+stack upgrade
+
+* upgrade plan
+
+if people actually start using this system and its 1 gig of ram isn't beefy enough, upgrade to a larger instance and keep /home
+
+ip address is elastic, can be transferred.
+
+can always also expand /home later
+
+* install nix multiuser
+
+create 20g magnetic disk, create it on /nix
+
+4.2 of https://hydra.nixos.org/build/119559243/download/1/manual/#sect-multi-user-installation
+
+* node
+sudo apt -y install npm
+
+* json
+npm i -g json
+
+* increase max_user_watches
+
+if running multiple web servers gives a chokidar error on "System limit for number of file watchers reached",
+
+https://stackoverflow.com/questions/55763428/react-native-error-enospc-system-limit-for-number-of-file-watchers-reached
+
+#+begin_example
+# insert the new value into the system config
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+# check that the new value was applied
+cat /proc/sys/fs/inotify/max_user_watches
+#+end_example
+
