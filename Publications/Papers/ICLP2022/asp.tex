@@ -126,22 +126,22 @@ is_legal(C):-legally_valid(R,C).
 \end{lstlisting}
 
 When the initial set of facts $F$ is the set
-\begin{lstlisting}[language=Prolog, numbers=left]
+\begin{lstlisting}[language=Prolog]
 is_legal(is_workday(d)).
 is_legal(is_car(v)).
 is_legal(is_highway(r)).
 is_legal(is_sports_car(v)).
 \end{lstlisting}
 we get exactly one legal max speed given by 
-\begin{lstlisting}[language=Prolog, numbers=left]
+\begin{lstlisting}[language=Prolog]
 is_legal(max_spd(v,d,r,90)).
 \end{lstlisting}
 One can check this by adding the rule 
-\begin{lstlisting}[language=Prolog, numbers=left]
+\begin{lstlisting}[language=Prolog]
 legal_max_spd(X):- is_legal(max_spd(v,d,r,X)). 
 \end{lstlisting}
 and running the s(CASP) query $?- legal\_max\_spd(X).$, which returns the binding $X = 90$. This is the unique legal maximum speed which can be seen via use of the rule 
-\begin{lstlisting}[language=Prolog, numbers=left]
+\begin{lstlisting}[language=Prolog]
 legal_max_spd(X):- X > 90, is_legal(max_spd(v,d,r,X)). 
 \end{lstlisting}
 Now running the query as above we see that there is no solution. 
