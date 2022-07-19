@@ -9,4 +9,4 @@ pdffiles = main.pdf
 submission: 
 	mkdir -p source; mkdir -p pdf; \
 	cp $(adminfiles) $(bibfiles) $(sourcefiles) source; cp $(pdffiles) pdf;
-#	zip -r ppdp2022-4278.zip ./source ./pdf
+	zip -r ppdp2022-4278.zip ./source ./pdf
