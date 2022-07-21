@@ -16,16 +16,34 @@ to doing abductive reasoning in a bottom up manner. However it seems to us that
 that approach 
 imposes a strict order on the evaluation of preconditions of a rule, which makes 
 that method much less general than ours. 
-Possible future directions of work may include extending the formal results
-presented here to a larger class of abductive proof generation problems. It
-also seems to us that the main technique used to generate the directed edge
+
+There are several possible directions for future work. One possible line of theoretical investigation 
+could be to study how the abductive solutions calculated by our methods (and any resulting extra
+consequences of the abductive solution and input rules) could be generalised to 
+sentences in first order logic. Roughly speaking, given an abductive solution involving
+instances of 'extVar' the aim would be to map these solutions to solutions where instances
+of 'extVar' are replaced by universally quantified variables (where perhaps such a variable may
+not take values from some finite set).  Distinguishing between instances of 'extVar' that should 
+get mapped to distinct universally quantified variables can be done by adding certain facts 
+that would result in the generated abductive solution being modified so that the 'matching' 
+occurrences of 'extVar' get replaced by some other fresh constant. Intuitively, it seems to 
+us that our method of calculating and simplifying abductive solutions without grounding over
+the entire domain of constants gives an appropriate 
+setting to explore some of these ideas. Of course the correctness/applicability of such techniques 
+would have to be investigated in a rigorous and formal manner.
+
+
+Another possible future line of work may include extending the formal results
+presented here to a larger class of abductive proof generation problems. 
+It also seems to us that the main technique used to generate the directed edge
 set representing the justification graph could be adapted for use in SAT/SMT
-solvers to get justifications out of them. We also have yet to study the complexity problems
+solvers to get justifications out of them. 
+
+We also have yet to study the complexity problems
 associated with the methods presented in this paper. \cite{DBLP:journals/tcs/EiterGL97} provides a thorough study 
 of the complexity of abductive reasoning. It remains to be seen how those results 
 which mostly deal with propositional logic could be carried over to our setting, where
-we aim to compute abductive solutions without grounding rules over the complete 
-domain of constants. %\remms[inline]{Also mention Haskell implemenation}
+we aim to compute abductive solutions without complete grounding of rules. %\remms[inline]{Also mention Haskell implemenation}
 
 
 
