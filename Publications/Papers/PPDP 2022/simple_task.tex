@@ -10,13 +10,15 @@ Given an abductive proof generation task $\langle R,q,U,C,N \rangle$, we say tha
 \item $R$ contains no negation as failure.
 \item $R$ contains no function symbols, arithmetic operators.
 \item No post condition of any rule in $R$ contains repeated variables. For example the rule:\\
-$p(X,X):-r(X,X,Y)$ is not allowed but the rule: $p(X,Y):-r(X,X,Y)$ is allowed.
+$p(X,X):-r(X,X,Y)$ is not allowed but the rule: 
+
+$p(X,Y):-r(X,X,Y)$ is allowed.
 \item $C$ is empty.
 \item Any constraint on abducibles in $U_{a}$ must consist of only a single
   positive fully un-ground atom with no repeated variables amongst its
   arguments. For example if $p$ is a binary predicate, then the constraint
   $:-abducedFact(p(X,Y)).$ is allowed but the constraint
-  $:-abducedFact(p(X,X)).$ Constraints where more than one atom appers are
+  $:-abducedFact(p(X,X)).$ Constraints where more than one atom appears are
   also not allowed. For instance the following would be disallowed:
   $:-abducedFact(p(X,Y)),abducedFact(r(X)).$ Finally, constraints containing
   partially or fully ground atoms are disallowed. For example the following

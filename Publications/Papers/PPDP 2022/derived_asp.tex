@@ -54,7 +54,7 @@ predicate $b$), we encode that constraint as:
 \end{lstlisting}
 
 \subsubsection{Generating Abducibles}
-Before diving into the details of the abducibles generation encoding let us give a brief intuition for some key meta-predicates and rules that will show up Firstly the binary meta-predicate $query$ has as its first argument an atom which may become a candidate for abduction and as its second argument an integer corresponding roughly to the depth level of that atom with respect to $(R,q)$. Next the meta predicate $explains$ has as its first argument, an atom which forms a pre-condition of some input rule instantiation, and as its second argument the corresponding input rule instantiation post condition. The third argument of the $explains$ meta predicate carries the depth of the atom in the first argument. The final key meta-predicate is $createSub$. $createSub$ carries information about input rule instantiations. The first argument of $createSub$ is a tuple which carries generated rule instantiations of a particular rule via the instantiations of the variables in the rule in some fixed order, the second argument of $createSub$ is again a integer depth parameter. Let us now explain the general structure of some of the rules in the abducibles generation encoding to illustrate the purpose of these meta predicates. Firstly we have abduction generation rules with the structure:
+Before diving into the details of the abducibles generation encoding let us give a brief intuition for some key meta-predicates and rules that will show up. Firstly the binary meta-predicate $query$ has as its first argument an atom which may become a candidate for abduction and as its second argument an integer corresponding roughly to the depth level of that atom with respect to $(R,q)$. Next the meta predicate $explains$ has as its first argument, an atom which forms a pre-condition of some input rule instantiation, and as its second argument the corresponding input rule instantiation post condition. The third argument of the $explains$ meta predicate carries the depth of the atom in the first argument. The final key meta-predicate is $createSub$. $createSub$ carries information about input rule instantiations. The first argument of $createSub$ is a tuple which carries generated rule instantiations of a particular rule via the instantiations of the variables in the rule in some fixed order, the second argument of $createSub$ is again a integer depth parameter. Let us now explain the general structure of some of the rules in the abducibles generation encoding to illustrate the purpose of these meta predicates. Firstly we have abduction generation rules with the structure:
 \begin{lstlisting}[frame=none]
 createSub(...,N+1):-query(...,N),N<M,max_ab_lvl(M).
 \end{lstlisting}
@@ -145,7 +145,7 @@ a(X):- b(X,Y,Z), not c(X), not d(Y) .
 Say this rule $r$ has rule id $5$. 
 Let $O_{5}$ be $[X,Y,Z]$. Here the encoding for the rule $AG1$ is:
 \begin{lstlisting}[frame=none]
-create_subs(subs_Inst_5(X,skolemFn_5_Y(X),skolemFn_5_Z(X),N+1):-
+create_subs(subs_Inst_5(X,skolemFn_5_Y(X),skolemFn_5_Z(X)),N+1):-
    query(a(X),N),max_ab_lvl(M),N<M-1.
 
 explains(b(X,Y,Z),a(X),N):-create_subs(subs_Inst_5(X,Y,Z),N).
@@ -247,7 +247,7 @@ This completes the encoding $AG2_{exp}$. The adapted version of $AG3$,
 $AG3_{exp}$, is given by adding to $AG3$ one extra rule. So $AG3_{exp}$ is: 
 \begin{lstlisting}[frame=none]
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
-query(Y,N-1):-explains(X,Y,N),max_ab_lvl(M),1<N,N<M.
+query(Y,N-1):-explains(X,Y,N),max_ab_lvl(M),0<N,N<M.
 \end{lstlisting}
 Given $\langle R,q,U,C,N \rangle$ let the complete ASP program that uses $AG1_{exp}$, $AG2_{exp}, AG3_{exp}$, the supporting code and the forward translation be called $P_{<R,q,U,C,N>}^{exp}$
 \subsection{Discussion of Abduction space generation}

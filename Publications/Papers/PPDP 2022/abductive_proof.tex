@@ -15,7 +15,7 @@ Given an abductive proof generation task $\langle R,q,U,C,N \rangle$,let us defi
 Given an abductive proof generation task $\langle R,q,U,C,N \rangle$, we say that $F$ is a general solution to this task if:
 \begin{enumerate}
     \item If $q$ is a positive atom, it is in some answer set $\mathcal{A}$ of $F\cup U_{f}\cup R\cup C$ where the un-ground variables in $q$ have been replaced with any set of ground terms. If $q$ is a ground negation-as-failure (NAF) atom, then there exists an answer set $\mathcal{A}$ of $F\cup U_{f}\cup R\cup C$ such that $q$ is $not$ in $\mathcal{A}$.
-    \item $F$ does not violate any of the integrity constraints in $U_{a}$ Ie. $F$ does not contain abducibles that are specifically disallowed by the constraints in $U_{a}$.
+    \item $F$ does not violate any of the integrity constraints in $U_{a}$, ie. $F$ does not contain abducibles that are specifically disallowed by the constraints in $U_{a}$.
     \item $F$ does not have any atoms whose depth level is greater than $N$.
 \end{enumerate}
 \end{definition} We will next state some assumptions we make on the set of input ASP rules $R$ and then also define what we mean by the depth level of an atom. After this we shall exemplify all these definitions with an example. 
@@ -31,7 +31,7 @@ We further make the folllowing assumptions:
     \item Each pre-condition $pre\_con_{i}(V_{i})$ is atomic and so is the post-condition $post\_con(V)$.
     \item The $not$ in front of the pre-conditions denotes \textit{negation as failure} interpreted under the \textit{stable model semantics}
     \item $V_{i}$ is the set of variables occuring in the $i^{th}$ pre-condition which is either $pre\_con_{i}(V_{i})$ or $not$ $pre\_con_{i}(V_{i})$ and $V$ is the set of variables occuring in the post condition $post\_con(V)$. We assume that $V\subseteq V_{1}\cup V_{2}\cup ... \cup V_{n}$.
-    \item Each variable occurring in the post condition is universally quantified over, and each variable that occurs in some pre-condition but not the post condition is existentially quantified. In particular together with (3), this means that there are no existentially quantified variables in rule post-conditions.
+    \item Each variable occurring in the post condition is universally quantified over, and each variable that occurs in some pre-condition but not the post condition is existentially quantified. In particular together with (3), this means that there are no existentially quantified variables in a rule post-condition.
     \item Each variable that occurs in a negation-as-failure pre-condition also occurs in some positive pre-condition.
     \item Each input rule of the form above is assigned some unique rule id.
 \end{enumerate}
@@ -44,14 +44,14 @@ will describe this map rather informally. For any atom  $q'$ such that $q'$ is o
 \phi_{R,q}(q')$. Now the rest of the definition is recursive. Given an atom $a$, the
 non-negative integer $n$, $n\in \phi_{R,q}(a)$ if and only if there exists a rule
 $r$ in $R$ and some substitution $\theta$ of the variables in $r$
-such that there exists some precondition (NAF or positive) $p$ of $r$ such
-that that $\theta$ applied to $p$ gives $a$ and $\theta$ applied to the post
+such that there exists some precondition (NAF or positive) $p$ of $r$ such 
+that $\theta$ applied to $p$ gives $a$ and $\theta$ applied to the post
 condition of $r$ gives some atom $a'$ where $n-1$ $\in$ $\phi_{R,q}(a')$.
 
 Given an atom $a$ let $\phi^{min}_{R,q}(a)$ be $-1$ if the set $\phi_{R,q}(a)$ is empty
 and let $\phi^{min}_{R,q}(a)$ be the minimum member of the set $\phi_{R,q}(a)$
 otherwise. Then $\phi^{min}_{R,q}(a)$ is defined to be the $depth$ $level$ of $a$
-with respect to the rule set $R$ and query $q$. If $q$ is a ground $NAF$ atom then given some some positive atom $a$ $\phi^{min}_{R,q}(a)$ is simply given by $\phi^{min}_{R,\tilde{q}}(a)$, where $\tilde{q}$ is obtained from $q$ by removing the $not$ operator from in front of $q$.  
+with respect to the rule set $R$ and query $q$. If $q$ is a ground $NAF$ atom then given some positive atom $a$ $\phi^{min}_{R,q}(a)$ is simply given by $\phi^{min}_{R,\tilde{q}}(a)$, where $\tilde{q}$ is obtained from $q$ by removing the $not$ operator from in front of $q$.  
 \end{definition}
 For example if $R$ consisted of the rules
 \begin{lstlisting}[frame=none]
