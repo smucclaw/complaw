@@ -112,7 +112,7 @@ a(X):-b(X,Y),c(Y).
 b(X,Y):-d(X,Y,Z).
 \end{lstlisting}
 
-Let $q$ be $a(john)$, let the set of user provided facts be empty and suppose that no instances of the predicate $a$ or $b$ can be abduced. Finally suppose that the set $C$ is empty and $N=2$. Then upon running the ASP program $P_{R,q,U,C,N}^{semi-res}$ we will get the minimal abductive solution \begin{lstlisting}[frame=none]
+Let $q$ be $a(john)$, let the set of user provided facts be empty and suppose that no instances of the predicate $a$ or $b$ can be abduced. Finally suppose that the set $C$ is empty and $N=2$. Then upon running the ASP program $P_{\langle R,q,U,C,N\rangle}^{semi-res}$ we will get the minimal abductive solution \begin{lstlisting}[frame=none]
 abducedFact(c(extVar)), abducedFact(d(john,extVar,extVar))
 \end{lstlisting} 
 This corresponds to the substitution $\theta =[v1\rightarrow john,sk(v1) \rightarrow extVar, sk'(v1,sk(v1))\rightarrow extVar]$. Then upon modifying the set of user provided facts by adding the fact $c(james)$, we get the smaller abductive solution:

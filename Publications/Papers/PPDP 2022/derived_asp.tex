@@ -139,9 +139,9 @@ query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
 \end{lstlisting}
 Let us consider another example.
 Consider the input ASP rule:
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 a(X):- b(X,Y,Z), not c(X), not d(Y) .    
-\end{verbatim}
+\end{lstlisting}
 Say this rule $r$ has rule id $5$. 
 Let $O_{5}$ be $[X,Y,Z]$. Here the encoding for the rule $AG1$ is:
 \begin{lstlisting}[frame=none]
@@ -170,28 +170,28 @@ create_subs(subs_Inst_5(V_X,V_Y,V_Z),N), holds(d(Y)),max_ab_lvl(M),N<M.
 
 \subsubsection{Supporting code for Abduction} 
 Given the original problem $\langle R,q,U,C,N\rangle$, set $M=N+1$. Then we have the following: 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 max_ab_lvl(M).
 query(Q,0):-generate_proof(Q).
 {abducedFact(X)}:-query(X,M).
 holds(X):-abducedFact(X).
 
 holds(X):-user_input(pos,X).
-\end{verbatim}
+\end{lstlisting}
 For any predicate $p$, say of arity $n$ such that no instance of $p$ may be abduced, we add the constraint.
-\begin{verbatim} 
+\begin{lstlisting}[frame=none] 
 :-abducedFact(p(X1,X2,...,Xn)).
-\end{verbatim}
+\end{lstlisting}
 If instead only a specific ground instance of $p$ or a partially ground instance of $p$ should be prevented from being abduced then we simply adapt the above constraint accordingly. For instance if $p$ is a binary predicate and we want that no instance of $p$ where the first argument is $alpha$ should be abduced we have the constraint
-\begin{verbatim} 
+\begin{lstlisting}[frame=none] 
 :-abducedFact(p(alpha,X)).
-\end{verbatim}
+\end{lstlisting}
 Next we add the following $weak$ constraint so that in the optimal abductive
 solution as few abducibles as possible are used.
 %\remms{what does $[1@1,X]$ mean?}
-\begin{verbatim} 
+\begin{lstlisting}[frame=none] 
 :~abducedFact(X).[1@1,X]
-\end{verbatim}
+\end{lstlisting}
 
 \subsubsection{Specifying the goal}
 Here is the code to encode the goal of the abductive reasoning process represented by the parameter $q$. If q is a ground atom say $p(a1,a2..,an)$ for some predicate $p$ then we
@@ -201,7 +201,10 @@ have:
 generate_proof(p(a1,a2,...,an)).
 goal:-holds(p(a1,a2,..,an)).
 :- not goal.
-\end{lstlisting}
+\end{lstlisting} 
+Here the constraint \begin{lstlisting}[frame=none]
+:- not goal. \end{lstlisting}
+ensures that the abduced facts together with the input rules actually do entail the goal.
 If on the other hand $q$ is non-ground or only partially ground then we have the following. Say our goal is of the form $p(a,X,b,Y,Y)$, which means that $X$,$Y$ are existential variables. Then for the example we have the following:
 \begin{lstlisting}[frame=none]
 generate_proof(p(a,v1,b,v2,v2)).
@@ -214,7 +217,7 @@ generate_proof(p).
 goal:-not holds(p).
 :- not goal.
 \end{lstlisting}
-Given $\langle R,q,U,C,N \rangle$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$, the supporting code and the forward translation be called $P^{res}_<R,q,U,C,N>$. We will now give a modified abduction generation encoding which can be used when no rule in $R$ contains an existential variable. As mentioned before, it turns out that using this modified encoding on rules that have existential variables can lead to infinite answer sets. After giving this modified encoding we will explain in detail the encodings with the aid of an example. 
+Given $\langle R,q,U,C,N \rangle$ let the complete derived ASP program that uses $AG1$, $AG2$, $AG3$, the supporting code and the forward translation be called $P^{res}_{\langle R,q,U,C,N\rangle}$. We will now give a modified abduction generation encoding which can be used when no rule in $R$ contains an existential variable. As mentioned before, it turns out that using this modified encoding on rules that have existential variables can lead to infinite answer sets. After giving this modified encoding we will explain in detail the encodings with the aid of an example. 
 \subsection{Extending abduction generation space for rules without existential variables}
 When we have rules without existential variables, we can construct a larger
 space of abducibles without worrying about our ASP programs having infinite
@@ -337,7 +340,8 @@ We will now discuss various parts of the encoding.
 As mentioned earlier, the general idea is to recursively generate a
 maximal space of abducibles by 'reversing' the rules and then checking via the
 Forward Translation and encoding of the goal, which abducibles are needed
-for entailment of the original query. More specifically in line with the intuitive discussion from before, any atom
+for entailment of the original query.  
+More specifically in line with the intuitive discussion from before, any atom
 of the form $query(h,i)$ generates an input rule instantiation where $h$ is
 the post-condition that particular rule instantiation. Such rule
 instantiations are represented by the $createSub$ atom. In the example above,
@@ -444,9 +448,9 @@ functions, even a subset of the expanded abduction generation encoding can
 lead to infinite answer sets.
 
 Consider the rule set consisting of just the single rule 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 relA(X):-relB(X,Y),relA(Y).
-\end{verbatim}
+\end{lstlisting}
 
 Suppose the goal is $a(john)$
 Consider the encoding below, which is a subset of the expanded abducible generation encoding.
@@ -576,17 +580,17 @@ holds(X):-user_input(pos,X).
 
 \end{lstlisting}
 Running this program in Clingo, we get the output 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 abducedFact(relC(john))
 abducedFact(relD(skolemFn_r1_R(skolemFn_r1_R(john))))
 abducedFact(relA(skolemFn_r1_R(skolemFn_r1_R(john))))    
-\end{verbatim}
+\end{lstlisting}
 as the solution with the least number of abducibles.
 Now adding $relC(john)$ as a user provided fact gives the following smaller abductive solution
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 abducedFact(relD(skolemFn_r1_R(skolemFn_r1_R(john))))
 abducedFact(relA(skolemFn_r1_R(skolemFn_r1_R(john))))    
-\end{verbatim}
+\end{lstlisting}
 Now if we further add $relA(mary)$ to the set of user provided facts then we
 get as a minimal abductive solution the answer $relD(mary)$. This is because
 by after adding these facts, $holds(relB(john,mary))$ becomes true. Then by
@@ -597,10 +601,10 @@ then gives us the miinimal abductive solution. However if instead of adding
 the fact $relA(mary)$ we instead add the fact $relD(mary)$, then we do not get
 a  substitution of terms does not take place and the minimal abductive
 solution is still
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 abducedFact(relD(skolemFn_r1_R(skolemFn_r1_R(john))))
 abducedFact(relA(skolemFn_r1_R(skolemFn_r1_R(john))))    
-\end{verbatim} 
+\end{lstlisting} 
 This is because by line 29, the atom\\ $createSub(subInst\_r1(john,mary),4)$ becomes true,
 which due to line 19 and line 36 makes $query(relB(john,mary),4)$
 true. However now this cannot cause the atom $query(relA(mary),5)$ to become
@@ -620,10 +624,10 @@ allows us to get full term substitution without the possiblity of infinitely
 large answer sets. Consider the problem $,\langle R,q,U,C,N \rangle$ where $R$ is the
 following input rule set: 
 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 relA(X):-relB(X,Y),relC(X,Y).
 relB(X,Y):-relD(X,Y,Z),relE(X,Y,Z).
-\end{verbatim}
+\end{lstlisting}
 
 let our $q$ be $relA(john)$. Let the initial set of user provided facts be empty, furthermore, suppose that no instance of $relA$ or $relB$ may be abduced. Finally let the set $C$ be emppty and let $N=4$.  
 Consider the following encoding
@@ -694,11 +698,11 @@ Note that in lines 15, 16 instead of using skolem functions we use a single
 fresh constant $extVar$ to represent the existential variable in both
 rules. Now, when we run the program we get the following optimal solution
 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 abducedFact(relC(john,extVar))
 abducedFact(relE(john,extVar,extVar))
 abducedFact(relD(john,extVar,extVar))    
-\end{verbatim}
+\end{lstlisting}
 
 Now because, term substitution is only a derived effect and there is no
 equality relation, it is possible for different instances of $extVar$ to get
@@ -706,10 +710,10 @@ replaced (or not) by different constants upon the addition of some user
 provided facts. For instance upon adding the fact $relD(john,james,mary)$, we get
 the optimal solution:
 
-\begin{verbatim}
+\begin{lstlisting}[frame=none]
 abducedFact(relC(john,james))
 abducedFact(relE(john,james,mary))    
-\end{verbatim}
+\end{lstlisting}
 
 So some instances of $extVar$ from the original solution have been replaced by 'james' and others by 'mary'. What this means is that each occurence of $extVar$ in the original solution can be thought of as simply a place-holder for a term where each instance maybe a placeholder for a different term. When we use skolem functions instead this is simply more explicit because we have different skolem terms representing different existential variables. More formally in the first solution the variables $[X,Y,Z]$ get mapped to $[john, extVar,extVar]$ respectively. Upon the addition of the extra fact the we get the mapping $[X,Y,Z]\rightarrow[john,james,mary]$. Using an equality relation to get from the first solution to the second would be impossible because we would need both the following equalities to hold: $extVar = james$, $extVar = mary$. (Of course the above solution could be obtained if one simply grounds the rules over the entire domain of constants but as mentioned in the introduction, the methods in this paper are aimed at avoiding such a naïve grounding as in general, one may get too many substitutions for existential variables)
 

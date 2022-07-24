@@ -12,7 +12,7 @@ reasoning. However we have not explored this connection in detail. Those techniq
 typically involve a complete re-write of the input
 rules according some chosen fixed sideways information passing strategy, which
 makes that whole approach quite different to ours. \cite{DBLP:journals/jar/Stickel94} describes an approach 
-to doing abductive reasoning in a bottom up manner. However it seems to us that
+to doing abductive reasoning in a bottom up manner. He uses 'continuation predicates' to pass substitutions from previously evaluated rule pre-conditions to rule pre-conditions yet to be evaluated, given the rule post-condition as the 'goal'. This somewhat resembles our use of 'createSub' predicates. However it seems to us that
 that approach 
 imposes a strict order on the evaluation of preconditions of a rule, which makes 
 that method much less general than ours. 
