@@ -22,8 +22,8 @@ Given an abductive proof generation task $\langle R,q,U,C,N \rangle$, we say tha
 \subsection{Input ASP program}
 When considering any abductive proof generation task we make the following assumptions on the input ASP rule set $R$. We assume that each source ASP rule has exactly the following form:
 \begin{lstlisting}[frame=none]
-pre_con_1(V1),pre_con_2(V2),...,pre_con(Vk),
-    not pre_con(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
+pre_con_1(V1),pre_con_2(V2),...,pre_con_k(Vk),
+    not pre_con_k+1(Vk+1),...,not pre_con_n(Vn) -> post_con(V).
 \end{lstlisting}
 We further make the folllowing assumptions:
 

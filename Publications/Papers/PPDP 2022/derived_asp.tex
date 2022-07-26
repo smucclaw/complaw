@@ -9,10 +9,10 @@ p(X,Y):-q(X,Y),s(Y).
 p(X,Y):-g(X,Y).
 d(X,Y):-g(X,Y).
 \end{lstlisting}
-Now let $q$ be $p(john,james)$, let $U$ consist of the user provided fact
-$r(john)$ and let $U$ also include the constraint on abducibles $:-p(X,Y)$
-meaning that no instance of the predicate $p$ may be abduced. Next let the set
-$C$ contain the single constraint $:-d(X,Y)$ meaning that we require a stable
+Now let $q$ be $p(john,james)$, let $U$ consist only of a single constraint that disallows any
+instance of the predicate $p$ from being abduced. Next let the set
+$C$ contain a single constraint that disallows any instance of the predicate 
+$d$, meaning that we require a stable
 model of the user given facts, the abducibles, and the rules, which does not
 contain any instance of the predicate $d$, finally let $N = 2$. Then for this
 problem the minimal abductive solution can be represented by
@@ -54,11 +54,11 @@ predicate $b$), we encode that constraint as:
 \end{lstlisting}
 
 \subsubsection{Generating Abducibles}
-Before diving into the details of the abducibles generation encoding let us give a brief intuition for some key meta-predicates and rules that will show up. Firstly the binary meta-predicate $query$ has as its first argument an atom which may become a candidate for abduction and as its second argument an integer corresponding roughly to the depth level of that atom with respect to $(R,q)$. Next the meta predicate $explains$ has as its first argument, an atom which forms a pre-condition of some input rule instantiation, and as its second argument the corresponding input rule instantiation post condition. The third argument of the $explains$ meta predicate carries the depth of the atom in the first argument. The final key meta-predicate is $createSub$. $createSub$ carries information about input rule instantiations. The first argument of $createSub$ is a tuple which carries generated rule instantiations of a particular rule via the instantiations of the variables in the rule in some fixed order, the second argument of $createSub$ is again a integer depth parameter. Let us now explain the general structure of some of the rules in the abducibles generation encoding to illustrate the purpose of these meta predicates. Firstly we have abduction generation rules with the structure:
+Before diving into the details of the abducibles generation encoding let us give a brief intuition for some key meta-predicates and rules that will show up. Firstly the binary meta-predicate $query$ has as its first argument an atom which may become a candidate for abduction and as its second argument an integer corresponding roughly to the depth level of that atom with respect to $(R,q)$. Next the meta-predicate $explains$ has as its first argument, an atom which forms a pre-condition of some input rule instantiation, and as its second argument the corresponding input rule instantiation post condition. The third argument of the $explains$ meta predicate carries the depth of the atom in the first argument. The final key meta-predicate is $createSub$. $createSub$ carries information about input rule instantiations. The first argument of $createSub$ is a tuple which carries generated rule instantiations of a particular rule via the instantiations of the variables in the rule in some fixed order, the second argument of $createSub$ is again an integer depth parameter. Let us now explain the general structure of some of the rules in the abducibles generation encoding to illustrate the purpose of these meta predicates. Firstly we have abduction generation rules with the structure:
 \begin{lstlisting}[frame=none]
 createSub(...,N+1):-query(...,N),N<M,max_ab_lvl(M).
 \end{lstlisting}
-Intuitively in this rule, the first argument of the $query$ meta-predicate generates an instantiation of an input rule where that atom is the post-condition of the rule. Skolem terms are used for rules with existential variables in pre-conditions. Then we have abducible generation rules with the structure:
+Intuitively in this rule, the first argument of the $query$ meta-predicate generates an instantiation of an input rule where that atom is the post-condition of the rule. Skolem terms or other 'place-holder' terms are used for rules with existential variables in pre-conditions. Then we have abducible generation rules with the structure:
 \begin{lstlisting}[frame=none]
 explains(...,N):-createSub(...,N).
 \end{lstlisting}
@@ -349,9 +349,9 @@ this is done via lines \ref{abdInstR1}, \ref{abdInstR2} of the encoding. Line \r
 instantiations of rule 1 and line \ref{abdInstR2} corresponds to instantiations of rule
 2. Then any such $createSub$ atom, generates the appropriate set of $explains$
 atoms. This is lines \ref{abdExplR1start}-\ref{abdExplR1end} for rule 1 in the example, and lines \ref{abdExplR2start}, \ref{abdExplR2end} for
-rule 2. The first argument of an $explains$ atom is a pre-condition of body
+rule 2. The first argument of an $explains$ atom is a pre-condition or body
 atom corresponding to the rule instantiation given by the $createSub$
-atom. The second argument is post-condition or head of the rule
+atom. The second argument is the post-condition or head of the rule
 instantiation. We have one such $explains$ atom for each rule
 pre-condition. Via line \ref{abdQuery}, the first argument of an $explains$ atom becomes
 the first argument of a $query$ atom. This new $query$ atom then recursively
@@ -365,7 +365,7 @@ The integer parameter roughly
 represents the depth of an abducible in the proof graph of the original
 query. When a $query$ atom carrying the post-condition of a rule generates a
 rule instantiation like in line \ref{abdInstR1} for example, the integer argument of the
-corresponding $createSub$ atom increases by one. Then an explains $atoms$
+corresponding $createSub$ atom increases by one. Then an $explains$ atom
 derived from the application of a rule like line \ref{abdExplR1start} retains the same integer
 argument and so does the corresponding fresh $query$ atom generated from the
 application of the rule on line \ref{abdQuery}. Note that a fresh $query$ atom can only be
@@ -597,9 +597,9 @@ by after adding these facts, $holds(relB(john,mary))$ becomes true. Then by
 line 28 of the encoding\\
 $createSub(subInst\_r1(john,mary),4)$ becomes
 true. Then by line 20, and line 36 $query(relD(mary),4)$ becomes true which
-then gives us the miinimal abductive solution. However if instead of adding
+then gives us the minimal abductive solution. However if instead of adding
 the fact $relA(mary)$ we instead add the fact $relD(mary)$, then we do not get
-a  substitution of terms does not take place and the minimal abductive
+a  substitution of terms and the minimal abductive
 solution is still
 \begin{lstlisting}[frame=none]
 abducedFact(relD(skolemFn_r1_R(skolemFn_r1_R(john))))
@@ -629,7 +629,7 @@ relA(X):-relB(X,Y),relC(X,Y).
 relB(X,Y):-relD(X,Y,Z),relE(X,Y,Z).
 \end{lstlisting}
 
-let our $q$ be $relA(john)$. Let the initial set of user provided facts be empty, furthermore, suppose that no instance of $relA$ or $relB$ may be abduced. Finally let the set $C$ be emppty and let $N=4$.  
+let our $q$ be $relA(john)$. Let the initial set of user provided facts be empty, furthermore, suppose that no instance of $relA$ or $relB$ may be abduced. Finally let the set $C$ be empty and let $N=4$.  
 Consider the following encoding
 \begin{lstlisting}[numbers=left]
 max_ab_lvl(5).
@@ -771,8 +771,8 @@ are calculated recursively. An atom $justify(h,k)$ represents the fact that
 $holds(h)$ needs to be justified. If $r_{g}$ is a ground instantiantion of an
 input rule where the post condition of $r_{g}$ is $h$ and all the
 pre-conditions of $r_{g}$ are true then for every positive precondition
-$b_{i}$ of $r_{g}$ we have the atom $causedBy(pos,b_{i},h,N)$ and for every
-$NAF$ pre-condition $b_{j}$ we have the atom $causedBy(neg,b_{j},h,k)$. Then
+$b_{i}$ of $r_{g}$ we have the atom $causedBy(pos,b_{i},h,k+1)$ and for every
+$NAF$ pre-condition $b_{j}$ we have the atom $causedBy(neg,b_{j},h,k+1)$. Then
 if $k<max\_graph\_lvl$, we have the atoms $justify(b_{i},k+1)$, for every
 positive pre-condition $b_{i}$. Finally each $causedBy$ atom generates a
 $directedEdge$ atom, and these atoms are the set of directed edges
