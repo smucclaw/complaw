@@ -205,7 +205,7 @@ goal:-holds(p(a1,a2,..,an)).
 Here the constraint \begin{lstlisting}[frame=none]
 :- not goal. \end{lstlisting}
 ensures that the abduced facts together with the input rules actually do entail the goal.
-If on the other hand $q$ is non-ground or only partially ground then we have the following. Say our goal is of the form $p(a,X,b,Y,Y)$, which means that $X$,$Y$ are existential variables. Then for the example we have the following:
+If on the other hand $q$ is un-ground or only partially ground then we have the following. Say our goal is of the form $p(a,X,b,Y,Y)$, which means that $X$,$Y$ are existential variables. Then for the example we have the following:
 \begin{lstlisting}[frame=none]
 generate_proof(p(a,v1,b,v2,v2)).
 goal:-holds(p(a,X,b,Y,Y)).
