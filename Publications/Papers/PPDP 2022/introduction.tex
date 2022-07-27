@@ -16,6 +16,9 @@ The rest of the paper is organised as
 follows. First we give a brief introduction to Answer Set Programming and Abductive reasoning then, Section~\ref{sec:abductive_proof} defines the problem being tackled more formally. Section~\ref{sec:derived_asp} presents the encodings that facilitate the abductive proof generation and directed edge generation. The sections that follow discuss some formal results regarding completeness, finiteness of abductive proof generation. We also discuss a formal result regarding term substitution. Finally Section~\ref{sec:conclusion} discusses
 future work and concludes.
 
+An extended version of this paper \cite{extended_version} is available from
+\emph{arXiv}, containing full proofs and further examples.
+
 \subsection{Answer Set Programming}
 Answer Set Programming (ASP) is a declarative language from the logic programming family. It is widely used and studied by knowledge representation and reasoning and symbolic AI researchers for its ability to model common sense reasoning, model combinatorial search problems etc. It incorporates the $\textit{negation-as-failure}$ operator as interpreted under the $\textit{stable model semantics}$. Clingo is a well established implementation of ASP, incorporating additional features such as $\textit{choice rules}$ and optimization statements. We shall only briefly touch upon various aspects of ASP and Clingo here. The reader may consult \cite{gebser12:_answer_set_solvin_pract} for a more thorough description. Each rule in an ASP program consists of a set of body atoms. Some of these body atoms maybe negated via the negation as failure operator $not$. Rules with no pre-conditions are called facts. Given a set of rules $R$ and a set of facts $F$, the Clingo solver computes all stable models of the ASP program $F\cup R$. For example given the fact $r(alpha)$ and the rules:
 \begin{lstlisting}[frame=none]
