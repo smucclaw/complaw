@@ -557,12 +557,12 @@ explains(relC(P), relB(P,R) ,N) :- createSub(subInst_r2(P,R),N).
 
 
 % AG2 for rule 1
-createSub(subInst_r1(P,R),M-1) :- createSub(subInst_r1(V_P,V_R),N), holds(relB(P, R)),max_ab_lvl(M).
-createSub(subInst_r1(V_P,R),M-1) :- createSub(subInst_r1(V_P,V_R),N), holds(relD(R)),max_ab_lvl(M).
+createSub(subInst_r1(P,R),M-1) :- createSub(subInst_r1(V_P,V_R),N), N<M, holds(relB(P, R)),max_ab_lvl(M).
+createSub(subInst_r1(V_P,R),M-1) :- createSub(subInst_r1(V_P,V_R),N), N<M, holds(relD(R)),max_ab_lvl(M).
 
 % AG2 for rule 2
-createSub(subInst_r2(V_P,R),M-1) :- createSub(subInst_r2(V_P,V_R),N), holds(relA(R)),max_ab_lvl(M).
-createSub(subInst_r2(P,V_R),M-1) :- createSub(subInst_r2(V_P,V_R),N), holds(relC(P)),max_ab_lvl(M).
+createSub(subInst_r2(V_P,R),M-1) :- createSub(subInst_r2(V_P,V_R),N), N<M, holds(relA(R)),max_ab_lvl(M).
+createSub(subInst_r2(P,V_R),M-1) :- createSub(subInst_r2(V_P,V_R),N), N<M, holds(relC(P)),max_ab_lvl(M).
 
 % AG3
 query(X,N):-explains(X,Y,N),max_ab_lvl(M),N<M.
