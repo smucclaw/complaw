@@ -773,8 +773,8 @@ input rule where the post condition of $r_{g}$ is $h$ and all the
 pre-conditions of $r_{g}$ are true then for every positive precondition
 $b_{i}$ of $r_{g}$ we have the atom $causedBy(pos,b_{i},h,k+1)$ and for every
 $NAF$ pre-condition $b_{j}$ we have the atom $causedBy(neg,b_{j},h,k+1)$. Then
-if $k<max\_graph\_lvl$, we have the atoms $justify(b_{i},k+1)$, for every
-positive pre-condition $b_{i}$. Finally each $causedBy$ atom generates a
+if $k<M$, where we have $max\_graph\_lvl(M)$ for some integer value of $M$, we get the atoms $justify(b_{i},k+1)$, for every
+positive pre-condition $b_{i}$ which is not a user provided fact. Finally each $causedBy$ atom generates a
 $directedEdge$ atom, and these atoms are the set of directed edges
 representing the justification graph.
 
