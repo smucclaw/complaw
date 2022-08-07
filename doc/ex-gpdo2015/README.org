@@ -293,7 +293,7 @@ Read out loud:
 
 This logical phrasing is a little different from the original: if there are no openable parts, then the second half of the formula is [[https://en.wikipedia.org/wiki/Vacuous_truth][vacuously true]]; if there are openable parts, then every openable part must be 1.7m high.
 
-Is this more readable than "non-opening unless the parts of the window which can be opened are [...]"? You be the judge.
+Is this more readable than "non-opening unless the parts of the window which can be opened are [...]"? You be the judge. If it isn't, our natural language generator can produce the other style just as easily.
 
 Searle pointed out that constitutive rules can be recursive:
 
@@ -301,7 +301,7 @@ Searle pointed out that constitutive rules can be recursive:
 [...] the structure of the constitutive rule allows for its recursive iteration in such a way that you can build one rule on top of another more or less indefinitely.
 #+end_quote
 
-Accordingly, you may notice that the second half of the formula can itself be structured to fit the structure
+Accordingly, you may notice that the second half of the formula can itself be structured to fit the pattern
 - a relevant part is one which is openable;
 - a valid part is one which is 1.7m high; and
 - every relevant part must be valid.
