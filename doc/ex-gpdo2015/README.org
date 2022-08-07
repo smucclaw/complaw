@@ -381,8 +381,10 @@ How about this?
 
 * In L4
 
-Now for the big reveal. A flowchart can be automatically generated from L4.
+Now for the big reveal. The circuit diagram can be automatically generated from L4; next up, the Venn diagrams.
 
 Here's what the L4 looks like:
 
 https://docs.google.com/spreadsheets/d/1leBCZhgDsn-Abg2H_OINGGv-8Gpf9mzuX1RR56v0Sss/edit#gid=296008099
+
+The parser and interpreter are still under construction but we'll have it working soon.
