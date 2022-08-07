@@ -54,7 +54,7 @@ Coode might say we are changing the *legal subject*: we are now concerned with w
 
 In fact we are only interested in certain windows: windows on some, not all, floors; located on some, not all, facings.
 
-Coode calls the elucidation of the legal "case":
+Coode calls this the enunciation of the legal "case":
 
 #+attr_html: :width 50%
 [[./coode-case.jpg]]
