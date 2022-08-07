@@ -1,0 +1,388 @@
+#+TITLE: General Permitted Development Order (England) 2015
+
+https://twitter.com/opensystemslab/status/1410976074822004736?s=21&t=xvk-IqaB4JXjfhEwxjoXvQ
+
+Can you write this piece of legislation as a flowchart, in a way that can be understood by a 9 year old?
+
+If so, we’d like to give you a job..
+
+https://opensystemslab.io/Digital-planning-services-designer
+
+- Development is permitted by Class A subject to the following conditions --
+
+  - any upper-floor window located in a wall or roof slope forming a side elevation of the dwellinghouse must be
+
+    - obscure-glazed, and
+
+    - non-opening unless the parts of the window which can be opened are more than 1.7 metres above the floor of the room in which the window is installed;
+
+* Analysis
+
+Like many laws, the purpose here is to decide whether something is permitted. [[https://www.argumenta.org/wp-content/uploads/2018/11/4-Argumenta-41-John-R.-Searle-Constitutive-Rules.pdf][Searle would call this a constitutive rule]]: Is something permitted? Does something qualify? Does something count as valid? If we draw a line, does the thing of interest fall on one side of the line, or the other?
+
+As they say, "it depends..." But what does it depend on?
+
+First we consider the thing of interest. *Development is permitted* /if/ such-and-such. So, at the outermost scope, the thing of interest is "development". Development can be permitted; or not permitted.
+
+The permission, in turn, depends on some other thing of interest -- on the windows in the development.
+
+We might say the scope now /narrows/ to windows: we are concerned with windows, particularly upper-floor windows, all of which which must meet certain criteria; if all the relevant windows meet all the criteria, then development is permitted.
+
+(Conversely, if we can find a single window which fails to meet a single criterion, then that window is invalid, and development is not permitted. Given that we are reading a fragment of legislation, we can assume several other conditions apply: regarding lower-floor windows, doors, walls, and roofs; but those architectural features are offstage at the moment, so we ignore them.)
+
+** The ambiguity of "any"
+
+What does "any" mean? First-order logic offers the quantifiers $\exists$ and $\forall$ precisely to disambiguate between "Do you have any vegan dishes?" and "Shoot any zombie who comes through the door."
+
+In the first case, we want to know if there exists at least one dish $d$ which is vegan: $\exists d:dish, vegan(d)$? The symbol $\exists$ is pronounced "exists". The predicate $vegan(x)$ means "true if $x$ is vegan".
+
+(The parentheses around the $x$ are borrowed from algebra: similar to $y=f(x)$, only here the function $f()$ becomes $vegan()$, and it returns a true-or-false, not a number.)
+
+So we read the formula as "does there exist some dish $d$ which is vegan?" The answer is /yes/ if there is at least one vegan dish within the /domain of discourse/; if there isn't, the formula evaluates to /no/. (We can safely assume the domain of discourse in this situation is the menu at a restaurant.)
+
+In the second case, we want to leave no zombie unshot: $\forall z : zombie, shoot(z)$. The symbol $\forall$ is pronounced "forall". It means "every": for every zombie $z$ who comes through the door, please shoot $z$. If we run out of ammo, and $\exists z, \lnot shot(z)$, then the formula is falsified, and our brains get eaten. The symbol $\lnot$ is read "not": if there exists a zombie which is not shot, then it does not hold that $\forall z, shot(z)$.
+
+Suppose the dwellinghouse had multiple upper-floor windows, and the developer chose just one to be obscure-glazed and non-opening? ("But, your honour, 'any' could mean 'any one'!") Your honour would likely take a dim view of such hijinks. No, every upper-floor window must obey. So it's a $\forall$, not an $\exists$.
+
+** Narrowing the /legal subject/ to windows
+
+Now we shift our focus: *development is permitted* /if/ all upper-floor windows are themselves permitted -- if they qualify -- if they are valid.
+
+Coode might say we are changing the *legal subject*: we are now concerned with windows in particular, not the development generally.
+
+** Narrowing the /legal case/ to upper-floor windows at certain locations
+
+In fact we are only interested in certain windows: windows on some, not all, floors; located on some, not all, facings.
+
+Coode calls the elucidation of the legal "case":
+
+#+attr_html: :width 50%
+[[./coode-case.jpg]]
+
+The rule applies to those cases where the windows are on upper floors, and are located on a side elevation of a dwelling house.
+
+Other windows are out of scope.
+
+** Specifying the /legal condition/ for windows to be valid
+
+For development to be permitted, relevant windows must meet certain further criteria.
+
+They must be
+
+  - obscure-glazed, and
+
+  - non-opening unless the parts of the window which can be opened are more than 1.7 metres above the floor of the room in which the window is installed.
+
+Coode calls these further criteria the "conditions".
+
+#+attr_html: :width 50%
+[[./coode-condition.png]]
+
+* Normalization using Searle's Constitutive Rules
+
+About a century after Coode, Searle gave us a grammatical structure for constitutive rules:
+- a *thing*
+- /counts as/ *a special thing*
+- /for the purposes of/ *some context*,
+- /if/ *such-and-such critera hold*.
+
+Searle's structure is not inconsistent with Coode. It does offer finer tools to think about rules, at a higher level of resolution.
+
+** Relevance
+
+We can apply Searle's formula twice!
+
+First, to determine if a window is /relevant/:
+- a window
+- counts as a /relevant/ window
+- for the purposes of deciding if a particular development is permitted
+- if and only if the window is located
+  - within the development,
+  - on an upper floor, and
+  - in a wall or roof slope forming a side elevation of the dwellinghouse.
+
+If a window meets these criteria, we say the window is relevant to a given development, and we subject it to further testing.
+
+This /relevancy/ question deals with Coode's notion of "case".
+
+Note that we explicitly added a line about "located within the development". Yes, to a human it goes without saying; but we're saying it anyway, to be complete. This will turn out to be important later.
+
+Note also that we read Searle's "if" as the logical biconditional "[[https://en.wikipedia.org/wiki/If_and_only_if][if and only if]]", which is stronger than implication.
+
+** Validity
+
+Now we repeat the formula, but with validity in mind:
+
+- a relevant window
+- counts as a *valid* window
+- for the purposes of this regulatory fragment
+- if and only if the window is
+  - obscure-glazed, and
+  - non-opening unless the parts of the window which can be opened are more than 1.7 metres above the floor of the room in which the window is installed;
+
+This /validity/ question deals with Coode's notion of "condition".
+
+** This is all part of the process of `normalization'.
+
+The original sentence was phrased more compactly:
+
+- Any upper-floor window located in a wall or roof slope [...] must be
+  - obscure-glazed, and
+  - non-opening unless [...];
+
+So far, to tease out the meaning of the rule, we have performed /syntactic transformation/ to better agree with Coode and Searle. Based purely on the structure of the original sentence, we have rewritten the text to better fit Searle's preferred phrasing, while preserving the semantics of the original. We should like to think that Coode would have approved of such rewriting.
+
+Such a transformation is powerful because it is /general/: we can imagine any army of Coodes and Searles pouncing on any given legal text, digesting it, and producing an edited form that means the same but reads more plain. We call that "normalization". We can apply it to rules that have nothing to do with windows, because legal rules share the same /structure/ even if they have different /content/.
+
+In the spirit of normalization, let us perform two further transformations:
+
+** Normalizing "unless" to "or".
+
+Let us simplify "unless" -- just as we might simplify $x^3$ to $x \times x \times x$, we will express "unless" in terms of the more primitive "or".
+
+| before | the window is ... non-opening /unless/ the parts of the window which can be opened are more than 1.7 metres above the floor of the room in which the window is installed; |
+| after  | the window is non-opening                                                                                                                                               |
+|        | /or/                                                                                                                                                                    |
+|        | the parts of the window which can be opened are more than 1.7 metres above the floor of the room in which the window is installed;                                      |
+
+
+** Normalizing "or" to a fully expanded form.
+
+| before | if the window is located in /a wall or roof slope/ forming a side elevation of the dwellinghouse. |
+| after  | if the window is located in /a wall/ forming a side elevation of the dwellinghouse                |
+|        | /or/                                                                                              |
+|        | if the window is located in /a roof slope/ forming a side elevation of the dwellinghouse          |
+
+This expansion is useful for two reasons.
+
+First, in a sentence with multiple subsidiary clauses, it can be useful to expand the inner "or"s to pinpoint a specific combination of circumstances.
+
+Second, and more importantly, it serves to clarify hidden ambiguity. The original sentence could also have been read to mean:
+
+| before | if the window is located in /a wall/ or /roof slope forming a side elevation of the dwellinghouse/. |
+| after  | if the window is located in /a wall/                                                                |
+|        | /or/                                                                                                |
+|        | if the window is located in /a roof slope forming a side elevation of the dwellinghouse/            |
+
+Such an ambiguity is undesirable. It does not contribute to the vaunted "open texture" of the law; it does not provide a desirable vagueness in which judges may apply their wisdom in an unanticipated future.
+
+The discipline of software eliminates this sort of ambiguity by rigorous application of associativity and precedence rules -- and by a sprinkling of parentheses, just as one would use in mathematics to disambiguate $8 \div 2(2+2)$, [[https://www.nytimes.com/2019/08/02/science/math-equation-pedmas-bemdas-bedmas.html][which went around in 2019]].
+
+English does not use parentheses for grouping, so legal drafters use indentation and sub-paragraphs instead:
+
+  - any upper-floor window located in either
+    - a wall, or
+    - a roof slope
+    forming a side elevation of the dwellinghouse, must be [...]
+
+** Normalization complete!
+
+We began with
+
+- Development is permitted by Class A subject to the following conditions --
+
+  - any upper-floor window located in a wall or roof slope forming a side elevation of the dwellinghouse must be
+
+    - obscure-glazed, and
+
+    - non-opening unless the parts of the window which can be opened are more than 1.7 metres above the floor of the room in which the window is installed;
+
+So far, we have normalized that text to:
+
+- Development /counts as/ permitted by Class A /if and only if/
+  - every relevant window is a valid window.
+
+- A window /counts as/ being *relevant* to a development /if and only if/
+  - the window is located within the development,
+  - the window is located on an upper floor, and
+    - the window is located in a wall forming a side elevation of the dwellinghouse, or
+    - the window is located in a roof slope forming a side elevation of the dwellinghouse.
+
+- A relevant window /counts as/ a *valid* window /if and only if/
+  - the window is obscure-glazed, and
+    - the window is non-opening, or
+    - the parts of the window which can be opened are more than 1.7 metres above the floor of the room in which the window is installed.
+
+Leaving aside computers, this normalization is already bearing fruit: humans, whose brains are famously limited to chunking $7 \pm 2$ objects in working memory, have a better chance of comprehending the logic when presented this way, as a sequence of three related paragraphs which share much the same structure: "conclusion /if/ conditions".
+
+Yes, the text may be longer, but it is easier to read because it involves keeping fewer things in mind at any given time. You can treat this structure as a checklist; you can't do that with the original.
+
+* The Horn Clause
+
+That structure "conclusion /if/ conditions" has a name: a *Horn Clause* defines a predicate whose truth value depends on some combination of other predicates. The other predicates are composed using good old "and", "or", and "not".
+
+Many people are familiar with the idea of an "if $x$ then $y$". In mathematics, we call it "implication" and sketch it with an arrow: $x \implies y$.
+
+Horn clauses are merely the reverse: "$y$ if $x$". The arrow goes the other way: $y \impliedby x$.
+
+Either way, the meaning is the same.
+
+"If hell freezes over, I'll eat my hat."
+
+$freeze(hell) \implies eat(hat)$
+
+"I'll eat my hat if hell freezes over."
+
+$eat(hat) \impliedby freeze(hell)$
+
+In predicate form, we write Horn clauses as $head(X) \impliedby body(X)$, where $X$ is some term which is involved in both the head and the body. In this example, $X$ has meant "window".
+
+In logic programming, we write Horn clauses as ~head(X) :- body(X)~.
+
+Logic programming uses the same form for "if and only if" -- thanks to something called "negation as failure", if there are no other bodies that can prove the head, we assume the head is false. This is a subtle concern which doesn't really matter in this example, but it does explain why, below, we sometimes use $\iff$ and sometimes $\impliedby$.
+
+* Formalization
+
+First we'll convert the regulation to the syntax of first-order logic.
+
+Don't be intimidated! We have already introduced the entire language of first-order logic, in the foregoing discussion.
+
+We are just going to put everything together and tell the entire story in that new language.
+
+** First-Order Logic
+
+Let's formalize the normalized into a sort of pidgin version of first-order logic.
+
+*** When is development permitted?
+
+- Development /is/ permitted by Class A /if and only if/ every window which is relevant is a valid window.
+
+\begin{equation}
+permitted(Thing = development, By = Class A) \iff \forall w : window, relevant(Thing = w,To = development) \implies valid(w)
+\end{equation}
+
+Read out loud, that formula is pronounced: "a development is permitted by Class A if and only if every window that is relevant to the development is a valid window."
+
+*** What's a relevant window?
+
+\begin{equation}
+\begin{split}
+relevant(Thing = w,To = development) \iff
+ & partOf(w, development) \\
+ & \land locatedOn(w,upperFloor) \\
+ & \begin{split} \land ( &        & ( & \exists wall,      & locatedIn(w, wall)      & \land formsSideElevation(wall)      & ) \\
+                           & \lor & ( & \exists roofSlope, & locatedIn(w, roofSlope) & \land formsSideElevation(roofSlope) & ) ) \end{split}
+\end{split}
+\end{equation}
+
+Read out loud:
+
+- A window is *relevant* to a development /if and only if/
+  - the window is part of the development,
+  - the window is located on an upper floor, and
+    - there exists some wall in which the window is located, and which forms a side elevation of the dwellinghouse, or
+    - there exists some roof slope in which the window is located, and which forms a side elevation of the dwellinghouse.
+
+This phrasing is more robust against situations where a window might be part of two walls, or part of two roof slopes, one of which forms a side elevation, the other which does not. The quantifiers $\exists$ and $\forall$ force the drafter to be clear. Even so we can expect arguments and appeals to the regulator: imagine a situation where three-quarters of a window is located on one wall, and one-quarter on another; though particular panes of glass may lie in different planes, they may together form a single window unit. (Evidence: a bay window.) What does "located in" mean then?
+
+*** What's a valid window?
+
+\begin{equation}
+\begin{split}
+valid(Thing = w) \iff
+ &                    & obscureGlazed(w) \\
+ & \land (\forall part, & openablePart(w,part) \implies aboveFloor(parts,1.7m) )
+\end{split}
+\end{equation}
+
+Read out loud:
+
+- A window is *valid* /if and only if/
+  - the window is obscure-glazed, and
+  - all the openable parts of the window, if any, are more than 1.7 metres above the floor of the room in which the window is installed.
+
+This logical phrasing is a little different from the original: if there are no openable parts, then the second half of the formula is [[https://en.wikipedia.org/wiki/Vacuous_truth][vacuously true]]; if there are openable parts, then every openable part must be 1.7m high.
+
+Is this more readable than "non-opening unless the parts of the window which can be opened are [...]"? You be the judge.
+
+Searle pointed out that constitutive rules can be recursive:
+
+#+begin_quote
+[...] the structure of the constitutive rule allows for its recursive iteration in such a way that you can build one rule on top of another more or less indefinitely.
+#+end_quote
+
+Accordingly, you may notice that the second half of the formula can itself be structured to fit the structure
+- a relevant part is one which is openable;
+- a valid part is one which is 1.7m high; and
+- every relevant part must be valid.
+
+(We'll let the definition of the predicate $aboveFloor$ do perhaps more work than it should; if we wanted to be super pedantic we could detail out all the relational predicates: $aboveFloor(parts, 1.7m, floor) \land windowRoom(w,room) \land roomFloor(room,floor)$ ... but who wants to read all that in an introductory text?)
+
+** Why do we say $relevant(w) \implies valid(w)$ and not $relevant(w) \iff valid(w)$?
+
+Imagine a lower-floor window that was obscure-glazed and unopenable. How does it affect development permission? It doesn't! That window is /valid/; but it is not /relevant/.
+
+If we required $relevant(w) \iff valid(w)$ we would be in trouble: that window would break the formula, causing it to evaluate to false. But we know it's fine for a window to be valid and not relevant. It's only a problem for a window to be relevant and not valid. Using implication solves that problem.
+
+** Constitutive Must
+
+In the above transformation, the original modal "must" forms part a pattern: /for/ development /to be/ permitted, all relevant things /must/ be valid things.
+
+In other words, it must be the case that all relevant things are valid.
+
+Which is "if and only if": $y \iff x$.
+
+$y = permitted(development)$
+
+$x = \forall w: window, relevant(w) \implies valid(w)$
+
+But the constitutive "must" is not the only "must"!
+
+** Regulative Must
+
+In a regulative rule, the subject of a "must" is some party, some entity, the subject of some obligation to perform some action.
+
+Even as far back as 1845, Coode inveighed against the subject of a "must" being anything but an actor, a person of some sort: properly speaking, it is the developer who must ensure that every window satisfies this criterion. It offends Coode's delicate ear to say that the window itself must satisfy the criterion. Indeed, when we initially defined the legal subject above, we were relaxing Coode's original restrictions.
+
+In more modern times we see [[https://www.adamsdrafting.com/revisiting-the-shall-wars/][similar invective against the willy-nilly use of "shall"]].
+
+
+* Visualization
+
+Now that we've explored the logic /ad nauseum/, surely we must have earned ourselves a pretty picture!
+
+But what form should the picture take?
+
+** A flowchart?
+
+The original tweet asked for a flowchart.
+
+But flowcharts belong to the family of state transition diagrams. They are used to represent control flows and decision flows.
+
+People tend to reach for them because they are familiar.
+
+But they are not the right tool for this problem!
+
+** A Venn Diagram?
+
+After the flowchart, the Venn Diagram is perhaps the next most familar graphical formalism; it is more appropriate than the flowchart, because it is at least set-theoretic.
+
+We can use a Venn diagram to display the parts that deal with $\forall$, $\exists$, and $\implies$.
+
+** A circuit diagram?
+
+Thanks to Shannon, we know that Boolean algebras correspond to electrical circuit diagrams. We can use a circuit diagram to represent the conditional logic of our formulas: the $\land$, $\lor$\, and $\lnot$ parts that contain the criteria for relevance and validity.
+
+** An existential concept graph?
+
+As usual, we find that Charles Sanders Peirce already explored all this territory a century ago. His "entitative", "existential", and "concept" graphs attempted to visualize first-order logic. That is an area of active research.
+
+We could try this approach, but it would take educating the reader, and that might be a bridge too far.
+
+(See, e.g., [[https://www.ioc.ee/~pawel/papers/peirce.pdf][Compositional Diagrammatic First-Order Logic]] and [[https://dl.acm.org/doi/10.5555/971138][The Logic System of Concept Graphs with Negation: and its Relationship to Predicate Logic, Dau 2004]].)
+
+** Venn + Circuits
+
+How's this?
+
+#+attr_html: :width 90%
+[[./as-diagram-01.png]]
+
+
+* In L4
+
+Now for the big reveal. A flowchart can be automatically generated from L4.
+
+Here's what the L4 looks like:
+
+https://docs.google.com/spreadsheets/d/1leBCZhgDsn-Abg2H_OINGGv-8Gpf9mzuX1RR56v0Sss/edit#gid=296008099
