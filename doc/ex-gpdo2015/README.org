@@ -26,7 +26,7 @@ First we consider the thing of interest. *Development is permitted* /if/ such-an
 
 The permission, in turn, depends on some other thing of interest -- on the windows in the development.
 
-We might say the scope now /narrows/ to windows: we are concerned with windows, particularly upper-floor windows, all of which which must meet certain criteria; if all the relevant windows meet all the criteria, then development is permitted.
+We might say the scope now /narrows/ to windows: we are concerned with windows, particularly upper-floor windows, all of which must meet certain criteria; if all the relevant windows meet all the criteria, then development is permitted.
 
 (Conversely, if we can find a single window which fails to meet a single criterion, then that window is invalid, and development is not permitted. Given that we are reading a fragment of legislation, we can assume several other conditions apply: regarding lower-floor windows, doors, walls, and roofs; but those architectural features are offstage at the moment, so we ignore them.)
 
@@ -164,7 +164,7 @@ Second, and more importantly, it serves to clarify hidden ambiguity. The origina
 |        | /or/                                                                                                |
 |        | if the window is located in /a roof slope forming a side elevation of the dwellinghouse/            |
 
-Such an ambiguity is undesirable. It does not contribute to the vaunted "open texture" of the law; it does not provide a desirable vagueness in which judges may apply their wisdom in an unanticipated future.
+Such an ambiguity is undesirable. It does not contribute to the vaunted "open texture" of the law; it does not provide a desirable vagueness for judges to apply their wisdom in an unanticipated, penumbral future.
 
 The discipline of software eliminates this sort of ambiguity by rigorous application of associativity and precedence rules -- and by a sprinkling of parentheses, just as one would use in mathematics to disambiguate $8 \div 2(2+2)$, [[https://www.nytimes.com/2019/08/02/science/math-equation-pedmas-bemdas-bedmas.html][which went around in 2019]].
 
@@ -213,7 +213,7 @@ That structure "conclusion /if/ conditions" has a name: a *Horn Clause* defines 
 
 Many people are familiar with the idea of an "if $x$ then $y$". In mathematics, we call it "implication" and sketch it with an arrow: $x \implies y$.
 
-Horn clauses are merely the reverse: "$y$ if $x$". The arrow goes the other way: $y \impliedby x$.
+Horn clauses are merely the reverse: $y$ if $x$. The arrow goes the other way: $y \impliedby x$.
 
 Either way, the meaning is the same.
 
@@ -225,7 +225,7 @@ $freeze(hell) \implies eat(hat)$
 
 $eat(hat) \impliedby freeze(hell)$
 
-In predicate form, we write Horn clauses as $head(X) \impliedby body(X)$, where $X$ is some term which is involved in both the head and the body. In this example, $X$ has meant "window".
+In predicate form, we write Horn clauses as $head(X) \impliedby body(X)$, where $X$ is some term which is involved in both the head and the body. In this example, $X$ has been "window".
 
 In logic programming, we write Horn clauses as ~head(X) :- body(X)~.
 
@@ -233,7 +233,7 @@ Logic programming uses the same form for "if and only if" -- thanks to something
 
 * Formalization
 
-First we'll convert the regulation to the syntax of first-order logic.
+First we'll convert the regulation to the syntax of first-order logic. Then we'll draw it as a picture.
 
 Don't be intimidated! We have already introduced the entire language of first-order logic, in the foregoing discussion.
 
@@ -361,7 +361,7 @@ We can use a Venn diagram to display the parts that deal with $\forall$, $\exist
 
 ** A circuit diagram?
 
-Thanks to Shannon, we know that Boolean algebras correspond to electrical circuit diagrams. We can use a circuit diagram to represent the conditional logic of our formulas: the $\land$, $\lor$\, and $\lnot$ parts that contain the criteria for relevance and validity.
+Thanks to Shannon, we know that Boolean algebras correspond to electrical circuit diagrams. We can use a circuit diagram to represent the conditional logic of our formulas: the $\land$, $\lor$, and $\lnot$ parts that contain the criteria for relevance and validity.
 
 ** An existential concept graph?
 
@@ -373,7 +373,7 @@ We could try this approach, but it would take educating the reader, and that mig
 
 ** Venn + Circuits
 
-How's this?
+How about this?
 
 #+attr_html: :width 90%
 [[./as-diagram-01.png]]
