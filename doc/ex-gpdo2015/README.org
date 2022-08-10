@@ -398,7 +398,7 @@ To whom does the rule apply? To any person who /is a child/. What is the criteri
 
 What is the validity condition? A minimum height.
 
-$\forall p:person, permitted_to_ride(p) \iff child(p) \implies \lnot short(p)$
+$\forall p:person, permittedToRide(p) \iff child(p) \implies \lnot short(p)$
 
 For all persons, permission to ride is given by the following truth table:
 
@@ -417,7 +417,7 @@ We observe a loophole: a short adult may be allowed to ride, even if a child is 
 
 The only remaining relevance criterion is that "you" are reading the rule. The case is vacuously true.
 
-$\forall p:person, permitted_to_ride(p) \iff \lnot short(p)$
+$\forall p:person, permittedToRide(p) \iff \lnot short(p)$
 
 | short | permission |
 |-------+------------|
