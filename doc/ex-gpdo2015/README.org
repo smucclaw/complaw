@@ -2,10 +2,12 @@
 
 https://twitter.com/opensystemslab/status/1410976074822004736?s=21&t=xvk-IqaB4JXjfhEwxjoXvQ
 
+From July 2021:
+
 #+begin_quote
 Can you write this piece of legislation as a flowchart, in a way that can be understood by a 9 year old?
 
-If so, we’d like to [[https://opensystemslab.io/Digital-planning-services-designer][give you a job]]...
+If so, we’d like to give you a job...
 
 - Development is permitted by Class A subject to the following conditions --
 
@@ -15,6 +17,24 @@ If so, we’d like to [[https://opensystemslab.io/Digital-planning-services-desi
 
     - non-opening unless the parts of the window which can be opened are more than 1.7 metres above the floor of the room in which the window is installed;
 #+end_quote
+
+* Industry Context
+
+This is a "rules as code" exercise. Planning permission tends to be one of the first application areas for Rules as Code: [[https://www.linkedin.com/pulse/introduction-rules-code-planning-richard-barry/][in New Zealand]] (2021) and now [[https://www.planx.uk/][in the UK with PlanX]] (2022).
+
+Citizens want to know: "can I build my dream house?"
+
+Government agencies are tired of answering: "well, please consult the regulations, it's all there."
+
+The regulations are typically written in dense industry lingo: by regulators, for architects.
+
+The first-time renovator is often baffled. To help, government agencies commission visual illustrations and interactive web apps to help the end-user work through the regulations.
+
+Now we have a new problem: when the regulations change, updating the illustrations and apps is a load of work.
+
+What if we could auto-generate the illustrations and apps based on a structured representation of the regulations?
+
+Indeed, what if the structured representation -- the formalization -- were the most authoritative source of rules, and we even auto-generated the English text of the rules?
 
 * Analysis
 
@@ -34,7 +54,7 @@ We might say the scope now /narrows/ to windows: we are concerned with windows, 
 
 What does "any" mean? First-order logic offers the quantifiers $\exists$ and $\forall$ precisely to disambiguate between "Do you have any vegan dishes?" and "Shoot any zombie who comes through the door."
 
-In the first case, we want to know if there exists at least one dish $d$ which is vegan: $\exists d:dish, vegan(d)$? The symbol $\exists$ is pronounced "exists". The predicate $vegan(x)$ means "true if $x$ is vegan". The $d:dish$ means that the variable $d$ is of type $dish$, as opposed to representing, say, a beverage, or an article of clothing, both of which can be predicated $vegan()$ or not.
+In the first case, we want to know if there exists at least one dish $d$ which is vegan: $\exists d:dish, vegan(d)$? The symbol $\exists$ is pronounced "exists". The predicate $vegan(x)$ means "true if $x$ is vegan". The $d:dish$ means that the variable $d$ is of type $dish$, as opposed to representing, say, a beverage, or an article of clothing, both of which could also be predicated $vegan()$-or-not.
 
 (The parentheses around the $x$ are borrowed from algebra: similar to $y=f(x)$, only here the function $f()$ becomes $vegan()$, and it returns a true-or-false, not a number.)
 
@@ -318,24 +338,53 @@ If we required $relevant(w) \iff valid(w)$ we would be in trouble: that window w
 
 In the above transformation, the original modal "must" forms part a pattern: /for/ development /to be/ permitted, all relevant things /must/ be valid things.
 
-In other words, it must be the case that all relevant things are valid.
+We see this pattern frequently: "the bishop must move only along the diagonals." And if it doesn't? Illegal move; and the player who moved the bishop loses the game.
 
-Which is "if and only if": $y \iff x$.
+A [[https://www.ura.gov.sg/Corporate/Property/Residential/Renovating-private-residential-property/landed-housing-e-advisor/detached-houses/exterior1/CarPorch1][planning rule]]: "A single storey car porch shall not exceed the height of 4.5m [...]"
 
-$y = permitted(development)$
+What if it does? If it's a plan, the plan won't be approved. And if the building is built in defiance of the plan? The government can, presumably, apply all kinds of penalties: against the homeowner, against the contractor, against the architect who "moved the bishop".
 
-$x = \forall w: window, relevant(w) \implies valid(w)$
+Another word for "relevant" is "material".
 
-But the constitutive "must" is not the only "must"!
+A thing is material if it is a bishop. More precisely, the thing is an action: a bishop move. A bishop move is valid on the condition that it runs along the diagonals.
+
+A thing is material if it is a single storey car porch. More precisely, the construction of a single storey car porch. It is valid on the condition the porch does not exceed 4.5m in height.
+
+The legal rule is violated if we can find a material, or relevant, thing that does not meet the validity conditions.
+
+$\forall t: thing, material(w) \implies valid(w)$
+
+Logicans, sensibly enough, call this the "[[https://en.wikipedia.org/wiki/Material_conditional][material conditional]]."
+
+It is true if everything that is material is also valid.
+
+It is falsified -- the rule is violated -- if a single material thing is not valid.
 
 ** Regulative Must
 
-In a regulative rule, the subject of a "must" is some party, some entity, the subject of some obligation to perform some action.
+But the constitutive "must" is not the only "must"!
 
 Even as far back as 1845, Coode inveighed against the subject of a "must" being anything but an actor, a person of some sort: properly speaking, it is the developer who must ensure that every window satisfies this criterion. It offends Coode's delicate ear to say that the window itself must satisfy the criterion. Indeed, when we initially defined the legal subject above, we were relaxing Coode's original restrictions.
 
 In more modern times we see [[https://www.adamsdrafting.com/revisiting-the-shall-wars/][similar invective against the willy-nilly use of "shall"]].
 
+"The bishop shall move only along a diagonal"? Surely the bishop does not move by itself; a hand is needed to move the bishop! So the penalty should fall upon the hand, not the bishop. It is the player who loses the game, not the piece. So we might better state "a player shall make only valid moves"; and the set of valid moves includes bishop moves, but also pawn moves and king moves.
+
+In a regulative rule, the subject of a "must" is some party, some entity, the subject of some obligation to perform some action.
+
+But the larger pattern is the same. The material thing is an action by some party. It is a compound thing. A party acts: a bishop moves; a buyer pays; a seller ships.
+
+And, to be /valid/, it "must" meet certain conditions: the buyer pays a certain amount. The bishop moves from a certain square to another square. The seller ships a certain item by a certain date.
+
+So the regulative "must" and the constitutive "must" are not that different!
+
+One governs things; one governs acts; but both the things and the acts can be valid or invalid, if they meet certain conditions or they don't.
+
+And if they don't, the consequences of invalidity apply.
+
+"Children must be this tall to ride". This is a constitutive rule. And if a short child fails to meet the rule, then they don't get to go on the ride; that's all. (If they do sneak on the ride anyway, if they should happen to slip loose of the seatbelt, then the ride operator escapes liability.)
+
+$\forall p:party, \forall a:action, obligation(ob,p,a), material(ob) \implies valid(ob)$
 
 * Visualization
 
