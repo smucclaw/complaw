@@ -20,33 +20,33 @@ If so, we’d like to give you a job...
 
 * Industry Context
 
-This is a "rules as code" exercise. Planning permission tends to be one of the first application areas for Rules as Code: [[https://www.linkedin.com/pulse/introduction-rules-code-planning-richard-barry/][in New Zealand]] (2021) and now [[https://www.planx.uk/][in the UK with PlanX]] (2022).
+This is a "rules as code" exercise. Planning permission tends to be one of the first application areas for Rules as Code: [[https://www.linkedin.com/pulse/introduction-rules-code-planning-richard-barry/][in New Zealand]] (2021) and now in the UK with [[https://www.planx.uk/][PlanX]] and [[https://www.ripa.digital/][RIPA]] (2022).
 
 Citizens want to know: "can I build my dream house?"
 
 Government agencies are tired of answering: "well, please consult the regulations, it's all there."
 
-The regulations are typically written in dense industry lingo: by regulators, for architects.
+But the regulations are typically written in dense industry lingo: by regulators, for architects, leaving the first-time renovator baffled.
 
-The first-time renovator is often baffled. To help, government agencies commission visual illustrations and interactive web apps to help the end-user work through the regulations.
+To be fair, to help, government agencies do commission visual illustrations and interactive web apps and exhaustive Plain English advisory guidelines, to help the end-user work through the regulations.
 
 Now we have a new problem: when the regulations change, updating the illustrations and apps is a load of work.
 
 What if we could auto-generate the illustrations and apps based on a structured representation of the regulations?
 
-Indeed, what if the structured representation -- the formalization -- were the most authoritative source of rules, and we even auto-generated the English text of the rules?
+Indeed, what if the structured representation -- the formalization -- moved upstream to become the most authoritative source of rules, and we even the English text of the rules became an auto-generated downstream output?
 
 * Analysis
 
 Like many laws, the purpose here is to decide whether something is permitted. [[https://www.argumenta.org/wp-content/uploads/2018/11/4-Argumenta-41-John-R.-Searle-Constitutive-Rules.pdf][Searle would call this a constitutive rule]]: Is something permitted? Does something qualify? Does something count as valid? If we draw a line, does the thing of interest fall on one side of the line, or the other?
 
-As they say, "it depends..." But what does it depend on?
+As they say, "it depends..." But on what does it depend?
 
-First we consider the thing of interest. *Development is permitted* /if/ such-and-such. So, at the outermost scope, the thing of interest is "development". Development can be permitted; or not permitted.
+First we consider the goal context. *Development is permitted* /if/ such-and-such. So, at the outermost scope, the goal is "development". Development can be permitted; or not permitted.
 
-The permission, in turn, depends on some other thing of interest -- on the windows in the development.
+The permission, in turn, depends on some particular thing of interest -- on the windows in the development.
 
-We might say the scope now /narrows/ to windows: we are concerned with windows, particularly upper-floor windows, all of which must meet certain criteria; if all the relevant windows meet all the criteria, then development is permitted.
+We might say the scope /narrows/ to windows: we are concerned with windows, particularly upper-floor windows, all of which must meet certain criteria. If all the relevant windows meet all the criteria, then development is permitted.
 
 (Conversely, if we can find a single window which fails to meet a single criterion, then that window is invalid, and development is not permitted. Given that we are reading a fragment of legislation, we can assume several other conditions apply: regarding lower-floor windows, doors, walls, and roofs; but those architectural features are offstage at the moment, so we ignore them.)
 
@@ -60,15 +60,15 @@ In the first case, we want to know if there exists at least one dish $d$ which i
 
 So we read the formula as "does there exist some dish $d$ which is vegan?" The answer is /yes/ if there is at least one vegan dish within the /domain of discourse/; if there isn't, the formula evaluates to /no/. (We can safely assume the domain of discourse in this situation is the menu at a restaurant.)
 
-In the second case, we want to leave no zombie unshot: $\forall z : zombie, shoot(z)$. The symbol $\forall$ is pronounced "forall". It means "every": for every zombie $z$ who comes through the door, please shoot $z$. If we run out of ammo, and $\exists z, \lnot shot(z)$, then the formula is falsified, and our brains get eaten. The symbol $\lnot$ is read "not": if there exists a zombie which is not shot, then it does not hold that $\forall z, shot(z)$.
+In the second case, we must leave no zombie unshot: $\forall z : zombie, shoot(z)$. The symbol $\forall$ is pronounced "forall". It means "every": for every zombie $z$ who comes through the door, please shoot $z$. If we run out of ammo, and $\exists z, \lnot shot(z)$, then the formula is falsified, and our brains get eaten. The symbol $\lnot$ is read "not": if there exists a zombie which is not shot, then it does not hold that $\forall z, shot(z)$.
 
-Suppose the dwellinghouse had multiple upper-floor windows, and the developer chose just one to be obscure-glazed and non-opening? ("But, your honour, 'any' could mean 'any one'!") Your honour would likely take a dim view of such hijinks. No, every upper-floor window must obey. So it's a $\forall$, not an $\exists$.
+Suppose the dwellinghouse had multiple upper-floor windows, and the developer chose just one to be obscure-glazed and non-opening? ("But, your honour, 'any' could mean 'any one'!") Your honour would likely take a dim view of such shenanigans. No, every upper-floor window must obey. So it's a $\forall$, not an $\exists$.
 
 ** Narrowing the /legal subject/ to windows
 
-Now we shift our focus: *development is permitted* /if/ all upper-floor windows are themselves permitted -- if they qualify -- if they are valid.
+Development is permitted /if/ all upper-floor windows are themselves permissible -- if they are legit -- if they qualify -- if they are valid.
 
-Coode might say we are changing the *legal subject*: we are now concerned with windows in particular, not the development generally.
+Coode might say that this particular fragment of the regulation has a specific *legal subject*: we are concerned with windows in particular, in the context of the the development generally.
 
 ** Narrowing the /legal case/ to upper-floor windows at certain locations
 
@@ -79,9 +79,9 @@ Coode calls this the enunciation of the legal "case":
 #+attr_html: :width 50%
 [[./coode-case.jpg]]
 
-The rule applies to those cases where the windows are on upper floors, and are located on a side elevation of a dwelling house.
+The rule only applies to those cases where the windows are on upper floors, and are located on a side elevation of a dwelling house.
 
-Other windows are out of scope.
+Other windows are out of scope -- not of interest -- not relevant -- not material.
 
 ** Specifying the /legal condition/ for windows to be valid
 
@@ -261,7 +261,7 @@ We are just going to put everything together and tell the entire story in that n
 
 ** First-Order Logic
 
-Let's formalize the normalized into a sort of pidgin version of first-order logic.
+Let's formalize the foregoing into a sort of pidgin version of first-order logic.
 
 *** When is development permitted?
 
@@ -336,21 +336,23 @@ If we required $relevant(w) \iff valid(w)$ we would be in trouble: that window w
 
 ** Constitutive Must
 
-In the above transformation, the original modal "must" forms part a pattern: /for/ development /to be/ permitted, all relevant things /must/ be valid things.
+In the above transformation, the modal "must" forms part a pattern: /for/ development /to be/ permitted, all relevant things /must/ be valid things.
 
-We see this pattern frequently: "the bishop must move only along the diagonals." And if it doesn't? Illegal move; and the player who moved the bishop loses the game.
+THe first part is the goal context: typically, someone intends to achieve something.
+
+We see this pattern frequently: "the bishop must move only along the diagonals." And if it doesn't? Illegal move; and the player who moved the bishop loses the game. So the goal context is implicit: "for the player to stay in the game, ..."
 
 A [[https://www.ura.gov.sg/Corporate/Property/Residential/Renovating-private-residential-property/landed-housing-e-advisor/detached-houses/exterior1/CarPorch1][planning rule]]: "A single storey car porch shall not exceed the height of 4.5m [...]"
 
-What if it does? If it's a plan, the plan won't be approved. And if the building is built in defiance of the plan? The government can, presumably, apply all kinds of penalties: against the homeowner, against the contractor, against the architect who "moved the bishop".
+What if it does? The goal won't be met: planning permission will not be given.
 
 Another word for "relevant" is "material".
 
 A thing is material if it is a bishop. More precisely, the thing is an action: a bishop move. A bishop move is valid on the condition that it runs along the diagonals.
 
-A thing is material if it is a single storey car porch. More precisely, the construction of a single storey car porch. It is valid on the condition the porch does not exceed 4.5m in height.
+A thing is material if it is a single storey car porch. More precisely, the construction of a single storey car porch. It is valid on the condition that the porch does not exceed 4.5m in height.
 
-The legal rule is violated if we can find a material, or relevant, thing that does not meet the validity conditions.
+The legal rule is violated if we can find a material thing that does not meet the validity conditions.
 
 $\forall t: thing, material(w) \implies valid(w)$
 
@@ -360,31 +362,79 @@ It is true if everything that is material is also valid.
 
 It is falsified -- the rule is violated -- if a single material thing is not valid.
 
+If something is immaterial, the rule doesn't care if it is valid or not. (And the rule, by convention is vacuously true.)
+
 ** Regulative Must
 
 But the constitutive "must" is not the only "must"!
 
-Even as far back as 1845, Coode inveighed against the subject of a "must" being anything but an actor, a person of some sort: properly speaking, it is the developer who must ensure that every window satisfies this criterion. It offends Coode's delicate ear to say that the window itself must satisfy the criterion. Indeed, when we initially defined the legal subject above, we were relaxing Coode's original restrictions.
+As far back as 1845, Coode inveighed against the subject of a "must" being anything but an actor, a person of some sort: properly speaking, it is the developer who must ensure that every window satisfies this criterion. It offends Coode's delicate ear to say that the window itself must satisfy the criterion. Indeed, when we set the legal subject above to windows, we were relaxing Coode's original restrictions.
 
 In more modern times we see [[https://www.adamsdrafting.com/revisiting-the-shall-wars/][similar invective against the willy-nilly use of "shall"]].
 
 "The bishop shall move only along a diagonal"? Surely the bishop does not move by itself; a hand is needed to move the bishop! So the penalty should fall upon the hand, not the bishop. It is the player who loses the game, not the piece. So we might better state "a player shall make only valid moves"; and the set of valid moves includes bishop moves, but also pawn moves and king moves.
 
-In a regulative rule, the subject of a "must" is some party, some entity, the subject of some obligation to perform some action.
+In a regulative rule, the subject of a "must" -- the material thing -- is some relevant entity, some material party, the subject of some obligation to perform some action. (Or permission, or prohibition, but let's keep focus on the common case.)
 
-But the larger pattern is the same. The material thing is an action by some party. It is a compound thing. A party acts: a bishop moves; a buyer pays; a seller ships.
+How does the party come under the ambit of the rule? Coode specifies those subject to the regulation, by defining the "case". Example: all persons who walk, must sing. To qualify, the case criteria must hold: the person must walk.
 
-And, to be /valid/, it "must" meet certain conditions: the buyer pays a certain amount. The bishop moves from a certain square to another square. The seller ships a certain item by a certain date.
+The qualifying party takes some action. Regulative rules are always about parties taking action. To be /valid/, that action must meet certain conditions: the buyer must pay a certain amount, by a certain deadline. The bishop must move from a certain square to another square. The seller must ship a certain item by a certain date.
 
 So the regulative "must" and the constitutive "must" are not that different!
 
-One governs things; one governs acts; but both the things and the acts can be valid or invalid, if they meet certain conditions or they don't.
+The constitutive "must" limits the case to relevant things. It sets conditions on those things. To be valid, the things must meet the conditions.
 
-And if they don't, the consequences of invalidity apply.
+The regulative "must" limits the case to relevant persons. It sets conditions on their actions. To be valid, the actions by those persons must meet the conditions.
 
-"Children must be this tall to ride". This is a constitutive rule. And if a short child fails to meet the rule, then they don't get to go on the ride; that's all. (If they do sneak on the ride anyway, if they should happen to slip loose of the seatbelt, then the ride operator escapes liability.)
+*** Constitutive Phrasing
 
-$\forall p:party, \forall a:action, obligation(ob,p,a), material(ob) \implies valid(ob)$
+Let's try phrasing the same rule in both constitutive and regulative styles.
+
+"To get on the ride, children must be at least this tall".
+
+What is the goal context? Getting on the ride.
+
+To whom does the rule apply? To any person who /is a child/. What is the criterion determining /relevance/, determining /materiality/, in Coode's words "the /case/"? The state of being-a-child.
+
+What is the validity condition? A minimum height.
+
+$\forall p:person, permitted(Thing = p) \iff child(p) \implies \lnot short(p)$
+
+For all persons, permission is given by the following truth table:
+
+| child | short | permission |
+|-------+-------+------------|
+| yes   | no    | yes        |
+| yes   | yes   | no         |
+| no    | no    | yes        |
+| no    | yes   | yes        |
+
+We observe a loophole: a short adult may be allowed to ride, even if a child is not.
+
+*** Constitutive Phrasing 2
+
+"To get on the ride, you must be at least this tall".
+
+The only remaining relevance criterion is that "you" are reading the rule. The case is vacuously true.
+
+$\forall p:person, permitted(Thing = p) \iff true \implies \lnot short(p)$
+
+| true | short | permission |
+|------+-------+------------|
+| yes  | no    | yes        |
+| yes  | yes   | no         |
+
+There is no case in which "true" is "false", so the truth table only has two rows.
+
+*** Regulative Phrasing
+
+"Every child who is short must not get on the ride."
+
+The case: being a child.
+
+The condition: height.
+
+The action: to not get on the ride.
 
 * Visualization
 
