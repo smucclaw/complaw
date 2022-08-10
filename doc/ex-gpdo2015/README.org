@@ -338,7 +338,7 @@ If we required $relevant(w) \iff valid(w)$ we would be in trouble: that window w
 
 In the above transformation, the modal "must" forms part a pattern: /for/ development /to be/ permitted, all relevant things /must/ be valid things.
 
-THe first part is the goal context: typically, someone intends to achieve something.
+The first part is the goal context: typically, someone intends to achieve something.
 
 We see this pattern frequently: "the bishop must move only along the diagonals." And if it doesn't? Illegal move; and the player who moved the bishop loses the game. So the goal context is implicit: "for the player to stay in the game, ..."
 
@@ -362,7 +362,7 @@ It is true if everything that is material is also valid.
 
 It is falsified -- the rule is violated -- if a single material thing is not valid.
 
-If something is immaterial, the rule doesn't care if it is valid or not. (And the rule, by convention is vacuously true.)
+If something is immaterial, the rule doesn't care if it is valid or not. (And the rule, by convention, is vacuously true.)
 
 ** Regulative Must
 
@@ -398,9 +398,9 @@ To whom does the rule apply? To any person who /is a child/. What is the criteri
 
 What is the validity condition? A minimum height.
 
-$\forall p:person, permitted(Thing = p) \iff child(p) \implies \lnot short(p)$
+$\forall p:person, permitted_to_ride(p) \iff child(p) \implies \lnot short(p)$
 
-For all persons, permission is given by the following truth table:
+For all persons, permission to ride is given by the following truth table:
 
 | child | short | permission |
 |-------+-------+------------|
@@ -417,14 +417,14 @@ We observe a loophole: a short adult may be allowed to ride, even if a child is 
 
 The only remaining relevance criterion is that "you" are reading the rule. The case is vacuously true.
 
-$\forall p:person, permitted(Thing = p) \iff true \implies \lnot short(p)$
+$\forall p:person, permitted_to_ride(p) \iff \lnot short(p)$
 
-| true | short | permission |
-|------+-------+------------|
-| yes  | no    | yes        |
-| yes  | yes   | no         |
+| short | permission |
+|-------+------------|
+| no    | yes        |
+| yes   | no         |
 
-There is no case in which "true" is "false", so the truth table only has two rows.
+Now the truth table only has two rows.
 
 *** Regulative Phrasing
 
