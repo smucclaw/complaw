@@ -293,7 +293,7 @@ Read out loud:
     - there exists some wall in which the window is located, and which forms a side elevation of the dwellinghouse, or
     - there exists some roof slope in which the window is located, and which forms a side elevation of the dwellinghouse.
 
-This phrasing is more robust against situations where a window might be part of two walls, or part of two roof slopes, one of which forms a side elevation, the other which does not. The quantifiers $\exists$ and $\forall$ force the drafter to be clear. Even so we can expect arguments and appeals to the regulator: imagine a situation where three-quarters of a window is located on one wall, and one-quarter on another; though particular panes of glass may lie in different planes, they may together form a single window unit. (Evidence: a bay window.) What does "located in" mean then?
+Commentary: This phrasing is more robust against situations where a window might be part of two walls, or part of two roof slopes, one of which forms a side elevation, the other which does not. The quantifiers $\exists$ and $\forall$ force the drafter to be clear. Even so we can expect arguments and appeals to the regulator: imagine a situation where three-quarters of a window is located on one wall, and one-quarter on another; though particular panes of glass may lie in different planes, they may together form a single window unit. (Evidence: a bay window.) What does "located in" mean then?
 
 *** What's a valid window?
 
@@ -313,7 +313,7 @@ Read out loud:
 
 This logical phrasing is a little different from the original: if there are no openable parts, then the second half of the formula is [[https://en.wikipedia.org/wiki/Vacuous_truth][vacuously true]]; if there are openable parts, then every openable part must be 1.7m high.
 
-Is this more readable than "non-opening unless the parts of the window which can be opened are [...]"? You be the judge. If it isn't, our natural language generator can produce the other style just as easily.
+Is this more readable than "non-opening unless the parts of the window which can be opened are [...]"? You be the judge. If it isn't, our natural language generator can produce the other style just as easily. Setting up the sentence with a "must be" commits the second half to awkward grammatical contortions.
 
 Searle pointed out that constitutive rules can be recursive:
 
@@ -334,13 +334,44 @@ Imagine a lower-floor window that was obscure-glazed and unopenable. How does it
 
 If we required $relevant(w) \iff valid(w)$ we would be in trouble: that window would break the formula, causing it to evaluate to false. But we know it's fine for a window to be valid and not relevant. It's only a problem for a window to be relevant and not valid. Using implication solves that problem.
 
-** Constitutive Must
+** Adding Cases Late
 
-In the above transformation, the modal "must" forms part a pattern: /for/ development /to be/ permitted, all relevant things /must/ be valid things.
+In Coode's ideal world, the case is stated separately from the condition: /Every brown dog must be insured for $1000/.
+
+\begin{equation}
+\forall dog, brown(dog) \implies insured(dog, 1000)
+\end{equation}
+
+In the real world, a special case frequently arises late in the sentence, after the condition has been stated. /Every brown dog must be insured for $1000, unless it is a police dog, in which case it must be insured for $500./
+
+If you feel the urge to call the $1000 condition a "default", you wouldn't be wrong: the "police dog" is the special case, and "not a police dog" is the default. In legal writing, defaults are given first, followed by exceptions. In programming, the special cases are given first, followed by the default.
+
+There are two ways to phrase this. The first deals with the different cases up front:
+
+\begin{equation}
+\begin{split}
+\forall dog, & brown(dog) & \land       & police(dog) \implies insured(dog, 500) \\
+             & brown(dog) & \land \lnot & police(dog) \implies insured(dog,1000)
+\end{split}
+\end{equation}
+
+The other follows the syntax of the natural language more closely, with the default up front:
+
+\begin{equation}
+\begin{split}
+\forall dog, brown(dog) \implies ( &                     & insured(dog,1000) \\
+                              \lor & ( police(dog) \land & insured(dog, 500) ) )
+\end{split}
+\end{equation}
+
+
+** Constitutive Must: Must Be
+
+In the above transformation, the modal "must" forms part a pattern: /for/ development /to be/ permitted, all relevant things /must/ *be* valid things.
 
 The first part is the goal context: typically, someone intends to achieve something.
 
-We see this pattern frequently: "the bishop must move only along the diagonals." And if it doesn't? Illegal move; and the player who moved the bishop loses the game. So the goal context is implicit: "for the player to stay in the game, ..."
+We see this pattern frequently: "the bishop must move only along the diagonals." And if it doesn't? Illegal move; and the player who moved the bishop loses the game. So the goal context is implicit: "for the player to stay in the game, all moves made must be valid moves..."
 
 A [[https://www.ura.gov.sg/Corporate/Property/Residential/Renovating-private-residential-property/landed-housing-e-advisor/detached-houses/exterior1/CarPorch1][planning rule]]: "A single storey car porch shall not exceed the height of 4.5m [...]"
 
@@ -348,9 +379,9 @@ What if it does? The goal won't be met: planning permission will not be given.
 
 Another word for "relevant" is "material".
 
-A thing is material if it is a bishop. More precisely, the thing is an action: a bishop move. A bishop move is valid on the condition that it runs along the diagonals.
+In chess, a thing is material if it is a bishop. More precisely, the thing is an action: a bishop move. A bishop move is valid on the condition that it runs along the diagonals.
 
-A thing is material if it is a single storey car porch. More precisely, the construction of a single storey car porch. It is valid on the condition that the porch does not exceed 4.5m in height.
+In planning, a thing is material if it is a single storey car porch. More precisely, the construction of a single storey car porch. It is valid on the condition that the porch does not exceed 4.5m in height.
 
 The legal rule is violated if we can find a material thing that does not meet the validity conditions.
 
@@ -358,33 +389,35 @@ $\forall t: thing, material(w) \implies valid(w)$
 
 Logicans, sensibly enough, call this the "[[https://en.wikipedia.org/wiki/Material_conditional][material conditional]]."
 
-It is true if everything that is material is also valid.
+It holds true if everything that is material is also valid.
 
 It is falsified -- the rule is violated -- if a single material thing is not valid.
 
-If something is immaterial, the rule doesn't care if it is valid or not. (And the rule, by convention, is vacuously true.)
+If something is immaterial, the rule doesn't care if it is valid or not. (And, by convention, it holds vacuously true.)
 
-** Regulative Must
+** Regulative Must: Must Do
 
 But the constitutive "must" is not the only "must"!
+
+Things must *be*, but people must *do*.
 
 As far back as 1845, Coode inveighed against the subject of a "must" being anything but an actor, a person of some sort: properly speaking, it is the developer who must ensure that every window satisfies this criterion. It offends Coode's delicate ear to say that the window itself must satisfy the criterion. Indeed, when we set the legal subject above to windows, we were relaxing Coode's original restrictions.
 
 In more modern times we see [[https://www.adamsdrafting.com/revisiting-the-shall-wars/][similar invective against the willy-nilly use of "shall"]].
 
-"The bishop shall move only along a diagonal"? Surely the bishop does not move by itself; a hand is needed to move the bishop! So the penalty should fall upon the hand, not the bishop. It is the player who loses the game, not the piece. So we might better state "a player shall make only valid moves"; and the set of valid moves includes bishop moves, but also pawn moves and king moves.
+"The bishop shall move only along a diagonal"? Surely the bishop does not move by itself; a hand is needed to move the bishop! So the penalty should fall upon the hand, not the bishop. It is the player who loses the game, not the piece. So we might better state "a player shall make only valid moves"; and the set of valid moves includes bishop moves ... but also pawn moves and king moves.
 
 In a regulative rule, the subject of a "must" -- the material thing -- is some relevant entity, some material party, the subject of some obligation to perform some action. (Or permission, or prohibition, but let's keep focus on the common case.)
 
-How does the party come under the ambit of the rule? Coode specifies those subject to the regulation, by defining the "case". Example: all persons who walk, must sing. To qualify, the case criteria must hold: the person must walk.
+How does the party come under the ambit of the rule? Coode specifies those subject to the regulation, by defining the "case". Example: all persons who walk, must sing. To qualify, the case criteria must hold: the person walks.
 
-The qualifying party takes some action. Regulative rules are always about parties taking action. To be /valid/, that action must meet certain conditions: the buyer must pay a certain amount, by a certain deadline. The bishop must move from a certain square to another square. The seller must ship a certain item by a certain date.
+The qualifying party takes some action. Regulative rules are always about persons taking actions. To be /valid/, the action must meet certain conditions: the buyer must pay a certain amount, by a certain deadline. The bishop must move from a certain square to another square. The seller must ship a certain item by a certain date.
 
 So the regulative "must" and the constitutive "must" are not that different!
 
-The constitutive "must" limits the case to relevant things. It sets conditions on those things. To be valid, the things must meet the conditions.
+The constitutive "must" limits the case to relevant things. It sets conditions on those things. To be valid, the things must meet the conditions. If it's a "must be", it's a constitutive rule.
 
-The regulative "must" limits the case to relevant persons. It sets conditions on their actions. To be valid, the actions by those persons must meet the conditions.
+The regulative "must" limits the case to relevant persons. It sets conditions on their actions. To be valid, the actions by those persons must meet the conditions. If it's a "must do", it's a regulative rule.
 
 *** Constitutive Phrasing
 
