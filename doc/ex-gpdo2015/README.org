@@ -350,8 +350,8 @@ There are two ways to phrase this. The first deals with the different cases up f
 
 \begin{equation}
 \begin{split}
-\forall dog, & brown(dog) & \land       & police(dog) \implies insured(dog, 500) \\
-             & brown(dog) & \land \lnot & police(dog) \implies insured(dog,1000)
+\forall dog,     & (brown(dog) & \land       & police(dog) \implies insured(dog, 500)) \\
+           \land & ( brown(dog) & \land \lnot & police(dog) \implies insured(dog,1000) )
 \end{split}
 \end{equation}
 
