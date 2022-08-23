@@ -15,7 +15,7 @@ MANSUFFIX=l
 OBJS=rail.o gram.o lex.o
 
 CC=gcc
-CFLAGS=-DYYDEBUG -O
+CFLAGS=-DYYDEBUG -O  -Wno-implicit-function-declaration
 YACC=bison -y
 #YACC=byacc
 LEX=flex
@@ -33,7 +33,7 @@ clean:
 
 lint: rail.c gram.c lex.c gram.h 
 	lint rail.c gram.c lex.c
-	
+
 shar:
 	makekit -m -n SHAR.
 

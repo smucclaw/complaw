@@ -54,8 +54,60 @@ extern int yydebug;	/* show yacc debugging */
 
 int anonymous;		/* anonymous rules */
 
+
+int usage()
+{
+	fprintf(stderr,USAGE,myname);
+	exit(1);
+}
+
+int setopt(char c, char* s)
+/* char c, *s; */
+{
+	int set;
+
+	set = c=='-';
+
+	while(*s!='\0') {
+
+		switch(*s++) {
+
+		case 'a':
+			altstar=set;
+			break;
+
+		case 'c':
+			chkgram=set;
+			break;
+
+		case 'd':
+#ifdef YYDEBUG
+			yydebug=set;
+#endif
+			break;
+
+		case 'i':
+			genindex=set;
+			break;
+
+		case 't':
+			treelist=set;
+			break;
+
+		case 'h':
+		        arrowheads=set;
+			break;
+
+		default:
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
 main(argc,argv)
-unsigned argc;
+int argc;
 char *argv[];
 {
 	char *arg, **argp;
@@ -122,56 +174,7 @@ char *argv[];
 	/*NOTREACHED*/
 }
 
-int setopt(c,s)
-char c, *s;
-{
-	int set;
 
-	set = c=='-';
-
-	while(*s!='\0') {
-
-		switch(*s++) {
-
-		case 'a':
-			altstar=set;
-			break;
-
-		case 'c':
-			chkgram=set;
-			break;
-
-		case 'd':
-#ifdef YYDEBUG
-			yydebug=set;
-#endif
-			break;
-
-		case 'i':
-			genindex=set;
-			break;
-
-		case 't':
-			treelist=set;
-			break;
-
-		case 'h':
-		        arrowheads=set;
-			break;
-
-		default:
-			return 0;
-		}
-	}
-
-	return 1;
-}
-
-usage()
-{
-	fprintf(stderr,USAGE,myname);
-	exit(1);
-}
 
 /* error routine for yyparse() */
 
@@ -226,8 +229,7 @@ BODYTYPE *body1, *body2;
 
 /* free a body recursively */
 
-freebody(body)
-BODYTYPE *body;
+void freebody(BODYTYPE * body)
 {
 	int i;
 
@@ -403,10 +405,7 @@ BODYTYPE *body;
 
 /* format a body */
 
-fmtbody(body,cent,arrow)
-BODYTYPE *body;
-char *cent;
-char arrow;
+fmtbody(BODYTYPE* body, char* cent,char arrow)
 {
 	BODYTYPE *body1;
 	int i;
@@ -494,8 +493,7 @@ char arrow;
 
 /* position body (fill in height and ystart) */
 
-posbody(body,ystart)
-BODYTYPE *body;
+void posbody(BODYTYPE * body, int ystart)
 {
 	BODYTYPE *body1;
 	int i;
@@ -648,8 +646,7 @@ char *name;
 
 /* delete an identifier */
 
-delete(id)
-IDTYPE *id;
+void delete(IDTYPE * id)
 {
 	IDTYPE *idp, **idq;
 
@@ -665,7 +662,7 @@ IDTYPE *id;
 
 /* check that there are no undefined identifiers */
 
-checkdefs()
+void checkdefs()
 {
 	IDTYPE *id;
 
@@ -713,8 +710,7 @@ char *f, *s;
 	fprintf(stderr,"\n");
 }
 
-fatal(f,s)
-char *f,*s;
+void fatal(char* f, char* s)
 {
 	error(f,s);
 
