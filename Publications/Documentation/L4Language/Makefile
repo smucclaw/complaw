@@ -5,7 +5,7 @@ rail/rail: rail/Makefile
 	make -C rail
 
 main.rao: main.rai rail/rail
-	rail/rail main.rai
+	rail/rail main
 
 main.rai:
 	pdflatex main
