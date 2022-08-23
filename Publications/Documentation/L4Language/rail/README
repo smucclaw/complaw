@@ -1,0 +1,62 @@
+README file for the Rail package, version 1.0 #1
+
+The Rail package allows you to include syntax diagrams (also known as
+railroad diagrams) in a LaTeX document. A UNIX manual page and LaTeX
+documentation are included. The package consists of a LaTeX style file
+(rail.sty) and a C program (rail) and works in two passes not unlike
+BibTeX. Diagrams are specified in a regular-expression like format
+between \begin{rail} and \end{rail} brackets, and are formatted using
+the standard LaTeX picture environment.
+
+To use the package, you need a UNIX system with LaTeX. Actually, the
+rail program should be portable to non-UNIX systems, but you need lex
+and yacc (or compatible programs such as flex and bison) and a C
+compiler. No fancy ANSI C constructions are used, and the program
+passes lint quite silently.
+
+Caveat: To get diagrams in the documentation you must first compile
+        the program.
+
+To compile, just type "make". Yacc will report 2 reduce/reduce
+conflicts; this is normal.
+
+To create rail.dvi (DVI version of rail.tex) and rail.txt (plain text
+version of rail.man) use "make doc". You can also use "make rail.dvi"
+or "make rail.txt" to create only one of them.
+
+To install, edit the Makefile to set up the various directories where
+things should be installed (BINDIR,TEXDIR,MANDIR,MANSUFFIX), then type
+the command "make install".
+
+To clean up, type "make clean".
+
+To create SHAR.* files, type "make shar".
+
+To create a TAR file, type "make tar".
+
+To lint everything, type "make lint"
+
+Besides the examples in rail.tex, there is another file with bizarre
+test cases, try.tex. This can be used as a regression test after
+modifications.
+
+As of version 1.0, the Rail package is available for Internet anonymous
+FTP from host phoibos.cs.kun.nl (131.174.81.1) in the directory pub/Rail.
+There is both a compressed and an uncompressed tar file, named rail.1.0.tar
+and rail.1.0.tar.Z, respectively. If you cannot use FTP, mail copies can
+be requested from the author of the package.
+
+Please report any bugs or improvements to me, and have fun.
+
+				L.W.J. Rooijakkers
+				University of Nijmegen
+				The Netherlands
+				E-mail: lwj@cs.kun.nl
+
+Update history:
+
+09-Oct-1990 L. Rooijakkers	first available for local distribution
+07-Feb-1991 L. Rooijakkers	several enhancements
+08-Feb-1991 L. Rooijakkers	version 1.0 #0
+12-Feb-1991 L. Rooijakkers	version 1.0 #1 portability mods
+

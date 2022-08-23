@@ -1,0 +1,16 @@
+   File Name		Archive #	Description
+-----------------------------------------------------------
+ MANIFEST                  1	this file
+ Makefile                  1	control file for make(1)
+ README                    1	instructions
+ README2e                  1	supplement to the instructions
+ gram.y                    1	input grammar for yacc(1)
+ lex.l                     1	input specification for lex(1)
+ patchlevel.h              1	patch level
+ rail.c                    1	main program
+ rail.h                    1	common definitions
+ rail.man                  1	manual page
+ rail.ps                   1	documentation in PostScript
+ rail.sty                  2	TeX header file
+ rail.tex                  1	documentation
+ try.tex                   1	some examples

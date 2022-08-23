@@ -1,0 +1,24 @@
+Supplement to the README file for the Rail package, version 1.2 #1
+
+The Rail package is now able to work with LaTeX2e. It also contains some minor
+changes of functionality in comparison to the original version. The
+documentation has been modified accordingly.
+
+I was not able to reach the original author via e-mail. But I like the package
+and want to keep it alive. Have fun!
+
+				K. Barthelmann
+				University of Mainz
+				Germany
+				E-mail: barthel@informatik.uni-mainz.de
+
+Update history:
+
+28-Jun-94 K. Barthelmann	turned into LaTeX2e package
+08-Dec-96 K. Barthelmann	replaced \@writefile
+13-Dec-96 K. Barthelmann	cleanup
+22-Feb-98 K. Barthelmann	fixed catcodes of special characters
+18-Apr-98 K. B./J. Olsson	improved \par handling
+19-May-98 J. Olsson		added support for arrow-heads
+26-Jul-98 K. Barthelmann	changed \par to output newlines
+
