@@ -1,0 +1,32 @@
+* Compiling the documentation
+
+** General principles
+
+The syntax diagrams in the documentation use the Latex rail package
+(https://ctan.org/pkg/rail?lang=en), after an initial attempt to
+generate these diagrams manually (see file old_diagrams.tex).
+
+As described in the rail documentation (see rail/rail.pdf), generating these documents requires several passes of compilation:
+- generation of a main.rai documents by a first compilation with pdflatex
+- conversion of main.rai to main.rao by invocation of rail
+- inclusion of the diagram by a renewed compilation with pdflatex
+
+This process has been automated and should work by just running a "make" in the current directory.
+
+** Getting to run rail
+
+Compilation of the rail program (carried out during the first invocation of "make") seems to work out of the box on Linux machines.
+
+It is more problematic on Mac because the standard Mac configuration contains completely outdated versions of the tools flex and bison required to compile rail.
+
+In cases of compiliation problems on Mac, the following should be attempted:
+- run "brew reinstall flex"
+- run "brew reinstall bison"
+
+For mysterious reasons, these tools are not correctly updated. Consider inserting the following into your .zshrc:
+#+BEGIN_SRC
+export PATH=/usr/local/opt/bison/bin:$PATH
+export PATH=/usr/local/opt/flex/bin:$PATH
+#+END_SRC
+then "source ~/.zshrc"
+
