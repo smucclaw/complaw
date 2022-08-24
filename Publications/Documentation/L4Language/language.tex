@@ -2,16 +2,11 @@
 %......................................................................
 \subsection{Syntax}\label{sec:syntax}
 
-For testing purposes:
 
 \begin{rail}
-decl : 'def' identifier '=' ( expression + ';' )
-| 'type' identifier '=' type
-;
+  Program : (TopLevelElement +)
+  ;
 \end{rail}
-
-end test
-
 
 
 %......................................................................
