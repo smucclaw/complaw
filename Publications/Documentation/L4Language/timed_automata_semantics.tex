@@ -1,0 +1,149 @@
+\begin{itemize}
+  \item Each natural l4 rule gives rise to a fragment of an automaton. 
+
+  \item In the end, we stitch all these partial automata together.
+
+  \item Diff rules may talk about the same automata, need to figure out how
+  to sync and connect them together.
+\end{itemize}
+
+\subsection{Natural l4 to automata}
+\begin{itemize}
+  \item \S \texttt{ Rule name}
+  
+  this defines a state which is the entry point to the rest of the automaton
+  representing the rule
+
+  \item \texttt{Every/Party (entity label)}
+
+  This indicates that the rule to be constructed is part of the automaton
+  corresponding to the entity label.
+
+  \begin{itemize}
+    \item Q: Any semantic diff between every and party?
+  \end{itemize}
+
+  \item \texttt{subject constraint}
+
+  not sure what this means
+
+  \item \texttt{attribute constraint}
+
+  not sure about this either
+
+  \item \texttt{conditional constraint}
+
+  ie if, when, unless
+
+  These are guards on the action, represented as a transition
+  
+  Need to clarify: when = if, unless = if not
+
+  \item \texttt{upon trigger}
+
+  upon action a creates a transition labelled with the action a into
+  this automaton.
+
+  synchronize with other action a somewhere else in the network.
+
+  \item How to handle clocks? What clock variables to use and when
+  to reset?
+
+  \item switch/case or match would be nice
+  
+  find some concrete example for motivation
+\end{itemize}
+
+As an example, consider the \S \, \texttt{Assessment} rule in the
+\href{https://docs.google.com/spreadsheets/d/1leBCZhgDsn-Abg2H_OINGGv-8Gpf9mzuX1RR56v0Sss/edit#gid=1779650637}
+{PDPA case}.
+This gives rise to an automaton with a structure as shown below.
+
+% Drawn with the help of https://madebyevan.com/fsm/
+\begin{center}
+  \begin{tikzpicture}[scale=0.2]
+    \tikzstyle{every node}+=[inner sep=0pt]
+    \draw [black] (39.2,-9.2) circle (3);
+    \draw (39.2,-5) node {\texttt{\S \, Assessment}};
+    \draw [black] (39.2,-25.9) circle (3);
+    \draw (48.5,-25.2) node {
+      $\substack{
+        \\
+        q
+        \\
+        x \leq 30
+      }$
+    };
+    \draw [black] (25.1,-43.9) circle (3);
+    \draw (25.1,-48.5) node {\texttt{\S \, Notification}};
+    \draw [black] (54.3,-42.1) circle (3);
+    \draw (54.3,-46.5) node {\texttt{R}};
+    \draw [black] (39.2,-12.2) -- (39.2,-22.9);
+    \fill [black] (39.2,-22.9) -- (39.7,-22.1) -- (38.7,-22.1);
+    \draw (38.7,-17.55) node [left] {
+      $\substack{
+        \\
+        \text{data breach occurs on or after ...}
+        \\
+        \text{becomeAware?}
+        \\
+        x := 0
+      }$
+    };
+    \draw [black] (37.35,-28.26) -- (26.95,-41.54);
+    \fill [black] (26.95,-41.54) -- (27.84,-41.22) -- (27.05,-40.6);
+    \draw (31.58,-33.48) node [left] {Assess};
+    \draw [black] (41.25,-28.09) -- (52.25,-39.91);
+    \fill [black] (52.25,-39.91) -- (52.07,-38.98) -- (51.34,-39.66);
+    \draw (54,-34) node [left] {$x = 30$};
+  \end{tikzpicture}
+\end{center}
+
+Note here that:
+\begin{itemize}
+  \item For simplicity, we ignore attribute constraints and subject constraints
+  like \texttt{WHO}, \texttt{WHICH}, etc.
+
+  \item ``data breach occurs on or after ...'' is the conditional constraint,
+  represented by a guard on the transition leading into the rest of the rule.
+
+  \item ``becomeAware'' is a synchronization action, corresponding to the
+  ``\texttt{UPON} becoming aware...'' part.
+
+  \item $x$ is taken to be a fresh clock variable.
+
+  \item $q$ is a fresh, anonymous state whose main purpose is to hold the clock
+  invariant of $x \leq 30$.
+
+  \item \texttt{\S \, Notification} represents the initial state of the
+  automaton corresponding to the rule following the \texttt{HENCE} part.
+
+  \item $R$ represents the initial state of the automaton corresponding to the
+  rule following the \texttt{LEST} part.
+\end{itemize}
+
+The purpose of $x$ and $q$ is to model a time-out, following the
+Time-out pattern described in
+\cite[Definition 12]{sunjun_2008_timed_automata_patterns}.
+The idea is that once the guard condition
+(ie data breach occurs on or after ...) is satisfied,
+and the organization becomes aware, so that a becomeAware! transition occurs,
+we start a timer given by the fresh clock variable $x$ and enter state $q$.
+
+The clock invariant $x \leq 30$ enforces that when the automaton is in state
+$q$, we may only introduce a delay of up to 30 units of time before one of
+the 2 outgoing transitions must be taken.
+Taking 1 unit of time to be 1 day, this means that:
+\begin{itemize}
+  \item If the organization assesses within 30 days, the \texttt{Assess}
+  transition is taken so that the automaton is now in the
+  \texttt{\S \, Notification} state, which is the beginning of the
+  corresponding rule. 
+
+  \item If 30 days passes and the organization doesn't assess, the transition
+  to the \texttt{R} state becomes enabled and is thus taken (because the
+  automaton cannot stay in state $q$ anymore).
+\end{itemize}
+
+\subsection{Automata to natural l4}
+This seems trickier.
