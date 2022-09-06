@@ -1,0 +1,64 @@
+\documentclass{IOS-Book-Article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+\def\hb{\hbox to 11.5 cm{}}
+
+\newcommand{\sembrack}[1]{[\![#1]\!]}
+\newcommand{\subex}[2]{#1_{#2}}
+\newcommand{\commentOut}[1]{}
+\newcommand{\eop}[1]{\mbox{\textsl{#1}}}
+\newcommand{\ttop}[1]{\mbox{\texttt{#1}}}
+
+\newcommand{\bequ}{\begin{quote}}
+\newcommand{\enqu}{\end{quote}}
+\newcommand{\bece}{\begin{center}}
+\newcommand{\ence}{\end{center}}
+
+\newenvironment{compactitem}{\begin{itemize}}{\end{itemize}}
+
+\begin{document}
+
+\pagestyle{headings}
+\def\thepage{}
+\begin{frontmatter}              % The preamble begins here.
+
+\title{An End-to-End Pipeline from Law Text to Logical Formulas}
+
+\markboth{}{August 2022\hb}
+
+\author[A]{Aarne Ranta}
+\author[B]{Inari Listenmaa}
+\author[C]{Jerrold Soh}
+\author[D]{Meng Weng Wong}
+
+\address[A]{
+  Department of Computer Science and Engineering,
+  Chalmers University of Technology and University of Gothenburg,
+  aarne.ranta@cse.gu.se 
+  }
+\address[B]{SMU and Digital Grammars}
+\address[C]{SMU}
+\address[D]{SMU}
+
+\begin{abstract}
+This paper describes an experimental pipeline starting from ordinary English law text, parsing it with a formal grammar, and converting it to logical formulas via a series of structural representations.
+The goal is to see how to cover the full pipeline with a sequence of well-understood rule-based steps.
+The approach is outside-in: we wanted to deliver some output from day 1, and refined it as we went on.
+Thus it is a rule-based robust approach.
+%%
+The law text addressed is one chapter of law of Singapore, Part 6A of the Personal Data Protection Act 2012.
+While more work is needed to port the method to other law texts, we believe to have achieved a reusable modular structure, as well as some reusable code, for a more general pipeline.
+The pipeline includes some new methods and concepts, in particular, annotation-based grammar writing and an assemply logic for two-dimensional spreadsheet representations.
+The code is available as open source.
+\end{abstract}
+
+
+\begin{keyword}
+parsing law text
+\end{keyword}
+\end{frontmatter}
+\markboth{August 2022\hb}{August 2022\hb}
+
+\maketitle
+
