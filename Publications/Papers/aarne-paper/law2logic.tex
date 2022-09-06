@@ -1,0 +1,419 @@
+\documentclass{IOS-Book-Article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{framed}
+
+
+\def\hb{\hbox to 11.5 cm{}}
+
+\newcommand{\sembrack}[1]{[\![#1]\!]}
+\newcommand{\subex}[2]{#1_{#2}}
+\newcommand{\commentOut}[1]{}
+\newcommand{\eop}[1]{\mbox{\textsl{#1}}}
+\newcommand{\ttop}[1]{\mbox{\texttt{#1}}}
+
+\newcommand{\bequ}{\begin{quote}}
+\newcommand{\enqu}{\end{quote}}
+\newcommand{\bece}{\begin{center}}
+\newcommand{\ence}{\end{center}}
+\newcommand{\todoj}[1]{{\color{red}\textbf{[J: #1]}}}
+\newcommand{\todoi}[1]{{\color{magenta}\textbf{[I: #1]}}}
+
+
+\newenvironment{compactitem}{\begin{itemize}}{\end{itemize}}
+
+\begin{document}
+
+\pagestyle{headings}
+\def\thepage{}
+\begin{frontmatter}              % The preamble begins here.
+
+\title{An End-to-End Pipeline from Law Text to Logical Formulas}
+
+\markboth{}{August 2022\hb}
+
+\author[A]{Aarne Ranta}
+\author[C]{Inari Listenmaa}
+\author[C]{Jerrold Soh}
+\author[C]{Meng Weng Wong}
+
+\address[A]{
+  Department of Computer Science and Engineering,
+  Chalmers University of Technology and University of Gothenburg,
+  aarne.ranta@cse.gu.se
+  }
+\address[B]{SMU and Digital Grammars}
+\address[C]{Yong Pung How School of Law, Singapore Management University}
+% \address[D]{Yong Pung How School of Law, Singapore Management University}
+
+\begin{abstract}
+ This paper develops a pipeline for converting natural English law texts into logical formulas via a series of structural representations. The goal is to show how law-to-logic translation can be achieved through a sequence of simple, well-defined steps. The texts are first parsed using a formal grammar derived from light-weight text annotations designed to minimize the need for manual grammar construction. An intermediate representation, called assembly logic, is then used for logical interpretation and supports translations to different back-end logics and visualisations. The approach, while rule-based and explainable, is also robust: it can deliver useful results from day one, but allows subsequent refinements and variations. While some work is needed to extend the method to new laws, the software presented here reduces the marginal effort necessary. As a case study, we demonstrate our approach on one section of Singapore’s Personal Data Protection Act. Our code is available open-source.
+\end{abstract}
+
+
+\begin{keyword}
+parsing law text
+\end{keyword}
+\end{frontmatter}
+\markboth{August 2022\hb}{August 2022\hb}
+
+%\maketitle
+% \section{Relevant LIT and notes}
+
+% Valente and Breuker 1991 - interpretation models or abstract configurations of reasoning steps (e.g. steps we follow in diagnosis) - identifies interpretation of law as one key problem - so already in fields founding we know of the problem - most typical task in legal is assessment: is X  the case? - differs from other domains because contains high degree of common sense reasoning n (1) identifying category membership (and open categories = open texture, which should be human resolved) and (2) come to a coherent interpretation of regulations, make bridging inferences that allow one to understand a rule as exception or related to another, etc -- idea of law functions from Bertalanffy's general system theory -- law exists to accomplish some internal and externals functions, and these objectives reflect on the legal instruments that interact wider society and legal system (being regulations, etc) -- basic set of law functions include: definitions, normativity (saying such and such is illegal), reaction (punishment or reward), creation (creating an entity), prescription (advice to agents). Each implies their own set of domain structures (rules and mechanisms) and inference steps (analysis actions, such as classify, specific, control)
+
+% Haan 1992 - describes how expressing just 2 paras of Dutch traffic regulations in formal logic already exposed situations legislators did not consider (or rather took for granted given their world knowledge), and suggests ways around it. For example, rule says motorbikes must be on rightmost lane, but they forgot that rightmost lane could be a (manual) bike lane. Useful for illustrating benefits of formalisations.
+
+% Bench Capon 1992 -- describes problems with a prototype policy support system that arises because policymakers could not handle the interface which KB could only be accessed through very low level tools and require someone able to think in terms of the KB while also understanding the questions policymakers would use it for so they can pose it in terms of the KB -- notes importance of `simply presenting the individual sentences returned from the model in a English-like form', because `logical proofs, the natural form of output from a KBS, are notoriously uncongenial to policymakers'. Bench proposes a hypertext based system as a way out.
+
+% GROENDIJK 1992 - describes a way to learn `neural schemata' from a dataset. neural schemata is essentially a fully-connected neural network where each node is a predicate (isAdult, canContract, isChild, isAdult) and each edge is weighted [-1,1] depending on their correlations. Training this basically `learns' the relationships between the predicates, which are akin to legal rules (i.e. only adults can contract) //similar to running OLS on the powerset of all interactions? Useful paper to show that approaches to machine learn or otherwise automate rule extraction go way back. In a sense this paper is doing something similar to ours - inferring formalized rules from data, though the 'data' we start with is a statement of the rules rather than observations of relationships.
+
+% Bing 1987 ICAIL***: Notes that given the principle of legality (~ state cannot infringe liberty of individual unless backed by written law), `one may reduce the problem of creating a “model” of the domain to a problem of extracting the normative structure from the relevant statute (or statutes)'. Can use to show the importance of a breakthrough in extracting normative structure from statute. They then create a hand-coded normalisation of a Norwegian social security law (not a `formalisation' as the logical structure hasn't been extracted, they just ordered it into neat and standardised IF-THEN/OR-AND blocks) and show that arrow diagrams visualising the normalisation, when presented to users, help improve search performance. NOTE THEY ESSENTIALLY HIHGLIGHT THE USEFULNESS OF AN AUTOMATIC PARSER FOR STATUTE IN P 47 MUST CITE.
+
+% Svensson et al 1992 - describes a system wiht good results where they handcoded the Dutch social security rules into a language called KRL but don't actually go through the details of how they translated the rules - notes that their system had 0.95 correlation with dataset of actual decisions made (dataset was not shared nor explained). BTW they also produced a nice simulation model for effect of policy changes on number of benefits claimants, etc.
+
+% Van Kralingen at el, Norm Frames, 1993: ''presented an intermediate language for the conceptual representation of legal knowledge'' via what they call norm frames, which are basically tables with pre-set fields to fill in when trying to formalise statutes. Comes with a set of optioins for certain fields, heuristics for filling up these forms, but far from complete. Their formalisation also doesn't deal with what the statute does not explicitly say (e.g. need for mental element in theft?). Useful as an example of yet another intermediate language - indeed they say theirs is a kind of indirect modelling that is more ``complete'' in terms of capturing legal norms.
+
+% Grutter 1995 - Simulation model for Dutch asylum procedure - points out that LKBs are useful not just for reasoning about case outcomes/outputs but also simulating throughputs and understanding processes - eg how does rule change affect admin workload? Then describes a (graphical) model for the Dutch asylum process tuned using workload data from Dutch MoJ.
+
+% Hickey & Brennan, 2021: A compliance checker for GDPR data transfers - builds a useful tool based on real user stories and surveys. rules engine uses a Data Protection Vocabulary that is then implemented into software using Flowfinity, a no-code workflow automater. Then they check it against hand labeled gold test cases and get ~91\% accuracy
+
+% Nazarenko et al 2021: identifies 'knowledge bottleneck' of converting NLT to LF, proposes an annotation language and method so that non-legal experts can annotate the NLT, uses GDPR as example - they get people to annotate in XML using their language and then run semantic search, check interannotator agreement, and also show that it returns useful responses to 3 semantic queries (e.g. what are the obligations of the data controller?)
+
+% Idea on expressing the point of the auto-parse: like a camera for a human painter or photoshopper, the camera captures the first cut and that scarcely means you aren't supposed to edit. but it does save a lot of time esp if the representation is accurate.
+
+% Notes from call w Inari:
+
+
+\section{Introduction}
+
+Expressing laws computably is a classic objective of AI and Law \cite{mccarty_reflections_1977, sergot_british_1986} and a crucial pre-requisite to automating downstream tasks such as compliance checking \cite{palmirani_modelling_2018, hickey_gdpr_2021}, policy support \cite{svensson_expertisze_1992, haan_tracs_1992}, information retrieval \cite{bing_designing_1987}, argumentative reasoning \cite{mochales_study_2008}, legislative simulation \cite{bench-capon_logic_1987, bench-capon_support_1992}, and formal verification \cite{haan_tracs_1992}. But faithfully translating law to logic is challenging, often requiring rare expertise in both legal and formal methods. This ``natural language barrier'' \cite{mccarty_deep_2007} poses a significant ``knowledge bottleneck'' \cite{nazarenko_pragmatic_2021} to the development of legal expert systems and knowledge bases. Thus in last few decades, researchers have devised numerous strategies for bridging the barrier. These include domain-specific ontologies \cite{palmirani_legal_2018}, taxonomies \cite{hulstijn_taxonomy_2020}, vocabularies \cite{hickey_gdpr_2021}, standards \cite{sartor_akoma-ntoso_2011}, logics \cite{prakken_logical_1993}, markup languages \cite{athan_oasis_2013} and programming languages \cite{huttner_catala_2022}, intermediate formalisms for expressing laws \cite{mccarty_language_1989, kralingen_norm_1993, mccarty_deep_2007}, and specialised human workflows \cite{palmirani_legal_2018, witt_converting_2021}.
+
+Early in the field's history, \cite{bing_designing_1987} had already imagined automatic parsers for translating natural language laws into formal logic programs. Several significant steps have since been taken towards that vision. For instance, McCarty \cite{mccarty_deep_2007} demonstrated how \cite{collins_head-driven_2003}'s statistical parser can extract, from judicial opinion texts, syntax trees which can be further converted into quasi-logical semantic representations of said texts through definite clause grammars implemented in Prolog. Others have examined how far statistical, machine, and deep learning methods are capable of implicitly representing legal principles and concepts \cite{groendijk_neural_1992, de_maat_automatic_2008, winkels_automatic_2012, chalkidis_neural_2019, chalkidis_lexglue_2022}.
+
+In previous literature, the bottleneck has often been the chosen NLP framework \cite{quaresma_question_2005,wyner_study_2013}.xs
+This paper uses Grammatical Framework (GF, \cite{ranta-2011}).
+GF has had some earlier uses in the Law domain, e.g.\  \cite{angelov-al-2013,gdpr-2018}, typically based on Controlled Natural Language (CNL); see \cite{fuchs-al-2008,angelov-ranta-2009}.
+The present approach is novel in addressing uncontrolled real-world law text.
+But it exploits the same features of GF as have shown fruitful in CNL processing: modularity, precision, and support to semantic back ends via abstract syntax.
+ 
+As a downside, writing GF grammars requires expertise that is rare in the field of computational law.
+In order to ease the adoption of GF, we have developed a method to automatically extract a preliminary GF from light-weight annotations that non-programmers can add to texts.
+The automatically extracted GF grammar is already usable for a rough analysis of law texts.
+It can also be gradually improved by some manual work, which requires less effort than writing grammars from scratch.
+
+We exemplify the pipeline using a part of Singapore's \textit{Personal Data Protection Act} 2012 (PDPA). Our code is available open-source.\footnote{See [url to be provided after blind review].}
+
+Section \ref{sec:methods} details our pipeline. Section \ref{sec:pdpa} explains how we used it to formalise the PDPA. Section \ref{sec:future} discusses future directions and concludes.
+
+\section{Methodology}
+\label{sec:methods}
+
+\subsection{Pipeline Overview}
+
+The structure of the pipeline is shown in Fig.\~ref{pipeline}, while Fig.\~ref{pipeline-ex} shows a concrete example of its use on a paragraph of text.
+
+The pipeline's input is a statutory text in natural language, which we assume has been properly extracted and stored in a standard text format (e.g.\ .txt).
+We also assume it to be stored line by line and tokenized by some standard tool, such as GF's \texttt{lextext} converter. 
+The resulting text is converted to \textbf{abstract syntax trees} line by line using the GF parser driven by a  grammar.
+The baseline is a context-free grammar, which is automatically derived from the text itself.
+At a later phase, we can optionally replace this with a richer kind of GF grammar.
+
+The second step is to convert the abstract syntax trees resulting from the parser into formulas in an \textbf{assembly logic}.
+The assembly logic is an itermediate representation between abstract syntax trees and normal ``back end'' logics, such as predicate logic.
+It is more abstract than the syntax trees coming from the parser, but preserves more distinctions than e.g.\ predicate logic.
+These distinctions are particularly useful when deriving visualizations of the structure, such as \textbf{spreadsheets}, two-dimensional representations that make the logical structure explicit without using logical formulas.
+These visualizations are intended to help understand the text and also to select proper interpretations of it in case of ambiguity.
+The conversion is performed in Haskell using the methodology described in \cite{ranta-2011c}.
+
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{pipeline.png}
+\caption{The pipeline}
+\label{pipeline}
+\end{figure}
+
+% J: material merged into the above, but kept the older content in comments for now.
+% The pipeline begins by converting statutory text in natural language into abstract syntax tree using
+
+% The starting point of the project presented in this paper was a system consisting of \textbf{spreadsheets} and their translation to logical formulas. The cells of the spreasheet were natural language expressions, which were parsed into syntax trees with the help of a grammar. What was missing from the complete pipeline from text to logic was the conversion from the original text to spreadsheets. This step was made manually, and the focus of the projects was on the later parts of the pipeline. Thus the main contribution of the present paper is to define an automated conversion of texts to spreadsheets.
+
+% The first part of this is a grammar that parses texts to abstract syntax trees. The second part is a conversion to a new intermediate representation between syntax trees, spreadsheets, and logic. We call this representation \textbf{assembly logic}, in analogy to assembly languages in compilers, if we think of spreadsheets and logics as "machine languages", whose long distance to the source language is bridged by the assembly language.
+
+% \todoj{ This para below reads like it belongs somewhere in the pipeline overview, probably even before the part where we talk about grammars?}
+\todoi{moved this para as per Jerrold's suggestion, but unsure how it fits.}
+Notice that the ultimate unit of semantic interpretation is a paragraph consisting of several lines.
+This is the case, for instance with the example in Figure~\ref{pipeline-ex}.
+In the current implementation, the parser reads the document line by line, and a separate process is used for segmenting groups of lines into paragraphs.
+The reason for this set-up is mainly practical: semantic units can be arbitrarily long sequences of lines, and the parser may get slow in such cases.
+
+
+\subsection{Building the Grammars}
+
+Parsing is driven by a grammar, which specifies a relation between strings and abstract syntax trees.
+In typical GF applications, abstract syntax trees are processed further, usually in translations to other languages but also in logical semantics.
+GF grammars are usually written by hand, to guarantee a precise correspondance to desired abstract syntax trees.
+This process is helped by GF's module system and extensive libraries, which reduce the need of manual work to the minimum.
+In such applications, the language can be made to follow grammar rules defined in the GF Resource Grammar Library (RGL, \cite{ranta-2009}).
+
+However, law texts contain special constructs that the RGL does not cover, in particular constructs including entire paragraphs and itemized lists, which are significant for the logical structure and which we wanted to capture by the parser.
+This means that some grammar writing needs to be performed on top of the RGL.
+In order to make sure to capture everything, we started grammar writing in a data-driven, top-down way, starting from entire lines of text and going forward by stepwise refinements of the grammar rules.
+
+An efficient way to produce the grammar turned out to be a semi-automatic method consisting of manual annotations from which a script generated GF rules.
+Figure~\ref{grammar-gen} shows the grammar-building workflow with an example of a line of a text, the annotations added to it, and the resulting grammar rules.
+
+\begin{figure}
+ \begin{framed}
+\bequ
+\textbf{A line in the text:}
+\bequ
+\textit{Item (2) without limiting subsection Ref (1)(a), a CN data breach is deemed to VP result in significant harm to an individual —}
+\enqu
+\textbf{The line annotated with marks for terminals} (\verb6#6) \textbf{and nonterminals} (\verb6*6):
+\bequ
+\begin{verbatim}
+*Item (2) #without #limiting #subsection *Ref (1)(a) #,
+#a *CN data breach #is #deemed #to
+*VP result in significant harm to an individual #—
+\end{verbatim}
+\enqu
+\textbf{Grammar rules derived by the script:}
+\bequ
+\begin{verbatim}
+Line ::= Item "without" "limiting" "subsection" Ref ","
+         "a" CN "is" "deemed" "to" VP "-" ;
+Item ::= "(2)" ;
+Ref  ::= "(1)(a)" ;
+CN   ::= "data" "breach" ;
+VP   ::= "result" "in" "significant"
+         "harm" "to" "an" "individual" ;
+\end{verbatim}
+\enqu
+\textbf{The last of the grammar rules manually edited by step-wise refinements:}
+\bequ
+\begin{verbatim}
+VP2 ::= "result" "in" NP ;
+NP  ::= "significant" "harm" "to" NP ;
+NP  ::= "an" CN ;
+CN  ::= "individual" ;
+\end{verbatim}
+\enqu
+\textbf{Abstract syntax functions in the resulting GF grammar:}
+\bequ
+\begin{verbatim}
+fun VP2_result_in : VP2 ;
+fun CN_significant_harm_to_NP : NP -> CN ;
+fun NP_an_CN : CN -> NP ;
+fun CN_individual : CN ;
+\end{verbatim}
+\enqu
+\enqu
+\end{framed}
+\caption{The grammar extraction process.}
+\label{grammar-gen}
+\end{figure}
+
+The grammar produced by the script is a BNF (context-free) grammar, in a notation that is directly usable in GF as it is.
+Internally, GF adds to each rule an abstract syntax function, whose names is derived from items in the rule itself.
+Full GF is more expressive and more abstract than BNF, and it can merge together rules that are just morphological variants of each other. 
+In the example of Figure~\ref{grammar-gen}, the full power can be used to merge together the function \verb6CN_individual6 with another derived function \verb6CN_individuals6, to a single function that covers both the singular and the plural form of the noun.
+Similarly, the rules \verb6NP_an_CN6 can be merged with \verb6NP_a_CN6.
+An advantage, in addition to getting fewer rules, is that the choice of the sinular and the plural, or \textit{a} vs.\ \textit{an}, can then be made precisely depending on the context.
+
+
+\subsection{From abstract syntax trees to assembly logic}
+
+The assembly logic is an intermeriate representation between abstract syntax trees and ordinary logics.
+It is designed to preserve enough of the syntactic structure to generate visualizations that are still recognizable as representations of the original text.
+For example, it distinguishes between ordinary an reverse implications (\textit{if A then B} vs. \textit{B if A}).
+It also preserves quantified noun phrases as units (e.g.\textit{any organization} ) and is neutral between how modalities (such as \textit{must}) are formalized in the logic.
+At the same time, it is intended to be sufficient to represent much more varied sets of abstract syntax trees, so that when the grammar is extended (e.g.\ via annotations of new law texts), the assembly logic and its back ends can be kept constant.
+
+Figure~\ref{assembly} shows a sample of the assembly logic, which is implemented as a Haskell datatype \texttt{Formula}.
+It also shows a part of an \textbf{interpretation function}, \texttt{iNP},  which converts abstract syntax trees of GF type NP (Noun Phrase) to assembly logic.
+These functions use pattern matching over trees.
+Each constructor of an abstract syntax tree may have its own pattern, such as for \verb6GNP_any_CN6 in Fig.~\ref{assembly}.
+When the grammar is extended, new patterns can be added.
+But even if this is not done, the function can take care of the new constructors by the catch-all case (\verb6_6), which treats the new expressions as atomic.
+Atomic expressions are converted to atomic formulas or constants in logics and to single cells in spreadsheets.
+
+\begin{figure}
+  \begin{framed}
+
+ \textbf{Some assembly logic constructors:}
+ \bequ
+\begin{verbatim}
+data Cat =
+  CProp | CSet | CInd | -- ...
+data Formula =
+    Atomic Cat Atom
+  | Conjunction Cat ConjWord [Formula]
+  | Implication Formula Formula
+  | Conditional Formula Formula     -- reverse implication
+  | Quantification String Formula   -- quantifier + domain
+\end{verbatim}
+ \enqu
+
+ \textbf{Semantics of abstract syntax trees in the assembly logic:}
+ \bequ
+\begin{verbatim}
+iNP :: Env -> GNP -> Formula
+iNP env np = case np of
+  GNP_any_CN cn -> Quantification "ANY" (iCN env cn)
+  GNP_each_CN cn -> Quantification "EACH" (iCN env cn)
+  -- ...
+  _ -> Atomic CInd (lin env (gf np))
+\end{verbatim}
+ \enqu
+
+   \end{framed}
+ \caption{Data structures and conversions related to the assembly logic.
+ }
+\label{assembly}
+\end{figure}
+
+
+
+\subsection{From assembly logic to predicate logic}
+
+The pipeline in Figure~\ref{pipeline} branches from Assembly Logic to two directions: to spreadsheets, described in the next section, and to predicate logic, to be discussed here.
+
+The predicate logic step itself is divided to two phases:
+\begin{enumerate}
+\item Assembly logic is mapped into a many-sorted logic with Russell's iota terms.
+\item The many-sorted logic is mapped into ordinary predicate logic and rendered in the TPTP notation.
+\end{enumerate}
+The many-sorted logic is chosen because of its better support of compositional translation.
+Thus quanfication expressed by noun phrases (such as \textit{any storage medium}) are compositionally interpreted as quantifiers with sorts, instead of dividing them into unsorted quantiers and sort predicates.
+The sorts are eliminated as a part of the conversion from many-sorted to ordinary logic.
+
+Even more crucially, anaphoric expressions (such as \textit{that organization}) are interpreted as definite descriptions formalized as iota terms (notice that we write $\iota(A)$ instead of $(\iota x)A(x)$, leaving possible variable bindings to $A$ itself, as customary in higher-order logic).
+These iota terms are eliminated in a pass that looks for non-iota terms in their context of use.
+Figure~\ref{anaphora} shows an example of this, with the structure of a ``donkey sentence'' well-known in linguistic literature (\textit{if a man owns a donkey he beats it}) \cite{geach-1962,kamp-1981}
+Such a sentence has an existential quantifier in the antecedent, and a pronoun or definite desctiption referring to it in the succedent.
+To express this reference in ordinary predicate logic, the existential quantifier is changed into a universal one with a wide scope of the implication.
+
+ \begin{figure}
+  \begin{framed}
+  \bequ
+  \textbf{A toy example of a ``donkey sentence'':}
+  \bequ
+ \textit{if a notification is a data breach , the notification is affected}
+ \enqu
+
+ \textbf{Compositional interpretation in many-sorted logic with iota terms:}
+ \[
+(\exists x : \eop{notification})\eop{data\_breach}(x) \, \supset \, \eop{affected}(\iota(\eop{notification}))
+\]
+
+ \textbf{Conversions to ordinary predicate logic in TPTP notation:}
+ \bequ
+\begin{verbatim}
+![X]:(notification(X) => data_breach(X) => affected(X))
+\end{verbatim}
+ \enqu
+ \enqu
+   \end{framed}
+ \caption{Iota terms are eliminated via anaphora resolution.
+ }
+\label{anaphora}
+\end{figure}
+
+Donkey sentences are ubiquitous in law text, as in many other types of text.
+To our surprise, also ``inverted donkey sentences'' occurred in our sample text --- ones in which the existential appears in the succedent and is referred to in the antecedent.
+What makes this sound natural is that the whole implication appears in reverse: \textit{a man beats a donkey if he owns it}.
+Figure~\ref{donkey}
+
+\begin{figure}
+ \includegraphics[width=0.96\textwidth]{anaphora.png}
+\caption{An inverted donkey sentence from the actual law text.}
+\label{donkey}
+\end{figure}
+
+\subsection{Visualisation in Spreadsheets}
+
+Aside from predicate logic, the AST allowed us to visualise the statute's structure in spreadsheet form.
+Presently, the spreadsheet only serves as a form of visualisation, similarly to \cite{mochales_study_2008}.
+However, we plan to use the spreadsheet format as an input to a low-code programming platform,
+to help non-technical users learn, understand, and write (intermediate) legal formalisms more easily.
+This work is currently under development by our research team and will be more formally described in a separate paper.
+
+
+
+\section{Formalising the Personal Data Protection Act}
+\label{sec:pdpa}
+
+We demonstrate our proposed pipeline on Part 6A the PDPA. Like the EU's \textit{General Data Protection Regulation} (GDPR), the PDPA is Singapore's primary personal data protection statute and prescribes obligations surrounding the collection, use, disclosure, and deletion of personal data. Part 6A in particular stipulates when and how organisations are expected to notify regulators of personal data breaches (e.g.\ a hospital's patient databases are leaked). We chose the PDPA as a case study for three reasons. First, modelling the PDPA was a practical suggestion from the Personal Data Protection Commission (the Commission), Singapore's primary data regulator, based on their experience having to field numerous questions and prepare volumes of public-friendly guidelines on Part 6A. There was thus a clear use case for our technology. Second, while the PDPA has not been examined in prior AI \& Law literature, its subject matter connects it to established work modelling the GDPR \cite{palmirani_modelling_2018, brennan_gdpr_2021, hickey_gdpr_2021}.
+
+Third, the notification sections we examine are sufficiently complex to demonstrate the utility of a computational law approach in general and our pipeline in particular. Counter-intuitively, organisations are not always expected to immediately disclose data breaches upon discovering them. Rather, breaches are only notifiable if they (are likely to) result in significant harm affected individual(s), or if they are of ``significant scale'' (PDPA s 26B(1)). If so, there is a general duty to report the breach to the Commission ``as soon as practicable'' (s 26D(1)). The organisation must thereafter notify each affected individuals ``in any manner that is reasonable in the circumstances'' (s 26B(2)) --- unless the Commission directs them not to (s 26D(2)). The Commission's published guidelines explain that this may be directed if the breach is of such severity that public responses to it may need to be carefully managed
+ \todoj{ Meng please confirm and provide a cite}.
+ Modelling these rules allowed us to surface the implicit race condition between notifying the Commission and the affected individuals: an organisation which proactively informed both groups at the same time might inadvertently flout the statute's design.
+
+Table \ref{stats} provides a statistical summary of the primary input text.
+
+
+\begin{table}
+  \begin{tabular}{|l|r|}
+\hline
+lines & 66 \\
+characters & 6154 \\
+tokens & 1072 \\
+unique tokens & 229 \\
+tokens per line on average & 16 \\
+tokens on the longest line & 56 \\
+logical units & 46 \\
+\hline
+  \end{tabular}
+  \caption{Statistics about Personal Data Protection Act (PDPA), Part 6A}
+  \label{stats}
+\end{table}
+
+To formalise Part 6A, we first...
+ \todoj{ can someone write a one para summary of the actual process here? That is, how exactly did we convert Part 6A into code? How did we build the specific grammars, etc?}
+  Next, we... Finally, ...
+
+Figure \ref{pipeline-ex} illustrates selected portions of the text through various stages of the pipeline.
+
+\begin{figure}
+\includegraphics[width=0.8\textwidth]{text.png}
+\includegraphics[width=0.4\textwidth]{tree.eps}
+\includegraphics[width=0.6\textwidth]{assembly.png}
+\small
+\begin{verbatim}
+![X]:(data_breach(X) & ?[Y]:(personal_data(Y) & IN_RELATION_TO(X,Y)) <=>
+(personal_data(X) & ?[Y]:((access(Y,X) | collection(Y,X) | use(Y,X) |
+disclosure(Y,X) | copying(Y,X) | modification(Y,X) | disposal(Y,X)) &
+unauthorized(Y))) | (((storage_medium(X) | device(X)) & (personal_data(X) &
+?[Y]:((circumstances(Y) & (((unauthorized(Y) & (access(Y) | collection(Y) |
+use(Y) | disclosure(Y) | copying(Y) | modification(Y) | disposal(Y))) &
+is_likely_to_occur(Y))) & is_stored_in(X,Y)))) & loss(X))))
+\end{verbatim}
+\normalsize
+\caption{An example through the pipeline: text, abstract syntax tree (of the second line), spreadsheet, and formula in TPTP notation.
+}
+\label{pipeline-ex}
+\end{figure}
+
+\section{Discussion and future work}
+\label{sec:future}
+
+\todoj{ We will need to offer some insights on how well the thing worked. How did we know if we got a good logical output? Were there any standards we checked it against?}
+
+The most important tasks for future work are to link this pipeline with the previous work at CCLAW, which have much more precision and detail: the spreadsheets and the grammar of smaller units.
+
+As regards spreadsheets, and in fact the interpretation in logic, the current experiment is simple-minded in the sense that it only looks at the document at hand.
+The real spreadsheets also take into account other documents that affect the interpretation, and show this information in the spreadsheets.
+
+As for the grammar, the bulk of the work will be in the detailed structure of noun phrases and predicates that appear in single cells.
+It also remains to see how much of the line and paragraph structures is already included in the grammar based on the sample, but the variation there can be expected to be numerically smaller.
+
+We do not claim to have completely solved the natural language barrier.
+But given the tedium which necessarily accompanies manual translations of law to logic, we hope to have shown a productive way to split the process into separate steps.
+Some of these steps can work out of the box when the scope is extended, whereas some --- the text annotations for extending the grammar and the conversion to assembly logic --- are lightweight enough to make the system feasible to apply.
+
+%the advent of such software would accelerate research and development of computational law systems, even if the algorithms' outputs were, realistically speaking, not perfectly faithful to original law and thus required manual vetting.
+
+\bibliographystyle{plain}
+\bibliography{complaw-bib}
+
+\end{document}
