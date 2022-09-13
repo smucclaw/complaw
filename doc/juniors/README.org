@@ -1236,6 +1236,13 @@ Document automation generally: see https://www.bailii.org/ew/cases/EWFC/HCJ/2021
 
 ** Introduction to Modal Logics                                                            :module:
 
+generally: https://rkirsling.github.io/modallogic/
+
+must do: deontic -- Searle's regulatives
+must be: alethic -- Searle's constitutives
+must know: epistemic
+must happen: temporal
+
 *** Technical Skills and Competencies
 
 - Temporal Modal Logics: LTL, CTL: forever vs once

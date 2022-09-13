@@ -1,0 +1,98 @@
+#+TITLE: Wait and See
+
+from the civil law act
+
+#+begin_quote
+Where, apart from the provisions of this section, a disposition consisting of the conferring of a general power of appointment would be invalid as infringing the rule against perpetuities, the disposition shall be treated, until such time (if any) as it becomes certain that the power will not be exercisable within the perpetuity period, as if the disposition were not invalid as infringing the rule against perpetuities
+#+end_quote
+
+#+begin_src haskell
+  {-# LANGUAGE OverloadedRecordDot #-}
+  {-# LANGUAGE DuplicateRecordFields #-}
+
+  module Main where
+
+  data Rule = TheRuleAgainstPerpetuities
+            | TheRuleAgainstMurder
+            deriving (Eq, Show)
+
+  data LegalContext = LegalContext { section :: [String] }
+                    deriving (Eq, Show)
+
+  data CaseContext = Map.Map String String
+                   deriving (Eq, Show)
+
+  data Reason = Infringing Rule
+              deriving (Eq, Show)
+
+  data Grounds a = Grounds { thing :: a
+                           , include :: [LegalContext]
+                           , exclude :: [LegalContext]
+                           , caseContext :: CaseContext
+                           } deriving (Eq, Show)
+
+  data Decision = Decision { valid :: Validity
+                           , dueTo :: [Reason]
+                           } deriving (Eq, Show)
+
+  data Validity = Valid | Invalid
+                deriving (Eq, Show)
+
+  data Disposition = Conferring { powerOf :: Power
+                                , scope   :: Scope
+                                , expiration :: Date
+                                } deriving (Eq, Show)
+
+  type Date = String
+  data Scope = General | Specific deriving (Eq, Show)
+  data Power = Appointment        deriving (Eq, Show)
+
+  type Decider a = Grounds a -> IO Decision
+
+  toInt x = read x :: Int
+
+
+  decider1 :: Decider Disposition
+  decider1 grounds = do
+    putStrLn $ "decider1: we consider a case where " ++ show grounds.caseContext
+    if toInt grounds.thing.expiration > toInt (grounds.caseContext ! "startYear") + 100
+      then do
+      let reason = Infringing TheRuleAgainstPerpetuities
+      putStrLn $ "decider1: not allowed, due to " ++ show reason
+      return (Decision Invalid [reason])
+      else do
+      putStrLn $ "decider1: allowed"
+      return (Decision Valid [])
+
+
+  para2 :: CaseContext -> IO Decision
+  para2 caseContext = do
+    myOverride ["para 2"] caseContext disposition decideValidity
+    where disposition = Conferring { powerOf    = appointment
+                                   , scope      = general
+                                   , expiration = expirationDate }
+
+  myOverride :: (Show a) => LegalContext -> CaseContext -> a -> Decider a -> IO Decision
+  myOverride legalContext caseContext thing decider = do
+    let defaultValidity = decider ( Grounds { thing   = thing
+                                             , exclude = [ thisSection ctx ] } )
+    if defaultValidity.verdict == Invalid &&
+       defaultValidity.dueTo `includes` Infringing TheRuleAgainstPerpetuities
+      then overrideDecision
+           decider
+           defaultValidity
+           (\v -> v { v.dueTo -= Infringing TheRuleAgainstPerpetuities })
+           isPowerExercisableWithinPeriod caseContext
+
+  overrideDecision :: Decider -> Decision -> (Decision -> Decision) -> IO Decision
+  overrideDecision decider origDecision override = do
+    let newdec = override origDecision
+    in decider
+  
+  isPowerExercisableWithinPeriod :: CaseContext -> Bool
+  isPowerExercisableWithinPeriod caseContext = True
+
+  includes = flip elem
+  (-=) xs x = filter (/= x) xs
+
+#+end_src
