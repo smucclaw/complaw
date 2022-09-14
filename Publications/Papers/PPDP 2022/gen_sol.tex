@@ -47,13 +47,13 @@ relA(X):-relB(X),relC(X).
 Let $q$ be $relA(john)$, let there be no user provided facts and let $C$ be empty and suppose $N = 4$. Further say that as before, no instance of the predicate $relA$ may be abduced. Then given the ‘semi-res’ encoding, the solver would produce two optimal solutions:
 \begin{lstlisting}[frame = none]
 abducedFact(relB(john))
-relC(extVar)
+abducedFact(relC(extVar))
 \end{lstlisting} and 
 \begin{lstlisting}[frame = none]
 abducedFact(relB(john))
-relC(john)
+abducedFact(relC(john))
 \end{lstlisting}
-However only the first answer from the solver leads to the most general solution for the abduction problem. In this particular instance the issue is that the original rule set contains a redundancy. The first rule is clearly a generalisation of the second rule making the second rule superfluous. It would be interesting to investigate under what conditions, on the input rule set and the other parameters, does the procedure outlined above for generalising the abductive solution produced, actually give some solution that cannot be generalised further. \\Note that some of these generalised abductive solutions can be produced by using skolem functions in the abducibles generation encoding but that necessarily requires some form of depth control to avoid infinite answer sets for some rule sets. With this method of using the ‘semi-res’ encoding we can derive these generalised solutions while also letting go of depth control by for example, deleting the integer parameter of the  ‘query’ , ‘createSub’ and ‘explains’ predicates since, we will still always get finiteness of answer sets. As mentioned earlier, at the moment, these are rather informal ideas but we believe they provide an interesting avenue for future formal investigations.    
+However only the first answer from the solver leads to the most general solution for the abduction problem. In this particular instance the issue is that the original rule set contains a redundancy. The sencond rule is clearly a specific instance of the first rule thus making the second rule superfluous. It would be interesting to investigate under what conditions, on the input rule set and the other parameters, does the procedure outlined above for generalising the abductive solution produced, actually give some solution that cannot be generalised further. \\Note that some of these generalised abductive solutions can be produced by using skolem functions in the abducibles generation encoding but that necessarily requires some form of depth control to avoid infinite answer sets for some rule sets. With this method of using the ‘semi-res’ encoding we can derive these generalised solutions while also letting go of depth control by for example, deleting the integer parameter of the  ‘query’ , ‘createSub’ and ‘explains’ predicates since, we will still always get finiteness of answer sets. As mentioned earlier, at the moment, these are rather informal ideas but we believe they provide an interesting avenue for future formal investigations.    
 
 
 
