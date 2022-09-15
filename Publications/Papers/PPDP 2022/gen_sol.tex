@@ -39,7 +39,11 @@ which is in fact the most general solution. Note that critical to this procedure
 abducedFact(relE(john,v1,v1)),
 abducedFact(relD(john,v1,v1))
 \end{lstlisting}
-as a solution, (this would lead to a general solution which can still be further generalised).\\ It is not hard however to come up with an example where this procedure will not in fact necessarily derive a most general solution. Consider the rule set given by the two rules:
+as a solution. This would lead to the general solution \begin{lstlisting}[frame = none]
+abducedFact(relE(john,Y,Y)),
+abducedFact(relD(john,Y,Y)),
+abducedFact(relC(john,Y)
+\end{lstlisting} which can still in fact be further generalised.\\ It is not hard however to come up with an example where this procedure will not in fact necessarily derive a most general solution. Consider the rule set given by the two rules:
 \begin{lstlisting}[frame = none]
 relA(X):-relB(X),relC(Y)
 relA(X):-relB(X),relC(X).
