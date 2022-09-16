@@ -1,5 +1,14 @@
 \subsection{Generalisation of Abductive Solutions}\label{sec:generalisation_sol}
-Here we shall informally discuss the idea mentioned in the conclusion, for generalising abductive solutions given by the ‘semi-res’ encoding to first order logic. We only present an informal discussion here, an investigation of formal results corresponding to these ideas is left for future work. Note firstly that we use the ‘semi-res’ encoding because it is has the finiteness and full term substitution properties. Consider the abductive proof generation problem given in 3.4.3. The most general solution to that problem is : \begin{lstlisting}[frame = none] 
+
+Here we shall informally discuss the idea mentioned in the conclusion, for
+generalising abductive solutions given by the ‘semi-res’ encoding to first
+order logic. We only present an informal discussion here, an investigation of
+formal results corresponding to these ideas is left for future work. Note
+firstly that we use the ‘semi-res’ encoding because it is has the finiteness
+and full term substitution properties. Consider the abductive proof generation
+problem given in 3.4.3. The most general solution to that problem is:
+
+\begin{lstlisting}[frame = none] 
 abducedFact(relC(john,Y)), 
 abducedFact(relD(john,Y,Z)), 
 abducedFact(relE(john,Y,Z))
@@ -57,13 +66,30 @@ abducedFact(relC(extVar))
 abducedFact(relB(john))
 abducedFact(relC(john))
 \end{lstlisting}
-However only the first answer from the solver leads to the most general solution for the abduction problem. In this particular instance the issue is that the original rule set contains a redundancy. The sencond rule is clearly a specific instance of the first rule thus making the second rule superfluous. It would be interesting to investigate under what conditions, on the input rule set and the other parameters, does the procedure outlined above for generalising the abductive solution produced, actually give some solution that cannot be generalised further. \\Note that some of these generalised abductive solutions can be produced by using skolem functions in the abducibles generation encoding but that necessarily requires some form of depth control to avoid infinite answer sets for some rule sets. With this method of using the ‘semi-res’ encoding we can derive these generalised solutions while also letting go of depth control by for example, deleting the integer parameter of the  ‘query’ , ‘createSub’ and ‘explains’ predicates since, we will still always get finiteness of answer sets. As mentioned earlier, at the moment, these are rather informal ideas but we believe they provide an interesting avenue for future formal investigations.    
+
+However only the first answer from the solver leads to the most general
+solution for the abduction problem. In this particular instance the issue is
+that the original rule set contains a redundancy. The second rule is clearly a
+specific instance of the first rule thus making the second rule
+superfluous. It would be interesting to investigate under what conditions, on
+the input rule set and the other parameters, does the procedure outlined above
+for generalising the abductive solution produced, actually give some solution
+that cannot be generalised further. \\Note that some of these generalised
+abductive solutions can be produced by using skolem functions in the
+abducibles generation encoding but that necessarily requires some form of
+depth control to avoid infinite answer sets for some rule sets. With this
+method of using the ‘semi-res’ encoding we can derive these generalised
+solutions while also letting go of depth control by for example, deleting the
+integer parameter of the ‘query’ , ‘createSub’ and ‘explains’ predicates
+since, we will still always get finiteness of answer sets. As mentioned
+earlier, at the moment, these are rather informal ideas but we believe they
+provide an interesting avenue for future formal investigations.
 
 
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "main"
+%%% TeX-master: "main_extended"
 %%% End:
 
 
