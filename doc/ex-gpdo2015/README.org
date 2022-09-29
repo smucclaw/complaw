@@ -364,6 +364,14 @@ The other follows the syntax of the natural language more closely, with the defa
 \end{split}
 \end{equation}
 
+Semantically, the $police(dog)$ test is part of Coode's case, not the condition.
+
+\begin{equation}
+\begin{split}
+\forall dog, ( & brown(dog) &                   \land & insured(dog,1000) \\
+          \lor & brown(dog) & \land police(dog) \land & insured(dog, 500) )
+\end{split}
+\end{equation}
 
 ** Constitutive Must: Must Be
 
