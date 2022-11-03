@@ -1280,11 +1280,15 @@ Document automation generally: see https://www.bailii.org/ew/cases/EWFC/HCJ/2021
 
 *** Technical Skills and Competencies
 
-- Alloy: read the book
+- Alloy: read the book, learn Alloy 6
+- install and play with [[https://prob.hhu.de/w/index.php?title=Tutorial_Rodin_First_Step][ProB and Rodin Platform]]
+- install and play with LTSmin: https://ltsmin.utwente.nl/
+- install and play with mCRL2: https://www.mcrl2.org/web/user_manual/index.html
+- read [[https://www.hillelwayne.com/post/learntla/][@hillelogram on TLA+]]
 
 *** Outcomes
 
-- able to model and debug simple relational systems and state protocols in Alloy
+- able to model and debug simple relational systems and state transition systems in at least one of the above tools.
 
 *** Training Duration (Weeks / Months)
 
