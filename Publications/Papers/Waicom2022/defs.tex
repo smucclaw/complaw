@@ -1,0 +1,92 @@
+% Theorems and definitions
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{example}{Example}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{proposition}{Proposition}
+
+
+% Definition of colors
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\green}[1]{{\color{green}#1}}
+\newcommand{\red}[1]{{\color{red}#1}}
+% \newcommand{\gray}[1]{{\color{gray}#1}}
+
+% From MSCS file
+\newcommand{\eg}{\textit{e.g.\ }}
+\newcommand{\etal}{\textit{et al.\ }}
+\newcommand{\etc}{\textit{etc}}
+\newcommand{\ie}{\textit{i.e. }}
+\newcommand{\viz}{\textit{viz.\ }}
+\newcommand{\wrt}{\textit{w.r.t.\ }}
+\newcommand{\lex}{\langle}
+\newcommand{\rex}{\rangle}
+
+% Own abbreviations
+% Note: the tlp style adds the word Appendix, but only for Appendix (not Section etc.)
+%\newcommand{\appref}[1]{Appendix~\ref{#1}}  
+\newcommand{\appref}[1]{\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\secrefs}[1]{Sections~\ref{#1}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\figrefs}[1]{Figures~\ref{#1}}
+\newcommand{\pgref}[1]{page~\pageref{#1}}
+\newcommand{\theoremref}[1]{Theorem~\ref{#1}}
+\newcommand{\theoremrefs}[1]{Theorems~\ref{#1}}
+\newcommand{\lemmaref}[1]{Lemma~\ref{#1}}
+\newcommand{\propositionref}[1]{Proposition~\ref{#1}}
+\newcommand{\exampleref}[1]{Example~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+
+\newcommand{\figline}{\rule{\textwidth}{0.5pt}}
+
+
+% Logique
+
+\newcommand{\IMPL}[0]{\longrightarrow}
+\newcommand{\IMPLL}[0]{\Longrightarrow} % another implication, to make
+                                % a difference with reduction relations
+\newcommand{\AND}[0]{\land}
+\newcommand{\OR}[0]{\lor}
+\newcommand{\NOT}[0]{\lnot}
+\newcommand{\FALSE}[0]{\perp}
+\newcommand{\TRUE}[0]{\top}
+\newcommand{\IFF}[0]{\leftrightarrow}
+\newcommand{\BIGAND}[1]{\bigwedge_{#1}}
+\newcommand{\BIGOR}[1]{\bigvee_{#1}}
+\newcommand{\BIGANDC}[2]{\bigwedge_{#1|#2}} % bigand with constraint
+\newcommand{\BIGORC}[2]{\bigvee_{#1|#2}}    % bigor with constraint
+
+\newcommand{\exgeq}[1]{\exists^{{\geq #1}}}
+\newcommand{\exeq}[1]{\exists^{{= #1}}}
+\newcommand{\exle}[1]{\exists^{{< #1}}}
+
+% Remark macros for the authors
+
+\newcommand{\remam}[2][]{\todo[color=blue!40,#1]{AM: #2}}
+\newcommand{\remms}[2][]{\todo[color=green!40,#1]{MS: #2}}
+\newcommand{\remmww}[2][]{\todo[color=blue!20,#1]{MWW: #2}}
+
+
+% Other
+
+\newcommand{\smalltalcq}[0]{{\small small}-t{$\cal ALCQ$}}
+\newcommand{\smalltalcqe}[0]{{\small small}-t{$\cal ALCQ$e}}
+\newcommand{\trule}[0]{\xhookrightarrow}
+\newcommand{\tableaurule}[1]{{\xhookrightarrow[]{#1}}}
+\newcommand{\nodes}[1]{{\cal N}({#1})}
+\newcommand{\trans}[1]{{\cal T}({#1})}
+\newcommand{\transm}[1]{{\cal T'}({#1})}
+\newcommand{\rconts}[1]{\llparenthesis #1 \rrparenthesis} %record contents
+\newcommand{\rupd}[2]{{#1}\llparenthesis #2 \rrparenthesis} %record update
+
+\newcommand{\eform}[0]{\mathit{eform}}
+\newcommand{\form}[0]{\mathit{form}}
+\newcommand{\free}[0]{\mathit{free}}
+\newcommand{\exclprop}[0]{\stackrel{\times}{\longrightarrow}}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 
