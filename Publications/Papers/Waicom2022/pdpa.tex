@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-\section{Case study: PDPA}\label{sec:case_study_pdpa}
+\section{Case Study: PDPA}\label{sec:case_study_pdpa}
 
 Singapore's Personal Data Protection Act \cite{pdpa_link} consists of a set of
 rules governing the use of personal data in private and public organizations,
@@ -12,7 +12,7 @@ which actions need to be taken if a notifiable data breach is detected.
 The constitutive rules are sufficiently voluminous and complex to warrant the
 development of an expert system assisting organizations in assessing whether a
 data breach is notifiable. In the CCLAW project, we have developed such a
-system, which is described \remms{elsewhere. Reference?}. The regulative rules
+system. The regulative rules
 are seemingly less involved but sufficiently intricate that actors that
 precisely follow the rules may wind up in a state where they have breached the
 law. The complexity results from the interplay of temporal conditions that
@@ -57,7 +57,7 @@ possibly the interdiction by the commission to inform the individual.
 \section{Formal Analysis}\label{sec:formal_analysis}
 
 %......................................................................
-\subsection{Formal model}\label{sec:formal_model}
+\subsection{Formal Model}\label{sec:formal_model}
 
 We have carried out a formal analysis of this scenario with Timed Automata
 (TA) in the Uppaal \cite{larsen1997uppaal} model checker. The global setup is
@@ -117,13 +117,13 @@ legitimately be infinite without clearly identified end states; and, as seen
 below, such deadlock states can be detected.
 
 %......................................................................
-\subsection{Checking the model}\label{sec:checking_the_model}
+\subsection{Checking the Model}\label{sec:checking_the_model}
 
 The model can be validated in several respects. The simplest form corresponds
 to testing in traditional program development. For this, Uppaal (and similar
 tools) provides a \emph{simulation} environment whose purpose is to step
 through the model depending on user-selected criteria, for example the values
-of Boolean variables or the duration of staying in particular sytsem
+of Boolean variables or the duration of staying in particular system
 states. We will not further dwell on simulation, also because error traces
 (see below) can be run in the simulator.
 
@@ -149,8 +149,8 @@ give a few  examples in our scenario:
   individual. This property is written as \texttt{E<>I.informed and
     C.notifIndivRequested}. Here, \texttt{E<>} means: ``there exists a run
   eventually leading to''. and \texttt{I.informed} and
-  \texttt{C.notifIndivRequested} refer to the corrosponding states in the
-  Individual and Commmission automata. This property is indeed satisfied.
+  \texttt{C.notifIndivRequested} refer to the corresponding states in the
+  Individual and Commission automata. This property is indeed satisfied.
 
   
 \item An undesirable situation is that the individual is informed in spite of
@@ -175,22 +175,82 @@ give a few  examples in our scenario:
   has been exceeded.
 \end{itemize}
 
-%......................................................................
-\subsection{Refinements}\label{sec:refinements}
-
-
-
-\begin{itemize}
-\item Introducing deadlines for feedback by the commission. If the feedback deadline is
-  sufficiently close to the deadline for informing the individual, the law may
-  not be formally inconsistent, but the process is not \emph{realizable} any
-  more for a real organization. 
-\end{itemize}
 
 %----------------------------------------------------------------------
-\section{Modularization}
+\section{Discussion: Extensions and Refinements}\label{sec:discussion}
 
 
+%......................................................................
+\subsection{Refining the Model}\label{sec:refining_model}
+
+The formal model could be perceived as ``incomplete'' in several respects. As
+shown by the formal analysis of \secref{sec:formal_analysis}, some behaviors
+are \emph{ undefined} (and lead to deadlocks), others are
+\emph{under-specified}. In particular, a precise interaction between the
+commission and the organization is not made explicit in the law text, which
+might question the tenet of ``isomorphism''
+\cite{bench_capon_gordon_isomorphism_2009} between law texts and formal
+representations: the formal representation possibly has to make completions to
+avoid undesirable situations.
+
+One such completion would be the following: the commission communicates its
+decision back to the organization before the organization informs the
+individual. Such a provision is currently not foreseen in the law text. In
+order for the deadline of informing the individual (call it $d_i$) to be
+satisfied, the commission's response (call it $d_c$) would have to arrive
+before: $d_c < d_i$. These additional constraints can be incorporated into the
+automaton model and would avoid the above error scenario.
+
+
+%......................................................................
+\subsection{Realizability}\label{sec:realizability}
+
+Laws are requirements that constrain processes adopted by companies and
+organizations and that are often described by business processes
+\cite{aalst_business_provess_management_comprehensive_survey_2013}.
+
+We take an automaton such as in \figref{fig:organization} as an abstract
+specification of a business process. Depending on an organization's internal
+functioning, such an abstract description will be further refined, typically
+by adding new states (for example to guide the investigations to determine if
+a breach is notifiable). We will then have two automata, the abstract one
+(such as in \figref{fig:organization}) and its refinement (the business
+process, possibly specified in a dedicated language such as BPMN). Since tools such
+as Uppaal do not offer support for refinement checking, our project currently
+works on a language for describing refinements and for verifying them.
+
+Of particular interest for the legal drafter in this context is the question
+of \emph{realizability}: can laws be implemented under realistic conditions?
+To continue the example of \secref{sec:refining_model}: formally, the
+requirement $d_c < d_i$ on the deadlines is not a sufficient guarantee for
+realizability under realistic conditions: the difference $d_i - d_c$ can
+become arbitrarily small. Detecting such inconsistencies is part of our
+ongoing work.
+
+%......................................................................
+\subsection{Modularization through Rely-Guarantee Reasoning}\label{sec:rely_guarantee}
+
+The previous discussion highlights another desideratum: modularization. The
+organization can only satisfy requirements imposed on them when other actors
+(such as the commission) satisfy theirs. For separate refinement (in the sense
+of \secref{sec:realizability}) to work, an (abstract) automaton should be
+annotated with requirements it expects its environment to provide (the
+\emph{rely} part of its specification) in order to deliver the promise it
+makes about its behavior (the \emph{guarantee} of the specification). 
+
+Without having clearly identified solutions, we are interested in exploring
+the duality of notions such as permissions (and \emph{reliance} statements in
+a specification) and obligations (\emph{guarantees}) known from deontic
+logics, notions that have been largely explored, among others, in LogiKEy
+\cite{benzmueller_etal_logikey_2020}. 
+
+A whole line of work is concerned with formal contracts
+\cite{benveniste_raclet_etal_ContractsMonograph2018}, and in particular
+notions of modularization and refinement
+\cite{Alfaro2005,grumberg_lang_model_checking_modular_verification_2004}. In a
+legal context, similar ideas have in particular been proposed as a temporal
+logic of normative systems
+\cite{agotnes_hoek_aguilar_sierra_woolridge_temporal_logic_normative_systems_2009}. 
 
 %%% Local Variables:
 %%% mode: latex
