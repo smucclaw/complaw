@@ -4,7 +4,7 @@
 Singapore's Personal Data Protection Act \cite{pdpa_link} consists of a set of
 rules governing the use of personal data in private and public organizations,
 and describes actions to be taken if a data breach is detected. It consists on
-the one hand of \emph{constitutive} rules, \ie{} definitions specifying
+the one hand of \emph{constitutive} rules, \ie definitions specifying
 what is considered a data breach and under which conditions it is deemed a
 notifiable data breach. On the other hand, \emph{regulative} rules prescribe
 which actions need to be taken if a notifiable data breach is detected.
@@ -89,7 +89,7 @@ reset to zero in the transition from the state \texttt{breachDetected} to
 
 According to the TA semantics, there are two kinds of transitions: the passage
 of time, at the same rate in all automata, or discrete state changes along
-enabled transitions, \ie{} transitions whose conditions are satisfied. In case
+enabled transitions, \ie transitions whose conditions are satisfied. In case
 several transitions are enabled, one of them is chosen
 non-deterministically. This happens for example in the Commission automaton
 after receiving a notification (\texttt{notifyPDPC?}), modeling the fact that
@@ -109,7 +109,7 @@ would be preferable but is hampered by limitations of Uppaal (no nested
 parallel automata).
 
 Let us note that our automaton model is not complete: not every execution of
-the automata will run to completion, \ie{} wind up in one of the end nodes of
+the automata will run to completion, \ie wind up in one of the end nodes of
 the automata. Instead, an execution can get stuck in an intermediate
 state. This choice is deliberate, but open to debate: adding failure states
 for every undesirable run would clutter up the automata; some runs may
@@ -144,18 +144,19 @@ that are typically stated in a formal logic, here the temporal logic CTL. We
 give a few  examples in our scenario:
 
 \begin{itemize}
-\item A desirable property is that is possible to reach a state such that the
+\item A desirable property is that it is possible to reach a state such that the
   individual is informed and the commission requests informing the
-  individual. This property is written as \texttt{E<>I.informed and
-    C.notifIndivRequested}. Here, \texttt{E<>} means: ``there exists a run
+  individual. This property is written as
+  \begin{alltt}E<>I.informed and C.notifIndivRequested \end{alltt}
+  Here, \texttt{E<>} means: ``there exists a run
   eventually leading to''. and \texttt{I.informed} and
   \texttt{C.notifIndivRequested} refer to the corresponding states in the
   Individual and Commission automata. This property is indeed satisfied.
 
   
 \item An undesirable situation is that the individual is informed in spite of
-  the commission having prohibited it, expressed by the formula \texttt{E<>
-    I.informed and C.notifIndivProhibited}. This property is also satisfied,
+  the commission having prohibited it, expressed by the formula
+  \begin{alltt}E<> I.informed and C.notifIndivProhibited\end{alltt}. This property is also satisfied,
   and Uppaal produces a trace (\figref{fig:pdpa_trace}) leading to this error
   situation. It comes about because the organization has no clue at which
   point the commission's interdiction to inform the individual could
@@ -169,11 +170,21 @@ give a few  examples in our scenario:
   is deadlocked in these states. Identifying deadlocks in ``intermediate''
   states may contribute to finding leaks in the formal model, or states that
   correspond to breaches of the law. For example, the intermediate state
-  \texttt{breachDeterminedNotifiable} is identified by the query \texttt{E<>
-    O.breachDeterminedNotifiable and deadlock} as a deadlock state. Indeed, in
+  \texttt{breachDeterminedNotifiable} is identified by the query
+  \begin{alltt}E<> O.breachDeterminedNotifiable and deadlock\end{alltt}
+  as a deadlock state. Indeed, in
   this state, no action is possible when the notification deadline of 3 days
   has been exceeded.
 \end{itemize}
+
+% \begin{tabular}{ll}
+% (acceptingNotification, ignorant, \emph{initial}) & O \\
+% (acceptingNotification, ignorant, breachDetected) & O \\
+% (acceptingNotification, ignorant, breachDeterminedNotifiable) & C, O\\
+% (evaluatingNotification, ignorant, pdpcNotified) & C \\
+% (notifIndivProhibited, ignorant, pdpcNotified) & I, O\\
+% (notifIndivProhibited, informed, individualNotified) & \\
+% \end{tabular}
 
 
 %----------------------------------------------------------------------
@@ -185,7 +196,7 @@ give a few  examples in our scenario:
 
 The formal model could be perceived as ``incomplete'' in several respects. As
 shown by the formal analysis of \secref{sec:formal_analysis}, some behaviors
-are \emph{ undefined} (and lead to deadlocks), others are
+are \emph{undefined} (and lead to deadlocks), others are
 \emph{under-specified}. In particular, a precise interaction between the
 commission and the organization is not made explicit in the law text, which
 might question the tenet of ``isomorphism''
