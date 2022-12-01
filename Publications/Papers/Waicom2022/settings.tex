@@ -1,0 +1,115 @@
+% Packages from LIPICS
+
+% \usepackage{microtype}%if unwanted, comment out or use option "draft"
+% %\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
+% \bibliographystyle{plainurl}% the recommnded bibstyle
+
+% Own packages
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage[french]{babel}
+\usepackage{courier} % to get bold texttt
+
+% \usepackage[colorlinks,hyperindex,bookmarks,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{alltt}
+\usepackage{makeidx}  % allows for indexgeneration
+\usepackage{listings}
+\usepackage{caption}
+% \usepackage{subcaption}  % does not seem to work with llncs
+\usepackage{subfig}  % does not seem to work with llncs
+%\usepackage[pdftex]{graphicx}
+%\usepackage{enumerate}
+\usepackage{mathpartir}
+%\usepackage{isabelle,isabellesym}
+%\isabellestyleit
+\usepackage{todonotes}
+\usepackage{wrapfig}
+\usepackage{framed}
+\usepackage{mdframed}   % leaves less extra space than "framed"
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\usepackage{soul}
+\usepackage{tcolorbox}  % colored text boxes
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{multirow}
+
+
+% Configuration of lstlisting for L4
+\lstdefinelanguage{L4}
+{morekeywords={
+      assert 
+    , class  
+    , decl   
+    , defn   
+    , extends
+    , lexicon
+    , fact   
+    , rule   
+    , derivable
+    , let   
+    , in    
+    , not   
+    , forall
+    , exists
+    , if   
+    , then 
+    , else 
+    , for  
+    , true 
+    , false
+},    
+sensitive=false,
+morecomment=[l]{\#},
+morestring=[b]",
+}
+
+
+\lstset{frame=tb,
+  language=L4,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\footnotesize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
+
+\setcounter{secnumdepth}{3}
+    
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning} 
+\usetikzlibrary{fit}
+\usetikzlibrary{backgrounds}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+\setlength{\intextsep}{5pt}
+\setlength{\textfloatsep}{5pt}
+%-----------------------------
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 
