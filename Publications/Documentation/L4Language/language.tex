@@ -2,11 +2,59 @@
 %......................................................................
 \subsection{Syntax}\label{sec:syntax}
 
-
+\hypertarget{syn:NewProgram}{}
 \begin{rail}
   Program : (TopLevelElement +)
   ;
 \end{rail}
+
+\begin{rail}
+TopLevelElement : ClassDecl     
+                | GlobalVarDecl 
+                | GlobalVarDefn 
+                | RuleOrFact    
+                | Assertion     
+                | Automaton     
+                | System        
+;
+
+ClassDecl : 'class' 'VAR' ('extends' 'VAR')? Fields
+;                
+
+Fields : ( '\{' (  'VAR' ':' Tp  +) '\}' )?
+;
+
+VarDecl : 'VAR' ':' Tp
+;
+
+GlobalVarDecl : 'decl' VarDecl
+;
+
+GlobalVarDefn : 'defn' VarDecl '=' Expr  
+;
+
+
+ARName : ( '<' 'VAR' '>' )?
+;
+
+Rule : 'rule' ARName  KVMap RuleVarDecls 'if' Expr 'then' Expr
+;
+
+Fact : 'fact' ARName  KVMap RuleVarDecls Expr
+;
+
+RuleVarDecls : 'for' ( VarDecl + ',' )
+;
+
+Assertion : 'assert' ARName KVMap Expr
+;
+\end{rail}
+
+\remms{TODO:}
+\begin{itemize}
+\item Grammar rule for \texttt{KVMap} to be defined
+\item Grammar for \texttt{Tp} and \texttt{Expr}
+\end{itemize}
 
 %......................................................................
 \begin{syntaxdiagram}{Program}
@@ -344,7 +392,7 @@ start -- bassert -- assert -- expr -- aexpr -> end
 %......................................................................
 
 
-A \nonterminalref{Program} is the main processing unit. It consists of a list
+A \nonterminalref{NewProgram} is the main processing unit. It consists of a list
 of top level elements that can be arranged in any order. A
 \nonterminalref{TopLevelElement} can be a mapping, a list class declarations,
 global variable declaration or definition, a rule, fact or assertion of a system.
