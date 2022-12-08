@@ -1355,6 +1355,23 @@ one of the below:
 
 2 weeks
 
+** Introduction to Language Engineering                             :module:
+
+dive into PLT / DSL from a tools approach:
+
+- https://www.eclipse.org/Xtext/
+- https://www.jetbrains.com/mps/
+- https://www.spoofax.dev/
+
+build a basic calculator language with one of the above, with support for parens.
+
+- try https://bnfc.digitalgrammars.com/
+- learn whatever yacc/lex antlr bison etc framework your favourite language offers
+
+implement layout indentation support for your language, replacing parens
+
+implement a trivial subset of L4 using one of the above tools.
+
 ** Introduction to Computational Linguistics and Computational Semantics                   :module:
 
 *** Technical Skills and Competencies
