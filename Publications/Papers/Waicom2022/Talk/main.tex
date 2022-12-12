@@ -137,40 +137,44 @@ This talk: Modeling with automata
 \begin{frame}[fragile]\frametitle{Core L4: Intermediate DSL}
 
   \begin{center}
-    \includegraphics[scale=0.3]{Figures/corel4_typecheck.png}
+    \includegraphics[scale=0.32]{Figures/corel4_typecheck_pdpa.png}
   \end{center}
 \end{frame}
-
-
-%======================================================================
-\section{Reasoning with and about Rules}
-
-
 
 
 %======================================================================
 \section{PDPA Case Study}
 
 
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Singapore's Personal Data Protection Act}
 
-%======================================================================
-\section{Future Work}
+  \begin{center}
+    \includegraphics[scale=0.5]{Figures/pdpa_lawtext.png}\\
+    {\tiny (see \url{https://sso.agc.gov.sg/Act/PDPA2012})}
+  \end{center}  
 
+  Determine when a \emph{data breach} is \emph{notifiable}, consisting of:
+  \begin{itemize}
+  \item a \emph{definitional part} defining the notion of ``notifiable''
+  \item a \emph{process description}, state based
+  \end{itemize}
 
+\end{frame}
 
 %-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{What's the difference?}
+\begin{frame}[fragile]\frametitle{Aims of formalizations}
 
   \blue{Reasoning \emph{with} rules:}
   \begin{itemize}
   \item Given:
     \begin{itemize}
-    \item A set of rules  (\emph{e.g.: insurance contract})
-    \item A specific scenario (\emph{e.g.: dammage / accident})
+    \item A set of rules
+    \item A specific scenario
     \end{itemize}
-  \item Sought:
+  \item Sought: \red{What do I need to be compliant?}
     \begin{itemize}
-    \item A judgement (\emph{who pays / how much?})
+    \item A judgement (\emph{must notify or not?})
     \item Possibly with a justification (\emph{why?})
     \end{itemize}
   \end{itemize}
@@ -180,85 +184,51 @@ This talk: Modeling with automata
   \begin{itemize}
   \item Given:
     \begin{itemize}
-    \item A set of rules  (\emph{e.g.: insurance contract})
+    \item A set of rules
     \item A notion of rule consistency
     \end{itemize}
-  \item Sought:
+  \item Sought: \red{Is it possible to be compliant?}
     \begin{itemize}
     \item \emph{Either} an inconsistent scenario 
     \item \emph{or} a proof of consistency
     \end{itemize}
   \end{itemize}
 
+\end{frame}
+
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Reasoning \emph{with} rules}
+
+  Questionnaire derived from the rules\\
+  Try it out at \url{https://smucclaw.github.io/mengwong/pdpa/}
+
+  
+  \begin{center}
+    \includegraphics[scale=0.3]{Figures/pdpa_questionnaire.png}
+  \end{center}  
 
 \end{frame}
 
-%-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{Example: AXA insurance case study - \emph{Rules}}
-
-  \dots{} about the coverage provided for the vehicle breakdown
-
-  \blue{What is covered}
-  \begin{itemize}
-  \item If the vehicle breaks down more than one mile from your home, we will
-    arrange and pay for a breakdown vehicle to come to the vehicle (for up to
-    one hour) to try to get it working again.
-    
-  \item If the vehicle cannot be made safe to drive at the place you have
-    broken down, we will arrange for the vehicle, the driver and passengers to
-    be recovered to a repairer or a destination of your choice within 20 miles
-    of where you have broken down.
-  \end{itemize}
-  
-  \blue{What is not covered}
-  \begin{itemize}
-  \item A breakdown at or within one mile from your home.  
-  \item Travel outside the UK.  
-  \end{itemize}
-
-
-\end{frame}
 
 %-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{Example: AXA insurance case study}
+\begin{frame}[fragile]\frametitle{Reasoning \emph{about} rules}
 
-  \blue{Reasoning \emph{with} rules}
+
+  \blue{Here: Insurance case study} Is there a situation such that the
+  insurance has to pay and can refuse payment?
   
-Is a cover provided for a mechanical breakdown in Swansea (that is 10 miles
-away from home)?
 
-\begin{lstlisting}
-fact premiumPaid
-fact currentSit mechanicalBrkd
-fact situationInLocation mechanicalBrkd swansea
-fact distance home swansea 10
-
-assert <scen1_assert2> {SMT: valid} 
-coverProvided mechanicalBrkd payBreakdownVehicle
-\end{lstlisting}
-\emph{Answer: Yes}
-
-\end{frame}
-
-%-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{Example: AXA insurance case study}
-
-  \blue{Reasoning \emph{about} rules}
-  
-  \begin{itemize}
-  \item Is the rule set inconsistent?
-  \item More precisely: Is there a situation such that the insurance has to
-    pay and can refute payment?
-  \end{itemize}
-  
-  \begin{lstlisting}
+  \vspace{2mm}
+  \emph{Query:}
+    \begin{lstlisting}
     for mySit: Situation, myCov: CoverageType
     assert <contradictoryCover> {SMT: consistent}
     coverProvided mySit myCov && myCov /= noCoverProvided &&
     coverProvided mySit noCoverProvided
   \end{lstlisting}
-\vspace{-5mm}
-  \emph{Answer:} Scenario:
+  \vspace{-4mm}
+  \emph{Answer}, provided by SMT solver:
   \begin{lstlisting}
     currentSit mechanicalBrkd
     coverProvided mechanicalBrkd noCoverProvided
@@ -268,100 +238,91 @@ coverProvided mechanicalBrkd payBreakdownVehicle
     isIn dundalk abroad
     distance home dundalk d =  (15 <= d) && (d < 19)
   \end{lstlisting}
-  
-\end{frame}
-
-
-%-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{Evaluation}
-
-  \blue{What's the interest?}
-  \begin{itemize}
-  \item Sanitize your rules before running them in production mode
-  \item Similar to software verification before deployment
-  \end{itemize}
-
-  \vspace{4mm}
-  \blue{Where are the difficulties?}
-  \begin{itemize}
-  \item \emph{Input:} Rules and \emph{lots} of everyday knowledge
-    \begin{itemize}
-    \item Geography
-    \item Components of a car
-    \item No breakdown in two different locations at the same time
-    \end{itemize}
-  \item \emph{Input:} Notion of consistency
-  \item \emph{Output:} Comprehensible display of scenarios
-  \end{itemize}
 
 \end{frame}
+
 
 
 
 %======================================================================
-\section{Reasoning with and about Processes}
+\section{State-based Reasoning}
+
 
 
 %-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{Rules and Automata}
-
-  An antagonistic view? \emph{No!}
-
-\blue{Rules} for modelling time-independent situations
-
-\blue{Automata} for modelling time-dependent processes
+\begin{frame}[fragile]\frametitle{Description of the Scenario}
 \begin{itemize}
-\item prevalent in today's Business Process Management tools
-\item but what about compliance?
+\item When a data breach is detected, the \blue{organization} has up to thirty days to
+  assess whether the data breach is notifiable; if it is not, no further
+  action is required, and the process stops there. 
+\item If the breach is notifiable, the \blue{organization} is obliged to inform the
+  \blue{commission} within three days of having recognized the breach as notifiable.
+\item If the breach is notifiable, any affected \blue{individual} also has to be
+  informed within the three day period.
+\item The \blue{organization} must not notify an affected \blue{individual} if the
+  \blue{commission} so directs.
 \end{itemize}
 
-\begin{columns}
-  \column{.5\textwidth}
-  \begin{center}
-  BPM languages:
+\end{frame}
 
-    \includegraphics[scale=0.2]{Figures/business_process.png}
-    
-    \tiny{(from  SAP BPM pages)}
-  \end{center}
-  \column{.5\textwidth}
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Model of Organization}
+
   \begin{center}
-    Uppaal \red{(live demo!)}
+    \includegraphics[width=1\textwidth]{../Figures/organization.png}
+  \end{center}
+
+
+\end{frame}
+
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Model of Commission and Individual}
+
+  \begin{center}
+    \includegraphics[scale=0.5]{../Figures/commission.png}
+  \end{center}
+
+  \begin{center}
+    \includegraphics[scale=0.5]{../Figures/individual.png}
+  \end{center}
+
+
+\end{frame}
+
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Querying the Model Checker}
+
+  \begin{itemize}
+  \item \green{Desirable} (should be attainable):\\
+    The individual is informed and the commission requested a notification:\\
+    \begin{alltt}E<>I.informed and C.notifIndivRequested \end{alltt}
   
-    \includegraphics[scale=0.35]{Figures/uppaal_swimlane.png}
+  \item \red{Undesirable} (should not be reachable):\\
+    The individual is informed but the commission prohibited a notification:\\    
+    \begin{alltt}E<>I.informed and C.notifIndivProhibited \end{alltt}
+    \emph{But:} this scenario is provable and produces an error trace.
+\end{itemize}
+
+\end{frame}
+
+
+%-------------------------------------------------------------
+\begin{frame}[fragile]\frametitle{Resulting error trace}
+
+  \begin{center}
+    \includegraphics[scale=0.6]{Figures/uppaal_swimlane.png}
   \end{center}
-\end{columns}
 
 \end{frame}
 
-
-
-%======================================================================
-\section{Symbolic AI for the Law}
-
-
 %-------------------------------------------------------------
-\begin{frame}[fragile]\frametitle{Symbolic AI for the Law}
+\begin{frame}[fragile]\frametitle{Shortcomings and Future Work}
 
-\blue{Main Framework: Logic Programming}
-\begin{itemize}
-\item Logic programming is a suitable paradigm for symbolic AI and thus can be used for computational law
-\item Can naturally incorporate rule priorities/exceptions etc through defeasible reasoning
-\end{itemize}
-
-\vspace{4mm}
-\blue{Logic Programming based Expert System}
-\begin{itemize}
-\item Generate questions automatically from a rule set and a query
-\item Display justification graph for derived answer
-\item Process is fully automated. When rule set changes so do the questions
-\end{itemize}
 
 \end{frame}
 
-
-
-%-------------------------------------------------------------
 
 \end{document}
 
