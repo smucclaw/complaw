@@ -8,6 +8,8 @@ example of legislative amendments: https://sso.agc.gov.sg/Act/PDPA2012?Timeline=
 
 compiler toolchain system diagram: [[./8p70w.svg]]
 
+manual of style for contract drafting: https://drive.google.com/file/d/1gBKvWPDg2ZcQg_-EwpmkVNtmJNVjOIQu/view?usp=share_link
+
 * represent the parties
 
 ** and roles and relationships between the parties
