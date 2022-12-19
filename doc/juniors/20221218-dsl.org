@@ -1,0 +1,205 @@
+#+TITLE: Introduction by way of Requirements Discussion: a DSL for laws and contracts
+
+We take it from the top, from first principles, we revisit the requirements in no particular order.
+
+related ICAIL2023 tutorial proposal: https://docs.google.com/document/d/1bUpunAtQdvjdDr1Ex9h2KbUV4zYKYe_KIjZkVeUokwg/edit#
+
+example of legislative amendments: https://sso.agc.gov.sg/Act/PDPA2012?Timeline=On
+
+compiler toolchain system diagram: [[./8p70w.svg]]
+
+manual of style for contract drafting: https://drive.google.com/file/d/1gBKvWPDg2ZcQg_-EwpmkVNtmJNVjOIQu/view?usp=share_link
+
+* represent the parties
+
+** and roles and relationships between the parties
+
+people relate to one another in various capacities
+
+roles include:
+- director
+- shareholder
+- officer
+
+each comes with different rights, obligations, liabilities;
+
+the same person may wear multiple hats.
+
+* represent the end-user's specific situation
+- have a way to represent: facts, events, goals
+
+* the domain has to be represented well
+** with an ontology (in some meta-modelling framework for ontologies)
+** what are the domain concepts they care about?
+** overlapping concepts need to be distinguished
+*** example: confidential information & personal data
+*** what do parties contractually agree is /confidential information/?
+often it includes /personal data/.
+*** /personal data/ is regulation-driven
+*** but it can be extended in the contract
+*** can I send an ang pow to all my clients?
+**** collecting personal data (address) at signup time
+**** but personal data can only be used for the purpose for which it was collected
+**** so we cannot send them an ang pow!
+**** so we need to craft the language more widely: you consent to marketing and receiving free shit
+*** multi-bank data breach scenario:
+**** the asset manager gets information from 3 banks
+**** they aggregate that data to provide whatever solutions they have about like people's trading
+**** they accidentally sent a file to the wrong bank.
+bank A received information about bank B's clients.
+**** is there a data breach?
+**** there is a confidentiality provision in each agreement that says whatever information you receive from us is to be kept confidential.
+**** so there is no real threat of the data being used
+**** so we informed the regulator there was a technical breach
+**** but bank A sent a letter saying we have expunged the data
+**** there was a 2 week meeting during which every executive was freaking in the call
+**** this is where the lawyers come in and find a way out.
+*** YMH: this is an area where formal verification, or some kind of machine reasoning, could help, by finding a way out.
+
+WMW: this could also be seen as a planning problem: what actions can we take now to achieve the goal of not notifying the end-users.
+
+Q: the formal verification differentiates these concepts?
+
+ANCJS: we can write down the obligations in L4; we can define confidential information, which is application-specific. The important functionality is this: whatever we have defined as confidential information, vs personal data, we say, this thing has happened, there is a technical breach, but there is no obligation to further inform the users, because Bank A affirms that they have deleted the information; and we could end up pointing the liability at them. So if Bank A were to lose the personal data, they would have breached their confidentiality agreement with the asset manager.
+** the language has to be able to represent distinctions to this level of granularity. It can't say that all contracts are the same. The environment ("ecosystem") in which a contract or clause functions has to be considered.
+
+* organizations can use L4 as a *low-code platform* to auto-generate a web site that answers user questions
+
+(and provide explanations for the answers)
+
+* organizations can use the system to do document assembly
+
+* output documents have to be backward-compatible with judges and other natural language consumers of legal text.
+
+a reader might say "hey, this looks like it was written by a lawyer; I may not agree with it, but I can go through it and see how everything is there."
+
+* user / persona requirements
+
+end-user probably using web or mobile app or chatbot.
+
+L4 engineer is very comfortable with Microsoft Word and not at all comfortable with anything else.
+
+** What I need, if modelling a very simple contract, I don't want it overengineered.
+** If I need a contract that is to be used one-off, it's cheaper for me to pay a lawyer $10,000
+
+** Who are the user personas?
+*** initially, (for PDPA) the L4 engineer is the same as the end-user
+because they are the ones previously burdened with answering questions; they want to automate the answering of questions
+*** working with L4 is like working with Instagram
+the power of being a photographer without having to know much about photography
+*** in the future, the L4 engineer will be more technically sophisticated than end-users
+if there is a super particular thing I want to do, I will go learn L4 and build that thing myself.
+
+* the core team doesn't want to be the legal priesthood making interpretations and pronouncements.
+
+** strategically, we want to involve the regulator so they can give their blessing.
+
+** if we work with the l4 engineer to represent /their/ interpretation of the law
+
+* "I want this thing to happen. Find a legal way to make it work."
+
+planning problem.
+
+* what does the surface / concrete language syntax look like?
+
+
+
+* what does the deep / abstract language semantics look like?
+
+** our AST needs to be amenable to generating text
+
+** isomorphism is a goal
+not just for text, but also for reasoning: we want to keep the reasoning as close as possible to how humans do it.
+
+If we translate something too far away from how people think about it, we have to translate it all the way back, so things like SMT are hard.
+
+** works with formal verification, so we can
+*** find bugs, loopholes in legislation and contracts
+*** ensure that the intentions of the people entering into the contract are honoured -- the "guarantees"
+** support simulations so users can execute and "preview" the run of a contract to see what will happen
+** How would we look at this in L4?                               :Question:
+** Everything depends on everything else, so we have to include details -- that we might not know, at the outset, if they are relevant or not.
+** squeezing out deontics and just using process workflows is not how people naturally think about these things. They do think in terms of deontics.
+* Concerns
+** L4 is only as strong as its libraries / "app store"
+** Performance
+* Remarks
+** Symboleo
+It's a much bigger project than us; they have 3 or 4 professors on the project, a few PhD students doing their theses on it; and they partnered with some guys behind NuXMV on the model checking stuff. So they have all the heavy guns there.
+
+If you look at the one thesis they did on model checking contracts, it's quite simple.
+* Affiliate
+
+#+begin_src prolog
+  affiliate(FirstPerson, SecondPerson) :-
+    not FirstPerson = SecondPerson,
+    relationship(FirstPerson, SecondPerson, C, D),
+    (controlling(C) ; controlled_by(C) ; under_common_control_with(C)),
+    (directly(D) ; indirectly(D)).
+#+end_src
+
+#+begin_src haskell
+  affiliate :: Person -> Person -> Bool
+  affiliate p1 p2 =
+    commonControl p1 p2 || ...
+#+end_src
+
+“Affiliate”  MEANS
+** in relation to
+- a person,
+- any other person
+  - directly OR indirectly
+  - controlling,
+  - controlled by OR
+  - under common control with
+  the first-mentioned person,
+
+WHERE
+- “control” MEANS
+  - the possession, directly or indirectly, of the power
+    - to direct or cause the direction of
+    - the management and policies of a person,
+  - whether through the ownership of voting securities, by contract OR
+  - otherwise, AND
+
+- a person shall be DEEMED to control another person IF
+  - the first mentioned person has:
+    a. ownership directly or indirectly of 51% or more of the shares in issue or other equity interests of such person;
+    b. possession directly or indirectly of 51% or more of the voting power of such person; OR
+    c. the power directly or indirectly to appoint a majority of the members of the board of directors or similar governing body of such person,
+
+- and the terms “controlling” and “controlled” have meanings correlative to the foregoing.
+* compiler toolchain system diagram
+
+paste this into flowchart.fun
+#+begin_example
+~~~
+layout:
+  rankDir: LR
+~~~
+natural language parser -- Aarne [.bg-gray.color-white]
+  GF: L4 legal spreadsheets [.bg-yellow]
+    natural4: parser
+      AST
+        XPile: VueJSON dumps the AnyAll and/or tree +NOT [.bg-yellow.color-black]
+          Aeson: JSON intermediate format representing the and/or tree
+            Simple.JSON: vue-pure-pdpa [vue]
+              (webUI)
+            some other web frontend eg React
+              (webUI)
+            visualizer
+              web UI interview [webUI]
+          putStrLn show: PDPADBNO.purs
+            (vue)
+        XPile: CoreL4 [.bg-yellow]
+          UPPAAL
+          Clingo, SCASP
+          Epilog
+        XPile: Prolog
+        XPile: Catala
+        XPile: BLAWX
+        XPile: rule engine
+          Clara
+            web UI
+          further integration with enterprise systems
+#+end_example
