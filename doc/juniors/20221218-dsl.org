@@ -6,6 +6,8 @@ related ICAIL2023 tutorial proposal: https://docs.google.com/document/d/1bUpunAt
 
 example of legislative amendments: https://sso.agc.gov.sg/Act/PDPA2012?Timeline=On
 
+compiler toolchain system diagram: [[./8p70w.svg]]
+
 * represent the parties
 
 ** and roles and relationships between the parties
@@ -165,6 +167,37 @@ WHERE
     c. the power directly or indirectly to appoint a majority of the members of the board of directors or similar governing body of such person,
 
 - and the terms “controlling” and “controlled” have meanings correlative to the foregoing.
+* compiler toolchain system diagram
 
-
-
+paste this into flowchart.fun
+#+begin_example
+~~~
+layout:
+  rankDir: LR
+~~~
+natural language parser -- Aarne [.bg-gray.color-white]
+  GF: L4 legal spreadsheets [.bg-yellow]
+    natural4: parser
+      AST
+        XPile: VueJSON dumps the AnyAll and/or tree +NOT [.bg-yellow.color-black]
+          Aeson: JSON intermediate format representing the and/or tree
+            Simple.JSON: vue-pure-pdpa [vue]
+              (webUI)
+            some other web frontend eg React
+              (webUI)
+            visualizer
+              web UI interview [webUI]
+          putStrLn show: PDPADBNO.purs
+            (vue)
+        XPile: CoreL4 [.bg-yellow]
+          UPPAAL
+          Clingo, SCASP
+          Epilog
+        XPile: Prolog
+        XPile: Catala
+        XPile: BLAWX
+        XPile: rule engine
+          Clara
+            web UI
+          further integration with enterprise systems
+#+end_example
