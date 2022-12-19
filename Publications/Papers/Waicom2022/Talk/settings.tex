@@ -1,0 +1,173 @@
+\mode<presentation>
+{
+  \usetheme{Darmstadt}
+  \useoutertheme{infolines}
+}
+
+\usepackage{alltt}
+
+\usepackage{etex}         % to avoid compilation erros of xypic
+\usepackage[curve]{xypic}
+%\xyoption{pdf}
+%\usepackage[pdf]{xy}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{proof}
+\inferLineSkip=4pt  % increase spacing between lines; default is 2pt
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fontawesome}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+%\lstset{language=haskell,basicstyle=\ttfamily}
+
+\usepackage{multicol}
+\usepackage{mathpartir}
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\usepackage{soul}
+\usepackage{tikzsymbols}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Plan}
+    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide]
+  \end{frame}
+}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Plan}
+    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+%    \tableofcontents[subsectionstyle=show/shaded/hide]
+  \end{frame}
+}
+
+\setbeamertemplate{footline}
+{%
+%\begin{beamercolorbox}{section in head/foot}
+%\vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+%\end{beamercolorbox}%
+\insertpagenumber
+\insertshorttitle[width={5cm},center]
+\insertshortinstitute[width={3cm},center]
+\insertshortdate[width={3cm},center]
+}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+%\beamerdefaultoverlayspecification{<+->}
+
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning} 
+\usetikzlibrary{fit}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{automata}
+
+
+% ----------------------------------------------------------------------
+% lstlisting setup for L4
+
+\renewcommand{\lstlistingname}{Code}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+% \lstset{frame=tb,
+%   language=Java,
+%   aboveskip=3mm,
+%   belowskip=3mm,
+%   showstringspaces=false,
+%   columns=flexible,
+%   basicstyle={\footnotesize\ttfamily},
+%   numbers=none,
+%   numberstyle=\tiny\color{gray},
+%   keywordstyle=\color{blue},
+%   commentstyle=\color{dkgreen},
+%   stringstyle=\color{mauve},
+%   breaklines=true,
+%   breakatwhitespace=true,
+%   tabsize=2
+% }
+
+
+
+% Configuration of lstlisting for L4
+\lstdefinelanguage{L4}
+{morekeywords={
+    assert
+    , assign
+    , bool
+    , chan
+    , class
+    , clock
+    , decl
+    , defn
+    , derivable
+    , else
+    , exists
+    , extends
+    , fact
+    , false
+    , for
+    , forall
+    , guard
+    , if
+    , in
+    , init
+    , let
+    , lexicon
+    , not
+    , process
+    , rule
+    , state
+    , system
+    , then
+    , trans
+    , true
+},
+sensitive=false,
+morecomment=[l]{\#},
+morestring=[b]",
+}
+
+
+\lstset{%frame=tb,
+  language=L4,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\footnotesize\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2,
+  keepspaces=true
+}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 
