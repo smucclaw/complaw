@@ -1,0 +1,82 @@
+#+TITLE: Computational Law Essentials
+
+What would a course look like? That teaches computational law in general and L4 in particular.
+
+* Structure
+
+4 weeks of talks, 2 talks per week, each talk 2 hours, with theory and hands-on component.
+
+Talks are online/offline hybrid, presented live and recorded.
+
+Participant who are log attendance at all the courses and answer the short quizzes correctly, will receive a certificate of attendance.
+
+Participant who are able to solve the session problems will receive a certificate of completion.
+
+* Format
+
+|----+----------------------------------------------------------------------------------------------------------------------|
+| 10 | presentation of legal problem -- a practical problem solvable by technology, guest lecture from a legal practitioner |
+|  5 | Q&A commentary from participants                                                                                     |
+| 10 | participant-driven presentation and survey of existing legal tech solutions, perhaps commercial or built in house    |
+|----+----------------------------------------------------------------------------------------------------------------------|
+| 20 | introduction of relevant theory from computer science, guest lecture from a CS professor or software practitioner    |
+| 10 | Q&A commentary from participants                                                                                     |
+| 15 | expert discussion of how to apply the CS theory to the legal problem                                                 |
+|  5 | Q&A commentary from participants                                                                                     |
+|----+----------------------------------------------------------------------------------------------------------------------|
+| 20 | presentation of L4 approach to the problem/solution pair; canned demo                                                |
+| 30 | participants do hands-on exercise using L4 "notebook" environment                                                    |
+|----+----------------------------------------------------------------------------------------------------------------------|
+
+* Topics
+  
+** modelling decisions as Boolean circuit diagrams
+
+L4 syntax: DECIDE
+
+** modelling legal workflows in various process algebras
+
+
+L4 syntax: UPON / MUST / HENCE / LEST
+
+** planning problems: what combination of actions will achieve my goals?
+
+Here's what I want to achieve.
+
+L4 query:
+
+#+begin_example
+SCENARIO
+   GIVEN
+  EXPECT
+     HOW
+#+end_example
+
+Show the trace of actions, and the required Boolean decision values, for the EXPECT to be satisfied.
+
+** modelling document version control with Git
+
+when legislation is revised, the revisions look like this:
+https://sso.agc.gov.sg/Acts-Supp/40-2020/Published/20201210170000?DocDate=20201210170000
+
+when software is revised, the revisions look like this:
+https://github.com/smucclaw/dsl/commit/4f555db9f5a0782c19176dba29946710c14c9c6c
+
+when a Word Doc is revised, the revisions look like Track Changes
+https://www.businessinsider.com/guides/tech/track-changes-in-word
+
+Can we unify all this?
+
+how changes in L4 are modelled
+- as deviations from a template
+- functionally as changes in unit testing results
+- visually showing changed regions in the outcome space
+
+** ontologies and automatic extraction of UML or operational type/class code
+
+** natural language processing: from legal text to logic to L4
+
+** natural language generation: from L4 to legal text
+
+** multilingual translation
+
