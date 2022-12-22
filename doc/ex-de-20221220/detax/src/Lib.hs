@@ -9,7 +9,7 @@ import Control.Monad.State (liftIO)
 import Text.Megaparsec
     ( choice, many, some, Parsec, MonadParsec(try) )
 import Text.Megaparsec.Char ( numberChar, hspace )
-import Data.List ( sort )
+import Data.List ( sort, isPrefixOf, nub )
 import Text.PrettyPrint.Boxes
     ( emptyBox, hsep, nullBox, render, vcat, Box )
 import qualified Text.PrettyPrint.Boxes as BX
@@ -136,8 +136,8 @@ defaultScenario =
                               , "Trade"
                               , "Independent"
                               , "Employment"
-                              , "Capital Exempt"
-                              , "Capital NonExempt"
+                              , "Exempt Capital"
+                              , "Capital"
                               , "Rents"
                               , "Other"
                               ] ]
@@ -152,6 +152,7 @@ runTests = do
                                    (MathVar "foo")
                                    (MathVal 6))) symtab :: Float
   print test1
+  -- [TODO] write a simple parser to set up the scenario
   let startScenario =
         flip Map.update "ordinary income"
         (pure
@@ -197,7 +198,7 @@ asTable sc =
           -- column headers at top
           BX.text streamName
             : [ BX.text (show (round numval :: Int))
-              | numval <- Map.elems streamVal -- should be sorted by incomeCategory i think
+              | numval <- Map.elems streamVal -- is auto sorted by incomeCategory i think
               ] )
       | (streamName, streamVal) <- Map.toAscList sc
       ]
@@ -208,14 +209,27 @@ asColumn :: String -> IncomeStreams -> Box
 asColumn str istream = asTable (Map.fromList [(str, istream)])
 
 -- | "natural language" friendly way of phrasing a transformation that changes some columns around
-data Replacement k a = Replace
+data ReplaceCols k a = ReplaceC
   { columns_  :: [k]
   , with_     :: [Map.Map k a -> [Map.Map k a]]
   }
 
--- | run the replacement; this is fold-friendly
-runReplace :: Ord k => Replacement k a -> Map.Map k a -> Map.Map k a
-runReplace (Replace ks fs) m = Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
+-- | "natural language" friendly way of phrasing a transformation that changes some rows around
+data ReplaceRows r a = ReplaceR
+  { rows_  :: [r]
+  , with__ :: [Map.Map r a -> [Map.Map r a]]
+  }
+
+-- | run the column replacement; this is fold-friendly
+runReplaceC :: Ord k => ReplaceCols k a -> Map.Map k a -> Map.Map k a
+runReplaceC (ReplaceC ks fs) m = Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
+
+-- | run the row replacement
+runReplaceR :: Ord r => ReplaceRows r a -> Map.Map k (Map.Map r a) -> Map.Map k (Map.Map r a)
+runReplaceR (ReplaceR ks fs) cols =
+  (\m -> Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]) <$> cols
+
+
 
 -- | a specific scenario
 section_34_1 :: StateT Scenario IO Scenario
@@ -224,22 +238,31 @@ section_34_1 = do
   liftIO $ putStrLn "* initial scenario"
   liftIO $ putStrLn $ render ( asTable scenario )
 
-  let income1 :: Replacement String IncomeStreams
-      income1 = Replace { columns_  = ["ordinary income", "ordinary expenses"]
-                        , with_     = [preNetIncome] }
-  liftIO $ putStrLn $ render $ asTable $ runReplace income1 scenario
+  let income1 :: ReplaceCols String IncomeStreams
+      income1 = ReplaceC { columns_  = ["ordinary income", "ordinary expenses"]
+                         , with_     = [preNetIncome] }
+      income1' = runReplaceC income1 scenario
+  liftIO $ putStrLn $ render $ asTable income1'
 
-  let income2 :: Replacement String IncomeStreams
-      income2 = Replace { columns_  = ["pre-net income"]
-                        , with_     = [offsetLosses] }
-  liftIO $ putStrLn $ render $ asTable $ runReplace income2 $ runReplace income1 scenario
+  let income2 :: ReplaceCols String IncomeStreams
+      income2 = ReplaceC { columns_  = ["pre-net income"]
+                         , with_     = [offsetLosses] }
+      income2' = runReplaceC income2 income1'
+  liftIO $ putStrLn $ render $ asTable income2'
 
-  let income3 :: Replacement String IncomeStreams
-      income3 = Replace { columns_  = []
-                        , with_     = [extraordinary] }
-  liftIO $ putStrLn $ render $ asTable $ runReplace income3 $ runReplace income2 $ runReplace income1 scenario
+  let income3 :: ReplaceCols String IncomeStreams
+      income3 = ReplaceC { columns_  = []
+                         , with_     = [extraordinary] }
+      income3' = runReplaceC income3 income2'
+  liftIO $ putStrLn $ render $ asTable income3'
 
-  return $ runReplace income2 $ runReplace income1 $ scenario
+  let income4 :: ReplaceRows String Float
+      income4 = ReplaceR { rows_   = nub $ concatMap Map.keys (Map.elems income3')
+                         , with__  = [squashCats] }
+      income4' = runReplaceR income4 income3'
+  liftIO $ putStrLn $ render $ asTable income4'
+
+  return income4'
 
 --  let netIncome :: Scenario
 --      netIncome = replace offsetLosses income1
@@ -282,10 +305,11 @@ extraordinary :: Scenario -> [Scenario]
 extraordinary sc =
   let ordinary = sc Map.! "remaining taxable income"
       extraI   = sc Map.! "extraordinary income"
-      ordtax   = mapOnly (>0) (progDirect 2023) ordinary
+      taxFor   = mapOnly (>0) (progDirect 2023)
+      ordtax   = taxFor ordinary
       rti5     = Map.unionWith (+) ordinary ((/5) <$> extraI)
-      rti5tax  = mapOnly (>0) (progDirect 2023) rti5
-      delta    = Map.unionWith (-) ordtax rti5tax
+      rti5tax  = taxFor rti5
+      delta    = abs <$> Map.unionWith (-) ordtax rti5tax
       rti5tax5 = (5*) <$> delta
       
   in pure $
@@ -296,6 +320,12 @@ extraordinary sc =
                   ,("5 extraordinary taxation", rti5tax5)
                   ]
   
+
+-- | squash all non-exempt income categories together
+squashCats :: IncomeStreams -> [IncomeStreams]
+squashCats ns =
+  pure $
+  Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
 
 -- [TODO] merge the extraordinary and ordinary streams of income
 furtherReduce :: IncomeStreams -> IncomeStreams
