@@ -158,6 +158,11 @@ runTests = do
           . Map.update (const $ pure   30000) "Agriculture"
         ) $
 
+        flip Map.update "extraordinary income"
+        (pure
+          . Map.update (const $ pure   27000) "Agriculture"
+        ) $
+
         flip Map.update "ordinary expenses"
         (pure
           . Map.update (const $ pure    2150) "Rents"
@@ -211,6 +216,7 @@ data Replacement k a = Replace
 runReplace :: Ord k => Replacement k a -> Map.Map k a -> Map.Map k a
 runReplace (Replace ks fs) m = Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
 
+-- | a specific scenario
 section_34_1 :: StateT Scenario IO Scenario
 section_34_1 = do
   scenario <- get
@@ -226,6 +232,11 @@ section_34_1 = do
       income2 = Replace { columns_  = ["pre-net income"]
                         , with_     = [offsetLosses] }
   liftIO $ putStrLn $ render $ asTable $ runReplace income2 $ runReplace income1 scenario
+
+  let income3 :: Replacement String IncomeStreams
+      income3 = Replace { columns_  = []
+                        , with_     = [extraordinary] }
+  liftIO $ putStrLn $ render $ asTable $ runReplace income3 $ runReplace income2 $ runReplace income1 scenario
 
   return $ runReplace income2 $ runReplace income1 $ scenario
 
@@ -270,8 +281,9 @@ extraordinary sc =
   let orig   = sc Map.! "post-offset income"
       extraI = sc Map.! "extraordinary income"
   in pure $
-     Map.singleton "extraordinary delta" $
-     Map.unionWith (-) orig extraI
+     Map.fromList [("ordinary taxation",      mapOnly (>0) (       progDirect 2023) orig)
+                  ,("extraordinary taxation", mapOnly (>0) ((*5) . progDirect 2023) extraI)
+                  ]
   
 
 -- [TODO] merge the extraordinary and ordinary streams of income
