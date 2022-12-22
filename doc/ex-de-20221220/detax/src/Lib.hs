@@ -131,15 +131,18 @@ runTests = do
                                    (MathVal 6))) symtab :: Float
   print test1
   let startScenario =
-        Map.update (pure
-                     . Map.update (const $ pure   72150) "Rents"
-                   )
-        "ordinary income" $
-        Map.update (pure
-                     . Map.update (const $ pure    2150) "Rents"
-                     . Map.update (const $ pure   10000) "Other"
-                   )
-        "ordinary expenses" $
+        flip Map.update "ordinary income"
+        (pure
+          . Map.update (const $ pure   72150) "Rents"
+          . Map.update (const $ pure   30000) "Agriculture"
+        ) $
+
+        flip Map.update "ordinary expenses"
+        (pure
+          . Map.update (const $ pure    2150) "Rents"
+          . Map.update (const $ pure    6000) "Independent"
+          . Map.update (const $ pure    4000) "Other"
+        )
         defaultScenario
 
   _ <- runStateT section_34_1 startScenario
@@ -294,6 +297,7 @@ data TaxClass
   | TC5 -- ^ Applies to married persons, if the other spouse is in tax class III (provided the spouses live together).
   | TC6 -- ^ Applies to single and married persons with another employment, if no employment tax card has been issued by the tax office.
 
+-- | progressive individual tax rate table, by year
 rateTable :: (Fractional a) => Int -> [(Ordering, a, a)]
 rateTable 2022 = [(LT,   9409,  0)
                  ,(GT,   9408, 14)
@@ -302,13 +306,17 @@ rateTable 2022 = [(LT,   9409,  0)
                  ]
 rateTable _    = rateTable 2022
 
-getRate :: (Ord a, Fractional a) => Int -> a -> a
-getRate year income =
+-- | what is the actual tax payable taking into account the progressive structure?
+getProg :: (Ord a, Fractional a) => Int -> a -> a
+getProg year income =
   let rt = reverse $ rateTable year
   in progRate rt income
   where
-    progRate ((o,n,r):rts) income
-      | income `compare` n == o = r/100 * (income - r) + progRate rts n
-      | otherwise               = progRate rts income
+    progRate ((o,n,r):rts) income'
+      | income' `compare` n == o = r/100 * (income' - n) + progRate rts n
+      | otherwise                = progRate rts income'
     progRate [] _ = 0
 
+-- | what is the effective tax rate?
+effectiveRate :: (Ord a, Fractional a) => Int -> a -> a
+effectiveRate year income = getProg year income / income
