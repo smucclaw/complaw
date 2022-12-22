@@ -290,27 +290,71 @@ data TaxClass
         --   - In the case of the tax category combination IV with factor, tax-exempt amounts are taken into account in the wage tax calculation from the outset. As a result, the difference between the amount of income tax paid and the actual tax liability at the end of the year is lower.
   | TC5 -- ^ Applies to married persons, if the other spouse is in tax class III (provided the spouses live together).
   | TC6 -- ^ Applies to single and married persons with another employment, if no employment tax card has been issued by the tax office.
+  deriving (Ord, Eq, Show)
 
--- | progressive individual tax rate table, by year
-rateTable :: (Fractional a) => Int -> [(Ordering, a, a)]
-rateTable 2022 = [(LT,   9409,  0)
-                 ,(GT,   9408, 14)
-                 ,(GT,  57051, 42)
-                 ,(GT, 270500, 45)
+-- | progressive individual tax rate table, by year.
+-- note that these rates do not include:
+-- - solidarity tax 5.5% of the normal rate payable; single taxpayers < 62127 / couples < 124255 exempt
+-- - church tax 8 -- 9%
+-- - business income
+--   - corporate tax 15%, reduced for part
+--   - municipal business tax of 14 to 17%
+--   - municipal trade tax of 7 -- 17%
+
+data Marital = Single | Married
+  deriving (Eq, Show)
+
+rateTable :: (Fractional a) => Int -> [(Ordering, a, a -> a)]
+rateTable 2022 = [(LT,   9409, const  0)
+                 ,(GT,   9408, const 14)
+                 ,(GT,  57051, const 42)
+                 ,(GT, 270500, const 45)
+                 ]
+rateTable 2023 = [(LT,  10909, const  0)
+                 ,(GT,  10908, \zvE -> let y = (zvE - 10908) / 10000
+                                       in (979.18 * y + 1400) * y)
+                 ,(GT,  15999, \zvE -> let y = (zvE - 15999) / 10000
+                                       in (192.59 * y + 2397) * y + 966.53)
+                 ,(GT,  62810, \zvE -> 0.42 * zvE - 9972.98)
+                 ,(GT, 277825, \zvE -> 0.45 * zvE - 18307.73)
                  ]
 rateTable _    = rateTable 2022
 
--- | what is the actual tax payable taking into account the progressive structure?
-getProg :: (Ord a, Fractional a) => Int -> a -> a
-getProg year income =
+-- | direct computation of progressive tax, without recursing to lower tiers of the stack.
+-- this is for countries which just give a direct formula that already takes into account
+-- the lower tiers of the stack.
+progDirect :: (Ord a, Fractional a) => Int -> a -> a
+progDirect year income =
+  let rt = reverse $ rateTable year
+  in go rt income
+  where
+    go ((o,n,f):rts) income'
+      | income' `compare` n == o = f income'
+      | otherwise                = go rts income'
+
+-- | recursive computation of progressive tax, by recursively adding lower tiers.
+-- this is suitable for countries that announce their progressive tiers in terms of
+-- "for the nth dollar you make, pay X in taxes on it"
+progStack :: (Ord a, Fractional a) => Int -> a -> a
+progStack year income =
   let rt = reverse $ rateTable year
   in progRate rt income
   where
     progRate ((o,n,r):rts) income'
-      | income' `compare` n == o = r/100 * (income' - n) + progRate rts n
+      | income' `compare` n == o = (r income')/100 * (income' - n) + progRate rts n
       | otherwise                = progRate rts income'
     progRate [] _ = 0
 
 -- | what is the effective tax rate?
-effectiveRate :: (Ord a, Fractional a) => Int -> a -> a
-effectiveRate year income = getProg year income / income
+effectiveRateStacked :: (Ord a, Fractional a) => Int -> a -> a
+effectiveRateStacked year income = progStack year income / income * 100
+
+effectiveRateDirect :: (Ord a, Fractional a) => Int -> a -> a
+effectiveRateDirect year income = progDirect year income / income * 100
+
+solidaritySurcharge year income = progDirect year income / income * 0.055 * income
+
+{- Also:
+Profits from the sale of private real estate that has been held for more than 10 years, or from the sale of other assets that have been held for more than 12 months is exempt from tax. For shorter holding periods the general tax rates apply.
+Sale of a shares when the percentage of the investment is less than 1% is subject to a flat 25% tax. On the other hand, when the percentage of the holding is in excess of 1%, tax is payable on 60% of the profit at normal rates.
+-}

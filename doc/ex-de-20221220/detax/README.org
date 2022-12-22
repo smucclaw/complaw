@@ -1,0 +1,30 @@
+#+TITLE: let's implement German tax law!
+
+* Sources
+
+From https://www.bmf-steuerrechner.de/ekst/eingabeformekst.xhtml,
+Tarifhistorie shows the formula for progressive tax computation
+https://www.bmf-steuerrechner.de/ekst/eingabeformekst.xhtml#:~:text=Tarifhistorie%20(PDF%201866%20kB)
+
+the below text could be directly ingested by our parser
+#+begin_example
+Formel nach § 32a EStG
+
+a) bis 10.908 € (Grundfreibetrag): 0;
+b) 10.909 € bis 15.999 € : ESt = (979,18 * y + 1.400) * y;
+                             y = (zvE - 10.908) / 10.000
+c) 16.000 € bis 62.809 € : ESt = (192,59 * z + 2.397) * z + 966,53;
+                             z = (zvE - 15.999) / 10.000
+d) 62.810 € bis 277.825 €: ESt = 0,42 * zvE - 9.972,98;
+e) ab 277.826 €          : ESt = 0,45 * zvE - 18.307,73.
+#+end_example
+
+We need to be able to parse something like this and compute based on it. Time to revisit `dmnmd`!
+
+| U | zvE       | zvE       | y                     | ESt                              |
+| 1 | -         | <= 10908  |                       | 0                                |
+| 2 | >= 10909  | <= 15999  | (zvE - 10908) / 10000 | (979.18 * y + 1400) * y          |
+| 3 | >= 16000  | <= 62809  | (zvE - 15999) / 10000 | (192.59 * y + 2397) * y + 966.53 |
+| 4 | >= 62810  | <= 277825 |                       | 0.42 * zvE - 9972.98             |
+| 5 | >= 277826 |           |                       | 0.45 * zvE - 18307.73            |
+

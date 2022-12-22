@@ -7,7 +7,7 @@ maintainer:          "example@example.com"
 copyright:           "2022 Author name here"
 
 extra-source-files:
-- README.md
+- README.org
 - CHANGELOG.md
 
 # Metadata used when publishing your package
@@ -52,6 +52,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - detax
+    other-modules: []
 
 tests:
   detax-test:
@@ -63,3 +64,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - detax
+    other-modules: []
