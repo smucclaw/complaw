@@ -126,8 +126,8 @@ defaultScenario =
         | i <- [ "ordinary income"
                , "extraordinary income"
                , "ordinary expenses"
-               , "special expenses"
-               , "lump sum deductions"
+--               , "special expenses"
+--               , "lump sum deductions"
                ]
         , let defaultStream :: IncomeStreams
               defaultStream =
@@ -181,16 +181,6 @@ type NetIncome     = Int
 type TaxableIncome = Int
 
 -- | render a Scenario as a table -- something like this:
--- @
---                extraordinary income  lump sum deductions  ordinary expenses  ordinary income  special expenses
---   Agriculture  0                     0                    0                  0                0
---   Capital      0                     0                    0                  0                0
---   Employment   0                     0                    0                  0                0
---   Independent  0                     0                    0                  0                0
---   Other        0                     0                    0                  0                0
---   Rents        0                     0                    0                  72150            0
---   Trade        0                     0                    0                  0                0
--- @
 
 asTable :: Scenario -> Box
 asTable sc =
@@ -207,17 +197,19 @@ asTable sc =
       ]
   )
 
+-- | render a single column as a mini table
 asColumn :: String -> IncomeStreams -> Box
 asColumn str istream = asTable (Map.fromList [(str, istream)])
 
+-- | "natural language" friendly way of phrasing a transformation that changes some columns around
 data Replacement k a = Replace
   { columns_  :: [k]
-  , with_     :: k
-  , given_by_ :: Map.Map k a -> a
+  , with_     :: [Map.Map k a -> [Map.Map k a]]
   }
 
+-- | run the replacement; this is fold-friendly
 runReplace :: Ord k => Replacement k a -> Map.Map k a -> Map.Map k a
-runReplace (Replace ks newk f) m = Map.insert newk (f m) $ foldl (flip Map.delete) m ks
+runReplace (Replace ks fs) m = Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
 
 section_34_1 :: StateT Scenario IO Scenario
 section_34_1 = do
@@ -227,14 +219,12 @@ section_34_1 = do
 
   let income1 :: Replacement String IncomeStreams
       income1 = Replace { columns_  = ["ordinary income", "ordinary expenses"]
-                        , with_     = "pre-net income"
-                        , given_by_ = lessExpenses }
+                        , with_     = [preNetIncome] }
   liftIO $ putStrLn $ render $ asTable $ runReplace income1 scenario
 
   let income2 :: Replacement String IncomeStreams
       income2 = Replace { columns_  = ["pre-net income"]
-                        , with_     = "post-offset income"
-                        , given_by_ = offsetLosses }
+                        , with_     = [offsetLosses] }
   liftIO $ putStrLn $ render $ asTable $ runReplace income2 $ runReplace income1 scenario
 
   return $ runReplace income2 $ runReplace income1 $ scenario
@@ -253,23 +243,36 @@ section_34_1 = do
 
 
 
-lessExpenses :: Scenario -> IncomeStreams
-lessExpenses sc =
+preNetIncome :: Scenario -> [Scenario]
+preNetIncome sc =
+  pure $
+  Map.singleton "pre-net income" $
   Map.unionWith (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
 -- | losses from one income category can be used to offset earnings in another.
 -- the offsetting is done on a per-category basis, against the single "pre-net income" column
-offsetLosses :: Scenario -> IncomeStreams
+offsetLosses :: Scenario -> [Scenario]
 offsetLosses sc =
   let orig = sc Map.! "pre-net income"
       (negatives, positives) = Map.partition (< 0) orig
-      totalNeg = sum (Map.elems negatives)
-      totalPos = sum (Map.elems positives)
+      [totalNeg, totalPos] = sum . Map.elems <$> [ negatives, positives ]
   in
+    pure $
+    Map.singleton "post-offset income" $
     (\x -> if x < 0
            then 0
            else x + totalNeg * (x / totalPos))
     <$> orig 
+
+-- | extraordinary income is taxed
+extraordinary :: Scenario -> [Scenario]
+extraordinary sc =
+  let orig   = sc Map.! "post-offset income"
+      extraI = sc Map.! "extraordinary income"
+  in pure $
+     Map.singleton "extraordinary delta" $
+     Map.unionWith (-) orig extraI
+  
 
 -- [TODO] merge the extraordinary and ordinary streams of income
 furtherReduce :: IncomeStreams -> IncomeStreams
@@ -304,6 +307,8 @@ data TaxClass
 data Marital = Single | Married
   deriving (Eq, Show)
 
+-- | rate table from the "Tariff history" PDF downloaded from https://www.bmf-steuerrechner.de/
+
 rateTable :: (Fractional a) => Int -> [(Ordering, a, a -> a)]
 rateTable 2022 = [(LT,   9409, const  0)
                  ,(GT,   9408, const 14)
@@ -320,7 +325,7 @@ rateTable 2023 = [(LT,  10909, const  0)
                  ]
 rateTable _    = rateTable 2022
 
--- | direct computation of progressive tax, without recursing to lower tiers of the stack.
+-- | Direct computation of progressive tax, without recursing to lower tiers of the stack.
 -- this is for countries which just give a direct formula that already takes into account
 -- the lower tiers of the stack.
 progDirect :: (Ord a, Fractional a) => Int -> a -> a
@@ -332,7 +337,7 @@ progDirect year income =
       | income' `compare` n == o = f income'
       | otherwise                = go rts income'
 
--- | recursive computation of progressive tax, by recursively adding lower tiers.
+-- | Stacked computation of progressive tax, by recursively adding lower tiers.
 -- this is suitable for countries that announce their progressive tiers in terms of
 -- "for the nth dollar you make, pay X in taxes on it"
 progStack :: (Ord a, Fractional a) => Int -> a -> a
