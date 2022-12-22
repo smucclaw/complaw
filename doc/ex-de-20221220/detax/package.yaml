@@ -26,6 +26,7 @@ dependencies:
 - mtl
 - megaparsec
 - parsec
+- boxes
 
 ghc-options:
 - -Wall

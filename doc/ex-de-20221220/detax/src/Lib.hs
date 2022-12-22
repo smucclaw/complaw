@@ -1,3 +1,5 @@
+{-# LANGUAGE TupleSections #-}
+
 module Lib where
 
 import qualified Data.Map as Map
@@ -8,9 +10,19 @@ import Text.Megaparsec.Char ( string, char, numberChar, alphaNumChar, hspace, sp
 import Text.Parsec.Combinator hiding (choice, optional)
 import Data.List
 import Data.Maybe (fromMaybe)
+import Text.PrettyPrint.Boxes hiding ((<>))
+import qualified Text.PrettyPrint.Boxes as BX
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
+
+instance Semigroup Box where
+  (<>) = (BX.<>)
+
+instance Monoid Box where
+  mempty = nullBox
+
+
 
 -- | basic mathematical algebra calculator expression language
 -- augmented with if\/then\/else construct and variable assignment
@@ -115,97 +127,132 @@ runTests = do
                                    (MathVar "foo")
                                    (MathVal 6))) symtab :: Float
   print test1
-
-  runStateT section_34_1 (defaultScenario { grossIncome = Map.fromList [(CatRents, ByCategory 0 72150)] })
+  let startScenario = Map.update (\stream -> pure $ Map.update (\intval -> pure 72150) "Rents" stream)
+                      "ordinary income" defaultScenario
+  runStateT section_34_1 startScenario
   return ()
   
 --  let parsed = runParser pMathLang "" "( 5 + 3 * 2 )"
 --  print parsed
 
-type IncomeStreams = Map.Map IncomeCategory ByCategory
+type Scenario      = Map.Map String         IncomeStreams
+type IncomeStreams = Map.Map IncomeCategory Int
 
-data IncomeCategory
-  = CatAgriculture
-  | CatTrade
-  | CatIndependent
-  | CatEmployment
-  | CatCapital
-  | CatRents
-  | CatOther
-  deriving (Eq, Show, Ord)
+type IncomeCategory = String
 
-data ByCategory = ByCategory
-  { extraOrdinary :: Int
-  , ordinary :: Int
-  }
-  deriving (Eq, Show)
+incomeCategories :: [IncomeCategory]
+incomeCategories =
+  [ "Agriculture"
+  , "Trade"
+  , "Independent"
+  , "Employment"
+  , "Capital"
+  , "Rents"
+  , "Other"
+  ]
 
-type NetIncome = Int
+type NetIncome     = Int
 type TaxableIncome = Int
 
-data Scenario = Scenario
-  { grossIncome       :: IncomeStreams
-  , expenses          :: IncomeStreams
-  , lumpSumDeductions :: IncomeStreams
-  , specialExpenses   :: IncomeStreams
+-- | render a Scenario as a table -- something like this:
+-- @
+--                extraordinary income  lump sum deductions  ordinary expenses  ordinary income  special expenses
+--   Agriculture  0                     0                    0                  0                0
+--   Capital      0                     0                    0                  0                0
+--   Employment   0                     0                    0                  0                0
+--   Independent  0                     0                    0                  0                0
+--   Other        0                     0                    0                  0                0
+--   Rents        0                     0                    0                  72150            0
+--   Trade        0                     0                    0                  0                0
+-- @
+
+asTable :: Scenario -> Box
+asTable sc =
+  hsep 2 BX.left (
+  -- row headers at left
+  vcat BX.left (emptyBox 1 1 : (BX.text <$> sort incomeCategories))
+    : [ vcat BX.left (
+          -- column headers at top
+          BX.text streamName
+            : [ BX.text (show intval)
+              | intval <- Map.elems streamVal -- should be sorted by incomeCategory i think
+              ] )
+      | (streamName, streamVal) <- Map.toAscList sc
+      ]
+  )
+
+asColumn str istream = asTable (Map.fromList [(str, istream)])
+
+_with, _in :: ()
+_with = ()
+_in = ()
+_given_by = ()
+
+data Replacement k a = Replace
+  { columns_  :: [k]
+  , with_     :: k
+  , given_by_ :: Map.Map k a -> a
   }
-  deriving (Eq, Show)
+
+runReplace :: Ord k => Replacement k a -> Map.Map k a -> Map.Map k a
+runReplace (Replace ks newk f) m = Map.insert newk (f m) $ foldl (flip Map.delete) m ks
 
 section_34_1 :: StateT Scenario IO Scenario
 section_34_1 = do
   scenario <- get
   liftIO $ putStrLn "* initial scenario"
-  liftIO $ putStrLn "** initial income streams"
-  liftIO $ print $ grossIncome scenario
-  liftIO $ putStrLn "** initial expenses"
-  liftIO $ print $ expenses scenario
+  liftIO $ putStrLn $ render ( asTable scenario )
 
-  let income1 :: IncomeStreams
-      income1 = lessExpenses scenario
-        
-  let netIncome :: IncomeStreams
-      netIncome = offsetLosses income1
+  let income1 :: Replacement String IncomeStreams
+      income1 = Replace { columns_  = ["ordinary income", "ordinary expenses"]
+                        , with_     = "less expenses"
+                        , given_by_ = lessExpenses }
+  liftIO $ putStrLn $ render $ asTable $ runReplace income1 scenario
 
-  liftIO $ putStrLn "** net income after offsetting losses"
-  liftIO $ print $ netIncome
-  
-  let taxableIncome :: IncomeStreams
-      taxableIncome = furtherReduce netIncome
-  liftIO $ putStrLn "** taxable income after further reductions"
-  liftIO $ print $ taxableIncome
-  return $ defaultScenario { grossIncome = taxableIncome }
+--  let netIncome :: Scenario
+--      netIncome = replace offsetLosses income1
+--
+--  liftIO $ putStrLn "** net income after offsetting losses"
+--  liftIO $ print $ netIncome
+--  
+--  let taxableIncome :: IncomeStreams
+--      taxableIncome = furtherReduce netIncome
+--  liftIO $ putStrLn "** taxable income after further reductions"
+--  liftIO $ print $ taxableIncome
+--  return $ Map.update (const $ pure taxableIncome) "ordinary Income" defaultScenario
+  return $ runReplace income1 scenario
 
-defaultScenario :: Scenario
-defaultScenario =
-  Scenario { grossIncome = Map.empty
-           , expenses = Map.empty
-           , lumpSumDeductions = Map.empty
-           , specialExpenses = Map.empty
-           }
-
-  
+lessExpenses :: Scenario -> IncomeStreams
+lessExpenses sc =
+  Map.unionWith (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
 offsetLosses :: IncomeStreams -> IncomeStreams
 offsetLosses orig =
-  let (negatives, positives) = partition (\(c,i) -> ordinary i < 0) (Map.toList orig)
-      totalNeg = sum (ordinary . snd <$> negatives)
-      totalPos = sum (ordinary . snd <$> positives)
+  let (negatives, positives) = partition ((< 0) . snd) (Map.toList orig)
+      totalNeg = sum (snd <$> negatives)
+      totalPos = sum (snd <$> positives)
   in
     -- [TODO] reduce each of the positives by a pro-rated amount
+    -- use onlyMap
     orig
 
 -- [TODO] merge the extraordinary and ordinary streams of income
 furtherReduce :: IncomeStreams -> IncomeStreams
 furtherReduce orig = orig
 
-lessExpenses :: Scenario -> IncomeStreams
-lessExpenses sc =
-  grossIncome sc `minus` expenses sc
-  where
-    minus :: IncomeStreams -> IncomeStreams -> IncomeStreams
-    minus is1 is2 =
-      Map.fromList [ (ic, bc)
-                   | (ic, bc1) <- Map.toList is1
-                   , let bc = ByCategory 0 $ ordinary bc1 - ordinary (fromMaybe (ByCategory 0 0) (Map.lookup ic is2))
-                   ]
+defaultScenario :: Scenario
+defaultScenario =
+  Map.fromList [ (i, defaultStream) | i <- ["ordinary income"
+                                           ,"extraordinary income"
+                                           ,"ordinary expenses"
+                                           ,"special expenses"
+                                           ,"lump sum deductions"
+                                           ] ]
+
+defaultStream :: IncomeStreams
+defaultStream = Map.fromList [(ic,0) | ic <- incomeCategories]
+
+-- | fmap only those elements that qualify, leaving the others alone
+mapOnly :: Functor t => (a -> Bool) -> (a -> a) -> t a -> t a
+mapOnly test transform items = (\i -> if test i then transform i else id i) <$> items
 
