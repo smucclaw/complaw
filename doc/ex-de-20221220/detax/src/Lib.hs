@@ -250,16 +250,16 @@ section_34_1 = do
       income2' = runReplaceC income2 income1'
   liftIO $ putStrLn $ render $ asTable income2'
 
-  let income3 :: ReplaceCols String IncomeStreams
-      income3 = ReplaceC { columns_  = []
-                         , with_     = [extraordinary] }
-      income3' = runReplaceC income3 income2'
+  let income3 :: ReplaceRows String Float
+      income3 = ReplaceR { rows_   = nub $ concatMap Map.keys (Map.elems income2')
+                         , with__  = [squashCats] }
+      income3' = runReplaceR income3 income2'
   liftIO $ putStrLn $ render $ asTable income3'
 
-  let income4 :: ReplaceRows String Float
-      income4 = ReplaceR { rows_   = nub $ concatMap Map.keys (Map.elems income3')
-                         , with__  = [squashCats] }
-      income4' = runReplaceR income4 income3'
+  let income4 :: ReplaceCols String IncomeStreams
+      income4 = ReplaceC { columns_  = []
+                         , with_     = [extraordinary] }
+      income4' = runReplaceC income4 income3'
   liftIO $ putStrLn $ render $ asTable income4'
 
   return income4'
