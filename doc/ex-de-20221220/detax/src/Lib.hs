@@ -4,16 +4,15 @@
 module Lib where
 
 import qualified Data.Map as Map
-import Control.Monad.Trans.State ( get, gets, State, StateT, evalState, evalStateT, runState, runStateT )
+import Control.Monad.Trans.State ( get, gets, State, StateT, evalState, runStateT )
 import Control.Monad.State (liftIO)
-import Text.Megaparsec hiding (State)
-import Text.Megaparsec.Char ( string, char, numberChar, alphaNumChar, hspace, space, newline )
-import Text.Parsec.Combinator hiding (choice, optional)
-import Data.List
-import Data.Maybe (fromMaybe)
-import Text.PrettyPrint.Boxes hiding ((<>))
+import Text.Megaparsec
+    ( choice, many, some, Parsec, MonadParsec(try) )
+import Text.Megaparsec.Char ( numberChar, hspace )
+import Data.List ( sort )
+import Text.PrettyPrint.Boxes
+    ( emptyBox, hsep, nullBox, render, vcat, Box )
 import qualified Text.PrettyPrint.Boxes as BX
-import Data.Ord
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -97,7 +96,7 @@ evalPred (PredITE x y z) = do
 type Parser = Parsec () String
 
 -- sse the Expr combinators lib from parsec to do this -- we can't deal with precedence correctly here
-pMathLang :: (Fractional a, Ord a) => Parser (MathLang a)
+pMathLang :: (Fractional a) => Parser (MathLang a)
 pMathLang =
   many hspace *>
   tryChoice 
@@ -121,6 +120,28 @@ toEng _ = "[TODO]"
 int :: Parser Int
 int = read <$> some numberChar
 
+defaultScenario :: Scenario
+defaultScenario =
+  mkMap [ (i, defaultStream)
+        | i <- [ "ordinary income"
+               , "extraordinary income"
+               , "ordinary expenses"
+               , "special expenses"
+               , "lump sum deductions"
+               ]
+        , let defaultStream :: IncomeStreams
+              defaultStream =
+                mkMap [ (ic,0)
+                      | ic <- [ "Agriculture"
+                              , "Trade"
+                              , "Independent"
+                              , "Employment"
+                              , "Capital"
+                              , "Rents"
+                              , "Other"
+                              ] ]
+        ]
+  where mkMap = Map.fromList
 
 runTests :: IO ()
 runTests = do
@@ -156,17 +177,6 @@ type IncomeStreams = Map.Map IncomeCategory Float
 
 type IncomeCategory = String
 
-incomeCategories :: [IncomeCategory]
-incomeCategories =
-  [ "Agriculture"
-  , "Trade"
-  , "Independent"
-  , "Employment"
-  , "Capital"
-  , "Rents"
-  , "Other"
-  ]
-
 type NetIncome     = Int
 type TaxableIncome = Int
 
@@ -186,7 +196,7 @@ asTable :: Scenario -> Box
 asTable sc =
   hsep 2 BX.left (
   -- row headers at left
-  vcat BX.left (emptyBox 1 1 : (BX.text <$> sort incomeCategories))
+  vcat BX.left (emptyBox 1 1 : (BX.text <$> sort (Map.keys (head (Map.elems sc)))))
     : [ vcat BX.left (
           -- column headers at top
           BX.text streamName
@@ -197,12 +207,8 @@ asTable sc =
       ]
   )
 
+asColumn :: String -> IncomeStreams -> Box
 asColumn str istream = asTable (Map.fromList [(str, istream)])
-
-_with, _in :: ()
-_with = ()
-_in = ()
-_given_by = ()
 
 data Replacement k a = Replace
   { columns_  :: [k]
@@ -268,18 +274,6 @@ offsetLosses sc =
 -- [TODO] merge the extraordinary and ordinary streams of income
 furtherReduce :: IncomeStreams -> IncomeStreams
 furtherReduce orig = orig
-
-defaultScenario :: Scenario
-defaultScenario =
-  Map.fromList [ (i, defaultStream) | i <- ["ordinary income"
-                                           ,"extraordinary income"
-                                           ,"ordinary expenses"
-                                           ,"special expenses"
-                                           ,"lump sum deductions"
-                                           ] ]
-
-defaultStream :: IncomeStreams
-defaultStream = Map.fromList [(ic,0) | ic <- incomeCategories]
 
 -- | fmap only those elements that qualify, leaving the others alone
 mapOnly :: Functor t => (a -> Bool) -> (a -> a) -> t a -> t a
