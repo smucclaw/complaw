@@ -136,7 +136,8 @@ defaultScenario =
                               , "Trade"
                               , "Independent"
                               , "Employment"
-                              , "Capital"
+                              , "Capital Exempt"
+                              , "Capital NonExempt"
                               , "Rents"
                               , "Other"
                               ] ]
@@ -262,6 +263,7 @@ preNetIncome sc =
 
 -- | losses from one income category can be used to offset earnings in another.
 -- the offsetting is done on a per-category basis, against the single "pre-net income" column
+--
 offsetLosses :: Scenario -> [Scenario]
 offsetLosses sc =
   let orig = sc Map.! "pre-net income"
@@ -269,20 +271,29 @@ offsetLosses sc =
       [totalNeg, totalPos] = sum . Map.elems <$> [ negatives, positives ]
   in
     pure $
-    Map.singleton "post-offset income" $
+    Map.singleton "remaining taxable income" $
     (\x -> if x < 0
-           then 0
+           then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
            else x + totalNeg * (x / totalPos))
     <$> orig 
 
 -- | extraordinary income is taxed
 extraordinary :: Scenario -> [Scenario]
 extraordinary sc =
-  let orig   = sc Map.! "post-offset income"
-      extraI = sc Map.! "extraordinary income"
+  let ordinary = sc Map.! "remaining taxable income"
+      extraI   = sc Map.! "extraordinary income"
+      ordtax   = mapOnly (>0) (progDirect 2023) ordinary
+      rti5     = Map.unionWith (+) ordinary ((/5) <$> extraI)
+      rti5tax  = mapOnly (>0) (progDirect 2023) rti5
+      delta    = Map.unionWith (-) ordtax rti5tax
+      rti5tax5 = (5*) <$> delta
+      
   in pure $
-     Map.fromList [("ordinary taxation",      mapOnly (>0) (       progDirect 2023) orig)
-                  ,("extraordinary taxation", mapOnly (>0) ((*5) . progDirect 2023) extraI)
+     Map.fromList [("1 ordinary taxation",      ordtax)
+                  ,("2 RTI plus one fifth",     rti5)
+                  ,("3 tax on RTI+.2",          rti5tax)
+                  ,("4 difference",             delta)
+                  ,("5 extraordinary taxation", rti5tax5)
                   ]
   
 
