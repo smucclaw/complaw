@@ -211,14 +211,14 @@ asColumn :: String -> IncomeStreams -> Box
 asColumn str istream = asTable (Map.singleton str istream)
 
 -- | "natural language" friendly way of phrasing a transformation that changes some elements around
-data Replace k a = Replace { elems_  :: [k] , with_ :: [Map.Map k a -> [Map.Map k a]] }
+data Replace k a = Replace { elems_  :: [k] , with_ :: [Map.Map k a -> Map.Map k a] }
 
 -- | run the generic replacement
 runReplace :: Ord k => Map.Map k a -> Replace k a -> Map.Map k a
 runReplace m (Replace ks fs) =
-  Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
+  Map.unions $ (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
 
-(~->) :: [k] -> [Map.Map k a -> [Map.Map k a]] -> Replace k a
+(~->) :: [k] -> [Map.Map k a -> Map.Map k a] -> Replace k a
 (~->) k ka = Replace { elems_ = k, with_ = ka }
 
 -- should we be using IORef?
@@ -243,22 +243,20 @@ section_34_1 = do
 
   return $ last steps
 
-preNetIncome :: Scenario -> [Scenario]
+preNetIncome :: Scenario -> Scenario
 preNetIncome sc =
-  pure $
   Map.singleton "pre-net income" $
   Map.unionWith (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
 -- | losses from one income category can be used to offset earnings in another.
 -- the offsetting is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
-offsetLosses :: Scenario -> [Scenario]
+offsetLosses :: Scenario -> Scenario
 offsetLosses sc =
   let orig = sc Map.! "pre-net income"
       (negatives, positives) = Map.partition (< 0) orig
       [totalNeg, totalPos] = sum . Map.elems <$> [ negatives, positives ]
   in
-    pure $
     Map.singleton "remaining taxable income" $
     (\x -> if x < 0
            then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
@@ -266,7 +264,7 @@ offsetLosses sc =
     <$> orig 
 
 -- | extraordinary income is taxed
-extraordinary :: Scenario -> [Scenario]
+extraordinary :: Scenario -> Scenario
 extraordinary sc =
   let ordinary = sc Map.! "remaining taxable income"
       extraI   = sc Map.! "extraordinary income"
@@ -277,8 +275,7 @@ extraordinary sc =
       delta    = abs <$> Map.unionWith (-) ordtax rti5tax
       rti5tax5 = (5*) <$> delta
       
-  in pure $
-     Map.fromList [("1 ordinary taxation",      ordtax)
+  in Map.fromList [("1 ordinary taxation",      ordtax)
                   ,("2 RTI plus one fifth",     rti5)
                   ,("3 tax on RTI+.2",          rti5tax)
                   ,("4 difference",             delta)
@@ -287,14 +284,13 @@ extraordinary sc =
   
 
 -- | squash all non-exempt income categories together
-squashCats :: Scenario -> [Scenario]
+squashCats :: Scenario -> Scenario
 squashCats sc =
-  [(\istream -> runReplace istream (categoryKeys ~-> [squashCats'])) <$> sc]
+  (\istream -> runReplace istream (categoryKeys ~-> [squashCats'])) <$> sc
   where
     categoryKeys = nub (concatMap Map.keys (Map.elems sc))
-    squashCats' :: IncomeStreams -> [IncomeStreams]
+    squashCats' :: IncomeStreams -> IncomeStreams
     squashCats' ns =
-      pure $
       Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
 
 -- | fmap only those elements that qualify, leaving the others alone
