@@ -163,7 +163,7 @@ runTests = do
 
         flip Map.update "extraordinary income"
         (pure
-          . Map.update (const $ pure   27000) "Agriculture"
+          . Map.update (const $ pure  270000) "Agriculture"
           . Map.update (const $ pure     100) "Exempt Capital"
         ) $
 
@@ -171,7 +171,7 @@ runTests = do
         (pure
           . Map.update (const $ pure    2150) "Rents"
           . Map.update (const $ pure    6000) "Independent"
-          . Map.update (const $ pure    4000) "Other"
+          . Map.update (const $ pure  100000) "Other"
         )
         defaultScenario
 
@@ -225,16 +225,16 @@ runReplace m (Replace ks fs) =
 -- | a specific scenario
 section_34_1 :: StateT Scenario IO Scenario
 section_34_1 = do
-  scenario <- get
+  initialScenario <- get
 
   let transformations =
         [ []                                            ~-> []
         , ["ordinary income", "ordinary expenses"]      ~-> [preNetIncome]
         , ["pre-net income"]                            ~-> [offsetLosses]
         , []                                            ~-> [squashCats]
-        , []                                            ~-> [extraordinary]
+        , []                                            ~-> [extraordinary, sentence3]
         ]
-      steps = scanl runReplace scenario transformations
+      steps = scanl runReplace initialScenario transformations
 
   _ <- liftIO $ sequence [ putStrLn ("* step " <> show n) >>
                            putStrLn (asExample step)
@@ -246,7 +246,7 @@ section_34_1 = do
 preNetIncome :: Scenario -> Scenario
 preNetIncome sc =
   Map.singleton "pre-net income" $
-  Map.unionWith (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
+  mapAp (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
 -- | losses from one income category can be used to offset earnings in another.
 -- the offsetting is done on a per-category basis, against the single "pre-net income" column, pro rata
@@ -264,6 +264,9 @@ offsetLosses sc =
            else x + totalNeg * (x / totalPos))
     <$> orig 
 
+mapAp :: Ord k => (a -> a -> a) -> Map.Map k a -> Map.Map k a -> Map.Map k a
+mapAp = Map.unionWith
+
 -- | extraordinary income is taxed
 extraordinary :: Scenario -> Scenario
 extraordinary sc =
@@ -271,16 +274,32 @@ extraordinary sc =
       extraI   = sc Map.! "extraordinary income"
       taxFor   = mapOnly (>0) (progDirect 2023)
       ordtax   = taxFor ordinary
-      rti5     = Map.unionWith (+) ordinary ((/5) <$> extraI)
+      totalI   = mapAp (+) ordinary extraI
+      rti5     = mapAp (+) ordinary ((/5) <$> extraI)
       rti5tax  = taxFor rti5
-      delta    = abs <$> Map.unionWith (-) ordtax rti5tax
+      delta    = abs <$> mapAp (-) ordtax rti5tax
       rti5tax5 = (5*) <$> delta
       
-  in Map.fromList [("1 ordinary taxation",      ordtax)
+  in Map.fromList [("1 RTI taxation",           ordtax)
                   ,("2 RTI plus one fifth",     rti5)
                   ,("3 tax on RTI+.2",          rti5tax)
                   ,("4 difference",             delta)
                   ,("5 extraordinary taxation", rti5tax5)
+                  ,("6 total taxable",          totalI)
+                  ]
+  
+-- | sentence 3
+sentence3 :: Scenario -> Scenario
+sentence3 sc =
+  let ordinary = sc Map.! "remaining taxable income"
+      extraI   = sc Map.! "extraordinary income"
+      negRTI   = (\o -> if o < 0 then 1 else 0) <$> ordinary
+      fiveOnFifth = mapAp (\o e -> if o < 0 && e + o > 0
+                                   then 5 * progDirect 2023 ( (o + e) / 5 )
+                                   else 0)
+                    ordinary extraI
+  in Map.fromList [("7 is RTI even negative?", negRTI)
+                  ,("8 due to negative RTI", fiveOnFifth)
                   ]
   
 
