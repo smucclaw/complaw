@@ -158,11 +158,13 @@ runTests = do
         (pure
           . Map.update (const $ pure   72150) "Rents"
           . Map.update (const $ pure   30000) "Agriculture"
+          . Map.update (const $ pure     100) "Exempt Capital"
         ) $
 
         flip Map.update "extraordinary income"
         (pure
           . Map.update (const $ pure   27000) "Agriculture"
+          . Map.update (const $ pure     100) "Exempt Capital"
         ) $
 
         flip Map.update "ordinary expenses"
@@ -206,77 +208,40 @@ asTable sc =
 
 -- | render a single column as a mini table
 asColumn :: String -> IncomeStreams -> Box
-asColumn str istream = asTable (Map.fromList [(str, istream)])
+asColumn str istream = asTable (Map.singleton str istream)
 
--- | "natural language" friendly way of phrasing a transformation that changes some columns around
-data ReplaceCols k a = ReplaceC
-  { columns_  :: [k]
-  , with_     :: [Map.Map k a -> [Map.Map k a]]
-  }
+-- | "natural language" friendly way of phrasing a transformation that changes some elements around
+data Replace k a = Replace { elems_  :: [k] , with_ :: [Map.Map k a -> [Map.Map k a]] }
 
--- | "natural language" friendly way of phrasing a transformation that changes some rows around
-data ReplaceRows r a = ReplaceR
-  { rows_  :: [r]
-  , with__ :: [Map.Map r a -> [Map.Map r a]]
-  }
+-- | run the generic replacement
+runReplace :: Ord k => Map.Map k a -> Replace k a -> Map.Map k a
+runReplace m (Replace ks fs) =
+  Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
 
--- | run the column replacement; this is fold-friendly
-runReplaceC :: Ord k => ReplaceCols k a -> Map.Map k a -> Map.Map k a
-runReplaceC (ReplaceC ks fs) m = Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
+(~->) :: [k] -> [Map.Map k a -> [Map.Map k a]] -> Replace k a
+(~->) k ka = Replace { elems_ = k, with_ = ka }
 
--- | run the row replacement
-runReplaceR :: Ord r => ReplaceRows r a -> Map.Map k (Map.Map r a) -> Map.Map k (Map.Map r a)
-runReplaceR (ReplaceR ks fs) cols =
-  (\m -> Map.unions $ concat (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]) <$> cols
-
-
-
+-- should we be using IORef?
 -- | a specific scenario
 section_34_1 :: StateT Scenario IO Scenario
 section_34_1 = do
   scenario <- get
-  liftIO $ putStrLn "* initial scenario"
-  liftIO $ putStrLn $ render ( asTable scenario )
 
-  let income1 :: ReplaceCols String IncomeStreams
-      income1 = ReplaceC { columns_  = ["ordinary income", "ordinary expenses"]
-                         , with_     = [preNetIncome] }
-      income1' = runReplaceC income1 scenario
-  liftIO $ putStrLn $ render $ asTable income1'
+  let transformations =
+        [ [] ~-> []
+        , ["ordinary income", "ordinary expenses"]      ~-> [preNetIncome]
+        , ["pre-net income"]                            ~-> [offsetLosses]
+        , []                                            ~-> [squashCats]
+        , []                                            ~-> [extraordinary]
+        ]
+      steps = scanl runReplace scenario transformations
 
-  let income2 :: ReplaceCols String IncomeStreams
-      income2 = ReplaceC { columns_  = ["pre-net income"]
-                         , with_     = [offsetLosses] }
-      income2' = runReplaceC income2 income1'
-  liftIO $ putStrLn $ render $ asTable income2'
+  _ <- liftIO $ sequence [ putStrLn ("* step " <> show n) >>
+                           putStrLn (asExample step)
+                         | (n, step) <- zip [1..] steps
+                         ]
 
-  let income3 :: ReplaceRows String Float
-      income3 = ReplaceR { rows_   = nub $ concatMap Map.keys (Map.elems income2')
-                         , with__  = [squashCats] }
-      income3' = runReplaceR income3 income2'
-  liftIO $ putStrLn $ render $ asTable income3'
-
-  let income4 :: ReplaceCols String IncomeStreams
-      income4 = ReplaceC { columns_  = []
-                         , with_     = [extraordinary] }
-      income4' = runReplaceC income4 income3'
-  liftIO $ putStrLn $ render $ asTable income4'
-
-  return income4'
-
---  let netIncome :: Scenario
---      netIncome = replace offsetLosses income1
---
---  liftIO $ putStrLn "** net income after offsetting losses"
---  liftIO $ print $ netIncome
---  
---  let taxableIncome :: IncomeStreams
---      taxableIncome = furtherReduce netIncome
---  liftIO $ putStrLn "** taxable income after further reductions"
---  liftIO $ print $ taxableIncome
---  return $ Map.update (const $ pure taxableIncome) "ordinary Income" defaultScenario
-
-
+  return $ last steps
 
 preNetIncome :: Scenario -> [Scenario]
 preNetIncome sc =
@@ -285,7 +250,7 @@ preNetIncome sc =
   Map.unionWith (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
 -- | losses from one income category can be used to offset earnings in another.
--- the offsetting is done on a per-category basis, against the single "pre-net income" column
+-- the offsetting is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
 offsetLosses :: Scenario -> [Scenario]
 offsetLosses sc =
@@ -322,19 +287,21 @@ extraordinary sc =
   
 
 -- | squash all non-exempt income categories together
-squashCats :: IncomeStreams -> [IncomeStreams]
-squashCats ns =
-  pure $
-  Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
-
--- [TODO] merge the extraordinary and ordinary streams of income
-furtherReduce :: IncomeStreams -> IncomeStreams
-furtherReduce orig = orig
+squashCats :: Scenario -> [Scenario]
+squashCats sc =
+  [(\istream -> runReplace istream (categoryKeys ~-> [squashCats'])) <$> sc]
+  where
+    categoryKeys = nub (concatMap Map.keys (Map.elems sc))
+    squashCats' :: IncomeStreams -> [IncomeStreams]
+    squashCats' ns =
+      pure $
+      Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
 
 -- | fmap only those elements that qualify, leaving the others alone
 mapOnly :: Functor t => (a -> Bool) -> (a -> a) -> t a -> t a
-mapOnly test transform items = (\i -> if test i then transform i else id i) <$> items
+mapOnly test transform items = (\i -> if test i then transform i else i) <$> items
 
+-- | when we start paying attention to marital status, we will want to know about different tax classes 
 data TaxClass
   = TC1 -- ^ Applies to single, widowed, divorced, permanently separated couples and married couples with one spouse living abroad.
   | TC2 -- ^ Applies to single parents who can claim the relief for single parents
@@ -348,7 +315,12 @@ data TaxClass
   | TC6 -- ^ Applies to single and married persons with another employment, if no employment tax card has been issued by the tax office.
   deriving (Ord, Eq, Show)
 
--- | progressive individual tax rate table, by year.
+data Marital = Single | Married
+  deriving (Eq, Show)
+
+-- | rate table from the "Tariff history" PDF downloaded from https://www.bmf-steuerrechner.de/
+--
+-- progressive individual tax rate table, by year.
 -- note that these rates do not include:
 -- - solidarity tax 5.5% of the normal rate payable; single taxpayers < 62127 / couples < 124255 exempt
 -- - church tax 8 -- 9%
@@ -357,17 +329,14 @@ data TaxClass
 --   - municipal business tax of 14 to 17%
 --   - municipal trade tax of 7 -- 17%
 
-data Marital = Single | Married
-  deriving (Eq, Show)
-
--- | rate table from the "Tariff history" PDF downloaded from https://www.bmf-steuerrechner.de/
-
 rateTable :: (Fractional a) => Int -> [(Ordering, a, a -> a)]
+-- | ratetable for 2022 -- use only with progStack
 rateTable 2022 = [(LT,   9409, const  0)
                  ,(GT,   9408, const 14)
                  ,(GT,  57051, const 42)
                  ,(GT, 270500, const 45)
                  ]
+-- | ratetable for 2023 -- use only with progDirect
 rateTable 2023 = [(LT,  10909, const  0)
                  ,(GT,  10908, \zvE -> let y = (zvE - 10908) / 10000
                                        in (979.18 * y + 1400) * y)
@@ -376,7 +345,7 @@ rateTable 2023 = [(LT,  10909, const  0)
                  ,(GT,  62810, \zvE -> 0.42 * zvE - 9972.98)
                  ,(GT, 277825, \zvE -> 0.45 * zvE - 18307.73)
                  ]
-rateTable _    = rateTable 2022
+rateTable _    = rateTable 2023
 
 -- | Direct computation of progressive tax, without recursing to lower tiers of the stack.
 -- this is for countries which just give a direct formula that already takes into account
@@ -389,10 +358,12 @@ progDirect year income =
     go ((o,n,f):rts) income'
       | income' `compare` n == o = f income'
       | otherwise                = go rts income'
+    go [] _ = 0
 
 -- | Stacked computation of progressive tax, by recursively adding lower tiers.
 -- this is suitable for countries that announce their progressive tiers in terms of
--- "for the nth dollar you make, pay X in taxes on it"
+-- "for the nth dollar you make, pay X in taxes on it".
+-- This is not to be actually used, it's just here because we wrote it before progDirect.
 progStack :: (Ord a, Fractional a) => Int -> a -> a
 progStack year income =
   let rt = reverse $ rateTable year
@@ -403,16 +374,24 @@ progStack year income =
       | otherwise                = progRate rts income'
     progRate [] _ = 0
 
--- | what is the effective tax rate?
+-- | for org-mode purposes
+asExample :: Scenario -> String
+asExample sc = "\n#+begin_example\n" <> render (asTable sc) <> "#+end_example\n"
+
+-- | what is the effective tax rate? against `progStack`
 effectiveRateStacked :: (Ord a, Fractional a) => Int -> a -> a
 effectiveRateStacked year income = progStack year income / income * 100
 
+-- | what is the effective tax rate? against `progDirect`
 effectiveRateDirect :: (Ord a, Fractional a) => Int -> a -> a
 effectiveRateDirect year income = progDirect year income / income * 100
 
+-- | the solidarity surcharge is 5.5% /of/ the rest of the taxes
+solidaritySurcharge :: (Fractional a, Ord a) => Int -> a -> a
 solidaritySurcharge year income = progDirect year income / income * 0.055 * income
 
 {- Also:
 Profits from the sale of private real estate that has been held for more than 10 years, or from the sale of other assets that have been held for more than 12 months is exempt from tax. For shorter holding periods the general tax rates apply.
 Sale of a shares when the percentage of the investment is less than 1% is subject to a flat 25% tax. On the other hand, when the percentage of the holding is in excess of 1%, tax is payable on 60% of the profit at normal rates.
 -}
+
