@@ -6,6 +6,7 @@ module Lib where
 import qualified Data.Map as Map
 import Control.Monad.Trans.State ( get, gets, State, StateT, evalState, runStateT )
 import Control.Monad.State (liftIO)
+import Control.Monad (forM_)
 import Text.Megaparsec
     ( choice, many, some, Parsec, MonadParsec(try) )
 import Text.Megaparsec.Char ( numberChar, hspace )
@@ -153,7 +154,7 @@ runTests = do
                                    (MathVal 6))) symtab :: Float
   print test1
   -- [TODO] write a simple parser to set up the scenario
-  let startScenario =
+  let scenario1 =
         flip Map.update "ordinary income"
         (pure
           . Map.update (const $ pure   72150) "Rents"
@@ -174,8 +175,43 @@ runTests = do
           . Map.update (const $ pure  100000) "Other"
         )
         defaultScenario
+  let scenario2 =
+        flip Map.update "ordinary income"
+        (pure
+          . Map.update (const $ pure   72150) "Rents"
+          . Map.update (const $ pure   30000) "Agriculture"
+          . Map.update (const $ pure     100) "Exempt Capital"
+        ) $
 
-  _ <- runStateT section_34_1 startScenario
+        flip Map.update "extraordinary income"
+        (pure
+          . Map.update (const $ pure  270000) "Agriculture"
+          . Map.update (const $ pure     100) "Exempt Capital"
+        ) $
+
+        flip Map.update "ordinary expenses"
+        (pure
+          . Map.update (const $ pure    2150) "Rents"
+          . Map.update (const $ pure    6000) "Independent"
+        )
+        defaultScenario
+
+  let testcase1 =
+        flip Map.update "ordinary income"
+        (pure
+          . Map.update (const $ pure   72150) "Rents"
+        ) $
+
+        flip Map.update "extraordinary income"
+        (pure
+          . Map.update (const $ pure   25000) "Rents"
+        ) $
+
+        defaultScenario
+
+  forM_ (zip [1 :: Int ..] [scenario1, scenario2, testcase1]) $ \(n,sc) -> do
+    putStrLn $ "* run " <> show n
+    runStateT section_34_1 sc
   return ()
   
 --  let parsed = runParser pMathLang "" "( 5 + 3 * 2 )"
@@ -216,13 +252,20 @@ data Replace k a = Replace { elems_  :: [k] , with_ :: [Map.Map k a -> Map.Map k
 -- | run the generic replacement
 runReplace :: Ord k => Map.Map k a -> Replace k a -> Map.Map k a
 runReplace m (Replace ks fs) =
-  Map.unions $ (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
+  if all (`Map.member` m) ks
+  then Map.unions $ (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
+  else m
 
+-- | syntactic sugar for setting up a Replace transformation
 (~->) :: [k] -> [Map.Map k a -> Map.Map k a] -> Replace k a
 (~->) k ka = Replace { elems_ = k, with_ = ka }
 
 -- should we be using IORef?
--- | a specific scenario
+-- | run through a specific set of transformations defined in section 34_1.
+-- 
+-- A particular transformation runs only if all its LHS columns are found in the scenario table,
+-- in which case those columns are replaced by the output of the transformer.
+
 section_34_1 :: StateT Scenario IO Scenario
 section_34_1 = do
   initialScenario <- get
@@ -232,14 +275,13 @@ section_34_1 = do
         , ["ordinary income", "ordinary expenses"]      ~-> [preNetIncome]
         , ["pre-net income"]                            ~-> [offsetLosses]
         , []                                            ~-> [squashCats]
-        , []                                            ~-> [extraordinary, sentence3]
+        , []                                            ~-> [extraordinary]
+        , []                                            ~-> [sentence3]
         ]
       steps = scanl runReplace initialScenario transformations
 
-  _ <- liftIO $ sequence [ putStrLn ("* step " <> show n) >>
-                           putStrLn (asExample step)
-                         | (n, step) <- zip [1::Int ..] steps
-                         ]
+  _ <- liftIO $ sequence [ putStrLn ("** step " <> show n) >> putStrLn (asExample step)
+                         | (n, step) <- zip [1::Int ..] steps ]
 
   return $ last steps
 
@@ -285,7 +327,7 @@ extraordinary sc =
                   ,("3 tax on RTI+.2",          rti5tax)
                   ,("4 difference",             delta)
                   ,("5 extraordinary taxation", rti5tax5)
-                  ,("6 total taxable",          totalI)
+                  ,("total taxable income",     totalI)
                   ]
   
 -- | sentence 3
@@ -298,9 +340,10 @@ sentence3 sc =
                                    then 5 * progDirect 2023 ( (o + e) / 5 )
                                    else 0)
                     ordinary extraI
-  in Map.fromList [("7 is RTI even negative?", negRTI)
-                  ,("8 due to negative RTI", fiveOnFifth)
-                  ]
+  in if any (>0) (Map.elems negRTI)
+     then Map.fromList [("0 RTI is negative",                        negRTI)
+                       ,("1 revised RTI taxation due to sentence 3", fiveOnFifth)]
+     else Map.empty
   
 
 -- | squash all non-exempt income categories together
