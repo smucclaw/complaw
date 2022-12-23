@@ -228,7 +228,7 @@ section_34_1 = do
   scenario <- get
 
   let transformations =
-        [ [] ~-> []
+        [ []                                            ~-> []
         , ["ordinary income", "ordinary expenses"]      ~-> [preNetIncome]
         , ["pre-net income"]                            ~-> [offsetLosses]
         , []                                            ~-> [squashCats]
@@ -238,7 +238,7 @@ section_34_1 = do
 
   _ <- liftIO $ sequence [ putStrLn ("* step " <> show n) >>
                            putStrLn (asExample step)
-                         | (n, step) <- zip [1..] steps
+                         | (n, step) <- zip [1::Int ..] steps
                          ]
 
   return $ last steps
@@ -255,7 +255,8 @@ offsetLosses :: Scenario -> Scenario
 offsetLosses sc =
   let orig = sc Map.! "pre-net income"
       (negatives, positives) = Map.partition (< 0) orig
-      [totalNeg, totalPos] = sum . Map.elems <$> [ negatives, positives ]
+      totalNeg = sum $ Map.elems negatives
+      totalPos = sum $ Map.elems positives
   in
     Map.singleton "remaining taxable income" $
     (\x -> if x < 0
