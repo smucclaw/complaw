@@ -277,6 +277,8 @@ section_34_1 = do
         , []                                            ~-> [squashCats]
         , []                                            ~-> [extraordinary]
         , []                                            ~-> [sentence3]
+        , ["1 revised RTI taxation due to sentence 3"]  ~-> [sentence3_b]
+        , []                                            ~-> [totalPayable]
         ]
       steps = scanl runReplace initialScenario transformations
 
@@ -342,9 +344,21 @@ sentence3 sc =
                     ordinary extraI
   in if any (>0) (Map.elems negRTI)
      then Map.fromList [("0 RTI is negative",                        negRTI)
-                       ,("1 revised RTI taxation due to sentence 3", fiveOnFifth)]
+                       ,("1 revised RTI taxation due to sentence 3", fiveOnFifth)
+                       ]
      else Map.empty
-  
+
+sentence3_b :: Scenario -> Scenario
+sentence3_b sc =
+  Map.fromList [("1 RTI taxation", sc Map.! "1 revised RTI taxation due to sentence 3")]
+
+
+totalPayable :: Scenario -> Scenario
+totalPayable sc =
+  let rtiTax   = sc Map.! "1 RTI taxation"
+      extraTax = sc Map.! "5 extraordinary taxation"
+  in Map.fromList [("6 total tax payable", mapAp (+) rtiTax extraTax)]
+
 
 -- | squash all non-exempt income categories together
 squashCats :: Scenario -> Scenario
