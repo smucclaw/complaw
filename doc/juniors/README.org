@@ -148,7 +148,7 @@ I am an expert in both JavaScript-the-language and the JavaScript front-end ecos
 
 Some people [[https://youtu.be/3018ABlET1Y?t=787][consider that the modern equivalent of blue-collar labour]]. Some people go far beyond that. They might add /It’s not my favorite technology, but knowing the language and its tools is pretty important for building modern web applications, even if you decide to use a compile-to-JS language./
 
-And then they stick the paragraph on to the end of their bio, as an "oh, I almost forgot", because it's really the least of their skills. What does the rest of their bio say? https://lexi-lambda.github.io/resume.html
+And then they stick the paragraph on to the end of their bio, as an "oh, I almost forgot", because it's really the least of their skills. What does the rest of their bio say? https://web.archive.org/web/20210624023556/https://lexi-lambda.github.io/resume.html
 
 *** Don't just use a library. Write a library.
 
