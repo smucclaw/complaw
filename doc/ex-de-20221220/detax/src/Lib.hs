@@ -260,7 +260,21 @@ runReplace m (Replace ks fs) =
 (~->) :: [k] -> [Map.Map k a -> Map.Map k a] -> Replace k a
 (~->) k ka = Replace { elems_ = k, with_ = ka }
 
--- should we be using IORef?
+-- | section 2(3) EStG
+section_2 :: StateT Scenario IO Scenario
+section_2 = do
+  initialScenario <- get
+  liftIO $ putStrLn "* section_2_3"
+  let transformations =
+        [ []                                            ~-> []
+        , ["ordinary income", "ordinary expenses"]      ~-> [preNetIncome]       -- 2_3_2
+        , ["pre-net income"]                            ~-> [offsetLosses_2_3_3] -- 2_3_3
+        , []                                            ~-> [squashCats]
+      --  , marital
+        ]
+      steps = scanl runReplace initialScenario transformations
+  return $ last steps
+
 -- | run through a specific set of transformations defined in section 34_1.
 -- 
 -- A particular transformation runs only if all its LHS columns are found in the scenario table,
@@ -269,6 +283,7 @@ runReplace m (Replace ks fs) =
 section_34_1 :: StateT Scenario IO Scenario
 section_34_1 = do
   initialScenario <- get
+  liftIO $ putStrLn "* section_34_1"
 
   let transformations =
         [ []                                            ~-> []
@@ -292,7 +307,8 @@ preNetIncome sc =
   Map.singleton "pre-net income" $
   mapAp (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
--- | losses from one income category can be used to offset earnings in another.
+-- | loss offsets, based on section 34.
+-- losses from one income category can be used to offset earnings in another.
 -- the offsetting is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
 offsetLosses :: Scenario -> Scenario
@@ -307,6 +323,37 @@ offsetLosses sc =
            then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
            else x + totalNeg * (x / totalPos))
     <$> orig 
+
+
+-- | loss offsets, based on section 2(3) para 3 & 4
+-- the reduction is done on a per-category basis, against the single "pre-net income" column, pro rata
+--
+offsetLosses_2_3_3 :: Scenario -> Scenario
+offsetLosses_2_3_3 sc =
+  let orig = sc Map.! "pre-net income"
+      (negatives, positives) = Map.partition (< 0) orig
+      totalNeg = sum $ Map.elems negatives
+      totalPos = sum $ Map.elems positives
+      maxReduction = if   totalPos > 100000
+                     then totalNeg / 2
+                     else totalNeg
+  in
+    Map.singleton "remaining taxable income" 
+    (offsetLosses_2_3_4 (maxReduction / totalPos) <$> orig)
+
+-- | based on section 2(3) para 4
+-- 
+-- 4. The reduction is to be made in proportion to
+--    1. the positive totals of income
+--       1. from different types of income
+--    2. to the total of positive income.
+
+offsetLosses_2_3_4 :: Float -> Float -> Float
+offsetLosses_2_3_4 reduction x =
+  if x < 0
+  then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
+  else x + (x * reduction)
+
 
 mapAp :: Ord k => (a -> a -> a) -> Map.Map k a -> Map.Map k a -> Map.Map k a
 mapAp = Map.unionWith
