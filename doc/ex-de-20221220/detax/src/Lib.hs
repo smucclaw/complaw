@@ -189,7 +189,7 @@ runTests = do
         (pure
           . Map.update (const $ pure    2150) "Rents"
           . Map.update (const $ pure    6000) "Independent"
-          . Map.update (const $ pure   80000) "Other"
+          . Map.update (const $ pure   60000) "Other"
         )
         defaultScenario
 
@@ -386,6 +386,7 @@ metaFsc title@"offsetLosses_2_3_3" sc = do
       maxReduction = if   totalPos > 100000
                      then totalNeg / 2
                      else totalNeg
+      reductio = 1 + max (-1) (maxReduction / totalPos)
   when (totalPos > 100000) $ do
     explain title $ "sum of the positive incomes " ++ show totalPos ++ " exceeds 100000"
     explain title $ "so we will limit deductions to half of the sum of the negative incomes " ++ show totalNeg ++ " = " ++ show maxReduction
@@ -394,8 +395,11 @@ metaFsc title@"offsetLosses_2_3_3" sc = do
     explain title $ "sum of the positive incomes " ++ show totalPos ++ " is less than 100000"
     explain title $ "so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be " ++ show maxReduction
     explain title $ "we will apply deductions pro rata to the positive incomes"
-  rti <- sequence [ (cat,) <$> offsetLosses_2_3_4 cat (maxReduction / totalPos) n
+  explain title $ "reductio = " <> show reductio
+  rti <- sequence [ (cat,) <$> offsetLosses_2_3_4 cat reductio n
                   | (cat,n) <- Map.toList orig ]
+  -- viaprorata <- prorateF (* reductio) (>0) 0 (Map.elems orig)
+  -- liftIO $ putStrLn $ "via pro rata, we would have " ++ show viaprorata
   return $ Map.singleton "adjusted taxable income" (Map.fromList rti)
     
   where 
@@ -407,11 +411,11 @@ metaFsc title@"offsetLosses_2_3_3" sc = do
     --    2. to the total of positive income.
     offsetLosses_2_3_4 :: String -> Float -> Float -> StateT Explanation IO Float
     offsetLosses_2_3_4 categoryName reduction x
-      | x < 0     = pure 0                     <* explain title (categoryName <> " is negative, resetting to 0")
+      | x < 0     = pure 0 <* explain title (categoryName <> " is negative, resetting to 0")
       | x == 0    = pure 0
       | otherwise = do
-          let out = x + (x * reduction)
-          explain title (categoryName <> " " <> show x <> " is positive, reducing by " ++ show reduction ++ " = " ++ show out)
+          let out = x * reduction
+          explain title (categoryName <> " " <> show x <> " is positive, multiplying by " ++ show reduction ++ " = " ++ show out)
           return out
 
 -- | extraordinary income is taxed
@@ -479,6 +483,26 @@ metaFis fname _ = return $ error $ "metaFis called for undefined function name "
 -- example: @ prorate (* 1000) [5,3,2] == [500.0,300.0,200.0] @ 
 prorate :: (Fractional a, Functor f, Foldable f) => (a -> a) -> f a -> StateT Explanation IO (f a)
 prorate f xs = return $ f . (/ sum xs) <$> xs
+
+-- | what does filtered pro rata mean?
+-- it means we map some function across a functor, where each application is scaled to that value's fraction of some partitioned subset of the functor, which passes a filter
+-- elements which fail that filter are reset to mempty
+-- example: divide 1000 new shares among all the debtholders who hold a positive balance, while zeroing the allotment for any who hold a negative balance
+-- @
+--   prorateF (const 1000) (>0) [5,3,2,-1] ==> [500.0,300.0,200.0,0]
+-- @
+-- 
+-- example: halve the value of all elements which are positive, while zeroing anything negative
+-- @
+--   prorateF (/ 2) (>0) [5,3,2,-1] ==> [500.0,300.0,200.0,0]
+-- @
+-- 
+prorateF :: (Fractional a, Functor f, Foldable f) => (a -> a) -> (a -> Bool) -> a -> f a -> StateT Explanation IO (f a)
+prorateF f filt zeroval xs = do
+  let passes = sum $ (\x -> if filt x then x else zeroval) <$> xs
+  return $ (\x -> if filt x
+                  then f x
+                  else zeroval) <$> xs
 
 -- map application
 mapAp :: Ord k => (a -> a -> a) -> Map.Map k a -> Map.Map k a -> Map.Map k a
