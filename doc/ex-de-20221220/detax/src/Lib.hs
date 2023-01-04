@@ -210,8 +210,9 @@ runTests = do
         defaultScenario
 
   forM_ (zip [1 :: Int ..] [scenario1, scenario2, testcase1]) $ \(n,sc) -> do
-    putStrLn $ "* run " <> show n
+    putStrLn $ "* running scenario " <> show n
     runStateT section_34_1 sc
+    runStateT section_2_3 sc
   return ()
   
 --  let parsed = runParser pMathLang "" "( 5 + 3 * 2 )"
@@ -247,63 +248,69 @@ asColumn :: String -> IncomeStreams -> Box
 asColumn str istream = asTable (Map.singleton str istream)
 
 -- | "natural language" friendly way of phrasing a transformation that changes some elements around
-data Replace k a = Replace { elems_  :: [k] , with_ :: [Map.Map k a -> Map.Map k a] }
+data Replace = Replace { elems_  :: [String] , with_ :: [String] }
 
--- | run the generic replacement
-runReplace :: Ord k => Map.Map k a -> Replace k a -> Map.Map k a
-runReplace m (Replace ks fs) =
+-- | run the generic replacement for Scenarios
+runReplaceSc :: Scenario -> Replace -> Scenario
+runReplaceSc m (Replace ks fs) =
   if all (`Map.member` m) ks
-  then Map.unions $ (fs <*> [m]) ++ [foldl (flip Map.delete) m ks]
+  then Map.unions $ ((metaFsc <$> fs) <*> [m]) ++ [foldl (flip Map.delete) m ks]
+  else m
+
+runReplaceIs :: IncomeStreams -> Replace -> IncomeStreams
+runReplaceIs m (Replace ks fs) =
+  if all (`Map.member` m) ks
+  then Map.unions $ ((metaFis <$> fs) <*> [m]) ++ [foldl (flip Map.delete) m ks]
   else m
 
 -- | syntactic sugar for setting up a Replace transformation
-(~->) :: [k] -> [Map.Map k a -> Map.Map k a] -> Replace k a
+(~->) :: [String] -> [String] -> Replace
 (~->) k ka = Replace { elems_ = k, with_ = ka }
 
--- | section 2(3) EStG
-section_2 :: StateT Scenario IO Scenario
-section_2 = do
+-- | generic section wrapper
+runSection :: String -> [Replace] -> StateT Scenario IO Scenario
+runSection name transformations = do
   initialScenario <- get
-  liftIO $ putStrLn "* section_2_3"
-  let transformations =
-        [ []                                            ~-> []
-        , ["ordinary income", "ordinary expenses"]      ~-> [preNetIncome]       -- 2_3_2
-        , ["pre-net income"]                            ~-> [offsetLosses_2_3_3] -- 2_3_3
-        , []                                            ~-> [squashCats]
-      --  , marital
-        ]
-      steps = scanl runReplace initialScenario transformations
+  liftIO $ putStrLn ("** " <> name)
+  let steps = scanl runReplaceSc initialScenario transformations
+  _ <- liftIO $ sequence [ putStrLn ("*** step " <> show n) >> putStrLn (asExample step)
+                         | (n, step) <- zip [1::Int ..] steps ]
   return $ last steps
+
+-- | section 2(3) EStG
+section_2_3 :: StateT Scenario IO Scenario
+section_2_3 = do
+  runSection "section 2.3"
+        [ []                                            ~-> []
+        , ["ordinary income", "ordinary expenses"]      ~-> ["preNetIncome"]       -- 2_3_2
+        , ["pre-net income"]                            ~-> ["offsetLosses_2_3_3"] -- 2_3_3
+        , []                                            ~-> ["squashCats"]
+      --  , marital adjustments
+        ]
 
 -- | run through a specific set of transformations defined in section 34_1.
 -- 
 -- A particular transformation runs only if all its LHS columns are found in the scenario table,
 -- in which case those columns are replaced by the output of the transformer.
-
 section_34_1 :: StateT Scenario IO Scenario
 section_34_1 = do
-  initialScenario <- get
-  liftIO $ putStrLn "* section_34_1"
-
-  let transformations =
+  runSection "section 34.1"
         [ []                                            ~-> []
-        , ["ordinary income", "ordinary expenses"]      ~-> [preNetIncome]
-        , ["pre-net income"]                            ~-> [offsetLosses]
-        , []                                            ~-> [squashCats]
-        , []                                            ~-> [extraordinary]
-        , []                                            ~-> [sentence3]
-        , ["1 revised RTI taxation due to sentence 3"]  ~-> [sentence3_b]
-        , []                                            ~-> [totalPayable]
+        , ["ordinary income", "ordinary expenses"]      ~-> ["preNetIncome"]
+        , ["pre-net income"]                            ~-> ["offsetLosses"]
+        , []                                            ~-> ["squashCats"]
+        , []                                            ~-> ["extraordinary"]
+        , []                                            ~-> ["sentence3"]
+        , ["1 revised RTI taxation due to sentence 3"]  ~-> ["sentence3_b"]
+        , []                                            ~-> ["totalPayable"]
         ]
-      steps = scanl runReplace initialScenario transformations
 
-  _ <- liftIO $ sequence [ putStrLn ("** step " <> show n) >> putStrLn (asExample step)
-                         | (n, step) <- zip [1::Int ..] steps ]
+-- | a meta-function constructor for use by our meta-interpreter.
+-- Instead of just a direct function definition @f = whatever@
+-- we have @metaF "f" = whatever@
+metaFsc :: String -> Scenario -> Scenario
 
-  return $ last steps
-
-preNetIncome :: Scenario -> Scenario
-preNetIncome sc =
+metaFsc "preNetIncome" sc =
   Map.singleton "pre-net income" $
   mapAp (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
@@ -311,8 +318,7 @@ preNetIncome sc =
 -- losses from one income category can be used to offset earnings in another.
 -- the offsetting is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
-offsetLosses :: Scenario -> Scenario
-offsetLosses sc =
+metaFsc "offsetLosses" sc =
   let orig = sc Map.! "pre-net income"
       (negatives, positives) = Map.partition (< 0) orig
       totalNeg = sum $ Map.elems negatives
@@ -328,8 +334,7 @@ offsetLosses sc =
 -- | loss offsets, based on section 2(3) para 3 & 4
 -- the reduction is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
-offsetLosses_2_3_3 :: Scenario -> Scenario
-offsetLosses_2_3_3 sc =
+metaFsc "offsetLosses_2_3_3" sc =
   let orig = sc Map.! "pre-net income"
       (negatives, positives) = Map.partition (< 0) orig
       totalNeg = sum $ Map.elems negatives
@@ -340,27 +345,21 @@ offsetLosses_2_3_3 sc =
   in
     Map.singleton "remaining taxable income" 
     (offsetLosses_2_3_4 (maxReduction / totalPos) <$> orig)
-
--- | based on section 2(3) para 4
--- 
--- 4. The reduction is to be made in proportion to
---    1. the positive totals of income
---       1. from different types of income
---    2. to the total of positive income.
-
-offsetLosses_2_3_4 :: Float -> Float -> Float
-offsetLosses_2_3_4 reduction x =
-  if x < 0
-  then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
-  else x + (x * reduction)
-
-
-mapAp :: Ord k => (a -> a -> a) -> Map.Map k a -> Map.Map k a -> Map.Map k a
-mapAp = Map.unionWith
+  where 
+    -- | based on section 2(3) para 4
+    -- 
+    -- 4. The reduction is to be made in proportion to
+    --    1. the positive totals of income
+    --       1. from different types of income
+    --    2. to the total of positive income.
+    offsetLosses_2_3_4 :: Float -> Float -> Float
+    offsetLosses_2_3_4 reduction x =
+      if x < 0
+      then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
+      else x + (x * reduction)
 
 -- | extraordinary income is taxed
-extraordinary :: Scenario -> Scenario
-extraordinary sc =
+metaFsc "extraordinary" sc =
   let ordinary = sc Map.! "remaining taxable income"
       extraI   = sc Map.! "extraordinary income"
       taxFor   = mapOnly (>0) (progDirect 2023)
@@ -380,8 +379,7 @@ extraordinary sc =
                   ]
   
 -- | sentence 3
-sentence3 :: Scenario -> Scenario
-sentence3 sc =
+metaFsc "sentence3" sc =
   let ordinary = sc Map.! "remaining taxable income"
       extraI   = sc Map.! "extraordinary income"
       negRTI   = (\o -> if o < 0 then 1 else 0) <$> ordinary
@@ -395,27 +393,34 @@ sentence3 sc =
                        ]
      else Map.empty
 
-sentence3_b :: Scenario -> Scenario
-sentence3_b sc =
+metaFsc "sentence3_b" sc =
   Map.fromList [("1 RTI taxation", sc Map.! "1 revised RTI taxation due to sentence 3")]
 
 
-totalPayable :: Scenario -> Scenario
-totalPayable sc =
+metaFsc "totalPayable" sc =
   let rtiTax   = sc Map.! "1 RTI taxation"
       extraTax = sc Map.! "5 extraordinary taxation"
   in Map.fromList [("6 total tax payable", mapAp (+) rtiTax extraTax)]
 
 
 -- | squash all non-exempt income categories together
-squashCats :: Scenario -> Scenario
-squashCats sc =
-  (\istream -> runReplace istream (categoryKeys ~-> [squashCats'])) <$> sc
+metaFsc "squashCats" sc =
+  (\istream -> runReplaceIs istream (categoryKeys ~-> ["squashCats'"])) <$> sc
   where
+    categoryKeys :: [String]
     categoryKeys = nub (concatMap Map.keys (Map.elems sc))
-    squashCats' :: IncomeStreams -> IncomeStreams
-    squashCats' ns =
-      Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
+
+metaFsc fname _ = error $ "metaFsc called for undefined function name " <> fname
+
+metaFis :: Num a => String -> Map.Map String a -> Map.Map String a
+metaFis "squashCats'" ns =
+  Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
+
+metaFis fname _ = error $ "metaFis called for undefined function name " <> fname
+
+-- map application
+mapAp :: Ord k => (a -> a -> a) -> Map.Map k a -> Map.Map k a -> Map.Map k a
+mapAp = Map.unionWith
 
 -- | fmap only those elements that qualify, leaving the others alone
 mapOnly :: Functor t => (a -> Bool) -> (a -> a) -> t a -> t a
