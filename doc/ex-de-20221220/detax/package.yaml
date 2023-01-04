@@ -26,6 +26,7 @@ dependencies:
 - mtl
 - megaparsec
 - parsec
+- parser-combinators
 - boxes
 
 ghc-options:

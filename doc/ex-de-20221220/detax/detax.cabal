@@ -38,6 +38,7 @@ library
     , megaparsec
     , mtl
     , parsec
+    , parser-combinators
     , transformers
   default-language: Haskell2010
 
@@ -54,6 +55,7 @@ executable detax-exe
     , megaparsec
     , mtl
     , parsec
+    , parser-combinators
     , transformers
   default-language: Haskell2010
 
@@ -71,5 +73,6 @@ test-suite detax-test
     , megaparsec
     , mtl
     , parsec
+    , parser-combinators
     , transformers
   default-language: Haskell2010

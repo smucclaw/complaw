@@ -14,6 +14,7 @@ import Data.List ( sort, isPrefixOf, nub )
 import Text.PrettyPrint.Boxes
     ( emptyBox, hsep, nullBox, render, vcat, Box )
 import qualified Text.PrettyPrint.Boxes as BX
+import Control.Monad.Combinators.Expr
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -154,6 +155,7 @@ runTests = do
                                    (MathVal 6))) symtab :: Float
   print test1
   -- [TODO] write a simple parser to set up the scenario
+  -- scenario 1: income exceeds expenses thanks to extraordinary; taxable income is > 100000; some negative income in certain categories
   let scenario1 =
         flip Map.update "ordinary income"
         (pure
@@ -284,7 +286,8 @@ section_2_3 = do
         [ []                                            ~-> []
         , ["ordinary income", "ordinary expenses"]      ~-> ["preNetIncome"]       -- 2_3_2
         , ["pre-net income"]                            ~-> ["offsetLosses_2_3_3"] -- 2_3_3
-        , []                                            ~-> ["squashCats"]
+        , ["remaining taxable income", "extraordinary income"] ~-> ["squashIncomes"]
+        , []                                                   ~-> ["squashCats"]
       --  , marital adjustments
         ]
 
@@ -307,12 +310,19 @@ section_34_1 = do
 
 -- | a meta-function constructor for use by our meta-interpreter.
 -- Instead of just a direct function definition @f = whatever@
--- we have @metaF "f" = whatever@
+-- we have (generally) @metaF "f" = whatever@ which gets called later.
+-- here, the @whatever@ is a Scenario, so we say `metaFsc`.
 metaFsc :: String -> Scenario -> Scenario
 
 metaFsc "preNetIncome" sc =
   Map.singleton "pre-net income" $
   mapAp (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
+
+-- | squash extraordinary into pre-net income; only used for section 2
+metaFsc "squashIncomes" sc =
+  Map.singleton "taxable income" $
+  mapAp (+) (sc Map.! "remaining taxable income") (sc Map.! "extraordinary income")
+
 
 -- | loss offsets, based on section 34.
 -- losses from one income category can be used to offset earnings in another.
@@ -329,7 +339,6 @@ metaFsc "offsetLosses" sc =
            then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
            else x + totalNeg * (x / totalPos))
     <$> orig 
-
 
 -- | loss offsets, based on section 2(3) para 3 & 4
 -- the reduction is done on a per-category basis, against the single "pre-net income" column, pro rata
@@ -402,7 +411,6 @@ metaFsc "totalPayable" sc =
       extraTax = sc Map.! "5 extraordinary taxation"
   in Map.fromList [("6 total tax payable", mapAp (+) rtiTax extraTax)]
 
-
 -- | squash all non-exempt income categories together
 metaFsc "squashCats" sc =
   (\istream -> runReplaceIs istream (categoryKeys ~-> ["squashCats'"])) <$> sc
@@ -417,6 +425,13 @@ metaFis "squashCats'" ns =
   Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
 
 metaFis fname _ = error $ "metaFis called for undefined function name " <> fname
+
+-- | what does pro rata mean?
+-- it means we map some function across a functor, where each application is scaled to that value's fraction of the whole
+--
+-- example: @ prorate (* 1000) [5,3,2] == [500.0,300.0,200.0] @ 
+prorate :: (Fractional a, Functor f, Foldable f) => (a -> a) -> f a -> f a
+prorate f xs = f . (/ sum xs) <$> xs
 
 -- map application
 mapAp :: Ord k => (a -> a -> a) -> Map.Map k a -> Map.Map k a -> Map.Map k a
