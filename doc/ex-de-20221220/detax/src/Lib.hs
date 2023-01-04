@@ -4,11 +4,10 @@
 module Lib where
 
 import qualified Data.Map as Map
-import Control.Monad.Trans.State ( gets, State, StateT, evalState, execStateT )
+import Control.Monad.Trans.State ( gets, State, StateT, evalState, execStateT, modify )
 import Control.Monad.State (liftIO)
-import Control.Monad (forM_, liftM)
-import Text.Megaparsec
-    ( choice, many, some, Parsec, MonadParsec(try) )
+import Control.Monad (forM_, when)
+import Text.Megaparsec ( choice, many, some, Parsec, MonadParsec(try) )
 import Text.Megaparsec.Char ( numberChar, hspace )
 import Data.List ( sort, isPrefixOf, nub )
 import Text.PrettyPrint.Boxes
@@ -156,7 +155,7 @@ runTests = do
   print test1
   -- [TODO] write a simple parser to set up the scenario
   -- scenario 1: income exceeds expenses thanks to extraordinary; taxable income is > 100000; some negative income in certain categories
-  let scenario1 =
+  let scenario1a =
         flip Map.update "ordinary income"
         (pure
           . Map.update (const $ pure   72150) "Rents"
@@ -177,6 +176,23 @@ runTests = do
           . Map.update (const $ pure  100000) "Other"
         )
         defaultScenario
+
+  let scenario1b =
+        flip Map.update "ordinary income"
+        (pure
+          . Map.update (const $ pure   72150) "Rents"
+          . Map.update (const $ pure   20000) "Agriculture"
+          . Map.update (const $ pure     100) "Exempt Capital"
+        ) $
+
+        flip Map.update "ordinary expenses"
+        (pure
+          . Map.update (const $ pure    2150) "Rents"
+          . Map.update (const $ pure    6000) "Independent"
+          . Map.update (const $ pure   80000) "Other"
+        )
+        defaultScenario
+
   let scenario2 =
         flip Map.update "ordinary income"
         (pure
@@ -211,11 +227,14 @@ runTests = do
 
         defaultScenario
 
-  forM_ (zip [1 :: Int ..] [scenario1, scenario2, testcase1]) $ \(n,sc) -> do
+  forM_ (zip [1 :: Int ..] [scenario1a, scenario1b, scenario2, testcase1]) $ \(n,sc) -> do
     putStrLn $ "* running scenario " <> show n
-    print =<< execStateT (section_34_1 sc) []
-    putStrLn . unlines . fmap (\(a,b) -> "- " ++ a ++ " :: " ++ b) =<< execStateT (section_2_3 sc) []
+    printExplanation $ section_2_3  sc
+    printExplanation $ section_34_1 sc
   return ()
+
+printExplanation :: StateT [([Char], [Char])] IO a -> IO ()
+printExplanation x = putStrLn . unlines . fmap (\(a,b) -> "- " ++ a ++ " :: " ++ b) =<< execStateT x []
   
 --  let parsed = runParser pMathLang "" "( 5 + 3 * 2 )"
 --  print parsed
@@ -266,7 +285,7 @@ runReplaceSc m (Replace ks fs) =
 runReplaceIs :: IncomeStreams -> Replace -> StateT Explanation IO IncomeStreams
 runReplaceIs m (Replace ks fs) =
   if all (`Map.member` m) ks
-  then Map.unions <$> (++ [foldl (flip Map.delete) m ks]) <$> (sequence $ (metaFis <$> fs) <*> [m]) 
+  then Map.unions . (++ [foldl (flip Map.delete) m ks]) <$> sequence ((metaFis <$> fs) <*> [m]) 
   else return m
 
 -- | syntactic sugar for setting up a Replace transformation
@@ -282,23 +301,17 @@ runSection name initialScenario transformations = do
                          | (n, step) <- zip [1::Int ..] steps ]
   return $ last steps
 
-scanlM :: (Monad m) => (b -> a -> m b) -> b -> [a] -> m [b]
-scanlM _ _ []     = return []
-scanlM f q (x:xs) = do
-  t <- f q x
-  ts <- scanlM f t xs
-  return (t : ts)
-
 -- | section 2(3) EStG
 section_2_3 :: Scenario -> StateT Explanation IO Scenario
 section_2_3 sc = do
   runSection "section 2.3" sc
-        [ []                                            ~-> []
-        , ["ordinary income", "ordinary expenses"]      ~-> ["preNetIncome"]       -- 2_3_2
-        , ["pre-net income"]                            ~-> ["offsetLosses_2_3_3"] -- 2_3_3
-        , ["remaining taxable income", "extraordinary income"] ~-> ["squashIncomes"]
-        , []                                                   ~-> ["squashCats"]
-      --  , marital adjustments
+        [ []                                             ~-> []
+        , ["ordinary income", "extraordinary income"]    ~-> ["squashIncomes"]
+        , ["combined income", "ordinary expenses"]       ~-> ["netIncome"]          -- 2_3_2
+        , ["net income"]                                 ~-> ["offsetLosses_2_3_3"] -- 2_3_3
+        , []                                             ~-> ["squashCats"]
+      -- marital adjustments
+      -- carryover loss, if net negative then leave some negative?
         ]
 
 -- | run through a specific set of transformations defined in section 34_1.
@@ -328,10 +341,22 @@ metaFsc "preNetIncome" sc = return $
   Map.singleton "pre-net income" $
   mapAp (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
+metaFsc "netIncome" sc = return $
+  Map.singleton "net income" $
+  mapAp (-) (sc Map.! "combined income") (sc Map.! "ordinary expenses")
+
 -- | squash extraordinary into pre-net income; only used for section 2
-metaFsc "squashIncomes" sc = return $
-  Map.singleton "taxable income" $
-  mapAp (+) (sc Map.! "remaining taxable income") (sc Map.! "extraordinary income")
+metaFsc title@"squashIncomes" sc = do
+  sequence_ [ explain title $ "for " <> k <> ", " <>
+              "extraordinary " ++      scell sc "extraordinary income"       k ++
+              " + ordinary "   ++      scell sc "ordinary income"            k ++
+              " = pre-net "    ++ show (cell sc "extraordinary income"       k +  cell sc "ordinary income" k)
+            | k <- Map.keys $ sc Map.! "extraordinary income"
+            , sc Map.! "extraordinary income" Map.! k /= 0
+            ]
+  return $
+    Map.singleton "combined income" $
+    mapAp (+) (sc Map.! "ordinary income") (sc Map.! "extraordinary income")
 
 
 -- | loss offsets, based on section 34.
@@ -353,17 +378,26 @@ metaFsc "offsetLosses" sc = return $
 -- | loss offsets, based on section 2(3) para 3 & 4
 -- the reduction is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
-metaFsc "offsetLosses_2_3_3" sc = return $
-  let orig = sc Map.! "pre-net income"
+metaFsc title@"offsetLosses_2_3_3" sc = do
+  let orig = sc Map.! "net income"
       (negatives, positives) = Map.partition (< 0) orig
       totalNeg = sum $ Map.elems negatives
       totalPos = sum $ Map.elems positives
       maxReduction = if   totalPos > 100000
                      then totalNeg / 2
                      else totalNeg
-  in
-    Map.singleton "remaining taxable income" 
-    (offsetLosses_2_3_4 (maxReduction / totalPos) <$> orig)
+  when (totalPos > 100000) $ do
+    explain title $ "sum of the positive incomes " ++ show totalPos ++ " exceeds 100000"
+    explain title $ "so we will limit deductions to half of the sum of the negative incomes " ++ show totalNeg ++ " = " ++ show maxReduction
+    explain title $ "and apply them pro rata to the positive incomes"
+  when (totalPos <= 100000) $ do
+    explain title $ "sum of the positive incomes " ++ show totalPos ++ " is less than 100000"
+    explain title $ "so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be " ++ show maxReduction
+    explain title $ "we will apply deductions pro rata to the positive incomes"
+  rti <- sequence [ (cat,) <$> offsetLosses_2_3_4 cat (maxReduction / totalPos) n
+                  | (cat,n) <- Map.toList orig ]
+  return $ Map.singleton "adjusted taxable income" (Map.fromList rti)
+    
   where 
     -- | based on section 2(3) para 4
     -- 
@@ -371,11 +405,14 @@ metaFsc "offsetLosses_2_3_3" sc = return $
     --    1. the positive totals of income
     --       1. from different types of income
     --    2. to the total of positive income.
-    offsetLosses_2_3_4 :: Float -> Float -> Float
-    offsetLosses_2_3_4 reduction x =
-      if x < 0
-      then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
-      else x + (x * reduction)
+    offsetLosses_2_3_4 :: String -> Float -> Float -> StateT Explanation IO Float
+    offsetLosses_2_3_4 categoryName reduction x
+      | x < 0     = pure 0                     <* explain title (categoryName <> " is negative, resetting to 0")
+      | x == 0    = pure 0
+      | otherwise = do
+          let out = x + (x * reduction)
+          explain title (categoryName <> " " <> show x <> " is positive, reducing by " ++ show reduction ++ " = " ++ show out)
+          return out
 
 -- | extraordinary income is taxed
 metaFsc "extraordinary" sc = return $
@@ -544,4 +581,45 @@ solidaritySurcharge year income = progDirect year income / income * 0.055 * inco
 Profits from the sale of private real estate that has been held for more than 10 years, or from the sale of other assets that have been held for more than 12 months is exempt from tax. For shorter holding periods the general tax rates apply.
 Sale of a shares when the percentage of the investment is less than 1% is subject to a flat 25% tax. On the other hand, when the percentage of the holding is in excess of 1%, tax is payable on 60% of the profit at normal rates.
 -}
+
+-- | monadic scanl, but not very performant:
+-- 
+-- > 00:12 < c_wraith> But it matters a lot less with than with scanl because this will probably fall apart on large
+-- >                   lists anyway
+-- > 00:12 < c_wraith> it's already not capable of streaming results like scanl in general
+-- > 00:14 < c_wraith> this one is tough to do a more detailed strictness analysis on, because it depends on (>>=)
+-- > 00:15 < c_wraith> I think there is *a* case where forcing t before the recursive call can matter.
+-- > 00:16 < c_wraith> yeah, if the monad's (>>=) is sufficiently lazy, like Identity, it can matter if you're
+-- >                   skipping elements of the result list.
+-- > 00:16 < [exa]> c_wraith: e.g. for Identity this becomes a normal scanl, but I'd say weird stuff may start
+-- >                happening with say State.Lazy
+-- > 00:16 < c_wraith> [exa]: that stuff is the responsibility of (>>=) to handle.
+-- > 00:16 < freeside> i am very much hoping to engage in weird activity in the near future, but not today. I mean
+-- >                   LogicT.
+-- > 00:17 < [exa]> LogicT <3
+-- > 00:17 < [exa]> anyway yeah a bit of `seq` never hurt nobody, right?
+-- > 00:18 < c_wraith> definitely false.  I've had people think they were optimizing libraries I was using and break
+-- >                   them.
+-- > 00:18 < c_wraith> like...  bytestring
+-- > 00:18  * [exa] was joking, yeah
+-- > 00:19 < c_wraith> still, given the recursive structure, I think scanlM' (forcing t before the recursive call), is
+-- >                   almost always more appropriate.
+-- > 
+scanlM :: (Monad m) => (b -> a -> m b) -> b -> [a] -> m [b]
+scanlM _ _ []     = return []
+scanlM f q (x:xs) = do
+  t  <- f q x
+  ts <- scanlM f t xs
+  return $ t `seq` (t : ts)
+
+explain :: String -> String -> StateT [(String, String)] IO ()
+explain foo bar = do
+  modify (++ [(foo,bar)])
+  liftIO (putStrLn $ "- " ++ foo ++ " :: " ++ bar)
+
+scell :: (Ord k, Ord j, Show a) => Map.Map k (Map.Map j a) -> k -> j -> String
+scell k j a = show (cell k j a)
+
+cell :: (Ord k, Ord j) => Map.Map k (Map.Map j a) -> k -> j -> a
+cell k j a = k Map.! j Map.! a
 
