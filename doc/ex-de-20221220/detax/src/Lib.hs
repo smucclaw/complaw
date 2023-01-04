@@ -6,7 +6,7 @@ module Lib where
 import qualified Data.Map as Map
 import Control.Monad.Trans.State ( gets, State, StateT, evalState, execStateT )
 import Control.Monad.State (liftIO)
-import Control.Monad (forM_)
+import Control.Monad (forM_, liftM)
 import Text.Megaparsec
     ( choice, many, some, Parsec, MonadParsec(try) )
 import Text.Megaparsec.Char ( numberChar, hspace )
@@ -266,8 +266,7 @@ runReplaceSc m (Replace ks fs) =
 runReplaceIs :: IncomeStreams -> Replace -> StateT Explanation IO IncomeStreams
 runReplaceIs m (Replace ks fs) =
   if all (`Map.member` m) ks
-  then do
-    Map.unions <$> (++ [foldl (flip Map.delete) m ks]) <$> (sequence $ (metaFis <$> fs) <*> [m]) 
+  then Map.unions <$> (++ [foldl (flip Map.delete) m ks]) <$> (sequence $ (metaFis <$> fs) <*> [m]) 
   else return m
 
 -- | syntactic sugar for setting up a Replace transformation
@@ -278,10 +277,17 @@ runReplaceIs m (Replace ks fs) =
 runSection :: String -> Scenario -> [Replace] -> StateT Explanation IO Scenario
 runSection name initialScenario transformations = do
   liftIO $ putStrLn ("** " <> name)
-  let steps = scanl (pure . runReplaceSc) initialScenario transformations
+  steps <- scanlM runReplaceSc initialScenario transformations
   _ <- liftIO $ sequence [ putStrLn ("*** step " <> show n) >> putStrLn (asExample step)
                          | (n, step) <- zip [1::Int ..] steps ]
   return $ last steps
+
+scanlM :: (Monad m) => (b -> a -> m b) -> b -> [a] -> m [b]
+scanlM _ _ []     = return []
+scanlM f q (x:xs) = do
+  t <- f q x
+  ts <- scanlM f t xs
+  return (t : ts)
 
 -- | section 2(3) EStG
 section_2_3 :: Scenario -> StateT Explanation IO Scenario
@@ -416,8 +422,8 @@ metaFsc "totalPayable" sc = return $
   in Map.fromList [("6 total tax payable", mapAp (+) rtiTax extraTax)]
 
 -- | squash all non-exempt income categories together
-metaFsc "squashCats" sc = return $
-  (\istream -> (pure . runReplaceIs) istream (categoryKeys ~-> ["squashCats'"])) <$> sc
+metaFsc "squashCats" sc = sequence $
+  (\istream -> runReplaceIs istream (categoryKeys ~-> ["squashCats'"])) <$> sc
   where
     categoryKeys :: [String]
     categoryKeys = nub (concatMap Map.keys (Map.elems sc))
