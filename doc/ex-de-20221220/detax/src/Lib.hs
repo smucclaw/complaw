@@ -4,7 +4,7 @@
 module Lib where
 
 import qualified Data.Map as Map
-import Control.Monad.Trans.State ( get, gets, State, StateT, evalState, runStateT )
+import Control.Monad.Trans.State ( gets, State, StateT, evalState, execStateT )
 import Control.Monad.State (liftIO)
 import Control.Monad (forM_)
 import Text.Megaparsec
@@ -213,12 +213,14 @@ runTests = do
 
   forM_ (zip [1 :: Int ..] [scenario1, scenario2, testcase1]) $ \(n,sc) -> do
     putStrLn $ "* running scenario " <> show n
-    runStateT section_34_1 sc
-    runStateT section_2_3 sc
+    print =<< execStateT (section_34_1 sc) []
+    putStrLn . unlines . fmap (\(a,b) -> "- " ++ a ++ " :: " ++ b) =<< execStateT (section_2_3 sc) []
   return ()
   
 --  let parsed = runParser pMathLang "" "( 5 + 3 * 2 )"
 --  print parsed
+
+type Explanation   = [(String, String)]
 
 type Scenario      = Map.Map String         IncomeStreams
 type IncomeStreams = Map.Map IncomeCategory Float
@@ -253,36 +255,38 @@ asColumn str istream = asTable (Map.singleton str istream)
 data Replace = Replace { elems_  :: [String] , with_ :: [String] }
 
 -- | run the generic replacement for Scenarios
-runReplaceSc :: Scenario -> Replace -> Scenario
+runReplaceSc :: Scenario -> Replace -> StateT Explanation IO Scenario
 runReplaceSc m (Replace ks fs) =
   if all (`Map.member` m) ks
-  then Map.unions $ ((metaFsc <$> fs) <*> [m]) ++ [foldl (flip Map.delete) m ks]
-  else m
+  then do
+    nu <- sequence $ metaFsc <$> fs <*> [m]
+    return $ Map.unions $ nu ++ [foldl (flip Map.delete) m ks]
+  else return m
 
-runReplaceIs :: IncomeStreams -> Replace -> IncomeStreams
+runReplaceIs :: IncomeStreams -> Replace -> StateT Explanation IO IncomeStreams
 runReplaceIs m (Replace ks fs) =
   if all (`Map.member` m) ks
-  then Map.unions $ ((metaFis <$> fs) <*> [m]) ++ [foldl (flip Map.delete) m ks]
-  else m
+  then do
+    Map.unions <$> (++ [foldl (flip Map.delete) m ks]) <$> (sequence $ (metaFis <$> fs) <*> [m]) 
+  else return m
 
 -- | syntactic sugar for setting up a Replace transformation
 (~->) :: [String] -> [String] -> Replace
 (~->) k ka = Replace { elems_ = k, with_ = ka }
 
 -- | generic section wrapper
-runSection :: String -> [Replace] -> StateT Scenario IO Scenario
-runSection name transformations = do
-  initialScenario <- get
+runSection :: String -> Scenario -> [Replace] -> StateT Explanation IO Scenario
+runSection name initialScenario transformations = do
   liftIO $ putStrLn ("** " <> name)
-  let steps = scanl runReplaceSc initialScenario transformations
+  let steps = scanl (pure . runReplaceSc) initialScenario transformations
   _ <- liftIO $ sequence [ putStrLn ("*** step " <> show n) >> putStrLn (asExample step)
                          | (n, step) <- zip [1::Int ..] steps ]
   return $ last steps
 
 -- | section 2(3) EStG
-section_2_3 :: StateT Scenario IO Scenario
-section_2_3 = do
-  runSection "section 2.3"
+section_2_3 :: Scenario -> StateT Explanation IO Scenario
+section_2_3 sc = do
+  runSection "section 2.3" sc
         [ []                                            ~-> []
         , ["ordinary income", "ordinary expenses"]      ~-> ["preNetIncome"]       -- 2_3_2
         , ["pre-net income"]                            ~-> ["offsetLosses_2_3_3"] -- 2_3_3
@@ -295,9 +299,9 @@ section_2_3 = do
 -- 
 -- A particular transformation runs only if all its LHS columns are found in the scenario table,
 -- in which case those columns are replaced by the output of the transformer.
-section_34_1 :: StateT Scenario IO Scenario
-section_34_1 = do
-  runSection "section 34.1"
+section_34_1 :: Scenario -> StateT Explanation IO Scenario
+section_34_1 sc = do
+  runSection "section 34.1" sc
         [ []                                            ~-> []
         , ["ordinary income", "ordinary expenses"]      ~-> ["preNetIncome"]
         , ["pre-net income"]                            ~-> ["offsetLosses"]
@@ -312,14 +316,14 @@ section_34_1 = do
 -- Instead of just a direct function definition @f = whatever@
 -- we have (generally) @metaF "f" = whatever@ which gets called later.
 -- here, the @whatever@ is a Scenario, so we say `metaFsc`.
-metaFsc :: String -> Scenario -> Scenario
+metaFsc :: String -> Scenario -> StateT Explanation IO Scenario
 
-metaFsc "preNetIncome" sc =
+metaFsc "preNetIncome" sc = return $
   Map.singleton "pre-net income" $
   mapAp (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
 
 -- | squash extraordinary into pre-net income; only used for section 2
-metaFsc "squashIncomes" sc =
+metaFsc "squashIncomes" sc = return $
   Map.singleton "taxable income" $
   mapAp (+) (sc Map.! "remaining taxable income") (sc Map.! "extraordinary income")
 
@@ -328,7 +332,7 @@ metaFsc "squashIncomes" sc =
 -- losses from one income category can be used to offset earnings in another.
 -- the offsetting is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
-metaFsc "offsetLosses" sc =
+metaFsc "offsetLosses" sc = return $
   let orig = sc Map.! "pre-net income"
       (negatives, positives) = Map.partition (< 0) orig
       totalNeg = sum $ Map.elems negatives
@@ -343,7 +347,7 @@ metaFsc "offsetLosses" sc =
 -- | loss offsets, based on section 2(3) para 3 & 4
 -- the reduction is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
-metaFsc "offsetLosses_2_3_3" sc =
+metaFsc "offsetLosses_2_3_3" sc = return $
   let orig = sc Map.! "pre-net income"
       (negatives, positives) = Map.partition (< 0) orig
       totalNeg = sum $ Map.elems negatives
@@ -368,7 +372,7 @@ metaFsc "offsetLosses_2_3_3" sc =
       else x + (x * reduction)
 
 -- | extraordinary income is taxed
-metaFsc "extraordinary" sc =
+metaFsc "extraordinary" sc = return $
   let ordinary = sc Map.! "remaining taxable income"
       extraI   = sc Map.! "extraordinary income"
       taxFor   = mapOnly (>0) (progDirect 2023)
@@ -388,7 +392,7 @@ metaFsc "extraordinary" sc =
                   ]
   
 -- | sentence 3
-metaFsc "sentence3" sc =
+metaFsc "sentence3" sc = return $
   let ordinary = sc Map.! "remaining taxable income"
       extraI   = sc Map.! "extraordinary income"
       negRTI   = (\o -> if o < 0 then 1 else 0) <$> ordinary
@@ -402,36 +406,36 @@ metaFsc "sentence3" sc =
                        ]
      else Map.empty
 
-metaFsc "sentence3_b" sc =
+metaFsc "sentence3_b" sc = return $
   Map.fromList [("1 RTI taxation", sc Map.! "1 revised RTI taxation due to sentence 3")]
 
 
-metaFsc "totalPayable" sc =
+metaFsc "totalPayable" sc = return $
   let rtiTax   = sc Map.! "1 RTI taxation"
       extraTax = sc Map.! "5 extraordinary taxation"
   in Map.fromList [("6 total tax payable", mapAp (+) rtiTax extraTax)]
 
 -- | squash all non-exempt income categories together
-metaFsc "squashCats" sc =
-  (\istream -> runReplaceIs istream (categoryKeys ~-> ["squashCats'"])) <$> sc
+metaFsc "squashCats" sc = return $
+  (\istream -> (pure . runReplaceIs) istream (categoryKeys ~-> ["squashCats'"])) <$> sc
   where
     categoryKeys :: [String]
     categoryKeys = nub (concatMap Map.keys (Map.elems sc))
 
-metaFsc fname _ = error $ "metaFsc called for undefined function name " <> fname
+metaFsc fname _ = return $ error $ "metaFsc called for undefined function name " <> fname
 
-metaFis :: Num a => String -> Map.Map String a -> Map.Map String a
-metaFis "squashCats'" ns =
+metaFis :: Num a => String -> Map.Map String a -> StateT Explanation IO (Map.Map String a)
+metaFis "squashCats'" ns = return $
   Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
 
-metaFis fname _ = error $ "metaFis called for undefined function name " <> fname
+metaFis fname _ = return $ error $ "metaFis called for undefined function name " <> fname
 
 -- | what does pro rata mean?
 -- it means we map some function across a functor, where each application is scaled to that value's fraction of the whole
 --
 -- example: @ prorate (* 1000) [5,3,2] == [500.0,300.0,200.0] @ 
-prorate :: (Fractional a, Functor f, Foldable f) => (a -> a) -> f a -> f a
-prorate f xs = f . (/ sum xs) <$> xs
+prorate :: (Fractional a, Functor f, Foldable f) => (a -> a) -> f a -> StateT Explanation IO (f a)
+prorate f xs = return $ f . (/ sum xs) <$> xs
 
 -- map application
 mapAp :: Ord k => (a -> a -> a) -> Map.Map k a -> Map.Map k a -> Map.Map k a
