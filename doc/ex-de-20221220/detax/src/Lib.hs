@@ -112,6 +112,13 @@ pMathLang =
   ]
   <* many hspace
 
+-- | sample input whose semantics can be parsed out of natural4
+--
+sampleInput1 = ""
+
+
+
+
 tryChoice :: [Parser a] -> Parser a
 tryChoice = choice . fmap try
 
@@ -127,7 +134,7 @@ defaultScenario =
         | i <- [ "ordinary income"
                , "extraordinary income"
                , "ordinary expenses"
---               , "special expenses"
+               , "special expenses"
 --               , "lump sum deductions"
                ]
         , let defaultStream :: IncomeStreams
@@ -217,7 +224,7 @@ runTests = do
   let testcase1 =
         flip Map.update "ordinary income"
         (pure
-          . Map.update (const $ pure   72150) "Rents"
+          . Map.update (const $ pure $ 72150 - 25000) "Rents"
         ) $
 
         flip Map.update "extraordinary income"
@@ -227,11 +234,107 @@ runTests = do
 
         defaultScenario
 
-  forM_ (zip [1 :: Int ..] [scenario1a, scenario1b, scenario2, testcase1]) $ \(n,sc) -> do
+  let testcase2 =
+        flip Map.update "ordinary income"
+        (pure
+          . Map.update (const $ pure $ 5350)  "Trade"
+--          . Map.update (const $ pure $ 66666) "Employment"
+        ) $
+
+        flip Map.update "ordinary expenses"
+        (pure
+          . Map.update (const $ pure $ 45000) "Rents"
+        ) $
+
+        flip Map.update "special expenses"
+        (pure
+          . Map.update (const $ pure $ 3200) "Rents"
+        ) $
+
+        flip Map.update "extraordinary income"
+        (pure
+          . Map.update (const $ pure  225000) "Capital"
+        ) $
+
+        defaultScenario
+
+  let testcase3 =
+        flip Map.update "ordinary income"
+        (pure
+          . Map.update (const $ pure $ 5350)  "Trade"
+--          . Map.update (const $ pure $ 66666) "Employment"
+        ) $
+
+        flip Map.update "ordinary expenses"
+        (pure
+          . Map.update (const $ pure $ 45000) "Rents"
+        ) $
+
+        flip Map.update "special expenses"
+        (pure
+          . Map.update (const $ pure $ 3200) "Rents"
+        ) $
+
+        flip Map.update "extraordinary income"
+        (pure
+          . Map.update (const $ pure  225000) "Capital"
+        ) $
+
+        defaultScenario
+
+  forM_ (zip [1 :: Int ..] [scenario1a, scenario1b, scenario2, testcase1, testcase2]) $ \(n,sc) -> do
     putStrLn $ "* running scenario " <> show n
     printExplanation $ section_2_3  sc
     printExplanation $ section_34_1 sc
   return ()
+
+-- extraordinary income may only be taxed at a reduced rate if it
+-- leads to an aggregation of income for the tax year in question.
+
+-- there are four scenarios
+--            Aggregation of Income (IN)   |     Tax Computation Method (OUT)
+--            ---------------------------------------------------------------
+--                        True             |             One-Fifths
+--                       False             |               Normal
+
+-- According to a 1997 ruling by the Federal Court of Finance (BFH,
+-- Bundesfinanzhof), extraordinary income may only be taxed at a
+-- reduced rate if it leads to an aggregation of income for the tax
+-- year in question.
+-- 
+-- For this purpose, both your actual total annual income (including
+-- severance pay and other income earned after termination) and the
+-- income you would have earned without termination of employment are
+-- compared (you can base this on your income from the previous year).
+--
+-- If your actual income is higher than the income you would have
+-- earned, there is an aggregation of income and the one-fifth method
+-- [the method of computing tax on extraordinary income used earlier]
+-- can be applied.
+
+data EOTaxMethod = EONormal | EOFifth
+  deriving (Eq, Show)
+
+effectiveEOTaxMethod :: Scenario -- ^ actual
+                     -> Scenario -- ^ hypothetical
+                     -> StateT Explanation IO EOTaxMethod
+effectiveEOTaxMethod scActual scHypo = do
+  explain "effectiveEOTaxMethod" "we need to determine if there is aggregation of income."
+  x <- aggregationOfIncome section_34_1 scActual scHypo
+  if x
+  then explain "effectiveEOTaxMethod" "there is aggregation of income." >> return EOFifth
+  else explain "effectiveEOTaxMethod" "there is not aggregation of income." >> return EONormal
+
+aggregationOfIncome :: (Scenario -> StateT Explanation IO Scenario)
+                    -> Scenario
+                    -> Scenario
+                    -> StateT Explanation IO Bool
+aggregationOfIncome section fired unfired = do
+  actual <- section fired
+  hypo   <- section unfired
+  return $ cell actual "total taxable income" "total"
+    > cell hypo "total taxable income" "total"
+
 
 printExplanation :: StateT [([Char], [Char])] IO a -> IO ()
 printExplanation x = putStrLn . unlines . fmap (\(a,b) -> "- " ++ a ++ " :: " ++ b) =<< execStateT x []
@@ -322,14 +425,23 @@ section_34_1 :: Scenario -> StateT Explanation IO Scenario
 section_34_1 sc = do
   runSection "section 34.1" sc
         [ []                                            ~-> []
-        , ["ordinary income", "ordinary expenses"]      ~-> ["preNetIncome"]
+        , ["ordinary income", "ordinary expenses"
+        , "special expenses"]                           ~-> ["preNetIncome"]
         , ["pre-net income"]                            ~-> ["offsetLosses"]
         , []                                            ~-> ["squashCats"]
         , []                                            ~-> ["extraordinary"]
         , []                                            ~-> ["sentence3"]
         , ["1 revised RTI taxation due to sentence 3"]  ~-> ["sentence3_b"]
-        , []                                            ~-> ["totalPayable"]
+        , [ "1 RTI taxation"
+          , "2 RTI plus one fifth"
+          , "3 tax on RTI+.2"
+          , "4 difference"
+          , "5 extraordinary taxation"
+          , "extraordinary income"
+          , "remaining taxable income"]                 ~-> ["totalPayable"]
         ]
+
+
 
 -- | a meta-function constructor for use by our meta-interpreter.
 -- Instead of just a direct function definition @f = whatever@
@@ -339,7 +451,8 @@ metaFsc :: String -> Scenario -> StateT Explanation IO Scenario
 
 metaFsc "preNetIncome" sc = return $
   Map.singleton "pre-net income" $
-  mapAp (-) (sc Map.! "ordinary income") (sc Map.! "ordinary expenses")
+  mapAp (-) (sc Map.! "ordinary income") $
+  mapAp (+) (sc Map.! "special expenses") (sc Map.! "ordinary expenses")
 
 metaFsc "netIncome" sc = return $
   Map.singleton "net income" $
@@ -420,15 +533,16 @@ metaFsc title@"offsetLosses_2_3_3" sc = do
 
 -- | extraordinary income is taxed
 metaFsc "extraordinary" sc = return $
-  let ordinary = sc Map.! "remaining taxable income"
-      extraI   = sc Map.! "extraordinary income"
-      taxFor   = mapOnly (>0) (progDirect 2023)
-      ordtax   = taxFor ordinary
-      totalI   = mapAp (+) ordinary extraI
-      rti5     = mapAp (+) ordinary ((/5) <$> extraI)
-      rti5tax  = taxFor rti5
-      delta    = abs <$> mapAp (-) ordtax rti5tax
-      rti5tax5 = (5*) <$> delta
+  let ordinary     = sc Map.! "remaining taxable income"
+      zeroOrdinary = max 0 <$> ordinary
+      extraI       = sc Map.! "extraordinary income"
+      taxFor       = mapOnly (>0) (progDirect 2023)
+      ordtax       = taxFor zeroOrdinary
+      totalI       = mapAp (+) zeroOrdinary extraI
+      rti5         = mapAp (+) zeroOrdinary ((/5) <$> extraI)
+      rti5tax      = max 0 <$> taxFor rti5
+      delta        = abs <$> mapAp (-) ordtax rti5tax
+      rti5tax5     = (5*) <$> delta
       
   in Map.fromList [("1 RTI taxation",           ordtax)
                   ,("2 RTI plus one fifth",     rti5)
@@ -460,7 +574,7 @@ metaFsc "sentence3_b" sc = return $
 metaFsc "totalPayable" sc = return $
   let rtiTax   = sc Map.! "1 RTI taxation"
       extraTax = sc Map.! "5 extraordinary taxation"
-  in Map.fromList [("6 total tax payable", mapAp (+) rtiTax extraTax)]
+  in Map.fromList [("total tax payable", mapAp (+) rtiTax extraTax)]
 
 -- | squash all non-exempt income categories together
 metaFsc "squashCats" sc = sequence $
@@ -560,7 +674,8 @@ rateTable _    = rateTable 2023
 
 -- | Direct computation of progressive tax, without recursing to lower tiers of the stack.
 -- this is for countries which just give a direct formula that already takes into account
--- the lower tiers of the stack.
+-- the lower tiers of the stack. the @go@ function here just looks up the correct formula
+-- based on the taxable income tier.
 progDirect :: (Ord a, Fractional a) => Int -> a -> a
 progDirect year income =
   let rt = reverse $ rateTable year
@@ -581,7 +696,7 @@ progStack year income =
   in progRate rt income
   where
     progRate ((o,n,r):rts) income'
-      | income' `compare` n == o = (r income')/100 * (income' - n) + progRate rts n
+      | income' `compare` n == o = r income' / 100 * (income' - n) + progRate rts n
       | otherwise                = progRate rts income'
     progRate [] _ = 0
 
