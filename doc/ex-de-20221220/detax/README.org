@@ -29,3 +29,91 @@ We need to be able to parse something like this and compute based on it. Time to
 | 4 | >= 62810  | <= 277825 |                       | 0.42 * zvE - 9972.98             |
 | 5 | >= 277826 |           |                       | 0.45 * zvE - 18307.73            |
 
+* User goals
+
+At a high level the /end-user/ goals are:
+- *evaluate* some computation to crunch a bunch of input parameters into a set of output numbers, basically "how much tax do i need to pay?"
+- *explain* the basis for that computation, basically "why that amount and not some other?"
+
+The /legal engineer/ goals are:
+- translate the existing body of German tax law (or at least the 2 fragments we deal with) into some formal representation
+- have some nice convenient affordances like unit tests, good syntax, feedback that we are writing good code.
+- accessibility
+
+* Semantics (Requirements)
+
+Based on the input problems that we've seen so far we will need the following elements of a DSL for german tax law:
+
+** organize input parameters into dictionaries or a multi-dimensional array
+
+so that we can look up, for instance
+- for tax year { 2022 }
+- how much { ordinary income, extraordinary income }
+- was derived from the category of { employment, rent, capital }
+
+** filter some collection of things
+
+within { ordinary income }, which of the categories show negative vs positive values?
+
+sum over all of those values to arrive at subtotals
+
+** arithmetic
+
++ - * /
+
+over individual values but also mapped over lists and the complex data structures above
+
+** temporary variables / let bindings
+
+identified by names in the source laws, e.g. "residual taxable amount" -- how do we keep track of these things?
+
+** make decisions -- choose a particular branch of execution -- based on some conditions
+
+if, hypothetically speaking, we were to use the 2021 tax rates, if they are lower than the actual 2022 tax rates, then the payable taxes will be the arithmetic mean between the 2021 and 2022 rates.
+
+we need comparison operators: > >= == <= <
+
+we need boolean logic: and or not
+
+syntactic sugar "implies"
+
+if something "leads to" something, then we choose to use it, otherwise we don't.
+
+*** this decision logic makes heavy use of "defaults", and thinks in terms of "exceptions".
+
+in law defaults go first, in computing defaults go last.
+
+Catala supports out-of-order definitions.
+
+** evaluate hypotheticals
+
+if we were to apply this tax computation method, what tax would we pay?
+
+without actually returning that as our final answer.
+
+and without outputting our reasoning as part of the overall explanation.
+
+** do we need to let the user define their own functions?
+
+for the initial skeletal DSL maybe we hardcode all the functions that need to be defined but could also be general enough to be used elsewhere
+
+and then if a function is something taxRatesFor2023 or section_34_1_Computation then that is specific to this use case "program" and the user should have some way of defining that.
+
+* Semantics (implementation / specification)
+
+** assertions
+
+*** some value must always be > 0
+
+** refinement types could be used to limit the bounds of some things, like, whole numbers vs Ints
+
+** syntactic sugar for frequently expressed notions that can reduce to lower-level primitives
+
+* Syntax
+
+embedded DSL in Haskell
+
+Natural4
+
+
+
