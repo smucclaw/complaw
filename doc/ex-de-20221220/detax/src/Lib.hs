@@ -4,7 +4,7 @@
 module Lib where
 
 import qualified Data.Map as Map
-import Control.Monad.Trans.State ( gets, State, StateT, evalState, execStateT, modify )
+import Control.Monad.Trans.State ( gets, State, StateT, evalState, runStateT, modify )
 import Control.Monad.State (liftIO)
 import Control.Monad (forM_, when)
 import Text.Megaparsec ( choice, many, some, Parsec, MonadParsec(try) )
@@ -14,6 +14,7 @@ import Text.PrettyPrint.Boxes
     ( emptyBox, hsep, nullBox, render, vcat, Box )
 import qualified Text.PrettyPrint.Boxes as BX
 import Control.Monad.Combinators.Expr
+import Data.Ord
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -162,7 +163,7 @@ runTests = do
   print test1
   -- [TODO] write a simple parser to set up the scenario
   -- scenario 1: income exceeds expenses thanks to extraordinary; taxable income is > 100000; some negative income in certain categories
-  let scenario1a =
+  let scenario1a = ("1a",) $
         flip Map.update "ordinary income"
         (pure
           . Map.update (const $ pure   72150) "Rents"
@@ -184,7 +185,7 @@ runTests = do
         )
         defaultScenario
 
-  let scenario1b =
+  let scenario1b = ("1b",) $
         flip Map.update "ordinary income"
         (pure
           . Map.update (const $ pure   72150) "Rents"
@@ -200,7 +201,7 @@ runTests = do
         )
         defaultScenario
 
-  let scenario2 =
+  let scenario2 = ("2",) $
         flip Map.update "ordinary income"
         (pure
           . Map.update (const $ pure   72150) "Rents"
@@ -221,7 +222,7 @@ runTests = do
         )
         defaultScenario
 
-  let testcase1 =
+  let testcase1 = ("test case 1",) $
         flip Map.update "ordinary income"
         (pure
           . Map.update (const $ pure $ 72150 - 25000) "Rents"
@@ -234,7 +235,7 @@ runTests = do
 
         defaultScenario
 
-  let testcase2 =
+  let testcase2 = ("test case 2",) $
         flip Map.update "ordinary income"
         (pure
           . Map.update (const $ pure $ 5350)  "Trade"
@@ -258,7 +259,7 @@ runTests = do
 
         defaultScenario
 
-  let testcase3 =
+  let testcase3 = ("test case 3",) $
         flip Map.update "ordinary income"
         (pure
           . Map.update (const $ pure $ 5350)  "Trade"
@@ -282,48 +283,80 @@ runTests = do
 
         defaultScenario
 
-  forM_ (zip [1 :: Int ..] [scenario1a, scenario1b, scenario2, testcase1, testcase2]) $ \(n,sc) -> do
-    putStrLn $ "* running scenario " <> show n
+  let testcase3_fired = ("test case 3 - fired",) $
+        flip Map.update "ordinary income"
+        (pure
+          . Map.update (const $ pure $ 22000) "Employment"
+        ) $
+
+        flip Map.update "extraordinary income"
+        (pure
+          . Map.update (const $ pure  130000) "Employment"
+        ) $
+
+        defaultScenario
+
+  let testcase3_unfired = ("test case 3 - unfired",) $
+        flip Map.update "ordinary income"
+        (pure
+          . Map.update (const $ pure $ 22000) "Employment"
+        ) $
+
+        defaultScenario
+
+  forM_ ([scenario1a, scenario1b, scenario2, testcase1, testcase2
+         , testcase3, testcase3_fired, testcase3_unfired]) $ \(sctitle,sc) -> do
+    putStrLn $ "* running scenario: " <> sctitle
     printExplanation $ section_2_3  sc
     printExplanation $ section_34_1 sc
+
+  putStrLn "* which tax method shall we use to deal with extraordinary income in test case 3?"
+  effMethod <- printExplanation $ chooseEffectiveEOTaxMethod testcase3_fired testcase3_unfired
+  putStrLn $ "* we choose " ++ show effMethod
+
   return ()
 
--- extraordinary income may only be taxed at a reduced rate if it
--- leads to an aggregation of income for the tax year in question.
+-- | choose a tax computation method
+-- > extraordinary income may only be taxed at a reduced rate if it
+-- > leads to an aggregation of income for the tax year in question.
 
--- there are four scenarios
---            Aggregation of Income (IN)   |     Tax Computation Method (OUT)
---            ---------------------------------------------------------------
---                        True             |             One-Fifths
---                       False             |               Normal
-
--- According to a 1997 ruling by the Federal Court of Finance (BFH,
--- Bundesfinanzhof), extraordinary income may only be taxed at a
--- reduced rate if it leads to an aggregation of income for the tax
--- year in question.
--- 
--- For this purpose, both your actual total annual income (including
--- severance pay and other income earned after termination) and the
--- income you would have earned without termination of employment are
--- compared (you can base this on your income from the previous year).
+-- the "leads to" is confusing above: there is no implication; it is a biconditional.
 --
--- If your actual income is higher than the income you would have
--- earned, there is an aggregation of income and the one-fifth method
--- [the method of computing tax on extraordinary income used earlier]
--- can be applied.
+--          | Aggregation of Income (IN)   |     Tax Computation Method (OUT)
+--          |---------------------------------------------------------------
+--          |             True             |             One-Fifths
+--          |            False             |               Normal
+
+-- > According to a 1997 ruling by the Federal Court of Finance (BFH,
+-- > Bundesfinanzhof), extraordinary income may only be taxed at a
+-- > reduced rate if it leads to an aggregation of income for the tax
+-- > year in question.
+-- > 
+-- > For this purpose, both your actual total annual income (including
+-- > severance pay and other income earned after termination) and the
+-- > income you would have earned without termination of employment are
+-- > compared (you can base this on your income from the previous year).
+-- > 
+-- > If your actual income is higher than the income you would have
+-- > earned, there is an aggregation of income and the one-fifth method
+-- > [the method of computing tax on extraordinary income used earlier]
+-- > can be applied.
 
 data EOTaxMethod = EONormal | EOFifth
   deriving (Eq, Show)
 
-effectiveEOTaxMethod :: Scenario -- ^ actual
-                     -> Scenario -- ^ hypothetical
-                     -> StateT Explanation IO EOTaxMethod
-effectiveEOTaxMethod scActual scHypo = do
-  explain "effectiveEOTaxMethod" "we need to determine if there is aggregation of income."
-  x <- aggregationOfIncome section_34_1 scActual scHypo
-  if x
-  then explain "effectiveEOTaxMethod" "there is aggregation of income." >> return EOFifth
-  else explain "effectiveEOTaxMethod" "there is not aggregation of income." >> return EONormal
+chooseEffectiveEOTaxMethod :: (String,Scenario) -- ^ actual
+                           -> (String,Scenario) -- ^ hypothetical
+                           -> StateT Explanation IO EOTaxMethod
+chooseEffectiveEOTaxMethod (titleA,scActual) (titleB,scHypo) = do
+  explain "effectiveEOTaxMethod" $ "we need to determine if there is aggregation of income. let's see if the different treatments matter. we will compare 34.1 with 2.3, considering the actual (" ++ titleA ++ ") and hypothetical (" ++ titleB ++ ") scenarios"
+  treatmentA <- ("section 34.1",) <$> aggregationOfIncome section_34_1 scActual scHypo
+  treatmentB <- ("section 2.3",)  <$> aggregationOfIncome section_2_3  scActual scHypo
+  explain "effectiveEOTaxMethod" $ "under treatment " <> fst treatmentA <> ", there is" ++ (if snd treatmentA then " " else " not ") ++ "aggregation of income."
+  explain "effectiveEOTaxMethod" $ "under treatment " <> fst treatmentB <> ", there is" ++ (if snd treatmentB then " " else " not ") ++ "aggregation of income."
+  if snd treatmentA
+  then explain "effectiveEOTaxMethod" "there is aggregation of income, so the one-fifths method is indicated." >> return EOFifth
+  else explain "effectiveEOTaxMethod" "there is not aggregation of income, so the normal method is indicated." >> return EONormal
 
 aggregationOfIncome :: (Scenario -> StateT Explanation IO Scenario)
                     -> Scenario
@@ -332,12 +365,20 @@ aggregationOfIncome :: (Scenario -> StateT Explanation IO Scenario)
 aggregationOfIncome section fired unfired = do
   actual <- section fired
   hypo   <- section unfired
-  return $ cell actual "total taxable income" "total"
-    > cell hypo "total taxable income" "total"
+  let tta_actual = cell actual "total taxable income" "total"
+      tta_hypo   = cell hypo "total taxable income" "total"
+  explain "aggregationOfIncome" $ "in the actual scenario, total taxable income is " ++ show tta_actual
+  explain "aggregationOfIncome" $ "in the hypo   scenario, total taxable income is " ++ show tta_hypo
+  case tta_actual `compare` tta_hypo of
+    GT -> explain "aggregationOfIncome" "actual > hypo, returning true"  >> return True
+    EQ -> explain "aggregationOfIncome" "actual = hypo, returning false" >> return False
+    LT -> explain "aggregationOfIncome" "actual < hypo, returning false" >> return False
 
-
-printExplanation :: StateT [([Char], [Char])] IO a -> IO ()
-printExplanation x = putStrLn . unlines . fmap (\(a,b) -> "- " ++ a ++ " :: " ++ b) =<< execStateT x []
+printExplanation :: StateT [([Char], [Char])] IO a -> IO a
+printExplanation x = do
+  (v,s) <- runStateT x []
+  putStrLn . unlines . fmap (\(a,b) -> "- " ++ a ++ " :: " ++ b) $ s
+  return v
   
 --  let parsed = runParser pMathLang "" "( 5 + 3 * 2 )"
 --  print parsed
@@ -410,9 +451,11 @@ section_2_3 sc = do
   runSection "section 2.3" sc
         [ []                                             ~-> []
         , ["ordinary income", "extraordinary income"]    ~-> ["squashIncomes"]
-        , ["combined income", "ordinary expenses"]       ~-> ["netIncome"]          -- 2_3_2
+        , ["combined income", "ordinary expenses"
+          ,"special expenses"]                           ~-> ["netIncome"]          -- 2_3_2
         , ["net income"]                                 ~-> ["offsetLosses_2_3_3"] -- 2_3_3
         , []                                             ~-> ["squashCats"]
+        , []                                             ~-> ["ordinaryPayable"]
       -- marital adjustments
       -- carryover loss, if net negative then leave some negative?
         ]
@@ -456,7 +499,8 @@ metaFsc "preNetIncome" sc = return $
 
 metaFsc "netIncome" sc = return $
   Map.singleton "net income" $
-  mapAp (-) (sc Map.! "combined income") (sc Map.! "ordinary expenses")
+  mapAp (-) (sc Map.! "combined income") $
+  mapAp (+) (sc Map.! "special expenses") (sc Map.! "ordinary expenses")
 
 -- | squash extraordinary into pre-net income; only used for section 2
 metaFsc title@"squashIncomes" sc = do
@@ -513,7 +557,7 @@ metaFsc title@"offsetLosses_2_3_3" sc = do
                   | (cat,n) <- Map.toList orig ]
   -- viaprorata <- prorateF (* reductio) (>0) 0 (Map.elems orig)
   -- liftIO $ putStrLn $ "via pro rata, we would have " ++ show viaprorata
-  return $ Map.singleton "adjusted taxable income" (Map.fromList rti)
+  return $ Map.singleton "total taxable income" (Map.fromList rti)
     
   where 
     -- | based on section 2(3) para 4
@@ -536,7 +580,6 @@ metaFsc "extraordinary" sc = return $
   let ordinary     = sc Map.! "remaining taxable income"
       zeroOrdinary = max 0 <$> ordinary
       extraI       = sc Map.! "extraordinary income"
-      taxFor       = mapOnly (>0) (progDirect 2023)
       ordtax       = taxFor zeroOrdinary
       totalI       = mapAp (+) zeroOrdinary extraI
       rti5         = mapAp (+) zeroOrdinary ((/5) <$> extraI)
@@ -575,6 +618,10 @@ metaFsc "totalPayable" sc = return $
   let rtiTax   = sc Map.! "1 RTI taxation"
       extraTax = sc Map.! "5 extraordinary taxation"
   in Map.fromList [("total tax payable", mapAp (+) rtiTax extraTax)]
+
+metaFsc "ordinaryPayable" sc = return $
+  let ttiTax   = taxFor $ sc Map.! "total taxable income"
+  in Map.fromList [("total tax payable", ttiTax)]
 
 -- | squash all non-exempt income categories together
 metaFsc "squashCats" sc = sequence $
@@ -671,6 +718,10 @@ rateTable 2023 = [(LT,  10909, const  0)
                  ,(GT, 277825, \zvE -> 0.45 * zvE - 18307.73)
                  ]
 rateTable _    = rateTable 2023
+
+-- | we'll use the 2023 table when computing taxes.
+taxFor :: Map.Map IncomeCategory Float -> Map.Map IncomeCategory Float
+taxFor       = mapOnly (>0) (progDirect 2023)
 
 -- | Direct computation of progressive tax, without recursing to lower tiers of the stack.
 -- this is for countries which just give a direct formula that already takes into account
