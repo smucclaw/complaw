@@ -6,7 +6,7 @@ module Lib where
 import qualified Data.Map as Map
 import Control.Monad.Trans.State ( gets, State, StateT, evalState, runStateT, modify )
 import Control.Monad.State (liftIO)
-import Control.Monad (forM_, when)
+import Control.Monad (forM_, when, unless)
 import Text.Megaparsec ( choice, many, some, Parsec, MonadParsec(try) )
 import Text.Megaparsec.Char ( numberChar, hspace )
 import Data.List ( sort, isPrefixOf, nub )
@@ -15,6 +15,7 @@ import Text.PrettyPrint.Boxes
 import qualified Text.PrettyPrint.Boxes as BX
 import Control.Monad.Combinators.Expr
 import Data.Ord
+import qualified Data.Tree as DT
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -304,15 +305,21 @@ runTests = do
 
         defaultScenario
 
-  forM_ ([scenario1a, scenario1b, scenario2, testcase1, testcase2
-         , testcase3, testcase3_fired, testcase3_unfired]) $ \(sctitle,sc) -> do
+  forM_ [scenario1a, scenario1b, scenario2, testcase1, testcase2
+        , testcase3, testcase3_fired, testcase3_unfired] $ \(sctitle,sc) -> do
     putStrLn $ "* running scenario: " <> sctitle
-    printExplanation $ section_2_3  sc
-    printExplanation $ section_34_1 sc
+
+    (result_2_3, expl_2_3) <- runExplainIO $ section_2_3  sc
+    unless (null expl_2_3) $ putStrLn ("** explaining section_2_3: " <> sctitle) >> printExplanation expl_2_3
+
+    putStrLn $ "** executing section_34_1: " <> sctitle
+    (result_341, expl_341) <- runExplainIO $ section_34_1 sc
+    unless (null expl_341) $ putStrLn "** explaining section_34_1:" >> printExplanation expl_341
 
   putStrLn "* which tax method shall we use to deal with extraordinary income in test case 3?"
-  effMethod <- printExplanation $ chooseEffectiveEOTaxMethod testcase3_fired testcase3_unfired
+  (effMethod, expl) <- runExplainIO $ chooseEffectiveEOTaxMethod testcase3_fired testcase3_unfired
   putStrLn $ "* we choose " ++ show effMethod
+  printExplanation expl
 
   return ()
 
@@ -347,7 +354,7 @@ data EOTaxMethod = EONormal | EOFifth
 
 chooseEffectiveEOTaxMethod :: (String,Scenario) -- ^ actual
                            -> (String,Scenario) -- ^ hypothetical
-                           -> StateT Explanation IO EOTaxMethod
+                           -> ExplainIO EOTaxMethod
 chooseEffectiveEOTaxMethod (titleA,scActual) (titleB,scHypo) = do
   explain "effectiveEOTaxMethod" $ "we need to determine if there is aggregation of income. let's see if the different treatments matter. we will compare 34.1 with 2.3, considering the actual (" ++ titleA ++ ") and hypothetical (" ++ titleB ++ ") scenarios"
   treatmentA <- ("section 34.1",) <$> aggregationOfIncome section_34_1 scActual scHypo
@@ -358,32 +365,49 @@ chooseEffectiveEOTaxMethod (titleA,scActual) (titleB,scHypo) = do
   then explain "effectiveEOTaxMethod" "there is aggregation of income, so the one-fifths method is indicated." >> return EOFifth
   else explain "effectiveEOTaxMethod" "there is not aggregation of income, so the normal method is indicated." >> return EONormal
 
-aggregationOfIncome :: (Scenario -> StateT Explanation IO Scenario)
+aggregationOfIncome :: (Scenario -> ExplainIO Scenario)
                     -> Scenario
                     -> Scenario
-                    -> StateT Explanation IO Bool
+                    -> ExplainIO Bool
 aggregationOfIncome section fired unfired = do
   actual <- section fired
   hypo   <- section unfired
-  let tta_actual = cell actual "total taxable income" "total"
-      tta_hypo   = cell hypo "total taxable income" "total"
-  explain "aggregationOfIncome" $ "in the actual scenario, total taxable income is " ++ show tta_actual
-  explain "aggregationOfIncome" $ "in the hypo   scenario, total taxable income is " ++ show tta_hypo
-  case tta_actual `compare` tta_hypo of
+  let tti_actual = cell actual "total taxable income" "total"
+      tti_hypo   = cell hypo   "total taxable income" "total"
+      ttp_actual = cell actual "total tax payable"    "total"
+      ttp_hypo   = cell hypo   "total tax payable"    "total"
+  explain "aggregationOfIncome" $ "in the actual scenario, total taxable income is " ++ show tti_actual ++ " and total tax payable is = " ++ show ttp_actual
+  explain "aggregationOfIncome" $ "in the hypo   scenario, total taxable income is " ++ show tti_hypo   ++ " and total tax payable is = " ++ show ttp_hypo
+  case tti_actual `compare` tti_hypo of
     GT -> explain "aggregationOfIncome" "actual > hypo, returning true"  >> return True
     EQ -> explain "aggregationOfIncome" "actual = hypo, returning false" >> return False
     LT -> explain "aggregationOfIncome" "actual < hypo, returning false" >> return False
 
-printExplanation :: StateT [([Char], [Char])] IO a -> IO a
-printExplanation x = do
-  (v,s) <- runStateT x []
-  putStrLn . unlines . fmap (\(a,b) -> "- " ++ a ++ " :: " ++ b) $ s
-  return v
+-- | We set up an "explanation monad" which is basically a State+IO
+-- monad. The state component is a Data.Tree. We wrap child executions
+-- within a mkNod wrapper which behaves mostly as a Writer monad,
+-- except we want to give each computation a history of prior
+-- executions that just might affect it, so we make it a State. In the
+-- future it would be nice to wrap the IO computations so that any
+-- @putStrLn@s get automatically wrapped with a @#+begin_example / #+end_example@ block.
+
+type Explanation   = [(String, String)]
+type ExplainIO = StateT Explanation IO
+
+explain :: String -> String -> StateT [(String, String)] IO ()
+explain foo bar = do
+  modify (++ [(foo,bar)])
+  -- liftIO (putStrLn $ "- " ++ foo ++ " :: " ++ bar)
+
+runExplainIO :: StateT [([Char], [Char])] IO a -> IO (a, Explanation)
+runExplainIO x = runStateT x []
+  
+printExplanation :: [([Char], [Char])] -> IO ()
+printExplanation xs = do
+  putStrLn . unlines . fmap (\(a,b) -> "- " ++ a ++ " :: " ++ b) $ xs
   
 --  let parsed = runParser pMathLang "" "( 5 + 3 * 2 )"
 --  print parsed
-
-type Explanation   = [(String, String)]
 
 type Scenario      = Map.Map String         IncomeStreams
 type IncomeStreams = Map.Map IncomeCategory Float
@@ -418,7 +442,7 @@ asColumn str istream = asTable (Map.singleton str istream)
 data Replace = Replace { elems_  :: [String] , with_ :: [String] }
 
 -- | run the generic replacement for Scenarios
-runReplaceSc :: Scenario -> Replace -> StateT Explanation IO Scenario
+runReplaceSc :: Scenario -> Replace -> ExplainIO Scenario
 runReplaceSc m (Replace ks fs) =
   if all (`Map.member` m) ks
   then do
@@ -426,7 +450,7 @@ runReplaceSc m (Replace ks fs) =
     return $ Map.unions $ nu ++ [foldl (flip Map.delete) m ks]
   else return m
 
-runReplaceIs :: IncomeStreams -> Replace -> StateT Explanation IO IncomeStreams
+runReplaceIs :: IncomeStreams -> Replace -> ExplainIO IncomeStreams
 runReplaceIs m (Replace ks fs) =
   if all (`Map.member` m) ks
   then Map.unions . (++ [foldl (flip Map.delete) m ks]) <$> sequence ((metaFis <$> fs) <*> [m]) 
@@ -437,16 +461,16 @@ runReplaceIs m (Replace ks fs) =
 (~->) k ka = Replace { elems_ = k, with_ = ka }
 
 -- | generic section wrapper
-runSection :: String -> Scenario -> [Replace] -> StateT Explanation IO Scenario
+runSection :: String -> Scenario -> [Replace] -> ExplainIO Scenario
 runSection name initialScenario transformations = do
-  liftIO $ putStrLn ("** " <> name)
+  liftIO $ putStrLn $ "** executing " <> name
   steps <- scanlM runReplaceSc initialScenario transformations
   _ <- liftIO $ sequence [ putStrLn ("*** step " <> show n) >> putStrLn (asExample step)
                          | (n, step) <- zip [1::Int ..] steps ]
   return $ last steps
 
 -- | section 2(3) EStG
-section_2_3 :: Scenario -> StateT Explanation IO Scenario
+section_2_3 :: Scenario -> ExplainIO Scenario
 section_2_3 sc = do
   runSection "section 2.3" sc
         [ []                                             ~-> []
@@ -464,7 +488,7 @@ section_2_3 sc = do
 -- 
 -- A particular transformation runs only if all its LHS columns are found in the scenario table,
 -- in which case those columns are replaced by the output of the transformer.
-section_34_1 :: Scenario -> StateT Explanation IO Scenario
+section_34_1 :: Scenario -> ExplainIO Scenario
 section_34_1 sc = do
   runSection "section 34.1" sc
         [ []                                            ~-> []
@@ -490,7 +514,7 @@ section_34_1 sc = do
 -- Instead of just a direct function definition @f = whatever@
 -- we have (generally) @metaF "f" = whatever@ which gets called later.
 -- here, the @whatever@ is a Scenario, so we say `metaFsc`.
-metaFsc :: String -> Scenario -> StateT Explanation IO Scenario
+metaFsc :: String -> Scenario -> ExplainIO Scenario
 
 metaFsc "preNetIncome" sc = return $
   Map.singleton "pre-net income" $
@@ -566,7 +590,7 @@ metaFsc title@"offsetLosses_2_3_3" sc = do
     --    1. the positive totals of income
     --       1. from different types of income
     --    2. to the total of positive income.
-    offsetLosses_2_3_4 :: String -> Float -> Float -> StateT Explanation IO Float
+    offsetLosses_2_3_4 :: String -> Float -> Float -> ExplainIO Float
     offsetLosses_2_3_4 categoryName reduction x
       | x < 0     = pure 0 <* explain title (categoryName <> " is negative, resetting to 0")
       | x == 0    = pure 0
@@ -632,7 +656,7 @@ metaFsc "squashCats" sc = sequence $
 
 metaFsc fname _ = return $ error $ "metaFsc called for undefined function name " <> fname
 
-metaFis :: Num a => String -> Map.Map String a -> StateT Explanation IO (Map.Map String a)
+metaFis :: Num a => String -> Map.Map String a -> ExplainIO (Map.Map String a)
 metaFis "squashCats'" ns = return $
   Map.singleton "total" $ sum $ Map.elems $ Map.filterWithKey (\k _ -> not ("Exempt " `isPrefixOf` k)) ns
 
@@ -642,7 +666,7 @@ metaFis fname _ = return $ error $ "metaFis called for undefined function name "
 -- it means we map some function across a functor, where each application is scaled to that value's fraction of the whole
 --
 -- example: @ prorate (* 1000) [5,3,2] == [500.0,300.0,200.0] @ 
-prorate :: (Fractional a, Functor f, Foldable f) => (a -> a) -> f a -> StateT Explanation IO (f a)
+prorate :: (Fractional a, Functor f, Foldable f) => (a -> a) -> f a -> ExplainIO (f a)
 prorate f xs = return $ f . (/ sum xs) <$> xs
 
 -- | what does filtered pro rata mean?
@@ -658,7 +682,7 @@ prorate f xs = return $ f . (/ sum xs) <$> xs
 --   prorateF (/ 2) (>0) [5,3,2,-1] ==> [500.0,300.0,200.0,0]
 -- @
 -- 
-prorateF :: (Fractional a, Functor f, Foldable f) => (a -> a) -> (a -> Bool) -> a -> f a -> StateT Explanation IO (f a)
+prorateF :: (Fractional a, Functor f, Foldable f) => (a -> a) -> (a -> Bool) -> a -> f a -> ExplainIO (f a)
 prorateF f filt zeroval xs = do
   let passes = sum $ (\x -> if filt x then x else zeroval) <$> xs
   return $ (\x -> if filt x
@@ -801,11 +825,6 @@ scanlM f q (x:xs) = do
   t  <- f q x
   ts <- scanlM f t xs
   return $ t `seq` (t : ts)
-
-explain :: String -> String -> StateT [(String, String)] IO ()
-explain foo bar = do
-  modify (++ [(foo,bar)])
-  liftIO (putStrLn $ "- " ++ foo ++ " :: " ++ bar)
 
 scell :: (Ord k, Ord j, Show a) => Map.Map k (Map.Map j a) -> k -> j -> String
 scell k j a = show (cell k j a)

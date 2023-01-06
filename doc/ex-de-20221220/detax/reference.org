@@ -1,17 +1,6 @@
 6.0
 * running scenario: 1a
-** section 2.3
-- squashIncomes :: for Agriculture, extraordinary 270000.0 + ordinary 30000.0 = pre-net 300000.0
-- squashIncomes :: for Exempt Capital, extraordinary 100.0 + ordinary 100.0 = pre-net 200.0
-- offsetLosses_2_3_3 :: sum of the positive incomes 370200.0 exceeds 100000
-- offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -106000.0 = -53000.0
-- offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 0.8568342
-- offsetLosses_2_3_3 :: Agriculture 300000.0 is positive, multiplying by 0.8568342 = 257050.25
-- offsetLosses_2_3_3 :: Exempt Capital 200.0 is positive, multiplying by 0.8568342 = 171.36684
-- offsetLosses_2_3_3 :: Independent is negative, resetting to 0
-- offsetLosses_2_3_3 :: Other is negative, resetting to 0
-- offsetLosses_2_3_3 :: Rents 70000.0 is positive, multiplying by 0.8568342 = 59978.39
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -82,6 +71,7 @@ total  317029
 total  124355             317029              
 #+end_example
 
+** explaining section_2_3: 1a
 - squashIncomes :: for Agriculture, extraordinary 270000.0 + ordinary 30000.0 = pre-net 300000.0
 - squashIncomes :: for Exempt Capital, extraordinary 100.0 + ordinary 100.0 = pre-net 200.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 370200.0 exceeds 100000
@@ -94,7 +84,8 @@ total  124355             317029
 - offsetLosses_2_3_3 :: Other is negative, resetting to 0
 - offsetLosses_2_3_3 :: Rents 70000.0 is positive, multiplying by 0.8568342 = 59978.39
 
-** section 34.1
+** executing section_34_1: 1a
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -172,18 +163,8 @@ total  1                  62020           54000                 12857           
 total  1                  126303             270000              
 #+end_example
 
-
 * running scenario: 1b
-** section 2.3
-- offsetLosses_2_3_3 :: sum of the positive incomes 90100.0 is less than 100000
-- offsetLosses_2_3_3 :: so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be -66000.0
-- offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 0.26748055
-- offsetLosses_2_3_3 :: Agriculture 20000.0 is positive, multiplying by 0.26748055 = 5349.611
-- offsetLosses_2_3_3 :: Exempt Capital 100.0 is positive, multiplying by 0.26748055 = 26.748055
-- offsetLosses_2_3_3 :: Independent is negative, resetting to 0
-- offsetLosses_2_3_3 :: Other is negative, resetting to 0
-- offsetLosses_2_3_3 :: Rents 70000.0 is positive, multiplying by 0.26748055 = 18723.639
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -254,6 +235,7 @@ total  24073
 total  3027               24073               
 #+end_example
 
+** explaining section_2_3: 1b
 - offsetLosses_2_3_3 :: sum of the positive incomes 90100.0 is less than 100000
 - offsetLosses_2_3_3 :: so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be -66000.0
 - offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
@@ -264,7 +246,8 @@ total  3027               24073
 - offsetLosses_2_3_3 :: Other is negative, resetting to 0
 - offsetLosses_2_3_3 :: Rents 70000.0 is positive, multiplying by 0.26748055 = 18723.639
 
-** section 34.1
+** executing section_34_1: 1b
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -342,19 +325,8 @@ total  3027            24073                 3027             0             0   
 total  3027               24073               
 #+end_example
 
-
 * running scenario: 2
-** section 2.3
-- squashIncomes :: for Agriculture, extraordinary 270000.0 + ordinary 30000.0 = pre-net 300000.0
-- squashIncomes :: for Exempt Capital, extraordinary 100.0 + ordinary 100.0 = pre-net 200.0
-- offsetLosses_2_3_3 :: sum of the positive incomes 370200.0 exceeds 100000
-- offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -6000.0 = -3000.0
-- offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 0.9918963
-- offsetLosses_2_3_3 :: Agriculture 300000.0 is positive, multiplying by 0.9918963 = 297568.88
-- offsetLosses_2_3_3 :: Exempt Capital 200.0 is positive, multiplying by 0.9918963 = 198.37926
-- offsetLosses_2_3_3 :: Independent is negative, resetting to 0
-- offsetLosses_2_3_3 :: Rents 70000.0 is positive, multiplying by 0.9918963 = 69432.74
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -425,6 +397,7 @@ total  367002
 total  146843             367002              
 #+end_example
 
+** explaining section_2_3: 2
 - squashIncomes :: for Agriculture, extraordinary 270000.0 + ordinary 30000.0 = pre-net 300000.0
 - squashIncomes :: for Exempt Capital, extraordinary 100.0 + ordinary 100.0 = pre-net 200.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 370200.0 exceeds 100000
@@ -436,7 +409,8 @@ total  146843             367002
 - offsetLosses_2_3_3 :: Independent is negative, resetting to 0
 - offsetLosses_2_3_3 :: Rents 70000.0 is positive, multiplying by 0.9918963 = 69432.74
 
-** section 34.1
+** executing section_34_1: 2
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -514,15 +488,8 @@ total  29510           148006                52190            22680         1134
 total  142910             364006              
 #+end_example
 
-
 * running scenario: test case 1
-** section 2.3
-- squashIncomes :: for Rents, extraordinary 25000.0 + ordinary 47150.0 = pre-net 72150.0
-- offsetLosses_2_3_3 :: sum of the positive incomes 72150.0 is less than 100000
-- offsetLosses_2_3_3 :: so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be 0.0
-- offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 1.0
-- offsetLosses_2_3_3 :: Rents 72150.0 is positive, multiplying by 1.0 = 72150.0
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -593,6 +560,7 @@ total  72150
 total  20330              72150               
 #+end_example
 
+** explaining section_2_3: test case 1
 - squashIncomes :: for Rents, extraordinary 25000.0 + ordinary 47150.0 = pre-net 72150.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 72150.0 is less than 100000
 - offsetLosses_2_3_3 :: so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be 0.0
@@ -600,7 +568,8 @@ total  20330              72150
 - offsetLosses_2_3_3 :: reductio = 1.0
 - offsetLosses_2_3_3 :: Rents 72150.0 is positive, multiplying by 1.0 = 72150.0
 
-** section 34.1
+** executing section_34_1: test case 1
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -678,17 +647,8 @@ total  10302           52150                 12149            1847          9233
 total  19535              72150               
 #+end_example
 
-
 * running scenario: test case 2
-** section 2.3
-- squashIncomes :: for Capital, extraordinary 225000.0 + ordinary 0.0 = pre-net 225000.0
-- offsetLosses_2_3_3 :: sum of the positive incomes 230350.0 exceeds 100000
-- offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -48200.0 = -24100.0
-- offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 0.8953766
-- offsetLosses_2_3_3 :: Capital 225000.0 is positive, multiplying by 0.8953766 = 201459.73
-- offsetLosses_2_3_3 :: Rents is negative, resetting to 0
-- offsetLosses_2_3_3 :: Trade 5350.0 is positive, multiplying by 0.8953766 = 4790.265
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -759,6 +719,7 @@ total  206250
 total  76652              206250              
 #+end_example
 
+** explaining section_2_3: test case 2
 - squashIncomes :: for Capital, extraordinary 225000.0 + ordinary 0.0 = pre-net 225000.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 230350.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -48200.0 = -24100.0
@@ -768,7 +729,8 @@ total  76652              206250
 - offsetLosses_2_3_3 :: Rents is negative, resetting to 0
 - offsetLosses_2_3_3 :: Trade 5350.0 is positive, multiplying by 0.8953766 = 4790.265
 
-** section 34.1
+** executing section_34_1: test case 2
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -845,18 +807,9 @@ total  1                  33339           45000                 9538            
        0 RTI is negative  total tax payable  total taxable income
 total  1                  81028              225000              
 #+end_example
-
 
 * running scenario: test case 3
-** section 2.3
-- squashIncomes :: for Capital, extraordinary 225000.0 + ordinary 0.0 = pre-net 225000.0
-- offsetLosses_2_3_3 :: sum of the positive incomes 230350.0 exceeds 100000
-- offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -48200.0 = -24100.0
-- offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 0.8953766
-- offsetLosses_2_3_3 :: Capital 225000.0 is positive, multiplying by 0.8953766 = 201459.73
-- offsetLosses_2_3_3 :: Rents is negative, resetting to 0
-- offsetLosses_2_3_3 :: Trade 5350.0 is positive, multiplying by 0.8953766 = 4790.265
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -927,6 +880,7 @@ total  206250
 total  76652              206250              
 #+end_example
 
+** explaining section_2_3: test case 3
 - squashIncomes :: for Capital, extraordinary 225000.0 + ordinary 0.0 = pre-net 225000.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 230350.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -48200.0 = -24100.0
@@ -936,7 +890,8 @@ total  76652              206250
 - offsetLosses_2_3_3 :: Rents is negative, resetting to 0
 - offsetLosses_2_3_3 :: Trade 5350.0 is positive, multiplying by 0.8953766 = 4790.265
 
-** section 34.1
+** executing section_34_1: test case 3
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -1014,15 +969,8 @@ total  1                  33339           45000                 9538            
 total  1                  81028              225000              
 #+end_example
 
-
 * running scenario: test case 3 - fired
-** section 2.3
-- squashIncomes :: for Employment, extraordinary 130000.0 + ordinary 22000.0 = pre-net 152000.0
-- offsetLosses_2_3_3 :: sum of the positive incomes 152000.0 exceeds 100000
-- offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes 0.0 = 0.0
-- offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 1.0
-- offsetLosses_2_3_3 :: Employment 152000.0 is positive, multiplying by 1.0 = 152000.0
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -1093,6 +1041,7 @@ total  152000
 total  53867              152000              
 #+end_example
 
+** explaining section_2_3: test case 3 - fired
 - squashIncomes :: for Employment, extraordinary 130000.0 + ordinary 22000.0 = pre-net 152000.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 152000.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes 0.0 = 0.0
@@ -1100,7 +1049,8 @@ total  53867              152000
 - offsetLosses_2_3_3 :: reductio = 1.0
 - offsetLosses_2_3_3 :: Employment 152000.0 is positive, multiplying by 1.0 = 152000.0
 
-** section 34.1
+** executing section_34_1: test case 3 - fired
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -1177,15 +1127,9 @@ total  2474            48000                 10609            8135          4067
        total tax payable  total taxable income
 total  43150              152000              
 #+end_example
-
 
 * running scenario: test case 3 - unfired
-** section 2.3
-- offsetLosses_2_3_3 :: sum of the positive incomes 22000.0 is less than 100000
-- offsetLosses_2_3_3 :: so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be 0.0
-- offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 1.0
-- offsetLosses_2_3_3 :: Employment 22000.0 is positive, multiplying by 1.0 = 22000.0
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -1256,13 +1200,15 @@ total  22000
 total  2474               22000               
 #+end_example
 
+** explaining section_2_3: test case 3 - unfired
 - offsetLosses_2_3_3 :: sum of the positive incomes 22000.0 is less than 100000
 - offsetLosses_2_3_3 :: so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be 0.0
 - offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
 - offsetLosses_2_3_3 :: reductio = 1.0
 - offsetLosses_2_3_3 :: Employment 22000.0 is positive, multiplying by 1.0 = 22000.0
 
-** section 34.1
+** executing section_34_1: test case 3 - unfired
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -1340,10 +1286,8 @@ total  2474            22000                 2474             0             0   
 total  2474               22000               
 #+end_example
 
-
 * which tax method shall we use to deal with extraordinary income in test case 3?
-- effectiveEOTaxMethod :: we need to determine if there is aggregation of income. let's see if the different treatments matter. we will compare 34.1 with 2.3, considering the actual (test case 3 - fired) and hypothetical (test case 3 - unfired) scenarios
-** section 34.1
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -1421,7 +1365,7 @@ total  2474            48000                 10609            8135          4067
 total  43150              152000              
 #+end_example
 
-** section 34.1
+** executing section 34.1
 *** step 1
 
 #+begin_example
@@ -1499,16 +1443,7 @@ total  2474            22000                 2474             0             0   
 total  2474               22000               
 #+end_example
 
-- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0
-- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0
-- aggregationOfIncome :: actual > hypo, returning true
-** section 2.3
-- squashIncomes :: for Employment, extraordinary 130000.0 + ordinary 22000.0 = pre-net 152000.0
-- offsetLosses_2_3_3 :: sum of the positive incomes 152000.0 exceeds 100000
-- offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes 0.0 = 0.0
-- offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 1.0
-- offsetLosses_2_3_3 :: Employment 152000.0 is positive, multiplying by 1.0 = 152000.0
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -1579,12 +1514,7 @@ total  152000
 total  53867              152000              
 #+end_example
 
-** section 2.3
-- offsetLosses_2_3_3 :: sum of the positive incomes 22000.0 is less than 100000
-- offsetLosses_2_3_3 :: so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be 0.0
-- offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
-- offsetLosses_2_3_3 :: reductio = 1.0
-- offsetLosses_2_3_3 :: Employment 22000.0 is positive, multiplying by 1.0 = 22000.0
+** executing section 2.3
 *** step 1
 
 #+begin_example
@@ -1655,15 +1585,10 @@ total  22000
 total  2474               22000               
 #+end_example
 
-- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0
-- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0
-- aggregationOfIncome :: actual > hypo, returning true
-- effectiveEOTaxMethod :: under treatment section 34.1, there is aggregation of income.
-- effectiveEOTaxMethod :: under treatment section 2.3, there is aggregation of income.
-- effectiveEOTaxMethod :: there is aggregation of income, so the one-fifths method is indicated.
+* we choose EOFifth
 - effectiveEOTaxMethod :: we need to determine if there is aggregation of income. let's see if the different treatments matter. we will compare 34.1 with 2.3, considering the actual (test case 3 - fired) and hypothetical (test case 3 - unfired) scenarios
-- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0
-- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0
+- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0 and total tax payable is = 43149.77
+- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0 and total tax payable is = 2474.3252
 - aggregationOfIncome :: actual > hypo, returning true
 - squashIncomes :: for Employment, extraordinary 130000.0 + ordinary 22000.0 = pre-net 152000.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 152000.0 exceeds 100000
@@ -1676,11 +1601,10 @@ total  2474               22000
 - offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
 - offsetLosses_2_3_3 :: reductio = 1.0
 - offsetLosses_2_3_3 :: Employment 22000.0 is positive, multiplying by 1.0 = 22000.0
-- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0
-- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0
+- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0 and total tax payable is = 53867.016
+- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0 and total tax payable is = 2474.3252
 - aggregationOfIncome :: actual > hypo, returning true
 - effectiveEOTaxMethod :: under treatment section 34.1, there is aggregation of income.
 - effectiveEOTaxMethod :: under treatment section 2.3, there is aggregation of income.
 - effectiveEOTaxMethod :: there is aggregation of income, so the one-fifths method is indicated.
 
-* we choose EOFifth
