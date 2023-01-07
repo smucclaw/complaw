@@ -453,7 +453,48 @@ section_34_1 sc = do
         ]
 
 
+colOp :: Scenario -> (Float -> Float -> Float) -> String -> String -> IncomeStreams
+colOp sc op lhs rhs = mapAp op (sc Map.! lhs) (sc Map.! rhs)
 
+colOpR :: Scenario -> (Float -> Float -> Float) -> String -> IncomeStreams -> IncomeStreams
+colOpR sc op lhs = mapAp op (sc Map.! lhs)
+
+colOpL :: Scenario -> (Float -> Float -> Float) -> IncomeStreams -> String -> IncomeStreams
+colOpL sc op lhs rhs = mapAp op lhs (sc Map.! rhs)
+
+colOpLR :: (Float -> Float -> Float) -> IncomeStreams -> IncomeStreams -> IncomeStreams
+colOpLR = mapAp
+
+(~+~), (~-~) :: Scenario -> String -> String -> IncomeStreams
+(~+~) sc = colOp sc (+)
+(~-~) sc = colOp sc (-)
+
+(~+), (~-) :: Scenario -> String -> IncomeStreams -> IncomeStreams
+(~+) sc = colOpR sc (+)
+(~-) sc = colOpR sc (-)
+
+(+~), (-~) :: Scenario -> IncomeStreams -> String -> IncomeStreams
+(+~) sc = colOpL sc (+)
+(-~) sc = colOpL sc (-)
+
+(<+>),(<->) :: IncomeStreams -> IncomeStreams -> IncomeStreams
+(<+>) = colOpLR (+)
+(<->) = colOpLR (-)
+
+infix 4 ~-, <+>, <->
+
+(~=) :: String -> IncomeStreams -> Scenario
+s ~= is = Map.singleton s is
+
+infix 3 ~=
+
+(~|) :: Scenario -> String -> IncomeStreams
+(~|) sc s = sc Map.! s
+infix 5 ~|
+
+
+
+  
 -- | a meta-function constructor for use by our meta-interpreter.
 -- Instead of just a direct function definition @f = whatever@
 -- we have (generally) @metaF "f" = whatever@ which gets called later.
@@ -462,10 +503,7 @@ metaFsc :: String -> Scenario -> ExplainIO Scenario
 
 metaFsc "preNetIncome" sc = do
   liftIO $ putStrLn "RUNNING - metaFsc preNetIncome"
-  return $
-    Map.singleton "pre-net income" $
-    mapAp (-) (sc Map.! "ordinary income") $
-    mapAp (+) (sc Map.! "special expenses") (sc Map.! "ordinary expenses")
+  return $ "pre-net income" ~= sc ~| "ordinary income" <-> ( sc ~| "special expenses" <+> sc ~| "ordinary expenses")
 
 metaFsc "netIncome" sc = do
   liftIO $ putStrLn "RUNNING - metaFsc netIncome"
