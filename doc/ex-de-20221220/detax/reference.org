@@ -1,6 +1,19 @@
 6.0
+fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",270000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",6000.0),("Other",100000.0),("Rents",2150.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",30000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",72150.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("1b",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",6000.0),("Other",60000.0),("Rents",2150.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",20000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",72150.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("2",fromList [("extraordinary income",fromList [("Agriculture",270000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",6000.0),("Other",0.0),("Rents",2150.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",30000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",72150.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("test case 1",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",25000.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",72150.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("test case 2",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",225000.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",45000.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",5350.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",3200.0),("Trade",0.0)])]),("test case 3",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",225000.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",45000.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",5350.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",3200.0),("Trade",0.0)])]),("test case 3 - fired",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",130000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",22000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("test case 3 - unfired",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",22000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])])]
 * running scenario: 1a
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+270000.0
+100.0
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",300000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",200.0),("Independent",-6000.0),("Other",-100000.0),("Rents",70000.0),("Trade",0.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",300000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",200.0),("Independent",-6000.0),("Other",-100000.0),("Rents",70000.0),("Trade",0.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -18,15 +31,15 @@ Trade           0                     0                  0                0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     300000           0                  0               
-Capital         0                0                  0               
-Employment      0                0                  0               
-Exempt Capital  200              0                  0               
-Independent     0                6000               0               
-Other           0                100000             0               
-Rents           72150            2150               0               
-Trade           0                0                  0               
+                combined income  special expenses
+Agriculture     300000           0               
+Capital         0                0               
+Employment      0                0               
+Exempt Capital  200              0               
+Independent     -6000            0               
+Other           -100000          0               
+Rents           70000            0               
+Trade           0                0               
 #+end_example
 
 *** step 3
@@ -72,8 +85,8 @@ total  124355             317029
 #+end_example
 
 ** explaining section_2_3: 1a
-- squashIncomes :: for Agriculture, extraordinary 270000.0 + ordinary 30000.0 = pre-net 300000.0
-- squashIncomes :: for Exempt Capital, extraordinary 100.0 + ordinary 100.0 = pre-net 200.0
+- squashIncomes :: for Agriculture, extraordinary 270000.0 + ordinary 30000.0 - expenses 0.0 = pre-net 300000.0
+- squashIncomes :: for Exempt Capital, extraordinary 100.0 + ordinary 100.0 - expenses 0.0 = pre-net 200.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 370200.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -106000.0 = -53000.0
 - offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
@@ -86,6 +99,12 @@ total  124355             317029
 
 ** executing section_34_1: 1a
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -165,6 +184,16 @@ total  1                  126303             270000
 
 * running scenario: 1b
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",20000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",-6000.0),("Other",-60000.0),("Rents",70000.0),("Trade",0.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",20000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",-6000.0),("Other",-60000.0),("Rents",70000.0),("Trade",0.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -182,15 +211,15 @@ Trade           0                     0                  0                0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     20000            0                  0               
-Capital         0                0                  0               
-Employment      0                0                  0               
-Exempt Capital  100              0                  0               
-Independent     0                6000               0               
-Other           0                60000              0               
-Rents           72150            2150               0               
-Trade           0                0                  0               
+                combined income  special expenses
+Agriculture     20000            0               
+Capital         0                0               
+Employment      0                0               
+Exempt Capital  100              0               
+Independent     -6000            0               
+Other           -60000           0               
+Rents           70000            0               
+Trade           0                0               
 #+end_example
 
 *** step 3
@@ -248,6 +277,13 @@ total  3027               24073
 
 ** executing section_34_1: 1b
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+ERROR - runReplaceSc: sanity check failed on keys 1 revised RTI taxation due to sentence 3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -327,6 +363,18 @@ total  3027               24073
 
 * running scenario: 2
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+270000.0
+100.0
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",300000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",200.0),("Independent",-6000.0),("Other",0.0),("Rents",70000.0),("Trade",0.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",300000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",200.0),("Independent",-6000.0),("Other",0.0),("Rents",70000.0),("Trade",0.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -344,15 +392,15 @@ Trade           0                     0                  0                0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     300000           0                  0               
-Capital         0                0                  0               
-Employment      0                0                  0               
-Exempt Capital  200              0                  0               
-Independent     0                6000               0               
-Other           0                0                  0               
-Rents           72150            2150               0               
-Trade           0                0                  0               
+                combined income  special expenses
+Agriculture     300000           0               
+Capital         0                0               
+Employment      0                0               
+Exempt Capital  200              0               
+Independent     -6000            0               
+Other           0                0               
+Rents           70000            0               
+Trade           0                0               
 #+end_example
 
 *** step 3
@@ -398,8 +446,8 @@ total  146843             367002
 #+end_example
 
 ** explaining section_2_3: 2
-- squashIncomes :: for Agriculture, extraordinary 270000.0 + ordinary 30000.0 = pre-net 300000.0
-- squashIncomes :: for Exempt Capital, extraordinary 100.0 + ordinary 100.0 = pre-net 200.0
+- squashIncomes :: for Agriculture, extraordinary 270000.0 + ordinary 30000.0 - expenses 0.0 = pre-net 300000.0
+- squashIncomes :: for Exempt Capital, extraordinary 100.0 + ordinary 100.0 - expenses 0.0 = pre-net 200.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 370200.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -6000.0 = -3000.0
 - offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
@@ -411,6 +459,13 @@ total  146843             367002
 
 ** executing section_34_1: 2
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+ERROR - runReplaceSc: sanity check failed on keys 1 revised RTI taxation due to sentence 3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -490,6 +545,17 @@ total  142910             364006
 
 * running scenario: test case 1
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+25000.0
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",97150.0),("Trade",0.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",97150.0),("Trade",0.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -500,22 +566,22 @@ Employment      0                     0                  0                0
 Exempt Capital  0                     0                  0                0               
 Independent     0                     0                  0                0               
 Other           0                     0                  0                0               
-Rents           25000                 0                  47150            0               
+Rents           25000                 0                  72150            0               
 Trade           0                     0                  0                0               
 #+end_example
 
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     0                0                  0               
-Capital         0                0                  0               
-Employment      0                0                  0               
-Exempt Capital  0                0                  0               
-Independent     0                0                  0               
-Other           0                0                  0               
-Rents           72150            0                  0               
-Trade           0                0                  0               
+                combined income  special expenses
+Agriculture     0                0               
+Capital         0                0               
+Employment      0                0               
+Exempt Capital  0                0               
+Independent     0                0               
+Other           0                0               
+Rents           97150            0               
+Trade           0                0               
 #+end_example
 
 *** step 3
@@ -528,7 +594,7 @@ Employment      0
 Exempt Capital  0         
 Independent     0         
 Other           0         
-Rents           72150     
+Rents           97150     
 Trade           0         
 #+end_example
 
@@ -542,7 +608,7 @@ Employment      0
 Exempt Capital  0                   
 Independent     0                   
 Other           0                   
-Rents           72150               
+Rents           97150               
 Trade           0                   
 #+end_example
 
@@ -550,26 +616,33 @@ Trade           0
 
 #+begin_example
        total taxable income
-total  72150               
+total  97150               
 #+end_example
 
 *** step 6
 
 #+begin_example
        total tax payable  total taxable income
-total  20330              72150               
+total  30830              97150               
 #+end_example
 
 ** explaining section_2_3: test case 1
-- squashIncomes :: for Rents, extraordinary 25000.0 + ordinary 47150.0 = pre-net 72150.0
-- offsetLosses_2_3_3 :: sum of the positive incomes 72150.0 is less than 100000
+- squashIncomes :: for Rents, extraordinary 25000.0 + ordinary 72150.0 - expenses 0.0 = pre-net 97150.0
+- offsetLosses_2_3_3 :: sum of the positive incomes 97150.0 is less than 100000
 - offsetLosses_2_3_3 :: so we will not limit deductions to half of the sum of the negative incomes; the deductible amount will be 0.0
 - offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
 - offsetLosses_2_3_3 :: reductio = 1.0
-- offsetLosses_2_3_3 :: Rents 72150.0 is positive, multiplying by 1.0 = 72150.0
+- offsetLosses_2_3_3 :: Rents 97150.0 is positive, multiplying by 1.0 = 97150.0
 
 ** executing section_34_1: test case 1
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+ERROR - runReplaceSc: sanity check failed on keys 1 revised RTI taxation due to sentence 3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -580,7 +653,7 @@ Employment      0                     0                  0                0
 Exempt Capital  0                     0                  0                0               
 Independent     0                     0                  0                0               
 Other           0                     0                  0                0               
-Rents           25000                 0                  47150            0               
+Rents           25000                 0                  72150            0               
 Trade           0                     0                  0                0               
 #+end_example
 
@@ -594,7 +667,7 @@ Employment      0                     0
 Exempt Capital  0                     0             
 Independent     0                     0             
 Other           0                     0             
-Rents           25000                 47150         
+Rents           25000                 72150         
 Trade           0                     0             
 #+end_example
 
@@ -608,7 +681,7 @@ Employment      0                     0
 Exempt Capital  0                     0                       
 Independent     0                     0                       
 Other           0                     0                       
-Rents           25000                 47150                   
+Rents           25000                 72150                   
 Trade           0                     0                       
 #+end_example
 
@@ -616,39 +689,50 @@ Trade           0                     0
 
 #+begin_example
        extraordinary income  remaining taxable income
-total  25000                 47150                   
+total  25000                 72150                   
 #+end_example
 
 *** step 5
 
 #+begin_example
        1 RTI taxation  2 RTI plus one fifth  3 tax on RTI+.2  4 difference  5 extraordinary taxation  extraordinary income  remaining taxable income  total taxable income
-total  10302           52150                 12149            1847          9233                      25000                 47150                     72150               
+total  20330           77150                 22430            2100          10500                     25000                 72150                     97150               
 #+end_example
 
 *** step 6
 
 #+begin_example
        1 RTI taxation  2 RTI plus one fifth  3 tax on RTI+.2  4 difference  5 extraordinary taxation  extraordinary income  remaining taxable income  total taxable income
-total  10302           52150                 12149            1847          9233                      25000                 47150                     72150               
+total  20330           77150                 22430            2100          10500                     25000                 72150                     97150               
 #+end_example
 
 *** step 7
 
 #+begin_example
        1 RTI taxation  2 RTI plus one fifth  3 tax on RTI+.2  4 difference  5 extraordinary taxation  extraordinary income  remaining taxable income  total taxable income
-total  10302           52150                 12149            1847          9233                      25000                 47150                     72150               
+total  20330           77150                 22430            2100          10500                     25000                 72150                     97150               
 #+end_example
 
 *** step 8
 
 #+begin_example
        total tax payable  total taxable income
-total  19535              72150               
+total  30830              97150               
 #+end_example
 
 * running scenario: test case 2
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+225000.0
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",225000.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",-48200.0),("Trade",5350.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",225000.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",-48200.0),("Trade",5350.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -666,15 +750,15 @@ Trade           0                     0                  5350             0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     0                0                  0               
-Capital         225000           0                  0               
-Employment      0                0                  0               
-Exempt Capital  0                0                  0               
-Independent     0                0                  0               
-Other           0                0                  0               
-Rents           0                45000              3200            
-Trade           5350             0                  0               
+                combined income  special expenses
+Agriculture     0                0               
+Capital         225000           0               
+Employment      0                0               
+Exempt Capital  0                0               
+Independent     0                0               
+Other           0                0               
+Rents           -45000           3200            
+Trade           5350             0               
 #+end_example
 
 *** step 3
@@ -720,7 +804,7 @@ total  76652              206250
 #+end_example
 
 ** explaining section_2_3: test case 2
-- squashIncomes :: for Capital, extraordinary 225000.0 + ordinary 0.0 = pre-net 225000.0
+- squashIncomes :: for Capital, extraordinary 225000.0 + ordinary 0.0 - expenses 0.0 = pre-net 225000.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 230350.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -48200.0 = -24100.0
 - offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
@@ -731,6 +815,12 @@ total  76652              206250
 
 ** executing section_34_1: test case 2
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -810,6 +900,17 @@ total  1                  81028              225000
 
 * running scenario: test case 3
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+225000.0
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",225000.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",-48200.0),("Trade",5350.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",225000.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",-48200.0),("Trade",5350.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -827,15 +928,15 @@ Trade           0                     0                  5350             0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     0                0                  0               
-Capital         225000           0                  0               
-Employment      0                0                  0               
-Exempt Capital  0                0                  0               
-Independent     0                0                  0               
-Other           0                0                  0               
-Rents           0                45000              3200            
-Trade           5350             0                  0               
+                combined income  special expenses
+Agriculture     0                0               
+Capital         225000           0               
+Employment      0                0               
+Exempt Capital  0                0               
+Independent     0                0               
+Other           0                0               
+Rents           -45000           3200            
+Trade           5350             0               
 #+end_example
 
 *** step 3
@@ -881,7 +982,7 @@ total  76652              206250
 #+end_example
 
 ** explaining section_2_3: test case 3
-- squashIncomes :: for Capital, extraordinary 225000.0 + ordinary 0.0 = pre-net 225000.0
+- squashIncomes :: for Capital, extraordinary 225000.0 + ordinary 0.0 - expenses 0.0 = pre-net 225000.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 230350.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes -48200.0 = -24100.0
 - offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
@@ -892,6 +993,12 @@ total  76652              206250
 
 ** executing section_34_1: test case 3
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -971,6 +1078,17 @@ total  1                  81028              225000
 
 * running scenario: test case 3 - fired
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+130000.0
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",152000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",152000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -988,15 +1106,15 @@ Trade           0                     0                  0                0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     0                0                  0               
-Capital         0                0                  0               
-Employment      152000           0                  0               
-Exempt Capital  0                0                  0               
-Independent     0                0                  0               
-Other           0                0                  0               
-Rents           0                0                  0               
-Trade           0                0                  0               
+                combined income  special expenses
+Agriculture     0                0               
+Capital         0                0               
+Employment      152000           0               
+Exempt Capital  0                0               
+Independent     0                0               
+Other           0                0               
+Rents           0                0               
+Trade           0                0               
 #+end_example
 
 *** step 3
@@ -1042,7 +1160,7 @@ total  53867              152000
 #+end_example
 
 ** explaining section_2_3: test case 3 - fired
-- squashIncomes :: for Employment, extraordinary 130000.0 + ordinary 22000.0 = pre-net 152000.0
+- squashIncomes :: for Employment, extraordinary 130000.0 + ordinary 22000.0 - expenses 0.0 = pre-net 152000.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 152000.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes 0.0 = 0.0
 - offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
@@ -1051,6 +1169,13 @@ total  53867              152000
 
 ** executing section_34_1: test case 3 - fired
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+ERROR - runReplaceSc: sanity check failed on keys 1 revised RTI taxation due to sentence 3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -1130,6 +1255,16 @@ total  43150              152000
 
 * running scenario: test case 3 - unfired
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",22000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",22000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -1147,15 +1282,15 @@ Trade           0                     0                  0                0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     0                0                  0               
-Capital         0                0                  0               
-Employment      22000            0                  0               
-Exempt Capital  0                0                  0               
-Independent     0                0                  0               
-Other           0                0                  0               
-Rents           0                0                  0               
-Trade           0                0                  0               
+                combined income  special expenses
+Agriculture     0                0               
+Capital         0                0               
+Employment      22000            0               
+Exempt Capital  0                0               
+Independent     0                0               
+Other           0                0               
+Rents           0                0               
+Trade           0                0               
 #+end_example
 
 *** step 3
@@ -1209,6 +1344,13 @@ total  2474               22000
 
 ** executing section_34_1: test case 3 - unfired
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+ERROR - runReplaceSc: sanity check failed on keys 1 revised RTI taxation due to sentence 3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -1288,6 +1430,13 @@ total  2474               22000
 
 * which tax method shall we use to deal with extraordinary income in test case 3?
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+ERROR - runReplaceSc: sanity check failed on keys 1 revised RTI taxation due to sentence 3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -1366,6 +1515,13 @@ total  43150              152000
 #+end_example
 
 ** executing section 34.1
+RUNNING - metaFsc preNetIncome
+RUNNING - offsetLosses
+RUNNING - squashCats
+RUNNING - extraordinary
+RUNNING - sentence3
+ERROR - runReplaceSc: sanity check failed on keys 1 revised RTI taxation due to sentence 3
+RUNNING - totalPayable
 *** step 1
 
 #+begin_example
@@ -1444,6 +1600,17 @@ total  2474               22000
 #+end_example
 
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+130000.0
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",152000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",152000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -1461,15 +1628,15 @@ Trade           0                     0                  0                0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     0                0                  0               
-Capital         0                0                  0               
-Employment      152000           0                  0               
-Exempt Capital  0                0                  0               
-Independent     0                0                  0               
-Other           0                0                  0               
-Rents           0                0                  0               
-Trade           0                0                  0               
+                combined income  special expenses
+Agriculture     0                0               
+Capital         0                0               
+Employment      152000           0               
+Exempt Capital  0                0               
+Independent     0                0               
+Other           0                0               
+Rents           0                0               
+Trade           0                0               
 #+end_example
 
 *** step 3
@@ -1515,6 +1682,16 @@ total  53867              152000
 #+end_example
 
 ** executing section 2.3
+RUNNING - metaFsc squashIncomes
+RETURNING - metaFsc squashIncomes
+RUNNING - metaFsc netIncome
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",22000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]
+RETURNING - metaFsc netIncome
+RUNNING - offsetLosses_2_3_3
+fromList [("net income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",22000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]
+RUNNING - offsetLosses_2_3_3 printed sc
+RUNNING - squashCats
+RUNNING - ordinaryPayable
 *** step 1
 
 #+begin_example
@@ -1532,15 +1709,15 @@ Trade           0                     0                  0                0
 *** step 2
 
 #+begin_example
-                combined income  ordinary expenses  special expenses
-Agriculture     0                0                  0               
-Capital         0                0                  0               
-Employment      22000            0                  0               
-Exempt Capital  0                0                  0               
-Independent     0                0                  0               
-Other           0                0                  0               
-Rents           0                0                  0               
-Trade           0                0                  0               
+                combined income  special expenses
+Agriculture     0                0               
+Capital         0                0               
+Employment      22000            0               
+Exempt Capital  0                0               
+Independent     0                0               
+Other           0                0               
+Rents           0                0               
+Trade           0                0               
 #+end_example
 
 *** step 3
@@ -1586,11 +1763,11 @@ total  2474               22000
 #+end_example
 
 * we choose EOFifth
-- effectiveEOTaxMethod :: we need to determine if there is aggregation of income. let's see if the different treatments matter. we will compare 34.1 with 2.3, considering the actual (test case 3 - fired) and hypothetical (test case 3 - unfired) scenarios
-- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0 and total tax payable is = 43149.77
-- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0 and total tax payable is = 2474.3252
+- effectiveEOTaxMethod :: we need to determine if there is aggregation of income. let's see if the different treatments matter. we will compare 34.1 with 2.3, considering the actual (test case3 - fired) and hypothetical (test case3 - unfired) scenarios
+- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0 (and total tax payable is = 43149.77)
+- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0 (and total tax payable is = 2474.3252)
 - aggregationOfIncome :: actual > hypo, returning true
-- squashIncomes :: for Employment, extraordinary 130000.0 + ordinary 22000.0 = pre-net 152000.0
+- squashIncomes :: for Employment, extraordinary 130000.0 + ordinary 22000.0 - expenses 0.0 = pre-net 152000.0
 - offsetLosses_2_3_3 :: sum of the positive incomes 152000.0 exceeds 100000
 - offsetLosses_2_3_3 :: so we will limit deductions to half of the sum of the negative incomes 0.0 = 0.0
 - offsetLosses_2_3_3 :: and apply them pro rata to the positive incomes
@@ -1601,8 +1778,8 @@ total  2474               22000
 - offsetLosses_2_3_3 :: we will apply deductions pro rata to the positive incomes
 - offsetLosses_2_3_3 :: reductio = 1.0
 - offsetLosses_2_3_3 :: Employment 22000.0 is positive, multiplying by 1.0 = 22000.0
-- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0 and total tax payable is = 53867.016
-- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0 and total tax payable is = 2474.3252
+- aggregationOfIncome :: in the actual scenario, total taxable income is 152000.0 (and total tax payable is = 53867.016)
+- aggregationOfIncome :: in the hypo   scenario, total taxable income is 22000.0 (and total tax payable is = 2474.3252)
 - aggregationOfIncome :: actual > hypo, returning true
 - effectiveEOTaxMethod :: under treatment section 34.1, there is aggregation of income.
 - effectiveEOTaxMethod :: under treatment section 2.3, there is aggregation of income.

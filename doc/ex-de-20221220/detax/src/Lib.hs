@@ -29,7 +29,8 @@ instance Monoid Box where
 
 
 -- | basic mathematical algebra calculator expression language
--- augmented with if\/then\/else construct and variable assignment
+-- augmented with if\/then\/else construct and variable assignment.
+-- this is the deeper embedding of the stuff that comes below.
 
 data MathLang a
   = MathLang a :+: MathLang a              -- ^ addition
@@ -60,6 +61,15 @@ data Var a
   = VarMath (MathLang a)                   -- ^ variable assignment
   | VarPred (Pred     a)                   -- ^ boolean predicate assignment
   deriving (Eq, Show)
+
+-- | if we generalize a 2 dimensional Data.Matrix to higher dimensions, we have ... a Tensor! but let's reinvent the wheel and not use one of the available tensor libraries.
+-- some guidance from IRC suggested just making vector of vectors of vectors etc.
+data Collection k a = Cell a
+                    | Collection k [Collection k a]
+
+instance Functor (Collection k) where
+  fmap f (Cell a)         = Cell (f a)
+  fmap f (Collection k x) = Collection k (fmap f <$> x)
 
 type VarTable a = Map.Map String (Var a)
 
@@ -130,6 +140,8 @@ toEng _ = "[TODO]"
 int :: Parser Int
 int = read <$> some numberChar
 
+-- | we get right to business with a shallow embedding that gets into expr and eval and expl without further ado.
+
 defaultScenario :: Scenario
 defaultScenario =
   mkMap [ (i, defaultStream)
@@ -154,6 +166,20 @@ defaultScenario =
         ]
   where mkMap = Map.fromList
 
+(~==) :: String -> Float -> IncomeStreams -> IncomeStreams
+s ~== n = Map.update (const $ pure n) s
+
+(<-~) :: String -> [IncomeStreams -> IncomeStreams] -> Scenario -> Scenario
+x <-~ ys = Map.update (pure . foldl1 (.) ys) x
+
+(~=>) :: String -> [Scenario -> Scenario] -> (String,Scenario)
+title ~=> js = (title, foldl (.) id js defaultScenario)
+
+
+infixl 8 ~=>
+infixl 1 <-~
+  
+
 runTests :: IO ()
 runTests = do
   let symtab = Map.fromList [("foo", VarMath (MathVal (5 :: Float)))]
@@ -164,149 +190,43 @@ runTests = do
   print test1
   -- [TODO] write a simple parser to set up the scenario
   -- scenario 1: income exceeds expenses thanks to extraordinary; taxable income is > 100000; some negative income in certain categories
-  let scenario1a = ("1a",) $
-        flip Map.update "ordinary income"
-        (pure
-          . Map.update (const $ pure   72150) "Rents"
-          . Map.update (const $ pure   30000) "Agriculture"
-          . Map.update (const $ pure     100) "Exempt Capital"
-        ) $
 
-        flip Map.update "extraordinary income"
-        (pure
-          . Map.update (const $ pure  270000) "Agriculture"
-          . Map.update (const $ pure     100) "Exempt Capital"
-        ) $
+  let scenarios = Map.fromList
+        [ "1a" ~=>
+          [ "ordinary income"      <-~ ["Rents" ~== 72150, "Agriculture" ~== 30000  , "Exempt Capital" ~== 100]
+          , "extraordinary income" <-~ [                   "Agriculture" ~== 270000 , "Exempt Capital" ~== 100]
+          , "ordinary expenses"    <-~ ["Rents" ~== 2150 , "Independent" ~== 6000   , "Other"          ~== 100000 ]
+          ]
+        , "1b" ~=>
+          [ "ordinary income"      <-~ ["Rents" ~== 72150, "Agriculture" ~== 20000  , "Exempt Capital" ~== 100 ]
+          , "ordinary expenses"    <-~ ["Rents" ~== 2150,  "Independent" ~== 6000   , "Other"          ~== 60000 ]
+          ]
+        , "2" ~=>
+          [ "ordinary income"      <-~ [ "Rents" ~== 72150, "Agriculture" ~== 30000 , "Exempt Capital" ~== 100 ]
+          , "extraordinary income" <-~ [                    "Agriculture" ~== 270000, "Exempt Capital" ~== 100 ]
+          , "ordinary expenses"    <-~ [ "Rents" ~== 2150 , "Independent" ~== 6000 ] ]
 
-        flip Map.update "ordinary expenses"
-        (pure
-          . Map.update (const $ pure    2150) "Rents"
-          . Map.update (const $ pure    6000) "Independent"
-          . Map.update (const $ pure  100000) "Other"
-        )
-        defaultScenario
+        , "test case 1" ~=> [ "ordinary income"      <-~ [ "Rents"   ~== 72150 ]
+                            , "extraordinary income" <-~ [ "Rents"   ~== 25000 ] ]
+        , "test case 2" ~=> [ "ordinary income"      <-~ [                       "Trade"   ~== 5350   ]
+                            , "ordinary expenses"    <-~ [ "Rents"   ~== 45000  ]
+                            , "special expenses"     <-~ [ "Rents"   ~== 3200   ]
+                            , "extraordinary income" <-~ [                                               "Capital" ~== 225000 ] ]
+        , "test case 3" ~=> [ "ordinary income"      <-~ [                       "Trade"   ~== 5350  ]
+                            , "ordinary expenses"    <-~ [ "Rents"   ~== 45000 ]
+                            , "special expenses"     <-~ [ "Rents"   ~== 3200  ]
+                            , "extraordinary income" <-~ [                                               "Capital" ~== 225000 ] ]
 
-  let scenario1b = ("1b",) $
-        flip Map.update "ordinary income"
-        (pure
-          . Map.update (const $ pure   72150) "Rents"
-          . Map.update (const $ pure   20000) "Agriculture"
-          . Map.update (const $ pure     100) "Exempt Capital"
-        ) $
+        , "test case 3 - fired"   ~=> [ "ordinary income"      <-~ [ "Employment" ~==  22000 ]
+                                      , "extraordinary income" <-~ [ "Employment" ~== 130000 ] ]
+        , "test case 3 - unfired" ~=> [ "ordinary income"      <-~ [ "Employment" ~==  22000 ] ]
+        ]
+      testcase3_fired   = ("test case3 - fired",   scenarios Map.! "test case 3 - fired")
+      testcase3_unfired = ("test case3 - unfired", scenarios Map.! "test case 3 - unfired")
 
-        flip Map.update "ordinary expenses"
-        (pure
-          . Map.update (const $ pure    2150) "Rents"
-          . Map.update (const $ pure    6000) "Independent"
-          . Map.update (const $ pure   60000) "Other"
-        )
-        defaultScenario
-
-  let scenario2 = ("2",) $
-        flip Map.update "ordinary income"
-        (pure
-          . Map.update (const $ pure   72150) "Rents"
-          . Map.update (const $ pure   30000) "Agriculture"
-          . Map.update (const $ pure     100) "Exempt Capital"
-        ) $
-
-        flip Map.update "extraordinary income"
-        (pure
-          . Map.update (const $ pure  270000) "Agriculture"
-          . Map.update (const $ pure     100) "Exempt Capital"
-        ) $
-
-        flip Map.update "ordinary expenses"
-        (pure
-          . Map.update (const $ pure    2150) "Rents"
-          . Map.update (const $ pure    6000) "Independent"
-        )
-        defaultScenario
-
-  let testcase1 = ("test case 1",) $
-        flip Map.update "ordinary income"
-        (pure
-          . Map.update (const $ pure $ 72150 - 25000) "Rents"
-        ) $
-
-        flip Map.update "extraordinary income"
-        (pure
-          . Map.update (const $ pure   25000) "Rents"
-        ) $
-
-        defaultScenario
-
-  let testcase2 = ("test case 2",) $
-        flip Map.update "ordinary income"
-        (pure
-          . Map.update (const $ pure $ 5350)  "Trade"
---          . Map.update (const $ pure $ 66666) "Employment"
-        ) $
-
-        flip Map.update "ordinary expenses"
-        (pure
-          . Map.update (const $ pure $ 45000) "Rents"
-        ) $
-
-        flip Map.update "special expenses"
-        (pure
-          . Map.update (const $ pure $ 3200) "Rents"
-        ) $
-
-        flip Map.update "extraordinary income"
-        (pure
-          . Map.update (const $ pure  225000) "Capital"
-        ) $
-
-        defaultScenario
-
-  let testcase3 = ("test case 3",) $
-        flip Map.update "ordinary income"
-        (pure
-          . Map.update (const $ pure $ 5350)  "Trade"
---          . Map.update (const $ pure $ 66666) "Employment"
-        ) $
-
-        flip Map.update "ordinary expenses"
-        (pure
-          . Map.update (const $ pure $ 45000) "Rents"
-        ) $
-
-        flip Map.update "special expenses"
-        (pure
-          . Map.update (const $ pure $ 3200) "Rents"
-        ) $
-
-        flip Map.update "extraordinary income"
-        (pure
-          . Map.update (const $ pure  225000) "Capital"
-        ) $
-
-        defaultScenario
-
-  let testcase3_fired = ("test case 3 - fired",) $
-        flip Map.update "ordinary income"
-        (pure
-          . Map.update (const $ pure $ 22000) "Employment"
-        ) $
-
-        flip Map.update "extraordinary income"
-        (pure
-          . Map.update (const $ pure  130000) "Employment"
-        ) $
-
-        defaultScenario
-
-  let testcase3_unfired = ("test case 3 - unfired",) $
-        flip Map.update "ordinary income"
-        (pure
-          . Map.update (const $ pure $ 22000) "Employment"
-        ) $
-
-        defaultScenario
-
-  forM_ [scenario1a, scenario1b, scenario2, testcase1, testcase2
-        , testcase3, testcase3_fired, testcase3_unfired] $ \(sctitle,sc) -> do
+  print scenarios
+        
+  forM_ (Map.toList scenarios) $ \(sctitle,sc) -> do
     putStrLn $ "* running scenario: " <> sctitle
 
     (result_2_3, expl_2_3) <- runExplainIO $ section_2_3  sc
@@ -322,6 +242,7 @@ runTests = do
   printExplanation expl
 
   return ()
+
 
 -- | choose a tax computation method
 -- > extraordinary income may only be taxed at a reduced rate if it
@@ -357,31 +278,48 @@ chooseEffectiveEOTaxMethod :: (String,Scenario) -- ^ actual
                            -> ExplainIO EOTaxMethod
 chooseEffectiveEOTaxMethod (titleA,scActual) (titleB,scHypo) = do
   explain "effectiveEOTaxMethod" $ "we need to determine if there is aggregation of income. let's see if the different treatments matter. we will compare 34.1 with 2.3, considering the actual (" ++ titleA ++ ") and hypothetical (" ++ titleB ++ ") scenarios"
-  treatmentA <- ("section 34.1",) <$> aggregationOfIncome section_34_1 scActual scHypo
-  treatmentB <- ("section 2.3",)  <$> aggregationOfIncome section_2_3  scActual scHypo
+  treatmentA <- ("section 34.1",) <$> thereIs_aggregation_of_income "when" "total taxable income" "according to" section_34_1 "is larger in" scActual "than in" scHypo
+  treatmentB <- ("section 2.3",)  <$> thereIs_aggregation_of_income "when" "total taxable income" "according to" section_2_3 "is larger in" scActual "than in" scHypo
   explain "effectiveEOTaxMethod" $ "under treatment " <> fst treatmentA <> ", there is" ++ (if snd treatmentA then " " else " not ") ++ "aggregation of income."
   explain "effectiveEOTaxMethod" $ "under treatment " <> fst treatmentB <> ", there is" ++ (if snd treatmentB then " " else " not ") ++ "aggregation of income."
   if snd treatmentA
   then explain "effectiveEOTaxMethod" "there is aggregation of income, so the one-fifths method is indicated." >> return EOFifth
   else explain "effectiveEOTaxMethod" "there is not aggregation of income, so the normal method is indicated." >> return EONormal
 
-aggregationOfIncome :: (Scenario -> ExplainIO Scenario)
-                    -> Scenario
-                    -> Scenario
-                    -> ExplainIO Bool
-aggregationOfIncome section fired unfired = do
-  actual <- section fired
-  hypo   <- section unfired
-  let tti_actual = cell actual "total taxable income" "total"
-      tti_hypo   = cell hypo   "total taxable income" "total"
+-- | there is aggregation of income if the actual income is higher than the income you would have earned without termination of employment.
+-- shallow DSL phrasing:
+thereIs_aggregation_of_income :: (Show a, Ord a)
+                              => String
+                              -> String
+                              -> String
+                              -> (Scenario -> StateT [(String, String)] IO (Map.Map String (Map.Map String a)))
+                              -> String
+                              -> Scenario
+                              -> String
+                              -> Scenario
+                              -> StateT [(String, String)] IO Bool
+thereIs_aggregation_of_income
+  "when"    col
+  "according to" section
+  "is larger in" scenario1
+  "than in" scenario2
+  = do
+  actual <- section scenario1
+  hypo   <- section scenario2
+  let tti_actual = cell actual col "total"
+      tti_hypo   = cell hypo   col "total"
       ttp_actual = cell actual "total tax payable"    "total"
       ttp_hypo   = cell hypo   "total tax payable"    "total"
-  explain "aggregationOfIncome" $ "in the actual scenario, total taxable income is " ++ show tti_actual ++ " and total tax payable is = " ++ show ttp_actual
-  explain "aggregationOfIncome" $ "in the hypo   scenario, total taxable income is " ++ show tti_hypo   ++ " and total tax payable is = " ++ show ttp_hypo
+  explain "aggregationOfIncome" $ "in the actual scenario, " ++ col ++" is " ++ show tti_actual ++
+    " (and total tax payable is = " ++ show ttp_actual ++ ")"
+  explain "aggregationOfIncome" $ "in the hypo   scenario, total taxable income is " ++ show tti_hypo ++
+    " (and total tax payable is = " ++ show ttp_hypo ++ ")"
   case tti_actual `compare` tti_hypo of
     GT -> explain "aggregationOfIncome" "actual > hypo, returning true"  >> return True
     EQ -> explain "aggregationOfIncome" "actual = hypo, returning false" >> return False
     LT -> explain "aggregationOfIncome" "actual < hypo, returning false" >> return False
+thereIs_aggregation_of_income _ _ _ _ _ _ _ _ = error "incorrect call to thereIs_aggregation_of_income"  
+
 
 -- | We set up an "explanation monad" which is basically a State+IO
 -- monad. The state component is a Data.Tree. We wrap child executions
@@ -448,13 +386,17 @@ runReplaceSc m (Replace ks fs) =
   then do
     nu <- sequence $ metaFsc <$> fs <*> [m]
     return $ Map.unions $ nu ++ [foldl (flip Map.delete) m ks]
-  else return m
+  else do
+    liftIO $ putStrLn $ "ERROR - runReplaceSc: sanity check failed on keys " ++ unwords ks
+    return m
 
 runReplaceIs :: IncomeStreams -> Replace -> ExplainIO IncomeStreams
 runReplaceIs m (Replace ks fs) =
   if all (`Map.member` m) ks
   then Map.unions . (++ [foldl (flip Map.delete) m ks]) <$> sequence ((metaFis <$> fs) <*> [m]) 
-  else return m
+  else do
+    liftIO $ putStrLn $ "ERROR - runReplaceIs: sanity check failed on keys " ++ unwords ks
+    return m
 
 -- | syntactic sugar for setting up a Replace transformation
 (~->) :: [String] -> [String] -> Replace
@@ -474,8 +416,10 @@ section_2_3 :: Scenario -> ExplainIO Scenario
 section_2_3 sc = do
   runSection "section 2.3" sc
         [ []                                             ~-> []
-        , ["ordinary income", "extraordinary income"]    ~-> ["squashIncomes"]
-        , ["combined income", "ordinary expenses"
+        , ["ordinary income"
+          ,"extraordinary income"
+          ,"ordinary expenses"]                          ~-> ["squashIncomes"]
+        , ["combined income"
           ,"special expenses"]                           ~-> ["netIncome"]          -- 2_3_2
         , ["net income"]                                 ~-> ["offsetLosses_2_3_3"] -- 2_3_3
         , []                                             ~-> ["squashCats"]
@@ -493,7 +437,7 @@ section_34_1 sc = do
   runSection "section 34.1" sc
         [ []                                            ~-> []
         , ["ordinary income", "ordinary expenses"
-        , "special expenses"]                           ~-> ["preNetIncome"]
+          , "special expenses"]                         ~-> ["preNetIncome"]
         , ["pre-net income"]                            ~-> ["offsetLosses"]
         , []                                            ~-> ["squashCats"]
         , []                                            ~-> ["extraordinary"]
@@ -516,40 +460,55 @@ section_34_1 sc = do
 -- here, the @whatever@ is a Scenario, so we say `metaFsc`.
 metaFsc :: String -> Scenario -> ExplainIO Scenario
 
-metaFsc "preNetIncome" sc = return $
-  Map.singleton "pre-net income" $
-  mapAp (-) (sc Map.! "ordinary income") $
-  mapAp (+) (sc Map.! "special expenses") (sc Map.! "ordinary expenses")
+metaFsc "preNetIncome" sc = do
+  liftIO $ putStrLn "RUNNING - metaFsc preNetIncome"
+  return $
+    Map.singleton "pre-net income" $
+    mapAp (-) (sc Map.! "ordinary income") $
+    mapAp (+) (sc Map.! "special expenses") (sc Map.! "ordinary expenses")
 
-metaFsc "netIncome" sc = return $
-  Map.singleton "net income" $
-  mapAp (-) (sc Map.! "combined income") $
-  mapAp (+) (sc Map.! "special expenses") (sc Map.! "ordinary expenses")
+metaFsc "netIncome" sc = do
+  liftIO $ putStrLn "RUNNING - metaFsc netIncome"
+  let toreturn = Map.singleton "net income" $
+        mapAp (-) (sc Map.! "combined income") (sc Map.! "special expenses")
+  liftIO $ print toreturn
+  liftIO $ putStrLn "RETURNING - metaFsc netIncome"
+  return toreturn
 
 -- | squash extraordinary into pre-net income; only used for section 2
 metaFsc title@"squashIncomes" sc = do
-  sequence_ [ explain title $ "for " <> k <> ", " <>
-              "extraordinary " ++      scell sc "extraordinary income"       k ++
-              " + ordinary "   ++      scell sc "ordinary income"            k ++
-              " = pre-net "    ++ show (cell sc "extraordinary income"       k +  cell sc "ordinary income" k)
+  liftIO $ putStrLn "RUNNING - metaFsc squashIncomes"
+  sequence_ [ do
+                liftIO $ print (sc Map.! "extraordinary income" Map.! k)
+                explain title $ "for " <> k <> ", " <>
+                  "extraordinary " ++      scell sc "extraordinary income"       k ++
+                  " + ordinary "   ++      scell sc "ordinary income"            k ++
+                  " - expenses "   ++      scell sc "ordinary expenses"          k ++
+                  " = pre-net "    ++ show (cell sc "extraordinary income"       k +
+                                            cell sc "ordinary income"            k -
+                                            cell sc "ordinary expenses"          k)
             | k <- Map.keys $ sc Map.! "extraordinary income"
             , sc Map.! "extraordinary income" Map.! k /= 0
             ]
+  liftIO $ putStrLn "RETURNING - metaFsc squashIncomes"
   return $
     Map.singleton "combined income" $
-    mapAp (+) (sc Map.! "ordinary income") (sc Map.! "extraordinary income")
+    mapAp (-) 
+    ( mapAp (+) (sc Map.! "ordinary income") (sc Map.! "extraordinary income") )
+    ( sc Map.! "ordinary expenses" )
 
 
 -- | loss offsets, based on section 34.
 -- losses from one income category can be used to offset earnings in another.
 -- the offsetting is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
-metaFsc "offsetLosses" sc = return $
+metaFsc "offsetLosses" sc = do
+  liftIO $ putStrLn "RUNNING - offsetLosses"
   let orig = sc Map.! "pre-net income"
       (negatives, positives) = Map.partition (< 0) orig
       totalNeg = sum $ Map.elems negatives
       totalPos = sum $ Map.elems positives
-  in
+  return $
     Map.singleton "remaining taxable income" $
     (\x -> if x < 0
            then 0 -- [TODO] correctly handle a situation where the negatives exceed the positives
@@ -560,6 +519,9 @@ metaFsc "offsetLosses" sc = return $
 -- the reduction is done on a per-category basis, against the single "pre-net income" column, pro rata
 --
 metaFsc title@"offsetLosses_2_3_3" sc = do
+  liftIO $ putStrLn "RUNNING - offsetLosses_2_3_3"
+  liftIO $ print sc
+  liftIO $ putStrLn "RUNNING - offsetLosses_2_3_3 printed sc"
   let orig = sc Map.! "net income"
       (negatives, positives) = Map.partition (< 0) orig
       totalNeg = sum $ Map.elems negatives
@@ -600,7 +562,8 @@ metaFsc title@"offsetLosses_2_3_3" sc = do
           return out
 
 -- | extraordinary income is taxed
-metaFsc "extraordinary" sc = return $
+metaFsc "extraordinary" sc = do
+  liftIO $ putStrLn "RUNNING - extraordinary"
   let ordinary     = sc Map.! "remaining taxable income"
       zeroOrdinary = max 0 <$> ordinary
       extraI       = sc Map.! "extraordinary income"
@@ -608,19 +571,20 @@ metaFsc "extraordinary" sc = return $
       totalI       = mapAp (+) zeroOrdinary extraI
       rti5         = mapAp (+) zeroOrdinary ((/5) <$> extraI)
       rti5tax      = max 0 <$> taxFor rti5
-      delta        = abs <$> mapAp (-) ordtax rti5tax
-      rti5tax5     = (5*) <$> delta
+      delta        = abs   <$> mapAp (-) ordtax rti5tax
+      rti5tax5     = (5*)  <$> delta
       
-  in Map.fromList [("1 RTI taxation",           ordtax)
-                  ,("2 RTI plus one fifth",     rti5)
-                  ,("3 tax on RTI+.2",          rti5tax)
-                  ,("4 difference",             delta)
-                  ,("5 extraordinary taxation", rti5tax5)
-                  ,("total taxable income",     totalI)
-                  ]
+  return $ Map.fromList [("1 RTI taxation",           ordtax)
+                        ,("2 RTI plus one fifth",     rti5)
+                        ,("3 tax on RTI+.2",          rti5tax)
+                        ,("4 difference",             delta)
+                        ,("5 extraordinary taxation", rti5tax5)
+                        ,("total taxable income",     totalI)
+                        ]
   
 -- | sentence 3
-metaFsc "sentence3" sc = return $
+metaFsc "sentence3" sc = do
+  liftIO $ putStrLn "RUNNING - sentence3"
   let ordinary = sc Map.! "remaining taxable income"
       extraI   = sc Map.! "extraordinary income"
       negRTI   = (\o -> if o < 0 then 1 else 0) <$> ordinary
@@ -628,28 +592,32 @@ metaFsc "sentence3" sc = return $
                                    then 5 * progDirect 2023 ( (o + e) / 5 )
                                    else 0)
                     ordinary extraI
-  in if any (>0) (Map.elems negRTI)
-     then Map.fromList [("0 RTI is negative",                        negRTI)
-                       ,("1 revised RTI taxation due to sentence 3", fiveOnFifth)
-                       ]
-     else Map.empty
+  return $
+    if any (>0) (Map.elems negRTI)
+    then Map.fromList [("0 RTI is negative",                        negRTI)
+                      ,("1 revised RTI taxation due to sentence 3", fiveOnFifth)
+                      ]
+    else Map.empty
 
 metaFsc "sentence3_b" sc = return $
   Map.fromList [("1 RTI taxation", sc Map.! "1 revised RTI taxation due to sentence 3")]
 
 
-metaFsc "totalPayable" sc = return $
+metaFsc "totalPayable" sc = do
+  liftIO $ putStrLn "RUNNING - totalPayable"
   let rtiTax   = sc Map.! "1 RTI taxation"
       extraTax = sc Map.! "5 extraordinary taxation"
-  in Map.fromList [("total tax payable", mapAp (+) rtiTax extraTax)]
+  return $ Map.fromList [("total tax payable", mapAp (+) rtiTax extraTax)]
 
-metaFsc "ordinaryPayable" sc = return $
+metaFsc "ordinaryPayable" sc = do
+  liftIO $ putStrLn "RUNNING - ordinaryPayable"
   let ttiTax   = taxFor $ sc Map.! "total taxable income"
-  in Map.fromList [("total tax payable", ttiTax)]
+  return $ Map.fromList [("total tax payable", ttiTax)]
 
 -- | squash all non-exempt income categories together
-metaFsc "squashCats" sc = sequence $
-  (\istream -> runReplaceIs istream (categoryKeys ~-> ["squashCats'"])) <$> sc
+metaFsc "squashCats" sc = do
+  liftIO $ putStrLn "RUNNING - squashCats"
+  mapM (\istream -> runReplaceIs istream (categoryKeys ~-> ["squashCats'"])) sc
   where
     categoryKeys :: [String]
     categoryKeys = nub (concatMap Map.keys (Map.elems sc))

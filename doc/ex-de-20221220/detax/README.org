@@ -51,11 +51,19 @@ so that we can look up, for instance
 - how much { ordinary income, extraordinary income }
 - was derived from the category of { employment, rent, capital }
 
+*** we need at a minimum dictionaries aka associative arrays aka hashmaps
+
+in Haskell this is provided by Data.Map
+
 ** filter some collection of things
 
 within { ordinary income }, which of the categories show negative vs positive values?
 
 sum over all of those values to arrive at subtotals
+
+*** we need Functors that can be filtered so we need Eq
+
+in Haskell this is provided by Data.List
 
 ** arithmetic
 
@@ -63,9 +71,21 @@ sum over all of those values to arrive at subtotals
 
 over individual values but also mapped over lists and the complex data structures above
 
+*** we need Num and Int and Float
+
+in Haskell this is provided by base
+
 ** temporary variables / let bindings
 
 identified by names in the source laws, e.g. "residual taxable amount" -- how do we keep track of these things?
+
+*** in our skeletal version we can just hardcode and rely on the host language's ~let~
+
+let scenario_34_1 = ....
+
+*** in a fuller implementation we would need scope, closures, variables, functions, and parameters
+
+we could shoehorn a symbol table into a Haskell State monad and do all the usual function evaluation thing under the lambda calculus
 
 ** make decisions -- choose a particular branch of execution -- based on some conditions
 
@@ -78,6 +98,8 @@ we need boolean logic: and or not
 syntactic sugar "implies"
 
 if something "leads to" something, then we choose to use it, otherwise we don't.
+
+*** the typeclasses are: Eq, Ord, Bool.
 
 *** this decision logic makes heavy use of "defaults", and thinks in terms of "exceptions".
 
@@ -93,13 +115,21 @@ without actually returning that as our final answer.
 
 and without outputting our reasoning as part of the overall explanation.
 
+we need to be able to do sort of local scope, but also Reader's ~local~ to contrive counterfactuals
+
+but in future maybe Eric Walkingshaw would be interested in framing this as a variational problem
+
 ** do we need to let the user define their own functions?
 
-for the initial skeletal DSL maybe we hardcode all the functions that need to be defined but could also be general enough to be used elsewhere
+for the initial skeletal DSL maybe we hardcode all the functions that need to be defined but could also be general enough to be used elsewhere.
 
-and then if a function is something taxRatesFor2023 or section_34_1_Computation then that is specific to this use case "program" and the user should have some way of defining that.
+So for now we say we don't let the user do this.
+
+And then if a function is something taxRatesFor2023 or section_34_1_Computation then that is specific to this use case "program" and the user should have some way of defining that.
 
 * Semantics (implementation / specification)
+
+We'll have a think about this when we have made a little more progress.
 
 ** assertions
 
@@ -109,11 +139,17 @@ and then if a function is something taxRatesFor2023 or section_34_1_Computation 
 
 ** syntactic sugar for frequently expressed notions that can reduce to lower-level primitives
 
+** projectional editing
+
+automatically generate isomorphic visual representations eg diagrams, graphs
+
 * Syntax
 
-embedded DSL in Haskell
+** embedded DSL in Haskell
 
-Natural4
+
+
+** Natural4 spreadsheet
 
 
 
