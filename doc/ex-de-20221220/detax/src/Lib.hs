@@ -84,6 +84,12 @@ runTests :: IO ()
 runTests = do
   (t1v, t1x, t1s, t1w) <- xplainF (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
 
+  _ <- xplainF $ ListFold FoldSum $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+
+  _ <- xplainF $ ListFold FoldProduct $ ListMap (MathSection Times (Val 2.0)) $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+
+  putStrLn "* Scenarios"
+
   -- [TODO] write a simple parser to set up the scenario
   -- scenario 1: income exceeds expenses thanks to extraordinary; taxable income is > 100000; some negative income in certain categories
 

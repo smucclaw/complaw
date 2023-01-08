@@ -50,16 +50,16 @@ data Expr a = Val a
             | ListFold SomeFold (ExprList a)
             deriving (Eq, Show)
 
-data ExprList a
-  = MathList [Expr a]
-  | ListFilt Comp (Expr a) (ExprList a)
-  deriving (Eq, Show)
-
 (|+),(|-),(|*),(|/) :: Expr Float -> Expr Float -> Expr Float
 x |+ y = MathBin Plus   x y
 x |- y = MathBin Minus  x y
 x |* y = MathBin Times  x y
 x |/ y = MathBin Divide x y
+
+data MathSection a
+  = Id
+  | MathSection MathBinOp (Expr a)
+  deriving (Eq, Show)
 
 data SomeFold = FoldSum | FoldProduct | FoldMax | FoldMin
               deriving (Eq, Show)
@@ -102,6 +102,13 @@ data Pred a
 data Comp = CEQ | CGT | CLT | CGTE | CLTE
   deriving (Eq, Show)
 
+shw :: Comp -> String
+shw CEQ = "=="
+shw CGT = ">"
+shw CGTE = ">="
+shw CLT = "<"
+shw CLTE = "<="
+
 -- | variables
 data Var a
   = VarMath String (Expr a)
@@ -116,7 +123,7 @@ evalP (PredNot x) = do
   return (not xval, Node ([] ,[show x ++ ": logical not of"]) [xpl])
 evalP (PredComp c x y) =
   let title = "comparison"
-  in local (fmap ( title <> " " <> show c :) ) $ do
+  in local (fmap ( title <> " " <> shw c :) ) $ do
     (xval, xpl) <- eval x
     (yval, ypl) <- eval y
     let c' = compare xval yval
@@ -129,7 +136,7 @@ evalP (PredComp c x y) =
           _                         -> False
         (lhs,rhs) = verbose title
     return (toreturn, (Node ([]
-                            ,[show toreturn ++ ": " ++ lhs ++ " (" ++ show c ++ ")"])
+                            ,[show toreturn ++ " " ++ lhs ++ " (" ++ shw c ++ ")"])
                        [ xpl
                        , mkNod rhs
                        , ypl ]))
@@ -144,20 +151,21 @@ evalP (PredVar str) =
 
 evalP (PredITE p x y) = evalFP evalP p x y
 
-evalFP :: (t -> Explainable a)
+evalFP :: Show t
+       => (t -> Explainable a)
        -> Pred Float
        -> t
        -> t
        -> Explainable a
-evalFP evf p x y = local (fmap ("if/then/else" :)) $ do
+evalFP evf p x y = local (fmap ("if-then-else" :)) $ do
   (pval,pxpl) <- evalP p
   if pval
     then do
     (xval,xxpl) <- evf x
-    return (xval, Node ([],["if/then/else true"] ) [pxpl, mkNod "thus we choose", xxpl])
+    return (xval, Node ([],["if " ++ show p ++ " then " ++ show x ++ " else " ++ show y] ) [pxpl, mkNod "thus we choose", xxpl])
     else do
     (yval,yxpl) <- evf y
-    return (yval, Node ([],["if/then/else false"] ) [pxpl, mkNod "thus we choose", yxpl])
+    return (yval, Node ([],["if-then-else false"] ) [pxpl, mkNod "thus we choose", yxpl])
 
 
 
@@ -195,7 +203,6 @@ eval (MathVar str) =
     (xval, xpl2) <- eval xvar
     return (xval, Node ([], [show xval ++ ": " ++ lhs ++ " " ++ str]) [xpl1, xpl2])
 
-                     
 eval (ListFold FoldMin     xs) = doFold "min" minimum xs
 eval (ListFold FoldMax     xs) = doFold "max" maximum xs
 eval (ListFold FoldSum     xs) = doFold "sum" sum xs
@@ -205,31 +212,48 @@ doFold :: String -> ([Float] -> Float) -> ExprList Float -> Explainable Float
 doFold str f xs = local (fmap ("listfold " <> str :)) $ do
   (MathList yvals,yexps) <- evalList xs
   zs <- mapM eval yvals
-  return (f (fst <$> zs)
-         , Node ([],[": " ++ str ++ " of " ++ show (length zs) ++ " elements"])
+  let toreturn = f (fst <$> zs)
+  return (toreturn
+         , Node ([],(show toreturn ++ " = " ++ str ++ " of " ++ show (length zs) ++ " elements")
+                  : [ "- " ++ show e | e <- fst <$> zs ])
            (yexps : (snd <$> zs)))
   
+data ExprList a
+  = MathList [Expr a]
+  | ListFilt Comp (Expr a)   (ExprList a)
+  | ListMap  (MathSection a) (ExprList a)
+  deriving (Eq, Show)
+
 evalList :: ExprList Float -> Explainable (ExprList Float)
-evalList (MathList a) = return (MathList a, Node (show <$> a,["base MathList"]) [])
+evalList (MathList a) = return (MathList a, Node (show <$> a,["base MathList with " ++ show (length a) ++ " elements"]) [])
 evalList (ListFilt comp x lf2@(ListFilt{})) = do
   (lf2val, lf2xpl) <- evalList lf2
   (lf3val, lf3xpl) <- evalList (ListFilt comp x lf2val)
   return (lf3val, Node ([],["recursing RHS ListFilt"]) [lf2xpl, mkNod "becomes", lf3xpl])
 evalList (ListFilt comp x (MathList ys)) = do
+  origs <- mapM eval ys
   round1 <- mapM (evalP . PredComp comp x) ys
-  let round2 = [ if r1
+  let round2 = [ if not r1
                  then (Nothing, Node ([show xval]
                                      , ["excluded " ++ show xval ++
-                                        " due to failed comparison test"]) [xpl])
+                                        " due to failing comparison test"]) [xpl])
                  else (Just xval, Node ([show xval]
                                        , ["included " ++ show xval ++
-                                          "due to passing comparison test"]) [xpl])
+                                          " due to passing comparison test"]) [xpl])
                | ((r1,xpl), xval) <- zip round1 ys
                ]
-  return ( MathList (mapMaybe fst round2)
-         , Node ([], ["reduced " ++ show (length round1) ++ " to " ++
-                       show (length round2) ++ " items in list"])
+      round3 = mapMaybe fst round2
+  return ( MathList round3
+         , Node ([]
+                , (show (length round3) ++ " elements were reduced from an original " ++ show (length round1))
+                  : ["- " ++ show (fst o) | o <- origs])
            $ fmap snd round2)
+evalList (ListMap Id ylist) = return (ylist, mkNod "id on ExprList")
+evalList (ListMap (MathSection binop x) ylist) = local (fmap ("fmap mathsection" :)) $ do
+  (MathList ylist', yxpl) <- evalList ylist
+  return ( MathList [ MathBin binop x y | y <- ylist' ]
+         , Node ([],["fmap mathsection " ++ show binop ++ show x ++ " over " ++ show (length ylist') ++ " elements"]) [yxpl] )
+
 
 unaEval :: String -> (Float -> Float) -> Expr Float -> Explainable Float
 unaEval title f x =
@@ -264,7 +288,7 @@ verbose "division"       = ("which we obtain by dividing", "by")
 verbose "multiplication" = ("which we obtain by multiplying", "by")
 verbose "parentheses"    = ("which is a parenthesized", "")
 verbose "negation"       = ("which is logical negation of", "")
-verbose "comparison"     = ("which is the result of comparing", "with")
+verbose "comparison"     = ("is the result of comparing", "with")
 verbose "variable expansion" = ("which comes from the variable", "")
 verbose x                = (x, x ++ " argument")
 
