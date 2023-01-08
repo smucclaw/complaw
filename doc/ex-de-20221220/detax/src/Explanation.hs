@@ -9,6 +9,7 @@ import Data.Tree
 import Data.List ( intercalate )
 import Data.Ord ()
 import Data.Maybe (mapMaybe)
+import Control.Monad (forM_)
 
 -- | our Explainable monad supports the evaluation-with-explanation of expressions in our DSL.
 -- We make use of Reader, Writer, and State.
@@ -46,18 +47,27 @@ data Expr a = Val a
             | MathSum  [Expr a]
             | MathProd [Expr a]
             | MathITE (Pred a) (Expr a) (Expr a)
+            | ListFold SomeFold (ExprList a)
             deriving (Eq, Show)
 
-(|+),(|-),(|*),(|/) :: Expr a -> Expr a -> Expr a
+data ExprList a
+  = ListFilt Comp (Expr a) (ExprList a)
+  | MathList [Expr a]
+  deriving (Eq, Show)
+
+(|+),(|-),(|*),(|/) :: Expr Float -> Expr Float -> Expr Float
 x |+ y = MathBin Plus   x y
 x |- y = MathBin Minus  x y
 x |* y = MathBin Times  x y
 x |/ y = MathBin Divide x y
 
+data SomeFold = FoldSum | FoldProduct
+              deriving (Eq, Show)
+
 -- | fmaps.
 -- In Haskell, we would say @(+2) <$> [1,2,3]@
 -- Here, we would say @2 +| [1,2,3]@
-(+|),(-|),(*|),(/|) :: (Show b, Fractional b) => Expr b -> [Expr b] -> [Explainable b]
+(+|),(-|),(*|),(/|) :: Expr Float -> [Expr Float] -> [Explainable Float]
 x +| ys = map (eval . MathBin Plus   x) ys
 x -| ys = map (eval . MathBin Minus  x) ys
 x *| ys = map (eval . MathBin Times  x) ys
@@ -67,26 +77,9 @@ x /| ys = map (eval . MathBin Divide x) ys
 -- In Haskell, we would say @filter (>0) [-2,-1,0,1,2]
 -- Here, we would say @0 <| [-2,-1,0,1,2]@
 
-(<|),(|>) :: Expr Float -> MathList Float -> Explainable (MathList Float)
-x <| ys = filterNum CLT x ys
-x |> ys = filterNum CGT x ys
-
-filterNum :: Comp -> Expr Float -> MathList Float -> Explainable (MathList Float)
-filterNum comp x ys = do
-  round1 <- mapM (evalP . PredComp comp x) ys
-  let round2 = [ if r1
-                 then (Nothing, Node ([show xval]
-                                     , ["excluded " ++ show xval ++
-                                        " due to failed comparison test"]) [xpl])
-                 else (Just xval, Node ([show xval]
-                                       , ["included " ++ show xval ++
-                                          "due to passing comparison test"]) [xpl])
-               | ((r1,xpl), xval) <- zip round1 ys
-               ]
-  return ( mapMaybe fst round2
-         , Node ([], ["reduced " ++ show (length round1) ++ " to " ++
-                       show (length round2) ++ " items in list"])
-           $ fmap snd round2)
+(<|),(|>) :: Expr Float -> ExprList Float -> ExprList Float
+x <| ys = ListFilt CLT x ys
+x |> ys = ListFilt CGT x ys
 
 (!|) :: Pred a -> Pred a
 (!|) = PredNot
@@ -94,7 +87,6 @@ filterNum comp x ys = do
 data MathBinOp = Plus | Minus | Times | Divide
   deriving (Eq, Show)
 
-type MathList a = [Expr a]
 type PredList a = [Pred a]
 
 -- | conditional predicates: things that evaluate to a boolean
@@ -116,7 +108,7 @@ data Var a
   | VarPred String (Pred a)
     deriving (Eq, Show)
 
-evalP :: (Show a, RealFrac a) => Pred a -> Explainable Bool
+evalP :: Pred Float -> Explainable Bool
 evalP (PredVal x) = do
   return (x, Node ([],[show x ++ ": a leaf value"]) [])
 evalP (PredNot x) = do
@@ -163,7 +155,7 @@ getvarP x = do
 pathSpec :: [String] -> String
 pathSpec = intercalate " / " . reverse
 
-eval :: (Show a, Fractional a) => Expr a -> Explainable a
+eval :: Expr Float -> Explainable Float
 eval (Val x) = do
   (history,path) <- ask
   return (x, Node ([unlines history ++ pathSpec path ++ ": " ++ show x]
@@ -173,9 +165,40 @@ eval (MathBin Minus  x y) = binEval "subtraction"    (-) x y
 eval (MathBin Times  x y) = binEval "multiplication" (*) x y
 eval (MathBin Divide x y) = binEval "division"       (/) x y
 eval (Parens x)           = unaEval "parentheses"    id  x
+eval (ListFold FoldSum     xs) = doFold "sum" sum xs
+eval (ListFold FoldProduct xs) = doFold "product" product xs                              
 
-unaEval :: (Fractional a, Show a, Show b)
-        => String -> (a -> b) -> Expr a -> Explainable b
+doFold :: String -> ([Float] -> Float) -> ExprList Float -> Explainable Float
+doFold str f xs = local (fmap ("listfold " <> str :)) $ do
+  (MathList yvals,yexps) <- evalList xs
+  zs <- mapM eval yvals
+  return (f (fst <$> zs)
+         , Node ([],[": " ++ str ++ " of " ++ show (length zs) ++ " elements"])
+           (yexps : (snd <$> zs)))
+  
+evalList :: ExprList Float -> Explainable (ExprList Float)
+evalList (MathList a) = return (MathList a, Node (show <$> a,["base MathList"]) [])
+evalList (ListFilt comp x lf2@(ListFilt{})) = do
+  (lf2val, lf2xpl) <- evalList lf2
+  (lf3val, lf3xpl) <- evalList (ListFilt comp x lf2val)
+  return (lf3val, Node ([],["recursing RHS ListFilt"]) [lf2xpl, mkNod "becomes", lf3xpl])
+evalList (ListFilt comp x (MathList ys)) = do
+  round1 <- mapM (evalP . PredComp comp x) ys
+  let round2 = [ if r1
+                 then (Nothing, Node ([show xval]
+                                     , ["excluded " ++ show xval ++
+                                        " due to failed comparison test"]) [xpl])
+                 else (Just xval, Node ([show xval]
+                                       , ["included " ++ show xval ++
+                                          "due to passing comparison test"]) [xpl])
+               | ((r1,xpl), xval) <- zip round1 ys
+               ]
+  return ( MathList (mapMaybe fst round2)
+         , Node ([], ["reduced " ++ show (length round1) ++ " to " ++
+                       show (length round2) ++ " items in list"])
+           $ fmap snd round2)
+
+unaEval :: String -> (Float -> Float) -> Expr Float -> Explainable Float
 unaEval title f x =
   let (lhs,_rhs) = verbose title
   in local (fmap (title :)) $ do
@@ -186,7 +209,7 @@ unaEval title f x =
 mkNod :: a -> Tree ([b],[a])
 mkNod x = Node ([],[x]) []
   
-binEval :: (Show a1, Show a2, Show b, Fractional a1, Fractional a2) => String -> (a1 -> a2 -> b) -> Expr a1 -> Expr a2 -> Explainable b
+binEval :: String -> (Float -> Float -> Float) -> Expr Float -> Expr Float -> Explainable Float
 binEval title f x y = local (fmap (title :)) $ do
   -- liftIO putStrLn should be treated as more of a Debug.Trace.
   -- "normal" output gets returned in the fst part of the Node.
@@ -213,9 +236,11 @@ verbose "variable expansion" = ("which comes from the variable", "")
 verbose x                = (x, x ++ " argument")
 
 toplevel :: IO ()
-toplevel = do
+toplevel = forM_ [ Val 2 |+ (Val 5 |- Val 1)
+                 , ListFold FoldSum $ Val 2 <| MathList [Val 1, Val 2, Val 3, Val 4]
+                 ] $ \topexpr -> do
   ((val,xpl), stab, _) <- runRWST
-                      (eval (Val 2 |+ (Val 5 |- Val 1)))
+                      (eval topexpr)
                       ([],["toplevel"])             -- reader: HistoryPath
                       (MyState Map.empty Map.empty) -- state: MyState
 

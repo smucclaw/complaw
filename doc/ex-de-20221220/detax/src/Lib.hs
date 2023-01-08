@@ -15,6 +15,7 @@ import Text.PrettyPrint.Boxes
 import qualified Text.PrettyPrint.Boxes as BX
 import Control.Monad.Combinators.Expr
 import Data.Ord
+import Explanation
 import qualified Data.Tree as DT
 
 someFunc :: IO ()
@@ -26,92 +27,15 @@ instance Semigroup Box where
 instance Monoid Box where
   mempty = nullBox
 
-
-
--- | basic mathematical algebra calculator expression language
--- augmented with if\/then\/else construct and variable assignment.
--- this is the deeper embedding of the stuff that comes below.
-
--- | variables
-data Var a
-  = VarMath (MathLang a)                   -- ^ variable assignment
-  | VarPred (Pred     a)                   -- ^ boolean predicate assignment
-  deriving (Eq, Show)
-
 -- | if we generalize a 2 dimensional Data.Matrix to higher dimensions, we have ... a Tensor! but let's reinvent the wheel and not use one of the available tensor libraries.
 -- some guidance from IRC suggested just making vector of vectors of vectors etc.
-data Collection k a = Cell a
-                    | Collection k [Collection k a]
-
-instance Functor (Collection k) where
-  fmap f (Cell a)         = Cell (f a)
-  fmap f (Collection k x) = Collection k (fmap f <$> x)
-
-type VarTable a = Map.Map String (Var a)
-
-evalMath :: (Fractional a, Ord a) => MathLang a -> State (VarTable a) a
-evalMath (x :+: y)   = (+) <$> evalMath x <*> evalMath y
-evalMath (x :-: y)   = (-) <$> evalMath x <*> evalMath y
-evalMath (x :*: y)   = (*) <$> evalMath x <*> evalMath y
-evalMath (x :/: y)   = (/) <$> evalMath x <*> evalMath y
-evalMath (Parens x)  = evalMath x
-evalMath (MathVal x) = return x
-evalMath (MathVar s) = do
-  varmath <- gets (Map.! s)
-  case varmath of
-    (VarMath y) -> evalMath y
-    _           -> error $ "variable " <> s <> " is not a math var"
-evalMath (MathITE x y z) = do
-  ifval <- evalPred x
-  evalMath (if ifval then y else z)
-  
-evalPred :: (Fractional a, Ord a) => Pred a -> State (VarTable a) Bool
-evalPred (PredEqB p1 p2) = (==) <$> evalPred p1 <*> evalPred p2
-evalPred (PredNot p)     = not  <$> evalPred p
-evalPred (PredEqM m1 m2) = (==) <$> evalMath m1 <*> evalMath m2
-evalPred (PredGte m1 m2) = (>=) <$> evalMath m1 <*> evalMath m2
-evalPred (PredGt  m1 m2) = (> ) <$> evalMath m1 <*> evalMath m2
-evalPred (PredLte m1 m2) = (<=) <$> evalMath m1 <*> evalMath m2
-evalPred (PredLt  m1 m2) = (< ) <$> evalMath m1 <*> evalMath m2
-evalPred (PredVar s) = do
-  varpred <- gets (Map.! s)
-  case varpred of
-    (VarPred y) -> evalPred y
-    _           -> error $ "variable " <> s <> " is not a Boolean predicate"
-evalPred (PredITE x y z) = do
-  ifval <- evalPred x
-  evalPred (if ifval then y else z)
 
 type Parser = Parsec () String
 
--- sse the Expr combinators lib from parsec to do this -- we can't deal with precedence correctly here
-pMathLang :: (Fractional a) => Parser (MathLang a)
-pMathLang =
-  many hspace *>
-  tryChoice 
-  [ MathVal . fromIntegral <$> int
---  , MathVar <$> (string "$" *> some alphaNumChar)
---  , Parens  <$> (string "(" *> hspace *> pMathLang <* hspace <* string ")")
---  , (:+:)   <$> (pMathLang <* many hspace <* string "+") <*> (many hspace *> pMathLang)
---  , (:-:)   <$> (pMathLang <* many hspace <* string "-") <*> (many hspace *> pMathLang)
---  , (:*:)   <$> (pMathLang <* many hspace <* string "*") <*> (many hspace *> pMathLang)
---  , (:/:)   <$> (pMathLang <* many hspace <* string "/") <*> (many hspace *> pMathLang)
---
-  ]
-  <* many hspace
-
--- | sample input whose semantics can be parsed out of natural4
---
-sampleInput1 = ""
-
-
-
+-- we'll do the mathlang parser using control.onad.combinators.expr later.
 
 tryChoice :: [Parser a] -> Parser a
 tryChoice = choice . fmap try
-
-toEng :: MathLang a -> String
-toEng _ = "[TODO]"
 
 int :: Parser Int
 int = read <$> some numberChar
@@ -158,7 +82,6 @@ infixl 1 <-~
 
 runTests :: IO ()
 runTests = do
-  let symtab = Map.fromList [("foo", VarMath (MathVal (5 :: Float)))]
   let test1 = evalState (evalMath (MathITE
                                    (PredGt (MathVal 1) (MathVal 2))
                                    (MathVar "foo")
