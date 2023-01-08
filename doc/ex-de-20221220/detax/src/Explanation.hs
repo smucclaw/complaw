@@ -13,7 +13,7 @@ import Control.Monad (forM_)
 
 -- | our Explainable monad supports the evaluation-with-explanation of expressions in our DSL.
 -- We make use of Reader, Writer, and State.
-type Explainable a = RWST HistoryPath () MyState IO (a,XP)
+type Explainable a = RWST HistoryPath [String] MyState IO (a,XP)
 
 -- | The Reader supports environmental context for a given evaluation.
 -- As we evaluate down from the root to the leaves,
@@ -44,15 +44,15 @@ data Expr a = Val a
             | Parens (Expr a)
             | MathBin MathBinOp (Expr a) (Expr a)
             | MathVar String
-            | MathSum  [Expr a]
-            | MathProd [Expr a]
             | MathITE (Pred a) (Expr a) (Expr a)
+            | MathMax (Expr a) (Expr a)
+            | MathMin (Expr a) (Expr a)
             | ListFold SomeFold (ExprList a)
             deriving (Eq, Show)
 
 data ExprList a
-  = ListFilt Comp (Expr a) (ExprList a)
-  | MathList [Expr a]
+  = MathList [Expr a]
+  | ListFilt Comp (Expr a) (ExprList a)
   deriving (Eq, Show)
 
 (|+),(|-),(|*),(|/) :: Expr Float -> Expr Float -> Expr Float
@@ -61,7 +61,7 @@ x |- y = MathBin Minus  x y
 x |* y = MathBin Times  x y
 x |/ y = MathBin Divide x y
 
-data SomeFold = FoldSum | FoldProduct
+data SomeFold = FoldSum | FoldProduct | FoldMax | FoldMin
               deriving (Eq, Show)
 
 -- | fmaps.
@@ -142,6 +142,25 @@ evalP (PredVar str) =
     (xval, xpl2) <- evalP xvar
     return (xval, Node ([], [show xval ++ ": " ++ lhs ++ " " ++ str]) [xpl1, xpl2])
 
+evalP (PredITE p x y) = evalFP evalP p x y
+
+evalFP :: (t -> Explainable a)
+       -> Pred Float
+       -> t
+       -> t
+       -> Explainable a
+evalFP evf p x y = local (fmap ("if/then/else" :)) $ do
+  (pval,pxpl) <- evalP p
+  if pval
+    then do
+    (xval,xxpl) <- evf x
+    return (xval, Node ([],["if/then/else true"] ) [pxpl, mkNod "thus we choose", xxpl])
+    else do
+    (yval,yxpl) <- evf y
+    return (yval, Node ([],["if/then/else false"] ) [pxpl, mkNod "thus we choose", yxpl])
+
+
+
 getvarF :: String -> Explainable (Expr Float)
 getvarF x = do
   symtab <- gets symtabF
@@ -165,6 +184,20 @@ eval (MathBin Minus  x y) = binEval "subtraction"    (-) x y
 eval (MathBin Times  x y) = binEval "multiplication" (*) x y
 eval (MathBin Divide x y) = binEval "division"       (/) x y
 eval (Parens x)           = unaEval "parentheses"    id  x
+eval (MathITE p x y)      = evalFP eval  p x y
+eval (MathMax x y)        = eval (ListFold FoldMax (MathList [x,y]))
+eval (MathMin x y)        = eval (ListFold FoldMin (MathList [x,y]))
+eval (MathVar str) =
+  let title = "variable expansion"
+      (lhs,rhs) = verbose title
+  in local (fmap ((title <> " " <> show str) :)) $ do
+    (xvar, xpl1) <- getvarF str
+    (xval, xpl2) <- eval xvar
+    return (xval, Node ([], [show xval ++ ": " ++ lhs ++ " " ++ str]) [xpl1, xpl2])
+
+                     
+eval (ListFold FoldMin     xs) = doFold "min" minimum xs
+eval (ListFold FoldMax     xs) = doFold "max" maximum xs
 eval (ListFold FoldSum     xs) = doFold "sum" sum xs
 eval (ListFold FoldProduct xs) = doFold "product" product xs                              
 
@@ -235,19 +268,6 @@ verbose "comparison"     = ("which is the result of comparing", "with")
 verbose "variable expansion" = ("which comes from the variable", "")
 verbose x                = (x, x ++ " argument")
 
-toplevel :: IO ()
-toplevel = forM_ [ Val 2 |+ (Val 5 |- Val 1)
-                 , ListFold FoldSum $ Val 2 <| MathList [Val 1, Val 2, Val 3, Val 4]
-                 ] $ \topexpr -> do
-  ((val,xpl), stab, _) <- runRWST
-                      (eval topexpr)
-                      ([],["toplevel"])             -- reader: HistoryPath
-                      (MyState Map.empty Map.empty) -- state: MyState
-
-  putStrLn $ "* toplevel: val = "    ++ show val
-  putStrLn $ "* toplevel: symtab = " ++ show stab
-  putStrLn $ "* toplevel: xpl = " ++ show val ++ "\n" ++ drawTreeOrg 2 xpl
-
 drawTreeOrg :: Int -> XP -> String
 drawTreeOrg depth (Node (stdout, stdexp) xs) =
   unlines ( (replicate depth '*' ++ " " ++ unlines stdexp)
@@ -256,3 +276,26 @@ drawTreeOrg depth (Node (stdout, stdexp) xs) =
   unlines ( drawTreeOrg (depth + 1) <$> xs )
   
 
+toplevel :: IO ()
+toplevel = forM_ [ Val 2 |+ (Val 5 |- Val 1)
+                 , ListFold FoldSum $ Val 2 <| MathList [Val 1, Val 2, Val 3, Val 4]
+                 , ListFold FoldSum $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+                 , ListFold FoldSum $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+                 ] $ \topexpr -> do
+  (val, xpl, stab, wlog) <- xplainF topexpr
+  return ()
+
+xplainF :: Expr Float -> IO (Float, XP, MyState, [String])
+xplainF expr = do
+  ((val,xpl), stab, wlog) <- runRWST
+                             (eval expr)
+                             ([],["toplevel"])             -- reader: HistoryPath
+                             (MyState Map.empty Map.empty) -- state: MyState
+  putStrLn $ "* xplainF"
+  putStrLn $ "#+begin_src haskell\n" ++ show expr ++ "\n#+end_src"
+  putStrLn $ "** toplevel: val = "    ++ show val
+  putStrLn $ "** toplevel: symtab = " ++ show stab
+  putStrLn $ "** toplevel: log = "    ++ show wlog
+  putStrLn $ "** toplevel: xpl = " ++ show val ++ "\n" ++ drawTreeOrg 3 xpl
+
+  return (val, xpl, stab, wlog)

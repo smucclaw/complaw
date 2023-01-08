@@ -82,11 +82,8 @@ infixl 1 <-~
 
 runTests :: IO ()
 runTests = do
-  let test1 = evalState (evalMath (MathITE
-                                   (PredGt (MathVal 1) (MathVal 2))
-                                   (MathVar "foo")
-                                   (MathVal 6))) symtab :: Float
-  print test1
+  (t1v, t1x, t1s, t1w) <- xplainF (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
+
   -- [TODO] write a simple parser to set up the scenario
   -- scenario 1: income exceeds expenses thanks to extraordinary; taxable income is > 100000; some negative income in certain categories
 
