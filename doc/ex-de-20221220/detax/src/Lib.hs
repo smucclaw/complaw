@@ -32,30 +32,6 @@ instance Monoid Box where
 -- augmented with if\/then\/else construct and variable assignment.
 -- this is the deeper embedding of the stuff that comes below.
 
-data MathLang a
-  = MathLang a :+: MathLang a              -- ^ addition
-  | MathLang a :-: MathLang a              -- ^ subtraction
-  | MathLang a :*: MathLang a              -- ^ multiplication
-  | MathLang a :/: MathLang a              -- ^ division
-  | Parens (MathLang a)                    -- ^ parentheses
-  | MathVal a                              -- ^ terminal value
-  | MathVar String                         -- ^ mathematical variable name
-  | MathITE (Pred a) (MathLang a) (MathLang a) -- ^ if then else, mathematicals
-  deriving (Eq, Show)
-
--- | conditional predicates
-data Pred a
-  = PredEqB (Pred a) (Pred a)              -- ^ boolean equality test
-  | PredNot (Pred a)                       -- ^ boolean not
-  | PredEqM (MathLang a) (MathLang a)      -- ^ mathematical equality
-  | PredGte (MathLang a) (MathLang a)      -- ^ >=
-  | PredGt  (MathLang a) (MathLang a)      -- ^ >
-  | PredLte (MathLang a) (MathLang a)      -- ^ <=
-  | PredLt  (MathLang a) (MathLang a)      -- ^ <
-  | PredVar String                         -- ^ boolean variable name
-  | PredITE (Pred a) (Pred a) (Pred a)     -- ^ if then else, booleans
-  deriving (Eq, Show)
-
 -- | variables
 data Var a
   = VarMath (MathLang a)                   -- ^ variable assignment
