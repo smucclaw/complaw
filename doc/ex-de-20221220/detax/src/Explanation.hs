@@ -166,10 +166,10 @@ evalFP evf p x y = retitle "if-then-else" $ do
   if pval
     then do
     (xval,xxpl) <- evf x
-    return (xval, Node ([],["if " ++ show p ++ " then " ++ show x ++ " else " ++ show y] ) [pxpl, mkNod "thus we choose", xxpl])
+    return (xval, Node ([],["if " ++ show p ++ " then " ++ show x ++ " else " ++ show y] ) [pxpl, mkNod "thus we choose the then branch", xxpl])
     else do
     (yval,yxpl) <- evf y
-    return (yval, Node ([],["if-then-else false"] ) [pxpl, mkNod "thus we choose", yxpl])
+    return (yval, Node ([],["if-then-else false"] ) [pxpl, mkNod "thus we choose the else branch", yxpl])
 
 
 
@@ -229,14 +229,11 @@ data ExprList a
   = MathList [Expr a]
   | ListFilt Comp (Expr a)   (ExprList a)
   | ListMap  (MathSection a) (ExprList a)
+  | ListMapIf (MathSection a) (Expr a) Comp (ExprList a)
   deriving (Eq, Show)
 
 evalList :: ExprList Float -> Explainable r (ExprList Float)
 evalList (MathList a) = return (MathList a, Node (show <$> a,["base MathList with " ++ show (length a) ++ " elements"]) [])
-evalList (ListFilt comp x lf2@(ListFilt{})) = do
-  (lf2val, lf2xpl) <- evalList lf2
-  (lf3val, lf3xpl) <- evalList (ListFilt comp x lf2val)
-  return (lf3val, Node ([],["recursing RHS ListFilt"]) [lf2xpl, mkNod "becomes", lf3xpl])
 evalList (ListFilt comp x (MathList ys)) = do
   origs <- mapM eval ys
   round1 <- mapM (evalP . PredComp comp x) ys
@@ -255,12 +252,31 @@ evalList (ListFilt comp x (MathList ys)) = do
                 , (show (length round3) ++ " elements were reduced from an original " ++ show (length round1))
                   : ["- " ++ show (fst o) | o <- origs])
            $ fmap snd round2)
+evalList (ListFilt comp x lf2) = do
+  (lf2val, lf2xpl) <- evalList lf2
+  (lf3val, lf3xpl) <- evalList (ListFilt comp x lf2val)
+  return (lf3val, Node ([],["recursing RHS ListFilt"]) [lf2xpl, mkNod "becomes", lf3xpl])
 evalList (ListMap Id ylist) = return (ylist, mkNod "id on ExprList")
 evalList (ListMap (MathSection binop x) ylist) = retitle "fmap mathsection" $ do
   (MathList ylist', yxpl) <- evalList ylist
   return ( MathList [ MathBin binop x y | y <- ylist' ]
          , Node ([],["fmap mathsection " ++ show binop ++ show x ++ " over " ++ show (length ylist') ++ " elements"]) [yxpl] )
+evalList (ListMapIf Id _c _comp ylist) = retitle "fmap mathsection id" $ evalList ylist
+evalList (ListMapIf (MathSection binop x) c comp ylist) = retitle "fmap mathsection if" $ do
+  (MathList ylist', yxpl) <- evalList ylist
+  liveElements <- mapM (evalP . PredComp comp c) ylist'
 
+  return ( MathList [ if tf then MathBin binop x y else y
+                    | (y,tf) <- zip ylist' (fst <$> liveElements) ]
+         , Node ([],["fmap mathsection " ++ show binop ++ show x ++ " over " ++ show (length (filter id (fst <$> liveElements))) ++ " relevant elements (" ++
+                    "who pass " ++ show c ++ " " ++ show comp ++ ")"])
+           [ yxpl , Node ([],["selection of relevant elements"]) (snd <$> liveElements) ] )
+
+deepEvalList :: (ExprList Float,XP) -> Explainable r [Float]
+deepEvalList (MathList xs,xp) = do
+  vals <- mapM eval xs
+  return (fst <$> vals, Node ([],["deep evaluation to floats"]) (xp : (snd <$> vals)))
+deepEvalList (other,_xp) = deepEvalList =<< evalList other
 
 unaEval :: String -> (Float -> Float) -> Expr Float -> Explainable r Float
 unaEval title f x =
@@ -315,6 +331,22 @@ toplevel = forM_ [ Val 2 |+ (Val 5 |- Val 1)
                  ] $ \topexpr -> do
   (val, xpl, stab, wlog) <- xplainF () topexpr
   return ()
+
+xplainL :: r -> ExprList Float -> IO ([Float], XP, MyState, [String])
+xplainL r exprList = do
+  ((xl,xp), stab, wlog) <- runRWST
+                           (deepEvalList (exprList,mkNod "deep eval"))
+                           (([],["toplevel"]),r)         -- reader: HistoryPath, actualReader
+                           (MyState Map.empty Map.empty) -- state: MyState
+  putStrLn $ "* xplainL"
+  putStrLn $ "#+begin_src haskell\n" ++ show xl ++ "\n#+end_src"
+  putStrLn $ "** toplevel: val = "    ++ show xl
+  putStrLn $ "** toplevel: symtab = " ++ show stab
+  putStrLn $ "** toplevel: log = "    ++ show wlog
+  putStrLn $ "** toplevel: xpl = " ++ show xl ++ "\n" ++ drawTreeOrg 3 xp
+  return (xl, xp, stab, wlog) -- [TODO] note the explanation result from xs is discarded
+  where unMathList (MathList xs) = xs
+        unMathList x             = error $ "xplainL: expected exprList to be fully evaluated, but got " ++ show x
 
 xplainF :: r -> Expr Float -> IO (Float, XP, MyState, [String])
 xplainF r expr = do

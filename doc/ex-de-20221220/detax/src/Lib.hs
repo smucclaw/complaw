@@ -86,7 +86,7 @@ infixl 1 <-~
 --      type Explainable r                 a     = RWST (HistoryPath,r) [String] MyState IO (a,XP)
 type Focus = Explainable Scenario Float
            
-deplus,deminus,getCol :: String -> String-> (Float,XP) -> Focus
+deplus,deminus,detimes,getCol :: String -> String -> (Float,XP) -> Focus
 deplus colName row (x,xpl) = do
   scn <- asks snd
   let mycell = cell scn colName row
@@ -97,15 +97,24 @@ deminus colName row (x,xpl) = do
   let mycell = cell scn colName row
       toreturn = x - mycell
   return (toreturn, xpl { rootLabel = second (++ ["- less " ++ colName ++ " (" ++ show mycell ++ ") = " ++ show toreturn]) (rootLabel xpl) })
+detimes colName row (x,xpl) = do
+  scn <- asks snd
+  let mycell = cell scn colName row
+      toreturn = x * mycell
+  return (toreturn, xpl { rootLabel = second (++ ["- times " ++ colName ++ " (" ++ show mycell ++ ") = " ++ show toreturn]) (rootLabel xpl) })
 getCol colName row (_,xpl) = do
   scn <- asks snd
   let toreturn = cell scn colName row
   return (toreturn, xpl { rootLabel = second (++ ["- starting with " ++ colName ++ " (" ++ show toreturn ++ ")"]) (rootLabel xpl) })
 
+constCell :: Float -> String -> (Float,XP) -> Focus
+constCell n _ (_,xpl) = do
+  return (n, xpl { rootLabel = second (++ ["- hardcoding " ++ show n]) (rootLabel xpl) })
+
 runRow :: [ String -> (Float,XP) -> Focus ] -> String -> Focus
 runRow fs rowname = do
   (f, xp) <- foldr (>=>) pure (($ rowname) <$> fs) (0,mkNod $ "row " ++ rowname)
-  return (f,xp)
+  return (f,Node ([], [rowname ++ " = " ++ show f]) [xp])
 
 colNames :: Scenario -> [String]
 colNames = Map.keys
@@ -122,15 +131,27 @@ addCol newcol fs sc = do
 
   return $ Map.union sc $ Map.singleton newcol $ Map.fromList (zip (rowNames sc) (fst <$> fxp))
 
+col2mathList :: IncomeStreams -> ExprList Float
+col2mathList is = MathList ( Val <$> Map.elems is )
+
+mathList2col :: ExprList Float -> Explainable r [Float]
+mathList2col ml = deepEvalList (ml,mkNod "mathList2col")
+  
 runTests :: IO ()
 runTests = do
   let someScenario = scenarios Map.! "1a"
   (t1v, t1x, t1s, t1w) <- xplainF someScenario (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
 
+  putStrLn "* the sum of all positive elements, ignoring negative elements"
   _ <- xplainF someScenario $ ListFold FoldSum     $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
 
+  putStrLn "* the product of the doubles of all positive elements, ignoring negative and zero elements"
   _ <- xplainF someScenario $ ListFold FoldProduct $ ListMap (MathSection Times (Val 2.0)) $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
 
+  putStrLn "* the product of the doubles of all positive elements and the unchanged values of all negative leements"
+  _ <- xplainF someScenario $ ListFold FoldProduct $ ListMapIf (MathSection Times (Val 2.0)) (Val 0) CLT $ MathList [Val (-2), Val (-1), Val 1, Val 2, Val 3]
+
+  -- [TODO] we need to integrate the native Expr with the below, so we can deal with columns and rows as dictionaries. we probably need a ExprMatrix or ExprDict type.
   putStrLn "* calculate net income"
   newSome <- addCol "net income" [ getCol "ordinary income"
                                  , deplus "extraordinary income"
@@ -138,6 +159,27 @@ runTests = do
                                  , deminus "special expenses"
                                ] someScenario
   putStrLn $ asExample newSome 
+
+  let nets = Map.elems $ newSome Map.! "net income" 
+  (positiveSum,_,_,_)  <- xplainF newSome $ ListFold FoldSum $ Val 0 <| MathList (Val <$> nets)
+  (negativeSum,_,_,_)  <- xplainF newSome $ ListFold FoldSum $ Val 0 |> MathList (Val <$> nets)
+  (maxReduction,_,_,_) <- xplainF newSome (MathITE
+                                           (PredComp CGT (Val positiveSum) (Val 100000))
+                                           (Val negativeSum |/ Val 2)
+                                           (Val negativeSum))
+  putStrLn $ "* the maximum amount by which we can reduce the positive sum is " ++ show maxReduction
+
+  (fromMathList,_,_,_) <- xplainL newSome $
+    ListMapIf (MathSection Times (Val 0))                                (Val 0) CGT $ 
+    ListMapIf (MathSection Times (Val $ 1 - maxReduction / positiveSum)) (Val 0) CLT $
+    col2mathList ( newSome Map.! "net income")
+
+  let newSome3 = Map.union newSome $
+                 Map.singleton "reduction" $
+                 Map.fromList (zip (rowNames newSome)
+                               fromMathList)
+  putStrLn "* Post reduction"
+  putStrLn $ asExample newSome3
   
   putStrLn "* Scenarios"
 
