@@ -80,24 +80,37 @@ title ~=> js = (title, foldl (.) id js defaultScenario)
 infixl 8 ~=>
 infixl 1 <-~
 
-type ScenarioM = Explainable Scenario Float
-  
-(+>) :: (Float,XP) -> String -> ScenarioM
-(x,xxpl) +> colName = do
-  scn <- asks snd
-  return (x,xxpl)
+--      type Explainable r                 a     = RWST (HistoryPath,r) [String] MyState IO (a,XP)
+type Focus = Explainable (String,Scenario) Float
+-- String is either a column name or a row name; the calling context needs to keep track of which.
+           
+deplus,deminus :: String -> (Float,XP) -> Focus
+deplus colName (x,xpl) = do
+  (row,scn) <- asks snd
+  let toreturn = x + cell scn colName row
+  return (toreturn,xpl)
+deminus colName (x,xpl) = do
+  (row,scn) <- asks snd
+  let toreturn = x - cell scn colName row
+  return (toreturn,xpl)
+
 
 runTests :: IO ()
 runTests = do
   let someScenario = scenarios Map.! "1a"
   (t1v, t1x, t1s, t1w) <- xplainF someScenario (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
 
-  _ <- xplainF someScenario $ ListFold FoldSum $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+  _ <- xplainF someScenario $ ListFold FoldSum     $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
 
   _ <- xplainF someScenario $ ListFold FoldProduct $ ListMap (MathSection Times (Val 2.0)) $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
 
-  -- let sumByType = for incomeTypes $ 0 +> "ordinary income" +> "extraordinary income" +> "ordinary expenses" +> "special expenses"
-
+  sumByType <- runRWST (do
+                           deplus "ordinary income" (0,mkNod $ "contributions from " ++ "x")
+                           >>= deplus "extraordinary income"
+                           >>= deminus "ordinary expenses"
+                           >>= deminus "special expenses"
+                          )
+                  (([],[]),("total",someScenario)) (MyState Map.empty Map.empty)
   putStrLn "* Scenarios"
 
   -- [TODO] write a simple parser to set up the scenario
