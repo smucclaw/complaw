@@ -84,39 +84,43 @@ infixl 8 ~=>
 infixl 1 <-~
 
 --      type Explainable r                 a     = RWST (HistoryPath,r) [String] MyState IO (a,XP)
-type Focus = Explainable (String,Scenario) Float
--- String is either a column name or a row name; the calling context needs to keep track of which.
+type Focus = Explainable Scenario Float
            
-deplus,deminus,getCol :: String -> (Float,XP) -> Focus
-deplus colName (x,xpl) = do
-  (row,scn) <- asks snd
+deplus,deminus,getCol :: String -> String-> (Float,XP) -> Focus
+deplus colName row (x,xpl) = do
+  scn <- asks snd
   let mycell = cell scn colName row
       toreturn = x + mycell
   return (toreturn, xpl { rootLabel = second (++ ["- plus " ++ colName ++ " (" ++ show mycell ++ ") = " ++ show toreturn]) (rootLabel xpl) })
-deminus colName (x,xpl) = do
-  (row,scn) <- asks snd
+deminus colName row (x,xpl) = do
+  scn <- asks snd
   let mycell = cell scn colName row
       toreturn = x - mycell
   return (toreturn, xpl { rootLabel = second (++ ["- less " ++ colName ++ " (" ++ show mycell ++ ") = " ++ show toreturn]) (rootLabel xpl) })
-getCol colName (x,xpl) = do
-  (row,scn) <- asks snd
+getCol colName row (_,xpl) = do
+  scn <- asks snd
   let toreturn = cell scn colName row
   return (toreturn, xpl { rootLabel = second (++ ["- starting with " ++ colName ++ " (" ++ show toreturn ++ ")"]) (rootLabel xpl) })
 
-runRow :: Scenario -> [ (Float,XP) -> Focus ] -> String -> IO (Float, XP)
-runRow sc fs rowname = do
-  ((f,xp),_st,_wlog) <- runRWST (foldr (>=>) pure fs (0,mkNod $ "row " ++ rowname))
-                          (([],[]),(rowname,sc)) (MyState Map.empty Map.empty)
-  putStrLn $ "** runRow " ++ rowname
-  putStrLn $ "*** val = " ++ show f
-  putStrLn $ "*** explanation\n" ++ drawTreeOrg 4 xp
+runRow :: [ String -> (Float,XP) -> Focus ] -> String -> Focus
+runRow fs rowname = do
+  (f, xp) <- foldr (>=>) pure (($ rowname) <$> fs) (0,mkNod $ "row " ++ rowname)
   return (f,xp)
+
+colNames :: Scenario -> [String]
+colNames = Map.keys
 
 rowNames :: Scenario -> [String]
 rowNames sc = Map.keys $ head $ Map.elems sc
 
-colNames :: Scenario -> [String]
-colNames sc = Map.keys $ sc
+addCol :: String -> [ String -> (Float,XP) -> Focus ] -> Scenario -> IO Scenario
+addCol newcol fs sc = do
+  (fxp,_st,_wlog) <- runRWST (mapM (runRow fs) (rowNames sc))
+                                (([],[]),sc) (MyState Map.empty Map.empty)
+  putStrLn $ "* addCol " ++ newcol
+  putStrLn $ drawTreeOrg 2 (Node ([],["adding 1 new column (\"" ++ newcol ++ "\") with " ++ show (length fxp) ++ " rows"]) (snd <$> fxp))
+
+  return $ Map.union sc $ Map.singleton newcol $ Map.fromList (zip (rowNames sc) (fst <$> fxp))
 
 runTests :: IO ()
 runTests = do
@@ -127,14 +131,14 @@ runTests = do
 
   _ <- xplainF someScenario $ ListFold FoldProduct $ ListMap (MathSection Times (Val 2.0)) $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
 
-  putStrLn "* runRow rewrites"
-  sumByType <- mapM (runRow someScenario [ getCol "ordinary income"
-                                         , deplus "extraordinary income"
-                                         , deminus "ordinary expenses"
-                                         , deminus "special expenses"
-                                         ])
-               (rowNames someScenario)
-
+  putStrLn "* calculate net income"
+  newSome <- addCol "net income" [ getCol "ordinary income"
+                                 , deplus "extraordinary income"
+                                 , deminus "ordinary expenses"
+                                 , deminus "special expenses"
+                               ] someScenario
+  putStrLn $ asExample newSome 
+  
   putStrLn "* Scenarios"
 
   -- [TODO] write a simple parser to set up the scenario
@@ -733,7 +737,10 @@ progStack year income =
 
 -- | for org-mode purposes
 asExample :: Scenario -> String
-asExample sc = "\n#+begin_example\n" <> render (asTable sc) <> "#+end_example\n"
+asExample sc = orgExample $ render (asTable sc)
+
+orgExample :: String -> String
+orgExample str = "\n#+begin_example\n" <> str <> "\n#+end_example\n"
 
 -- | what is the effective tax rate? against `progStack`
 effectiveRateStacked :: (Ord a, Fractional a) => Int -> a -> a
