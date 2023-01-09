@@ -6,7 +6,8 @@ module Lib where
 import qualified Data.Map as Map
 import Control.Monad.Trans.State ( gets, State, StateT, evalState, runStateT, modify )
 import Control.Monad.State (liftIO)
-import Control.Monad (forM_, when, unless)
+import Control.Monad (forM_, when, unless, (>=>))
+import Data.Function ((&))
 import Text.Megaparsec ( choice, many, some, Parsec, MonadParsec(try) )
 import Text.Megaparsec.Char ( numberChar, hspace )
 import Data.List ( sort, isPrefixOf, nub )
@@ -18,6 +19,8 @@ import Data.Ord
 import Explanation
 import qualified Data.Tree as DT
 import Control.Monad.Trans.RWS
+import Data.Tree
+import Data.Bifunctor
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -84,16 +87,36 @@ infixl 1 <-~
 type Focus = Explainable (String,Scenario) Float
 -- String is either a column name or a row name; the calling context needs to keep track of which.
            
-deplus,deminus :: String -> (Float,XP) -> Focus
+deplus,deminus,getCol :: String -> (Float,XP) -> Focus
 deplus colName (x,xpl) = do
   (row,scn) <- asks snd
-  let toreturn = x + cell scn colName row
-  return (toreturn,xpl)
+  let mycell = cell scn colName row
+      toreturn = x + mycell
+  return (toreturn, xpl { rootLabel = second (++ ["- plus " ++ colName ++ " (" ++ show mycell ++ ") = " ++ show toreturn]) (rootLabel xpl) })
 deminus colName (x,xpl) = do
   (row,scn) <- asks snd
-  let toreturn = x - cell scn colName row
-  return (toreturn,xpl)
+  let mycell = cell scn colName row
+      toreturn = x - mycell
+  return (toreturn, xpl { rootLabel = second (++ ["- less " ++ colName ++ " (" ++ show mycell ++ ") = " ++ show toreturn]) (rootLabel xpl) })
+getCol colName (x,xpl) = do
+  (row,scn) <- asks snd
+  let toreturn = cell scn colName row
+  return (toreturn, xpl { rootLabel = second (++ ["- starting with " ++ colName ++ " (" ++ show toreturn ++ ")"]) (rootLabel xpl) })
 
+runRow :: Scenario -> [ (Float,XP) -> Focus ] -> String -> IO (Float, XP)
+runRow sc fs rowname = do
+  ((f,xp),_st,_wlog) <- runRWST (foldr (>=>) pure fs (0,mkNod $ "row " ++ rowname))
+                          (([],[]),(rowname,sc)) (MyState Map.empty Map.empty)
+  putStrLn $ "** runRow " ++ rowname
+  putStrLn $ "*** val = " ++ show f
+  putStrLn $ "*** explanation\n" ++ drawTreeOrg 4 xp
+  return (f,xp)
+
+rowNames :: Scenario -> [String]
+rowNames sc = Map.keys $ head $ Map.elems sc
+
+colNames :: Scenario -> [String]
+colNames sc = Map.keys $ sc
 
 runTests :: IO ()
 runTests = do
@@ -104,13 +127,14 @@ runTests = do
 
   _ <- xplainF someScenario $ ListFold FoldProduct $ ListMap (MathSection Times (Val 2.0)) $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
 
-  sumByType <- runRWST (do
-                           deplus "ordinary income" (0,mkNod $ "contributions from " ++ "x")
-                           >>= deplus "extraordinary income"
-                           >>= deminus "ordinary expenses"
-                           >>= deminus "special expenses"
-                          )
-                  (([],[]),("total",someScenario)) (MyState Map.empty Map.empty)
+  putStrLn "* runRow rewrites"
+  sumByType <- mapM (runRow someScenario [ getCol "ordinary income"
+                                         , deplus "extraordinary income"
+                                         , deminus "ordinary expenses"
+                                         , deminus "special expenses"
+                                         ])
+               (rowNames someScenario)
+
   putStrLn "* Scenarios"
 
   -- [TODO] write a simple parser to set up the scenario
@@ -758,9 +782,16 @@ scanlM f q (x:xs) = do
   ts <- scanlM f t xs
   return $ t `seq` (t : ts)
 
-scell :: (Ord k, Ord j, Show a) => Map.Map k (Map.Map j a) -> k -> j -> String
+scell :: (Ord k, Ord j, Show a, Show k, Show j) => Map.Map k (Map.Map j a) -> k -> j -> String
 scell k j a = show (cell k j a)
 
-cell :: (Ord k, Ord j) => Map.Map k (Map.Map j a) -> k -> j -> a
-cell k j a = k Map.! j Map.! a
-
+-- column first, then row
+cell :: (Show k, Show j, Show a, Ord k, Ord j) => Map.Map k (Map.Map j a) -> k -> j -> a
+cell m k j =
+  case Map.lookup k m of
+    Nothing -> error $ "can't find key " ++ show k ++ " in outer map with keys " ++ show (Map.keys m)
+    Just jx -> case Map.lookup j jx of
+      Nothing -> error $ "can't find key " ++ show j ++ " in inner map with keys " ++ show (Map.keys jx) ++
+                 "\ninput params:" ++ show (k,j) ++
+                 "\nfull dump:" ++ show m
+      Just a  -> a
