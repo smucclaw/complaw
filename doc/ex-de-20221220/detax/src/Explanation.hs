@@ -10,10 +10,11 @@ import Data.List ( intercalate )
 import Data.Ord ()
 import Data.Maybe (mapMaybe)
 import Control.Monad (forM_)
+import Data.Bifunctor (first)
 
 -- | our Explainable monad supports the evaluation-with-explanation of expressions in our DSL.
 -- We make use of Reader, Writer, and State.
-type Explainable a = RWST HistoryPath [String] MyState IO (a,XP)
+type Explainable r a = RWST         (HistoryPath,r) [String] MyState IO (a,XP)
 
 -- | The Reader supports environmental context for a given evaluation.
 -- As we evaluate down from the root to the leaves,
@@ -67,7 +68,7 @@ data SomeFold = FoldSum | FoldProduct | FoldMax | FoldMin
 -- | fmaps.
 -- In Haskell, we would say @(+2) <$> [1,2,3]@
 -- Here, we would say @2 +| [1,2,3]@
-(+|),(-|),(*|),(/|) :: Expr Float -> [Expr Float] -> [Explainable Float]
+(+|),(-|),(*|),(/|) :: Expr Float -> [Expr Float] -> [Explainable r Float]
 x +| ys = map (eval . MathBin Plus   x) ys
 x -| ys = map (eval . MathBin Minus  x) ys
 x *| ys = map (eval . MathBin Times  x) ys
@@ -115,15 +116,18 @@ data Var a
   | VarPred String (Pred a)
     deriving (Eq, Show)
 
-evalP :: Pred Float -> Explainable Bool
+retitle :: String -> Explainable r a -> Explainable r a
+retitle st = local (first (fmap (st:))) -- prepend some string to the path part of ((history,path),r)
+
+evalP :: Pred Float -> Explainable r Bool
 evalP (PredVal x) = do
   return (x, Node ([],[show x ++ ": a leaf value"]) [])
 evalP (PredNot x) = do
-  (xval,xpl) <- local (fmap ("not" :)) (evalP x)
+  (xval,xpl) <- retitle "not" (evalP x)
   return (not xval, Node ([] ,[show x ++ ": logical not of"]) [xpl])
 evalP (PredComp c x y) =
   let title = "comparison"
-  in local (fmap ( title <> " " <> shw c :) ) $ do
+  in retitle (title <> " " <> shw c) $ do
     (xval, xpl) <- eval x
     (yval, ypl) <- eval y
     let c' = compare xval yval
@@ -144,7 +148,7 @@ evalP (PredComp c x y) =
 evalP (PredVar str) =
   let title = "variable expansion"
       (lhs,rhs) = verbose title
-  in local (fmap ((title <> " " <> show str) :)) $ do
+  in retitle (title <> " " <> show str) $ do
     (xvar, xpl1) <- getvarP str
     (xval, xpl2) <- evalP xvar
     return (xval, Node ([], [show xval ++ ": " ++ lhs ++ " " ++ str]) [xpl1, xpl2])
@@ -152,12 +156,12 @@ evalP (PredVar str) =
 evalP (PredITE p x y) = evalFP evalP p x y
 
 evalFP :: Show t
-       => (t -> Explainable a)
+       => (t -> Explainable r a)
        -> Pred Float
        -> t
        -> t
-       -> Explainable a
-evalFP evf p x y = local (fmap ("if-then-else" :)) $ do
+       -> Explainable r a
+evalFP evf p x y = retitle "if-then-else" $ do
   (pval,pxpl) <- evalP p
   if pval
     then do
@@ -169,12 +173,12 @@ evalFP evf p x y = local (fmap ("if-then-else" :)) $ do
 
 
 
-getvarF :: String -> Explainable (Expr Float)
+getvarF :: String -> Explainable r (Expr Float)
 getvarF x = do
   symtab <- gets symtabF
   return (symtab Map.! x, Node ([show $ symtab Map.! x], ["looked up " ++ x]) [])
   
-getvarP :: String -> Explainable (Pred Float)
+getvarP :: String -> Explainable r (Pred Float)
 getvarP x = do
   symtab <- gets symtabP
   return (symtab Map.! x, Node ([show $ symtab Map.! x], ["looked up " ++ x]) [])
@@ -182,9 +186,12 @@ getvarP x = do
 pathSpec :: [String] -> String
 pathSpec = intercalate " / " . reverse
 
-eval :: Expr Float -> Explainable Float
+historypath :: (hp,r) -> hp
+historypath = fst
+
+eval :: Expr Float -> Explainable r Float
 eval (Val x) = do
-  (history,path) <- ask
+  (history,path) <- asks historypath
   return (x, Node ([unlines history ++ pathSpec path ++ ": " ++ show x]
                   ,[show x ++ ": a leaf value"]) [])
 eval (MathBin Plus   x y) = binEval "addition"       (+) x y
@@ -198,7 +205,7 @@ eval (MathMin x y)        = eval (ListFold FoldMin (MathList [x,y]))
 eval (MathVar str) =
   let title = "variable expansion"
       (lhs,rhs) = verbose title
-  in local (fmap ((title <> " " <> show str) :)) $ do
+  in retitle (title <> " " <> show str) $ do
     (xvar, xpl1) <- getvarF str
     (xval, xpl2) <- eval xvar
     return (xval, Node ([], [show xval ++ ": " ++ lhs ++ " " ++ str]) [xpl1, xpl2])
@@ -208,8 +215,8 @@ eval (ListFold FoldMax     xs) = doFold "max" maximum xs
 eval (ListFold FoldSum     xs) = doFold "sum" sum xs
 eval (ListFold FoldProduct xs) = doFold "product" product xs                              
 
-doFold :: String -> ([Float] -> Float) -> ExprList Float -> Explainable Float
-doFold str f xs = local (fmap ("listfold " <> str :)) $ do
+doFold :: String -> ([Float] -> Float) -> ExprList Float -> Explainable r Float
+doFold str f xs = retitle ("listfold " <> str) $ do
   (MathList yvals,yexps) <- evalList xs
   zs <- mapM eval yvals
   let toreturn = f (fst <$> zs)
@@ -224,7 +231,7 @@ data ExprList a
   | ListMap  (MathSection a) (ExprList a)
   deriving (Eq, Show)
 
-evalList :: ExprList Float -> Explainable (ExprList Float)
+evalList :: ExprList Float -> Explainable r (ExprList Float)
 evalList (MathList a) = return (MathList a, Node (show <$> a,["base MathList with " ++ show (length a) ++ " elements"]) [])
 evalList (ListFilt comp x lf2@(ListFilt{})) = do
   (lf2val, lf2xpl) <- evalList lf2
@@ -249,16 +256,16 @@ evalList (ListFilt comp x (MathList ys)) = do
                   : ["- " ++ show (fst o) | o <- origs])
            $ fmap snd round2)
 evalList (ListMap Id ylist) = return (ylist, mkNod "id on ExprList")
-evalList (ListMap (MathSection binop x) ylist) = local (fmap ("fmap mathsection" :)) $ do
+evalList (ListMap (MathSection binop x) ylist) = retitle "fmap mathsection" $ do
   (MathList ylist', yxpl) <- evalList ylist
   return ( MathList [ MathBin binop x y | y <- ylist' ]
          , Node ([],["fmap mathsection " ++ show binop ++ show x ++ " over " ++ show (length ylist') ++ " elements"]) [yxpl] )
 
 
-unaEval :: String -> (Float -> Float) -> Expr Float -> Explainable Float
+unaEval :: String -> (Float -> Float) -> Expr Float -> Explainable r Float
 unaEval title f x =
   let (lhs,_rhs) = verbose title
-  in local (fmap (title :)) $ do
+  in retitle title $ do
     (xval, xpl) <- eval x
     let toreturn = f xval
     return (toreturn, Node ([], [show toreturn ++ ": " ++ lhs]) [xpl])
@@ -266,14 +273,14 @@ unaEval title f x =
 mkNod :: a -> Tree ([b],[a])
 mkNod x = Node ([],[x]) []
   
-binEval :: String -> (Float -> Float -> Float) -> Expr Float -> Expr Float -> Explainable Float
-binEval title f x y = local (fmap (title :)) $ do
+binEval :: String -> (Float -> Float -> Float) -> Expr Float -> Expr Float -> Explainable r Float
+binEval title f x y = retitle title $ do
   -- liftIO putStrLn should be treated as more of a Debug.Trace.
   -- "normal" output gets returned in the fst part of the Node.
   -- normal output then gets output inside a #+begin_example/#+end_example block.
   -- liftIO $ putStrLn $ "eval " ++ title ++ ": path is " ++ intercalate " / " (reverse path)
   (xval, xpl) <- eval x
-  (yval, ypl) <- local (\(h,p) -> (h ++ [show xval],p)) (eval y)
+  (yval, ypl) <- local (\((h,p),r) -> ((h ++ [show xval],p),r)) (eval y)
    -- we sneak in monadic history of the upper evaluations
   let toreturn = f xval yval
       (lhs,rhs) = verbose title
@@ -306,14 +313,14 @@ toplevel = forM_ [ Val 2 |+ (Val 5 |- Val 1)
                  , ListFold FoldSum $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
                  , ListFold FoldSum $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
                  ] $ \topexpr -> do
-  (val, xpl, stab, wlog) <- xplainF topexpr
+  (val, xpl, stab, wlog) <- xplainF () topexpr
   return ()
 
-xplainF :: Expr Float -> IO (Float, XP, MyState, [String])
-xplainF expr = do
+xplainF :: r -> Expr Float -> IO (Float, XP, MyState, [String])
+xplainF r expr = do
   ((val,xpl), stab, wlog) <- runRWST
                              (eval expr)
-                             ([],["toplevel"])             -- reader: HistoryPath
+                             (([],["toplevel"]),r)         -- reader: HistoryPath, actualReader
                              (MyState Map.empty Map.empty) -- state: MyState
   putStrLn $ "* xplainF"
   putStrLn $ "#+begin_src haskell\n" ++ show expr ++ "\n#+end_src"

@@ -17,6 +17,7 @@ import Control.Monad.Combinators.Expr
 import Data.Ord
 import Explanation
 import qualified Data.Tree as DT
+import Control.Monad.Trans.RWS
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -78,22 +79,53 @@ title ~=> js = (title, foldl (.) id js defaultScenario)
 
 infixl 8 ~=>
 infixl 1 <-~
+
+type ScenarioM = Explainable Scenario Float
   
+(+>) :: (Float,XP) -> String -> ScenarioM
+(x,xxpl) +> colName = do
+  scn <- asks snd
+  return (x,xxpl)
 
 runTests :: IO ()
 runTests = do
-  (t1v, t1x, t1s, t1w) <- xplainF (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
+  let someScenario = scenarios Map.! "1a"
+  (t1v, t1x, t1s, t1w) <- xplainF someScenario (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
 
-  _ <- xplainF $ ListFold FoldSum $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+  _ <- xplainF someScenario $ ListFold FoldSum $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
 
-  _ <- xplainF $ ListFold FoldProduct $ ListMap (MathSection Times (Val 2.0)) $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+  _ <- xplainF someScenario $ ListFold FoldProduct $ ListMap (MathSection Times (Val 2.0)) $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+
+  -- let sumByType = for incomeTypes $ 0 +> "ordinary income" +> "extraordinary income" +> "ordinary expenses" +> "special expenses"
 
   putStrLn "* Scenarios"
 
   -- [TODO] write a simple parser to set up the scenario
   -- scenario 1: income exceeds expenses thanks to extraordinary; taxable income is > 100000; some negative income in certain categories
 
-  let scenarios = Map.fromList
+  let testcase3_fired   = ("test case3 - fired",   scenarios Map.! "test case 3 - fired")
+      testcase3_unfired = ("test case3 - unfired", scenarios Map.! "test case 3 - unfired")
+
+  print scenarios
+        
+  forM_ (Map.toList scenarios) $ \(sctitle,sc) -> do
+    putStrLn $ "* running scenario: " <> sctitle
+
+    (result_2_3, expl_2_3) <- runExplainIO $ section_2_3  sc
+    unless (null expl_2_3) $ putStrLn ("** explaining section_2_3: " <> sctitle) >> printExplanation expl_2_3
+
+    putStrLn $ "** executing section_34_1: " <> sctitle
+    (result_341, expl_341) <- runExplainIO $ section_34_1 sc
+    unless (null expl_341) $ putStrLn "** explaining section_34_1:" >> printExplanation expl_341
+
+  putStrLn "* which tax method shall we use to deal with extraordinary income in test case 3?"
+  (effMethod, expl) <- runExplainIO $ chooseEffectiveEOTaxMethod testcase3_fired testcase3_unfired
+  putStrLn $ "* we choose " ++ show effMethod
+  printExplanation expl
+
+  return ()
+  where
+    scenarios = Map.fromList
         [ "1a" ~=>
           [ "ordinary income"      <-~ ["Rents" ~== 72150, "Agriculture" ~== 30000  , "Exempt Capital" ~== 100]
           , "extraordinary income" <-~ [                   "Agriculture" ~== 270000 , "Exempt Capital" ~== 100]
@@ -123,28 +155,7 @@ runTests = do
                                       , "extraordinary income" <-~ [ "Employment" ~== 130000 ] ]
         , "test case 3 - unfired" ~=> [ "ordinary income"      <-~ [ "Employment" ~==  22000 ] ]
         ]
-      testcase3_fired   = ("test case3 - fired",   scenarios Map.! "test case 3 - fired")
-      testcase3_unfired = ("test case3 - unfired", scenarios Map.! "test case 3 - unfired")
-
-  print scenarios
-        
-  forM_ (Map.toList scenarios) $ \(sctitle,sc) -> do
-    putStrLn $ "* running scenario: " <> sctitle
-
-    (result_2_3, expl_2_3) <- runExplainIO $ section_2_3  sc
-    unless (null expl_2_3) $ putStrLn ("** explaining section_2_3: " <> sctitle) >> printExplanation expl_2_3
-
-    putStrLn $ "** executing section_34_1: " <> sctitle
-    (result_341, expl_341) <- runExplainIO $ section_34_1 sc
-    unless (null expl_341) $ putStrLn "** explaining section_34_1:" >> printExplanation expl_341
-
-  putStrLn "* which tax method shall we use to deal with extraordinary income in test case 3?"
-  (effMethod, expl) <- runExplainIO $ chooseEffectiveEOTaxMethod testcase3_fired testcase3_unfired
-  putStrLn $ "* we choose " ++ show effMethod
-  printExplanation expl
-
-  return ()
-
+    
 
 -- | choose a tax computation method
 -- > extraordinary income may only be taxed at a reduced rate if it
@@ -236,7 +247,7 @@ type ExplainIO = StateT Explanation IO
 
 explain :: String -> String -> StateT [(String, String)] IO ()
 explain foo bar = do
-  modify (++ [(foo,bar)])
+  Control.Monad.Trans.State.modify (++ [(foo,bar)])
   -- liftIO (putStrLn $ "- " ++ foo ++ " :: " ++ bar)
 
 runExplainIO :: StateT [([Char], [Char])] IO a -> IO (a, Explanation)
