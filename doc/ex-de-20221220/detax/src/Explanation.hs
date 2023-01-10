@@ -345,8 +345,10 @@ xplainL r exprList = do
   putStrLn $ "** toplevel: log = "    ++ show wlog
   putStrLn $ "** toplevel: xpl = " ++ show xl ++ "\n" ++ drawTreeOrg 3 xp
   return (xl, xp, stab, wlog) -- [TODO] note the explanation result from xs is discarded
-  where unMathList (MathList xs) = xs
-        unMathList x             = error $ "xplainL: expected exprList to be fully evaluated, but got " ++ show x
+
+unMathList :: Show a => ExprList a -> [Expr a]
+unMathList (MathList xs) = xs
+unMathList x             = error $ "unMathList: expected exprList to be fully evaluated, but got " ++ show x
 
 xplainF :: r -> Expr Float -> IO (Float, XP, MyState, [String])
 xplainF r expr = do
@@ -356,6 +358,21 @@ xplainF r expr = do
                              (MyState Map.empty Map.empty) -- state: MyState
   putStrLn $ "* xplainF"
   putStrLn $ "#+begin_src haskell\n" ++ show expr ++ "\n#+end_src"
+  putStrLn $ "** toplevel: val = "    ++ show val
+  putStrLn $ "** toplevel: symtab = " ++ show stab
+  putStrLn $ "** toplevel: log = "    ++ show wlog
+  putStrLn $ "** toplevel: xpl = " ++ show val ++ "\n" ++ drawTreeOrg 3 xpl
+
+  return (val, xpl, stab, wlog)
+
+xplainEL :: r -> ExprList Float -> IO ([Float], XP, MyState, [String])
+xplainEL r exprl = do
+  ((val,xpl), stab, wlog) <- runRWST
+                             (deepEvalList =<< evalList exprl)
+                             (([],["toplevel"]),r)         -- reader: HistoryPath, actualReader
+                             (MyState Map.empty Map.empty) -- state: MyState
+  putStrLn $ "* xplainF"
+  putStrLn $ "#+begin_src haskell\n" ++ show exprl ++ "\n#+end_src"
   putStrLn $ "** toplevel: val = "    ++ show val
   putStrLn $ "** toplevel: symtab = " ++ show stab
   putStrLn $ "** toplevel: log = "    ++ show wlog

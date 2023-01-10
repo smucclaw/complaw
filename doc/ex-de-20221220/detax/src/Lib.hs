@@ -137,10 +137,13 @@ col2mathList is = MathList ( Val <$> Map.elems is )
 mathList2col :: ExprList Float -> Explainable r [Float]
 mathList2col ml = deepEvalList (ml,mkNod "mathList2col")
 
-getColAsMathList :: String -> Explainable Scenario (ExprList Float)
-getColAsMathList colname = do
+getColAsMathList :: String -> Scenario -> ExprList Float
+getColAsMathList colname sc = col2mathList $ sc Map.! colname
+
+getColAsMathListM :: String -> Explainable Scenario (ExprList Float)
+getColAsMathListM colname = do
   sc <- asks snd
-  return (col2mathList $ sc Map.! colname
+  return (getColAsMathList colname sc
          , mkNod $ "retrieve column " ++ colname ++ " from scenario")
   
 runTests :: IO ()
@@ -183,18 +186,16 @@ runTests = do
   putStrLn $ "* the amount by which we can shrink the negative sum is " ++ show maxReductNeg
   putStrLn $ "* now we prorata reduce both the positive and the negative incomes, by type"
 
-  (fromMathList,_,_,_) <- xplainE newSome $
-    do
-      (ml,_) <- getColAsMathList "net income"
-      evalList (
+  (fromMathList,_,_,_) <- let sc = newSome
+                              ml = getColAsMathList "net income" sc
+                          in xplainEL sc $
         ListMapIf (MathSection Times (Val $ 1 - maxReductNeg / negativeSum)) (Val 0) CGT $ -- [TODO] wrap this into a prorata combinator inside Explanation with its own expl
         ListMapIf (MathSection Times (Val $ 1 - maxReductPos / positiveSum)) (Val 0) CLT $
-        ml)
+        ml
 
   let newSome3 = Map.union newSome $
                  Map.singleton "reduction" $
-                 Map.fromList (zip (rowNames newSome)
-                               fromMathList)
+                 Map.fromList (zip (rowNames newSome) fromMathList)
   putStrLn "* we have a new column \"reduction\""
   putStrLn $ asExample newSome3
   
