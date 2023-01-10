@@ -136,20 +136,28 @@ col2mathList is = MathList ( Val <$> Map.elems is )
 
 mathList2col :: ExprList Float -> Explainable r [Float]
 mathList2col ml = deepEvalList (ml,mkNod "mathList2col")
+
+getColAsMathList :: String -> Explainable Scenario (ExprList Float)
+getColAsMathList colname = do
+  sc <- asks snd
+  return (col2mathList $ sc Map.! colname
+         , mkNod $ "retrieve column " ++ colname ++ " from scenario")
   
 runTests :: IO ()
 runTests = do
   let someScenario = scenarios Map.! "1a"
-  (t1v, t1x, t1s, t1w) <- xplainF someScenario (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
+  -- (t1v, t1x, t1s, t1w) <- xplainF someScenario (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
+
+  -- you may ask: how is this better than just doing things natively in haskell? The answer: evaluation is decorated with explanations, and that's valuable, because XAI.
 
   putStrLn "* the sum of all positive elements, ignoring negative elements"
-  _ <- xplainF someScenario $ ListFold FoldSum     $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+  _ <- xplainF someScenario $ sumOf     $ negativeElementsOf [-2, -1, 0, 1, 2, 3]
 
   putStrLn "* the product of the doubles of all positive elements, ignoring negative and zero elements"
-  _ <- xplainF someScenario $ ListFold FoldProduct $ ListMap (MathSection Times (Val 2.0)) $ Val 0 <| MathList [Val (-2), Val (-1), Val 0, Val 1, Val 2, Val 3]
+  _ <- xplainF someScenario $ productOf $ timesEach 2 $ positiveElementsOf [-2, -1, 0, 1, 2, 3]
 
-  putStrLn "* the product of the doubles of all positive elements and the unchanged values of all negative leements"
-  _ <- xplainF someScenario $ ListFold FoldProduct $ ListMapIf (MathSection Times (Val 2.0)) (Val 0) CLT $ MathList [Val (-2), Val (-1), Val 1, Val 2, Val 3]
+  putStrLn "* the product of the doubles of all positive elements and the unchanged original values of all negative elements"
+  _ <- xplainF someScenario $ productOf $ timesPositives 2 [-2, -1, 1, 2, 3]
 
   -- [TODO] we need to integrate the native Expr with the below, so we can deal with columns and rows as dictionaries. we probably need a ExprMatrix or ExprDict type.
   putStrLn "* calculate net income"
@@ -161,24 +169,33 @@ runTests = do
   putStrLn $ asExample newSome 
 
   let nets = Map.elems $ newSome Map.! "net income" 
+  putStrLn $ "* what is the positive sum of the incomes?"
   (positiveSum,_,_,_)  <- xplainF newSome $ ListFold FoldSum $ Val 0 <| MathList (Val <$> nets)
+  putStrLn $ "* what is the negative sum of the incomes?"
   (negativeSum,_,_,_)  <- xplainF newSome $ ListFold FoldSum $ Val 0 |> MathList (Val <$> nets)
-  (maxReduction,_,_,_) <- xplainF newSome (MathITE
-                                           (PredComp CGT (Val positiveSum) (Val 100000))
-                                           (Val negativeSum |/ Val 2)
-                                           (Val negativeSum))
-  putStrLn $ "* the maximum amount by which we can reduce the positive sum is " ++ show maxReduction
 
-  (fromMathList,_,_,_) <- xplainL newSome $
-    ListMapIf (MathSection Times (Val 0))                                (Val 0) CGT $ 
-    ListMapIf (MathSection Times (Val $ 1 - maxReduction / positiveSum)) (Val 0) CLT $
-    col2mathList ( newSome Map.! "net income")
+  putStrLn $ "* if the positive sum is greater than 100000, the maximum reduction is half of the negative sum; otherwise it is the entire negative sum"
+  (maxReductPos,_,_,_) <- xplainF newSome (MathITE (PredComp CGT (Val positiveSum) (Val 100000)) (Val negativeSum |/ Val 2) (Val negativeSum))
+
+  putStrLn $ "* the maximum amount by which we can reduce the positive sum is " ++ show maxReductPos
+  (maxReductNeg,_,_,_) <- xplainF newSome $ MathMax (Val 0) (Val negativeSum |+ MathMin (Val 0) (Val positiveSum))
+
+  putStrLn $ "* the amount by which we can shrink the negative sum is " ++ show maxReductNeg
+  putStrLn $ "* now we prorata reduce both the positive and the negative incomes, by type"
+
+  (fromMathList,_,_,_) <- xplainE newSome $
+    do
+      (ml,_) <- getColAsMathList "net income"
+      evalList (
+        ListMapIf (MathSection Times (Val $ 1 - maxReductNeg / negativeSum)) (Val 0) CGT $ -- [TODO] wrap this into a prorata combinator inside Explanation with its own expl
+        ListMapIf (MathSection Times (Val $ 1 - maxReductPos / positiveSum)) (Val 0) CLT $
+        ml)
 
   let newSome3 = Map.union newSome $
                  Map.singleton "reduction" $
                  Map.fromList (zip (rowNames newSome)
                                fromMathList)
-  putStrLn "* Post reduction"
+  putStrLn "* we have a new column \"reduction\""
   putStrLn $ asExample newSome3
   
   putStrLn "* Scenarios"

@@ -79,8 +79,8 @@ x /| ys = map (eval . MathBin Divide x) ys
 -- Here, we would say @0 <| [-2,-1,0,1,2]@
 
 (<|),(|>) :: Expr Float -> ExprList Float -> ExprList Float
-x <| ys = ListFilt CLT x ys
-x |> ys = ListFilt CGT x ys
+x <| ys = ListFilt x CLT ys
+x |> ys = ListFilt x CGT ys
 
 (!|) :: Pred a -> Pred a
 (!|) = PredNot
@@ -227,14 +227,14 @@ doFold str f xs = retitle ("listfold " <> str) $ do
   
 data ExprList a
   = MathList [Expr a]
-  | ListFilt Comp (Expr a)   (ExprList a)
-  | ListMap  (MathSection a) (ExprList a)
+  | ListFilt                  (Expr a) Comp (ExprList a)
+  | ListMap   (MathSection a)               (ExprList a)
   | ListMapIf (MathSection a) (Expr a) Comp (ExprList a)
   deriving (Eq, Show)
 
 evalList :: ExprList Float -> Explainable r (ExprList Float)
 evalList (MathList a) = return (MathList a, Node (show <$> a,["base MathList with " ++ show (length a) ++ " elements"]) [])
-evalList (ListFilt comp x (MathList ys)) = do
+evalList (ListFilt x comp (MathList ys)) = do
   origs <- mapM eval ys
   round1 <- mapM (evalP . PredComp comp x) ys
   let round2 = [ if not r1
@@ -252,9 +252,9 @@ evalList (ListFilt comp x (MathList ys)) = do
                 , (show (length round3) ++ " elements were reduced from an original " ++ show (length round1))
                   : ["- " ++ show (fst o) | o <- origs])
            $ fmap snd round2)
-evalList (ListFilt comp x lf2) = do
+evalList (ListFilt x comp lf2) = do
   (lf2val, lf2xpl) <- evalList lf2
-  (lf3val, lf3xpl) <- evalList (ListFilt comp x lf2val)
+  (lf3val, lf3xpl) <- evalList (ListFilt x comp lf2val)
   return (lf3val, Node ([],["recursing RHS ListFilt"]) [lf2xpl, mkNod "becomes", lf3xpl])
 evalList (ListMap Id ylist) = return (ylist, mkNod "id on ExprList")
 evalList (ListMap (MathSection binop x) ylist) = retitle "fmap mathsection" $ do
@@ -362,3 +362,40 @@ xplainF r expr = do
   putStrLn $ "** toplevel: xpl = " ++ show val ++ "\n" ++ drawTreeOrg 3 xpl
 
   return (val, xpl, stab, wlog)
+
+-- | the entire expression is in the Explainable monad, and it's up to the input expr to run eval
+xplainE :: (Show e) => r -> Explainable r e -> IO (e, XP, MyState, [String])
+xplainE r expr = do
+  ((val,xpl), stab, wlog) <- runRWST
+                             expr
+                             (([],["toplevel"]),r)         -- reader: HistoryPath, actualReader
+                             (MyState Map.empty Map.empty) -- state: MyState
+  putStrLn $ "* xplainE"
+  putStrLn $ "** toplevel: val = "    ++ show val
+  putStrLn $ "** toplevel: symtab = " ++ show stab
+  putStrLn $ "** toplevel: log = "    ++ show wlog
+  putStrLn $ "** toplevel: xpl = " ++ show val ++ "\n" ++ drawTreeOrg 3 xpl
+
+  return (val, xpl, stab, wlog)
+
+-- Syntactic Sugar
+(+||),sumOf,productOf,(*||) :: ExprList a -> Expr a
+(+||)     = ListFold FoldSum
+sumOf     = ListFold FoldSum
+(*||)     = ListFold FoldProduct
+productOf = ListFold FoldProduct
+
+negativeElementsOf :: [Float] -> ExprList Float
+negativeElementsOf xs = Val 0 |> MathList (Val <$> xs)
+
+positiveElementsOf :: [Float] -> ExprList Float
+positiveElementsOf xs = Val 0 <| MathList (Val <$> xs)
+
+timesEach :: Float -> ExprList Float -> ExprList Float
+timesEach n = ListMap (MathSection Times (Val n))
+
+timesPositives' :: Float -> ExprList Float -> ExprList Float
+timesPositives' n = ListMapIf (MathSection Times (Val n)) (Val 0) CLT
+
+timesPositives :: Float -> [Float] -> ExprList Float
+timesPositives n ns = timesPositives' n (MathList (Val <$> ns))
