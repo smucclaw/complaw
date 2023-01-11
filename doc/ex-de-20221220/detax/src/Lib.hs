@@ -125,7 +125,7 @@ rowNames sc = Map.keys $ head $ Map.elems sc
 addCol :: String -> [ String -> (Float,XP) -> Focus ] -> Scenario -> IO Scenario
 addCol newcol fs sc = do
   (fxp,_st,_wlog) <- runRWST (mapM (runRow fs) (rowNames sc))
-                                (([],[]),sc) (MyState Map.empty Map.empty)
+                                (([],[]),sc) emptyState
   putStrLn $ "* addCol " ++ newcol
   putStrLn $ drawTreeOrg 2 (Node ([],["adding 1 new column (\"" ++ newcol ++ "\") with " ++ show (length fxp) ++ " rows"]) (snd <$> fxp))
 
@@ -154,13 +154,13 @@ runTests = do
   -- you may ask: how is this better than just doing things natively in haskell? The answer: evaluation is decorated with explanations, and that's valuable, because XAI.
 
   putStrLn "* the sum of all positive elements, ignoring negative elements"
-  _ <- xplainF someScenario $ sumOf     $ negativeElementsOf [-2, -1, 0, 1, 2, 3]
+  _ <- xplainF someScenario $ sumOf     $ positiveElementsOf [-2, -1, 0, 1, 2, 3]
 
   putStrLn "* the product of the doubles of all positive elements, ignoring negative and zero elements"
   _ <- xplainF someScenario $ productOf $ timesEach 2 $ positiveElementsOf [-2, -1, 0, 1, 2, 3]
 
-  putStrLn "* the product of the doubles of all positive elements and the unchanged original values of all negative elements"
-  _ <- xplainF someScenario $ productOf $ timesPositives 2 [-2, -1, 1, 2, 3]
+  putStrLn "* the sum of the doubles of all positive elements and the unchanged original values of all negative elements"
+  _ <- xplainF someScenario $ sumOf $ timesPositives 2 [-2, -1, 0, 1, 2, 3]
 
   -- [TODO] we need to integrate the native Expr with the below, so we can deal with columns and rows as dictionaries. we probably need a ExprMatrix or ExprDict type.
   putStrLn "* calculate net income"
@@ -178,7 +178,10 @@ runTests = do
   (negativeSum,_,_,_)  <- xplainF newSome $ ListFold FoldSum $ Val 0 |> MathList (Val <$> nets)
 
   putStrLn $ "* if the positive sum is greater than 100000, the maximum reduction is half of the negative sum; otherwise it is the entire negative sum"
-  (maxReductPos,_,_,_) <- xplainF newSome (MathITE (PredComp CGT (Val positiveSum) (Val 100000)) (Val negativeSum |/ Val 2) (Val negativeSum))
+  (maxReductPos,_,_,_) <- xplainF newSome (MathITE
+                                            (PredComp CGT (Val positiveSum) (Val 100000))
+                                            (Val negativeSum |/ Val 2)
+                                            (Val negativeSum))
 
   putStrLn $ "* the maximum amount by which we can reduce the positive sum is " ++ show maxReductPos
   (maxReductNeg,_,_,_) <- xplainF newSome $ MathMax (Val 0) (Val negativeSum |+ MathMin (Val 0) (Val positiveSum))
@@ -188,7 +191,7 @@ runTests = do
 
   (fromMathList,_,_,_) <- let sc = newSome
                               ml = getColAsMathList "net income" sc
-                          in xplainEL sc $
+                          in xplainL sc $
         ListMapIf (MathSection Times (Val $ 1 - maxReductNeg / negativeSum)) (Val 0) CGT $ -- [TODO] wrap this into a prorata combinator inside Explanation with its own expl
         ListMapIf (MathSection Times (Val $ 1 - maxReductPos / positiveSum)) (Val 0) CLT $
         ml
@@ -208,12 +211,12 @@ runTests = do
       testcase3_unfired = ("test case3 - unfired", scenarios Map.! "test case 3 - unfired")
 
   print scenarios
-        
+  
   forM_ (Map.toList scenarios) $ \(sctitle,sc) -> do
     putStrLn $ "* running scenario: " <> sctitle
 
-    (result_2_3, expl_2_3) <- runExplainIO $ section_2_3  sc
-    unless (null expl_2_3) $ putStrLn ("** explaining section_2_3: " <> sctitle) >> printExplanation expl_2_3
+    -- (result_2_3, expl_2_3) <- runExplainIO $ section_2_3  sc
+    --   unless (null expl_2_3) $ putStrLn ("** explaining section_2_3: " <> sctitle) >> printExplanation expl_2_3
 
     putStrLn $ "** executing section_34_1: " <> sctitle
     (result_341, expl_341) <- runExplainIO $ section_34_1 sc

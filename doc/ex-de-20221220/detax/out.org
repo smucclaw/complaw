@@ -1,17 +1,18 @@
 * the sum of all positive elements, ignoring negative elements
 * xplainF
 #+begin_src haskell
-ListFold FoldSum (ListFilt (Val 0.0) CGT (MathList [Val (-2.0),Val (-1.0),Val 0.0,Val 1.0,Val 2.0,Val 3.0]))
+ListFold FoldSum (ListFilt (Val 0.0) CLT (MathList [Val (-2.0),Val (-1.0),Val 0.0,Val 1.0,Val 2.0,Val 3.0]))
 #+end_src
-** toplevel: val = -3.0
+** toplevel: val = 6.0
 ** toplevel: symtab = MyState {symtabF = fromList [], symtabP = fromList []}
 ** toplevel: log = []
-** toplevel: xpl = -3.0
-*** -3.0 = sum of 2 elements
-- -2.0
-- -1.0
+** toplevel: xpl = 6.0
+*** 6.0 = sum of 3 elements
+- 1.0
+- 2.0
+- 3.0
 
-**** 2 elements were reduced from an original 6
+**** 3 elements were reduced from an original 6
 - -2.0
 - -1.0
 - 0.0
@@ -19,17 +20,17 @@ ListFold FoldSum (ListFilt (Val 0.0) CGT (MathList [Val (-2.0),Val (-1.0),Val 0.
 - 2.0
 - 3.0
 
-***** included Val (-2.0) due to passing comparison test
+***** excluded Val (-2.0) due to failing comparison test
 
 #+begin_example
 Val (-2.0)
 #+end_example
-****** True is the result of comparing (>)
+****** False is the result of comparing (<)
 
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 0.0
+toplevel / listfold sum / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -38,22 +39,22 @@ toplevel / listfold sum / comparison >: 0.0
 ******* -2.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: -2.0
+toplevel / listfold sum / comparison <: -2.0
 #+end_example
 
 
 
-***** included Val (-1.0) due to passing comparison test
+***** excluded Val (-1.0) due to failing comparison test
 
 #+begin_example
 Val (-1.0)
 #+end_example
-****** True is the result of comparing (>)
+****** False is the result of comparing (<)
 
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 0.0
+toplevel / listfold sum / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -62,7 +63,7 @@ toplevel / listfold sum / comparison >: 0.0
 ******* -1.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: -1.0
+toplevel / listfold sum / comparison <: -1.0
 #+end_example
 
 
@@ -72,12 +73,12 @@ toplevel / listfold sum / comparison >: -1.0
 #+begin_example
 Val 0.0
 #+end_example
-****** False is the result of comparing (>)
+****** False is the result of comparing (<)
 
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 0.0
+toplevel / listfold sum / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -86,22 +87,22 @@ toplevel / listfold sum / comparison >: 0.0
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 0.0
+toplevel / listfold sum / comparison <: 0.0
 #+end_example
 
 
 
-***** excluded Val 1.0 due to failing comparison test
+***** included Val 1.0 due to passing comparison test
 
 #+begin_example
 Val 1.0
 #+end_example
-****** False is the result of comparing (>)
+****** True is the result of comparing (<)
 
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 0.0
+toplevel / listfold sum / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -110,22 +111,22 @@ toplevel / listfold sum / comparison >: 0.0
 ******* 1.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 1.0
+toplevel / listfold sum / comparison <: 1.0
 #+end_example
 
 
 
-***** excluded Val 2.0 due to failing comparison test
+***** included Val 2.0 due to passing comparison test
 
 #+begin_example
 Val 2.0
 #+end_example
-****** False is the result of comparing (>)
+****** True is the result of comparing (<)
 
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 0.0
+toplevel / listfold sum / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -134,22 +135,22 @@ toplevel / listfold sum / comparison >: 0.0
 ******* 2.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 2.0
+toplevel / listfold sum / comparison <: 2.0
 #+end_example
 
 
 
-***** excluded Val 3.0 due to failing comparison test
+***** included Val 3.0 due to passing comparison test
 
 #+begin_example
 Val 3.0
 #+end_example
-****** False is the result of comparing (>)
+****** True is the result of comparing (<)
 
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 0.0
+toplevel / listfold sum / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -158,22 +159,28 @@ toplevel / listfold sum / comparison >: 0.0
 ******* 3.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum / comparison >: 3.0
+toplevel / listfold sum / comparison <: 3.0
 #+end_example
 
 
 
 
-**** -2.0: a leaf value
+**** 1.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum: -2.0
+toplevel / listfold sum: 1.0
 #+end_example
 
-**** -1.0: a leaf value
+**** 2.0: a leaf value
 
 #+begin_example
-toplevel / listfold sum: -1.0
+toplevel / listfold sum: 2.0
+#+end_example
+
+**** 3.0: a leaf value
+
+#+begin_example
+toplevel / listfold sum: 3.0
 #+end_example
 
 
@@ -420,29 +427,31 @@ toplevel / listfold product / multiplication: 3.0
 
 
 
-* the product of the doubles of all positive elements and the unchanged original values of all negative elements
+* the sum of the doubles of all positive elements and the unchanged original values of all negative elements
 * xplainF
 #+begin_src haskell
-ListFold FoldProduct (ListMapIf (MathSection Times (Val 2.0)) (Val 0.0) CLT (MathList [Val (-2.0),Val (-1.0),Val 1.0,Val 2.0,Val 3.0]))
+ListFold FoldSum (ListMapIf (MathSection Times (Val 2.0)) (Val 0.0) CLT (MathList [Val (-2.0),Val (-1.0),Val 0.0,Val 1.0,Val 2.0,Val 3.0]))
 #+end_src
-** toplevel: val = 96.0
+** toplevel: val = 9.0
 ** toplevel: symtab = MyState {symtabF = fromList [], symtabP = fromList []}
 ** toplevel: log = []
-** toplevel: xpl = 96.0
-*** 96.0 = product of 5 elements
+** toplevel: xpl = 9.0
+*** 9.0 = sum of 6 elements
 - -2.0
 - -1.0
+- 0.0
 - 2.0
 - 4.0
 - 6.0
 
 **** fmap mathsection TimesVal 2.0 over 3 relevant elements (who pass Val 0.0 CLT)
 
-***** base MathList with 5 elements
+***** base MathList with 6 elements
 
 #+begin_example
 Val (-2.0)
 Val (-1.0)
+Val 0.0
 Val 1.0
 Val 2.0
 Val 3.0
@@ -455,7 +464,7 @@ Val 3.0
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: 0.0
+toplevel / listfold sum / fmap mathsection if / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -464,7 +473,7 @@ toplevel / listfold product / fmap mathsection if / comparison <: 0.0
 ******* -2.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: -2.0
+toplevel / listfold sum / fmap mathsection if / comparison <: -2.0
 #+end_example
 
 
@@ -473,7 +482,7 @@ toplevel / listfold product / fmap mathsection if / comparison <: -2.0
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: 0.0
+toplevel / listfold sum / fmap mathsection if / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -482,7 +491,25 @@ toplevel / listfold product / fmap mathsection if / comparison <: 0.0
 ******* -1.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: -1.0
+toplevel / listfold sum / fmap mathsection if / comparison <: -1.0
+#+end_example
+
+
+****** False is the result of comparing (<)
+
+******* 0.0: a leaf value
+
+#+begin_example
+toplevel / listfold sum / fmap mathsection if / comparison <: 0.0
+#+end_example
+
+******* with
+
+
+******* 0.0: a leaf value
+
+#+begin_example
+toplevel / listfold sum / fmap mathsection if / comparison <: 0.0
 #+end_example
 
 
@@ -491,7 +518,7 @@ toplevel / listfold product / fmap mathsection if / comparison <: -1.0
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: 0.0
+toplevel / listfold sum / fmap mathsection if / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -500,7 +527,7 @@ toplevel / listfold product / fmap mathsection if / comparison <: 0.0
 ******* 1.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: 1.0
+toplevel / listfold sum / fmap mathsection if / comparison <: 1.0
 #+end_example
 
 
@@ -509,7 +536,7 @@ toplevel / listfold product / fmap mathsection if / comparison <: 1.0
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: 0.0
+toplevel / listfold sum / fmap mathsection if / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -518,7 +545,7 @@ toplevel / listfold product / fmap mathsection if / comparison <: 0.0
 ******* 2.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: 2.0
+toplevel / listfold sum / fmap mathsection if / comparison <: 2.0
 #+end_example
 
 
@@ -527,7 +554,7 @@ toplevel / listfold product / fmap mathsection if / comparison <: 2.0
 ******* 0.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: 0.0
+toplevel / listfold sum / fmap mathsection if / comparison <: 0.0
 #+end_example
 
 ******* with
@@ -536,7 +563,7 @@ toplevel / listfold product / fmap mathsection if / comparison <: 0.0
 ******* 3.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / fmap mathsection if / comparison <: 3.0
+toplevel / listfold sum / fmap mathsection if / comparison <: 3.0
 #+end_example
 
 
@@ -545,26 +572,32 @@ toplevel / listfold product / fmap mathsection if / comparison <: 3.0
 **** -2.0: a leaf value
 
 #+begin_example
-toplevel / listfold product: -2.0
+toplevel / listfold sum: -2.0
 #+end_example
 
 **** -1.0: a leaf value
 
 #+begin_example
-toplevel / listfold product: -1.0
+toplevel / listfold sum: -1.0
+#+end_example
+
+**** 0.0: a leaf value
+
+#+begin_example
+toplevel / listfold sum: 0.0
 #+end_example
 
 **** 2.0: which we obtain by multiplying
 
 #+begin_example
-toplevel / listfold product / multiplication: 2.0
+toplevel / listfold sum / multiplication: 2.0
 2.0
-toplevel / listfold product / multiplication: 1.0
+toplevel / listfold sum / multiplication: 1.0
 #+end_example
 ***** 2.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / multiplication: 2.0
+toplevel / listfold sum / multiplication: 2.0
 #+end_example
 
 ***** by
@@ -574,21 +607,21 @@ toplevel / listfold product / multiplication: 2.0
 
 #+begin_example
 2.0
-toplevel / listfold product / multiplication: 1.0
+toplevel / listfold sum / multiplication: 1.0
 #+end_example
 
 
 **** 4.0: which we obtain by multiplying
 
 #+begin_example
-toplevel / listfold product / multiplication: 2.0
+toplevel / listfold sum / multiplication: 2.0
 2.0
-toplevel / listfold product / multiplication: 2.0
+toplevel / listfold sum / multiplication: 2.0
 #+end_example
 ***** 2.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / multiplication: 2.0
+toplevel / listfold sum / multiplication: 2.0
 #+end_example
 
 ***** by
@@ -598,21 +631,21 @@ toplevel / listfold product / multiplication: 2.0
 
 #+begin_example
 2.0
-toplevel / listfold product / multiplication: 2.0
+toplevel / listfold sum / multiplication: 2.0
 #+end_example
 
 
 **** 6.0: which we obtain by multiplying
 
 #+begin_example
-toplevel / listfold product / multiplication: 2.0
+toplevel / listfold sum / multiplication: 2.0
 2.0
-toplevel / listfold product / multiplication: 3.0
+toplevel / listfold sum / multiplication: 3.0
 #+end_example
 ***** 2.0: a leaf value
 
 #+begin_example
-toplevel / listfold product / multiplication: 2.0
+toplevel / listfold sum / multiplication: 2.0
 #+end_example
 
 ***** by
@@ -622,7 +655,7 @@ toplevel / listfold product / multiplication: 2.0
 
 #+begin_example
 2.0
-toplevel / listfold product / multiplication: 3.0
+toplevel / listfold sum / multiplication: 3.0
 #+end_example
 
 
