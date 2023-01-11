@@ -67,8 +67,10 @@ origReader  :: (hp,r) ->    r
 -- The @XP@ explanation is designed to be readable as an Org-mode file.
 -- Inspired by Literate Programming we use the idea of Literate Outputting.
 -- We separate our output into two parts:
---   The snd "Stdexp" component gets rendered as the heading followed by whatever body.
---   The fst "Stdout" component gets rendered within an Example block.
+--
+-- - The @snd@ "Stdexp" component gets rendered as the heading followed by whatever body.
+-- - The @fst@ "Stdout" component gets rendered within an Example block.
+--
 -- And then there are the children to a given node, which are rendered as sub-entries under the current output node.
 -- @return@s are required to construct the @(a,XP)@ by hand, assembling the sub-entries in whatever way makes the most sense.
 --
@@ -131,6 +133,9 @@ x |- y = MathBin Minus  x y
 x |* y = MathBin Times  x y
 x |/ y = MathBin Divide x y
 
+infix 5 |*, |/
+infix 4 |+, |-
+
 -- | a function section is a unary math operator constructed from partial application of a binary.
 -- for example, if we wanted to do a Haskell @(2*)@ we would say @MathSection Times (Val 2)@
 data MathSection a
@@ -185,6 +190,14 @@ x |> ys = ListFilt x CGT ys
 data Comp = CEQ | CGT | CLT | CGTE | CLTE
   deriving (Eq, Show)
 
+-- | @show@ for comparisons
+shw :: Comp -> String
+shw CEQ  = "=="
+shw CGT  = ">"
+shw CGTE = ">="
+shw CLT  = "<"
+shw CLTE = "<="
+
 -- * Syntactic Sugar
 
 (+||),sumOf,productOf,(*||) :: ExprList a -> Expr a
@@ -227,14 +240,6 @@ data Pred a
   | PredVar String                         -- ^ boolean variable name
   | PredITE (Pred a) (Pred a) (Pred a)     -- ^ if then else, booleans
   deriving (Eq, Show)
-
--- | show for comparisons
-shw :: Comp -> String
-shw CEQ  = "=="
-shw CGT  = ">"
-shw CGTE = ">="
-shw CLT  = "<"
-shw CLTE = "<="
 
 -- | variables
 data Var a
