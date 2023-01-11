@@ -161,27 +161,52 @@ x /| ys = second (Node ([],["mapping / " ++ show x ++ " over a list"])) <$> mapA
 
 -- ** Lists
 
--- | We can filter, map, and mapIf over lists of expressions.
+-- | We can filter, map, and mapIf over lists of expressions. Here, @a@ is pretty much always a @Float@.
 data ExprList a
-  = MathList [Expr a]
-  | ListFilt                  (Expr a) Comp (ExprList a)
-  | ListMap   (MathSection a)               (ExprList a)
-  | ListMapIf (MathSection a) (Expr a) Comp (ExprList a)
+  = MathList [Expr a]                                    -- ^ a basic list of `Expr` expressions
+  | ListMap   (MathSection a)               (ExprList a) -- ^ apply the function to everything
+  | ListFilt                  (Expr a) Comp (ExprList a) -- ^ eliminate the unwanted elements
+  | ListMapIf (MathSection a) (Expr a) Comp (ExprList a) -- ^ leaving the unwanted elements unchanged
   deriving (Eq, Show)
 
--- * Some constructors for expressions in our math language.
+-- * Some sugary constructors for expressions in our math language.
 
 -- | An ExprList contains expressions which have been filtered by being less or greater than some threshold.
--- In Haskell, we would say @filter (>0) [-2,-1,0,1,2]
--- Here, we would say @0 <| [-2,-1,0,1,2]@
+--
+-- In Haskell, we would say @ filter (>0) [-2,-1,0,1,2] @
+--
+-- Here, we would say @ 0 <| [-2,-1,0,1,2] @
 
 (<|),(|>) :: Expr Float -> ExprList Float -> ExprList Float
 x <| ys = ListFilt x CLT ys
 x |> ys = ListFilt x CGT ys
 
--- | for our notion of Data.Ord
+-- | To support our notion of Data.Ord
 data Comp = CEQ | CGT | CLT | CGTE | CLTE
   deriving (Eq, Show)
+
+-- * Syntactic Sugar
+
+(+||),sumOf,productOf,(*||) :: ExprList a -> Expr a
+(+||)     = ListFold FoldSum
+sumOf     = ListFold FoldSum
+(*||)     = ListFold FoldProduct
+productOf = ListFold FoldProduct
+
+negativeElementsOf :: [Float] -> ExprList Float
+negativeElementsOf xs = Val 0 |> MathList (Val <$> xs)
+
+positiveElementsOf :: [Float] -> ExprList Float
+positiveElementsOf xs = Val 0 <| MathList (Val <$> xs)
+
+timesEach :: Float -> ExprList Float -> ExprList Float
+timesEach n = ListMap (MathSection Times (Val n))
+
+timesPositives' :: Float -> ExprList Float -> ExprList Float
+timesPositives' n = ListMapIf (MathSection Times (Val n)) (Val 0) CLT
+
+timesPositives :: Float -> [Float] -> ExprList Float
+timesPositives n ns = timesPositives' n (MathList (Val <$> ns))
 
 -- | logical not
 
@@ -445,28 +470,6 @@ drawTreeOrg depth (Node (stdout, stdexp) xs) =
             : [ "#+begin_example\n" ++ unlines stdout ++ "#+end_example" | not (null stdout) ] )
   ++
   unlines ( drawTreeOrg (depth + 1) <$> xs )
-
--- * Syntactic Sugar
-(+||),sumOf,productOf,(*||) :: ExprList a -> Expr a
-(+||)     = ListFold FoldSum
-sumOf     = ListFold FoldSum
-(*||)     = ListFold FoldProduct
-productOf = ListFold FoldProduct
-
-negativeElementsOf :: [Float] -> ExprList Float
-negativeElementsOf xs = Val 0 |> MathList (Val <$> xs)
-
-positiveElementsOf :: [Float] -> ExprList Float
-positiveElementsOf xs = Val 0 <| MathList (Val <$> xs)
-
-timesEach :: Float -> ExprList Float -> ExprList Float
-timesEach n = ListMap (MathSection Times (Val n))
-
-timesPositives' :: Float -> ExprList Float -> ExprList Float
-timesPositives' n = ListMapIf (MathSection Times (Val n)) (Val 0) CLT
-
-timesPositives :: Float -> [Float] -> ExprList Float
-timesPositives n ns = timesPositives' n (MathList (Val <$> ns))
 
 -- | some example runs
 toplevel :: IO ()
