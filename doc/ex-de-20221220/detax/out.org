@@ -673,12 +673,12 @@ Trade           0                     0                  0                0
 #+end_example
 
 ** we calculate net income
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [300000.0,0.0,0.0,200.0,-6000.0,-100000.0,70000.0,0.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 300000.0
+***** Agriculture = 300000.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (30000.0)
 - plus extraordinary income (270000.0) = 300000.0
 - less ordinary expenses (0.0) = 300000.0
@@ -686,9 +686,9 @@ Trade           0                     0                  0                0
 
 
 
-*** Capital = 0.0
+***** Capital = 0.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -696,9 +696,9 @@ Trade           0                     0                  0                0
 
 
 
-*** Employment = 0.0
+***** Employment = 0.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -706,9 +706,9 @@ Trade           0                     0                  0                0
 
 
 
-*** Exempt Capital = 200.0
+***** Exempt Capital = 200.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (100.0)
 - plus extraordinary income (100.0) = 200.0
 - less ordinary expenses (0.0) = 200.0
@@ -716,9 +716,9 @@ Trade           0                     0                  0                0
 
 
 
-*** Independent = -6000.0
+***** Independent = -6000.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (6000.0) = -6000.0
@@ -726,9 +726,9 @@ Trade           0                     0                  0                0
 
 
 
-*** Other = -100000.0
+***** Other = -100000.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (100000.0) = -100000.0
@@ -736,9 +736,9 @@ Trade           0                     0                  0                0
 
 
 
-*** Rents = 70000.0
+***** Rents = 70000.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (72150.0)
 - plus extraordinary income (0.0) = 72150.0
 - less ordinary expenses (2150.0) = 70000.0
@@ -746,9 +746,9 @@ Trade           0                     0                  0                0
 
 
 
-*** Trade = 0.0
+***** Trade = 0.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -1893,12 +1893,12 @@ Trade           0                     0           0                  0          
 fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",270000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",6000.0),("Other",100000.0),("Rents",2150.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",30000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",72150.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("1b",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",6000.0),("Other",60000.0),("Rents",2150.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",20000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",72150.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("2",fromList [("extraordinary income",fromList [("Agriculture",270000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",6000.0),("Other",0.0),("Rents",2150.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",30000.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",100.0),("Independent",0.0),("Other",0.0),("Rents",72150.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("test case 1",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",25000.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",72150.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("test case 2",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",225000.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",45000.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",5350.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",3200.0),("Trade",0.0)])]),("test case 3",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",225000.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",45000.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",5350.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",3200.0),("Trade",0.0)])]),("test case 3 - fired",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",130000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",22000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])]),("test case 3 - unfired",fromList [("extraordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("ordinary income",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",22000.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)]),("special expenses",fromList [("Agriculture",0.0),("Capital",0.0),("Employment",0.0),("Exempt Capital",0.0),("Independent",0.0),("Other",0.0),("Rents",0.0),("Trade",0.0)])])]
 * running scenario: 1a
 ** executing tax_2_3: 1a
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [300000.0,0.0,0.0,200.0,-6000.0,-100000.0,70000.0,0.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 300000.0
+***** Agriculture = 300000.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (30000.0)
 - plus extraordinary income (270000.0) = 300000.0
 - less ordinary expenses (0.0) = 300000.0
@@ -1906,9 +1906,9 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 
 
 
-*** Capital = 0.0
+***** Capital = 0.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -1916,9 +1916,9 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 
 
 
-*** Employment = 0.0
+***** Employment = 0.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -1926,9 +1926,9 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 
 
 
-*** Exempt Capital = 200.0
+***** Exempt Capital = 200.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (100.0)
 - plus extraordinary income (100.0) = 200.0
 - less ordinary expenses (0.0) = 200.0
@@ -1936,9 +1936,9 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 
 
 
-*** Independent = -6000.0
+***** Independent = -6000.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (6000.0) = -6000.0
@@ -1946,9 +1946,9 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 
 
 
-*** Other = -100000.0
+***** Other = -100000.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (100000.0) = -100000.0
@@ -1956,9 +1956,9 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 
 
 
-*** Rents = 70000.0
+***** Rents = 70000.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (72150.0)
 - plus extraordinary income (0.0) = 72150.0
 - less ordinary expenses (2150.0) = 70000.0
@@ -1966,9 +1966,9 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 
 
 
-*** Trade = 0.0
+***** Trade = 0.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -1977,13 +1977,66 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 
 
 
-* xplainE
-** toplevel: val = 100991.016
-** toplevel: log = []
-** toplevel: xpl = 100991.016
+** xplainE: 100991.016
+*** toplevel: xpl = 100991.016
 *** tax_2_3 computation determines net income is 100991.016
 
-**** 264200.0 = sum of 8 elements
+**** progDirectM 2023
+
+***** taxable income exceeds 62810
+
+****** x computation 3
+
+******* 100991.016: which we obtain by taking
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 264200.0
+110964.0
+toplevel / subtraction: 9972.98
+#+end_example
+******** 110964.0: which we obtain by multiplying
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 264200.0
+#+end_example
+********* 0.42: a leaf value
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+#+end_example
+
+********* by
+
+
+********* 264200.0: a leaf value
+
+#+begin_example
+0.42
+toplevel / subtraction / multiplication: 264200.0
+#+end_example
+
+
+******** minus
+
+
+******** 9972.98: a leaf value
+
+#+begin_example
+110964.0
+toplevel / subtraction: 9972.98
+#+end_example
+
+
+
+
+
+**** squashToTotals
+
+***** 264200.0 = sum of 8 elements
 - 300000.0
 - 0.0
 - 0.0
@@ -1993,7 +2046,7 @@ fromList [("1a",fromList [("extraordinary income",fromList [("Agriculture",27000
 - 70000.0
 - 0.0
 
-***** base MathList with 8 elements
+****** base MathList with 8 elements
 
 #+begin_example
 Val 300000.0
@@ -2006,98 +2059,52 @@ Val 70000.0
 Val 0.0
 #+end_example
 
-***** 300000.0: a leaf value
+****** 300000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 300000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 200.0: a leaf value
+****** 200.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 200.0
 #+end_example
 
-***** -6000.0: a leaf value
+****** -6000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: -6000.0
 #+end_example
 
-***** -100000.0: a leaf value
+****** -100000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: -100000.0
 #+end_example
 
-***** 70000.0: a leaf value
+****** 70000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 70000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
-#+end_example
-
-
-**** taxable income exceeds 62810
-
-***** 100991.016: which we obtain by taking
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 264200.0
-110964.0
-toplevel / subtraction: 9972.98
-#+end_example
-****** 110964.0: which we obtain by multiplying
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 264200.0
-#+end_example
-******* 0.42: a leaf value
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-#+end_example
-
-******* by
-
-
-******* 264200.0: a leaf value
-
-#+begin_example
-0.42
-toplevel / subtraction / multiplication: 264200.0
-#+end_example
-
-
-****** minus
-
-
-****** 9972.98: a leaf value
-
-#+begin_example
-110964.0
-toplevel / subtraction: 9972.98
 #+end_example
 
 
@@ -2199,12 +2206,12 @@ total  1                  126303             270000
 
 * running scenario: 1b
 ** executing tax_2_3: 1b
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [20000.0,0.0,0.0,100.0,-6000.0,-60000.0,70000.0,0.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 20000.0
+***** Agriculture = 20000.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (20000.0)
 - plus extraordinary income (0.0) = 20000.0
 - less ordinary expenses (0.0) = 20000.0
@@ -2212,9 +2219,9 @@ total  1                  126303             270000
 
 
 
-*** Capital = 0.0
+***** Capital = 0.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2222,9 +2229,9 @@ total  1                  126303             270000
 
 
 
-*** Employment = 0.0
+***** Employment = 0.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2232,9 +2239,9 @@ total  1                  126303             270000
 
 
 
-*** Exempt Capital = 100.0
+***** Exempt Capital = 100.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (100.0)
 - plus extraordinary income (0.0) = 100.0
 - less ordinary expenses (0.0) = 100.0
@@ -2242,9 +2249,9 @@ total  1                  126303             270000
 
 
 
-*** Independent = -6000.0
+***** Independent = -6000.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (6000.0) = -6000.0
@@ -2252,9 +2259,9 @@ total  1                  126303             270000
 
 
 
-*** Other = -60000.0
+***** Other = -60000.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (60000.0) = -60000.0
@@ -2262,9 +2269,9 @@ total  1                  126303             270000
 
 
 
-*** Rents = 70000.0
+***** Rents = 70000.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (72150.0)
 - plus extraordinary income (0.0) = 72150.0
 - less ordinary expenses (2150.0) = 70000.0
@@ -2272,9 +2279,9 @@ total  1                  126303             270000
 
 
 
-*** Trade = 0.0
+***** Trade = 0.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2283,13 +2290,159 @@ total  1                  126303             270000
 
 
 
-* xplainE
-** toplevel: val = 3034.7292
-** toplevel: log = []
-** toplevel: xpl = 3034.7292
+** xplainE: 3034.7292
+*** toplevel: xpl = 3034.7292
 *** tax_2_3 computation determines net income is 3034.7292
 
-**** 24100.0 = sum of 8 elements
+**** progDirectM 2023
+
+***** taxable income exceeds 15999
+
+****** x computation 2
+
+******* 3034.7292: which we obtain by adding
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.8101
+156.01717
+toplevel / addition / multiplication / addition: 2397.0
+2553.017
+toplevel / addition / multiplication: 0.8101
+2068.1992
+toplevel / addition: 966.53
+#+end_example
+******** 2068.1992: which we obtain by multiplying
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.8101
+156.01717
+toplevel / addition / multiplication / addition: 2397.0
+2553.017
+toplevel / addition / multiplication: 0.8101
+#+end_example
+********* 2553.017: which we obtain by adding
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.8101
+156.01717
+toplevel / addition / multiplication / addition: 2397.0
+#+end_example
+********** 156.01717: which we obtain by multiplying
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.8101
+#+end_example
+*********** 192.59: a leaf value
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+#+end_example
+
+*********** by
+
+
+*********** 0.8101: a leaf value
+
+#+begin_example
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.8101
+#+end_example
+
+
+********** to
+
+
+********** 2397.0: a leaf value
+
+#+begin_example
+156.01717
+toplevel / addition / multiplication / addition: 2397.0
+#+end_example
+
+
+********* by
+
+
+********* 0.8101: a leaf value
+
+#+begin_example
+2553.017
+toplevel / addition / multiplication: 0.8101
+#+end_example
+
+
+******** to
+
+
+******** 966.53: a leaf value
+
+#+begin_example
+2068.1992
+toplevel / addition: 966.53
+#+end_example
+
+
+
+****** y computation 1
+
+******* 0.8101: which we obtain by dividing
+
+#+begin_example
+toplevel / division / subtraction: 24100.0
+24100.0
+toplevel / division / subtraction: 15999.0
+8101.0
+toplevel / division: 10000.0
+#+end_example
+******** 8101.0: which we obtain by taking
+
+#+begin_example
+toplevel / division / subtraction: 24100.0
+24100.0
+toplevel / division / subtraction: 15999.0
+#+end_example
+********* 24100.0: a leaf value
+
+#+begin_example
+toplevel / division / subtraction: 24100.0
+#+end_example
+
+********* minus
+
+
+********* 15999.0: a leaf value
+
+#+begin_example
+24100.0
+toplevel / division / subtraction: 15999.0
+#+end_example
+
+
+******** by
+
+
+******** 10000.0: a leaf value
+
+#+begin_example
+8101.0
+toplevel / division: 10000.0
+#+end_example
+
+
+
+
+
+**** squashToTotals
+
+***** 24100.0 = sum of 8 elements
 - 20000.0
 - 0.0
 - 0.0
@@ -2299,7 +2452,7 @@ total  1                  126303             270000
 - 70000.0
 - 0.0
 
-***** base MathList with 8 elements
+****** base MathList with 8 elements
 
 #+begin_example
 Val 20000.0
@@ -2312,188 +2465,52 @@ Val 70000.0
 Val 0.0
 #+end_example
 
-***** 20000.0: a leaf value
+****** 20000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 20000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 100.0: a leaf value
+****** 100.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 100.0
 #+end_example
 
-***** -6000.0: a leaf value
+****** -6000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: -6000.0
 #+end_example
 
-***** -60000.0: a leaf value
+****** -60000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: -60000.0
 #+end_example
 
-***** 70000.0: a leaf value
+****** 70000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 70000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
-#+end_example
-
-
-**** taxable income exceeds 15999
-
-***** 3034.7292: which we obtain by adding
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.8101
-156.01717
-toplevel / addition / multiplication / addition: 2397.0
-2553.017
-toplevel / addition / multiplication: 0.8101
-2068.1992
-toplevel / addition: 966.53
-#+end_example
-****** 2068.1992: which we obtain by multiplying
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.8101
-156.01717
-toplevel / addition / multiplication / addition: 2397.0
-2553.017
-toplevel / addition / multiplication: 0.8101
-#+end_example
-******* 2553.017: which we obtain by adding
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.8101
-156.01717
-toplevel / addition / multiplication / addition: 2397.0
-#+end_example
-******** 156.01717: which we obtain by multiplying
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.8101
-#+end_example
-********* 192.59: a leaf value
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-#+end_example
-
-********* by
-
-
-********* 0.8101: a leaf value
-
-#+begin_example
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.8101
-#+end_example
-
-
-******** to
-
-
-******** 2397.0: a leaf value
-
-#+begin_example
-156.01717
-toplevel / addition / multiplication / addition: 2397.0
-#+end_example
-
-
-******* by
-
-
-******* 0.8101: a leaf value
-
-#+begin_example
-2553.017
-toplevel / addition / multiplication: 0.8101
-#+end_example
-
-
-****** to
-
-
-****** 966.53: a leaf value
-
-#+begin_example
-2068.1992
-toplevel / addition: 966.53
-#+end_example
-
-
-***** 0.8101: which we obtain by dividing
-
-#+begin_example
-toplevel / division / subtraction: 24100.0
-24100.0
-toplevel / division / subtraction: 15999.0
-8101.0
-toplevel / division: 10000.0
-#+end_example
-****** 8101.0: which we obtain by taking
-
-#+begin_example
-toplevel / division / subtraction: 24100.0
-24100.0
-toplevel / division / subtraction: 15999.0
-#+end_example
-******* 24100.0: a leaf value
-
-#+begin_example
-toplevel / division / subtraction: 24100.0
-#+end_example
-
-******* minus
-
-
-******* 15999.0: a leaf value
-
-#+begin_example
-24100.0
-toplevel / division / subtraction: 15999.0
-#+end_example
-
-
-****** by
-
-
-****** 10000.0: a leaf value
-
-#+begin_example
-8101.0
-toplevel / division: 10000.0
 #+end_example
 
 
@@ -2596,12 +2613,12 @@ total  3027               24073
 
 * running scenario: 2
 ** executing tax_2_3: 2
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [300000.0,0.0,0.0,200.0,-6000.0,0.0,70000.0,0.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 300000.0
+***** Agriculture = 300000.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (30000.0)
 - plus extraordinary income (270000.0) = 300000.0
 - less ordinary expenses (0.0) = 300000.0
@@ -2609,9 +2626,9 @@ total  3027               24073
 
 
 
-*** Capital = 0.0
+***** Capital = 0.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2619,9 +2636,9 @@ total  3027               24073
 
 
 
-*** Employment = 0.0
+***** Employment = 0.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2629,9 +2646,9 @@ total  3027               24073
 
 
 
-*** Exempt Capital = 200.0
+***** Exempt Capital = 200.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (100.0)
 - plus extraordinary income (100.0) = 200.0
 - less ordinary expenses (0.0) = 200.0
@@ -2639,9 +2656,9 @@ total  3027               24073
 
 
 
-*** Independent = -6000.0
+***** Independent = -6000.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (6000.0) = -6000.0
@@ -2649,9 +2666,9 @@ total  3027               24073
 
 
 
-*** Other = 0.0
+***** Other = 0.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2659,9 +2676,9 @@ total  3027               24073
 
 
 
-*** Rents = 70000.0
+***** Rents = 70000.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (72150.0)
 - plus extraordinary income (0.0) = 72150.0
 - less ordinary expenses (2150.0) = 70000.0
@@ -2669,9 +2686,9 @@ total  3027               24073
 
 
 
-*** Trade = 0.0
+***** Trade = 0.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2680,13 +2697,66 @@ total  3027               24073
 
 
 
-* xplainE
-** toplevel: val = 145582.27
-** toplevel: log = []
-** toplevel: xpl = 145582.27
+** xplainE: 145582.27
+*** toplevel: xpl = 145582.27
 *** tax_2_3 computation determines net income is 145582.27
 
-**** 364200.0 = sum of 8 elements
+**** progDirectM 2023
+
+***** taxable income exceeds 277825
+
+****** x computation 4
+
+******* 145582.27: which we obtain by taking
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.45
+0.45
+toplevel / subtraction / multiplication: 364200.0
+163890.0
+toplevel / subtraction: 18307.73
+#+end_example
+******** 163890.0: which we obtain by multiplying
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.45
+0.45
+toplevel / subtraction / multiplication: 364200.0
+#+end_example
+********* 0.45: a leaf value
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.45
+#+end_example
+
+********* by
+
+
+********* 364200.0: a leaf value
+
+#+begin_example
+0.45
+toplevel / subtraction / multiplication: 364200.0
+#+end_example
+
+
+******** minus
+
+
+******** 18307.73: a leaf value
+
+#+begin_example
+163890.0
+toplevel / subtraction: 18307.73
+#+end_example
+
+
+
+
+
+**** squashToTotals
+
+***** 364200.0 = sum of 8 elements
 - 300000.0
 - 0.0
 - 0.0
@@ -2696,7 +2766,7 @@ total  3027               24073
 - 70000.0
 - 0.0
 
-***** base MathList with 8 elements
+****** base MathList with 8 elements
 
 #+begin_example
 Val 300000.0
@@ -2709,98 +2779,52 @@ Val 70000.0
 Val 0.0
 #+end_example
 
-***** 300000.0: a leaf value
+****** 300000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 300000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 200.0: a leaf value
+****** 200.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 200.0
 #+end_example
 
-***** -6000.0: a leaf value
+****** -6000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: -6000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 70000.0: a leaf value
+****** 70000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 70000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
-#+end_example
-
-
-**** taxable income exceeds 277825
-
-***** 145582.27: which we obtain by taking
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.45
-0.45
-toplevel / subtraction / multiplication: 364200.0
-163890.0
-toplevel / subtraction: 18307.73
-#+end_example
-****** 163890.0: which we obtain by multiplying
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.45
-0.45
-toplevel / subtraction / multiplication: 364200.0
-#+end_example
-******* 0.45: a leaf value
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.45
-#+end_example
-
-******* by
-
-
-******* 364200.0: a leaf value
-
-#+begin_example
-0.45
-toplevel / subtraction / multiplication: 364200.0
-#+end_example
-
-
-****** minus
-
-
-****** 18307.73: a leaf value
-
-#+begin_example
-163890.0
-toplevel / subtraction: 18307.73
 #+end_example
 
 
@@ -2903,12 +2927,12 @@ total  142910             364006
 
 * running scenario: test case 1
 ** executing tax_2_3: test case 1
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [0.0,0.0,0.0,0.0,0.0,0.0,97150.0,0.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 0.0
+***** Agriculture = 0.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2916,9 +2940,9 @@ total  142910             364006
 
 
 
-*** Capital = 0.0
+***** Capital = 0.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2926,9 +2950,9 @@ total  142910             364006
 
 
 
-*** Employment = 0.0
+***** Employment = 0.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2936,9 +2960,9 @@ total  142910             364006
 
 
 
-*** Exempt Capital = 0.0
+***** Exempt Capital = 0.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2946,9 +2970,9 @@ total  142910             364006
 
 
 
-*** Independent = 0.0
+***** Independent = 0.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2956,9 +2980,9 @@ total  142910             364006
 
 
 
-*** Other = 0.0
+***** Other = 0.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2966,9 +2990,9 @@ total  142910             364006
 
 
 
-*** Rents = 97150.0
+***** Rents = 97150.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (72150.0)
 - plus extraordinary income (25000.0) = 97150.0
 - less ordinary expenses (0.0) = 97150.0
@@ -2976,9 +3000,9 @@ total  142910             364006
 
 
 
-*** Trade = 0.0
+***** Trade = 0.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -2987,13 +3011,66 @@ total  142910             364006
 
 
 
-* xplainE
-** toplevel: val = 30830.02
-** toplevel: log = []
-** toplevel: xpl = 30830.02
+** xplainE: 30830.02
+*** toplevel: xpl = 30830.02
 *** tax_2_3 computation determines net income is 30830.02
 
-**** 97150.0 = sum of 8 elements
+**** progDirectM 2023
+
+***** taxable income exceeds 62810
+
+****** x computation 3
+
+******* 30830.02: which we obtain by taking
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 97150.0
+40803.0
+toplevel / subtraction: 9972.98
+#+end_example
+******** 40803.0: which we obtain by multiplying
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 97150.0
+#+end_example
+********* 0.42: a leaf value
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+#+end_example
+
+********* by
+
+
+********* 97150.0: a leaf value
+
+#+begin_example
+0.42
+toplevel / subtraction / multiplication: 97150.0
+#+end_example
+
+
+******** minus
+
+
+******** 9972.98: a leaf value
+
+#+begin_example
+40803.0
+toplevel / subtraction: 9972.98
+#+end_example
+
+
+
+
+
+**** squashToTotals
+
+***** 97150.0 = sum of 8 elements
 - 0.0
 - 0.0
 - 0.0
@@ -3003,7 +3080,7 @@ total  142910             364006
 - 97150.0
 - 0.0
 
-***** base MathList with 8 elements
+****** base MathList with 8 elements
 
 #+begin_example
 Val 0.0
@@ -3016,98 +3093,52 @@ Val 97150.0
 Val 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 97150.0: a leaf value
+****** 97150.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 97150.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
-#+end_example
-
-
-**** taxable income exceeds 62810
-
-***** 30830.02: which we obtain by taking
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 97150.0
-40803.0
-toplevel / subtraction: 9972.98
-#+end_example
-****** 40803.0: which we obtain by multiplying
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 97150.0
-#+end_example
-******* 0.42: a leaf value
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-#+end_example
-
-******* by
-
-
-******* 97150.0: a leaf value
-
-#+begin_example
-0.42
-toplevel / subtraction / multiplication: 97150.0
-#+end_example
-
-
-****** minus
-
-
-****** 9972.98: a leaf value
-
-#+begin_example
-40803.0
-toplevel / subtraction: 9972.98
 #+end_example
 
 
@@ -3210,12 +3241,12 @@ total  30830              97150
 
 * running scenario: test case 2
 ** executing tax_2_3: test case 2
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [0.0,225000.0,0.0,0.0,0.0,0.0,-48200.0,5350.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 0.0
+***** Agriculture = 0.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3223,9 +3254,9 @@ total  30830              97150
 
 
 
-*** Capital = 225000.0
+***** Capital = 225000.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (225000.0) = 225000.0
 - less ordinary expenses (0.0) = 225000.0
@@ -3233,9 +3264,9 @@ total  30830              97150
 
 
 
-*** Employment = 0.0
+***** Employment = 0.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3243,9 +3274,9 @@ total  30830              97150
 
 
 
-*** Exempt Capital = 0.0
+***** Exempt Capital = 0.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3253,9 +3284,9 @@ total  30830              97150
 
 
 
-*** Independent = 0.0
+***** Independent = 0.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3263,9 +3294,9 @@ total  30830              97150
 
 
 
-*** Other = 0.0
+***** Other = 0.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3273,9 +3304,9 @@ total  30830              97150
 
 
 
-*** Rents = -48200.0
+***** Rents = -48200.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (45000.0) = -45000.0
@@ -3283,9 +3314,9 @@ total  30830              97150
 
 
 
-*** Trade = 5350.0
+***** Trade = 5350.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (5350.0)
 - plus extraordinary income (0.0) = 5350.0
 - less ordinary expenses (0.0) = 5350.0
@@ -3294,13 +3325,66 @@ total  30830              97150
 
 
 
-* xplainE
-** toplevel: val = 66530.016
-** toplevel: log = []
-** toplevel: xpl = 66530.016
+** xplainE: 66530.016
+*** toplevel: xpl = 66530.016
 *** tax_2_3 computation determines net income is 66530.016
 
-**** 182150.0 = sum of 8 elements
+**** progDirectM 2023
+
+***** taxable income exceeds 62810
+
+****** x computation 3
+
+******* 66530.016: which we obtain by taking
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 182150.0
+76503.0
+toplevel / subtraction: 9972.98
+#+end_example
+******** 76503.0: which we obtain by multiplying
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 182150.0
+#+end_example
+********* 0.42: a leaf value
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+#+end_example
+
+********* by
+
+
+********* 182150.0: a leaf value
+
+#+begin_example
+0.42
+toplevel / subtraction / multiplication: 182150.0
+#+end_example
+
+
+******** minus
+
+
+******** 9972.98: a leaf value
+
+#+begin_example
+76503.0
+toplevel / subtraction: 9972.98
+#+end_example
+
+
+
+
+
+**** squashToTotals
+
+***** 182150.0 = sum of 8 elements
 - 0.0
 - 225000.0
 - 0.0
@@ -3310,7 +3394,7 @@ total  30830              97150
 - -48200.0
 - 5350.0
 
-***** base MathList with 8 elements
+****** base MathList with 8 elements
 
 #+begin_example
 Val 0.0
@@ -3323,98 +3407,52 @@ Val (-48200.0)
 Val 5350.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 225000.0: a leaf value
+****** 225000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 225000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** -48200.0: a leaf value
+****** -48200.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: -48200.0
 #+end_example
 
-***** 5350.0: a leaf value
+****** 5350.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 5350.0
-#+end_example
-
-
-**** taxable income exceeds 62810
-
-***** 66530.016: which we obtain by taking
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 182150.0
-76503.0
-toplevel / subtraction: 9972.98
-#+end_example
-****** 76503.0: which we obtain by multiplying
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 182150.0
-#+end_example
-******* 0.42: a leaf value
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-#+end_example
-
-******* by
-
-
-******* 182150.0: a leaf value
-
-#+begin_example
-0.42
-toplevel / subtraction / multiplication: 182150.0
-#+end_example
-
-
-****** minus
-
-
-****** 9972.98: a leaf value
-
-#+begin_example
-76503.0
-toplevel / subtraction: 9972.98
 #+end_example
 
 
@@ -3516,12 +3554,12 @@ total  1                  81028              225000
 
 * running scenario: test case 3
 ** executing tax_2_3: test case 3
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [0.0,225000.0,0.0,0.0,0.0,0.0,-48200.0,5350.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 0.0
+***** Agriculture = 0.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3529,9 +3567,9 @@ total  1                  81028              225000
 
 
 
-*** Capital = 225000.0
+***** Capital = 225000.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (225000.0) = 225000.0
 - less ordinary expenses (0.0) = 225000.0
@@ -3539,9 +3577,9 @@ total  1                  81028              225000
 
 
 
-*** Employment = 0.0
+***** Employment = 0.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3549,9 +3587,9 @@ total  1                  81028              225000
 
 
 
-*** Exempt Capital = 0.0
+***** Exempt Capital = 0.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3559,9 +3597,9 @@ total  1                  81028              225000
 
 
 
-*** Independent = 0.0
+***** Independent = 0.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3569,9 +3607,9 @@ total  1                  81028              225000
 
 
 
-*** Other = 0.0
+***** Other = 0.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3579,9 +3617,9 @@ total  1                  81028              225000
 
 
 
-*** Rents = -48200.0
+***** Rents = -48200.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (45000.0) = -45000.0
@@ -3589,9 +3627,9 @@ total  1                  81028              225000
 
 
 
-*** Trade = 5350.0
+***** Trade = 5350.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (5350.0)
 - plus extraordinary income (0.0) = 5350.0
 - less ordinary expenses (0.0) = 5350.0
@@ -3600,13 +3638,66 @@ total  1                  81028              225000
 
 
 
-* xplainE
-** toplevel: val = 66530.016
-** toplevel: log = []
-** toplevel: xpl = 66530.016
+** xplainE: 66530.016
+*** toplevel: xpl = 66530.016
 *** tax_2_3 computation determines net income is 66530.016
 
-**** 182150.0 = sum of 8 elements
+**** progDirectM 2023
+
+***** taxable income exceeds 62810
+
+****** x computation 3
+
+******* 66530.016: which we obtain by taking
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 182150.0
+76503.0
+toplevel / subtraction: 9972.98
+#+end_example
+******** 76503.0: which we obtain by multiplying
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 182150.0
+#+end_example
+********* 0.42: a leaf value
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+#+end_example
+
+********* by
+
+
+********* 182150.0: a leaf value
+
+#+begin_example
+0.42
+toplevel / subtraction / multiplication: 182150.0
+#+end_example
+
+
+******** minus
+
+
+******** 9972.98: a leaf value
+
+#+begin_example
+76503.0
+toplevel / subtraction: 9972.98
+#+end_example
+
+
+
+
+
+**** squashToTotals
+
+***** 182150.0 = sum of 8 elements
 - 0.0
 - 225000.0
 - 0.0
@@ -3616,7 +3707,7 @@ total  1                  81028              225000
 - -48200.0
 - 5350.0
 
-***** base MathList with 8 elements
+****** base MathList with 8 elements
 
 #+begin_example
 Val 0.0
@@ -3629,98 +3720,52 @@ Val (-48200.0)
 Val 5350.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 225000.0: a leaf value
+****** 225000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 225000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** -48200.0: a leaf value
+****** -48200.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: -48200.0
 #+end_example
 
-***** 5350.0: a leaf value
+****** 5350.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 5350.0
-#+end_example
-
-
-**** taxable income exceeds 62810
-
-***** 66530.016: which we obtain by taking
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 182150.0
-76503.0
-toplevel / subtraction: 9972.98
-#+end_example
-****** 76503.0: which we obtain by multiplying
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 182150.0
-#+end_example
-******* 0.42: a leaf value
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-#+end_example
-
-******* by
-
-
-******* 182150.0: a leaf value
-
-#+begin_example
-0.42
-toplevel / subtraction / multiplication: 182150.0
-#+end_example
-
-
-****** minus
-
-
-****** 9972.98: a leaf value
-
-#+begin_example
-76503.0
-toplevel / subtraction: 9972.98
 #+end_example
 
 
@@ -3822,12 +3867,12 @@ total  1                  81028              225000
 
 * running scenario: test case 3 - fired
 ** executing tax_2_3: test case 3 - fired
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [0.0,0.0,152000.0,0.0,0.0,0.0,0.0,0.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 0.0
+***** Agriculture = 0.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3835,9 +3880,9 @@ total  1                  81028              225000
 
 
 
-*** Capital = 0.0
+***** Capital = 0.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3845,9 +3890,9 @@ total  1                  81028              225000
 
 
 
-*** Employment = 152000.0
+***** Employment = 152000.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (22000.0)
 - plus extraordinary income (130000.0) = 152000.0
 - less ordinary expenses (0.0) = 152000.0
@@ -3855,9 +3900,9 @@ total  1                  81028              225000
 
 
 
-*** Exempt Capital = 0.0
+***** Exempt Capital = 0.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3865,9 +3910,9 @@ total  1                  81028              225000
 
 
 
-*** Independent = 0.0
+***** Independent = 0.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3875,9 +3920,9 @@ total  1                  81028              225000
 
 
 
-*** Other = 0.0
+***** Other = 0.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3885,9 +3930,9 @@ total  1                  81028              225000
 
 
 
-*** Rents = 0.0
+***** Rents = 0.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3895,9 +3940,9 @@ total  1                  81028              225000
 
 
 
-*** Trade = 0.0
+***** Trade = 0.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -3906,13 +3951,66 @@ total  1                  81028              225000
 
 
 
-* xplainE
-** toplevel: val = 53867.016
-** toplevel: log = []
-** toplevel: xpl = 53867.016
+** xplainE: 53867.016
+*** toplevel: xpl = 53867.016
 *** tax_2_3 computation determines net income is 53867.016
 
-**** 152000.0 = sum of 8 elements
+**** progDirectM 2023
+
+***** taxable income exceeds 62810
+
+****** x computation 3
+
+******* 53867.016: which we obtain by taking
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 152000.0
+63839.996
+toplevel / subtraction: 9972.98
+#+end_example
+******** 63839.996: which we obtain by multiplying
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+0.42
+toplevel / subtraction / multiplication: 152000.0
+#+end_example
+********* 0.42: a leaf value
+
+#+begin_example
+toplevel / subtraction / multiplication: 0.42
+#+end_example
+
+********* by
+
+
+********* 152000.0: a leaf value
+
+#+begin_example
+0.42
+toplevel / subtraction / multiplication: 152000.0
+#+end_example
+
+
+******** minus
+
+
+******** 9972.98: a leaf value
+
+#+begin_example
+63839.996
+toplevel / subtraction: 9972.98
+#+end_example
+
+
+
+
+
+**** squashToTotals
+
+***** 152000.0 = sum of 8 elements
 - 0.0
 - 0.0
 - 152000.0
@@ -3922,7 +4020,7 @@ total  1                  81028              225000
 - 0.0
 - 0.0
 
-***** base MathList with 8 elements
+****** base MathList with 8 elements
 
 #+begin_example
 Val 0.0
@@ -3935,98 +4033,52 @@ Val 0.0
 Val 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 152000.0: a leaf value
+****** 152000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 152000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
-#+end_example
-
-
-**** taxable income exceeds 62810
-
-***** 53867.016: which we obtain by taking
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 152000.0
-63839.996
-toplevel / subtraction: 9972.98
-#+end_example
-****** 63839.996: which we obtain by multiplying
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-0.42
-toplevel / subtraction / multiplication: 152000.0
-#+end_example
-******* 0.42: a leaf value
-
-#+begin_example
-toplevel / subtraction / multiplication: 0.42
-#+end_example
-
-******* by
-
-
-******* 152000.0: a leaf value
-
-#+begin_example
-0.42
-toplevel / subtraction / multiplication: 152000.0
-#+end_example
-
-
-****** minus
-
-
-****** 9972.98: a leaf value
-
-#+begin_example
-63839.996
-toplevel / subtraction: 9972.98
 #+end_example
 
 
@@ -4129,12 +4181,12 @@ total  43150              152000
 
 * running scenario: test case 3 - unfired
 ** executing tax_2_3: test case 3 - unfired
-* addCol net income
-** adding 1 new column ("net income") with 8 rows
+*** addCol net income = [0.0,0.0,22000.0,0.0,0.0,0.0,0.0,0.0]
+**** adding 1 new column ("net income") with 8 rows
 
-*** Agriculture = 0.0
+***** Agriculture = 0.0
 
-**** row Agriculture
+****** row Agriculture
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -4142,9 +4194,9 @@ total  43150              152000
 
 
 
-*** Capital = 0.0
+***** Capital = 0.0
 
-**** row Capital
+****** row Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -4152,9 +4204,9 @@ total  43150              152000
 
 
 
-*** Employment = 22000.0
+***** Employment = 22000.0
 
-**** row Employment
+****** row Employment
 - starting with ordinary income (22000.0)
 - plus extraordinary income (0.0) = 22000.0
 - less ordinary expenses (0.0) = 22000.0
@@ -4162,9 +4214,9 @@ total  43150              152000
 
 
 
-*** Exempt Capital = 0.0
+***** Exempt Capital = 0.0
 
-**** row Exempt Capital
+****** row Exempt Capital
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -4172,9 +4224,9 @@ total  43150              152000
 
 
 
-*** Independent = 0.0
+***** Independent = 0.0
 
-**** row Independent
+****** row Independent
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -4182,9 +4234,9 @@ total  43150              152000
 
 
 
-*** Other = 0.0
+***** Other = 0.0
 
-**** row Other
+****** row Other
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -4192,9 +4244,9 @@ total  43150              152000
 
 
 
-*** Rents = 0.0
+***** Rents = 0.0
 
-**** row Rents
+****** row Rents
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -4202,9 +4254,9 @@ total  43150              152000
 
 
 
-*** Trade = 0.0
+***** Trade = 0.0
 
-**** row Trade
+****** row Trade
 - starting with ordinary income (0.0)
 - plus extraordinary income (0.0) = 0.0
 - less ordinary expenses (0.0) = 0.0
@@ -4213,13 +4265,159 @@ total  43150              152000
 
 
 
-* xplainE
-** toplevel: val = 2474.3252
-** toplevel: log = []
-** toplevel: xpl = 2474.3252
+** xplainE: 2474.3252
+*** toplevel: xpl = 2474.3252
 *** tax_2_3 computation determines net income is 2474.3252
 
-**** 22000.0 = sum of 8 elements
+**** progDirectM 2023
+
+***** taxable income exceeds 15999
+
+****** x computation 2
+
+******* 2474.3252: which we obtain by adding
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.6001
+115.57325
+toplevel / addition / multiplication / addition: 2397.0
+2512.5732
+toplevel / addition / multiplication: 0.6001
+1507.7952
+toplevel / addition: 966.53
+#+end_example
+******** 1507.7952: which we obtain by multiplying
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.6001
+115.57325
+toplevel / addition / multiplication / addition: 2397.0
+2512.5732
+toplevel / addition / multiplication: 0.6001
+#+end_example
+********* 2512.5732: which we obtain by adding
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.6001
+115.57325
+toplevel / addition / multiplication / addition: 2397.0
+#+end_example
+********** 115.57325: which we obtain by multiplying
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.6001
+#+end_example
+*********** 192.59: a leaf value
+
+#+begin_example
+toplevel / addition / multiplication / addition / multiplication: 192.59
+#+end_example
+
+*********** by
+
+
+*********** 0.6001: a leaf value
+
+#+begin_example
+192.59
+toplevel / addition / multiplication / addition / multiplication: 0.6001
+#+end_example
+
+
+********** to
+
+
+********** 2397.0: a leaf value
+
+#+begin_example
+115.57325
+toplevel / addition / multiplication / addition: 2397.0
+#+end_example
+
+
+********* by
+
+
+********* 0.6001: a leaf value
+
+#+begin_example
+2512.5732
+toplevel / addition / multiplication: 0.6001
+#+end_example
+
+
+******** to
+
+
+******** 966.53: a leaf value
+
+#+begin_example
+1507.7952
+toplevel / addition: 966.53
+#+end_example
+
+
+
+****** y computation 1
+
+******* 0.6001: which we obtain by dividing
+
+#+begin_example
+toplevel / division / subtraction: 22000.0
+22000.0
+toplevel / division / subtraction: 15999.0
+6001.0
+toplevel / division: 10000.0
+#+end_example
+******** 6001.0: which we obtain by taking
+
+#+begin_example
+toplevel / division / subtraction: 22000.0
+22000.0
+toplevel / division / subtraction: 15999.0
+#+end_example
+********* 22000.0: a leaf value
+
+#+begin_example
+toplevel / division / subtraction: 22000.0
+#+end_example
+
+********* minus
+
+
+********* 15999.0: a leaf value
+
+#+begin_example
+22000.0
+toplevel / division / subtraction: 15999.0
+#+end_example
+
+
+******** by
+
+
+******** 10000.0: a leaf value
+
+#+begin_example
+6001.0
+toplevel / division: 10000.0
+#+end_example
+
+
+
+
+
+**** squashToTotals
+
+***** 22000.0 = sum of 8 elements
 - 0.0
 - 0.0
 - 22000.0
@@ -4229,7 +4427,7 @@ total  43150              152000
 - 0.0
 - 0.0
 
-***** base MathList with 8 elements
+****** base MathList with 8 elements
 
 #+begin_example
 Val 0.0
@@ -4242,188 +4440,52 @@ Val 0.0
 Val 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 22000.0: a leaf value
+****** 22000.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 22000.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
 #+end_example
 
-***** 0.0: a leaf value
+****** 0.0: a leaf value
 
 #+begin_example
 toplevel / listfold sum: 0.0
-#+end_example
-
-
-**** taxable income exceeds 15999
-
-***** 2474.3252: which we obtain by adding
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.6001
-115.57325
-toplevel / addition / multiplication / addition: 2397.0
-2512.5732
-toplevel / addition / multiplication: 0.6001
-1507.7952
-toplevel / addition: 966.53
-#+end_example
-****** 1507.7952: which we obtain by multiplying
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.6001
-115.57325
-toplevel / addition / multiplication / addition: 2397.0
-2512.5732
-toplevel / addition / multiplication: 0.6001
-#+end_example
-******* 2512.5732: which we obtain by adding
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.6001
-115.57325
-toplevel / addition / multiplication / addition: 2397.0
-#+end_example
-******** 115.57325: which we obtain by multiplying
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.6001
-#+end_example
-********* 192.59: a leaf value
-
-#+begin_example
-toplevel / addition / multiplication / addition / multiplication: 192.59
-#+end_example
-
-********* by
-
-
-********* 0.6001: a leaf value
-
-#+begin_example
-192.59
-toplevel / addition / multiplication / addition / multiplication: 0.6001
-#+end_example
-
-
-******** to
-
-
-******** 2397.0: a leaf value
-
-#+begin_example
-115.57325
-toplevel / addition / multiplication / addition: 2397.0
-#+end_example
-
-
-******* by
-
-
-******* 0.6001: a leaf value
-
-#+begin_example
-2512.5732
-toplevel / addition / multiplication: 0.6001
-#+end_example
-
-
-****** to
-
-
-****** 966.53: a leaf value
-
-#+begin_example
-1507.7952
-toplevel / addition: 966.53
-#+end_example
-
-
-***** 0.6001: which we obtain by dividing
-
-#+begin_example
-toplevel / division / subtraction: 22000.0
-22000.0
-toplevel / division / subtraction: 15999.0
-6001.0
-toplevel / division: 10000.0
-#+end_example
-****** 6001.0: which we obtain by taking
-
-#+begin_example
-toplevel / division / subtraction: 22000.0
-22000.0
-toplevel / division / subtraction: 15999.0
-#+end_example
-******* 22000.0: a leaf value
-
-#+begin_example
-toplevel / division / subtraction: 22000.0
-#+end_example
-
-******* minus
-
-
-******* 15999.0: a leaf value
-
-#+begin_example
-22000.0
-toplevel / division / subtraction: 15999.0
-#+end_example
-
-
-****** by
-
-
-****** 10000.0: a leaf value
-
-#+begin_example
-6001.0
-toplevel / division: 10000.0
 #+end_example
 
 

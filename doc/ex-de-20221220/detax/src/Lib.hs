@@ -132,8 +132,8 @@ addCol :: String -> [ String -> (Float,XP) -> Focus ] -> Scenario -> IO Scenario
 addCol newcol fs sc = do
   (fxp,_st,_wlog) <- runRWST (mapM (runRow fs) (rowNames sc))
                                 (([],[]),sc) emptyState
-  putStrLn $ "* addCol " ++ newcol
-  putStrLn $ drawTreeOrg 2 (Node ([],["adding 1 new column (\"" ++ newcol ++ "\") with " ++ show (length fxp) ++ " rows"]) (snd <$> fxp))
+  putStrLn $ "*** addCol " ++ newcol ++ " = " ++ show (fst <$> fxp)
+  putStrLn $ drawTreeOrg 4 (Node ([],["adding 1 new column (\"" ++ newcol ++ "\") with " ++ show (length fxp) ++ " rows"]) (snd <$> fxp))
 
   return $ Map.union sc $ Map.singleton newcol $ Map.fromList (zip (rowNames sc) (fst <$> fxp))
 
@@ -192,7 +192,10 @@ tax_2_3 = do
   (sc1,xpl) <- squashToTotals =<< asks origReader
   let income = cell sc1 "net income" "total"
   (val,xpl2) <- progDirectM 2023 income
-  return (val, Node ([],["tax_2_3 computation determines net income is " ++ show val]) [xpl,xpl2])
+  return (val, Node ([],["tax_2_3 computation determines net income is " ++ show val])
+               [Node ([],["progDirectM 2023"]) [xpl2]
+               ,Node ([],["squashToTotals"]) [xpl]
+               ])
 
 squashToTotals :: Scenario -> Explainable r Scenario
 squashToTotals sc = do
@@ -810,23 +813,25 @@ rateTable _    = rateTable 2023
 
 -- | an Explainable version
 
+mkParent title children = Node ([],[title]) [children]
+
 rateTableM :: Int -> [(Ordering, Float, Float -> Explainable r Float)]
 rateTableM 2023 =
   [(LT,  10909, const (return (0, mkNod "below tax threshold")))
   ,(GT,  10908, \zvE -> do
        (y,yxpl) <- eval $ (Val zvE |- Val 10908) |/ Val 10000
        (x,xxpl) <- eval $ (Val 979.18 |* Val y |+ Val 1400) |* Val y
-       return (x, Node ([],["taxable income exceeds 10908"]) [xxpl,yxpl]))
+       return (x, Node ([],["taxable income exceeds 10908"]) [mkParent "x computation 1" xxpl ,mkParent "y computation 1" yxpl]))
   ,(GT,  15999, \zvE -> do
        (y,yxpl) <- eval $ (Val zvE |- Val 15999) |/ Val 10000
        (x,xxpl) <- eval $ (Val 192.59 |* Val y |+ Val 2397) |* Val y |+ Val 966.53
-       return (x, Node ([],["taxable income exceeds 15999"]) [xxpl,yxpl]))
+       return (x, Node ([],["taxable income exceeds 15999"]) [mkParent "x computation 2" xxpl ,mkParent "y computation 1" yxpl]))
   ,(GT,  62810, \zvE -> do
        (x,xxpl) <- eval $ Val 0.42 |* Val zvE |- Val 9972.98
-       return (x, Node ([],["taxable income exceeds 62810"]) [xxpl]))
+       return (x, Node ([],["taxable income exceeds 62810"]) [mkParent "x computation 3" xxpl]))
   ,(GT, 277825, \zvE -> do
        (x,xxpl) <- eval $ Val 0.45 |* Val zvE |- Val 18307.73
-       return (x, Node ([],["taxable income exceeds 277825"]) [xxpl]))
+       return (x, Node ([],["taxable income exceeds 277825"]) [mkParent "x computation 4" xxpl]))
   ]
 rateTableM _ = error "rateTableM: only 2023 supported"
 
