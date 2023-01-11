@@ -52,7 +52,6 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - detax
-    other-modules: []
 
 tests:
   detax-test:
@@ -64,4 +63,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - detax
-    other-modules: []
+    - hspec
