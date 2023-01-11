@@ -39,18 +39,18 @@ import Data.Bifunctor (first, second)
 -- A little unusually, the explainable monad returns @(a,XP)@. So to get the actual value from a return, you should @fst@ it.
 --
 -- Our RWST wraps IO so you have the opportunity to do some actual STDOUT anytime by `liftIO`ing your @putStrLn@.
-type Explainable r a = RWST         (HistoryPath,r) [String] MyState IO (a,XP)
-
--- | The Reader supports environmental context for a given evaluation.
+--
+-- The Reader supports environmental context for a given evaluation.
 -- The Reader type is user-specified; in our primary app, the Reader is a Scenario.
 --
 -- We tack on a bit of useful infrastructure of our own: basically, a call stack, and a history trace of previous execution,
 -- in the form of a `HistoryPath`.
--- 
--- As we evaluate down from the root to the leaves,
+type Explainable r a = RWST         (HistoryPath,r) [String] MyState IO (a,XP)
+
+-- | As we evaluate down from the root to the leaves,
 --
--- * we record the output of previous evaluations in History
--- * we record the current path from the root in Path
+-- * we record the output of previous evaluations in the first part, @History@
+-- * we record the current path from the root in the second part, @Path@
 --
 -- in case a particular function needs to justify its return value by referring to some previous computation.
 -- Technically this makes computation impure, so it is generally preferable to not do that.
@@ -62,7 +62,7 @@ origReader  :: (hp,r) ->    r
 (historypath,origReader) = (fst,snd)
 
 -- | The Writer supports logging, basically. We set it as @[String]@ in case you actually do want to use it.
--- Our primary app doen't actually use the Writer, but returns XP as the snd part in our return value instead.
+-- Our primary app doen't actually use the Writer, but returns XP as the @snd@ part in our return value instead.
 -- 
 -- The @XP@ explanation is designed to be readable as an Org-mode file.
 -- Inspired by Literate Programming we use the idea of Literate Outputting.
