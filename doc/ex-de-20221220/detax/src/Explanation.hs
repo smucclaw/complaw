@@ -36,27 +36,39 @@ import Data.Bifunctor (first, second)
 -- appended to for logging purposes, in a stackwise fashion for
 -- efficiency; later entries get prepended to the head.
 --
--- A little unusually, the explainable monad returns (a,XP). So to get the actual value from a return, you should @fst@ it.
+-- A little unusually, the explainable monad returns @(a,XP)@. So to get the actual value from a return, you should @fst@ it.
 --
 -- Our RWST wraps IO so you have the opportunity to do some actual STDOUT anytime by `liftIO`ing your @putStrLn@.
 type Explainable r a = RWST         (HistoryPath,r) [String] MyState IO (a,XP)
 
 -- | The Reader supports environmental context for a given evaluation.
+-- The Reader type is user-specified; in our primary app, the Reader is a Scenario.
+--
+-- We tack on a bit of useful infrastructure of our own: basically, a call stack, and a history trace of previous execution,
+-- in the form of a `HistoryPath`.
+-- 
 -- As we evaluate down from the root to the leaves,
--- - we record the output of previous evaluations in History
--- - we record the current path from the root in Path
+--
+-- * we record the output of previous evaluations in History
+-- * we record the current path from the root in Path
+--
 -- in case a particular function needs to justify its return value by referring to some previous computation.
 -- Technically this makes computation impure, so it is generally preferable to not do that.
 type HistoryPath = ([String], [String])
 
--- | The Writer supports logging, basically.
--- We don't actually use the Writer, but return XP as the snd part in our return value instead.
+-- | utility functions to return the historypath and origreader elemetns
+historypath :: (hp,r) -> hp
+origReader  :: (hp,r) ->    r
+(historypath,origReader) = (fst,snd)
+
+-- | The Writer supports logging, basically. We set it as @[String]@ in case you actually do want to use it.
+-- Our primary app doen't actually use the Writer, but returns XP as the snd part in our return value instead.
 -- 
 -- The @XP@ explanation is designed to be readable as an Org-mode file.
 -- Inspired by Literate Programming we use the idea of Literate Outputting.
 -- We separate our output into two parts:
---   The "Stdexp" component gets rendered as the heading followed by whatever body.
---   The "Stdout" component gets rendered within an Example block.
+--   The snd "Stdexp" component gets rendered as the heading followed by whatever body.
+--   The fst "Stdout" component gets rendered within an Example block.
 -- And then there are the children to a given node, which are rendered as sub-entries under the current output node.
 -- @return@s are required to construct the @(a,XP)@ by hand, assembling the sub-entries in whatever way makes the most sense.
 --
@@ -66,39 +78,38 @@ type XP = Tree (Stdout, Stdexp)
 type Stdout = [String]
 type Stdexp = [String]
 
+-- | Helper function to make a child-free explanation node
+mkNod :: a -> Tree ([b],[a])
+mkNod x = Node ([],[x]) []
+  
 -- | The State supports a symbol table in which variables and functions are tracked.
 -- We have a couple different symbol tables, one for numeric and one for boolean functions.
 -- In future we will have as many symbol tables as there are Expr types in our DSL.
 -- Grab the `MyState` by calling @<- get@. If you know which symtab you want, you can call
 -- @<- gets symtabX@.
 type SymTab = Map.Map String
-data MyState = MyState { symtabF :: SymTab (Expr Float)
-                       , symtabP :: SymTab (Pred Float)
+data MyState = MyState { symtabF :: SymTab (Expr     Float)
+                       , symtabP :: SymTab (Pred     Float)
                        , symtabL :: SymTab (ExprList Float)
                        }
   deriving (Show, Eq)
 emptyState :: MyState
 emptyState = MyState Map.empty Map.empty Map.empty
 
--- |
--- = Utility functions
+-- * Utility functions
 
 -- | utility function to format the call stack  
 pathSpec :: [String] -> String
 pathSpec = intercalate " / " . reverse
 
--- | utility functions to return the historypath and origreader elemetns
-historypath :: (hp,r) -> hp
-origReader  :: (hp,r) ->    r
-(historypath,origReader) = (fst,snd)
 
-
--- |
--- = Now we do a deepish embedding of an eDSL.
+-- * Now we do a deepish embedding of an eDSL.
 -- See:
 -- - https://drive.google.com/file/d/1QMR2vJRDrnef_PaE1rGLfPOcrFAFkOxD/view?usp=share_link
 -- - https://drive.google.com/file/d/1ETMkvgrAC6RCyJgF8np3vci5u9gwG9jS/view?usp=share_link
 -- for theoretical background on how to embed a simple DSL in Haskell.
+
+-- ** Simple Float Expressions
 
 -- | Numeric expressions are things that evaluate to a number.
 -- The @a@ here is pretty much always a @Float@.
@@ -113,7 +124,7 @@ data Expr a = Val a                                -- ^ simple value
             | ListFold SomeFold (ExprList a)       -- ^ fold a list of expressions into a single expr value
             deriving (Eq, Show)
 
--- | basic binary operators for arithmetic
+-- | basic binary operator for arithmetic
 (|+),(|-),(|*),(|/) :: Expr Float -> Expr Float -> Expr Float
 x |+ y = MathBin Plus   x y
 x |- y = MathBin Minus  x y
@@ -148,6 +159,8 @@ x -| ys = second (Node ([],["mapping - " ++ show x ++ " over a list"])) <$> mapA
 x *| ys = second (Node ([],["mapping * " ++ show x ++ " over a list"])) <$> mapAndUnzipM (eval . MathBin Times  x) ys
 x /| ys = second (Node ([],["mapping / " ++ show x ++ " over a list"])) <$> mapAndUnzipM (eval . MathBin Divide x) ys
 
+-- ** Lists
+
 -- | We can filter, map, and mapIf over lists of expressions.
 data ExprList a
   = MathList [Expr a]
@@ -156,7 +169,7 @@ data ExprList a
   | ListMapIf (MathSection a) (Expr a) Comp (ExprList a)
   deriving (Eq, Show)
 
--- | = Some constructors for expressions in our math language.
+-- * Some constructors for expressions in our math language.
 
 -- | An ExprList contains expressions which have been filtered by being less or greater than some threshold.
 -- In Haskell, we would say @filter (>0) [-2,-1,0,1,2]
@@ -174,6 +187,8 @@ data Comp = CEQ | CGT | CLT | CGTE | CLTE
 
 (!|) :: Pred a -> Pred a
 (!|) = PredNot
+
+-- * Booleans
 
 -- | A list of predicates
 
@@ -207,7 +222,7 @@ data Var a
 retitle :: String -> Explainable r a -> Explainable r a
 retitle st = local (first (fmap (st:)))
 
--- | = Evaluations
+-- * Evaluations
 
 -- | Evaluate floats
 
@@ -392,7 +407,7 @@ deepEvalList (MathList xs,xp) = do
 deepEvalList (other,_xp) = deepEvalList =<< evalList other
 
 
--- | = Variable retrieval and assignment into the symbol table.
+-- * Variable retrieval and assignment into the symbol table.
 -- At present we have no notion of scope.
 
 -- | Get an @Expr Float@ variable
@@ -411,10 +426,6 @@ getvarP x = do
 
 -- [TODO] ExprLists too, i suppose
 
--- | Helper function to make an explanation node
-mkNod :: a -> Tree ([b],[a])
-mkNod x = Node ([],[x]) []
-  
 -- | given a title string, provide a generic template for its explanation
 verbose :: String -> (String, String)
 verbose "addition"       = ("which we obtain by adding", "to")
@@ -435,7 +446,7 @@ drawTreeOrg depth (Node (stdout, stdexp) xs) =
   ++
   unlines ( drawTreeOrg (depth + 1) <$> xs )
 
--- | = Syntactic Sugar
+-- * Syntactic Sugar
 (+||),sumOf,productOf,(*||) :: ExprList a -> Expr a
 (+||)     = ListFold FoldSum
 sumOf     = ListFold FoldSum
@@ -467,7 +478,7 @@ toplevel = forM_ [ Val 2 |+ (Val 5 |- Val 1)
   (val, xpl, stab, wlog) <- xplainF () topexpr
   return ()
 
--- | = Explainers  
+-- * Explainers  
 
 -- | Explain an @Expr Float@
 xplainF :: r -> Expr Float -> IO (Float, XP, MyState, [String])
