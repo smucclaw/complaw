@@ -7,6 +7,7 @@ import qualified Data.Map as Map
 import Control.Monad.Trans.State ( gets, State, StateT, evalState, runStateT, modify )
 import Control.Monad.State (liftIO)
 import Control.Monad (forM_, when, unless, (>=>))
+import Control.Monad.IO.Class (MonadIO(..))
 import Data.Function ((&))
 import Text.Megaparsec ( choice, many, some, Parsec, MonadParsec(try) )
 import Text.Megaparsec.Char ( numberChar, hspace )
@@ -16,7 +17,7 @@ import Text.PrettyPrint.Boxes
 import qualified Text.PrettyPrint.Boxes as BX
 import Control.Monad.Combinators.Expr
 import Data.Ord
-import Explanation
+import Explainable
 import qualified Data.Tree as DT
 import Control.Monad.Trans.RWS
 import Data.Tree
@@ -79,7 +80,7 @@ x <-~ ys = Map.update (pure . foldl1 (.) ys) x
 (~=>) :: String -> [Scenario -> Scenario] -> (String,Scenario)
 title ~=> js = (title, foldl (.) id js defaultScenario)
 
-
+infix 4 ~==
 infixl 8 ~=>
 infixl 1 <-~
 
@@ -170,41 +171,6 @@ runTests_1 sc = do
   putStrLn "* the sum of the doubles of all positive elements and the unchanged original values of all negative elements"
   _ <- xplainF sc $ sumOf $ timesPositives 2 [-2, -1, 0, 1, 2, 3]
 
-  return ()
-
-netIncome :: Scenario -> IO Scenario
-netIncome =
-  addCol "net income" [ getCol "ordinary income"
-                      , deplus "extraordinary income"
-                      , deminus "ordinary expenses"
-                      , deminus "special expenses"
-                      ] 
-
-runTax :: Scenario -> Focus -> IO Float
-runTax sc taxcomp = do
-  sc2 <- netIncome sc
-  (val, xpl, stab, wlog) <- xplainE sc2 taxcomp
-  return val
-
- 
-tax_2_3 :: Focus
-tax_2_3 = do
-  (sc1,xpl) <- squashToTotals =<< asks origReader
-  let income = cell sc1 "net income" "total"
-  (val,xpl2) <- progDirectM 2023 income
-  return (val, Node ([],["tax_2_3 computation determines net income is " ++ show val])
-               [Node ([],["progDirectM 2023"]) [xpl2]
-               ,Node ([],["squashToTotals"]) [xpl]
-               ])
-
-squashToTotals :: Scenario -> Explainable r Scenario
-squashToTotals sc = do
-  (total,xpl) <- eval $ sumOf . col2mathList $ sc Map.! "net income"
-  return (Map.singleton "net income" (Map.singleton "total" total)
-         ,xpl)
-  
-runTests :: IO ()
-runTests = do
   let someScenario = scenarios Map.! "1a"
   runTests_1 someScenario
 
@@ -244,14 +210,78 @@ runTests = do
                  Map.fromList (zip (rowNames newSome) fromMathList)
   putStrLn "* we have a new column \"reduction\""
   putStrLn $ asExample newSome3
+
+  return ()
+
+netIncome :: Scenario -> IO Scenario
+netIncome =
+  addCol "net income" [ getCol "ordinary income"
+                      , deplus "extraordinary income"
+                      , deminus "ordinary expenses"
+                      , deminus "special expenses"
+                      ] 
+
+runTax :: Scenario -> Focus -> IO Float
+runTax sc taxcomp = do
+  sc2 <- netIncome sc
+  (val, xpl, stab, wlog) <- xplainE sc2 taxcomp
+  return val
+ 
+tax_2_3 :: Focus
+tax_2_3 = do
+  (sc1,xpl) <- squashToTotals =<< asks origReader
+  let income = cell sc1 "net income" "total"
+  (val,xpl2) <- progDirectM 2023 income
+  return (val, Node ([],["tax_2_3 computation determines net income is " ++ show val])
+               [Node ([],["progDirectM 2023"]) [xpl2]
+               ,Node ([],["squashToTotals"]) [xpl]
+               ])
+
+(>>=>) :: (Monad m, Control.Monad.IO.Class.MonadIO ((->) a1)) => IO (m a2) -> a1 -> (a2 -> m b) -> m b
+(>>=>) x = (>>=) . liftIO x
+
+taxPayableFor :: Float -> Explainable r Float
+taxPayableFor = progDirectM 2023
+
+tax_34 :: Focus
+tax_34 = do
+  sc <- asks origReader
+        >>=> addCol "extraordinary pre-net" [ getCol "extraordinary income"
+                                            , deminus "special expenses" ]
+        >>=> addCol "ordinary pre-net" [ getCol "ordinary income"
+                                       , deminus "ordinary expenses" ]
+        >>=> addCol "pre-net" [ getCol "extraordinary pre-net"
+                              , deplus "ordinary pre-net" ]
+  let extPreNet = col2mathList (sc Map.! "extraordinary pre-net")
+      ordPreNet = col2mathList (sc Map.! "ordinary pre-net")
+      negPreNets    = evalList     (negativeElementsOf (Map.elems $ sc Map.! "pre-net"))
+      posPreNets    = evalList     (positiveElementsOf (Map.elems $ sc Map.! "pre-net"))
+      negPreNetSum  = eval $ sumOf (negativeElementsOf (Map.elems $ sc Map.! "pre-net"))
+      posPreNetSum  = eval $ sumOf (positiveElementsOf (Map.elems $ sc Map.! "pre-net"))
   
+  -- offset losses
+
+  (sc1,xpl) <- squashToTotals =<< asks origReader
+  let income = cell sc1 "net income" "total"
+  (val,xpl2) <- progDirectM 2023 income
+  return (val, Node ([],["tax_34 computation determines net income is " ++ show val])
+               [Node ([],["progDirectM 2023"]) [xpl2]
+               ,Node ([],["squashToTotals"]) [xpl]
+               ])
+
+squashToTotals :: Scenario -> Explainable r Scenario
+squashToTotals sc = do
+  (total,xpl) <- eval $ sumOf . col2mathList $ sc Map.! "net income"
+  return (Map.singleton "net income" (Map.singleton "total" total)
+         ,xpl)
+  
+runTests :: IO ()
+runTests = do
+ 
   putStrLn "* Scenarios"
 
   -- [TODO] write a simple parser to set up the scenario
   -- scenario 1: income exceeds expenses thanks to extraordinary; taxable income is > 100000; some negative income in certain categories
-
-  let testcase3_fired   = ("test case3 - fired",   scenarios Map.! "test case 3 - fired")
-      testcase3_unfired = ("test case3 - unfired", scenarios Map.! "test case 3 - unfired")
 
   print scenarios
   
@@ -266,43 +296,47 @@ runTests = do
     (result_341, expl_341) <- runExplainIO $ section_34_1 sc
     unless (null expl_341) $ putStrLn "** explaining section_34_1:" >> printExplanation expl_341
 
+  let testcase3_fired   = ("test case3 - fired",   scenarios Map.! "test case 3 - fired")
+      testcase3_unfired = ("test case3 - unfired", scenarios Map.! "test case 3 - unfired")
+
   putStrLn "* which tax method shall we use to deal with extraordinary income in test case 3?"
   (effMethod, expl) <- runExplainIO $ chooseEffectiveEOTaxMethod testcase3_fired testcase3_unfired
   putStrLn $ "* we choose " ++ show effMethod
   printExplanation expl
 
   return ()
-  where
-    scenarios = Map.fromList
-        [ "1a" ~=>
-          [ "ordinary income"      <-~ ["Rents" ~== 72150, "Agriculture" ~== 30000  , "Exempt Capital" ~== 100]
-          , "extraordinary income" <-~ [                   "Agriculture" ~== 270000 , "Exempt Capital" ~== 100]
-          , "ordinary expenses"    <-~ ["Rents" ~== 2150 , "Independent" ~== 6000   , "Other"          ~== 100000 ]
-          ]
-        , "1b" ~=>
-          [ "ordinary income"      <-~ ["Rents" ~== 72150, "Agriculture" ~== 20000  , "Exempt Capital" ~== 100 ]
-          , "ordinary expenses"    <-~ ["Rents" ~== 2150,  "Independent" ~== 6000   , "Other"          ~== 60000 ]
-          ]
-        , "2" ~=>
-          [ "ordinary income"      <-~ [ "Rents" ~== 72150, "Agriculture" ~== 30000 , "Exempt Capital" ~== 100 ]
-          , "extraordinary income" <-~ [                    "Agriculture" ~== 270000, "Exempt Capital" ~== 100 ]
-          , "ordinary expenses"    <-~ [ "Rents" ~== 2150 , "Independent" ~== 6000 ] ]
 
-        , "test case 1" ~=> [ "ordinary income"      <-~ [ "Rents"   ~== 72150 ]
-                            , "extraordinary income" <-~ [ "Rents"   ~== 25000 ] ]
-        , "test case 2" ~=> [ "ordinary income"      <-~ [                       "Trade"   ~== 5350   ]
-                            , "ordinary expenses"    <-~ [ "Rents"   ~== 45000  ]
-                            , "special expenses"     <-~ [ "Rents"   ~== 3200   ]
-                            , "extraordinary income" <-~ [                                               "Capital" ~== 225000 ] ]
-        , "test case 3" ~=> [ "ordinary income"      <-~ [                       "Trade"   ~== 5350  ]
-                            , "ordinary expenses"    <-~ [ "Rents"   ~== 45000 ]
-                            , "special expenses"     <-~ [ "Rents"   ~== 3200  ]
-                            , "extraordinary income" <-~ [                                               "Capital" ~== 225000 ] ]
+scenarios :: Map.Map String Scenario
+scenarios = Map.fromList
+  [ "1a" ~=>
+    [ "ordinary income"      <-~ ["Rents" ~== 72150, "Agriculture" ~== 30000  , "Exempt Capital" ~== 100]
+    , "extraordinary income" <-~ [                   "Agriculture" ~== 270000 , "Exempt Capital" ~== 100]
+    , "ordinary expenses"    <-~ ["Rents" ~== 2150 , "Independent" ~== 6000   , "Other"          ~== 100000 ]
+    ]
+  , "1b" ~=>
+    [ "ordinary income"      <-~ ["Rents" ~== 72150, "Agriculture" ~== 20000  , "Exempt Capital" ~== 100 ]
+    , "ordinary expenses"    <-~ ["Rents" ~== 2150,  "Independent" ~== 6000   , "Other"          ~== 60000 ]
+    ]
+  , "2" ~=>
+    [ "ordinary income"      <-~ [ "Rents" ~== 72150, "Agriculture" ~== 30000 , "Exempt Capital" ~== 100 ]
+    , "extraordinary income" <-~ [                    "Agriculture" ~== 270000, "Exempt Capital" ~== 100 ]
+    , "ordinary expenses"    <-~ [ "Rents" ~== 2150 , "Independent" ~== 6000 ] ]
 
-        , "test case 3 - fired"   ~=> [ "ordinary income"      <-~ [ "Employment" ~==  22000 ]
-                                      , "extraordinary income" <-~ [ "Employment" ~== 130000 ] ]
-        , "test case 3 - unfired" ~=> [ "ordinary income"      <-~ [ "Employment" ~==  22000 ] ]
-        ]
+  , "test case 1" ~=> [ "ordinary income"      <-~ [ "Rents"   ~== 72150 - 25000 ]
+                      , "extraordinary income" <-~ [ "Rents"   ~== 25000 ] ]
+  , "test case 2" ~=> [ "ordinary income"      <-~ [                       "Trade"   ~== 5350   ]
+                      , "ordinary expenses"    <-~ [ "Rents"   ~== 45000  ]
+                      , "special expenses"     <-~ [ "Rents"   ~== 3200   ]
+                      , "extraordinary income" <-~ [                                               "Capital" ~== 225000 ] ]
+  , "test case 3" ~=> [ "ordinary income"      <-~ [                       "Trade"   ~== 5350  ]
+                      , "ordinary expenses"    <-~ [ "Rents"   ~== 45000 ]
+                      , "special expenses"     <-~ [ "Rents"   ~== 3200  ]
+                      , "extraordinary income" <-~ [                                               "Capital" ~== 225000 ] ]
+
+  , "test case 3 - fired"   ~=> [ "ordinary income"      <-~ [ "Employment" ~==  22000 ]
+                                , "extraordinary income" <-~ [ "Employment" ~== 130000 ] ]
+  , "test case 3 - unfired" ~=> [ "ordinary income"      <-~ [ "Employment" ~==  22000 ] ]
+  ]
     
 
 -- | choose a tax computation method
@@ -811,10 +845,10 @@ rateTable 2023 = [(LT,  10909, const  0)
 rateTable _    = rateTable 2023
 
 
--- | an Explainable version
 
 mkParent title children = Node ([],[title]) [children]
 
+-- | an Explainable version
 rateTableM :: Int -> [(Ordering, Float, Float -> Explainable r Float)]
 rateTableM 2023 =
   [(LT,  10909, const (return (0, mkNod "below tax threshold")))
