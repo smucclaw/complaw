@@ -105,7 +105,12 @@ detimes colName row (x,xpl) = do
 getCol colName row (_,xpl) = do
   scn <- asks snd
   let toreturn = cell scn colName row
-  return (toreturn, xpl { rootLabel = second (++ ["- starting with " ++ colName ++ " (" ++ show toreturn ++ ")"]) (rootLabel xpl) })
+  return (toreturn, reRootLbl xpl (startingWith colName toreturn))
+
+startingWith :: Show a => [Char] -> a -> [[Char]] -> [[Char]]
+startingWith s1 s2 = (++ ["- starting with " ++ s1 ++ " (" ++ show s2 ++ ")"])
+reRootLbl :: Bifunctor p => Tree (p a b) -> (b -> b) -> Tree (p a b)
+reRootLbl xpl f = xpl { rootLabel = second f (rootLabel xpl) }
 
 constCell :: Float -> String -> (Float,XP) -> Focus
 constCell n _ (_,xpl) = do
@@ -122,12 +127,13 @@ colNames = Map.keys
 rowNames :: Scenario -> [String]
 rowNames sc = Map.keys $ head $ Map.elems sc
 
+-- [TODO] -- upgrade this to just return Focus
 addCol :: String -> [ String -> (Float,XP) -> Focus ] -> Scenario -> IO Scenario
 addCol newcol fs sc = do
   (fxp,_st,_wlog) <- runRWST (mapM (runRow fs) (rowNames sc))
-                                (([],[]),sc) (MyState Map.empty Map.empty)
-  putStrLn $ "* addCol " ++ newcol
-  putStrLn $ drawTreeOrg 2 (Node ([],["adding 1 new column (\"" ++ newcol ++ "\") with " ++ show (length fxp) ++ " rows"]) (snd <$> fxp))
+                                (([],[]),sc) emptyState
+  putStrLn $ "*** addCol " ++ newcol ++ " = " ++ show (fst <$> fxp)
+  putStrLn $ drawTreeOrg 4 (Node ([],["adding 1 new column (\"" ++ newcol ++ "\") with " ++ show (length fxp) ++ " rows"]) (snd <$> fxp))
 
   return $ Map.union sc $ Map.singleton newcol $ Map.fromList (zip (rowNames sc) (fst <$> fxp))
 
@@ -145,40 +151,80 @@ getColAsMathListM colname = do
   sc <- asks snd
   return (getColAsMathList colname sc
          , mkNod $ "retrieve column " ++ colname ++ " from scenario")
-  
-runTests :: IO ()
-runTests = do
-  let someScenario = scenarios Map.! "1a"
+
+
+-- * Set up some Explainable computations
+
+runTests_1 :: Scenario -> IO ()
+runTests_1 sc = do
   -- (t1v, t1x, t1s, t1w) <- xplainF someScenario (MathITE (PredComp CLT (Val 1) (Val 2)) (Val 100) (Val 200))
 
   -- you may ask: how is this better than just doing things natively in haskell? The answer: evaluation is decorated with explanations, and that's valuable, because XAI.
 
   putStrLn "* the sum of all positive elements, ignoring negative elements"
-  _ <- xplainF someScenario $ sumOf     $ negativeElementsOf [-2, -1, 0, 1, 2, 3]
+  _ <- xplainF sc $ sumOf     $ positiveElementsOf [-2, -1, 0, 1, 2, 3]
 
   putStrLn "* the product of the doubles of all positive elements, ignoring negative and zero elements"
-  _ <- xplainF someScenario $ productOf $ timesEach 2 $ positiveElementsOf [-2, -1, 0, 1, 2, 3]
+  _ <- xplainF sc $ productOf $ timesEach 2 $ positiveElementsOf [-2, -1, 0, 1, 2, 3]
 
-  putStrLn "* the product of the doubles of all positive elements and the unchanged original values of all negative elements"
-  _ <- xplainF someScenario $ productOf $ timesPositives 2 [-2, -1, 1, 2, 3]
+  putStrLn "* the sum of the doubles of all positive elements and the unchanged original values of all negative elements"
+  _ <- xplainF sc $ sumOf $ timesPositives 2 [-2, -1, 0, 1, 2, 3]
 
-  -- [TODO] we need to integrate the native Expr with the below, so we can deal with columns and rows as dictionaries. we probably need a ExprMatrix or ExprDict type.
-  putStrLn "* calculate net income"
-  newSome <- addCol "net income" [ getCol "ordinary income"
-                                 , deplus "extraordinary income"
-                                 , deminus "ordinary expenses"
-                                 , deminus "special expenses"
-                               ] someScenario
+  return ()
+
+netIncome :: Scenario -> IO Scenario
+netIncome =
+  addCol "net income" [ getCol "ordinary income"
+                      , deplus "extraordinary income"
+                      , deminus "ordinary expenses"
+                      , deminus "special expenses"
+                      ] 
+
+runTax :: Scenario -> Focus -> IO Float
+runTax sc taxcomp = do
+  sc2 <- netIncome sc
+  (val, xpl, stab, wlog) <- xplainE sc2 taxcomp
+  return val
+
+ 
+tax_2_3 :: Focus
+tax_2_3 = do
+  (sc1,xpl) <- squashToTotals =<< asks origReader
+  let income = cell sc1 "net income" "total"
+  (val,xpl2) <- progDirectM 2023 income
+  return (val, Node ([],["tax_2_3 computation determines net income is " ++ show val])
+               [Node ([],["progDirectM 2023"]) [xpl2]
+               ,Node ([],["squashToTotals"]) [xpl]
+               ])
+
+squashToTotals :: Scenario -> Explainable r Scenario
+squashToTotals sc = do
+  (total,xpl) <- eval $ sumOf . col2mathList $ sc Map.! "net income"
+  return (Map.singleton "net income" (Map.singleton "total" total)
+         ,xpl)
+  
+runTests :: IO ()
+runTests = do
+  let someScenario = scenarios Map.! "1a"
+  runTests_1 someScenario
+
+  putStrLn "* we start with a simple scenario"
+  putStrLn $ asExample someScenario
+  putStrLn "** we calculate net income"
+  newSome <- netIncome someScenario
   putStrLn $ asExample newSome 
 
   let nets = Map.elems $ newSome Map.! "net income" 
-  putStrLn $ "* what is the positive sum of the incomes?"
+  putStrLn $ "** what is the positive sum of the incomes?"
   (positiveSum,_,_,_)  <- xplainF newSome $ ListFold FoldSum $ Val 0 <| MathList (Val <$> nets)
-  putStrLn $ "* what is the negative sum of the incomes?"
+  putStrLn $ "** what is the negative sum of the incomes?"
   (negativeSum,_,_,_)  <- xplainF newSome $ ListFold FoldSum $ Val 0 |> MathList (Val <$> nets)
 
-  putStrLn $ "* if the positive sum is greater than 100000, the maximum reduction is half of the negative sum; otherwise it is the entire negative sum"
-  (maxReductPos,_,_,_) <- xplainF newSome (MathITE (PredComp CGT (Val positiveSum) (Val 100000)) (Val negativeSum |/ Val 2) (Val negativeSum))
+  putStrLn $ "** if the positive sum is greater than 100000, the maximum reduction is half of the negative sum; otherwise it is the entire negative sum"
+  (maxReductPos,_,_,_) <- xplainF newSome (MathITE
+                                            (PredComp CGT (Val positiveSum) (Val 100000))
+                                            (Val negativeSum |/ Val 2)
+                                            (Val negativeSum))
 
   putStrLn $ "* the maximum amount by which we can reduce the positive sum is " ++ show maxReductPos
   (maxReductNeg,_,_,_) <- xplainF newSome $ MathMax (Val 0) (Val negativeSum |+ MathMin (Val 0) (Val positiveSum))
@@ -188,7 +234,7 @@ runTests = do
 
   (fromMathList,_,_,_) <- let sc = newSome
                               ml = getColAsMathList "net income" sc
-                          in xplainEL sc $
+                          in xplainL sc $
         ListMapIf (MathSection Times (Val $ 1 - maxReductNeg / negativeSum)) (Val 0) CGT $ -- [TODO] wrap this into a prorata combinator inside Explanation with its own expl
         ListMapIf (MathSection Times (Val $ 1 - maxReductPos / positiveSum)) (Val 0) CLT $
         ml
@@ -208,12 +254,13 @@ runTests = do
       testcase3_unfired = ("test case3 - unfired", scenarios Map.! "test case 3 - unfired")
 
   print scenarios
-        
+  
   forM_ (Map.toList scenarios) $ \(sctitle,sc) -> do
     putStrLn $ "* running scenario: " <> sctitle
 
-    (result_2_3, expl_2_3) <- runExplainIO $ section_2_3  sc
-    unless (null expl_2_3) $ putStrLn ("** explaining section_2_3: " <> sctitle) >> printExplanation expl_2_3
+    putStrLn $ "** executing tax_2_3: " <> sctitle
+    result_2_3 <- runTax sc tax_2_3
+    putStrLn $ "result = " ++ show result_2_3
 
     putStrLn $ "** executing section_34_1: " <> sctitle
     (result_341, expl_341) <- runExplainIO $ section_34_1 sc
@@ -763,6 +810,31 @@ rateTable 2023 = [(LT,  10909, const  0)
                  ]
 rateTable _    = rateTable 2023
 
+
+-- | an Explainable version
+
+mkParent title children = Node ([],[title]) [children]
+
+rateTableM :: Int -> [(Ordering, Float, Float -> Explainable r Float)]
+rateTableM 2023 =
+  [(LT,  10909, const (return (0, mkNod "below tax threshold")))
+  ,(GT,  10908, \zvE -> do
+       (y,yxpl) <- eval $ (Val zvE |- Val 10908) |/ Val 10000
+       (x,xxpl) <- eval $ (Val 979.18 |* Val y |+ Val 1400) |* Val y
+       return (x, Node ([],["taxable income exceeds 10908"]) [mkParent "x computation 1" xxpl ,mkParent "y computation 1" yxpl]))
+  ,(GT,  15999, \zvE -> do
+       (y,yxpl) <- eval $ (Val zvE |- Val 15999) |/ Val 10000
+       (x,xxpl) <- eval $ (Val 192.59 |* Val y |+ Val 2397) |* Val y |+ Val 966.53
+       return (x, Node ([],["taxable income exceeds 15999"]) [mkParent "x computation 2" xxpl ,mkParent "y computation 1" yxpl]))
+  ,(GT,  62810, \zvE -> do
+       (x,xxpl) <- eval $ Val 0.42 |* Val zvE |- Val 9972.98
+       return (x, Node ([],["taxable income exceeds 62810"]) [mkParent "x computation 3" xxpl]))
+  ,(GT, 277825, \zvE -> do
+       (x,xxpl) <- eval $ Val 0.45 |* Val zvE |- Val 18307.73
+       return (x, Node ([],["taxable income exceeds 277825"]) [mkParent "x computation 4" xxpl]))
+  ]
+rateTableM _ = error "rateTableM: only 2023 supported"
+
 -- | we'll use the 2023 table when computing taxes.
 taxFor :: Map.Map IncomeCategory Float -> Map.Map IncomeCategory Float
 taxFor       = mapOnly (>0) (progDirect 2023)
@@ -780,6 +852,18 @@ progDirect year income =
       | income' `compare` n == o = f income'
       | otherwise                = go rts income'
     go [] _ = 0
+
+progDirectM :: Int -> Float -> Explainable r Float
+progDirectM year income =
+  let rt = reverse $ rateTableM year
+  in go rt income
+  where
+    go :: [(Ordering, Float, Float -> Explainable r Float)] -> Float -> Explainable r Float
+    go ((o,n,f):rts) income'
+      | income' `compare` n == o = f income'
+      | otherwise                = go rts income'
+    go [] _ = error "progDirectM: arrived at unreachable state"
+
 
 -- | Stacked computation of progressive tax, by recursively adding lower tiers.
 -- this is suitable for countries that announce their progressive tiers in terms of
