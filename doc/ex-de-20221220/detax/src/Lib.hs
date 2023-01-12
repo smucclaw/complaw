@@ -1,12 +1,13 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE FlexibleInstances, FlexibleContexts #-}
 
 module Lib where
 
 import qualified Data.Map as Map
 import Control.Monad.Trans.State ( gets, State, StateT, evalState, runStateT, modify )
 import Control.Monad.State (liftIO)
-import Control.Monad (forM_, when, unless, (>=>))
+import Control.Monad (forM_, when, unless, (>=>), mapAndUnzipM)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.Function ((&))
 import Text.Megaparsec ( choice, many, some, Parsec, MonadParsec(try) )
@@ -237,38 +238,89 @@ tax_2_3 = do
                ,Node ([],["squashToTotals"]) [xpl]
                ])
 
-(>>=>) :: (Monad m, Control.Monad.IO.Class.MonadIO ((->) a1)) => IO (m a2) -> a1 -> (a2 -> m b) -> m b
-(>>=>) x = (>>=) . liftIO x
+x >>=> y = x >>= liftIO . y
 
 taxPayableFor :: Float -> Explainable r Float
 taxPayableFor = progDirectM 2023
 
 tax_34 :: Focus
 tax_34 = do
-  sc <- asks origReader
+  sc <- asks (origReader :: (a,Scenario) -> Scenario)
         >>=> addCol "extraordinary pre-net" [ getCol "extraordinary income"
                                             , deminus "special expenses" ]
         >>=> addCol "ordinary pre-net" [ getCol "ordinary income"
                                        , deminus "ordinary expenses" ]
         >>=> addCol "pre-net" [ getCol "extraordinary pre-net"
                               , deplus "ordinary pre-net" ]
-  let extPreNet = col2mathList (sc Map.! "extraordinary pre-net")
-      ordPreNet = col2mathList (sc Map.! "ordinary pre-net")
-      negPreNets    = evalList     (negativeElementsOf (Map.elems $ sc Map.! "pre-net"))
-      posPreNets    = evalList     (positiveElementsOf (Map.elems $ sc Map.! "pre-net"))
-      negPreNetSum  = eval $ sumOf (negativeElementsOf (Map.elems $ sc Map.! "pre-net"))
-      posPreNetSum  = eval $ sumOf (positiveElementsOf (Map.elems $ sc Map.! "pre-net"))
-  
-  -- offset losses
 
-  (sc1,xpl) <- squashToTotals =<< asks origReader
-  let income = cell sc1 "net income" "total"
-  (val,xpl2) <- progDirectM 2023 income
-  return (val, Node ([],["tax_34 computation determines net income is " ++ show val])
-               [Node ([],["progDirectM 2023"]) [xpl2]
-               ,Node ([],["squashToTotals"]) [xpl]
-               ])
+  -- offset losses on a per-category basis by pro rata reducing the positive values by the negative sum
+  (negPreNets,  xpnpn)  <- evalList     (negativeElementsOf (Map.elems $ sc Map.! "pre-net"))
+  (posPreNets,  xpppn)  <- evalList     (positiveElementsOf (Map.elems $ sc Map.! "pre-net"))
+  (negPreNetSum,xpnpns) <- eval $ sumOf negPreNets
+  (posPreNetSum,xpppns) <- eval $ sumOf posPreNets
 
+  let sc2 = Map.union (Map.singleton "remaining taxable income" $
+                      (\x -> if x < 0 then if posPreNetSum > negPreNetSum then 0
+                                           else (-(abs x / abs negPreNetSum))
+                             else if posPreNetSum < negPreNetSum then 0
+                                  else x + negPreNetSum * (x / posPreNetSum)
+                      ) <$> sc Map.! "pre-net" ) sc
+  (sc3, xp3) <- squashToTotals sc2
+
+  liftIO $ putStrLn "*** tax_34: before offsetting negative income amounts pro rata"
+  liftIO $ putStrLn $ asExample sc
+  liftIO $ putStrLn "*** tax_34: after offsetting negative income amounts pro rata"
+  liftIO $ putStrLn $ asExample sc2
+  liftIO $ putStrLn "*** tax_34: after squashing to totals"
+  liftIO $ putStrLn $ asExample sc3
+  liftIO $ putStrLn "**** explanation for squashing"
+  liftIO $ putStrLn $ drawTreeOrg 6 xp3
+  liftIO $ putStrLn "**** explanation for offsets"
+  liftIO $ putStrLn "***** negative pre-net sum"
+  liftIO $ putStrLn $ drawTreeOrg 6 xpnpns
+  liftIO $ putStrLn "***** negative pre-nets"
+  liftIO $ putStrLn $ drawTreeOrg 6 xpnpn
+  liftIO $ putStrLn "***** positive pre-net sum"
+  liftIO $ putStrLn $ drawTreeOrg 6 xpppns
+  liftIO $ putStrLn "***** positive pre-nets"
+  liftIO $ putStrLn $ drawTreeOrg 6 xpppn
+        
+  liftIO $ putStrLn "*** tax_34: now using the method of fifths"
+  let extPreNet = col2mathList (sc3 Map.! "extraordinary pre-net")
+      ordPreNet = col2mathList (sc3 Map.! "ordinary pre-net")
+  (zeroOrdinary, xpzo)  <- evalList     (ListMapIf (MathSection Times (Val 0)) (Val 0) CGT extPreNet)
+  (ordinaries,  xpo)    <- mathList2col zeroOrdinary
+  (taxforOrd,   xptfo)  <- mapAndUnzipM taxPayableFor ordinaries
+  let totalI            =  zipWith (+) ordinaries (              Map.elems $ sc3 Map.! "extraordinary pre-net")
+      rti5              =  zipWith (+) ordinaries (fmap (/5) <$> Map.elems $ sc3 Map.! "extraordinary pre-net")
+  (rti5tax,     xpr5t)  <- first (max 0 <$>) <$> mapAndUnzipM taxPayableFor rti5
+  let delta             =  abs <$> zipWith (-) taxforOrd rti5tax
+      rti5tax5          =  (5*) <$> delta
+      totalTP           =  (+) <$> rti5tax5 <*> taxforOrd
+
+  let sc4 = Map.union (Map.fromList [("1 RTI taxation",           innerMap sc3 taxforOrd)
+                                    ,("2 RTI plus one fifth",     innerMap sc3 rti5     )
+                                    ,("3 tax on RTI+.2",          innerMap sc3 rti5tax  )
+                                    ,("4 difference",             innerMap sc3 delta    )
+                                    ,("5 extraordinary taxation", innerMap sc3 rti5tax5 )
+                                    ,("total taxable income",     innerMap sc3 totalI   )
+                                    ,("total tax payable",        innerMap sc3 totalTP  )])
+            sc3
+
+  liftIO $ putStrLn "*** tax_34: after method of fifths"
+  liftIO $ putStrLn $ asExample sc4
+  liftIO $ putStrLn "***** zero ordinary"
+  liftIO $ putStrLn $ drawTreeOrg 6 xpzo
+  liftIO $ putStrLn "***** ordinaries"
+  liftIO $ putStrLn $ drawTreeOrg 6 xpo
+  liftIO $ putStrLn $ drawTreeOrg 5 (Node ([],["tax payable for ordinaries"]) xptfo)
+  liftIO $ putStrLn $ drawTreeOrg 5 (Node ([],["rti5tax"]) xpr5t)
+
+  let toreturn = sc4 Map.! "total tax payable" Map.! "total"
+
+  return (toreturn, Node ([],["tax_34 computation dealing with extraordinary taxation"]) $
+                    [xpzo, xpo] ++ xptfo ++ xpr5t)
+  where innerMap sc_ xs = Map.fromList (zip (Map.keys (sc_ Map.! "pre-net")) xs)
 squashToTotals :: Scenario -> Explainable r Scenario
 squashToTotals sc = do
   (total,xpl) <- eval $ sumOf . col2mathList $ sc Map.! "net income"
@@ -291,6 +343,10 @@ runTests = do
     putStrLn $ "** executing tax_2_3: " <> sctitle
     result_2_3 <- runTax sc tax_2_3
     putStrLn $ "result = " ++ show result_2_3
+
+    putStrLn $ "** executing tax_34: " <> sctitle
+    result_34 <- runTax sc tax_34
+    putStrLn $ "result = " ++ show result_34
 
     putStrLn $ "** executing section_34_1: " <> sctitle
     (result_341, expl_341) <- runExplainIO $ section_34_1 sc

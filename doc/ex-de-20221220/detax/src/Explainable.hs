@@ -1,7 +1,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE MultiWayIf #-}
 
-module Explanable where
+module Explainable where
 
 import qualified Data.Map as Map
 import Control.Monad.Trans.RWS
