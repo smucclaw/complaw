@@ -237,8 +237,8 @@ tax_2_3 = do
                ,Node ([],["squashToTotals"]) [xpl]
                ])
 
-(>>=>) :: (Monad m, Control.Monad.IO.Class.MonadIO ((->) a1)) => IO (m a2) -> a1 -> (a2 -> m b) -> m b
-(>>=>) x = (>>=) . liftIO x
+(>>=>) :: MonadIO m => m a -> (a -> IO b) -> m b
+x >>=> y = x >>= liftIO . y
 
 taxPayableFor :: Float -> Explainable r Float
 taxPayableFor = progDirectM 2023
