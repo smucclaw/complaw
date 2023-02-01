@@ -25,7 +25,7 @@ source-repository head
 
 library
   exposed-modules:
-      Explanation
+      Explainable
       Lib
   other-modules:
       Paths_detax
