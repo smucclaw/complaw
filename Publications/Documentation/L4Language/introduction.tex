@@ -1,4 +1,48 @@
-Describing the global idea of L4 \remms{TBD}
+\def\corelfour{\emph{Core L4}\xspace}
+\def\naturalfour{\emph{Natural L4}\xspace}
+
+The L4 language family includes \naturalfour, a developer-facing
+front-end language whose syntax is close to a controlled natural
+language, and \corelfour, an intermediate representation language to
+which \naturalfour reduces.
+
+Given a ``legal program'' written in \naturalfour, the \texttt{natural4}
+compiler parses the input, establishes an initial abstract syntax tree
+(AST), and performs initial interpretation.
+
+The \texttt{natural4} compiler then transpiles to certain language
+back-ends which do not require further processing. For example,
+Typescript classes are produced directly at this point from \naturalfour
+class declarations.
+
+The \texttt{natural4} compiler also transforms the input into an
+intermediate representation (IR) for further processing, including a
+comprehensive type inference and type checking pass. That IR is called
+\corelfour, and is the subject of this document.
+
+From the Core L4 IR, further transpilation targets are
+generated, such as logic programming languages, formal verification
+targets, and specification languages.
+
+This document begins by presenting a concrete syntax for Core L4. This
+syntax is conceptually important as it gives an approachable entry
+point for understanding Core L4's semantics. In 2021--2022 the
+transformation pathway from Natural L4 to Core L4 was explicit, via a
+text file format. From 2023 onwards, this transformation was conducted
+in memory, through direct conversion from one family of Haskell types
+to another.
+
+This document then discusses the underlying logics and semantics of Core L4.
+
+The Natural L4 language is documented elsewhere. Legal engineers
+writing L4 are not expected to go this far into the details of the L4
+language family. This documentation is intended for language designers
+and internals engineers working on the L4 compilers and interpreters
+directly.
+
+In the remainder of this document, ``L4'' refers to \corelfour.
+
+\remms{to be continued}
 
 
 %%% Local Variables:
