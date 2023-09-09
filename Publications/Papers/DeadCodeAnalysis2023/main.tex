@@ -1,0 +1,80 @@
+
+\documentclass{IOS-Book-Article}
+
+\usepackage{mathptmx}
+\usepackage{soul}\setuldepth{article}
+%\usepackage{times}
+%\normalfont
+%\usepackage[T1]{fontenc}
+%\usepackage[mtplusscr,mtbold]{mathtime}
+%
+\def\hb{\hbox to 11.5 cm{}}
+
+\begin{document}
+
+\pagestyle{headings}
+\def\thepage{}
+\begin{frontmatter}              % The preamble begins here.
+
+
+%\pretitle{Pretitle}
+\title{Dead Code Detection in Contracts}
+
+\markboth{}{April 2022\hb}
+%\subtitle{Subtitle}
+
+\author[A]{\fnms{Martin} \snm{Strecker}\orcid{0000-0001-9953-9871}%
+\thanks{Corresponding Author: Author Name, contact details.}},
+\author[B]{\fnms{Second} \snm{Author}\orcid{....-....-....-....}}
+and
+\author[B]{\fnms{Third} \snm{Author}\orcid{....-....-....-....}}
+
+\runningauthor{B.P. Manager et al.}
+\address[A]{Short Affiliation of First Author}
+\address[B]{Short Affiliation of Second Author and Third Author}
+
+\begin{abstract}
+TBD
+\end{abstract}
+
+\begin{keyword}
+electronic camera-ready manuscript\sep IOS Press\sep
+\LaTeX\sep book\sep layout
+\end{keyword}
+\end{frontmatter}
+\markboth{April 2022\hb}{April 2022\hb}
+%\thispagestyle{empty}
+%\pagestyle{empty}
+
+%-------------------------------------------------------------------------------
+\section{Introduction}\label{sec:introduction}
+
+\subsection{Purpose of this work}
+
+\subsection{Related work}
+\begin{itemize}
+\item Languages: in Java: Unreachable statements forbidden, see JLS20 Sect. 14.22
+\item Languages: in JavaScript: see Malavolta, or in PHP, see [7] in refs there
+\item Languages: JavaScript: \url{https://www.brics.dk/TAJS/}
+\item Techniques: Liveness analysis of variables, for example Appel Sect. 10
+\item Techniques: Nielson Nielson Hankin: Principles of program analysis
+\item Legal: \cite{coupette_hartung_etal_law_smells_2022}
+\item In the smell style: \cite{romano_etal_2020}
+\item Legal-Logical: \cite{fungwacharakorn_tsushima_satoh_legal_debugging_2021, fungwacharakorn_satoh_legal_rule_revision_debugging_2022}
+\item Techno: \cite{scott_marcus_structured_legislation_2015}
+\item Simply CS: \cite{neubauer_etal_accurate_dead_code_detection_2016}
+\item Abstract CS: \cite{benton_relational_corr_proofs_static_analyses_2004}
+\end{itemize}
+
+%-------------------------------------------------------------------------------
+\section{Language}\label{sec:language}
+
+
+
+
+
+%-------------------------------------------------------------------------------
+\bibliographystyle{vancouver}
+\bibliography{main}
+
+\end{document}
