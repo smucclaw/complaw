@@ -2,352 +2,91 @@
 %......................................................................
 \subsection{Syntax}\label{sec:syntax}
 
-For testing purposes:
-
+\hypertarget{syn:Program}{}
 \begin{rail}
-decl : 'def' identifier '=' ( expression + ';' )
-| 'type' identifier '=' type
+  Program : (TopLevelElement +)
+  ;
+\end{rail}
+
+\hypertarget{syn:TopLevelElement}{}
+\begin{rail}
+TopLevelElement : ClassDecl     
+                | GlobalVarDecl 
+                | GlobalVarDefn 
+                | RuleOrFact    
+                | Assertion     
+                | Automaton     
+                | System        
 ;
 \end{rail}
 
-end test
+\hypertarget{syn:ClassDecl}{}
+\begin{rail}
+ClassDecl : 'class' 'VAR' ('extends' 'VAR')? Fields
+;                
+\end{rail}
+
+\hypertarget{syn:Fields}{}
+\begin{rail}
+Fields : ( '\{' (  'VAR' ':' Tp  +) '\}' )?
+;
+\end{rail}
+
+\hypertarget{syn:VarDecl}{}
+\begin{rail}
+VarDecl : 'VAR' ':' Tp
+;
+\end{rail}
+
+\hypertarget{syn:GlobalVarDecl}{}
+\begin{rail}
+GlobalVarDecl : 'decl' VarDecl
+;
+\end{rail}
 
 
+\hypertarget{syn:GlobalVarDefn}{}
+\begin{rail}
+GlobalVarDefn : 'defn' VarDecl '=' Expr  
+;
+\end{rail}
 
-%......................................................................
-\begin{syntaxdiagram}{Program}
-  \node[junction,right=of Program] (start) {};
-  \node[junction,right=of start] (btle) {};
-  \node[nonterminal,right=of btle] (TopLevelElement) {TopLevelElement};
-  \node[junction,right=of TopLevelElement] (atle) {};
-  \node[junction,right=of atle] (end) {$\diamond$};
-  \node[junction,above=of TopLevelElement] (abfact) {};
+\hypertarget{syn:ARName}{}
+\begin{rail}
+ARName : ( '<' 'VAR' '>' )?
+;
+\end{rail}
 
-\graph [use existing nodes] {
-start -- btle -- TopLevelElement -- atle -> end
-};
+\hypertarget{syn:Rule}{}
+\begin{rail}
+Rule : 'rule' ARName  KVMap RuleVarDecls 'if' Expr 'then' Expr
+;
+\end{rail}
 
-\syndiagBridge{atle}{abfact}{btle}
-\end{syntaxdiagram}
-%......................................................................
+\hypertarget{syn:Fact}{}
+\begin{rail}
+Fact : 'fact' ARName  KVMap RuleVarDecls Expr
+;
+\end{rail}
 
+% \hypertarget{syn:RuleVarDecls}{}
+\begin{rail}
+RuleVarDecls : 'for' ( VarDecl + ',' )
+;
+\end{rail}
 
-%......................................................................
-\begin{syntaxdiagram}{TopLevelElement}
-  \node[junction,right=of TopLevelElement] (start) {};
-  \node[junction,right=of start] (btle) {};
-  \node[nonterminal,right=of btle] (Mapping) {Mapping};
-  \node[junction,right=of Mapping] (atle) {};
-  \node[junction,right=of atle] (end) {};
-  \node[nonterminal,below=of Mapping] (ClassDecl) {ClassDecl};
-  \node[nonterminal,below=of ClassDecl] (GlobalVarDecl) {GlobalVarDecl};
-  \node[nonterminal,below=of GlobalVarDecl] (GlobalVarDefn) {GlobalVarDefn};
-  \node[nonterminal,below=of GlobalVarDefn] (Rule) {Rule};
-  \node[nonterminal,below=of Rule] (Fact) {Fact};
-  \node[nonterminal,below=of Fact] (Assertion) {Assertion};
-  \node[nonterminal,below=of Assertion] (System) {System};
-
-\graph [use existing nodes] {
-start -- btle -- Mapping -- atle -> end
-};
-
-\syndiagAlternative{btle}{ClassDecl}{ClassDecl}{atle}
-\syndiagAlternative{btle}{GlobalVarDecl}{GlobalVarDecl}{atle}
-\syndiagAlternative{btle}{GlobalVarDefn}{GlobalVarDefn}{atle}
-\syndiagAlternative{btle}{Rule}{Rule}{atle}
-\syndiagAlternative{btle}{Fact}{Fact}{atle}
-\syndiagAlternative{btle}{Assertion}{Assertion}{atle}
-\syndiagAlternative{btle}{System}{System}{atle}
-
-\end{syntaxdiagram}
-%......................................................................
-
-% %......................................................................
-% \begin{syntaxdiagram}{Program}
-%   \node[junction,right=of Program] (startl1) {};
-%   \node[junction,right=of startl1] (bl) {};
-%   \node[junction,right=of bl] (l) {};
-%   \node[junction,right=of l] (al) {};
-%   \node[junction,right=of al] (bcd) {};
-%   \node[junction,right=of bcd,xshift=3mm] (cd) {};
-%   \node[junction,right=of cd,xshift=3mm] (acd) {};
-%   \node[junction,right=of acd] (bvd) {};
-%   \node[junction,right=of bvd,xshift=7mm] (vd) {};
-%   \node[junction,right=of vd,xshift=7mm] (avd) {};
-%   \node[junction,right=of avd] (endl1) {$\cdots$};
-
-%   \node[junction,below=of startl1,yshift=-10mm] (startl2) {};
-%   \node[junction,right=of startl2] (brl) {};
-%   \node[junction,right=of brl] (rl) {};
-%   \node[junction,right=of brl] (rl) {};
-%   \node[junction,right=of rl] (arl) {};
-%   \node[junction,right=of arl] (bass) {};
-%   \node[junction,right=of bass,xshift=3mm] (ass) {};
-%   \node[junction,right=of ass,xshift=3mm] (aass) {};
-%   \node[junction,right=of aass] (endl2) {$\diamond$};
-
-%   \node[nonterminal,below=of l] (Lexicon) {Lexicon};
-%   \node[nonterminal,below=of cd] (ClassDecls) {ClassDecls};
-%   \node[nonterminal,below=of vd] (GlobalVarDecls) {GlobalVarDecls};
-%   \node[nonterminal,below=of rl] (Rules) {Rules};
-%   \node[nonterminal,below=of ass] (Assertions) {Assertions};
-  
-% \graph [use existing nodes] {
-% startl1 -- bl -- l -- al -- bcd  -- cd -- acd -- bvd -- vd -- avd -> endl1
-% };
-% \graph [use existing nodes] {
-% startl2 -- brl -- rl -- arl -- bass  -- ass -- aass -> endl2
-% };
-
-% \syndiagAlternative{bl}{Lexicon}{Lexicon}{al}
-% \syndiagAlternative{bcd}{ClassDecls}{ClassDecls}{acd}
-% \syndiagAlternative{bvd}{GlobalVarDecls}{GlobalVarDecls}{avd}
-% \syndiagAlternative{brl}{Rules}{Rules}{arl}
-% \syndiagAlternative{bass}{Assertions}{Assertions}{aass}
-% \end{syntaxdiagram}
+\hypertarget{syn:Assertion}{}
+\begin{rail}
+Assertion : 'assert' ARName KVMap Expr
+;
+\end{rail}
 
 
-% \begin{syntaxdiagram}{Lexicon}
-%   \node[junction,right=of Lexicon] (startl1) {};
-%   \node[terminal,right=of startl1] (lexicon) {\texttt{lexicon}};
-%   \node[junction,right=of lexicon] (bvar) {};
-%   \node[terminal,right=of bvar] (var) {\emph{VAR}};
-%   \node[terminal,right=of var] (arrow) {\texttt{->}};
-%   \node[terminal,right=of arrow] (string) {\emph{string}};
-%   \node[junction,right=of string] (astring) {};
-%   \node[junction,right=of astring] (end) {};
-%   \node[junction,above=of string] (abs) {};
-
-% \graph [use existing nodes] {
-% startl1 -- lexicon -- bvar -- var -- arrow -- string -- astring -> end
-% };
-
-% \syndiagBridge{astring}{abs}{bvar}
-% \end{syntaxdiagram}
-% %......................................................................
-
-
-%......................................................................
-\begin{syntaxdiagram}{ClassDecl}
-  \node[junction,right=of ClassDecl] (start) {};
-  \node[junction,right=of start,xshift=-3mm] (bdecl) {};
-  \node[terminal,right=of bdecl,xshift=-3mm] (class) {\texttt{class}};
-  \node[terminal,right=of class,xshift=-3mm] (classname) {\emph{VAR}};
-  \node[junction,right=of classname,xshift=-4mm] (bextends) {};
-  \node[terminal,right=of bextends,xshift=-4mm] (extends) {\texttt{extends}};
-  \node[terminal,right=of extends,xshift=-3mm] (extendsname) {\emph{VAR}};
-  \node[junction,right=of extendsname,xshift=-4mm] (bFields) {};
-  \node[nonterminal,right=of bFields,xshift=-4mm] (Fields) {Fields};
-  \node[junction,right=of Fields,xshift=-3mm] (aFields) {};
-  \node[junction,right=of aFields,xshift=-3mm] (end) {};
-%  \node[junction,above=of extends] (abextends) {};
-  \node[junction,below=of extends] (blextends) {};
-
-\graph [use existing nodes] {
-start -- bdecl -- class -- classname -- bextends -- extends -- extendsname --
-bFields -- Fields -- aFields -> end
-};
-
-%\syndiagBridge{aFields}{abextends}{bdecl}
-\syndiagBridge{bextends}{blextends}{bFields}
-
-\end{syntaxdiagram}
-%......................................................................
-
-
-%......................................................................
-\begin{syntaxdiagram}{Fields}
-  \node[junction,right=of Fields] (start) {};
-  \node[junction,right=of start] (bleftbrace) {};
-  \node[terminal,right=of bleftbrace] (leftbrace) {\verb|{|};
-  \node[junction,right=of leftbrace] (aleftbrace) {};
-  \node[nonterminal,right=of aleftbrace] (VarDecl) {VarDecl};
-  \node[junction,right=of VarDecl] (brightbrace) {};
-  \node[terminal,right=of brightbrace] (rightbrace) {\verb|}|};
-  \node[junction,right=of rightbrace] (arightbrace) {};
-  \node[junction,right=of arightbrace] (end) {};
-  \node[junction,above=of VarDecl] (abVarDecl) {};
-  \node[junction,below=of VarDecl] (blVarDecl) {};
-  \node[junction,below=of blVarDecl] (blblVarDecl) {};
-
-\graph [use existing nodes] {
-start -- bleftbrace -- leftbrace -- aleftbrace -- VarDecl -- brightbrace --
-rightbrace -- arightbrace -> end 
-};
-
-\syndiagBridge{brightbrace}{abVarDecl}{aleftbrace}
-\syndiagBridge{aleftbrace}{blVarDecl}{brightbrace}
-\syndiagBridge{bleftbrace}{blblVarDecl}{arightbrace}
-\end{syntaxdiagram}
-%......................................................................
-
-
-%......................................................................
-\begin{syntaxdiagram}{GlobalVarDecl}
-  \node[junction,right=of GlobalVarDecl] (start) {};
-  \node[junction,right=of start] (bdecl) {};
-  \node[terminal,right=of bdecl] (decl) {\texttt{decl}};
-  \node[nonterminal,right=of decl] (VarDecl) {VarDecl};
-  \node[junction,right=of VarDecl] (aVarDecl) {};
-  \node[junction,right=of aVarDecl] (end) {};
-
-\graph [use existing nodes] {
-start -- bdecl -- decl -- VarDecl -- aVarDecl -> end
-};
-\end{syntaxdiagram}
-%......................................................................
-
-
-%......................................................................
-\begin{syntaxdiagram}{VarDecl}
-  \node[junction,right=of VarDecl] (start) {};
-  \node[junction,right=of start] (bvar) {};
-  \node[terminal,right=of bvar] (var) {\emph{VAR}};
-  \node[terminal,right=of var] (colon) {\texttt{:}};
-  \node[nonterminal,right=of colon] (Tp) {Tp};
-  \node[junction,right=of Tp] (aTp) {};
-  \node[junction,right=of aTp] (end) {};
-
-\graph [use existing nodes] {
-start -- bvar -- var -- colon -- Tp -- aTp -> end
-};
-\end{syntaxdiagram}
-%......................................................................
-
-
-
-%......................................................................
-\begin{syntaxdiagram}{GlobalVarDefn}
-  \node[junction,right=of GlobalVarDefn] (start) {};
-  \node[junction,right=of start] (bdefn) {};
-  \node[terminal,right=of bdefn] (defn) {\texttt{defn}};
-  \node[nonterminal,right=of defn] (VarDefn) {VarDefn};
-  \node[junction,right=of VarDefn] (aVarDefn) {};
-  \node[junction,right=of aVarDefn] (end) {};
-
-\graph [use existing nodes] {
-start -- bdefn -- defn -- VarDefn -- aVarDefn -> end
-};
-\end{syntaxdiagram}
-%......................................................................
-
-
-
-%......................................................................
-\begin{syntaxdiagram}{VarDefn}
-  \node[junction,right=of VarDefn] (start) {};
-%  \node[junction,right=of start] (bvar) {};
-  \node[terminal,right=of start] (var) {\emph{VAR}};
-  \node[terminal,right=of var] (colon) {\texttt{:}};
-  \node[nonterminal,right=of colon] (Tp) {Tp};
-  \node[terminal,right=of Tp] (eq) {\texttt{=}};
-  \node[nonterminal,right=of eq] (Expr) {Expr};
-  \node[junction,right=of Expr] (end) {};
-
-\graph [use existing nodes] {
-start -- var -- colon -- Tp -- eq -- Expr -> end
-};
-\end{syntaxdiagram}
-%......................................................................
-
-
-
-% %......................................................................
-% \begin{syntaxdiagram}{Rules}
-%   \node[junction,right=of Rules] (start) {};
-%   \node[junction,right=of start] (brule) {};
-%   \node[nonterminal,right=of brule] (Fact) {Fact};
-%   \node[junction,right=of Fact] (arule) {};
-%   \node[junction,right=of arule] (end) {};
-%   \node[junction,above=of Fact] (abfact) {};
-%   \node[nonterminal,below=of Fact] (Rule) {Rule};
-
-% \graph [use existing nodes] {
-% start -- brule -- Fact -- arule -> end
-% };
-
-% \syndiagBridge{arule}{abfact}{brule}
-% \syndiagAlternative{brule}{Rule}{Rule}{arule}
-% \end{syntaxdiagram}
-% %......................................................................
-
-
-%......................................................................
-\begin{syntaxdiagram}{Rule}
-  \node[junction,right=of Rule] (startl1) {};
-  \node[terminal,right=of startl1] (rule) {\texttt{rule}};
-  \node[terminal,right=of rule] (rname) {\texttt{<} \emph{VAR} \texttt{>}};
-  \node[junction,right=of rname,xshift=-4mm] (bfor) {};
-  \node[terminal,right=of bfor,xshift=-4mm] (for) {\texttt{for}};
-  \node[junction,right=of for,xshift=-3mm] (bVarDecl) {};
-  \node[nonterminal,right=of bVarDecl,xshift=-3mm] (VarDecl) {VarDecl};
-  \node[junction,right=of VarDecl,xshift=-4mm] (aVarDecl) {};
-  \node[junction,right=of aVarDecl,xshift=-4mm] (endl1) {$\cdots$};
-
-  \node[junction,below=of startl1,yshift=-10mm] (startl2) {};
-  \node[terminal,right=of startl2,xshift=-4mm] (if) {\texttt{if}};
-  \node[nonterminal,right=of if,xshift=-3mm] (Expr1) {Expr};
-  \node[terminal,right=of Expr1,xshift=-4mm] (then) {\texttt{then}};
-  \node[nonterminal,right=of then,xshift=-3mm] (Expr2) {Expr};
-  \node[junction,right=of Expr2,xshift=-3mm] (endl2) {};
-  \node[junction,above=of VarDecl] (abVarDecl) {};
-  \node[terminal,below=of VarDecl] (blVarDecl) {\texttt{,}};
-
-\graph [use existing nodes] {
-startl1 -- rule -- rname -- bfor -- for -- bVarDecl -- VarDecl -- aVarDecl -> endl1
-};
-\graph [use existing nodes] {
-startl2 -- if -- Expr1 -- then -- Expr2 -> endl2
-};
-
-\syndiagBridge{bfor}{abVarDecl}{aVarDecl}
-\syndiagBridge{aVarDecl}{blVarDecl}{bVarDecl}
-
-\end{syntaxdiagram}
-%......................................................................
-
-
-%......................................................................
-\begin{syntaxdiagram}{Fact}
-  \node[junction,right=of Fact] (startl1) {};
-  \node[terminal,right=of startl1] (fact) {\texttt{fact}};
-  \node[terminal,right=of fact] (rname) {\texttt{<} \emph{VAR} \texttt{>}};
-  \node[junction,right=of rname,xshift=-4mm] (bfor) {};
-  \node[terminal,right=of bfor,xshift=-4mm] (for) {\texttt{for}};
-  \node[junction,right=of for,xshift=-3mm] (bVarDecl) {};
-  \node[nonterminal,right=of bVarDecl,xshift=-3mm] (VarDecl) {VarDecl};
-  \node[junction,right=of VarDecl,xshift=-4mm] (aVarDecl) {};
-  \node[nonterminal,right=of aVarDecl,xshift=-3mm] (Expr) {Expr};
-  \node[junction,right=of Expr,xshift=-4mm] (endl1) {};
-  \node[junction,above=of VarDecl] (abVarDecl) {};
-  \node[terminal,below=of VarDecl] (blVarDecl) {\texttt{,}};
-
-\graph [use existing nodes] {
-startl1 -- fact -- rname -- bfor -- for -- bVarDecl -- VarDecl -- aVarDecl --
-Expr -> endl1
-};
-
-\syndiagBridge{bfor}{abVarDecl}{aVarDecl}
-\syndiagBridge{aVarDecl}{blVarDecl}{bVarDecl}
-\end{syntaxdiagram}
-%......................................................................
-
-
-%......................................................................
-\begin{syntaxdiagram}{Assertion}
-  \node[junction,right=of Assertion] (start) {};
-  \node[junction,right=of start] (bassert) {};
-  \node[terminal,right=of bassert] (assert) {\texttt{assert}};
-  \node[nonterminal,right=of assert] (expr) {Expr};
-  \node[junction,right=of expr] (aexpr) {};
-  \node[junction,right=of aexpr] (end) {};
-
-\graph [use existing nodes] {
-start -- bassert -- assert -- expr -- aexpr -> end
-};
-
-\end{syntaxdiagram}
-%......................................................................
+\remms{TODO:}
+\begin{itemize}
+\item Grammar rule for \texttt{KVMap} to be defined
+\item Grammar for \texttt{Tp} and \texttt{Expr}
+\end{itemize}
 
 
 A \nonterminalref{Program} is the main processing unit. It consists of a list

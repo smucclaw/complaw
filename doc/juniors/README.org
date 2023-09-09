@@ -148,7 +148,7 @@ I am an expert in both JavaScript-the-language and the JavaScript front-end ecos
 
 Some people [[https://youtu.be/3018ABlET1Y?t=787][consider that the modern equivalent of blue-collar labour]]. Some people go far beyond that. They might add /It’s not my favorite technology, but knowing the language and its tools is pretty important for building modern web applications, even if you decide to use a compile-to-JS language./
 
-And then they stick the paragraph on to the end of their bio, as an "oh, I almost forgot", because it's really the least of their skills. What does the rest of their bio say? https://lexi-lambda.github.io/resume.html
+And then they stick the paragraph on to the end of their bio, as an "oh, I almost forgot", because it's really the least of their skills. What does the rest of their bio say? https://web.archive.org/web/20210624023556/https://lexi-lambda.github.io/resume.html
 
 *** Don't just use a library. Write a library.
 
@@ -477,7 +477,7 @@ I'm impatient to get started! What should I read?
 
 ** [[https://medium.com/@gabygoldberg/the-command-line-comeback-9857b49c7423][The Command Line Comeback]], Gaby Goldberg
 
-** [[http://cristal.inria.fr/~weis/info/commandline.html][In the Beginning was the Command Line]], Neal Stephenson
+** [[http://project.cyberpunk.ru/lib/in_the_beginning_was_the_command_line/][In the Beginning was the Command Line]], Neal Stephenson
 
 ** [[https://www.amazon.sg/Clean-Coder-Conduct-Professional-Programmers/dp/0137081073][The Clean Coder]], by Robert C. Martin
 
@@ -1280,11 +1280,15 @@ Document automation generally: see https://www.bailii.org/ew/cases/EWFC/HCJ/2021
 
 *** Technical Skills and Competencies
 
-- Alloy: read the book
+- Alloy: read the book, learn Alloy 6
+- install and play with [[https://prob.hhu.de/w/index.php?title=Tutorial_Rodin_First_Step][ProB and Rodin Platform]]
+- install and play with LTSmin: https://ltsmin.utwente.nl/
+- install and play with mCRL2: https://www.mcrl2.org/web/user_manual/index.html
+- read [[https://www.hillelwayne.com/post/learntla/][@hillelogram on TLA+]]
 
 *** Outcomes
 
-- able to model and debug simple relational systems and state protocols in Alloy
+- able to model and debug simple relational systems and state transition systems in at least one of the above tools.
 
 *** Training Duration (Weeks / Months)
 
@@ -1350,6 +1354,23 @@ one of the below:
 *** Training Duration (Weeks / Months)
 
 2 weeks
+
+** Introduction to Language Engineering                             :module:
+
+dive into PLT / DSL from a tools approach:
+
+- https://www.eclipse.org/Xtext/
+- https://www.jetbrains.com/mps/
+- https://www.spoofax.dev/
+
+build a basic calculator language with one of the above, with support for parens.
+
+- try https://bnfc.digitalgrammars.com/
+- learn whatever yacc/lex antlr bison etc framework your favourite language offers
+
+implement layout indentation support for your language, replacing parens
+
+implement a trivial subset of L4 using one of the above tools.
 
 ** Introduction to Computational Linguistics and Computational Semantics                   :module:
 

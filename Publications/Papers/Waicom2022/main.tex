@@ -1,0 +1,81 @@
+%\documentclass{tlp}
+%\documentclass[runningheads]{llncs}
+\documentclass{llncs}
+
+\input{settings}
+\input{defs}
+\usepackage[colorlinks,hyperindex,bookmarks,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+%\usepackage[authoryear]{natbib}
+
+\begin{document}
+
+% \lefttitle{Lim, Mahajan, Strecker, Wong}
+
+% \jnlPage{1}{8}
+% \jnlDoiYr{2021}
+% \doival{10.1017/xxxxx}
+
+\title{Compliance through Model Checking}
+
+\author{
+Avishkar Mahajan\orcidID{0000-0002-9925-1533} \and
+Martin Strecker\thanks{part of the work carried out at Toulouse University}
+\orcidID{0000-0001-9953-9871}\and
+Watt Seng Joe\orcidID{0000-0002-6883-4736} \and
+Meng Weng Wong\orcidID{0000-0003-0419-9443}
+}
+\institute{Singapore Management University}
+%\authorrunning{Lim, Mahajan, Strecker, Wong}
+\authorrunning{Mahajan \and Strecker \and Watt \and Wong}
+
+% \history{\sub{xx xx xxxx;} \rev{xx xx xxxx;} \acc{xx xx xxxx}}
+
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\keywords{
+  Compliance,
+  Knowledge representation and reasoning,
+  Computational Law,
+  Model Checking
+}
+
+
+%----------------------------------------------------------------------
+
+\input{introduction}
+\input{pdpa}
+
+
+
+%\subsection*{Acknowledgements}
+\paragraph{Acknowledgements.}
+This research / project is supported by the National Research Foundation,
+Singapore under its Industry Alignment Fund – Pre-positioning (IAF-PP) Funding
+Initiative. Any opinions, findings and conclusions or recommendations
+expressed in this material are those of the author(s) and do not reflect the
+views of National Research Foundation, Singapore.
+
+%----------------------------------------------------------------------
+% \bibliographystyle{tlplike}
+\bibliographystyle{splncs04}
+\bibliography{main}
+
+%----------------------------------------------------------------------
+% \newpage
+% \appendix
+% \input{l4_language_app}
+% \input{reasoning_rules_app}
+% \input{comparison_proofs_app}
+% \input{asp_app}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

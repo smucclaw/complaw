@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-09-29 Thu 15:37 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>representing the rule against perpetuities</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wong Meng Weng" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">representing the rule against perpetuities</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgbc0c088">1. Goals</a></li>
+<li><a href="#orgf870666">2. Represent the Civil Law Act, sections 32 and 34, in L4-style syntax</a></li>
+<li><a href="#org4bfc1e9">3. Scenario</a>
+<ul>
+<li><a href="#orge977eb7">3.1. Part One</a></li>
+<li><a href="#org77c73cc">3.2. Part Two</a></li>
+<li><a href="#orgb3d5e03">3.3. The Rule Against Perpetuities</a></li>
+<li><a href="#org5b02020">3.4. Part Three</a></li>
+</ul>
+</li>
+<li><a href="#org4fbce49">4. Logics</a>
+<ul>
+<li><a href="#orgf3c431e">4.1. Defeasible</a></li>
+<li><a href="#org65ab963">4.2. Temporal</a></li>
+<li><a href="#org041490d">4.3. First Order</a></li>
+<li><a href="#org9e68be5">4.4. Epistemic? Alethic?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbc0c088" class="outline-2">
+<h2 id="orgbc0c088"><span class="section-number-2">1</span> Goals</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+introduce a variety of logics in which we can represent the RaP
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf870666" class="outline-2">
+<h2 id="orgf870666"><span class="section-number-2">2</span> Represent the Civil Law Act, sections 32 and 34, in L4-style syntax</h2>
+</div>
+
+<div id="outline-container-org4bfc1e9" class="outline-2">
+<h2 id="org4bfc1e9"><span class="section-number-2">3</span> Scenario</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orge977eb7" class="outline-3">
+<h3 id="orge977eb7"><span class="section-number-3">3.1</span> Part One</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+<i>We gather for the reading of the will of Queen Elizabeth II.</i>
+</p>
+
+<p>
+Queen: I take great pleasure in my great-grandchildren.
+</p>
+
+<p>
+I wish to give each one of them a small estate. I have so many.
+</p>
+
+<p>
+At time of writing, Harry has two children (darling little Archie and Lilibet) and William has three (George, Charlotte, Louis).
+</p>
+
+<p>
+I have set aside Estates E1, E2, E3, E4, and E5 for them, to be given to them when they reach the age of 21.
+</p>
+
+<p>
+If any more children are born to Harry and to William, they too shall, at the age of 21, inherit estates E6, &#x2026; EN, up to N &lt;= 24, at which point I have run out of estates.
+</p>
+
+<p>
+Lawyer: For tax reasons, let's model that inheritance gift as an option, where they have the right to purchase the estate for One Pound, when they reach age 21. Maybe they don't want to be saddled with the maintenance bills?
+</p>
+</div>
+</div>
+
+<div id="outline-container-org77c73cc" class="outline-3">
+<h3 id="org77c73cc"><span class="section-number-3">3.2</span> Part Two</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Queen: Indeed, I wish for my great-grandchildren to themselves have the pleasure of great-grandchildren. So I will set aside estates for them: my great-great-great-great grand-children.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb3d5e03" class="outline-3">
+<h3 id="orgb3d5e03"><span class="section-number-3">3.3</span> The Rule Against Perpetuities</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Lawyer: But, Queen, some of those 24 estates cannot be given away! Why not? Because King Edward VII, over a hundred years ago, decided that he wanted some of those properties to be given to various great-great-great-grandchildren of his friends and family.
+</p>
+
+<p>
+Queen: Well, that seems unnatural! I don't like that somebody who was King over a century ago could possibly tell me what to do with my estates.
+</p>
+
+<p>
+Lawyer: Let us find some way to strike out that part of Edward VII's will. Please wait.
+</p>
+
+<p>
+Lawyer: Processing.
+</p>
+
+<p>
+Lawyer: Processing.
+</p>
+
+<p>
+Lawyer: Found it! There is a thing called the Rule Against Perpetuities, that says, Edward VII cannot give away those properties to the great-great-great-grandchildren of his best hunting buddies, because, well, it was just too long ago. That's the rule.
+</p>
+
+<p>
+Queen: Wait, what's the rule?
+</p>
+
+<p>
+Lawyer: "Life in being plus 21 years".
+</p>
+
+<p>
+Lee Kuan Yew: That rule is bloody confusing and in Singapore it is just 100 years after the death of the giver.
+</p>
+
+<p>
+Queen: I like that.
+</p>
+
+<p>
+Lawyer: Fine.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5b02020" class="outline-3">
+<h3 id="org5b02020"><span class="section-number-3">3.4</span> Part Three</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Queen: OK, but that will apply to me, as well, won't it? I haven't lost all my marbles yet.
+</p>
+
+<p>
+Lawyer: Yes. You can maybe give your estates away to people who are not born today but will exist 100 years from now. In fact we would like those people to have reached the age of 21, 100 years from now. So they need to be born 79 years from now.
+</p>
+
+<p>
+Queen: Well. If George is 9 today, he could get married at, oh, 21?
+</p>
+
+<p>
+And then his children, and his grand-children, each bear issue at 21, 
+</p>
+
+<p>
+We're looking at 12+21+21+21 years which puts us under the 100 year limit. So that could be a thing, yah?
+</p>
+
+<p>
+Lawyer: Yes, but what if everybody waits until 30 to have kids? Then cannot liao.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4fbce49" class="outline-2">
+<h2 id="org4fbce49"><span class="section-number-2">4</span> Logics</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgf3c431e" class="outline-3">
+<h3 id="orgf3c431e"><span class="section-number-3">4.1</span> Defeasible</h3>
+</div>
+
+<div id="outline-container-org65ab963" class="outline-3">
+<h3 id="org65ab963"><span class="section-number-3">4.2</span> Temporal</h3>
+</div>
+
+<div id="outline-container-org041490d" class="outline-3">
+<h3 id="org041490d"><span class="section-number-3">4.3</span> First Order</h3>
+</div>
+
+<div id="outline-container-org9e68be5" class="outline-3">
+<h3 id="org9e68be5"><span class="section-number-3">4.4</span> Epistemic? Alethic?</h3>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Wong Meng Weng</p>
+<p class="date">Created: 2022-09-29 Thu 15:37</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

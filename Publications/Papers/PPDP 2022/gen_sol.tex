@@ -1,0 +1,96 @@
+\subsection{Generalisation of Abductive Solutions}\label{sec:generalisation_sol}
+
+Here we shall informally discuss the idea mentioned in the conclusion, for
+generalising abductive solutions given by the ‘semi-res’ encoding to first
+order logic. We only present an informal discussion here, an investigation of
+formal results corresponding to these ideas is left for future work. Note
+firstly that we use the ‘semi-res’ encoding because it is has the finiteness
+and full term substitution properties. Consider the abductive proof generation
+problem given in 3.4.3. The most general solution to that problem is:
+
+\begin{lstlisting}[frame = none] 
+abducedFact(relC(john,Y)), 
+abducedFact(relD(john,Y,Z)), 
+abducedFact(relE(john,Y,Z))
+\end{lstlisting}
+where $Y$, $Z$ are variables that can be replaced by any constant. Let us see how we can obtain this solution using the encoding. Starting off with no user inputed facts, we get the unique optimal solution
+\begin{lstlisting}[frame = none]
+abducedFact(relC(john,extVar)), 
+abducedFact(relE(john,extVar,extVar)),
+abducedFact(relD(john,extVar,extVar))
+\end{lstlisting}
+Now our procedure is to add facts using fresh constants so that ‘corresponding’ instances of ‘extVar’ get replaced in the abductive solution. We keep doing this until there are no more occurrences of ‘extVar’ in the optimal abductive solution produced.\\ If we add the fact 
+\begin{lstlisting}[frame = none]
+relC(john,v1)
+\end{lstlisting}
+We get the unique optimal solution 
+\begin{lstlisting}[frame = none]
+abducedFact(relE(john,v1,extVar)),
+abducedFact(relD(john,v1,extVar))
+\end{lstlisting}
+Now we upon further adding the fact 
+\begin{lstlisting}[frame = none]
+relD(john,v1,v2)
+\end{lstlisting}
+We get the unique minimal abductive solution 
+\begin{lstlisting}[frame = none]
+abducedFact(relE(john,v1,v2))
+\end{lstlisting}
+Note that we used a new fresh constant ‘v2’ in our second user provided fact.
+Now since there are no more instances of ‘extVar’ to be replaced away, the process ends and we can derive the general solution to the original abductive problem to be 
+\begin{lstlisting}[frame = none]
+abducedFact(relC(john,Y)), 
+abducedFact(relD(john,Y,Z)), 
+abducedFact(relE(john,Y,Z)) 
+\end{lstlisting}
+which is in fact the most general solution. Note that critical to this procedure is the fact that only certain instances of ‘extVar’ can be replaced by terms from user provided facts. For instance in the second step after the first fact has been added, the solver will not produce 
+\begin{lstlisting}[frame = none]
+abducedFact(relE(john,v1,v1)),
+abducedFact(relD(john,v1,v1))
+\end{lstlisting}
+as a solution. This would lead to the general solution \begin{lstlisting}[frame = none]
+abducedFact(relE(john,Y,Y)),
+abducedFact(relD(john,Y,Y)),
+abducedFact(relC(john,Y)
+\end{lstlisting} which can still in fact be further generalised.\\ It is not hard however to come up with an example where this procedure will not in fact necessarily derive a most general solution. Consider the rule set given by the two rules:
+\begin{lstlisting}[frame = none]
+relA(X):-relB(X),relC(Y)
+relA(X):-relB(X),relC(X).
+\end{lstlisting}
+Let $q$ be $relA(john)$, let there be no user provided facts and let $C$ be empty and suppose $N = 4$. Further say that as before, no instance of the predicate $relA$ may be abduced. Then given the ‘semi-res’ encoding, the solver would produce two optimal solutions:
+\begin{lstlisting}[frame = none]
+abducedFact(relB(john))
+abducedFact(relC(extVar))
+\end{lstlisting} and 
+\begin{lstlisting}[frame = none]
+abducedFact(relB(john))
+abducedFact(relC(john))
+\end{lstlisting}
+
+However only the first answer from the solver leads to the most general
+solution for the abduction problem. In this particular instance the issue is
+that the original rule set contains a redundancy. The second rule is clearly a
+specific instance of the first rule thus making the second rule
+superfluous. It would be interesting to investigate under what conditions, on
+the input rule set and the other parameters, does the procedure outlined above
+for generalising the abductive solution produced, actually give some solution
+that cannot be generalised further. \\Note that some of these generalised
+abductive solutions can be produced by using skolem functions in the
+abducibles generation encoding but that necessarily requires some form of
+depth control to avoid infinite answer sets for some rule sets. With this
+method of using the ‘semi-res’ encoding we can derive these generalised
+solutions while also letting go of depth control by for example, deleting the
+integer parameter of the ‘query’ , ‘createSub’ and ‘explains’ predicates
+since, we will still always get finiteness of answer sets. As mentioned
+earlier, at the moment, these are rather informal ideas but we believe they
+provide an interesting avenue for future formal investigations.
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main_extended"
+%%% End:
+
+
+

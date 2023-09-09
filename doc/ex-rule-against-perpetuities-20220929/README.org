@@ -1,0 +1,81 @@
+#+TITLE: representing the rule against perpetuities
+
+* Goals
+
+introduce a variety of logics in which we can represent the RaP
+
+* Represent the Civil Law Act, sections 32 and 34, in L4-style syntax
+
+* Scenario
+
+** Part One
+
+/We gather for the reading of the will of Queen Elizabeth II./
+
+Queen: I take great pleasure in my great-grandchildren.
+
+I wish to give each one of them a small estate. I have so many.
+
+At time of writing, Harry has two children (darling little Archie and Lilibet) and William has three (George, Charlotte, Louis).
+
+I have set aside Estates E1, E2, E3, E4, and E5 for them, to be given to them when they reach the age of 21.
+
+If any more children are born to Harry and to William, they too shall, at the age of 21, inherit estates E6, ... EN, up to N <= 24, at which point I have run out of estates.
+
+Lawyer: For tax reasons, let's model that inheritance gift as an option, where they have the right to purchase the estate for One Pound, when they reach age 21. Maybe they don't want to be saddled with the maintenance bills?
+
+** Part Two
+
+Queen: Indeed, I wish for my great-grandchildren to themselves have the pleasure of great-grandchildren. So I will set aside estates for them: my great-great-great-great grand-children.
+
+** The Rule Against Perpetuities
+
+Lawyer: But, Queen, some of those 24 estates cannot be given away! Why not? Because King Edward VII, over a hundred years ago, decided that he wanted some of those properties to be given to various great-great-great-grandchildren of his friends and family.
+
+Queen: Well, that seems unnatural! I don't like that somebody who was King over a century ago could possibly tell me what to do with my estates.
+
+Lawyer: Let us find some way to strike out that part of Edward VII's will. Please wait.
+
+Lawyer: Processing.
+
+Lawyer: Processing.
+
+Lawyer: Found it! There is a thing called the Rule Against Perpetuities, that says, Edward VII cannot give away those properties to the great-great-great-grandchildren of his best hunting buddies, because, well, it was just too long ago. That's the rule.
+
+Queen: Wait, what's the rule?
+
+Lawyer: "Life in being plus 21 years".
+
+Lee Kuan Yew: That rule is bloody confusing and in Singapore it is just 100 years after the death of the giver.
+
+Queen: I like that.
+
+Lawyer: Fine.
+
+** Part Three
+
+Queen: OK, but that will apply to me, as well, won't it? I haven't lost all my marbles yet.
+
+Lawyer: Yes. You can maybe give your estates away to people who are not born today but will exist 100 years from now. In fact we would like those people to have reached the age of 21, 100 years from now. So they need to be born 79 years from now.
+
+Queen: Well. If George is 9 today, he could get married at, oh, 21?
+
+And then his children, and his grand-children, each bear issue at 21, 
+
+We're looking at 12+21+21+21 years which puts us under the 100 year limit. So that could be a thing, yah?
+
+Lawyer: Yes, but what if everybody waits until 30 to have kids? Then cannot liao.
+
+
+* Logics
+
+** Defeasible
+
+** Temporal
+
+** First Order
+
+** Epistemic? Alethic?
+
+
+

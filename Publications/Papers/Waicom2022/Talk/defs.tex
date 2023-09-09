@@ -1,0 +1,86 @@
+%======================================================================
+%%%%%%%%% DECLS / DEFNS %%%%%%%%%%%%%%%%%
+
+% redefine existing green color
+\newcommand{\brightgreen}[1]{{\color{green}#1}}
+\definecolor{darkgreen}{rgb}{0,0.7,0}
+\newcommand{\green}[1]{{\color{darkgreen}#1}}
+
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\orange}[1]{{\color{orange}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\definecolor{grey}{rgb}{0.5,0.5,0.5}
+\newcommand{\grey}[1]{{\color{grey}#1}}
+\newcommand{\black}[1]{{\color{black}#1}}
+
+% Logique
+\newcommand{\IMPL}[0]{\longrightarrow}
+\newcommand{\IMPLL}[0]{\Longrightarrow} % another implication, to make
+                                % a difference with reduction relations
+\newcommand{\AND}[0]{\wedge}
+\newcommand{\OR}[0]{\vee}
+\newcommand{\NOT}[0]{\neg}
+\newcommand{\FALSE}[0]{\perp}
+\newcommand{\TRUE}[0]{\top}
+\newcommand{\IFF}[0]{\leftrightarrow}
+\newcommand{\BIGAND}[1]{\bigwedge_{#1}}
+\newcommand{\BIGOR}[1]{\bigvee_{#1}}
+\newcommand{\BIGANDC}[2]{\bigwedge_{#1|#2}} % bigand with constraint
+\newcommand{\BIGORC}[2]{\bigvee_{#1|#2}}    % bigor with constraint
+\newcommand{\ufb}[0]{\mbox{$\stackrel{?}{=}$}} % unifiable
+
+% semantique
+\newcommand{\semtrans}[3]{\mbox{$\langle #1, #2 \rangle \rightarrow #3$}}
+\newcommand{\statesel}[2]{\mbox{$#1 . #2$}}
+\newcommand{\stateupd}[3]{\mbox{$#1 . #2 \leftarrow #3$}}
+
+
+% Macros for mathematical notation
+
+\def\N{{\mathbf N}}                      % ensemble des entiers naturels
+\def\Z{{\mathbf Z}}                      % ensemble des entiers relatifs
+\newcommand{\zmod}[1]{\mbox{$ \Z/{#1} \Z$}}  % anneau Z mod m
+
+
+% WP-calcul
+\newcommand{\wpform}[1]{\mbox{\{\( #1 \)\} }}
+\newcommand{\subst}[3]{ #1 [ #2 \mbox{$\leftarrow\ $} #3]}
+\newcommand{\pfp}[2]{\mbox{\emph{pfp}(\texttt{#1}, \mbox{$#2$})}}
+\newcommand{\evb}[1]{\emph{évaluable}($#1$)}
+
+% typage
+\newcommand{\lange}[0]{{\cal L}_e}
+\newcommand{\langf}[0]{{\cal L}_f}
+\newcommand{\langs}[0]{{\cal L}_s}
+
+% B method
+\newcommand{\bsubst}[3]{ [ #2 := #3] #1 }
+
+% reduction and evaluation
+\newcommand{\tableaurule}[1]{{\xhookrightarrow[]{#1}}}
+
+% special references
+\newcommand{\secref}[1]{\S~\nameref{#1}, p.~\ref{#1}}
+\newcommand{\transpref}[1]{transparent, p.~\ref{#1}}
+
+
+% Other
+
+\newcommand{\smalltalcq}[0]{{\small small}-t{$\cal ALCQ$}}
+\newcommand{\smalltalcqe}[0]{{\small small}-t{$\cal ALCQ$e}}
+\newcommand{\trule}[0]{\xhookrightarrow}
+\newcommand{\nodes}[1]{{\cal N}({#1})}
+\newcommand{\trans}[1]{{\cal T}({#1})}
+\newcommand{\rconts}[1]{\llparenthesis #1 \rrparenthesis} %record contents
+\newcommand{\rupd}[2]{{#1}\llparenthesis #2 \rrparenthesis} %record update
+
+\newcommand{\eform}[0]{\mathit{eform}}
+\newcommand{\form}[0]{\mathit{form}}
+\newcommand{\free}[0]{\mathit{free}}
+\newcommand{\exclprop}[0]{\stackrel{\times}{\longrightarrow}}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 

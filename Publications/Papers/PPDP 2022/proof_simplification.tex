@@ -93,7 +93,7 @@ the resulting program has an answer set $A'$ such that $A'$ contains
 $C_{R,p,N,\phi}$ and $I_{R,p,N,\phi}$  where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$
 \end{theorem} 
 
-The proof can be found in \cite{extended_version}.
+The proof can be found in Section~\ref{sec:proof_term_substitution}.
 
 
 %\input{derivation_tree_figure}
@@ -103,7 +103,7 @@ The proof can be found in \cite{extended_version}.
 Given the simple abductive proof generation task $\langle R,q,U,C,N\rangle$, let $p$ be the predicate corresponding to $q$. Suppose $A$ is an answer set of $P^{semi-res}_{<R,q,U,C,N>}$ and let $A$ contain $C_{R,p,N,\theta}$ and $I_{R,p,N,\theta}$. Now say the atom $q_{c}$ $query(p_{i}(t_{1},t_{2},..,t_{j}),k)$ is in $C_{R,p,N,\theta}$. Let $q_{o}$ be some query atom from the set $S_{q_{c}}$ (The set of pre-images of $q_{c}$ in $G_{R,p,N}^{min}$) given by $query((e_{1},e_{2},...,e_{j}),k)$. Now suppose, $h_{f}= holds((a_{1},a_{2},...,a_{j}))$ is an arbitrary $holds$ atom such that the map $\psi$ from the $e_{i}s$ to the $a_{i}s$ as described in the earlier definition of derived substitution is well defined. Then upon adding the fact $holds(p_{i}(a_{1},a_{2},..,a_{j}))$ to $P^{semi-res}_{<R,q,U,C,N>}$, the resulting program has an answer set $A'$ such that $A'$ contains $C_{R,p,N,\phi}$ and $I_{R,p,N,\phi}$ , where $\phi = T(\theta, q_{c}, q_{o}, q_{f})$, where $q_{f} = query(p_{i}(a_{1},a_{2},..,a_{j}),k)$. 
 \end{corollary}
 
-The proof can be found in \cite{extended_version}.
+The proof can be found in Section~\ref{sec:proof_term_substitution}.
 
 
 

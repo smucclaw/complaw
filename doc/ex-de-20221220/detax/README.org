@@ -1,0 +1,155 @@
+#+TITLE: let's implement German tax law!
+
+* Sources
+
+From https://www.bmf-steuerrechner.de/ekst/eingabeformekst.xhtml,
+Tarifhistorie shows the formula for progressive tax computation
+https://www.bmf-steuerrechner.de/ekst/eingabeformekst.xhtml#:~:text=Tarifhistorie%20(PDF%201866%20kB)
+
+the below text could be directly ingested by our parser
+#+begin_example
+Formel nach § 32a EStG
+
+a) bis 10.908 € (Grundfreibetrag): 0;
+b) 10.909 € bis 15.999 € : ESt = (979,18 * y + 1.400) * y;
+                             y = (zvE - 10.908) / 10.000
+c) 16.000 € bis 62.809 € : ESt = (192,59 * z + 2.397) * z + 966,53;
+                             z = (zvE - 15.999) / 10.000
+d) 62.810 € bis 277.825 €: ESt = 0,42 * zvE - 9.972,98;
+e) ab 277.826 €          : ESt = 0,45 * zvE - 18.307,73.
+#+end_example
+
+We need to be able to parse something like this and compute based on it. Time to revisit `dmnmd`!
+
+| U | zvE       | zvE       | y                     | ESt                              |
+|---+-----------+-----------+-----------------------+----------------------------------|
+| 1 | -         | <= 10908  |                       | 0                                |
+| 2 | >= 10909  | <= 15999  | (zvE - 10908) / 10000 | (979.18 * y + 1400) * y          |
+| 3 | >= 16000  | <= 62809  | (zvE - 15999) / 10000 | (192.59 * y + 2397) * y + 966.53 |
+| 4 | >= 62810  | <= 277825 |                       | 0.42 * zvE - 9972.98             |
+| 5 | >= 277826 |           |                       | 0.45 * zvE - 18307.73            |
+
+* User goals
+
+At a high level the /end-user/ goals are:
+- *evaluate* some computation to crunch a bunch of input parameters into a set of output numbers, basically "how much tax do i need to pay?"
+- *explain* the basis for that computation, basically "why that amount and not some other?"
+
+The /legal engineer/ goals are:
+- translate the existing body of German tax law (or at least the 2 fragments we deal with) into some formal representation
+- have some nice convenient affordances like unit tests, good syntax, feedback that we are writing good code.
+- accessibility
+
+* Semantics (Requirements)
+
+Based on the input problems that we've seen so far we will need the following elements of a DSL for german tax law:
+
+** organize input parameters into dictionaries or a multi-dimensional array
+
+so that we can look up, for instance
+- for tax year { 2022 }
+- how much { ordinary income, extraordinary income }
+- was derived from the category of { employment, rent, capital }
+
+*** we need at a minimum dictionaries aka associative arrays aka hashmaps
+
+in Haskell this is provided by Data.Map
+
+** filter some collection of things
+
+within { ordinary income }, which of the categories show negative vs positive values?
+
+sum over all of those values to arrive at subtotals
+
+*** we need Functors that can be filtered so we need Eq
+
+in Haskell this is provided by Data.List
+
+** arithmetic
+
++ - * /
+
+over individual values but also mapped over lists and the complex data structures above
+
+*** we need Num and Int and Float
+
+in Haskell this is provided by base
+
+** temporary variables / let bindings
+
+identified by names in the source laws, e.g. "residual taxable amount" -- how do we keep track of these things?
+
+*** in our skeletal version we can just hardcode and rely on the host language's ~let~
+
+let scenario_34_1 = ....
+
+*** in a fuller implementation we would need scope, closures, variables, functions, and parameters
+
+we could shoehorn a symbol table into a Haskell State monad and do all the usual function evaluation thing under the lambda calculus
+
+** make decisions -- choose a particular branch of execution -- based on some conditions
+
+if, hypothetically speaking, we were to use the 2021 tax rates, if they are lower than the actual 2022 tax rates, then the payable taxes will be the arithmetic mean between the 2021 and 2022 rates.
+
+we need comparison operators: > >= == <= <
+
+we need boolean logic: and or not
+
+syntactic sugar "implies"
+
+if something "leads to" something, then we choose to use it, otherwise we don't.
+
+*** the typeclasses are: Eq, Ord, Bool.
+
+*** this decision logic makes heavy use of "defaults", and thinks in terms of "exceptions".
+
+in law defaults go first, in computing defaults go last.
+
+Catala supports out-of-order definitions.
+
+** evaluate hypotheticals
+
+if we were to apply this tax computation method, what tax would we pay?
+
+without actually returning that as our final answer.
+
+and without outputting our reasoning as part of the overall explanation.
+
+we need to be able to do sort of local scope, but also Reader's ~local~ to contrive counterfactuals
+
+but in future maybe Eric Walkingshaw would be interested in framing this as a variational problem
+
+** do we need to let the user define their own functions?
+
+for the initial skeletal DSL maybe we hardcode all the functions that need to be defined but could also be general enough to be used elsewhere.
+
+So for now we say we don't let the user do this.
+
+And then if a function is something taxRatesFor2023 or section_34_1_Computation then that is specific to this use case "program" and the user should have some way of defining that.
+
+* Semantics (implementation / specification)
+
+We'll have a think about this when we have made a little more progress.
+
+** assertions
+
+*** some value must always be > 0
+
+** refinement types could be used to limit the bounds of some things, like, whole numbers vs Ints
+
+** syntactic sugar for frequently expressed notions that can reduce to lower-level primitives
+
+** projectional editing
+
+automatically generate isomorphic visual representations eg diagrams, graphs
+
+* Syntax
+
+** embedded DSL in Haskell
+
+
+
+** Natural4 spreadsheet
+
+
+
