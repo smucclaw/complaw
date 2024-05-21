@@ -228,6 +228,10 @@ A company can be modelled as the sum of its contracts.
    10. deukti https://deducteam.github.io/
    11. https://justinh.su/files/papers/taxes.pdf Death, Taxes, and Formal Verification: tax avoidance as a problem in graph traversal and transformation.
    12. https://www.andrew.cmu.edu/user/danupam/bdmn-oakland06.pdf LTL for privacy policies
+   13. Some papers by Chris Clack on Smart Legal contracts, around the era of R3 Corda / Barclays
+       1. https://arxiv.org/pdf/1608.00771
+       2. https://arxiv.org/pdf/1612.04496.pdf
+
 
 ** Expert System / Document Assembly Prototypes
 
