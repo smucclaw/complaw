@@ -192,6 +192,18 @@ https://www.cs.cmu.edu/~rwh/papers/unreasonable/basl.pdf
    4. [[https://pdfs.semanticscholar.org/750f/ecf4349faeeab9a827a929de37be30f3df26.pdf]]
    5. [[https://twitter.com/MartinClausen8/status/1253348407105724418]]
 
+5. Recent Advances:
+
+   1. https://journalcrcl.org/crcl/issue/current 
+   2. https://youtu.be/g-tun87_y2I?si=zR0XJcLz20s6x_Rn
+   3. https://www.betterrules.govt.nz/
+   4. https://govinsider.asia/intl-en/article/four-things-you-should-know-about-rules-as-code
+   5. https://www.linkedin.com/posts/pia-andrews_oh-my-goodness-this-for-all-those-who-have-activity-7132937374170320896-TBi-/
+   6. https://oecd-opsi.org/wp-content/uploads/2020/05/OECD-OPSI-draft-Innovation-Primer-Rules-as-Code.docx
+   7. https://www.oecd.org/innovation/cracking-the-code-3afe6ba5-en.htm
+   8. https://popl22.sigplan.org/home/prolala-2022
+   9. https://aclanthology.org/2021.cnl-1.6.pdf
+
 ** Contracts as Code:
 
 A contract is a serialization of a specification for a distributed system.
