@@ -458,7 +458,8 @@ contrast https://www.postgresql.org/docs/9.6/sql-grant.html
 - https://plato.stanford.edu/entries/legal-obligation/
 
 ** Smart Statutes
-- Paul Otto summarizes 50 years of legal knowledge representation https://drive.google.com/file/d/12VIjnWOFDPa-mxAPH3_Lmynr0kWckE50/view?usp=drive_link
+- Paul Otto and Annie Anton summarize 50 years of legal knowledge representation https://drive.google.com/file/d/12VIjnWOFDPa-mxAPH3_Lmynr0kWckE50/view?usp=drive_link
+- related, Travis Breaux: https://www.cs.cmu.edu/~breaux/
 - adrian kelly, smartstatute.net
 - openfisca
 - regulation as a platform data61
