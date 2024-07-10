@@ -1,6 +1,73 @@
 
 %......................................................................
+\subsection{Rationale}\label{sec:rationale}
+
+
+\begin{tcolorbox}[breakable,colback=yellow!5,colframe=yellow!75!black,
+  title=Personal Comments]
+
+  Entire section from July~2024, subjective opinion of MS.
+\end{tcolorbox}
+
+The language development has been somewhat meandering, without an overarching
+design concept, but elements added progressively according to the
+requirements that were derived from particular case studies.
+
+\paragraph{Principles:} The are nevertheless some basic principles governing
+the design:
+\begin{itemize}
+\item \emph{Strong typing:} all elements of the language have to be explicitly
+  typed. Type correctness is imposed (at least ideally and in principle, even
+  though the implmentation is sometimes incomplete) before other actions can
+  be taken, such as transpilation to other targets or launching a proof.
+\item \emph{Polyvalence:} Many constructs can be used for different
+  purposes. For example, rules can be compiled to different evaluation engines
+  such as ASP, Prolog, SMT solvers. The downside of this flexibility is that
+  the L4 language as such does not have a precisely defined semantics, but
+  only in conjunction with specific compilation targets.
+\end{itemize}
+
+\paragraph{Language features} (also see the syntax in \secref{sec:syntax}):
+\begin{itemize}
+\item \emph{Classes:} in a basic form, they permit to declare uninterpreted
+  types. In a more evolved form, they are like extensible records with typed
+  fields.
+
+  \emph{Note:} ``class'' is in fact a misnomer, typical features of an
+  object-oriented language are not available. The topic needs a second
+  thought. It seems best to me to have Haskell-style typeclasses and to
+  simulate a sort of subtype polymorphism, even though overriding and late
+  binding might be impossible to achieve.
+
+  
+\item \emph{Global variable declarations:} Variables can be declared globally
+  and then have global scope in the current file and can be used even at a
+  point prior to their declaration. Global variables have to be distinguished
+  from local declarations arising in quantification.
+\item \emph{Global variable definitions} introduce global
+  \texttt{let}-bindings.
+  
+\item \emph{Rules} are in the simplest form Prolog-style \texttt{if .. then}
+  rules, but they are not limited to Horn clauses (conjunction of positive
+  literals in the precondition and a single positive literal in the
+  postcondition). Both pre- and postconditions can be arbitrary expressions,
+  containing for example disjunctions, negation, quantification. 
+\end{itemize}
+
+\paragraph{Current status:} The fact that there were (at least) two
+alternative languages, \textsc{BabyL4} and \textsc{NaturalL4}, has not been
+beneficial for the language development, and many of the features are in a
+preliminary stage.
+
+
+%......................................................................
 \subsection{Syntax}\label{sec:syntax}
+
+
+\begin{tcolorbox}[breakable,colback=red!5!white,colframe=red!75!black,
+  title=Comments on status]
+Dates from 2021~/~22
+\end{tcolorbox}
 
 \hypertarget{syn:Program}{}
 \begin{rail}
@@ -148,6 +215,7 @@ An \nonterminalref{Assertion} is a Boolean expressions introduced by the keyword
 
 %......................................................................
 \subsection{Typing}\label{sec:typing}
+
 
 
 
