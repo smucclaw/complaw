@@ -18,7 +18,7 @@ We maintain separate repositories for each work area below. Developers should cl
 
 ## We're Hiring!
 
-Assistant Research Engineers, Trainees, and Research Engineers interested in working with us in Singapore are invited to submit an application through official channels. See [job description](https://computational.law/hiring).
+Assistant Research Engineers, Trainees, and Research Engineers interested in working with us in Singapore are invited to submit an application through official channels. See [career portal](https://smu.recruiterpal.com/career/jobs).
 
 ## We're Open to Use Cases!
 
